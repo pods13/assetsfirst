@@ -1,0 +1,17 @@
+:host gridster {
+  background-color: #f6f7fb;
+  height: calc(100% - 70px);
+
+  gridster-item {
+    box-shadow: 0 0 10px gray;
+  }
+
+  .gridster-preview {
+    background-color: rgba(#000, .06);
+  }
+}
+
+.gridster-parent {
+  height: calc(100% - 70px);
+  background-color: #f6f7fb;
+}

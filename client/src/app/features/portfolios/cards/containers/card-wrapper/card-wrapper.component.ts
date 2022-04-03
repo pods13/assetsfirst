@@ -1,0 +1,81 @@
+import {
+  Component,
+  OnInit,
+  ChangeDetectionStrategy,
+  Input,
+  ViewChildren,
+  QueryList,
+  ViewChild,
+  ChangeDetectorRef, AfterViewInit, OnChanges, SimpleChanges
+} from '@angular/core';
+import { PortfolioCardDto } from '../../types/portfolio-card.dto';
+import { PortfolioCardOutletDirective } from '../../directives/portfolio-card-outlet.directive';
+import { CardContentLoaderService } from '../../services/card-content-loader.service';
+import { RxStompService } from '../../../../../core/services/rx-stomp.service';
+import { map, Observable, shareReplay } from 'rxjs';
+
+@Component({
+  selector: 'app-card-wrapper',
+  template: `
+    <div class="card-header">
+      <div class="title">{{ card?.title }}</div>
+      <button class="btn" mat-icon-button aria-label="Configure Card" [matMenuTriggerFor]="menu">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item>Edit</button>
+        <button mat-menu-item>Delete</button>
+      </mat-menu>
+    </div>
+    <div class="card-body">
+      <ng-template appPortfolioCardOutlet [card]="card">
+      </ng-template>
+    </div>
+  `,
+  styleUrls: ['./card-wrapper.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
+})
+export class CardWrapperComponent implements OnInit, AfterViewInit, OnChanges {
+
+  @ViewChild(PortfolioCardOutletDirective, {static: true}) cardOutlet!: PortfolioCardOutletDirective;
+
+  @Input()
+  card!: PortfolioCardDto;
+
+  cardData$!: Observable<any>;
+
+  constructor(private cardContentLoaderService: CardContentLoaderService,
+              private rxStompService: RxStompService,
+              private cd: ChangeDetectorRef) { }
+
+  ngOnInit(): void {
+    this.cardData$ = this.getCardData(this.card);
+  }
+
+  ngAfterViewInit(): void {
+    this.cardContentLoaderService.loadContent(this.cardOutlet, this.cardData$);
+    this.cd.detectChanges();
+    this.rxStompService.publish({
+          destination: '/app/cards',
+          body: JSON.stringify(this.card)
+        });
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    const cardChanges = changes['card'];
+    if (cardChanges && !cardChanges.firstChange && (cardChanges.currentValue?.rows !== cardChanges.previousValue?.rows
+      || cardChanges.currentValue?.cols !== cardChanges.previousValue?.cols)) {
+      this.cardContentLoaderService.loadContent(this.cardOutlet, this.cardData$);
+      this.cd.detectChanges();
+    }
+  }
+
+  private getCardData(card: PortfolioCardDto) {
+    return this.rxStompService.watch(`/user/topic/cards/${card.id}`)
+      .pipe(
+        map(message => JSON.parse(message.body)),
+        shareReplay(1)
+      );
+  };
+
+}
