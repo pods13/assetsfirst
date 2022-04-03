@@ -1,5 +1,6 @@
 package com.topably.assets.securities.domain;
 
+import com.topably.assets.exchanges.domain.Exchange;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -8,9 +9,12 @@ import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import java.util.Currency;
 
 @Setter
@@ -28,7 +32,9 @@ public class ETF {
 
     private String name;
 
-    private String ticker;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "EXCHANGE_ID", referencedColumnName = "ID")
+    private Exchange exchange;
 
-    private Currency currency;
+    private String ticker;
 }

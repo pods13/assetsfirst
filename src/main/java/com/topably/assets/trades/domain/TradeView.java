@@ -28,24 +28,26 @@ import java.util.Currency;
         "       st.date,\n" +
         "       st.quantity,\n" +
         "       st.price,\n" +
-        "       s.currency\n" +
+        "       exch.currency\n" +
         "from stock_trade st\n" +
         "         join stock s on s.id = st.stock_id\n" +
+        "         join exchange exch on s.exchange_id = exch.id\n" +
         "         join company c on c.id = s.company_id\n" +
         "         join user u on u.id = st.user_id\n" +
         "UNION ALL\n" +
         "select et.id,\n" +
         "       'ETF' as trade_category,\n" +
-        "    u.username,\n" +
+        "       u.username,\n" +
         "       etf.ticker,\n" +
         "       etf.name,\n" +
         "       et.operation,\n" +
         "       et.date,\n" +
         "       et.quantity,\n" +
         "       et.price,\n" +
-        "       etf.currency\n" +
+        "       exch.currency\n" +
         "from etf_trade et\n" +
         "         join etf on etf.id = et.etf_id\n" +
+        "         join exchange exch on etf.exchange_id = exch.id\n" +
         "         join user u on u.id = et.user_id\n" +
         "UNION ALL\n" +
         "select mt.id,\n" +
@@ -55,11 +57,11 @@ import java.util.Currency;
         "       mt.currency,\n" +
         "       mt.operation,\n" +
         "       mt.date,\n" +
-        "       1 as quantity,\n" +
+        "       1       as quantity,\n" +
         "       mt.amount,\n" +
         "       mt.currency\n" +
         "from money_trade mt\n" +
-        "         join user u on u.id = mt.user_id")
+        "         join user u on u.id = mt.user_id\n")
 @IdClass(TradeViewId.class)
 public class TradeView {
 

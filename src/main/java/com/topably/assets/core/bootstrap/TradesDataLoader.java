@@ -4,6 +4,8 @@ import com.topably.assets.auth.domain.User;
 import com.topably.assets.auth.repository.UserRepository;
 import com.topably.assets.companies.domain.Company;
 import com.topably.assets.companies.repository.CompanyRepository;
+import com.topably.assets.exchanges.domain.Exchange;
+import com.topably.assets.exchanges.repository.ExchangeRepository;
 import com.topably.assets.securities.domain.ETF;
 import com.topably.assets.securities.domain.Stock;
 import com.topably.assets.securities.repository.security.ETFRepository;
@@ -27,20 +29,21 @@ import java.util.Currency;
 
 @RequiredArgsConstructor
 @Component
-@Order(2)
+@Order(3)
 @ConditionalOnProperty(name = "app.bootstrap.with.data", havingValue = "true")
 public class TradesDataLoader implements CommandLineRunner {
 
+    private final UserRepository userRepository;
     private final CompanyRepository companyRepository;
+    private final ExchangeRepository exchangeRepository;
+
     private final StockRepository stockRepository;
     private final ETFRepository exchangeTradedFundRepository;
-    private final UserRepository userRepository;
     private final StockTradeRepository stockTradeRepository;
     private final ETFTradeRepository etfTradeRepository;
 
     @Override
     public void run(String... args) throws Exception {
-
         User user = userRepository.getById(1L);
         addNewmont(user);
         addKRBN(user);
@@ -51,17 +54,19 @@ public class TradesDataLoader implements CommandLineRunner {
         addAltria(user);
         addGazprom(user);
         addRosAgro(user);
+        addPolyus(user);
     }
 
     private void addNewmont(User user) {
         Company newmontCorp = companyRepository.save(Company.builder()
                 .name("Newmont Corporation")
                 .build());
+        Exchange nyse = exchangeRepository.findByCode("NYSE");
 
         Stock newmontStock = stockRepository.save(Stock.builder()
                 .company(newmontCorp)
                 .ticker("NEM")
-                .currency(Currency.getInstance("USD"))
+                .exchange(nyse)
                 .build());
         stockTradeRepository.save(StockTrade.builder()
                 .date(LocalDateTime.now(ZoneOffset.UTC))
@@ -74,9 +79,11 @@ public class TradesDataLoader implements CommandLineRunner {
     }
 
     private void addKRBN(User user) {
+        Exchange nysearca = exchangeRepository.findByCode("NYSEARCA");
+
         ETF krbn = exchangeTradedFundRepository.save(ETF.builder()
-                .currency(Currency.getInstance("USD"))
                 .name("KraneShares Global Carbon Strategy ETF")
+                .exchange(nysearca)
                 .ticker("KRBN")
                 .build());
         etfTradeRepository.save(ETFTrade.builder()
@@ -94,10 +101,11 @@ public class TradesDataLoader implements CommandLineRunner {
                 .name("Bayer AG")
                 .build());
 
+        Exchange xetra = exchangeRepository.findByCode("XETRA");
         Stock bayerStock = stockRepository.save(Stock.builder()
                 .company(bayer)
+                .exchange(xetra)
                 .ticker("BAYN")
-                .currency(Currency.getInstance("EUR"))
                 .build());
         stockTradeRepository.save(StockTrade.builder()
                 .date(LocalDateTime.now(ZoneOffset.UTC))
@@ -114,10 +122,11 @@ public class TradesDataLoader implements CommandLineRunner {
                 .name("Altria Group")
                 .build());
 
+        Exchange nyse = exchangeRepository.findByCode("NYSE");
         Stock moStock = stockRepository.save(Stock.builder()
                 .company(altria)
+                .exchange(nyse)
                 .ticker("MO")
-                .currency(Currency.getInstance("USD"))
                 .build());
 
         stockTradeRepository.save(StockTrade.builder()
@@ -135,10 +144,12 @@ public class TradesDataLoader implements CommandLineRunner {
                 .name("PJSC Rosneft Oil Company")
                 .build());
 
+        Exchange mcx = exchangeRepository.findByCode("MCX");
+
         Stock rosnStock = stockRepository.save(Stock.builder()
                 .company(rosneft)
+                .exchange(mcx)
                 .ticker("ROSN")
-                .currency(Currency.getInstance("RUB"))
                 .build());
 
         stockTradeRepository.save(StockTrade.builder()
@@ -165,10 +176,11 @@ public class TradesDataLoader implements CommandLineRunner {
                 .name("PJSC Gazprom")
                 .build());
 
+        Exchange mcx = exchangeRepository.findByCode("MCX");
         Stock gazpromStock = stockRepository.save(Stock.builder()
                 .company(gazprom)
+                .exchange(mcx)
                 .ticker("GAZP")
-                .currency(Currency.getInstance("RUB"))
                 .build());
 
         stockTradeRepository.save(StockTrade.builder()
@@ -186,10 +198,11 @@ public class TradesDataLoader implements CommandLineRunner {
                 .name("Ros Agro PLC")
                 .build());
 
+        Exchange mcx = exchangeRepository.findByCode("MCX");
         Stock rosAgroStock = stockRepository.save(Stock.builder()
                 .company(rosAgro)
+                .exchange(mcx)
                 .ticker("AGRO")
-                .currency(Currency.getInstance("RUB"))
                 .build());
 
         stockTradeRepository.save(StockTrade.builder()
@@ -199,6 +212,28 @@ public class TradesDataLoader implements CommandLineRunner {
                 .operation(TradeOperation.BUY)
                 .price(BigDecimal.valueOf(1019))
                 .quantity(BigInteger.valueOf(460L))
+                .build());
+    }
+
+    private void addPolyus(User user) {
+        Company polyus = companyRepository.save(Company.builder()
+                .name("PJSC Polyus")
+                .build());
+
+        Exchange mcx = exchangeRepository.findByCode("MCX");
+        Stock polyusStock = stockRepository.save(Stock.builder()
+                .company(polyus)
+                .exchange(mcx)
+                .ticker("PLZL")
+                .build());
+
+        stockTradeRepository.save(StockTrade.builder()
+                .date(LocalDateTime.now(ZoneOffset.UTC))
+                .stock(polyusStock)
+                .user(user)
+                .operation(TradeOperation.BUY)
+                .price(BigDecimal.valueOf(13000))
+                .quantity(BigInteger.valueOf(27L))
                 .build());
     }
 }

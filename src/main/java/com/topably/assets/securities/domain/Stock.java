@@ -1,6 +1,7 @@
 package com.topably.assets.securities.domain;
 
 import com.topably.assets.companies.domain.Company;
+import com.topably.assets.exchanges.domain.Exchange;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -34,7 +35,9 @@ public class Stock {
     @JoinColumn(name = "COMPANY_ID", referencedColumnName = "ID")
     private Company company;
 
-    private String ticker;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "EXCHANGE_ID", referencedColumnName = "ID")
+    private Exchange exchange;
 
-    private Currency currency;
+    private String ticker;
 }
