@@ -13,7 +13,9 @@ import { PortfolioCardOutletDirective } from '../../directives/portfolio-card-ou
 import { CardContentLoaderService } from '../../services/card-content-loader.service';
 import { RxStompService } from '../../../../../core/services/rx-stomp.service';
 import { map, Observable, shareReplay } from 'rxjs';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
+@UntilDestroy()
 @Component({
   selector: 'app-card-wrapper',
   template: `
@@ -73,6 +75,7 @@ export class CardWrapperComponent implements OnInit, AfterViewInit, OnChanges {
   private getCardData(card: PortfolioCardDto) {
     return this.rxStompService.watch(`/user/topic/cards/${card.id}`)
       .pipe(
+        untilDestroyed(this),
         map(message => JSON.parse(message.body)),
         shareReplay(1)
       );
