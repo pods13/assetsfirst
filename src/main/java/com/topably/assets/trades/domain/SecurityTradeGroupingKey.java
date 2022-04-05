@@ -9,9 +9,9 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class TradeGroupingKey implements Serializable {
+public class SecurityTradeGroupingKey implements Serializable {
 
+    private String exchange;
     private String ticker;
-    private String tradeCategory;
     private String username;
 }

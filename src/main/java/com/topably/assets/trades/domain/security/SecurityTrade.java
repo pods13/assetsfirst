@@ -21,6 +21,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.time.LocalDateTime;
@@ -39,17 +40,17 @@ public class SecurityTrade {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "USER_ID", referencedColumnName = "ID")
+    @JoinColumn(name = "USER_ID", referencedColumnName = "ID", nullable = false)
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "SECURITY_ID", referencedColumnName = "ID")
+    @JoinColumn(name = "SECURITY_ID", referencedColumnName = "ID", nullable = false)
     private Security security;
 
     private LocalDateTime date;
 
     @Enumerated
-    @Column(columnDefinition = "tinyint")
+    @Column(columnDefinition = "tinyint", nullable = false)
     private TradeOperation operation;
 
     private BigInteger quantity;

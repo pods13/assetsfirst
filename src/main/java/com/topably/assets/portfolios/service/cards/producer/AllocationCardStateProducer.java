@@ -6,14 +6,15 @@ import com.topably.assets.portfolios.domain.cards.input.AllocationCard;
 import com.topably.assets.portfolios.domain.cards.output.AllocationSegment;
 import com.topably.assets.portfolios.domain.cards.output.AllocationCardData;
 import com.topably.assets.portfolios.service.cards.CardStateProducer;
-import com.topably.assets.trades.domain.TradeGroupingKey;
+import com.topably.assets.securities.domain.Security;
+import com.topably.assets.trades.domain.SecurityTradeGroupingKey;
 import com.topably.assets.trades.domain.TradeOperation;
-import com.topably.assets.trades.domain.TradeView;
-import com.topably.assets.trades.domain.TradeViewId;
-import com.topably.assets.trades.service.TradeService;
+import com.topably.assets.trades.domain.security.SecurityTrade;
+import com.topably.assets.trades.service.SecurityTradeService;
 import com.topably.assets.xrates.service.ExchangeRateService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.security.Principal;
@@ -29,15 +30,19 @@ public class AllocationCardStateProducer implements CardStateProducer<Allocation
 
     private static final Currency DESTINATION_CURRENCY = Currency.getInstance("RUB");
 
-    private final TradeService tradeService;
+    private final SecurityTradeService tradeService;
     private final ExchangeRateService exchangeRateService;
 
     @Override
+    @Transactional
     public PortfolioCardData produce(Principal user, AllocationCard card) {
         var groupedTrades = tradeService.getUserTrades(user.getName()).stream()
-                .collect(groupingBy(trade -> new TradeGroupingKey(trade.getTicker(), trade.getTradeCategory(), trade.getUsername())));
-        List<AllocationSegment> segments = groupedTrades.values().stream()
-                .map(this::composeSegments)
+                .collect(groupingBy(trade -> {
+                    Security security = trade.getSecurity();
+                    return new SecurityTradeGroupingKey(security.getExchange().getCode(), security.getTicker(), trade.getUser().getUsername());
+                }));
+        List<AllocationSegment> segments = groupedTrades.entrySet().stream()
+                .map(entry -> composeSegments(entry.getKey(), entry.getValue()))
                 .filter(segment -> segment.getValue().compareTo(BigDecimal.ZERO) != 0)
                 .collect(toList());
         return AllocationCardData.builder()
@@ -45,14 +50,14 @@ public class AllocationCardStateProducer implements CardStateProducer<Allocation
                 .build();
     }
 
-    private AllocationSegment composeSegments(List<TradeView> trades) {
+    private AllocationSegment composeSegments(SecurityTradeGroupingKey key, List<SecurityTrade> trades) {
         BigDecimal total = trades.stream()
                 .map(this::calculateTradeTotal)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
-        return new AllocationSegment(trades.get(0).getName(), total);
+        return new AllocationSegment(key.getTicker() + "." + key.getExchange(), total);
     }
 
-    private BigDecimal calculateTradeTotal(TradeView trade) {
+    private BigDecimal calculateTradeTotal(SecurityTrade trade) {
         BigDecimal total = convertToDestCurrency(trade).multiply(new BigDecimal(trade.getQuantity()));
         if (TradeOperation.SELL.equals(trade.getOperation())) {
             return total.negate();
@@ -60,10 +65,11 @@ public class AllocationCardStateProducer implements CardStateProducer<Allocation
         return total;
     }
 
-    private BigDecimal convertToDestCurrency(TradeView trade) {
-        if (DESTINATION_CURRENCY.equals(trade.getCurrency())) {
+    private BigDecimal convertToDestCurrency(SecurityTrade trade) {
+        Currency currency = trade.getSecurity().getExchange().getCurrency();
+        if (DESTINATION_CURRENCY.equals(currency)) {
             return trade.getPrice();
         }
-        return exchangeRateService.convertCurrency(trade.getPrice(), trade.getCurrency(), DESTINATION_CURRENCY);
+        return exchangeRateService.convertCurrency(trade.getPrice(), currency, DESTINATION_CURRENCY);
     }
 }

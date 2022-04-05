@@ -11,12 +11,20 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collection;
+
 @Service
 @RequiredArgsConstructor
 public class SecurityTradeServiceImpl implements SecurityTradeService {
 
     private final UserService userService;
     private final SecurityTradeRepository tradeRepository;
+
+    @Override
+    @Transactional
+    public Collection<SecurityTrade> getUserTrades(String username) {
+        return tradeRepository.findAllByUsername(username);
+    }
 
     @Override
     @Transactional

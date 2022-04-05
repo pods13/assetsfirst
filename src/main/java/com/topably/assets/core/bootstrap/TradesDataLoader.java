@@ -12,7 +12,6 @@ import com.topably.assets.securities.repository.security.ETFRepository;
 import com.topably.assets.securities.repository.security.StockRepository;
 import com.topably.assets.trades.domain.TradeOperation;
 import com.topably.assets.trades.domain.security.SecurityTrade;
-import com.topably.assets.trades.repository.ETFTradeRepository;
 import com.topably.assets.trades.repository.SecurityTradeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
