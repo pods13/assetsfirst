@@ -12,13 +12,12 @@ import javax.persistence.PersistenceContext;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.*;
 
 @Repository
 @RequiredArgsConstructor
-public class SecurityRepositoryImpl implements SecurityRepository {
+public class SecurityRepositoryLegacyImpl implements SecurityRepositoryLegacy {
 
     private static final String SEARCH_SECURITY_QUERY = "select s.id, s.ticker, c.name as name, 'STOCK' as security_type\n" +
             "from stock s\n" +

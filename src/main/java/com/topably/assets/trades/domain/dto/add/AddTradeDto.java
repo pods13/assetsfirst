@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 
 @Setter
 @Getter
-public class AddETFTradeDto {
+public class AddTradeDto {
 
     private Long securityId;
     private TradeOperation operation;

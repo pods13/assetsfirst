@@ -19,36 +19,24 @@ import java.util.Currency;
 @Getter
 @Entity
 @Immutable
-@Subselect("select st.id,\n" +
-        "       'STOCK' as trade_category,\n" +
-        "       u.username,\n" +
-        "       s.ticker,\n" +
-        "       c.name,\n" +
-        "       st.operation,\n" +
-        "       st.date,\n" +
-        "       st.quantity,\n" +
-        "       st.price,\n" +
+@Subselect("select trade.id,\n" +
+        "       s2.security_type as trade_category,\n" +
+        "       u2.username,\n" +
+        "       s2.ticker,\n" +
+        "       CASE\n" +
+        "           WHEN s2.security_type = 'ETF' THEN s2.name\n" +
+        "           WHEN s2.security_type = 'STOCK' THEN c2.name\n" +
+        "           END          as name,\n" +
+        "       trade.operation,\n" +
+        "       trade.date,\n" +
+        "       trade.quantity,\n" +
+        "       trade.price,\n" +
         "       exch.currency\n" +
-        "from stock_trade st\n" +
-        "         join stock s on s.id = st.stock_id\n" +
-        "         join exchange exch on s.exchange_id = exch.id\n" +
-        "         join company c on c.id = s.company_id\n" +
-        "         join user u on u.id = st.user_id\n" +
-        "UNION ALL\n" +
-        "select et.id,\n" +
-        "       'ETF' as trade_category,\n" +
-        "       u.username,\n" +
-        "       etf.ticker,\n" +
-        "       etf.name,\n" +
-        "       et.operation,\n" +
-        "       et.date,\n" +
-        "       et.quantity,\n" +
-        "       et.price,\n" +
-        "       exch.currency\n" +
-        "from etf_trade et\n" +
-        "         join etf on etf.id = et.etf_id\n" +
-        "         join exchange exch on etf.exchange_id = exch.id\n" +
-        "         join user u on u.id = et.user_id\n" +
+        "from security_trade trade\n" +
+        "         join security s2 on s2.id = trade.security_id\n" +
+        "         join user u2 on u2.id = trade.user_id\n" +
+        "         join exchange exch on exch.id = s2.exchange_id\n" +
+        "         left join company c2 on c2.id = s2.company_id\n" +
         "UNION ALL\n" +
         "select mt.id,\n" +
         "       'MONEY' as trade_category,\n" +

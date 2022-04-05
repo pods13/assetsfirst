@@ -1,8 +1,8 @@
 package com.topably.assets.trades;
 
 import com.topably.assets.trades.domain.dto.TradeDto;
-import com.topably.assets.trades.domain.dto.add.AddETFTradeDto;
-import com.topably.assets.trades.service.category.ETFTradeService;
+import com.topably.assets.trades.domain.dto.add.AddTradeDto;
+import com.topably.assets.trades.service.security.ETFTradeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,9 +19,8 @@ public class ETFTradesController {
 
     private final ETFTradeService tradeService;
 
-
     @PostMapping
-    public TradeDto addTrade(@Validated @RequestBody AddETFTradeDto dto, Principal principal) {
+    public TradeDto addTrade(@Validated @RequestBody AddTradeDto dto, Principal principal) {
         return tradeService.addTrade(dto, principal.getName());
     }
 }

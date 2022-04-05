@@ -2,7 +2,7 @@ package com.topably.assets.trades;
 
 import com.topably.assets.trades.domain.dto.TradeDto;
 import com.topably.assets.trades.domain.dto.add.AddMoneyTradeDto;
-import com.topably.assets.trades.service.category.MoneyTradeService;
+import com.topably.assets.trades.service.MoneyTradeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;

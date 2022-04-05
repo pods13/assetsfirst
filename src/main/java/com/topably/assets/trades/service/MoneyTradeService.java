@@ -1,4 +1,4 @@
-package com.topably.assets.trades.service.category;
+package com.topably.assets.trades.service;
 
 import com.topably.assets.auth.domain.User;
 import com.topably.assets.auth.service.UserService;

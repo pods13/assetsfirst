@@ -10,6 +10,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Component
@@ -22,6 +23,7 @@ public class UserDataLoader implements CommandLineRunner {
     private final AuthorityRepository authorityRepository;
 
     @Override
+    @Transactional
     public void run(String... args) throws Exception {
         var userRole = authorityRepository.save(Authority.builder().role("USER").build());
         userRepository.save(User.builder()

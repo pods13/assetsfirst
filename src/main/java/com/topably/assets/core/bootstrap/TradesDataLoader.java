@@ -11,21 +11,20 @@ import com.topably.assets.securities.domain.Stock;
 import com.topably.assets.securities.repository.security.ETFRepository;
 import com.topably.assets.securities.repository.security.StockRepository;
 import com.topably.assets.trades.domain.TradeOperation;
-import com.topably.assets.trades.domain.security.ETFTrade;
-import com.topably.assets.trades.domain.security.StockTrade;
+import com.topably.assets.trades.domain.security.SecurityTrade;
 import com.topably.assets.trades.repository.ETFTradeRepository;
-import com.topably.assets.trades.repository.StockTradeRepository;
+import com.topably.assets.trades.repository.SecurityTradeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
-import java.util.Currency;
 
 @RequiredArgsConstructor
 @Component
@@ -39,10 +38,10 @@ public class TradesDataLoader implements CommandLineRunner {
 
     private final StockRepository stockRepository;
     private final ETFRepository exchangeTradedFundRepository;
-    private final StockTradeRepository stockTradeRepository;
-    private final ETFTradeRepository etfTradeRepository;
+    private final SecurityTradeRepository securityTradeRepository;
 
     @Override
+    @Transactional
     public void run(String... args) throws Exception {
         User user = userRepository.getById(1L);
         addNewmont(user);
@@ -68,9 +67,9 @@ public class TradesDataLoader implements CommandLineRunner {
                 .ticker("NEM")
                 .exchange(nyse)
                 .build());
-        stockTradeRepository.save(StockTrade.builder()
+        securityTradeRepository.save(SecurityTrade.builder()
                 .date(LocalDateTime.now(ZoneOffset.UTC))
-                .stock(newmontStock)
+                .security(newmontStock)
                 .user(user)
                 .operation(TradeOperation.BUY)
                 .price(BigDecimal.valueOf(67.99))
@@ -86,8 +85,8 @@ public class TradesDataLoader implements CommandLineRunner {
                 .exchange(nysearca)
                 .ticker("KRBN")
                 .build());
-        etfTradeRepository.save(ETFTrade.builder()
-                .etf(krbn)
+        securityTradeRepository.save(SecurityTrade.builder()
+                .security(krbn)
                 .date(LocalDateTime.now(ZoneOffset.UTC))
                 .user(user)
                 .operation(TradeOperation.BUY)
@@ -107,9 +106,9 @@ public class TradesDataLoader implements CommandLineRunner {
                 .exchange(xetra)
                 .ticker("BAYN")
                 .build());
-        stockTradeRepository.save(StockTrade.builder()
+        securityTradeRepository.save(SecurityTrade.builder()
                 .date(LocalDateTime.now(ZoneOffset.UTC))
-                .stock(bayerStock)
+                .security(bayerStock)
                 .user(user)
                 .operation(TradeOperation.BUY)
                 .price(BigDecimal.valueOf(47.23))
@@ -129,9 +128,9 @@ public class TradesDataLoader implements CommandLineRunner {
                 .ticker("MO")
                 .build());
 
-        stockTradeRepository.save(StockTrade.builder()
+        securityTradeRepository.save(SecurityTrade.builder()
                 .date(LocalDateTime.now(ZoneOffset.UTC))
-                .stock(moStock)
+                .security(moStock)
                 .user(user)
                 .operation(TradeOperation.BUY)
                 .price(BigDecimal.valueOf(50.0))
@@ -152,18 +151,18 @@ public class TradesDataLoader implements CommandLineRunner {
                 .ticker("ROSN")
                 .build());
 
-        stockTradeRepository.save(StockTrade.builder()
+        securityTradeRepository.save(SecurityTrade.builder()
                 .date(LocalDateTime.of(2022, 1, 18, 8, 0))
-                .stock(rosnStock)
+                .security(rosnStock)
                 .user(user)
                 .operation(TradeOperation.BUY)
                 .price(BigDecimal.valueOf(393.15))
                 .quantity(BigInteger.valueOf(700L))
                 .build());
 
-        stockTradeRepository.save(StockTrade.builder()
+        securityTradeRepository.save(SecurityTrade.builder()
                 .date(LocalDateTime.of(2022, 3, 24, 8, 0))
-                .stock(rosnStock)
+                .security(rosnStock)
                 .user(user)
                 .operation(TradeOperation.BUY)
                 .price(BigDecimal.valueOf(357.12))
@@ -183,9 +182,9 @@ public class TradesDataLoader implements CommandLineRunner {
                 .ticker("GAZP")
                 .build());
 
-        stockTradeRepository.save(StockTrade.builder()
+        securityTradeRepository.save(SecurityTrade.builder()
                 .date(LocalDateTime.now(ZoneOffset.UTC))
-                .stock(gazpromStock)
+                .security(gazpromStock)
                 .user(user)
                 .operation(TradeOperation.BUY)
                 .price(BigDecimal.valueOf(227))
@@ -205,9 +204,9 @@ public class TradesDataLoader implements CommandLineRunner {
                 .ticker("AGRO")
                 .build());
 
-        stockTradeRepository.save(StockTrade.builder()
+        securityTradeRepository.save(SecurityTrade.builder()
                 .date(LocalDateTime.now(ZoneOffset.UTC))
-                .stock(rosAgroStock)
+                .security(rosAgroStock)
                 .user(user)
                 .operation(TradeOperation.BUY)
                 .price(BigDecimal.valueOf(1019))
@@ -227,9 +226,9 @@ public class TradesDataLoader implements CommandLineRunner {
                 .ticker("PLZL")
                 .build());
 
-        stockTradeRepository.save(StockTrade.builder()
+        securityTradeRepository.save(SecurityTrade.builder()
                 .date(LocalDateTime.now(ZoneOffset.UTC))
-                .stock(polyusStock)
+                .security(polyusStock)
                 .user(user)
                 .operation(TradeOperation.BUY)
                 .price(BigDecimal.valueOf(13000))

@@ -1,8 +1,8 @@
 package com.topably.assets.trades;
 
 import com.topably.assets.trades.domain.dto.TradeDto;
-import com.topably.assets.trades.domain.dto.add.AddStockTradeDto;
-import com.topably.assets.trades.service.category.StockTradeService;
+import com.topably.assets.trades.domain.dto.add.AddTradeDto;
+import com.topably.assets.trades.service.security.StockTradeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,7 +20,7 @@ public class StockTradesController {
     private final StockTradeService tradeService;
 
     @PostMapping
-    public TradeDto addTrade(@Validated @RequestBody AddStockTradeDto dto, Principal principal) {
+    public TradeDto addTrade(@Validated @RequestBody AddTradeDto dto, Principal principal) {
         return tradeService.addTrade(dto, principal.getName());
     }
 }

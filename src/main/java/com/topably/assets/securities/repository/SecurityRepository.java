@@ -1,12 +1,16 @@
 package com.topably.assets.securities.repository;
 
-import com.topably.assets.securities.domain.SecurityType;
-import com.topably.assets.securities.domain.dto.SecurityDto;
+import com.topably.assets.securities.domain.Security;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.Collection;
-import java.util.List;
 
-public interface SecurityRepository {
+public interface SecurityRepository extends JpaRepository<Security, Long> {
 
-    List<SecurityDto> searchSecurities(String search, Collection<SecurityType> securityTypes);
+    @Query(nativeQuery = true, value = "select *\n" +
+            "from security s\n" +
+            "where s.ticker like concat('%', :search, '%')\n" +
+            "  and security_type in :securityTypes\n")
+    Collection<Security> searchSecurityByTickerLikeAndTypeIn(String search, Collection<String> securityTypes);
 }

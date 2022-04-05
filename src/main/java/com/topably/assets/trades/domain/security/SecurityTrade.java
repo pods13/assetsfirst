@@ -1,13 +1,15 @@
 package com.topably.assets.trades.domain.security;
 
 import com.topably.assets.auth.domain.User;
-import com.topably.assets.securities.domain.ETF;
+import com.topably.assets.securities.domain.Security;
+import com.topably.assets.securities.domain.Stock;
 import com.topably.assets.trades.domain.TradeOperation;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Any;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.Column;
@@ -19,7 +21,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.time.LocalDateTime;
@@ -30,9 +31,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "ETF_TRADE")
-@Deprecated
-public class ETFTrade {
+public class SecurityTrade {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
@@ -40,12 +39,12 @@ public class ETFTrade {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ETF_ID", referencedColumnName = "ID")
-    private ETF etf;
-
-    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_ID", referencedColumnName = "ID")
     private User user;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "SECURITY_ID", referencedColumnName = "ID")
+    private Security security;
 
     private LocalDateTime date;
 

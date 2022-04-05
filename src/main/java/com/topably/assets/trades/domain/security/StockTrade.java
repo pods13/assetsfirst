@@ -29,6 +29,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 @Entity
+@Deprecated
 public class StockTrade {
 
     @Id
