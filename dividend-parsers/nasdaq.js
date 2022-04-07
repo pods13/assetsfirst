@@ -1,36 +1,38 @@
 import playwright from 'playwright-chromium';
 import {authenticate} from "./auth.js";
-import fetch from "node-fetch";
 
 async function main() {
-    const secureHeaders = await authenticate();
-    const securitiesRes = await fetch('http://localhost:8080/securities?securityTypes=ETF,STOCK', {headers: secureHeaders});
-    const securities = JSON.parse(await securitiesRes.text());
-    // console.log(securities);
+    const client = await authenticate();
+    const securitiesRes = await client.get('/exchanges/NYSE/tickers');
+    const securities = securitiesRes.data;
 
     const browser = await playwright.chromium.launch({
         headless: false, args: ['--single-process']
     });
 
     const context = await browser.newContext();
-    // await securities.forEach(async({ticker}) => {
-    //     const divs = await getDividendHistoryByTicker(context, ticker);
-    //     console.log({[ticker]: divs})
-    // });
-    const dividendsPromise = securities.map(({ticker}) => getDividendHistoryByTicker(context, ticker));
+    const whenDividendsParsed = securities.map(({code}) => getDividendHistoryByTicker(context, code));
     try {
-        const dividends = await Promise.allSettled(dividendsPromise);
-        const divsByTicker = {};
-        dividends.forEach((divs, index) => {
+        const dividendData = await Promise.allSettled(whenDividendsParsed);
+        const whenDividendsStored = dividendData.map((divs, index) => {
             if (divs.reason) {
                 console.error(divs.reason);
-                return;
+                return Promise.resolve();
             }
-            const {ticker} = securities[index];
-            divsByTicker[ticker] = divs.value;
-        })
-        console.log(divsByTicker);
-        return divsByTicker;
+            const {code, exchange} = securities[index];
+            // console.log(divs.value[0])
+            const dividends = divs.value.map(data => {
+                return {
+                    amount: data.amount ? data.amount.replace(/[^\d.]/g, "") : null,
+                    declareDate: convertDate(data.declareDate),
+                    recordDate: convertDate(data.recordDate),
+                    payDate: convertDate(data.payDate)
+                };
+            });
+            // console.log(code, exchange, dividends[0]);
+            return client.post(`/dividends?ticker=${code}&exchange=${exchange}`, dividends);
+        });
+        await Promise.allSettled(whenDividendsStored);
     } catch (e) {
         console.error(e);
     } finally {
@@ -38,10 +40,20 @@ async function main() {
     }
 }
 
+function convertDate(dateStr) {
+    //dateStr formatted as MM/dd/yyyy
+    if (dateStr) {
+        const dateParts = dateStr.split('/');
+        return dateParts[2] + '-' + dateParts[0] + '-' + dateParts[1];
+    }
+    return null;
+}
+
 async function getDividendHistoryByTicker(browserContext, ticker) {
     const page = await browserContext.newPage();
     try {
         await page.goto(getPageUrl(ticker), {waitUntil: 'domcontentloaded'});
+        await page.waitForTimeout(600);
         return await parseDividendHistory(page);
     } catch (error) {
         console.error(error);

@@ -12,6 +12,8 @@ export class AllocationCardFactory extends CardFactory<PortfolioCardDto> {
     return {
       ...this.defaultCardProps,
       title: 'Allocation',
+      cols: 4,
+      rows: 3,
     };
   }
 }

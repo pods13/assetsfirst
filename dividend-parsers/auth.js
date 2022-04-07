@@ -1,31 +1,42 @@
-// import {fetch, CookieJar} from 'node-fetch-cookies';
-import fetch, {FormData} from 'node-fetch';
-
+import axios from "axios";
+import FormData from "form-data";
+import {wrapper} from 'axios-cookiejar-support';
+import {CookieJar} from 'tough-cookie';
 
 export async function authenticate() {
-    const userResponse = await fetch('http://localhost:8080/auth/user');
-    const cookies = userResponse.headers.raw()['set-cookie'];
-
+    const jar = new CookieJar();
+    const client = wrapper(axios.create({
+        jar,
+        baseURL: 'http://localhost:8080',
+        withCredentials: true,
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+    }));
+    let token;
+    try {
+        await client.get('/auth/user');
+    } catch (e) {
+        const cookies = e.response.headers['set-cookie'];
+        token = getCsrfToken(cookies[0]);
+    }
     const authData = new FormData();
-    authData.set('username', 'user');
-    authData.set('password', '&}vU6Nw6');
-    const token = getCsrfToken(cookies[0]);
-    const headers = {
-        'cookie': cookies.join(";"),
-        'X-XSRF-TOKEN': token
-    };
-    const loginResponse = await fetch("http://localhost:8080/auth/login", {
-        method: "POST",
-        body: authData,
-        headers
-    });
-    return  {
-        'cookie': loginResponse.headers.raw()['set-cookie'].join(";"),
-        'X-XSRF-TOKEN': token
-    };
+    authData.append('username', 'user');
+    authData.append('password', '&}vU6Nw6');
+    try {
+        const loginResponse = await client.post("http://localhost:8080/auth/login", authData, {
+            headers: {
+                'X-XSRF-TOKEN': token,
+                ...authData.getHeaders()
+            }
+        });
+        const loggedCookie = loginResponse.headers['set-cookie'];
+        client.defaults.headers['X-XSRF-TOKEN'] = getCsrfToken(loggedCookie[1]);
+    } catch (e) {
+        console.log(e.config.data)
+    }
+    return client;
 }
 
-function getCsrfToken(cookie) {
+export function getCsrfToken(cookie) {
     const xsrfCookies = cookie.split(';')
         .map(c => c.trim())
         .filter(c => c.startsWith('XSRF-TOKEN='));

@@ -1,5 +1,6 @@
 package com.topably.assets.dividends.domain;
 
+import com.topably.assets.securities.domain.Security;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -8,9 +9,12 @@ import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
@@ -27,7 +31,9 @@ public class Dividend {
     @GenericGenerator(name = "native", strategy = "native")
     private Long id;
 
-    private String ticker;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "SECURITY_ID", referencedColumnName = "ID", nullable = false)
+    private Security security;
 
     private LocalDate declareDate;
 

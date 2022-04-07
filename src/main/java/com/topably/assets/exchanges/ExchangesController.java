@@ -17,7 +17,7 @@ public class ExchangesController {
 
     private final ExchangeService exchangeService;
 
-    @GetMapping("/:exchange/tickers")
+    @GetMapping("/{exchange}/tickers")
     public Collection<TickerDto> findTickers(@PathVariable String exchange) {
         return exchangeService.findTickersByExchange(exchange);
     }
