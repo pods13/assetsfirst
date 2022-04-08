@@ -1,11 +1,11 @@
 import playwright from 'playwright-chromium';
-import {authenticate} from "./auth.js";
+import {getClient} from "./client.js";
 
 async function main() {
-    const client = await authenticate();
-    const securitiesRes = await client.get('/exchanges/NYSE/tickers');
+    const client = await getClient();
+    const securitiesRes = await client.get('/exchanges/US/tickers');
     const securities = securitiesRes.data;
-
+    console.log(securities)
     const browser = await playwright.chromium.launch({
         headless: false, args: ['--single-process']
     });

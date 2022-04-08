@@ -25,6 +25,9 @@ import java.math.BigInteger;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 
+import static com.topably.assets.exchanges.domain.USExchange.NYSE;
+import static com.topably.assets.exchanges.domain.USExchange.NYSEARCA;
+
 @RequiredArgsConstructor
 @Component
 @Order(3)
@@ -59,7 +62,7 @@ public class TradesDataLoader implements CommandLineRunner {
         Company newmontCorp = companyRepository.save(Company.builder()
                 .name("Newmont Corporation")
                 .build());
-        Exchange nyse = exchangeRepository.findByCode("NYSE");
+        Exchange nyse = exchangeRepository.findByCode(NYSE.name());
 
         Stock newmontStock = stockRepository.save(Stock.builder()
                 .company(newmontCorp)
@@ -77,7 +80,7 @@ public class TradesDataLoader implements CommandLineRunner {
     }
 
     private void addKRBN(User user) {
-        Exchange nysearca = exchangeRepository.findByCode("NYSEARCA");
+        Exchange nysearca = exchangeRepository.findByCode(NYSEARCA.name());
 
         ETF krbn = exchangeTradedFundRepository.save(ETF.builder()
                 .name("KraneShares Global Carbon Strategy ETF")
@@ -120,7 +123,7 @@ public class TradesDataLoader implements CommandLineRunner {
                 .name("Altria Group")
                 .build());
 
-        Exchange nyse = exchangeRepository.findByCode("NYSE");
+        Exchange nyse = exchangeRepository.findByCode(NYSE.name());
         Stock moStock = stockRepository.save(Stock.builder()
                 .company(altria)
                 .exchange(nyse)

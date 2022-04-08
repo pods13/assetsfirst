@@ -1,6 +1,7 @@
 package com.topably.assets.core.bootstrap;
 
 import com.topably.assets.exchanges.domain.Exchange;
+import com.topably.assets.exchanges.domain.USExchange;
 import com.topably.assets.exchanges.repository.ExchangeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
@@ -11,6 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Currency;
+
+import static com.topably.assets.exchanges.domain.USExchange.*;
 
 @RequiredArgsConstructor
 @Component
@@ -26,13 +29,13 @@ public class ExchangeDataLoader implements CommandLineRunner {
         var exchanges = new ArrayList<Exchange>();
         exchanges.add(Exchange.builder()
                 .name("New York Stock Exchange")
-                .code("NYSE")
+                .code(NYSE.name())
                 .countryCode("US")
                 .currency(Currency.getInstance("USD"))
                 .build());
         exchanges.add(Exchange.builder()
                 .name("NYSE Arca")
-                .code("NYSEARCA")
+                .code(NYSEARCA.name())
                 .countryCode("US")
                 .currency(Currency.getInstance("USD"))
                 .build());

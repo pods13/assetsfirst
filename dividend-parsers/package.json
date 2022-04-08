@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start:nasdaq": "node nasdaq.js"
   },
   "keywords": [],
   "author": "",
@@ -12,11 +12,8 @@
     "axios": "^0.26.1",
     "axios-cookiejar-support": "^2.0.4",
     "form-data": "^4.0.0",
-    "node-fetch": "^3.2.3",
-    "node-fetch-cookies": "^2.0.4",
     "playwright-chromium": "^1.20.1",
-    "tough-cookie": "^4.0.0",
-    "whatwg-fetch": "^3.6.2"
+    "tough-cookie": "^4.0.0"
   },
   "type": "module"
 }
