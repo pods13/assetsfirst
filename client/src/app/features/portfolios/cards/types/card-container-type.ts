@@ -1,3 +1,4 @@
 export enum CardContainerType {
-  ALLOCATION = 'ALLOCATION'
+  ALLOCATION = 'ALLOCATION',
+  DIVIDENDS = 'DIVIDENDS'
 }

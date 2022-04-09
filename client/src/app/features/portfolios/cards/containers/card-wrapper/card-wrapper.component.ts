@@ -1,12 +1,14 @@
 import {
-  Component,
-  OnInit,
+  AfterViewInit,
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
   Input,
-  ViewChildren,
-  QueryList,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
   ViewChild,
-  ChangeDetectorRef, AfterViewInit, OnChanges, SimpleChanges
+  ViewEncapsulation
 } from '@angular/core';
 import { PortfolioCardDto } from '../../types/portfolio-card.dto';
 import { PortfolioCardOutletDirective } from '../../directives/portfolio-card-outlet.directive';

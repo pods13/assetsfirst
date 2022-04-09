@@ -5,14 +5,14 @@ import { Observable } from 'rxjs';
 @Component({
   selector: 'app-allocation-card',
   template: `
-    <div style="position: absolute; top: 50px; left: 50px; right: 50px; bottom: 50px" *ngIf="data$ | async as data">
-      <ngx-charts-pie-chart class="chart-container"
+    <ng-container *ngIf="data$ | async as data">
+      <ngx-charts-pie-chart appFitChart
                             [scheme]="'vivid'"
                             [results]="data.segments"
                             [legend]="false"
                             [labels]="false">
       </ngx-charts-pie-chart>
-    </div>
+    </ng-container>
   `,
   styleUrls: ['./allocation-card.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

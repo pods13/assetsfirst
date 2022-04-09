@@ -13,8 +13,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { CardService } from './services/card.service';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
-import { PieChartModule } from '@swimlane/ngx-charts';
-
+import { BarChartModule, PieChartModule } from '@swimlane/ngx-charts';
+import { DividendsCardComponent } from './containers/dividends-card/dividends-card.component';
+import { FitChartDirective } from './directives/fit-chart.directive';
 
 
 @NgModule({
@@ -22,19 +23,22 @@ import { PieChartModule } from '@swimlane/ngx-charts';
     CardWrapperComponent,
     PortfolioCardOutletDirective,
     AllocationCardComponent,
-    SelectCardDialogComponent
+    SelectCardDialogComponent,
+    DividendsCardComponent,
+    FitChartDirective,
   ],
-    imports: [
-        CommonModule,
-        MatDialogModule,
-        MatFormFieldModule,
-        MatSelectModule,
-        FormsModule,
-        MatButtonModule,
-        MatMenuModule,
-        MatIconModule,
-        PieChartModule
-    ],
+  imports: [
+    CommonModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    FormsModule,
+    MatButtonModule,
+    MatMenuModule,
+    MatIconModule,
+    PieChartModule,
+    BarChartModule
+  ],
   providers: [
     CardContentLoaderService,
     CardService
@@ -45,4 +49,5 @@ import { PieChartModule } from '@swimlane/ngx-charts';
     SelectCardDialogComponent
   ]
 })
-export class PortfolioCardsModule { }
+export class PortfolioCardsModule {
+}

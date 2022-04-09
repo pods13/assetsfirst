@@ -3,15 +3,13 @@ package com.topably.assets.portfolios.domain.cards;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.topably.assets.portfolios.domain.cards.CardContainerType;
 import com.topably.assets.portfolios.domain.cards.input.AllocationCard;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import com.topably.assets.portfolios.domain.cards.input.DividendsCard;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 import static com.fasterxml.jackson.annotation.JsonTypeInfo.As.EXISTING_PROPERTY;
@@ -19,13 +17,14 @@ import static com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NAME;
 
 @JsonTypeInfo(use = NAME, include = EXISTING_PROPERTY, property = "containerType", visible = true)
 @JsonSubTypes({
-        @JsonSubTypes.Type(value = AllocationCard.class, name = CardContainerType.ALLOCATION),
+        @JsonSubTypes.Type(name = CardContainerType.ALLOCATION, value = AllocationCard.class),
+        @JsonSubTypes.Type(name = CardContainerType.DIVIDENDS, value = DividendsCard.class),
 })
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 @Getter
 @Setter
 @NoArgsConstructor
-public class PortfolioCard {
+public class PortfolioCard implements Serializable {
 
     private String id;
     private String containerType;

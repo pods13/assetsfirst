@@ -1,6 +1,7 @@
 import { AllocationCardFactory } from './factory/allocation-card.factory';
 import { CardContainerType } from '../types/card-container-type';
 import { PortfolioCardDto } from '../types/portfolio-card.dto';
+import { DividendsCardFactory } from './factory/dividends-card.factory';
 
 
 export function createCard(containerType: CardContainerType): PortfolioCardDto {
@@ -12,5 +13,6 @@ export function createCard(containerType: CardContainerType): PortfolioCardDto {
 }
 
 const cardContainerTypeByFactory = {
-  [CardContainerType.ALLOCATION]: AllocationCardFactory
+  [CardContainerType.ALLOCATION]: AllocationCardFactory,
+  [CardContainerType.DIVIDENDS]: DividendsCardFactory
 };
