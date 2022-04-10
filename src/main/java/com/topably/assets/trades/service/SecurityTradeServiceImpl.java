@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.Collection;
 
 @Service
@@ -21,9 +22,13 @@ public class SecurityTradeServiceImpl implements SecurityTradeService {
     private final SecurityTradeRepository tradeRepository;
 
     @Override
-    @Transactional
-    public Collection<SecurityTrade> getUserTrades(String username) {
-        return tradeRepository.findAllByUsername(username);
+    public Collection<SecurityTrade> findUserTrades(String username) {
+        return tradeRepository.findAllByUser_Username(username);
+    }
+
+    @Override
+    public Collection<SecurityTrade> findUserDividendPayingTrades(String username) {
+        return tradeRepository.findUserDividendPayingTradesOrderByTradeDate(username);
     }
 
     @Override

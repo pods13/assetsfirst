@@ -21,6 +21,11 @@ public class DividendServiceImpl implements DividendService {
     private final DividendRepository dividendRepository;
 
     @Override
+    public Collection<Dividend> findDividends(String ticker, String exchange) {
+        return dividendRepository.findBySecurity_TickerAndSecurity_Exchange_CodeOrderByPayDateAsc(ticker, exchange);
+    }
+
+    @Override
     @Transactional
     public void addDividends(String ticker, String exchange, Collection<DividendData> dividendData) {
         Collection<Dividend> securityDividends = collectDividendsToPersist(ticker, exchange, dividendData);

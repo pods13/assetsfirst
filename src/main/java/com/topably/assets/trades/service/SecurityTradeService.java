@@ -9,7 +9,9 @@ import java.util.Collection;
 
 public interface SecurityTradeService {
 
-    Collection<SecurityTrade> getUserTrades(String username);
+    Collection<SecurityTrade> findUserTrades(String username);
+
+    Collection<SecurityTrade> findUserDividendPayingTrades(String username);
 
     TradeDto addTrade(AddTradeDto dto, String username, Security tradedSecurity);
 }

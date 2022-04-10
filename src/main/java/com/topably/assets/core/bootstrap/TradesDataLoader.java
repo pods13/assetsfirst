@@ -131,12 +131,12 @@ public class TradesDataLoader implements CommandLineRunner {
                 .build());
 
         securityTradeRepository.save(SecurityTrade.builder()
-                .date(LocalDateTime.now(ZoneOffset.UTC))
+                .date(LocalDateTime.of(2021, 12, 1, 11, 0))
                 .security(moStock)
                 .user(user)
                 .operation(TradeOperation.BUY)
-                .price(BigDecimal.valueOf(50.0))
-                .quantity(BigInteger.valueOf(50L))
+                .price(BigDecimal.valueOf(45.67))
+                .quantity(BigInteger.valueOf(64L))
                 .build());
     }
 

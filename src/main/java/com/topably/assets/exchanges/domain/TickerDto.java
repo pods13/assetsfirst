@@ -11,6 +11,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class TickerDto {
 
+    //TODO rename code field to symbol
     private String code;
     private String exchange;
 }

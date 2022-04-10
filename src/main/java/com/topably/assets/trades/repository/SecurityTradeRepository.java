@@ -8,6 +8,16 @@ import java.util.Collection;
 
 public interface SecurityTradeRepository extends JpaRepository<SecurityTrade, Long> {
 
-    @Query(nativeQuery = true, value = "select * from security_trade t join user u on u.id = t.user_id where u.username = :username")
-    Collection<SecurityTrade> findAllByUsername(String username);
+    Collection<SecurityTrade> findAllByUser_Username(String username);
+
+    @Query(nativeQuery = true, value = "select t.*\n" +
+            "from security_trade t\n" +
+            "         join user u on u.id = t.user_id\n" +
+            "         join security s on s.id = t.security_id and s.security_type in ('STOCK', 'ETF')\n" +
+            "where u.username = :username\n" +
+            "  and exists(select 1\n" +
+            "             from dividend d\n" +
+            "             where d.security_id = t.security_id)\n" +
+            "order by t.date")
+    Collection<SecurityTrade> findUserDividendPayingTradesOrderByTradeDate(String username);
 }

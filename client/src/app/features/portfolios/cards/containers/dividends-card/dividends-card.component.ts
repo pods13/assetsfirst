@@ -5,12 +5,12 @@ import { Observable } from 'rxjs';
 @Component({
   selector: 'app-dividends-card',
   template: `
-    <ngx-charts-bar-vertical-2d appFitChart
-                                [results]="multi"
+    <ngx-charts-bar-vertical-2d appFitChart *ngIf="data$ | async as data"
+                                [results]="data.dividends"
                                 [scheme]="'vivid'"
                                 [xAxis]="true"
                                 [yAxis]="true"
-                                [showYAxisLabel]="true" [yAxisLabel]="'hello'"
+                                [showYAxisLabel]="true" [yAxisLabel]="'Earned Dividends'"
                                 [showGridLines]="true"
                                 [roundDomains]="true"
                                 [noBarWhenZero]="false">
@@ -23,36 +23,6 @@ export class DividendsCardComponent implements OnInit, CardContainer<any> {
 
   card!: any;
   data$!: Observable<any>;
-
-  multi = [
-    {
-      "name": "Q1",
-      "series": [
-        {
-          "name": "2010",
-          "value": 7300000
-        },
-        {
-          "name": "2011",
-          "value": 8940000
-        }
-      ]
-    },
-
-    {
-      "name": "Q2",
-      "series": [
-        {
-          "name": "2010",
-          "value": 7870000
-        },
-        {
-          "name": "2011",
-          "value": 8270000
-        }
-      ]
-    },
-  ];
 
   constructor() {
   }

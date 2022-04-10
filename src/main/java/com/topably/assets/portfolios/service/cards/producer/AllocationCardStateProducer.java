@@ -36,7 +36,7 @@ public class AllocationCardStateProducer implements CardStateProducer<Allocation
     @Override
     @Transactional
     public PortfolioCardData produce(Principal user, AllocationCard card) {
-        var groupedTrades = tradeService.getUserTrades(user.getName()).stream()
+        var groupedTrades = tradeService.findUserTrades(user.getName()).stream()
                 .collect(groupingBy(trade -> {
                     Security security = trade.getSecurity();
                     return new SecurityTradeGroupingKey(security.getExchange().getCode(), security.getTicker(), trade.getUser().getUsername());

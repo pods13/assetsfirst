@@ -4,7 +4,11 @@ import com.topably.assets.dividends.domain.Dividend;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.Collection;
+
 public interface DividendRepository extends JpaRepository<Dividend, Long> {
+
+    Collection<Dividend> findBySecurity_TickerAndSecurity_Exchange_CodeOrderByPayDateAsc(String ticker, String exchange);
 
     @Query(nativeQuery = true, value = "select d.*\n" +
             "from dividend d\n" +
