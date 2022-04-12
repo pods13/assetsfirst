@@ -9,7 +9,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.temporal.ChronoUnit;
 import java.util.Collection;
+import java.util.Optional;
 
 import static java.util.stream.Collectors.toList;
 
@@ -54,7 +56,9 @@ public class DividendServiceImpl implements DividendService {
                 .amount(data.getAmount())
                 .declareDate(data.getDeclareDate())
                 .recordDate(data.getRecordDate())
-                .payDate(data.getPayDate())
+                .payDate(Optional.ofNullable(data.getPayDate())
+                        .orElseGet(() -> data.getDeclareDate().plus(1, ChronoUnit.MONTHS)))
                 .build();
     }
+
 }
