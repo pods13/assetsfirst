@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.security.Principal;
 import java.util.Currency;
 import java.util.List;
@@ -47,6 +48,7 @@ public class AllocationCardStateProducer implements CardStateProducer<Allocation
                 .collect(toList());
         return AllocationCardData.builder()
                 .segments(segments)
+                .totalInvested(calculateTotalInvested(segments))
                 .build();
     }
 
@@ -65,5 +67,12 @@ public class AllocationCardStateProducer implements CardStateProducer<Allocation
             return total.negate();
         }
         return total;
+    }
+
+    private BigDecimal calculateTotalInvested(List<AllocationSegment> segments) {
+        return segments.stream()
+                .map(AllocationSegment::getValue)
+                .reduce(BigDecimal.ZERO, BigDecimal::add)
+                .setScale(2, RoundingMode.HALF_EVEN);
     }
 }

@@ -12,6 +12,7 @@ import { Observable } from 'rxjs';
                             [legend]="false"
                             [labels]="false">
       </ngx-charts-pie-chart>
+      {{data.totalInvested}}
     </ng-container>
   `,
   styleUrls: ['./allocation-card.component.scss'],
