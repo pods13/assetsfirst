@@ -14,6 +14,7 @@ import com.topably.assets.securities.domain.Security;
 import com.topably.assets.trades.domain.SecurityTradeGroupingKey;
 import com.topably.assets.trades.domain.security.SecurityTrade;
 import com.topably.assets.trades.service.SecurityTradeService;
+import com.topably.assets.xrates.service.ExchangeRateService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +25,7 @@ import java.security.Principal;
 import java.time.temporal.IsoFields;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Currency;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -35,8 +37,11 @@ import static java.util.stream.Collectors.toList;
 @RequiredArgsConstructor
 public class DividendsCardStateProducer implements CardStateProducer<DividendsCard> {
 
+    private static final Currency DESTINATION_CURRENCY = Currency.getInstance("RUB");
+
     private final SecurityTradeService tradeService;
     private final DividendService dividendService;
+    private final ExchangeRateService exchangeRateService;
 
     @Override
     @Transactional
@@ -69,6 +74,7 @@ public class DividendsCardStateProducer implements CardStateProducer<DividendsCa
         var quantity = BigInteger.ZERO;
         var dividendDetails = new ArrayList<DividendDetails>();
         var trades = tradesByKey.getValue();
+        var currency = trades.iterator().hasNext() ? trades.iterator().next().getSecurity().getExchange().getCurrency() : null;
         int index = 0;
         for (Dividend dividend : dividends) {
             for (; index < trades.size(); index++) {
@@ -81,7 +87,7 @@ public class DividendsCardStateProducer implements CardStateProducer<DividendsCa
                 }
             }
             BigDecimal total = dividend.getAmount().multiply(new BigDecimal(quantity));
-            dividendDetails.add(new DividendDetails(dividend.getPayDate(), total));
+            dividendDetails.add(new DividendDetails(dividend.getPayDate(), total, currency));
         }
         return dividendDetails;
     }
@@ -89,7 +95,9 @@ public class DividendsCardStateProducer implements CardStateProducer<DividendsCa
     private Collection<DividendSummary> composeDividendSummary(Map<Integer, List<DividendDetails>> dividendsByYear) {
         return dividendsByYear.entrySet().stream()
                 .map(divsByYear -> {
-                    var totalValue = divsByYear.getValue().stream().map(DividendDetails::getTotal).reduce(BigDecimal.ZERO, BigDecimal::add);
+                    var totalValue = divsByYear.getValue().stream()
+                            .map(div -> exchangeRateService.convertCurrency(div.getTotal(), div.getCurrency(), DESTINATION_CURRENCY))
+                            .reduce(BigDecimal.ZERO, BigDecimal::add);
                     return new DividendSummary(String.valueOf(divsByYear.getKey()), totalValue);
                 }).collect(toList());
     }

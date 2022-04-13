@@ -46,6 +46,9 @@ public class ExchangeRateServiceImpl implements ExchangeRateService {
 
     @Override
     public BigDecimal convertCurrency(BigDecimal amount, Currency from, Currency to) {
+        if (from.equals(to)) {
+            return amount;
+        }
         Optional<ExchangeRate> exchangeRate = exchangeRateRepository.findBySourceCurrencyAndDestinationCurrency(from, to);
         return exchangeRate
                 .map(ExchangeRate::getConversionRate)

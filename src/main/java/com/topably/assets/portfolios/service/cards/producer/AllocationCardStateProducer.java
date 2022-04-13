@@ -58,18 +58,12 @@ public class AllocationCardStateProducer implements CardStateProducer<Allocation
     }
 
     private BigDecimal calculateTradeTotal(SecurityTrade trade) {
-        BigDecimal total = convertToDestCurrency(trade).multiply(new BigDecimal(trade.getQuantity()));
+        var tradeCurrency = trade.getSecurity().getExchange().getCurrency();
+        var price = exchangeRateService.convertCurrency(trade.getPrice(), tradeCurrency, DESTINATION_CURRENCY);
+        BigDecimal total = price.multiply(new BigDecimal(trade.getQuantity()));
         if (TradeOperation.SELL.equals(trade.getOperation())) {
             return total.negate();
         }
         return total;
-    }
-
-    private BigDecimal convertToDestCurrency(SecurityTrade trade) {
-        Currency currency = trade.getSecurity().getExchange().getCurrency();
-        if (DESTINATION_CURRENCY.equals(currency)) {
-            return trade.getPrice();
-        }
-        return exchangeRateService.convertCurrency(trade.getPrice(), currency, DESTINATION_CURRENCY);
     }
 }
