@@ -25,6 +25,7 @@ import java.security.Principal;
 import java.time.temporal.IsoFields;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Currency;
 import java.util.List;
 import java.util.Map;
@@ -60,8 +61,11 @@ public class DividendsCardStateProducer implements CardStateProducer<DividendsCa
                 .collect(groupingBy(d -> d.getPayDate().get(IsoFields.QUARTER_OF_YEAR), TreeMap::new,
                         groupingBy(d -> d.getPayDate().getYear(), TreeMap::new, toList())));
         var dividends = dividendsByYearQuarter.entrySet().stream()
-                .map(divsByQuarter -> new TimeFrameDividend("Q" + divsByQuarter.getKey(),
-                        composeDividendSummary(divsByQuarter.getValue())))
+                .map(divsByQuarter -> {
+                    var divsByYear = enrichWithMissingYears(dividendsByYearQuarter.values(), divsByQuarter.getValue());
+                    return new TimeFrameDividend("Q" + divsByQuarter.getKey(),
+                            composeDividendSummary(divsByYear));
+                })
                 .collect(toList());
         return DividendsCardData.builder()
                 .dividends(dividends)
@@ -100,5 +104,15 @@ public class DividendsCardStateProducer implements CardStateProducer<DividendsCa
                             .reduce(BigDecimal.ZERO, BigDecimal::add);
                     return new DividendSummary(String.valueOf(divsByYear.getKey()), totalValue);
                 }).collect(toList());
+    }
+
+    private Map<Integer, List<DividendDetails>> enrichWithMissingYears(Collection<TreeMap<Integer, List<DividendDetails>>> dividendsByYearForAllQuarters,
+                                                                       Map<Integer, List<DividendDetails>> dividendsByYear) {
+        var res = new TreeMap<>(dividendsByYear);
+        dividendsByYearForAllQuarters.stream()
+                .map(TreeMap::keySet)
+                .flatMap(Collection::stream)
+                .forEach(year -> res.putIfAbsent(year, Collections.emptyList()));
+        return res;
     }
 }
