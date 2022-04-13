@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "start:nasdaq": "node nasdaq.js"
+    "start:nasdaq": "node nasdaq.js",
+    "start:dohod": "node dohod.js"
   },
   "keywords": [],
   "author": "",

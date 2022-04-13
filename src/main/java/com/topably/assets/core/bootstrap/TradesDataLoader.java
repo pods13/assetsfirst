@@ -53,9 +53,13 @@ public class TradesDataLoader implements CommandLineRunner {
         addRosneft(user);
 
         addAltria(user);
+        addOmega(user);
+        addCoke(user);
+        addTotal(user);
         addGazprom(user);
         addRosAgro(user);
         addPolyus(user);
+        addPhor(user);
     }
 
     private void addNewmont(User user) {
@@ -70,7 +74,7 @@ public class TradesDataLoader implements CommandLineRunner {
                 .exchange(nyse)
                 .build());
         securityTradeRepository.save(SecurityTrade.builder()
-                .date(LocalDateTime.now(ZoneOffset.UTC))
+                .date(LocalDateTime.of(2021, 12, 1, 11, 0))
                 .security(newmontStock)
                 .user(user)
                 .operation(TradeOperation.BUY)
@@ -89,7 +93,7 @@ public class TradesDataLoader implements CommandLineRunner {
                 .build());
         securityTradeRepository.save(SecurityTrade.builder()
                 .security(krbn)
-                .date(LocalDateTime.now(ZoneOffset.UTC))
+                .date(LocalDateTime.of(2021, 12, 1, 11, 0))
                 .user(user)
                 .operation(TradeOperation.BUY)
                 .price(BigDecimal.valueOf(40.67))
@@ -109,7 +113,7 @@ public class TradesDataLoader implements CommandLineRunner {
                 .ticker("BAYN")
                 .build());
         securityTradeRepository.save(SecurityTrade.builder()
-                .date(LocalDateTime.now(ZoneOffset.UTC))
+                .date(LocalDateTime.of(2021, 12, 1, 11, 0))
                 .security(bayerStock)
                 .user(user)
                 .operation(TradeOperation.BUY)
@@ -136,6 +140,72 @@ public class TradesDataLoader implements CommandLineRunner {
                 .user(user)
                 .operation(TradeOperation.BUY)
                 .price(BigDecimal.valueOf(45.67))
+                .quantity(BigInteger.valueOf(64L))
+                .build());
+    }
+
+    private void addOmega(User user) {
+        Company omega = companyRepository.save(Company.builder()
+                .name("Omega Healthcare Investors, Inc")
+                .build());
+
+        Exchange nyse = exchangeRepository.findByCode(NYSE.name());
+        Stock ohiStock = stockRepository.save(Stock.builder()
+                .company(omega)
+                .exchange(nyse)
+                .ticker("OHI")
+                .build());
+
+        securityTradeRepository.save(SecurityTrade.builder()
+                .date(LocalDateTime.of(2021, 12, 1, 11, 0))
+                .security(ohiStock)
+                .user(user)
+                .operation(TradeOperation.BUY)
+                .price(BigDecimal.valueOf(31.82))
+                .quantity(BigInteger.valueOf(75L))
+                .build());
+    }
+
+    private void addCoke(User user) {
+        Company coke = companyRepository.save(Company.builder()
+                .name("The Coca-Cola Company")
+                .build());
+
+        Exchange nyse = exchangeRepository.findByCode(NYSE.name());
+        Stock koStock = stockRepository.save(Stock.builder()
+                .company(coke)
+                .exchange(nyse)
+                .ticker("KO")
+                .build());
+
+        securityTradeRepository.save(SecurityTrade.builder()
+                .date(LocalDateTime.of(2021, 12, 1, 11, 0))
+                .security(koStock)
+                .user(user)
+                .operation(TradeOperation.BUY)
+                .price(BigDecimal.valueOf(52.04))
+                .quantity(BigInteger.valueOf(24L))
+                .build());
+    }
+
+    private void addTotal(User user) {
+        Company total = companyRepository.save(Company.builder()
+                .name("TotalEnergies SE")
+                .build());
+
+        Exchange nyse = exchangeRepository.findByCode(NYSE.name());
+        Stock totalStock = stockRepository.save(Stock.builder()
+                .company(total)
+                .exchange(nyse)
+                .ticker("TTE")
+                .build());
+
+        securityTradeRepository.save(SecurityTrade.builder()
+                .date(LocalDateTime.of(2021, 12, 1, 11, 0))
+                .security(totalStock)
+                .user(user)
+                .operation(TradeOperation.BUY)
+                .price(BigDecimal.valueOf(45.3659))
                 .quantity(BigInteger.valueOf(64L))
                 .build());
     }
@@ -185,11 +255,11 @@ public class TradesDataLoader implements CommandLineRunner {
                 .build());
 
         securityTradeRepository.save(SecurityTrade.builder()
-                .date(LocalDateTime.now(ZoneOffset.UTC))
+                .date(LocalDateTime.of(2021, 12, 1, 11, 0))
                 .security(gazpromStock)
                 .user(user)
                 .operation(TradeOperation.BUY)
-                .price(BigDecimal.valueOf(227))
+                .price(BigDecimal.valueOf(288.96))
                 .quantity(BigInteger.valueOf(900L))
                 .build());
     }
@@ -207,12 +277,12 @@ public class TradesDataLoader implements CommandLineRunner {
                 .build());
 
         securityTradeRepository.save(SecurityTrade.builder()
-                .date(LocalDateTime.now(ZoneOffset.UTC))
+                .date(LocalDateTime.of(2021, 12, 1, 11, 0))
                 .security(rosAgroStock)
                 .user(user)
                 .operation(TradeOperation.BUY)
-                .price(BigDecimal.valueOf(1019))
-                .quantity(BigInteger.valueOf(460L))
+                .price(BigDecimal.valueOf(1029.8))
+                .quantity(BigInteger.valueOf(440L))
                 .build());
     }
 
@@ -229,12 +299,34 @@ public class TradesDataLoader implements CommandLineRunner {
                 .build());
 
         securityTradeRepository.save(SecurityTrade.builder()
-                .date(LocalDateTime.now(ZoneOffset.UTC))
+                .date(LocalDateTime.of(2021, 12, 1, 11, 0))
                 .security(polyusStock)
                 .user(user)
                 .operation(TradeOperation.BUY)
-                .price(BigDecimal.valueOf(13000))
+                .price(BigDecimal.valueOf(13179.4))
                 .quantity(BigInteger.valueOf(27L))
+                .build());
+    }
+
+    private void addPhor(User user) {
+        Company phos = companyRepository.save(Company.builder()
+                .name("PhosAgro")
+                .build());
+
+        Exchange mcx = exchangeRepository.findByCode("MCX");
+        Stock phosStock = stockRepository.save(Stock.builder()
+                .company(phos)
+                .exchange(mcx)
+                .ticker("PLZL")
+                .build());
+
+        securityTradeRepository.save(SecurityTrade.builder()
+                .date(LocalDateTime.of(2021, 12, 1, 11, 0))
+                .security(phosStock)
+                .user(user)
+                .operation(TradeOperation.BUY)
+                .price(BigDecimal.valueOf(4945))
+                .quantity(BigInteger.valueOf(15L))
                 .build());
     }
 }
