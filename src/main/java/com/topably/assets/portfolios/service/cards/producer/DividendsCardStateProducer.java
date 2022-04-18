@@ -50,7 +50,7 @@ public class DividendsCardStateProducer implements CardStateProducer<DividendsCa
         var groupedTrades = tradeService.findUserDividendPayingTrades(user.getName()).stream()
                 .collect(groupingBy(trade -> {
                     Security security = trade.getSecurity();
-                    return new TickerSymbol(security.getExchange().getCode(), security.getTicker());
+                    return new TickerSymbol(security.getTicker(), security.getExchange().getCode());
                 }));
         var details = groupedTrades.entrySet().stream()
                 .map(this::composeDividendDetails)
