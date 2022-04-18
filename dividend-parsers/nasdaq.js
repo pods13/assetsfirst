@@ -11,7 +11,7 @@ async function main() {
     });
 
     const context = await browser.newContext();
-    const whenDividendsParsed = securities.map(({code}) => getDividendHistoryByTicker(context, code));
+    const whenDividendsParsed = securities.map(({symbol}) => getDividendHistoryByTicker(context, symbol));
     try {
         const dividendData = await Promise.allSettled(whenDividendsParsed);
         const whenDividendsStored = dividendData.map((divs, index) => {
@@ -19,7 +19,7 @@ async function main() {
                 console.error(divs.reason);
                 return Promise.resolve();
             }
-            const {code, exchange} = securities[index];
+            const {symbol, exchange} = securities[index];
             // console.log(divs.value[0])
             const dividends = divs.value.map(data => {
                 return {
@@ -29,8 +29,8 @@ async function main() {
                     payDate: convertDate(data.payDate)
                 };
             });
-            // console.log(code, exchange, dividends[0]);
-            return client.post(`/dividends?ticker=${code}&exchange=${exchange}`, dividends);
+            // console.log(symbol, exchange, dividends[0]);
+            return client.post(`/dividends?ticker=${symbol}&exchange=${exchange}`, dividends);
         });
         await Promise.allSettled(whenDividendsStored);
     } catch (e) {

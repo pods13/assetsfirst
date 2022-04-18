@@ -1,6 +1,6 @@
 package com.topably.assets.exchanges.service;
 
-import com.topably.assets.exchanges.domain.TickerDto;
+import com.topably.assets.exchanges.domain.TickerSymbol;
 import com.topably.assets.exchanges.domain.USExchange;
 import com.topably.assets.exchanges.repository.ExchangeRepository;
 import com.topably.assets.securities.domain.SecurityType;
@@ -27,12 +27,12 @@ public class ExchangeServiceImpl implements ExchangeService {
 
     @Override
     @Transactional
-    public Collection<TickerDto> findTickersByExchange(String exchange) {
+    public Collection<TickerSymbol> findTickersByExchange(String exchange) {
         var exchangeCodes = "US".equals(exchange) ? US_EXCHANGE_CODES : Set.of(exchange);
         var securityTypes = Set.of(SecurityType.STOCK, SecurityType.ETF);
         var securities = securityService.findCertainTypeOfSecuritiesByExchangeCodes(securityTypes, exchangeCodes);
         return securities.stream()
-                .map(security -> new TickerDto(security.getTicker(), security.getExchange().getCode()))
+                .map(security -> new TickerSymbol(security.getTicker(), security.getExchange().getCode()))
                 .collect(toList());
     }
 }

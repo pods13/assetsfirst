@@ -7,7 +7,7 @@ async function main() {
     const securitiesRes = await client.get('/exchanges/MCX/tickers');
     const securities = securitiesRes.data;
     console.log(securities);
-    const whenDividendsParsed = securities.map(({code}) => getDividendHistoryByTicker(code));
+    const whenDividendsParsed = securities.map(({symbol}) => getDividendHistoryByTicker(symbol));
     try {
         const dividendData = await Promise.allSettled(whenDividendsParsed);
         const whenDividendsStored = dividendData.map((divs, index) => {
@@ -15,7 +15,7 @@ async function main() {
                 console.error(divs.reason);
                 return Promise.resolve();
             }
-            const {code, exchange} = securities[index];
+            const {symbol, exchange} = securities[index];
             const dividends = divs.value.map(data => {
                 return {
                     amount: data.amount ? data.amount.replace(/[^\d.]/g, "") : null,
@@ -27,8 +27,8 @@ async function main() {
 
             //TODO persist forecasted dividends as well
             const declaredDividends = dividends.filter(div => !!div.declareDate);
-            // console.log(code, exchange, declaredDividends.length);
-            return client.post(`/dividends?ticker=${code}&exchange=${exchange}`, declaredDividends);
+            // console.log(symbol, exchange, declaredDividends.length);
+            return client.post(`/dividends?ticker=${symbol}&exchange=${exchange}`, declaredDividends);
         });
         await Promise.allSettled(whenDividendsStored);
     } catch (e) {

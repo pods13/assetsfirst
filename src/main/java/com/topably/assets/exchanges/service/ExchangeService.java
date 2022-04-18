@@ -1,10 +1,10 @@
 package com.topably.assets.exchanges.service;
 
-import com.topably.assets.exchanges.domain.TickerDto;
+import com.topably.assets.exchanges.domain.TickerSymbol;
 
 import java.util.Collection;
 
 public interface ExchangeService {
 
-    Collection<TickerDto> findTickersByExchange(String exchange);
+    Collection<TickerSymbol> findTickersByExchange(String exchange);
 }

@@ -2,6 +2,7 @@ package com.topably.assets.portfolios.service.cards.producer;
 
 import com.topably.assets.dividends.domain.Dividend;
 import com.topably.assets.dividends.service.DividendService;
+import com.topably.assets.exchanges.domain.TickerSymbol;
 import com.topably.assets.portfolios.domain.cards.CardContainerType;
 import com.topably.assets.portfolios.domain.cards.PortfolioCardData;
 import com.topably.assets.portfolios.domain.cards.input.DividendsCard;
@@ -11,7 +12,6 @@ import com.topably.assets.portfolios.domain.cards.output.dividend.DividendsCardD
 import com.topably.assets.portfolios.domain.cards.output.dividend.TimeFrameDividend;
 import com.topably.assets.portfolios.service.cards.CardStateProducer;
 import com.topably.assets.securities.domain.Security;
-import com.topably.assets.trades.domain.SecuritySymbol;
 import com.topably.assets.trades.domain.security.SecurityTrade;
 import com.topably.assets.trades.service.SecurityTradeService;
 import com.topably.assets.xrates.service.ExchangeRateService;
@@ -50,7 +50,7 @@ public class DividendsCardStateProducer implements CardStateProducer<DividendsCa
         var groupedTrades = tradeService.findUserDividendPayingTrades(user.getName()).stream()
                 .collect(groupingBy(trade -> {
                     Security security = trade.getSecurity();
-                    return new SecuritySymbol(security.getExchange().getCode(), security.getTicker());
+                    return new TickerSymbol(security.getExchange().getCode(), security.getTicker());
                 }));
         var details = groupedTrades.entrySet().stream()
                 .map(this::composeDividendDetails)
@@ -72,8 +72,8 @@ public class DividendsCardStateProducer implements CardStateProducer<DividendsCa
                 .build();
     }
 
-    private Collection<DividendDetails> composeDividendDetails(Map.Entry<SecuritySymbol, List<SecurityTrade>> tradesByKey) {
-        SecuritySymbol key = tradesByKey.getKey();
+    private Collection<DividendDetails> composeDividendDetails(Map.Entry<TickerSymbol, List<SecurityTrade>> tradesByKey) {
+        var key = tradesByKey.getKey();
         Collection<Dividend> dividends = dividendService.findDividends(key.getSymbol(), key.getExchange());
         var quantity = BigInteger.ZERO;
         var dividendDetails = new ArrayList<DividendDetails>();

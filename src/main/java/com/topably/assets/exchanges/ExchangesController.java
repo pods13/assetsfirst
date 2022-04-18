@@ -1,6 +1,6 @@
 package com.topably.assets.exchanges;
 
-import com.topably.assets.exchanges.domain.TickerDto;
+import com.topably.assets.exchanges.domain.TickerSymbol;
 import com.topably.assets.exchanges.service.ExchangeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +18,7 @@ public class ExchangesController {
     private final ExchangeService exchangeService;
 
     @GetMapping("/{exchange}/tickers")
-    public Collection<TickerDto> findTickers(@PathVariable String exchange) {
+    public Collection<TickerSymbol> findTickers(@PathVariable String exchange) {
         return exchangeService.findTickersByExchange(exchange);
     }
 }
