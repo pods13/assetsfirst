@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.topably.assets.portfolios.domain.cards.input.AllocationCard;
+import com.topably.assets.portfolios.domain.cards.input.DividendGoalsCard;
 import com.topably.assets.portfolios.domain.cards.input.DividendsCard;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,6 +20,7 @@ import static com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NAME;
 @JsonSubTypes({
         @JsonSubTypes.Type(name = CardContainerType.ALLOCATION, value = AllocationCard.class),
         @JsonSubTypes.Type(name = CardContainerType.DIVIDENDS, value = DividendsCard.class),
+        @JsonSubTypes.Type(name = CardContainerType.DIVIDEND_GOALS, value = DividendGoalsCard.class),
 })
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 @Getter

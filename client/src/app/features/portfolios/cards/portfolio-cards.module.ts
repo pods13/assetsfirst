@@ -16,6 +16,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { BarChartModule, PieChartModule } from '@swimlane/ngx-charts';
 import { DividendsCardComponent } from './containers/dividends-card/dividends-card.component';
 import { FitChartDirective } from './directives/fit-chart.directive';
+import { DividendGoalsCardComponent } from './containers/dividend-goals-card/dividend-goals-card.component';
 
 
 @NgModule({
@@ -26,6 +27,7 @@ import { FitChartDirective } from './directives/fit-chart.directive';
     SelectCardDialogComponent,
     DividendsCardComponent,
     FitChartDirective,
+    DividendGoalsCardComponent,
   ],
   imports: [
     CommonModule,

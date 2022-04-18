@@ -7,7 +7,7 @@ import com.topably.assets.portfolios.domain.cards.output.AllocationSegment;
 import com.topably.assets.portfolios.domain.cards.output.AllocationCardData;
 import com.topably.assets.portfolios.service.cards.CardStateProducer;
 import com.topably.assets.securities.domain.Security;
-import com.topably.assets.trades.domain.SecurityTradeGroupingKey;
+import com.topably.assets.trades.domain.SecuritySymbol;
 import com.topably.assets.trades.domain.TradeOperation;
 import com.topably.assets.trades.domain.security.SecurityTrade;
 import com.topably.assets.trades.service.SecurityTradeService;
@@ -40,7 +40,7 @@ public class AllocationCardStateProducer implements CardStateProducer<Allocation
         var groupedTrades = tradeService.findUserTrades(user.getName()).stream()
                 .collect(groupingBy(trade -> {
                     Security security = trade.getSecurity();
-                    return new SecurityTradeGroupingKey(security.getExchange().getCode(), security.getTicker(), trade.getUser().getUsername());
+                    return new SecuritySymbol(security.getExchange().getCode(), security.getTicker());
                 }));
         List<AllocationSegment> segments = groupedTrades.entrySet().stream()
                 .map(entry -> composeSegments(entry.getKey(), entry.getValue()))
@@ -52,11 +52,11 @@ public class AllocationCardStateProducer implements CardStateProducer<Allocation
                 .build();
     }
 
-    private AllocationSegment composeSegments(SecurityTradeGroupingKey key, List<SecurityTrade> trades) {
+    private AllocationSegment composeSegments(SecuritySymbol key, List<SecurityTrade> trades) {
         BigDecimal total = trades.stream()
                 .map(this::calculateTradeTotal)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
-        return new AllocationSegment(key.getTicker() + "." + key.getExchange(), total);
+        return new AllocationSegment(key.getSymbol() + "." + key.getExchange(), total);
     }
 
     private BigDecimal calculateTradeTotal(SecurityTrade trade) {
