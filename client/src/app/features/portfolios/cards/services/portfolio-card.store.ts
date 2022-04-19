@@ -1,29 +1,23 @@
-import { Store } from '../../../core/services/store';
+import { Store } from '../../../../core/services/store';
 import { Injectable } from '@angular/core';
-import { PortfolioStoreState } from './portfolio.store.state';
-import { PortfolioService } from './portfolio.service';
-import { map, of, switchMap, tap } from 'rxjs';
-import { CardService } from '../cards/services/card.service';
-import { PortfolioCardDto } from '../cards/types/portfolio-card.dto';
+import { PortfolioCardStoreState } from './portfolio-card.store.state';
+import { map } from 'rxjs';
+import { CardService } from './card.service';
+import { PortfolioCardDto } from '../types/portfolio-card.dto';
 
 @Injectable()
-export class PortfolioStore extends Store<PortfolioStoreState> {
+export class PortfolioCardStore extends Store<PortfolioCardStoreState> {
 
   cardsByItems$ = this.state$.pipe(
     map(state => ({cards: state.cards, items: state.cards.map(card => ({...card}))}))
   );
 
-  constructor(private portfolioService: PortfolioService,
-              private cardService: CardService) {
-    super(new PortfolioStoreState());
+  constructor(private cardService: CardService) {
+    super(new PortfolioCardStoreState());
   }
 
-  init() {
-    const createPortfolio$ = this.portfolioService.addPortfolio({cards: []});
-    return this.portfolioService.getUserPortfolios().pipe(
-      switchMap(portfolios => portfolios.length ? of(portfolios[0]) : createPortfolio$),
-      tap(portfolio => this.setState({...this.state, id: portfolio.id, cards: [...portfolio.cards]})),
-    )
+  init(portfolioId: number, cards: PortfolioCardDto[]) {
+    this.setState({...this.state, id: portfolioId, cards: [...cards]});
   }
 
   addCard(card: PortfolioCardDto) {

@@ -6,7 +6,6 @@ import { GridsterModule } from 'angular-gridster2';
 import { PortfolioCardsModule } from './cards/portfolio-cards.module';
 import { PortfoliosRoutingModule } from './portfolios-routing.module';
 import { PortfolioService } from './services/portfolio.service';
-import { PortfolioStore } from './services/portfolio.store';
 import { PortfolioActionsBarComponent } from './components/portfolio-actions-bar/portfolio-actions-bar.component';
 import { MatButtonModule } from '@angular/material/button';
 

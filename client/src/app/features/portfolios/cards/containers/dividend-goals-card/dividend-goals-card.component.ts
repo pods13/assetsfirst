@@ -37,8 +37,7 @@ export class DividendGoalsCardComponent implements CardContainer<PortfolioCardDt
 
   form: FormGroup;
 
-  constructor(private fb: FormBuilder,
-              private cd: ChangeDetectorRef) {
+  constructor(private fb: FormBuilder) {
     this.form = fb.group({
       desiredPositions: fb.array([]),
     });
