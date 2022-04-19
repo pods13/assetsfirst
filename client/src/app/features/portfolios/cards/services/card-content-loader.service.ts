@@ -3,7 +3,8 @@ import { Injectable } from '@angular/core';
 import { PortfolioCardDto } from '../types/portfolio-card.dto';
 import { cardContainerTemplateMapper } from '../types/card-container-template-mapper';
 import { CardContainer } from '../types/card-container';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
+import { CardData } from '../types/card-data';
 
 @Injectable()
 export class CardContentLoaderService {
@@ -25,8 +26,8 @@ export class CardContentLoaderService {
       return;
     }
     const componentRef = viewContainerRef.createComponent(containerClass)
-    const instance = componentRef.instance as CardContainer<PortfolioCardDto>;
+    const instance = componentRef.instance as CardContainer<PortfolioCardDto, CardData>;
     instance.card = template.card;
-    instance.data$ = cardData$;
+    instance.data$ = cardData$.pipe(tap(data => instance.tapIntoData?.(data)));
   }
 }

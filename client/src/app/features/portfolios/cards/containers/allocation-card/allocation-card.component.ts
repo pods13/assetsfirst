@@ -18,7 +18,7 @@ import { Observable } from 'rxjs';
   styleUrls: ['./allocation-card.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AllocationCardComponent implements OnInit, CardContainer<any> {
+export class AllocationCardComponent implements OnInit, CardContainer<any, any> {
 
   card!: any;
   data$!: Observable<any>;

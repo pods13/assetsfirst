@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Collection;
+
 @Setter
 @Getter
 @NoArgsConstructor
@@ -14,5 +16,5 @@ import lombok.Setter;
 @Builder
 public class DividendGoalsCardData implements PortfolioCardData {
 
-    private String name;
+    private Collection<PositionItem> items;
 }

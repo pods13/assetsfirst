@@ -19,7 +19,7 @@ import { Observable } from 'rxjs';
   styleUrls: ['./dividends-card.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DividendsCardComponent implements OnInit, CardContainer<any> {
+export class DividendsCardComponent implements OnInit, CardContainer<any, any> {
 
   card!: any;
   data$!: Observable<any>;

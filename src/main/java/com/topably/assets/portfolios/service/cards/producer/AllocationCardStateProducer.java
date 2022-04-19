@@ -43,7 +43,7 @@ public class AllocationCardStateProducer implements CardStateProducer<Allocation
     }
 
     private AllocationSegment convertToSegment(SecurityAggregatedTrade trade) {
-        var name = trade.getIdentifier().getSymbol() + '.' + trade.getIdentifier().getExchange();
+        var name = trade.getIdentifier().toString();
         var price = exchangeRateService.convertCurrency(trade.getTotal(), trade.getCurrency(), DESTINATION_CURRENCY);
         return new AllocationSegment(name, price);
     }

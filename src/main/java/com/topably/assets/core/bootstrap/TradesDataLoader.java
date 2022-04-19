@@ -317,7 +317,7 @@ public class TradesDataLoader implements CommandLineRunner {
         Stock phosStock = stockRepository.save(Stock.builder()
                 .company(phos)
                 .exchange(mcx)
-                .ticker("PLZL")
+                .ticker("PHOR")
                 .build());
 
         securityTradeRepository.save(SecurityTrade.builder()

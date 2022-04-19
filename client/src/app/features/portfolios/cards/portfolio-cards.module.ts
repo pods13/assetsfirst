@@ -8,7 +8,7 @@ import { SelectCardDialogComponent } from './components/select-card-dialog/selec
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { CardService } from './services/card.service';
 import { MatMenuModule } from '@angular/material/menu';
@@ -17,6 +17,8 @@ import { BarChartModule, PieChartModule } from '@swimlane/ngx-charts';
 import { DividendsCardComponent } from './containers/dividends-card/dividends-card.component';
 import { FitChartDirective } from './directives/fit-chart.directive';
 import { DividendGoalsCardComponent } from './containers/dividend-goals-card/dividend-goals-card.component';
+import { MatListModule } from '@angular/material/list';
+import { MatInputModule } from '@angular/material/input';
 
 
 @NgModule({
@@ -39,7 +41,10 @@ import { DividendGoalsCardComponent } from './containers/dividend-goals-card/div
     MatMenuModule,
     MatIconModule,
     PieChartModule,
-    BarChartModule
+    BarChartModule,
+    MatListModule,
+    MatInputModule,
+    ReactiveFormsModule
   ],
   providers: [
     CardContentLoaderService,
