@@ -1,14 +1,14 @@
 import { CardFactory } from '../card-factory';
-import { PortfolioCardDto } from '../../types/portfolio-card.dto';
+import { PortfolioCard } from '../../types/portfolio-card';
 import { CardContainerType } from '../../types/card-container-type';
 
-export class AllocationCardFactory extends CardFactory<PortfolioCardDto> {
+export class AllocationCardFactory extends CardFactory<PortfolioCard> {
 
   constructor(containerType: CardContainerType) {
     super(containerType);
   }
 
-  create(): PortfolioCardDto {
+  create(): PortfolioCard {
     return {
       ...this.defaultCardProps,
       title: 'Allocation',

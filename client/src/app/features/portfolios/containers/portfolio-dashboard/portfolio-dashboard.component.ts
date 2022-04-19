@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { GRIDSTER_CONFIG } from './portfolio-dashboard.configs';
-import { PortfolioCardDto } from '../../cards/types/portfolio-card.dto';
+import { PortfolioCard } from '../../cards/types/portfolio-card';
 import { CardContainerType } from '../../cards/types/card-container-type';
 import { PortfolioCardStore } from '../../cards/services/portfolio-card.store';
 import { createCard } from '../../cards/helpers/create-card.helper';
@@ -39,7 +39,7 @@ export class PortfolioDashboardComponent implements OnInit {
     ).subscribe(portfolio => this.store.init(portfolio.id, portfolio.cards));
   }
 
-  trackByCardId(index: number, card: PortfolioCardDto) {
+  trackByCardId(index: number, card: PortfolioCard) {
     if (!card) {
       return null;
     }

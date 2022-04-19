@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { PortfolioCardStoreState } from './portfolio-card.store.state';
 import { map } from 'rxjs';
 import { CardService } from './card.service';
-import { PortfolioCardDto } from '../types/portfolio-card.dto';
+import { PortfolioCard } from '../types/portfolio-card';
 
 @Injectable()
 export class PortfolioCardStore extends Store<PortfolioCardStoreState> {
@@ -16,17 +16,17 @@ export class PortfolioCardStore extends Store<PortfolioCardStoreState> {
     super(new PortfolioCardStoreState());
   }
 
-  init(portfolioId: number, cards: PortfolioCardDto[]) {
+  init(portfolioId: number, cards: PortfolioCard[]) {
     this.setState({...this.state, id: portfolioId, cards: [...cards]});
   }
 
-  addCard(card: PortfolioCardDto) {
+  addCard(card: PortfolioCard) {
     const {id} = this.state;
     this.cardService.addCard(id, card);
     this.setState({...this.state, cards: [...this.state.cards, card]});
   }
 
-  updateCard(cardToUpdate: PortfolioCardDto) {
+  updateCard(cardToUpdate: PortfolioCard) {
     const {id} = this.state;
     this.cardService.updateCard(id, cardToUpdate);
     this.setState({
@@ -35,7 +35,7 @@ export class PortfolioCardStore extends Store<PortfolioCardStoreState> {
     });
   }
 
-  deleteCard(cardToDelete: PortfolioCardDto) {
+  deleteCard(cardToDelete: PortfolioCard) {
     const {id} = this.state;
     this.cardService.deleteCard(id, cardToDelete);
     this.setState({

@@ -3,7 +3,7 @@ import { CardContainer } from '../../types/card-container';
 import { debounceTime, Observable, skip } from 'rxjs';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { DividendGoalsCardData } from '../../types/out/dividend-goals-card-data';
-import { PortfolioCardDto } from '../../types/portfolio-card.dto';
+import { PortfolioCard } from '../../types/portfolio-card';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 @UntilDestroy()
@@ -30,9 +30,9 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
   styleUrls: ['./dividend-goals-card.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DividendGoalsCardComponent implements CardContainer<PortfolioCardDto, DividendGoalsCardData>, OnInit, AfterViewInit {
+export class DividendGoalsCardComponent implements CardContainer<PortfolioCard, DividendGoalsCardData>, OnInit, AfterViewInit {
 
-  card!: PortfolioCardDto;
+  card!: PortfolioCard;
   data$!: Observable<DividendGoalsCardData>;
 
   form: FormGroup;

@@ -10,7 +10,7 @@ import {
   ViewChild,
   ViewEncapsulation
 } from '@angular/core';
-import { PortfolioCardDto } from '../../types/portfolio-card.dto';
+import { PortfolioCard } from '../../types/portfolio-card';
 import { PortfolioCardOutletDirective } from '../../directives/portfolio-card-outlet.directive';
 import { CardContentLoaderService } from '../../services/card-content-loader.service';
 import { RxStompService } from '../../../../../core/services/rx-stomp.service';
@@ -44,7 +44,7 @@ export class CardWrapperComponent implements OnInit, AfterViewInit, OnChanges {
   @ViewChild(PortfolioCardOutletDirective, {static: true}) cardOutlet!: PortfolioCardOutletDirective;
 
   @Input()
-  card!: PortfolioCardDto;
+  card!: PortfolioCard;
 
   cardData$!: Observable<any>;
 
@@ -74,7 +74,7 @@ export class CardWrapperComponent implements OnInit, AfterViewInit, OnChanges {
     }
   }
 
-  private getCardData(card: PortfolioCardDto) {
+  private getCardData(card: PortfolioCard) {
     return this.rxStompService.watch(`/user/topic/cards/${card.id}`)
       .pipe(
         untilDestroyed(this),

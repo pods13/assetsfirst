@@ -1,6 +1,6 @@
-import { PortfolioCardDto } from '../cards/types/portfolio-card.dto';
+import { PortfolioCard } from '../cards/types/portfolio-card';
 
 export interface PortfolioDto {
   id: number;
-  cards: PortfolioCardDto[];
+  cards: PortfolioCard[];
 }

@@ -1,9 +1,9 @@
 import { generateId } from './id-generator.helper';
-import { PortfolioCardDto } from '../types/portfolio-card.dto';
+import { PortfolioCard } from '../types/portfolio-card';
 import { CardContainerType } from '../types/card-container-type';
 
-export abstract class CardFactory<T extends PortfolioCardDto> {
-  protected defaultCardProps: PortfolioCardDto;
+export abstract class CardFactory<T extends PortfolioCard> {
+  protected defaultCardProps: PortfolioCard;
 
   protected constructor(containerType: CardContainerType) {
     this.defaultCardProps = {

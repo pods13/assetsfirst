@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { PortfolioCardDto } from '../types/portfolio-card.dto';
+import { PortfolioCard } from '../types/portfolio-card';
 import { RxStompService } from '../../../../core/services/rx-stomp.service';
 
 @Injectable()
@@ -10,19 +10,19 @@ export class CardService {
               private rxStompService: RxStompService) {
   }
 
-  addCard(portfolioId: number, card: PortfolioCardDto) {
+  addCard(portfolioId: number, card: PortfolioCard) {
     this.manageCard(portfolioId, card, 'add');
   }
 
-  updateCard(portfolioId: number, card: PortfolioCardDto) {
+  updateCard(portfolioId: number, card: PortfolioCard) {
     this.manageCard(portfolioId, card, 'update');
   }
 
-  deleteCard(portfolioId: number, card: PortfolioCardDto) {
+  deleteCard(portfolioId: number, card: PortfolioCard) {
     this.manageCard(portfolioId, card, 'delete');
   }
 
-  private manageCard(portfolioId: number, card: PortfolioCardDto, operation: string) {
+  private manageCard(portfolioId: number, card: PortfolioCard, operation: string) {
     this.rxStompService.publish({
       destination: `/app/${portfolioId}/cards/${operation}`,
       body: JSON.stringify(card),

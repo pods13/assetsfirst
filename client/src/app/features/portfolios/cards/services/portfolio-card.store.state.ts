@@ -1,6 +1,6 @@
-import { PortfolioCardDto } from '../types/portfolio-card.dto';
+import { PortfolioCard } from '../types/portfolio-card';
 
 export class PortfolioCardStoreState {
   id!: number;
-  cards: PortfolioCardDto[] = [];
+  cards: PortfolioCard[] = [];
 }
