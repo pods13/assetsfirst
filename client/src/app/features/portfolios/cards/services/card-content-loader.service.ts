@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { PortfolioCard } from '../types/portfolio-card';
 import { cardContainerTemplateMapper } from '../types/card-container-template-mapper';
 import { CardContainer } from '../types/card-container';
-import { Observable, tap } from 'rxjs';
+import { Observable } from 'rxjs';
 import { CardData } from '../types/card-data';
 
 @Injectable()
@@ -28,6 +28,6 @@ export class CardContentLoaderService {
     const componentRef = viewContainerRef.createComponent(containerClass)
     const instance = componentRef.instance as CardContainer<PortfolioCard, CardData>;
     instance.card = template.card;
-    instance.data$ = cardData$.pipe(tap(data => instance.tapIntoData?.(data)));
+    instance.data$ = cardData$;
   }
 }

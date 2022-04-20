@@ -15,6 +15,7 @@ import { CardContentLoaderService } from '../../services/card-content-loader.ser
 import { RxStompService } from '../../../../../core/services/rx-stomp.service';
 import { map, Observable, shareReplay } from 'rxjs';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { defaultCardProps } from '../../helpers/card-factory';
 
 @UntilDestroy()
 @Component({
@@ -59,9 +60,13 @@ export class CardWrapperComponent implements OnInit, AfterViewInit, OnChanges {
   ngAfterViewInit(): void {
     this.cardContentLoaderService.loadContent(this.cardOutlet, this.cardData$);
     this.cd.detectChanges();
+    this.publishCard(this.card);
+  }
+
+  private publishCard(card: PortfolioCard): void {
     this.rxStompService.publish({
       destination: '/app/cards',
-      body: JSON.stringify(this.card)
+      body: JSON.stringify(card)
     });
   }
 
@@ -74,8 +79,11 @@ export class CardWrapperComponent implements OnInit, AfterViewInit, OnChanges {
       || cardChanges.currentValue?.cols !== cardChanges.previousValue?.cols) {
       this.cardContentLoaderService.loadContent(this.cardOutlet, this.cardData$);
       this.cd.detectChanges();
+      return;
     }
-    //TODO Publish new card whenever specific to it props changed - use Object.keys(defaultCardProps) on cardFactory to check if props remained the same -> fire ws event
+    if (Object.keys(defaultCardProps).every(key => cardChanges.currentValue[key] === cardChanges.previousValue[key])) {
+      this.publishCard(this.card);
+    }
   }
 
   private getCardData(card: PortfolioCard) {

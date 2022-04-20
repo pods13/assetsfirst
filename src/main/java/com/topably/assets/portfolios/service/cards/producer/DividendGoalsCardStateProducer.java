@@ -13,9 +13,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.security.Principal;
-import java.util.Collection;
+import java.util.Optional;
 
 import static java.util.stream.Collectors.toList;
 
@@ -32,8 +33,16 @@ public class DividendGoalsCardStateProducer implements CardStateProducer<Dividen
         var items = trades.stream()
                 .map(this::convertToPositionItems)
                 .collect(toList());
+        var extraExpenses = items.stream()
+                .map(item -> {
+                    BigInteger extraQuantity = card.getDesiredPositionByIssuer()
+                            .getOrDefault(item.getName(), item.getQuantity())
+                            .subtract(item.getQuantity());
+                    return item.getAveragePrice().multiply(new BigDecimal(extraQuantity));
+                }).reduce(BigDecimal.ZERO, BigDecimal::add);
         return DividendGoalsCardData.builder()
                 .items(items)
+                .extraExpenses(extraExpenses)
                 .build();
     }
 

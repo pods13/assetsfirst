@@ -10,7 +10,7 @@ export class AllocationCardFactory extends CardFactory<PortfolioCard> {
 
   create(): PortfolioCard {
     return {
-      ...this.defaultCardProps,
+      ...this.originCard,
       title: 'Allocation',
       cols: 4,
       rows: 3,

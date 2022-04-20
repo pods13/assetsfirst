@@ -10,7 +10,7 @@ export class DividendGoalsCardFactory extends CardFactory<DividendGoalsCard> {
 
   create(): DividendGoalsCard {
     return {
-      ...this.defaultCardProps,
+      ...this.originCard,
       title: 'Dividend Goals',
       cols: 4,
       rows: 3,

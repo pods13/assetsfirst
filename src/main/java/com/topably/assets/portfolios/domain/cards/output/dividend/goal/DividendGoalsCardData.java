@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.util.Collection;
 
 @Setter
@@ -17,4 +18,6 @@ import java.util.Collection;
 public class DividendGoalsCardData implements PortfolioCardData {
 
     private Collection<PositionItem> items;
+
+    private BigDecimal extraExpenses;
 }
