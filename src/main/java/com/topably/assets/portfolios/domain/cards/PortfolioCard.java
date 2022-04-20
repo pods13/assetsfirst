@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.topably.assets.portfolios.domain.cards.input.AllocationCard;
 import com.topably.assets.portfolios.domain.cards.input.DividendGoalsCard;
 import com.topably.assets.portfolios.domain.cards.input.DividendsCard;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -26,7 +27,7 @@ import static com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NAME;
 @Getter
 @Setter
 @NoArgsConstructor
-public class PortfolioCard implements Serializable {
+public abstract class PortfolioCard implements Serializable {
 
     private String id;
     private String containerType;
@@ -38,20 +39,4 @@ public class PortfolioCard implements Serializable {
     private Integer cols;
     private Integer minItemRows;
     private Integer minItemCols;
-
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        PortfolioCard that = (PortfolioCard) o;
-        return Objects.equals(id, that.id) && Objects.equals(containerType, that.containerType) && Objects.equals(title, that.title)
-                && Objects.equals(x, that.x) && Objects.equals(y, that.y) && Objects.equals(rows, that.rows) && Objects.equals(cols, that.cols)
-                && Objects.equals(minItemRows, that.minItemRows) && Objects.equals(minItemCols, that.minItemCols);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, containerType, title, x, y, rows, cols, minItemRows, minItemCols);
-    }
 }

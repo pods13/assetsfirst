@@ -1,10 +1,11 @@
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { CardContainer } from '../../types/card-container';
-import { debounceTime, Observable, skip } from 'rxjs';
+import { debounceTime, Observable, skip, withLatestFrom } from 'rxjs';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { DividendGoalsCardData } from '../../types/out/dividend-goals-card-data';
-import { PortfolioCard } from '../../types/portfolio-card';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { DividendGoalsCard } from '../../types/in/dividend-goals-card';
+import { PortfolioCardStore } from '../../services/portfolio-card.store';
 
 @UntilDestroy()
 @Component({
@@ -30,20 +31,22 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
   styleUrls: ['./dividend-goals-card.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DividendGoalsCardComponent implements CardContainer<PortfolioCard, DividendGoalsCardData>, OnInit, AfterViewInit {
+export class DividendGoalsCardComponent implements CardContainer<DividendGoalsCard, DividendGoalsCardData>, OnInit, AfterViewInit {
 
-  card!: PortfolioCard;
+  card!: DividendGoalsCard;
   data$!: Observable<DividendGoalsCardData>;
 
   form: FormGroup;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder,
+              private store: PortfolioCardStore) {
     this.form = fb.group({
       desiredPositions: fb.array([]),
     });
   }
 
   tapIntoData(data: DividendGoalsCardData): void {
+    //TODO use card.desiredPositionByIssuer if present and fall back to item.quantity if not
     data.items.forEach((item: any) => this.desiredPositions.push(this.fb.control(item.quantity)));
   }
 
@@ -52,17 +55,21 @@ export class DividendGoalsCardComponent implements CardContainer<PortfolioCard, 
   }
 
   ngOnInit(): void {
+    console.log(this.card.desiredPositionByIssuer)
   }
 
   ngAfterViewInit(): void {
-    this.desiredPositions.valueChanges
-      .pipe(
-        untilDestroyed(this),
-        debounceTime(300),
-        skip(1),
-      )
-      .subscribe(values => {
-        console.log(values)
-      });
+    this.desiredPositions.valueChanges.pipe(
+      untilDestroyed(this),
+      debounceTime(300),
+      skip(1),
+      withLatestFrom(this.data$)
+    ).subscribe(([values, data]) => {
+      const desiredPositionByIssuer = data.items.reduce((res, item, i) => {
+        res[item.name] = values[i];
+        return res;
+      }, {} as {[key: string]: number});
+      this.store.updateCard({...this.card, desiredPositionByIssuer});
+    });
   }
 }

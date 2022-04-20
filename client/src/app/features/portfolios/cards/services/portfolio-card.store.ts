@@ -17,6 +17,7 @@ export class PortfolioCardStore extends Store<PortfolioCardStoreState> {
   }
 
   init(portfolioId: number, cards: PortfolioCard[]) {
+    //TODO go through cards and propagate into them possible changes to their state structure, i.e. new property
     this.setState({...this.state, id: portfolioId, cards: [...cards]});
   }
 

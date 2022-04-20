@@ -39,7 +39,9 @@ public class PortfolioCardServiceImpl implements PortfolioCardService {
     @Transactional
     public void deleteCard(Long portfolioId, PortfolioCard cardToDelete) {
         Portfolio portfolio = portfolioRepository.getById(portfolioId);
-        portfolio.getCards().remove(cardToDelete);
+        Set<PortfolioCard> cards = portfolio.getCards().stream()
+                .filter(card -> !card.getId().equals(cardToDelete.getId())).collect(Collectors.toSet());
+        portfolio.setCards(cards);
         portfolioRepository.save(portfolio);
     }
 }

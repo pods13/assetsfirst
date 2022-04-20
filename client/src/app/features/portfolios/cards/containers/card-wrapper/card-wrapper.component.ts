@@ -7,8 +7,7 @@ import {
   OnChanges,
   OnInit,
   SimpleChanges,
-  ViewChild,
-  ViewEncapsulation
+  ViewChild
 } from '@angular/core';
 import { PortfolioCard } from '../../types/portfolio-card';
 import { PortfolioCardOutletDirective } from '../../directives/portfolio-card-outlet.directive';
@@ -50,7 +49,8 @@ export class CardWrapperComponent implements OnInit, AfterViewInit, OnChanges {
 
   constructor(private cardContentLoaderService: CardContentLoaderService,
               private rxStompService: RxStompService,
-              private cd: ChangeDetectorRef) { }
+              private cd: ChangeDetectorRef) {
+  }
 
   ngOnInit(): void {
     this.cardData$ = this.getCardData(this.card);
@@ -60,18 +60,22 @@ export class CardWrapperComponent implements OnInit, AfterViewInit, OnChanges {
     this.cardContentLoaderService.loadContent(this.cardOutlet, this.cardData$);
     this.cd.detectChanges();
     this.rxStompService.publish({
-          destination: '/app/cards',
-          body: JSON.stringify(this.card)
-        });
+      destination: '/app/cards',
+      body: JSON.stringify(this.card)
+    });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     const cardChanges = changes['card'];
-    if (cardChanges && !cardChanges.firstChange && (cardChanges.currentValue?.rows !== cardChanges.previousValue?.rows
-      || cardChanges.currentValue?.cols !== cardChanges.previousValue?.cols)) {
+    if (!cardChanges || cardChanges.firstChange) {
+      return;
+    }
+    if (cardChanges.currentValue?.rows !== cardChanges.previousValue?.rows
+      || cardChanges.currentValue?.cols !== cardChanges.previousValue?.cols) {
       this.cardContentLoaderService.loadContent(this.cardOutlet, this.cardData$);
       this.cd.detectChanges();
     }
+    //TODO Publish new card whenever specific to it props changed - use Object.keys(defaultCardProps) on cardFactory to check if props remained the same -> fire ws event
   }
 
   private getCardData(card: PortfolioCard) {
