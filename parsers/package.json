@@ -1,10 +1,10 @@
 {
-  "name": "dividend-parsers",
+  "name": "parsers",
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "start:nasdaq": "node nasdaq.js",
-    "start:dohod": "node dohod.js"
+    "start:nasdaq": "node dividends/nasdaq.js",
+    "start:dohod": "node dividends/dohod.js"
   },
   "keywords": [],
   "author": "",

@@ -1,5 +1,5 @@
 import playwright from 'playwright-chromium';
-import {getClient} from "./client.js";
+import {getClient} from "../client.js";
 
 async function main() {
     const client = await getClient();

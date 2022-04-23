@@ -1,6 +1,6 @@
 import cheerio from 'cheerio';
 import axios from "axios";
-import {getClient} from "./client.js";
+import {getClient} from "../client.js";
 
 async function main() {
     const client = await getClient();
