@@ -1,6 +1,5 @@
 package com.topably.assets.companies.domain;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -9,13 +8,9 @@ import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 
 @Setter
 @Getter
@@ -23,7 +18,7 @@ import javax.persistence.ManyToOne;
 @AllArgsConstructor
 @Builder
 @Entity
-public class Company {
+public class Sector {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
@@ -31,8 +26,4 @@ public class Company {
     private Long id;
 
     private String name;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "SUB_INDUSTRY_ID", referencedColumnName = "ID", foreignKey=@ForeignKey(name = "fk__company__sub_industry_id__industry"))
-    private Industry subIndustry;
 }

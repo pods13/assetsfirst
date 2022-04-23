@@ -1,6 +1,5 @@
 package com.topably.assets.companies.domain;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -23,7 +22,7 @@ import javax.persistence.ManyToOne;
 @AllArgsConstructor
 @Builder
 @Entity
-public class Company {
+public class Industry {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
@@ -32,7 +31,15 @@ public class Company {
 
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "SUB_INDUSTRY_ID", referencedColumnName = "ID", foreignKey=@ForeignKey(name = "fk__company__sub_industry_id__industry"))
-    private Industry subIndustry;
+    @ManyToOne()
+    @JoinColumn(name = "SECTOR_ID", referencedColumnName = "ID", foreignKey=@ForeignKey(name = "fk__industry__sector_id__sector"))
+    private Sector sector;
+
+    @ManyToOne()
+    @JoinColumn(name = "INDUSTRY_GROUP_ID", referencedColumnName = "ID", foreignKey=@ForeignKey(name = "fk__industry__industry_group_id__industry_group"))
+    private IndustryGroup group;
+
+    @ManyToOne()
+    @JoinColumn(name = "PARENT_ID", referencedColumnName = "ID", foreignKey=@ForeignKey(name = "fk__industry__parent_id__industry"))
+    private Industry parent;
 }

@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
                             [scheme]="'vivid'"
                             [results]="data.segments"
                             [legend]="false"
-                            [labels]="false">
+                            [labels]="false" (select)="onSegmentSelected($event)">
       </ngx-charts-pie-chart>
       {{data.totalInvested}}
     </ng-container>
@@ -29,4 +29,7 @@ export class AllocationCardComponent implements OnInit, CardContainer<any, any> 
   ngOnInit(): void {
   }
 
+  onSegmentSelected(segment: any) {
+    console.log(segment)
+  }
 }

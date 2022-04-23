@@ -4,6 +4,7 @@ import com.topably.assets.auth.domain.User;
 import com.topably.assets.auth.repository.UserRepository;
 import com.topably.assets.companies.domain.Company;
 import com.topably.assets.companies.repository.CompanyRepository;
+import com.topably.assets.companies.repository.IndustryRepository;
 import com.topably.assets.exchanges.domain.Exchange;
 import com.topably.assets.exchanges.repository.ExchangeRepository;
 import com.topably.assets.securities.domain.ETF;
@@ -30,13 +31,14 @@ import static com.topably.assets.exchanges.domain.USExchange.NYSEARCA;
 
 @RequiredArgsConstructor
 @Component
-@Order(3)
+@Order(4)
 @ConditionalOnProperty(name = "app.bootstrap.with.data", havingValue = "true")
 public class TradesDataLoader implements CommandLineRunner {
 
     private final UserRepository userRepository;
     private final CompanyRepository companyRepository;
     private final ExchangeRepository exchangeRepository;
+    private final IndustryRepository industryRepository;
 
     private final StockRepository stockRepository;
     private final ETFRepository exchangeTradedFundRepository;
@@ -191,6 +193,7 @@ public class TradesDataLoader implements CommandLineRunner {
     private void addTotal(User user) {
         Company total = companyRepository.save(Company.builder()
                 .name("TotalEnergies SE")
+                .subIndustry(industryRepository.findByParent_NameAndName("Oil, Gas & Consumable Fuels", "Integrated Oil & Gas"))
                 .build());
 
         Exchange nyse = exchangeRepository.findByCode(NYSE.name());
@@ -213,6 +216,7 @@ public class TradesDataLoader implements CommandLineRunner {
     private void addRosneft(User user) {
         Company rosneft = companyRepository.save(Company.builder()
                 .name("PJSC Rosneft Oil Company")
+                .subIndustry(industryRepository.findByParent_NameAndName("Oil, Gas & Consumable Fuels", "Integrated Oil & Gas"))
                 .build());
 
         Exchange mcx = exchangeRepository.findByCode("MCX");
@@ -245,6 +249,7 @@ public class TradesDataLoader implements CommandLineRunner {
     private void addGazprom(User user) {
         Company gazprom = companyRepository.save(Company.builder()
                 .name("PJSC Gazprom")
+                .subIndustry(industryRepository.findByParent_NameAndName("Oil, Gas & Consumable Fuels", "Integrated Oil & Gas"))
                 .build());
 
         Exchange mcx = exchangeRepository.findByCode("MCX");
