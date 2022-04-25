@@ -4,7 +4,8 @@
   "description": "",
   "scripts": {
     "start:nasdaq": "node dividends/nasdaq.js",
-    "start:dohod": "node dividends/dohod.js"
+    "start:dohod": "node dividends/dohod.js",
+    "start:industry": "node fundamentals/eod-industry.js"
   },
   "keywords": [],
   "author": "",

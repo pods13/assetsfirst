@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
@@ -29,5 +30,10 @@ public class IndustryGroup {
     @GenericGenerator(name = "native", strategy = "native")
     private Long id;
 
+    @Column(unique = true)
     private String name;
+
+    @ManyToOne()
+    @JoinColumn(name = "SECTOR_ID", referencedColumnName = "ID", foreignKey=@ForeignKey(name = "fk__industry__sector_id__sector"))
+    private Sector sector;
 }

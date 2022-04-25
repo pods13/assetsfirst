@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
+import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -22,7 +23,10 @@ import javax.persistence.ManyToOne;
 @DiscriminatorValue("STOCK")
 public class Stock extends Security {
 
+    @Column(name = "COMPANY_ID", insertable = false, updatable = false)
+    private Long companyId;
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "COMPANY_ID", referencedColumnName = "ID")
+    @JoinColumn(name = "COMPANY_ID", referencedColumnName = "ID", nullable = false)
     private Company company;
 }

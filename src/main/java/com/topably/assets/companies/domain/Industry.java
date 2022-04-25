@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
@@ -32,14 +33,14 @@ public class Industry {
     private String name;
 
     @ManyToOne()
-    @JoinColumn(name = "SECTOR_ID", referencedColumnName = "ID", foreignKey=@ForeignKey(name = "fk__industry__sector_id__sector"))
-    private Sector sector;
-
-    @ManyToOne()
     @JoinColumn(name = "INDUSTRY_GROUP_ID", referencedColumnName = "ID", foreignKey=@ForeignKey(name = "fk__industry__industry_group_id__industry_group"))
     private IndustryGroup group;
+
+    @Column(name = "PARENT_ID", insertable = false, updatable = false)
+    private Long parentId;
 
     @ManyToOne()
     @JoinColumn(name = "PARENT_ID", referencedColumnName = "ID", foreignKey=@ForeignKey(name = "fk__industry__parent_id__industry"))
     private Industry parent;
+
 }

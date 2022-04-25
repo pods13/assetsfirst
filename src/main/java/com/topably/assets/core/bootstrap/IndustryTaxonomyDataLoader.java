@@ -1,11 +1,11 @@
 package com.topably.assets.core.bootstrap;
 
-import com.topably.assets.companies.domain.Industry;
 import com.topably.assets.companies.domain.IndustryGroup;
 import com.topably.assets.companies.domain.Sector;
+import com.topably.assets.companies.domain.dto.IndustryTaxonomyDto;
 import com.topably.assets.companies.repository.IndustryGroupRepository;
-import com.topably.assets.companies.repository.IndustryRepository;
 import com.topably.assets.companies.repository.SectorRepository;
+import com.topably.assets.companies.service.IndustryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -22,34 +22,42 @@ import org.springframework.transaction.annotation.Transactional;
  */
 public class IndustryTaxonomyDataLoader implements CommandLineRunner {
 
-    private final IndustryRepository industryRepository;
     private final IndustryGroupRepository industryGroupRepository;
     private final SectorRepository sectorRepository;
+
+    private final IndustryService industryService;
 
     @Override
     @Transactional
     public void run(String... args) throws Exception {
-        addEnergySector();
+        addEnergy();
+        addMaterials();
     }
 
-    private void addEnergySector() {
+    private void addEnergy() {
         Sector energy = sectorRepository.save(Sector.builder()
                 .name("Energy")
                 .build());
         IndustryGroup energyIndustryGroup = industryGroupRepository.save(IndustryGroup.builder()
                 .name("Energy")
-                .build());
-        Industry parentIndustry = industryRepository.save(Industry.builder()
-                .name("Oil, Gas & Consumable Fuels")
                 .sector(energy)
-                .group(energyIndustryGroup)
                 .build());
+        IndustryTaxonomyDto dto = IndustryTaxonomyDto.builder()
+                .sectorName(energy.getName())
+                .industryGroupName(energyIndustryGroup.getName())
+                .industryName("Oil, Gas & Consumable Fuels")
+                .subIndustryName("Integrated Oil & Gas")
+                .build();
+        industryService.addIndustry(dto);
+    }
 
-        industryRepository.save(Industry.builder()
-                .name("Integrated Oil & Gas")
-                .sector(energy)
-                .group(energyIndustryGroup)
-                .parent(parentIndustry)
+    private void addMaterials() {
+        Sector materials = sectorRepository.save(Sector.builder()
+                .name("Materials")
+                .build());
+        industryGroupRepository.save(IndustryGroup.builder()
+                .name("Materials")
+                .sector(materials)
                 .build());
     }
 }
