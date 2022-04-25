@@ -11,7 +11,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityExistsException;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -36,9 +38,11 @@ public class IndustryServiceImpl implements IndustryService {
     public IndustryDto addIndustry(IndustryTaxonomyDto dto) {
         IndustryGroup group = industryGroupRepository.findBySector_NameAndName(dto.getSectorName(), dto.getIndustryGroupName());
         if (group == null) {
-            throw new RuntimeException();
+            var cause = String.format("Cannot find industry group with name %s under %s sector",
+                    dto.getIndustryGroupName(), dto.getSectorName());
+            throw new RuntimeException(cause);
         }
-        var industryNames = Set.of(dto.getIndustryName(), dto.getSubIndustryName());
+        var industryNames = new HashSet<>(Arrays.asList(dto.getIndustryName(), dto.getSubIndustryName()));
         List<Industry> industries = industryRepository.findAllByGroup(group).stream()
                 .filter(industry -> industryNames.contains(industry.getName()))
                 .collect(toList());

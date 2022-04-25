@@ -38,6 +38,11 @@ public class IndustryTaxonomyDataLoader implements CommandLineRunner {
         addConsumerDiscretionary();
         addConsumerStaples();
         addHealthCare();
+        addFinancials();
+        addInformationTechnology();
+        addCommunicationServices();
+        addUtilities();
+        addRealEstate();
     }
 
     private void addEnergy() {
@@ -117,5 +122,64 @@ public class IndustryTaxonomyDataLoader implements CommandLineRunner {
                     .sector(healthCare)
                     .build());
         });
+    }
+
+    private void addFinancials() {
+        Sector financials = sectorRepository.save(Sector.builder()
+                .name("Financials")
+                .build());
+        Set<String> groups = Set.of("Banks", "Diversified Financials", "Insurance");
+        groups.forEach(group -> {
+            industryGroupRepository.save(IndustryGroup.builder()
+                    .name(group)
+                    .sector(financials)
+                    .build());
+        });
+    }
+
+    private void addInformationTechnology() {
+        Sector informationTechnology = sectorRepository.save(Sector.builder()
+                .name("Information Technology")
+                .build());
+        Set<String> groups = Set.of("Software & Services", "Technology Hardware & Equipment", "Semiconductors & Semiconductor Equipment");
+        groups.forEach(group -> {
+            industryGroupRepository.save(IndustryGroup.builder()
+                    .name(group)
+                    .sector(informationTechnology)
+                    .build());
+        });
+    }
+
+    private void addCommunicationServices() {
+        Sector communicationServices = sectorRepository.save(Sector.builder()
+                .name("Communication Services")
+                .build());
+        Set<String> groups = Set.of("Telecommunication Services", "Media & Entertainment");
+        groups.forEach(group -> {
+            industryGroupRepository.save(IndustryGroup.builder()
+                    .name(group)
+                    .sector(communicationServices)
+                    .build());
+        });
+    }
+
+    private void addUtilities() {
+        Sector utilities = sectorRepository.save(Sector.builder()
+                .name("Utilities")
+                .build());
+        industryGroupRepository.save(IndustryGroup.builder()
+                .name("Utilities")
+                .sector(utilities)
+                .build());
+    }
+
+    private void addRealEstate() {
+        Sector realEstate = sectorRepository.save(Sector.builder()
+                .name("Real Estate")
+                .build());
+        industryGroupRepository.save(IndustryGroup.builder()
+                .name("Real Estate")
+                .sector(realEstate)
+                .build());
     }
 }

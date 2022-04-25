@@ -1,8 +1,11 @@
 package com.topably.assets.companies.service;
 
+import com.topably.assets.companies.domain.Company;
+import com.topably.assets.companies.domain.Industry;
 import com.topably.assets.companies.domain.dto.CompanyDto;
 import com.topably.assets.companies.domain.dto.PatchCompanyDto;
 import com.topably.assets.companies.repository.CompanyRepository;
+import com.topably.assets.companies.repository.IndustryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,7 +18,7 @@ import java.util.Optional;
 public class CompanyServiceImpl implements CompanyService {
 
     private final CompanyRepository companyRepository;
-
+    private final IndustryRepository industryRepository;
 
     @Override
     @Transactional
@@ -23,10 +26,13 @@ public class CompanyServiceImpl implements CompanyService {
         var company = companyRepository.findById(companyId).orElseThrow(() -> {
             throw new EntityNotFoundException();
         });
-        company.setSubIndustryId(Optional.ofNullable(dto.getSubIndustryId()).orElse(company.getSubIndustryId()));
+        Optional<Industry> subIndustry = industryRepository.findById(dto.getSubIndustryId());
+        company.setSubIndustry(subIndustry.orElse(company.getSubIndustry()));
+        Company updateCompany = companyRepository.save(company);
         return CompanyDto.builder()
-                .id(company.getId())
-                .subIndustryId(company.getSubIndustryId())
+                .id(updateCompany.getId())
+                .name(updateCompany.getName())
+                .subIndustryId(updateCompany.getSubIndustryId())
                 .build();
     }
 }
