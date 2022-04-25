@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
@@ -31,6 +32,9 @@ public class Company {
     private Long id;
 
     private String name;
+
+    @Column(name = "SUB_INDUSTRY_ID", insertable = false, updatable = false)
+    private Long subIndustryId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "SUB_INDUSTRY_ID", referencedColumnName = "ID", foreignKey=@ForeignKey(name = "fk__company__sub_industry_id__industry"))

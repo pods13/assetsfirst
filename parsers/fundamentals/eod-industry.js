@@ -15,14 +15,7 @@ async function main() {
     }, {});
     console.log(stockByCompanyId);
     Object.keys(stockByCompanyId);
-    const res = await axios.get(`https://eodhistoricaldata.com/financial-summary/GAZP.MCX`);
-    const $ = cheerio.load(res.data);
-    const generalInfo = $(`#fund_api > .json_box`).text();
-    const sectorName = parseData(generalInfo, 'GicSector');
-    const industryGroupName = parseData(generalInfo, 'GicGroup');
-    const industryName = parseData(generalInfo, 'GicIndustry');
-    const subIndustryName = parseData(generalInfo, 'GicSubIndustry');
-    const taxonomy = {sectorName, industryGroupName, industryName, subIndustryName};
+    const taxonomy = await parseTaxonomy('GAZP.MCX');
     console.log(taxonomy);
 
     const industriesRes = await client.get(`/industries`);
@@ -34,6 +27,19 @@ async function main() {
     console.log(industryNameById);
 
     //get unique taxonomies and create them
+
+    await client.patch(`/companies/`, )
+}
+
+async function parseTaxonomy(ticker) {
+    const res = await axios.get(`https://eodhistoricaldata.com/financial-summary/${ticker}`);
+    const $ = cheerio.load(res.data);
+    const generalInfo = $(`#fund_api > .json_box`).text();
+    const sectorName = parseData(generalInfo, 'GicSector');
+    const industryGroupName = parseData(generalInfo, 'GicGroup');
+    const industryName = parseData(generalInfo, 'GicIndustry');
+    const subIndustryName = parseData(generalInfo, 'GicSubIndustry');
+    return {sectorName, industryGroupName, industryName, subIndustryName};
 }
 
 function parseData(info, key) {

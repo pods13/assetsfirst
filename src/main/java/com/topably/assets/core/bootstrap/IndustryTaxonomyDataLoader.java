@@ -13,6 +13,8 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Set;
+
 @RequiredArgsConstructor
 @Component
 @Order(3)
@@ -32,6 +34,10 @@ public class IndustryTaxonomyDataLoader implements CommandLineRunner {
     public void run(String... args) throws Exception {
         addEnergy();
         addMaterials();
+        addIndustrials();
+        addConsumerDiscretionary();
+        addConsumerStaples();
+        addHealthCare();
     }
 
     private void addEnergy() {
@@ -59,5 +65,57 @@ public class IndustryTaxonomyDataLoader implements CommandLineRunner {
                 .name("Materials")
                 .sector(materials)
                 .build());
+    }
+
+    private void addIndustrials() {
+        Sector industrials = sectorRepository.save(Sector.builder()
+                .name("Industrials")
+                .build());
+        Set<String> groups = Set.of("Capital Goods", "Commercial & Professional Services", "Transportation");
+        groups.forEach(group -> {
+            industryGroupRepository.save(IndustryGroup.builder()
+                    .name(group)
+                    .sector(industrials)
+                    .build());
+        });
+    }
+
+    private void addConsumerDiscretionary() {
+        Sector consumerDiscretionary = sectorRepository.save(Sector.builder()
+                .name("Consumer Discretionary")
+                .build());
+        Set<String> groups = Set.of("Automobiles & Components", "Consumer Durables & Apparel", "Consumer Services", "Retailing");
+        groups.forEach(group -> {
+            industryGroupRepository.save(IndustryGroup.builder()
+                    .name(group)
+                    .sector(consumerDiscretionary)
+                    .build());
+        });
+    }
+
+    private void addConsumerStaples() {
+        Sector consumerStaples = sectorRepository.save(Sector.builder()
+                .name("Consumer Staples")
+                .build());
+        Set<String> groups = Set.of("Food & Staples Retailing", "Food, Beverage & Tobacco", "Household & Personal Products");
+        groups.forEach(group -> {
+            industryGroupRepository.save(IndustryGroup.builder()
+                    .name(group)
+                    .sector(consumerStaples)
+                    .build());
+        });
+    }
+
+    private void addHealthCare() {
+        Sector healthCare = sectorRepository.save(Sector.builder()
+                .name("Health Care")
+                .build());
+        Set<String> groups = Set.of("Health Care Equipment & Services", "Pharmaceuticals, Biotechnology & Life Sciences");
+        groups.forEach(group -> {
+            industryGroupRepository.save(IndustryGroup.builder()
+                    .name(group)
+                    .sector(healthCare)
+                    .build());
+        });
     }
 }
