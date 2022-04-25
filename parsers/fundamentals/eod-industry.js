@@ -18,13 +18,20 @@ async function main() {
     const res = await axios.get(`https://eodhistoricaldata.com/financial-summary/GAZP.MCX`);
     const $ = cheerio.load(res.data);
     const generalInfo = $(`#fund_api > .json_box`).text();
-
     const sectorName = parseData(generalInfo, 'GicSector');
     const industryGroupName = parseData(generalInfo, 'GicGroup');
     const industryName = parseData(generalInfo, 'GicIndustry');
     const subIndustryName = parseData(generalInfo, 'GicSubIndustry');
     const taxonomy = {sectorName, industryGroupName, industryName, subIndustryName};
     console.log(taxonomy);
+
+    const industriesRes = await client.get(`/industries`);
+    const industryNameById = industriesRes.data.filter(industry => industry.parentId)
+        .reduce((res, industry) => {
+            res[industry.name] = industry.id;
+            return res;
+        }, {});
+    console.log(industryNameById);
 
     //get unique taxonomies and create them
 }

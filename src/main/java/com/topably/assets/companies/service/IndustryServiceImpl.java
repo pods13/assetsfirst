@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityExistsException;
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -22,6 +23,13 @@ public class IndustryServiceImpl implements IndustryService {
 
     private final IndustryGroupRepository industryGroupRepository;
     private final IndustryRepository industryRepository;
+
+    @Override
+    public Collection<IndustryDto> findAll() {
+        return industryRepository.findAll().stream()
+                .map(this::convertToDto)
+                .collect(toList());
+    }
 
     @Override
     @Transactional
@@ -42,7 +50,7 @@ public class IndustryServiceImpl implements IndustryService {
         }
 
         Industry subIndustry = industryRepository.save(createIndustry(group, industries.get(0), dto.getSubIndustryName()));
-        return null;
+        return convertToDto(subIndustry);
     }
 
     private Industry createIndustry(IndustryGroup group, Industry parent, String name) {
@@ -50,6 +58,14 @@ public class IndustryServiceImpl implements IndustryService {
                 .name(name)
                 .group(group)
                 .parent(parent)
+                .build();
+    }
+
+    private IndustryDto convertToDto(Industry industry) {
+        return IndustryDto.builder()
+                .id(industry.getId())
+                .name(industry.getName())
+                .parentId(industry.getParentId())
                 .build();
     }
 }
