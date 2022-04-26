@@ -3,6 +3,7 @@ import { CardContainerType } from '../types/card-container-type';
 import { PortfolioCard } from '../types/portfolio-card';
 import { DividendsCardFactory } from './factory/dividends-card.factory';
 import { DividendGoalsCardFactory } from './factory/dividend-goals-card.factory';
+import { SectoralDistributionCardFactory } from './factory/sectoral-distribution-card.factory';
 
 
 export function createCard(containerType: CardContainerType): PortfolioCard {
@@ -17,4 +18,5 @@ const cardContainerTypeByFactory = {
   [CardContainerType.ALLOCATION]: AllocationCardFactory,
   [CardContainerType.DIVIDENDS]: DividendsCardFactory,
   [CardContainerType.DIVIDEND_GOALS]: DividendGoalsCardFactory,
+  [CardContainerType.SECTORAL_DISTRIBUTION]: SectoralDistributionCardFactory,
 };

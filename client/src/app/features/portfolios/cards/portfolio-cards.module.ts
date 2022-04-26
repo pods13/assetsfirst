@@ -19,6 +19,7 @@ import { FitChartDirective } from './directives/fit-chart.directive';
 import { DividendGoalsCardComponent } from './containers/dividend-goals-card/dividend-goals-card.component';
 import { MatListModule } from '@angular/material/list';
 import { MatInputModule } from '@angular/material/input';
+import { SectoralDistributionCardComponent } from './containers/sectoral-distribution-card/sectoral-distribution-card.component';
 
 
 @NgModule({
@@ -30,6 +31,7 @@ import { MatInputModule } from '@angular/material/input';
     DividendsCardComponent,
     FitChartDirective,
     DividendGoalsCardComponent,
+    SectoralDistributionCardComponent,
   ],
   imports: [
     CommonModule,

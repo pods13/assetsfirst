@@ -1,6 +1,7 @@
 package com.topably.assets.trades.repository;
 
 import com.topably.assets.trades.domain.security.SecurityTrade;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -8,6 +9,7 @@ import java.util.Collection;
 
 public interface SecurityTradeRepository extends JpaRepository<SecurityTrade, Long> {
 
+    @EntityGraph(attributePaths = {"security", "security.exchange"})
     Collection<SecurityTrade> findAllByUser_Username(String username);
 
     @Query(nativeQuery = true, value = "select t.*\n" +
