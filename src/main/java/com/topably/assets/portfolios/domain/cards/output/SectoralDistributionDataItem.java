@@ -19,6 +19,5 @@ public class SectoralDistributionDataItem {
 
     private String name;
     private BigDecimal value;
-    @Builder.Default
-    private Collection<SectoralDistributionDataItem> children = new ArrayList<>();
+    private Collection<SectoralDistributionDataItem> children;
 }
