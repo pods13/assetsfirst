@@ -18,6 +18,7 @@ import java.util.Currency;
 @Builder
 public class SecurityAggregatedTrade {
 
+    private Long securityId;
     private TickerSymbol identifier;
     private BigInteger quantity;
     private BigDecimal total;

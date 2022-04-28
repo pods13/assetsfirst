@@ -16,5 +16,7 @@ public interface SecurityTradeService {
 
     Collection<SecurityAggregatedTrade> findUserAggregatedTrades(String username);
 
+    Collection<SecurityAggregatedTrade> findUserAggregatedStockTrades(String username);
+
     TradeDto addTrade(AddTradeDto dto, String username, Security tradedSecurity);
 }

@@ -13,7 +13,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { CardService } from './services/card.service';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
-import { BarChartModule, PieChartModule } from '@swimlane/ngx-charts';
+import { BarChartModule, PieChartModule, TreeMapModule } from '@swimlane/ngx-charts';
 import { DividendsCardComponent } from './containers/dividends-card/dividends-card.component';
 import { FitChartDirective } from './directives/fit-chart.directive';
 import { DividendGoalsCardComponent } from './containers/dividend-goals-card/dividend-goals-card.component';
@@ -33,21 +33,22 @@ import { SectoralDistributionCardComponent } from './containers/sectoral-distrib
     DividendGoalsCardComponent,
     SectoralDistributionCardComponent,
   ],
-  imports: [
-    CommonModule,
-    MatDialogModule,
-    MatFormFieldModule,
-    MatSelectModule,
-    FormsModule,
-    MatButtonModule,
-    MatMenuModule,
-    MatIconModule,
-    PieChartModule,
-    BarChartModule,
-    MatListModule,
-    MatInputModule,
-    ReactiveFormsModule
-  ],
+    imports: [
+        CommonModule,
+        MatDialogModule,
+        MatFormFieldModule,
+        MatSelectModule,
+        FormsModule,
+        MatButtonModule,
+        MatMenuModule,
+        MatIconModule,
+        PieChartModule,
+        BarChartModule,
+        MatListModule,
+        MatInputModule,
+        ReactiveFormsModule,
+        TreeMapModule
+    ],
   providers: [
     CardContentLoaderService,
     CardService

@@ -4,6 +4,7 @@ import com.topably.assets.auth.domain.User;
 import com.topably.assets.auth.service.UserService;
 import com.topably.assets.exchanges.domain.TickerSymbol;
 import com.topably.assets.securities.domain.Security;
+import com.topably.assets.securities.domain.SecurityType;
 import com.topably.assets.trades.domain.TradeOperation;
 import com.topably.assets.trades.domain.dto.TradeDto;
 import com.topably.assets.trades.domain.dto.add.AddTradeDto;
@@ -19,6 +20,7 @@ import java.math.BigInteger;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 
 import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.toList;
@@ -43,7 +45,20 @@ public class SecurityTradeServiceImpl implements SecurityTradeService {
     @Override
     @Transactional
     public Collection<SecurityAggregatedTrade> findUserAggregatedTrades(String username) {
-        var groupedTrades = findUserTrades(username).stream()
+        return aggregateTrades(findUserTrades(username));
+    }
+
+    @Override
+    @Transactional
+    public Collection<SecurityAggregatedTrade> findUserAggregatedStockTrades(String username) {
+        String securityType = SecurityType.STOCK.name();
+        Collection<SecurityTrade> trades = tradeRepository.findAllByUser_UsernameAndSecurity_SecurityType(username, securityType);
+        return aggregateTrades(trades);
+
+    }
+
+    private Collection<SecurityAggregatedTrade> aggregateTrades(Collection<SecurityTrade> trades) {
+        var groupedTrades = trades.stream()
                 .collect(groupingBy(trade -> {
                     Security security = trade.getSecurity();
                     return new TickerSymbol(security.getTicker(), security.getExchange().getCode());
@@ -61,10 +76,14 @@ public class SecurityTradeServiceImpl implements SecurityTradeService {
 
         BigInteger quantity = trades.stream().map(this::calculateTotalQuantity).reduce(BigInteger.ZERO, BigInteger::add);
         Iterator<SecurityTrade> tradeIterator = trades.iterator();
+        var security = tradeIterator.hasNext()
+                ? Optional.of(tradeIterator.next().getSecurity())
+                : Optional.<Security>empty();
         return SecurityAggregatedTrade.builder()
+                .securityId(security.map(Security::getId).orElse(null))
                 .identifier(key)
                 .total(total)
-                .currency(tradeIterator.hasNext() ? tradeIterator.next().getSecurity().getExchange().getCurrency() : null)
+                .currency(security.map(s -> s.getExchange().getCurrency()).orElse(null))
                 .quantity(quantity)
                 .build();
     }

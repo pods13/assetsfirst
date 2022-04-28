@@ -12,6 +12,9 @@ public interface SecurityTradeRepository extends JpaRepository<SecurityTrade, Lo
     @EntityGraph(attributePaths = {"security", "security.exchange"})
     Collection<SecurityTrade> findAllByUser_Username(String username);
 
+    @EntityGraph(attributePaths = {"security", "security.exchange"})
+    Collection<SecurityTrade> findAllByUser_UsernameAndSecurity_SecurityType(String username, String securityType);
+
     @Query(nativeQuery = true, value = "select t.*\n" +
             "from security_trade t\n" +
             "         join user u on u.id = t.user_id\n" +

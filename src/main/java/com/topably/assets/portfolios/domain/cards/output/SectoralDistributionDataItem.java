@@ -1,20 +1,24 @@
 package com.topably.assets.portfolios.domain.cards.output;
 
-import com.topably.assets.portfolios.domain.cards.PortfolioCardData;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Collection;
 
-@Setter
-@Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
 @Builder
-public class SectoralDistributionCardData implements PortfolioCardData {
+public class SectoralDistributionDataItem {
 
-    private Collection<SectoralDistributionDataItem> items;
+    private String name;
+    private BigDecimal value;
+    @Builder.Default
+    private Collection<SectoralDistributionDataItem> children = new ArrayList<>();
 }

@@ -8,6 +8,7 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.GenericGenerator;
 
+import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -32,6 +33,9 @@ public abstract class Security {
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
     @GenericGenerator(name = "native", strategy = "native")
     private Long id;
+
+    @Column(name = "SECURITY_TYPE", insertable = false, updatable = false)
+    private String securityType;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "EXCHANGE_ID", referencedColumnName = "ID")
