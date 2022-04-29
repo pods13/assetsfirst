@@ -66,10 +66,25 @@ public class IndustryTaxonomyDataLoader implements CommandLineRunner {
         Sector materials = sectorRepository.save(Sector.builder()
                 .name("Materials")
                 .build());
-        industryGroupRepository.save(IndustryGroup.builder()
+        IndustryGroup group = industryGroupRepository.save(IndustryGroup.builder()
                 .name("Materials")
                 .sector(materials)
                 .build());
+        IndustryTaxonomyDto dto = IndustryTaxonomyDto.builder()
+                .sectorName(materials.getName())
+                .industryGroupName(group.getName())
+                .industryName("Chemicals")
+                .subIndustryName("Fertilizers & Agricultural Chemicals")
+                .build();
+        industryService.addIndustry(dto);
+
+        IndustryTaxonomyDto goldDto = IndustryTaxonomyDto.builder()
+                .sectorName(materials.getName())
+                .industryGroupName(group.getName())
+                .industryName("Metals & Mining")
+                .subIndustryName("Gold")
+                .build();
+        industryService.addIndustry(goldDto);
     }
 
     private void addIndustrials() {
@@ -109,6 +124,14 @@ public class IndustryTaxonomyDataLoader implements CommandLineRunner {
                     .sector(consumerStaples)
                     .build());
         });
+
+        IndustryTaxonomyDto dto = IndustryTaxonomyDto.builder()
+                .sectorName(consumerStaples.getName())
+                .industryGroupName("Food, Beverage & Tobacco")
+                .industryName("Food Products")
+                .subIndustryName("Agricultural Products")
+                .build();
+        industryService.addIndustry(dto);
     }
 
     private void addHealthCare() {
@@ -122,6 +145,13 @@ public class IndustryTaxonomyDataLoader implements CommandLineRunner {
                     .sector(healthCare)
                     .build());
         });
+        IndustryTaxonomyDto dto = IndustryTaxonomyDto.builder()
+                .sectorName(healthCare.getName())
+                .industryGroupName("Pharmaceuticals, Biotechnology & Life Sciences")
+                .industryName("Pharmaceuticals")
+                .subIndustryName("Pharmaceuticals")
+                .build();
+        industryService.addIndustry(dto);
     }
 
     private void addFinancials() {

@@ -24,7 +24,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 
 import static com.topably.assets.exchanges.domain.USExchange.NYSE;
 import static com.topably.assets.exchanges.domain.USExchange.NYSEARCA;
@@ -67,6 +66,7 @@ public class TradesDataLoader implements CommandLineRunner {
     private void addNewmont(User user) {
         Company newmontCorp = companyRepository.save(Company.builder()
                 .name("Newmont Corporation")
+                .subIndustry(industryRepository.findByParent_NameAndName("Metals & Mining", "Gold"))
                 .build());
         Exchange nyse = exchangeRepository.findByCode(NYSE.name());
 
@@ -106,6 +106,7 @@ public class TradesDataLoader implements CommandLineRunner {
     private void addBayer(User user) {
         Company bayer = companyRepository.save(Company.builder()
                 .name("Bayer AG")
+                .subIndustry(industryRepository.findByParent_NameAndName("Pharmaceuticals", "Pharmaceuticals"))
                 .build());
 
         Exchange xetra = exchangeRepository.findByCode("XETRA");
@@ -272,6 +273,7 @@ public class TradesDataLoader implements CommandLineRunner {
     private void addRosAgro(User user) {
         Company rosAgro = companyRepository.save(Company.builder()
                 .name("Ros Agro PLC")
+                .subIndustry(industryRepository.findByParent_NameAndName("Food Products", "Agricultural Products"))
                 .build());
 
         Exchange mcx = exchangeRepository.findByCode("MCX");
@@ -294,6 +296,7 @@ public class TradesDataLoader implements CommandLineRunner {
     private void addPolyus(User user) {
         Company polyus = companyRepository.save(Company.builder()
                 .name("PJSC Polyus")
+                .subIndustry(industryRepository.findByParent_NameAndName("Metals & Mining", "Gold"))
                 .build());
 
         Exchange mcx = exchangeRepository.findByCode("MCX");
@@ -316,6 +319,7 @@ public class TradesDataLoader implements CommandLineRunner {
     private void addPhor(User user) {
         Company phos = companyRepository.save(Company.builder()
                 .name("PhosAgro")
+                .subIndustry(industryRepository.findByParent_NameAndName("Chemicals", "Fertilizers & Agricultural Chemicals"))
                 .build());
 
         Exchange mcx = exchangeRepository.findByCode("MCX");
