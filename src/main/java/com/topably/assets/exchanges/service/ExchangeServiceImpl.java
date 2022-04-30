@@ -8,9 +8,13 @@ import com.topably.assets.securities.service.SecurityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import yahoofinance.YahooFinance;
 
+import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Optional;
 import java.util.Set;
 
 import static java.util.stream.Collectors.toList;
@@ -34,5 +38,26 @@ public class ExchangeServiceImpl implements ExchangeService {
         return securities.stream()
                 .map(security -> new TickerSymbol(security.getTicker(), security.getExchange().getCode()))
                 .collect(toList());
+    }
+
+    @Override
+    public Optional<BigDecimal> getTickerRecentPrice(TickerSymbol symbol) {
+        try {
+            var stock = YahooFinance.get(convertToYahooFinanceSymbol(symbol));
+            return Optional.of(stock.getQuote().getPrice());
+        } catch (IOException e) {
+            return Optional.empty();
+        }
+    }
+
+    private String convertToYahooFinanceSymbol(TickerSymbol tickerSymbol) {
+        if (tickerSymbol.getExchange().equals("US")) {
+            return tickerSymbol.getSymbol();
+        } else if ("XETRA".equals(tickerSymbol.getExchange())) {
+            return tickerSymbol.getSymbol() + ".DE";
+        } else if ("MCX".equals(tickerSymbol.getExchange())) {
+            return tickerSymbol.getSymbol() + ".ME";
+        }
+        return tickerSymbol.toString();
     }
 }
