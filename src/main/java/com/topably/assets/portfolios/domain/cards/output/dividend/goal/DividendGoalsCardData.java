@@ -18,6 +18,4 @@ import java.util.Collection;
 public class DividendGoalsCardData implements PortfolioCardData {
 
     private Collection<PositionItem> items;
-
-    private BigDecimal extraExpenses;
 }

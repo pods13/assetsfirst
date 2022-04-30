@@ -12,6 +12,6 @@ import java.util.Map;
 @Setter
 public class DividendGoalsCard extends PortfolioCard {
 
-    private Map<String, BigInteger> desiredPositionByIssuer = new HashMap<>();
+    private Map<String, BigInteger> desiredYieldByIssuer = new HashMap<>();
 
 }

@@ -13,17 +13,13 @@ import { tapOnce } from '../../../../../core/helpers/tapOnce';
   selector: 'app-dividend-goals-card',
   template: `
     <ng-container *ngIf="setupFormBeforeData$ | async as data">
-      {{data.extraExpenses}}
       <form [formGroup]="form">
-        <mat-list [formArrayName]="'desiredPositions'">
+        <mat-list [formArrayName]="'desiredYields'">
           <mat-list-item *ngFor="let item of data.items; let i = index;">
             <span>{{item.name}}</span>
+            <span>{{item.currentYield + '% /'}}</span>
             <mat-form-field>
-              <input matInput type="number" [value]="item.quantity" [disabled]="true">
-            </mat-form-field>
-            <span> / </span>
-            <mat-form-field>
-              <input matInput type="number" [value]="item.quantity" [formControlName]="i">
+              <input matInput type="number" [value]="item.currentYield" [formControlName]="i">
             </mat-form-field>
           </mat-list-item>
         </mat-list>
@@ -46,33 +42,33 @@ export class DividendGoalsCardComponent implements CardContainer<DividendGoalsCa
               private store: PortfolioCardStore,
               private cd: ChangeDetectorRef) {
     this.form = fb.group({
-      desiredPositions: fb.array([]),
+      desiredYields: fb.array([]),
     });
   }
 
-  get desiredPositions(): FormArray {
-    return this.form.get('desiredPositions') as FormArray;
+  get desiredYields(): FormArray {
+    return this.form.get('desiredYields') as FormArray;
   }
 
   ngOnInit(): void {
     this.setupFormBeforeData$ = this.data$.pipe(tapOnce(data => {
-      //TODO use card.desiredPositionByIssuer if present and fall back to item.quantity if not
-      data.items.forEach((item: any) => this.desiredPositions.push(this.fb.control(item.quantity)));
+      data.items.forEach((item) =>
+        this.desiredYields.push(this.fb.control(this.card.desiredYieldByIssuer?.[item.name] ?? item.currentYield)));
     }));
   }
 
   ngAfterViewInit(): void {
-    this.desiredPositions.valueChanges.pipe(
+    this.desiredYields.valueChanges.pipe(
       untilDestroyed(this),
       debounceTime(300),
       skip(1),
       withLatestFrom(this.data$)
     ).subscribe(([values, data]) => {
-      const desiredPositionByIssuer = data.items.reduce((res, item, i) => {
+      const desiredYieldByIssuer = data.items.reduce((res, item, i) => {
         res[item.name] = values[i];
         return res;
       }, {} as { [key: string]: number });
-      this.store.updateCard({...this.card, desiredPositionByIssuer});
+      this.store.updateCard({...this.card, desiredYieldByIssuer});
     });
   }
 }

@@ -3,12 +3,15 @@ package com.topably.assets.dividends.service;
 import com.topably.assets.dividends.domain.Dividend;
 import com.topably.assets.dividends.domain.dto.DividendData;
 import com.topably.assets.dividends.repository.DividendRepository;
+import com.topably.assets.exchanges.domain.TickerSymbol;
 import com.topably.assets.securities.domain.Security;
 import com.topably.assets.securities.service.SecurityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
+import java.time.Year;
 import java.time.temporal.ChronoUnit;
 import java.util.Collection;
 import java.util.Optional;
@@ -34,6 +37,14 @@ public class DividendServiceImpl implements DividendService {
         dividendRepository.saveAll(securityDividends);
     }
 
+    @Override
+    public BigDecimal calculateAnnualDividend(TickerSymbol tickerSymbol, Year year) {
+        return dividendRepository.findDeclaredYearlyDividends(tickerSymbol.getSymbol(), tickerSymbol.getExchange(), year.getValue())
+                .stream()
+                .map(Dividend::getAmount)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
     private Collection<Dividend> collectDividendsToPersist(String ticker, String exchange,
                                                            Collection<DividendData> dividendData) {
         Dividend lastDeclaredDividend = dividendRepository.findLastDeclaredDividend(ticker, exchange);
@@ -57,7 +68,7 @@ public class DividendServiceImpl implements DividendService {
                 .declareDate(data.getDeclareDate())
                 .recordDate(data.getRecordDate())
                 .payDate(Optional.ofNullable(data.getPayDate())
-                        .orElseGet(() -> data.getDeclareDate().plus(1, ChronoUnit.MONTHS)))
+                        .orElseGet(() -> data.getRecordDate().plus(1, ChronoUnit.MONTHS)))
                 .build();
     }
 

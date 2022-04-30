@@ -14,7 +14,7 @@ export class DividendGoalsCardFactory extends CardFactory<DividendGoalsCard> {
       title: 'Dividend Goals',
       cols: 4,
       rows: 3,
-      desiredPositionByIssuer: {}
+      desiredYieldByIssuer: {}
     };
   }
 }

@@ -18,8 +18,8 @@ import java.math.BigInteger;
 public class PositionItem {
 
     private String name;
-    private BigInteger quantity;
     private BigDecimal averagePrice;
     private BigDecimal annualDividend;
+    private BigDecimal currentYield;
 
 }
