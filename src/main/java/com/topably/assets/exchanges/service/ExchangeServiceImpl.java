@@ -51,13 +51,11 @@ public class ExchangeServiceImpl implements ExchangeService {
     }
 
     private String convertToYahooFinanceSymbol(TickerSymbol tickerSymbol) {
-        if (tickerSymbol.getExchange().equals("US")) {
-            return tickerSymbol.getSymbol();
-        } else if ("XETRA".equals(tickerSymbol.getExchange())) {
-            return tickerSymbol.getSymbol() + ".DE";
-        } else if ("MCX".equals(tickerSymbol.getExchange())) {
-            return tickerSymbol.getSymbol() + ".ME";
-        }
-        return tickerSymbol.toString();
+        return switch (tickerSymbol.getExchange()) {
+            case "US" -> tickerSymbol.getSymbol();
+            case "XETRA" -> tickerSymbol.getSymbol() + ".DE";
+            case "MCX" -> tickerSymbol.getSymbol() + ".ME";
+            default -> tickerSymbol.toString();
+        };
     }
 }

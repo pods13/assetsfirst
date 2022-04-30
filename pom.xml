@@ -14,7 +14,7 @@
 	<name>assets</name>
 	<description>Track your assets</description>
 	<properties>
-		<java.version>11</java.version>
+		<java.version>17</java.version>
 		<poi.version>5.2.2</poi.version>
 		<yahoofin.version>3.15.0</yahoofin.version>
 	</properties>
