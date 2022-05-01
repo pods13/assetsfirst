@@ -7,4 +7,5 @@ export interface DividendGoalsCardData extends CardData {
 interface PositionItem {
   name: string;
   currentYield: string;
+  targets: number[];
 }

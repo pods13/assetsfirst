@@ -17,10 +17,13 @@ import { tapOnce } from '../../../../../core/helpers/tapOnce';
         <mat-list [formArrayName]="'desiredYields'">
           <mat-list-item *ngFor="let item of data.items; let i = index;">
             <span>{{item.name}}</span>
-            <span>{{item.currentYield + '% /'}}</span>
-            <mat-form-field>
-              <input matInput type="number" [value]="item.currentYield" [formControlName]="i">
+            <mat-form-field class="example-full-width">
+              <mat-label>Yield</mat-label>
+              <span matPrefix>{{item.currentYield + '% /'}}&nbsp;</span>
+              <input matInput [formControlName]="i" placeholder="100" autocomplete="false">
+              <span matSuffix>%</span>
             </mat-form-field>
+            <button mat-button *ngFor="let target of item.targets">{{target}}</button>
           </mat-list-item>
         </mat-list>
       </form>
@@ -52,6 +55,7 @@ export class DividendGoalsCardComponent implements CardContainer<DividendGoalsCa
 
   ngOnInit(): void {
     this.setupFormBeforeData$ = this.data$.pipe(tapOnce(data => {
+      console.log(this.card.desiredYieldByIssuer)
       data.items.forEach((item) =>
         this.desiredYields.push(this.fb.control(this.card.desiredYieldByIssuer?.[item.name] ?? item.currentYield)));
     }));

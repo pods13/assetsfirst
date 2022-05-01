@@ -41,21 +41,23 @@ public class ExchangeServiceImpl implements ExchangeService {
     }
 
     @Override
-    public Optional<BigDecimal> getTickerRecentPrice(TickerSymbol symbol) {
+    public Optional<BigDecimal> findTickerRecentPrice(TickerSymbol symbol) {
         try {
             var stock = YahooFinance.get(convertToYahooFinanceSymbol(symbol));
-            return Optional.of(stock.getQuote().getPrice());
+            return Optional.ofNullable(stock).map(s -> s.getQuote().getPrice());
         } catch (IOException e) {
             return Optional.empty();
         }
     }
 
     private String convertToYahooFinanceSymbol(TickerSymbol tickerSymbol) {
-        return switch (tickerSymbol.getExchange()) {
-            case "US" -> tickerSymbol.getSymbol();
-            case "XETRA" -> tickerSymbol.getSymbol() + ".DE";
-            case "MCX" -> tickerSymbol.getSymbol() + ".ME";
-            default -> tickerSymbol.toString();
-        };
+        if (US_EXCHANGE_CODES.contains(tickerSymbol.getExchange())) {
+            return tickerSymbol.getSymbol();
+        } else if ("XETRA".equals(tickerSymbol.getExchange())) {
+            return tickerSymbol.getSymbol() + ".DE";
+        } else if ("MCX".equals(tickerSymbol.getExchange())) {
+            return tickerSymbol.getSymbol() + ".ME";
+        }
+        return tickerSymbol.toString();
     }
 }

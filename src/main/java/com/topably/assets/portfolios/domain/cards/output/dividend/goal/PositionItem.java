@@ -9,6 +9,7 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.Collection;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -21,5 +22,7 @@ public class PositionItem {
     private BigDecimal averagePrice;
     private BigDecimal annualDividend;
     private BigDecimal currentYield;
+
+    private Collection<BigDecimal> targets;
 
 }

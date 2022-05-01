@@ -10,5 +10,5 @@ public interface ExchangeService {
 
     Collection<TickerSymbol> findTickersByExchange(String exchange);
 
-    Optional<BigDecimal> getTickerRecentPrice(TickerSymbol symbol);
+    Optional<BigDecimal> findTickerRecentPrice(TickerSymbol symbol);
 }
