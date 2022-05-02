@@ -18,6 +18,7 @@ import java.util.List;
 public class AllocationCardData implements PortfolioCardData {
 
     private List<AllocationSegment> segments;
-    private BigDecimal totalInvested;
+    private BigDecimal investedValue;
+    private BigDecimal currentValue;
 
 }
