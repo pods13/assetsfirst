@@ -6,6 +6,7 @@ import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.caffeine.CaffeineCacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 
 import java.util.concurrent.TimeUnit;
 
@@ -14,6 +15,7 @@ import java.util.concurrent.TimeUnit;
 public class CacheConfig {
 
     @Bean
+    @Primary
     public CacheManager cacheManager() {
         Caffeine<Object, Object> caffeineCacheBuilder = Caffeine.newBuilder()
                 .maximumSize(500)
@@ -22,4 +24,15 @@ public class CacheConfig {
         cacheManager.setCaffeine(caffeineCacheBuilder);
         return cacheManager;
     }
+
+    @Bean
+    public CacheManager longLivedCacheManager() {
+        Caffeine<Object, Object> caffeineCacheBuilder = Caffeine.newBuilder()
+                .maximumSize(500)
+                .expireAfterWrite(1, TimeUnit.HOURS);
+        CaffeineCacheManager cacheManager = new CaffeineCacheManager("exchange-rates");
+        cacheManager.setCaffeine(caffeineCacheBuilder);
+        return cacheManager;
+    }
+
 }
