@@ -6,6 +6,8 @@ import com.topably.assets.exchanges.repository.ExchangeRepository;
 import com.topably.assets.securities.domain.SecurityType;
 import com.topably.assets.securities.service.SecurityService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import yahoofinance.YahooFinance;
@@ -21,6 +23,7 @@ import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 
 @Service
+@CacheConfig(cacheNames = "exchanges")
 @RequiredArgsConstructor
 public class ExchangeServiceImpl implements ExchangeService {
 
@@ -41,6 +44,7 @@ public class ExchangeServiceImpl implements ExchangeService {
     }
 
     @Override
+    @Cacheable
     public Optional<BigDecimal> findTickerRecentPrice(TickerSymbol symbol) {
         try {
             var stock = YahooFinance.get(convertToYahooFinanceSymbol(symbol));
