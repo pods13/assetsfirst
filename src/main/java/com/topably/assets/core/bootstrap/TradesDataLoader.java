@@ -76,11 +76,11 @@ public class TradesDataLoader implements CommandLineRunner {
                 .exchange(nyse)
                 .build());
         securityTradeRepository.save(SecurityTrade.builder()
-                .date(LocalDateTime.of(2021, 12, 1, 11, 0))
+                .date(LocalDateTime.of(2022, 2, 23, 11, 0))
                 .security(newmontStock)
                 .user(user)
                 .operation(TradeOperation.BUY)
-                .price(BigDecimal.valueOf(67.99))
+                .price(BigDecimal.valueOf(67.92))
                 .quantity(BigInteger.valueOf(15L))
                 .build());
     }
@@ -335,7 +335,16 @@ public class TradesDataLoader implements CommandLineRunner {
                 .user(user)
                 .operation(TradeOperation.BUY)
                 .price(BigDecimal.valueOf(4945))
-                .quantity(BigInteger.valueOf(15L))
+                .quantity(BigInteger.valueOf(10L))
+                .build());
+
+        securityTradeRepository.save(SecurityTrade.builder()
+                .date(LocalDateTime.of(2022, 3, 24, 11, 0))
+                .security(phosStock)
+                .user(user)
+                .operation(TradeOperation.BUY)
+                .price(BigDecimal.valueOf(4945))
+                .quantity(BigInteger.valueOf(5L))
                 .build());
     }
 }
