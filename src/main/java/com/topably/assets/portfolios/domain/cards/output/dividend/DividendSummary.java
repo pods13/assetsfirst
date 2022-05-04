@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.util.Collection;
 
 @AllArgsConstructor
 @Getter
@@ -14,4 +15,5 @@ public class DividendSummary {
 
     private String name;
     private BigDecimal value;
+    private Collection<DividendDetails> details;
 }

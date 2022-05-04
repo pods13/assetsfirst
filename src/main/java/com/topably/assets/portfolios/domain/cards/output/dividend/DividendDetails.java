@@ -12,6 +12,7 @@ import java.util.Currency;
 @AllArgsConstructor
 public class DividendDetails {
 
+    private String name;
     private LocalDate payDate;
     private BigDecimal total;
     private Currency currency;

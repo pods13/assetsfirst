@@ -1,0 +1,17 @@
+.tooltip {
+  width: 150px;
+  max-width: 150px;
+};
+
+.tooltip-details {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+
+  & .dividend-detail {
+    width: 50%;
+    display: flex;
+    justify-content: space-evenly;
+  }
+}

@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.math.RoundingMode;
 import java.security.Principal;
 import java.time.temporal.IsoFields;
 import java.util.ArrayList;
@@ -56,7 +57,7 @@ public class DividendsCardStateProducer implements CardStateProducer<DividendsCa
                 .map(this::composeDividendDetails)
                 .flatMap(Collection::stream)
                 .filter(divDetails -> divDetails.getTotal().compareTo(BigDecimal.ZERO) > 0)
-                .collect(toList());
+                .toList();
         var dividendsByYearQuarter = details.stream()
                 .collect(groupingBy(d -> d.getPayDate().get(IsoFields.QUARTER_OF_YEAR), TreeMap::new,
                         groupingBy(d -> d.getPayDate().getYear(), TreeMap::new, toList())));
@@ -66,7 +67,7 @@ public class DividendsCardStateProducer implements CardStateProducer<DividendsCa
                     return new TimeFrameDividend("Q" + divsByQuarter.getKey(),
                             composeDividendSummary(divsByYear));
                 })
-                .collect(toList());
+                .toList();
         return DividendsCardData.builder()
                 .dividends(dividends)
                 .build();
@@ -91,7 +92,7 @@ public class DividendsCardStateProducer implements CardStateProducer<DividendsCa
                 }
             }
             BigDecimal total = dividend.getAmount().multiply(new BigDecimal(quantity));
-            dividendDetails.add(new DividendDetails(dividend.getPayDate(), total, currency));
+            dividendDetails.add(new DividendDetails(key.getSymbol(), dividend.getPayDate(), total, currency));
         }
         return dividendDetails;
     }
@@ -101,8 +102,9 @@ public class DividendsCardStateProducer implements CardStateProducer<DividendsCa
                 .map(divsByYear -> {
                     var totalValue = divsByYear.getValue().stream()
                             .map(div -> exchangeRateService.convertCurrency(div.getTotal(), div.getCurrency(), DESTINATION_CURRENCY))
-                            .reduce(BigDecimal.ZERO, BigDecimal::add);
-                    return new DividendSummary(String.valueOf(divsByYear.getKey()), totalValue);
+                            .reduce(BigDecimal.ZERO, BigDecimal::add)
+                            .setScale(2, RoundingMode.HALF_UP);
+                    return new DividendSummary(String.valueOf(divsByYear.getKey()), totalValue, divsByYear.getValue());
                 }).collect(toList());
     }
 

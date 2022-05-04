@@ -20,7 +20,7 @@ export class CardContentLoaderService {
     const viewContainerRef = template.viewContainerRef;
     viewContainerRef.clear();
     const containerType = template.card.containerType;
-    const containerClass = cardContainerTemplateMapper[containerType];
+    const containerClass = cardContainerTemplateMapper[containerType] as any;
     if (!containerClass) {
       console.error(`You forgot to add ${containerType} to card-container-template-mapper.ts`);
       return;
