@@ -9,16 +9,13 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Currency;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
-import static java.util.stream.Collectors.*;
+import static java.util.stream.Collectors.toMap;
 
 @Service
 @CacheConfig(cacheNames = "exchange-rates", cacheManager = "longLivedCacheManager")
@@ -52,14 +49,7 @@ public class ExchangeRateServiceImpl implements ExchangeRateService {
 
     @Override
     @Cacheable
-    public BigDecimal convertCurrency(BigDecimal amount, Currency from, Currency to) {
-        if (from.equals(to)) {
-            return amount;
-        }
-        Optional<ExchangeRate> exchangeRate = exchangeRateRepository.findBySourceCurrencyAndDestinationCurrency(from, to);
-        return exchangeRate
-                .map(ExchangeRate::getConversionRate)
-                .map(amount::multiply)
-                .orElseThrow();
+    public Optional<ExchangeRate> findExchangeRate(Currency from, Currency to) {
+        return exchangeRateRepository.findBySourceCurrencyAndDestinationCurrency(from, to);
     }
 }

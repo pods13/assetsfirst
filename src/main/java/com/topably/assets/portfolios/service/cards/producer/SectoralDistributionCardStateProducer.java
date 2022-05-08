@@ -10,7 +10,7 @@ import com.topably.assets.securities.domain.Security;
 import com.topably.assets.securities.service.StockService;
 import com.topably.assets.trades.domain.security.SecurityAggregatedTrade;
 import com.topably.assets.trades.service.SecurityTradeService;
-import com.topably.assets.xrates.service.ExchangeRateService;
+import com.topably.assets.xrates.service.currency.CurrencyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,23 +19,18 @@ import java.math.BigDecimal;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Currency;
 import java.util.Map;
 import java.util.function.Function;
 
 import static java.util.stream.Collectors.*;
-import static java.util.stream.Collectors.groupingBy;
-import static java.util.stream.Collectors.toSet;
 
 @Service(CardContainerType.SECTORAL_DISTRIBUTION)
 @RequiredArgsConstructor
 public class SectoralDistributionCardStateProducer implements CardStateProducer<SectoralDistributionCard> {
 
-    private static final Currency DESTINATION_CURRENCY = Currency.getInstance("RUB");
-
     private final SecurityTradeService securityTradeService;
     private final StockService stockService;
-    private final ExchangeRateService exchangeRateService;
+    private final CurrencyService currencyService;
 
     @Override
     @Transactional
@@ -67,8 +62,8 @@ public class SectoralDistributionCardStateProducer implements CardStateProducer<
                         .map(name -> {
                             BigDecimal total = companyNameByStockIds.get(name).stream()
                                     .map(stockIdByTrade::get)
-                                    .map(trade -> exchangeRateService.convertCurrency(trade.getTotal(), trade.getCurrency(), DESTINATION_CURRENCY))
-                                    .reduce(BigDecimal.ZERO, BigDecimal::add);
+                                    .map(trade -> currencyService.convert(trade.getTotal(), trade.getCurrency()))
+                                            .reduce(BigDecimal.ZERO, BigDecimal::add);
                             return composeLeafItem(name, total);
                         })
                         .collect(toList());

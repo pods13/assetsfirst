@@ -14,7 +14,7 @@ import com.topably.assets.portfolios.service.cards.CardStateProducer;
 import com.topably.assets.securities.domain.Security;
 import com.topably.assets.trades.domain.security.SecurityTrade;
 import com.topably.assets.trades.service.SecurityTradeService;
-import com.topably.assets.xrates.service.ExchangeRateService;
+import com.topably.assets.xrates.service.currency.CurrencyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,7 +27,6 @@ import java.time.temporal.IsoFields;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Currency;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -39,11 +38,9 @@ import static java.util.stream.Collectors.toList;
 @RequiredArgsConstructor
 public class DividendsCardStateProducer implements CardStateProducer<DividendsCard> {
 
-    private static final Currency DESTINATION_CURRENCY = Currency.getInstance("RUB");
-
     private final SecurityTradeService tradeService;
     private final DividendService dividendService;
-    private final ExchangeRateService exchangeRateService;
+    private final CurrencyService currencyService;
 
     @Override
     @Transactional
@@ -101,7 +98,7 @@ public class DividendsCardStateProducer implements CardStateProducer<DividendsCa
         return dividendsByYear.entrySet().stream()
                 .map(divsByYear -> {
                     var totalValue = divsByYear.getValue().stream()
-                            .map(div -> exchangeRateService.convertCurrency(div.getTotal(), div.getCurrency(), DESTINATION_CURRENCY))
+                            .map(div -> currencyService.convert(div.getTotal(), div.getCurrency()))
                             .reduce(BigDecimal.ZERO, BigDecimal::add)
                             .setScale(2, RoundingMode.HALF_UP);
                     return new DividendSummary(String.valueOf(divsByYear.getKey()), totalValue, divsByYear.getValue());

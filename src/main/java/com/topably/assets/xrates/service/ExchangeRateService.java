@@ -5,6 +5,7 @@ import com.topably.assets.xrates.domain.ExchangeRate;
 import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Currency;
+import java.util.Optional;
 
 public interface ExchangeRateService {
 
@@ -12,5 +13,5 @@ public interface ExchangeRateService {
 
     Collection<ExchangeRate> updateExchangeRates(Currency destinationCurrency, Collection<ExchangeRate> rates);
 
-    BigDecimal convertCurrency(BigDecimal amount, Currency from, Currency to);
+    Optional<ExchangeRate> findExchangeRate(Currency from, Currency to);
 }
