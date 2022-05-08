@@ -16,6 +16,7 @@ import { RxStompService } from '../../../../../core/services/rx-stomp.service';
 import { map, Observable, shareReplay } from 'rxjs';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { defaultCardProps } from '../../helpers/card-factory';
+import { PortfolioCardStore } from '../../services/portfolio-card.store';
 
 @UntilDestroy()
 @Component({
@@ -28,7 +29,7 @@ import { defaultCardProps } from '../../helpers/card-factory';
       </button>
       <mat-menu #menu="matMenu">
         <button mat-menu-item>Edit</button>
-        <button mat-menu-item>Delete</button>
+        <button mat-menu-item (click)="deleteCard()">Delete</button>
       </mat-menu>
     </div>
     <div class="card-body">
@@ -50,6 +51,7 @@ export class CardWrapperComponent implements OnInit, AfterViewInit, OnChanges {
 
   constructor(private cardContentLoaderService: CardContentLoaderService,
               private rxStompService: RxStompService,
+              private cardStore: PortfolioCardStore,
               private cd: ChangeDetectorRef) {
   }
 
@@ -95,4 +97,7 @@ export class CardWrapperComponent implements OnInit, AfterViewInit, OnChanges {
       );
   };
 
+  deleteCard(): void {
+    this.cardStore.deleteCard(this.card);
+  }
 }
