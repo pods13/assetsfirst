@@ -15,14 +15,11 @@ public interface SecurityTradeRepository extends JpaRepository<SecurityTrade, Lo
     @EntityGraph(attributePaths = {"security", "security.exchange"})
     Collection<SecurityTrade> findAllByUser_UsernameAndSecurity_SecurityType(String username, String securityType);
 
-    @Query(nativeQuery = true, value = "select t.*\n" +
-            "from security_trade t\n" +
-            "         join user u on u.id = t.user_id\n" +
-            "         join security s on s.id = t.security_id and s.security_type in ('STOCK', 'ETF')\n" +
-            "where u.username = :username\n" +
-            "  and exists(select 1\n" +
-            "             from dividend d\n" +
-            "             where d.security_id = t.security_id)\n" +
+    @Query(value = "from SecurityTrade t " +
+            "join User u on u.username = :username " +
+            "join fetch t.security security " +
+            "join fetch t.security.exchange exchange " +
+            "where exists(select d from Dividend d where d.security.id = t.security.id) " +
             "order by t.date")
     Collection<SecurityTrade> findUserDividendPayingTradesOrderByTradeDate(String username);
 }
