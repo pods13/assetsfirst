@@ -12,6 +12,7 @@ import com.topably.assets.portfolios.domain.cards.output.dividend.DividendsCardD
 import com.topably.assets.portfolios.domain.cards.output.dividend.TimeFrameDividend;
 import com.topably.assets.portfolios.service.cards.CardStateProducer;
 import com.topably.assets.securities.domain.Security;
+import com.topably.assets.trades.domain.TradeOperation;
 import com.topably.assets.trades.domain.security.SecurityTrade;
 import com.topably.assets.trades.service.SecurityTradeService;
 import com.topably.assets.xrates.service.currency.CurrencyService;
@@ -28,6 +29,7 @@ import java.time.temporal.IsoFields;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -84,8 +86,8 @@ public class DividendsCardStateProducer implements CardStateProducer<DividendsCa
             for (; index < trades.size(); index++) {
                 SecurityTrade trade = trades.get(index);
                 if (trade.getDate().toLocalDate().compareTo(dividend.getRecordDate()) < 0) {
-                    //TODO sell case
-                    quantity = quantity.add(trade.getQuantity());
+                    var operationQty = TradeOperation.SELL.equals(trade.getOperation()) ? trade.getQuantity().negate() : trade.getQuantity();
+                    quantity =  quantity.add(operationQty);
                 } else {
                     break;
                 }
