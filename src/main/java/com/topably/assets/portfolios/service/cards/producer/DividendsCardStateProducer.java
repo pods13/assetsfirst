@@ -23,12 +23,14 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.security.Principal;
+import java.time.temporal.ChronoUnit;
 import java.time.temporal.IsoFields;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.TreeMap;
 
 import static java.util.stream.Collectors.groupingBy;
@@ -89,7 +91,10 @@ public class DividendsCardStateProducer implements CardStateProducer<DividendsCa
                 }
             }
             BigDecimal total = dividend.getAmount().multiply(new BigDecimal(quantity));
-            dividendDetails.add(new DividendDetails(key.getSymbol(), dividend.getPayDate(), total, currency));
+            var forecasted = dividend.getPayDate() == null;
+            var payDate = Optional.ofNullable((dividend.getPayDate()))
+                    .orElseGet(() -> dividend.getRecordDate().plus(1, ChronoUnit.MONTHS));
+            dividendDetails.add(new DividendDetails(key.getSymbol(), payDate, forecasted, total, currency));
         }
         return dividendDetails;
     }

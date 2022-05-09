@@ -12,9 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.Year;
-import java.time.temporal.ChronoUnit;
 import java.util.Collection;
-import java.util.Optional;
 
 import static java.util.stream.Collectors.toList;
 
@@ -27,19 +25,20 @@ public class DividendServiceImpl implements DividendService {
 
     @Override
     public Collection<Dividend> findDividends(String ticker, String exchange) {
-        return dividendRepository.findBySecurity_TickerAndSecurity_Exchange_CodeOrderByPayDateAsc(ticker, exchange);
+        return dividendRepository.findBySecurity_TickerAndSecurity_Exchange_CodeOrderByRecordDateAsc(ticker, exchange);
     }
 
     @Override
     @Transactional
     public void addDividends(String ticker, String exchange, Collection<DividendData> dividendData) {
+        deleteForecastedDividends(ticker, exchange);
         Collection<Dividend> securityDividends = collectDividendsToPersist(ticker, exchange, dividendData);
         dividendRepository.saveAll(securityDividends);
     }
 
     @Override
     public BigDecimal calculateAnnualDividend(TickerSymbol tickerSymbol, Year year) {
-        return dividendRepository.findDeclaredYearlyDividends(tickerSymbol.getSymbol(), tickerSymbol.getExchange(), year.getValue())
+        return dividendRepository.findDividendsByYear(tickerSymbol.getSymbol(), tickerSymbol.getExchange(), year.getValue())
                 .stream()
                 .map(Dividend::getAmount)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
@@ -55,8 +54,8 @@ public class DividendServiceImpl implements DividendService {
                     .collect(toList());
         }
         return dividendData.stream()
-                .filter(data -> data.getDeclareDate() != null
-                        && data.getDeclareDate().compareTo(lastDeclaredDividend.getDeclareDate()) > 0)
+                .filter(data -> data.getDeclareDate() == null
+                        || data.getDeclareDate().compareTo(lastDeclaredDividend.getDeclareDate()) > 0)
                 .map(data -> convertToDividend(data, lastDeclaredDividend.getSecurity()))
                 .collect(toList());
     }
@@ -67,9 +66,13 @@ public class DividendServiceImpl implements DividendService {
                 .amount(data.getAmount())
                 .declareDate(data.getDeclareDate())
                 .recordDate(data.getRecordDate())
-                .payDate(Optional.ofNullable(data.getPayDate())
-                        .orElseGet(() -> data.getRecordDate().plus(1, ChronoUnit.MONTHS)))
+                .payDate(data.getPayDate())
                 .build();
+    }
+
+    private void deleteForecastedDividends(String ticker, String exchange) {
+        Collection<Dividend> forecastedDividends = dividendRepository.findAllByDeclareDateIsNullAndSecurity_TickerAndSecurity_Exchange_Code(ticker, exchange);
+        dividendRepository.deleteAll(forecastedDividends);
     }
 
 }

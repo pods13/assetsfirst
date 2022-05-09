@@ -17,18 +17,19 @@ async function main() {
             }
             const {symbol, exchange} = securities[index];
             const dividends = divs.value.map(data => {
+                const declareDate = convertDate(data.declareDate);
+                const recordDate = convertDate(data.recordDate);
+                const payDate = declareDate ? addMonths(recordDate, 1) : null;
                 return {
                     amount: data.amount ? data.amount.replace(/[^\d.]/g, "") : null,
-                    declareDate: convertDate(data.declareDate),
-                    recordDate: convertDate(data.recordDate),
-                    payDate: convertDate(data.payDate)
+                    declareDate,
+                    recordDate,
+                    payDate
                 };
             });
 
-            //TODO persist forecasted dividends as well
-            const declaredDividends = dividends.filter(div => !!div.declareDate);
             // console.log(symbol, exchange, declaredDividends.length);
-            return client.post(`/dividends?ticker=${symbol}&exchange=${exchange}`, declaredDividends);
+            return client.post(`/dividends?ticker=${symbol}&exchange=${exchange}`, dividends);
         });
         await Promise.allSettled(whenDividendsStored);
     } catch (e) {
@@ -74,6 +75,16 @@ function convertDate(dateStr) {
         return dateParts[2] + '-' + dateParts[1] + '-' + dateParts[0];
     }
     return null;
+}
+
+function addMonths(date, months) {
+    const res = new Date(date);
+    const d = res.getDate();
+    res.setMonth(res.getMonth() + +months);
+    if (res.getDate() !== d) {
+        res.setDate(0);
+    }
+    return res;
 }
 
 main();

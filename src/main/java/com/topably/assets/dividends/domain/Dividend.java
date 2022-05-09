@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -37,6 +38,7 @@ public class Dividend {
 
     private LocalDate declareDate;
 
+    @Column(name = "RECORD_DATE", nullable = false)
     private LocalDate recordDate;
 
     private LocalDate payDate;

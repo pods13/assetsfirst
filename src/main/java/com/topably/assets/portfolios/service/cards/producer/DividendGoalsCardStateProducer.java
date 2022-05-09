@@ -49,7 +49,7 @@ public class DividendGoalsCardStateProducer implements CardStateProducer<Dividen
     private PositionItem convertToPositionItems(SecurityAggregatedTrade trade, DividendGoalsCard card) {
         var averagePrice = trade.getTotal().divide(new BigDecimal(trade.getQuantity()), RoundingMode.HALF_EVEN);
         TickerSymbol tickerSymbol = trade.getIdentifier();
-        var annualDividend = dividendService.calculateAnnualDividend(tickerSymbol, Year.now().minusYears(1));
+        var annualDividend = dividendService.calculateAnnualDividend(tickerSymbol, Year.now());
         var currentYield = annualDividend.multiply(BigDecimal.valueOf(100)).divide(averagePrice, 2, RoundingMode.HALF_EVEN);
 
         var desiredYield = card.getDesiredYieldByIssuer().getOrDefault(tickerSymbol.toString(), currentYield);

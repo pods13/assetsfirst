@@ -14,6 +14,7 @@ public class DividendDetails {
 
     private String name;
     private LocalDate payDate;
+    private boolean forecasted;
     private BigDecimal total;
     private Currency currency;
 }
