@@ -22,8 +22,6 @@ public class TradesController {
 
     private final TradeService tradeService;
 
-
-    @PostMapping("/upload")
     public ResponseEntity<UploadResponseMessage> uploadTradesFile(@RequestParam("file") MultipartFile file) {
         tradeService.saveExportedTradesFile(file);
         return ResponseEntity.ok(new UploadResponseMessage("The file successfully uploaded: " + file.getOriginalFilename()));

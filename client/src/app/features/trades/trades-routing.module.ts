@@ -7,10 +7,6 @@ const routes: Routes = [
   {
     path: '',
     component: TradesContainerComponent
-  },
-  {
-    path: 'import',
-    component: UploadExportedTradesComponent
   }
 ];
 
