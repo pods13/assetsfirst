@@ -3,8 +3,8 @@ package com.topably.assets.exchanges.service;
 import com.topably.assets.exchanges.domain.TickerSymbol;
 import com.topably.assets.exchanges.domain.USExchange;
 import com.topably.assets.exchanges.repository.ExchangeRepository;
-import com.topably.assets.securities.domain.SecurityType;
-import com.topably.assets.securities.service.SecurityService;
+import com.topably.assets.instruments.domain.InstrumentType;
+import com.topably.assets.instruments.service.InstrumentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
@@ -30,14 +30,14 @@ public class ExchangeServiceImpl implements ExchangeService {
     private static final Set<String> US_EXCHANGE_CODES = Arrays.stream(USExchange.values()).map(USExchange::name).collect(toSet());
 
     private final ExchangeRepository exchangeRepository;
-    private final SecurityService securityService;
+    private final InstrumentService instrumentService;
 
     @Override
     @Transactional
     public Collection<TickerSymbol> findTickersByExchange(String exchange) {
         var exchangeCodes = "US".equals(exchange) ? US_EXCHANGE_CODES : Set.of(exchange);
-        var securityTypes = Set.of(SecurityType.STOCK, SecurityType.ETF);
-        var securities = securityService.findCertainTypeOfSecuritiesByExchangeCodes(securityTypes, exchangeCodes);
+        var securityTypes = Set.of(InstrumentType.STOCK, InstrumentType.ETF);
+        var securities = instrumentService.findCertainTypeOfInstrumentsByExchangeCodes(securityTypes, exchangeCodes);
         return securities.stream()
                 .map(security -> new TickerSymbol(security.getTicker(), security.getExchange().getCode()))
                 .collect(toList());

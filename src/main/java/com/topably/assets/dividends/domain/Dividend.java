@@ -1,6 +1,6 @@
 package com.topably.assets.dividends.domain;
 
-import com.topably.assets.securities.domain.Security;
+import com.topably.assets.instruments.domain.Instrument;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -33,8 +33,8 @@ public class Dividend {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "SECURITY_ID", referencedColumnName = "ID", nullable = false)
-    private Security security;
+    @JoinColumn(name = "INSTRUMENT_ID", referencedColumnName = "ID", nullable = false)
+    private Instrument instrument;
 
     private LocalDate declareDate;
 

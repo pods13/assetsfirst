@@ -1,4 +1,4 @@
-package com.topably.assets.securities.domain;
+package com.topably.assets.instruments.domain;
 
 import com.topably.assets.companies.domain.Company;
 import lombok.AllArgsConstructor;
@@ -21,7 +21,7 @@ import javax.persistence.ManyToOne;
 @SuperBuilder
 @Entity
 @DiscriminatorValue("STOCK")
-public class Stock extends Security {
+public class Stock extends Instrument {
 
     @Column(name = "COMPANY_ID", insertable = false, updatable = false)
     private Long companyId;

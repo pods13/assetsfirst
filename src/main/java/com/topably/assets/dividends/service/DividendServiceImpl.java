@@ -4,8 +4,8 @@ import com.topably.assets.dividends.domain.Dividend;
 import com.topably.assets.dividends.domain.dto.DividendData;
 import com.topably.assets.dividends.repository.DividendRepository;
 import com.topably.assets.exchanges.domain.TickerSymbol;
-import com.topably.assets.securities.domain.Security;
-import com.topably.assets.securities.service.SecurityService;
+import com.topably.assets.instruments.domain.Instrument;
+import com.topably.assets.instruments.service.InstrumentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,12 +20,12 @@ import static java.util.stream.Collectors.toList;
 @RequiredArgsConstructor
 public class DividendServiceImpl implements DividendService {
 
-    private final SecurityService securityService;
+    private final InstrumentService instrumentService;
     private final DividendRepository dividendRepository;
 
     @Override
     public Collection<Dividend> findDividends(String ticker, String exchange) {
-        return dividendRepository.findBySecurity_TickerAndSecurity_Exchange_CodeOrderByRecordDateAsc(ticker, exchange);
+        return dividendRepository.findByInstrument_TickerAndInstrument_Exchange_CodeOrderByRecordDateAsc(ticker, exchange);
     }
 
     @Override
@@ -48,21 +48,21 @@ public class DividendServiceImpl implements DividendService {
                                                            Collection<DividendData> dividendData) {
         Dividend lastDeclaredDividend = dividendRepository.findLastDeclaredDividend(ticker, exchange);
         if (lastDeclaredDividend == null) {
-            Security security = securityService.findSecurity(ticker, exchange);
+            Instrument instrument = instrumentService.findInstrument(ticker, exchange);
             return dividendData.stream()
-                    .map(data -> convertToDividend(data, security))
+                    .map(data -> convertToDividend(data, instrument))
                     .collect(toList());
         }
         return dividendData.stream()
                 .filter(data -> data.getDeclareDate() == null
                         || data.getDeclareDate().compareTo(lastDeclaredDividend.getDeclareDate()) > 0)
-                .map(data -> convertToDividend(data, lastDeclaredDividend.getSecurity()))
+                .map(data -> convertToDividend(data, lastDeclaredDividend.getInstrument()))
                 .collect(toList());
     }
 
-    private Dividend convertToDividend(DividendData data, Security security) {
+    private Dividend convertToDividend(DividendData data, Instrument instrument) {
         return Dividend.builder()
-                .security(security)
+                .instrument(instrument)
                 .amount(data.getAmount())
                 .declareDate(data.getDeclareDate())
                 .recordDate(data.getRecordDate())
@@ -71,7 +71,7 @@ public class DividendServiceImpl implements DividendService {
     }
 
     private void deleteForecastedDividends(String ticker, String exchange) {
-        Collection<Dividend> forecastedDividends = dividendRepository.findAllByDeclareDateIsNullAndSecurity_TickerAndSecurity_Exchange_Code(ticker, exchange);
+        Collection<Dividend> forecastedDividends = dividendRepository.findAllByDeclareDateIsNullAndInstrument_TickerAndInstrument_Exchange_Code(ticker, exchange);
         dividendRepository.deleteAll(forecastedDividends);
     }
 

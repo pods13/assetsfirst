@@ -1,13 +1,12 @@
-package com.topably.assets.securities.repository.security;
+package com.topably.assets.instruments.repository.security;
 
 
-import com.topably.assets.securities.domain.Stock;
+import com.topably.assets.instruments.domain.Stock;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.Collection;
 import java.util.List;
 
 public interface StockRepository extends JpaRepository<Stock, Long> {

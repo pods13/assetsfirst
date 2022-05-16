@@ -6,8 +6,8 @@ import com.topably.assets.portfolios.domain.cards.input.SectoralDistributionCard
 import com.topably.assets.portfolios.domain.cards.output.SectoralDistributionCardData;
 import com.topably.assets.portfolios.domain.cards.output.SectoralDistributionDataItem;
 import com.topably.assets.portfolios.service.cards.CardStateProducer;
-import com.topably.assets.securities.domain.Security;
-import com.topably.assets.securities.service.StockService;
+import com.topably.assets.instruments.domain.Instrument;
+import com.topably.assets.instruments.service.StockService;
 import com.topably.assets.trades.domain.security.SecurityAggregatedTrade;
 import com.topably.assets.trades.service.SecurityTradeService;
 import com.topably.assets.xrates.service.currency.CurrencyService;
@@ -46,7 +46,7 @@ public class SectoralDistributionCardStateProducer implements CardStateProducer<
     private Collection<SectoralDistributionDataItem> composeDataItems(Map<Long, SecurityAggregatedTrade> stockIdByTrade) {
         var stocks = stockService.findAllById(stockIdByTrade.keySet());
         var companyNameByStockIds = stocks.stream().collect(groupingBy(s -> s.getCompany().getName(),
-                mapping(Security::getId, toSet())));
+                mapping(Instrument::getId, toSet())));
         var companyGroupings = stocks.stream()
                 .filter(s -> s.getCompany().getSubIndustry() != null)
                 .collect(groupingBy(stock -> stock.getCompany().getSubIndustry().getGroup().getName(),

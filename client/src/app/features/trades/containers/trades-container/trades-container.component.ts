@@ -1,8 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ColumnMode } from '@swimlane/ngx-datatable';
 import { TradeService } from '../../services/trade.service';
-import { AddSecurityTradeDto } from '../../types/add-security-trade.dto';
-import { AddMoneyTradeDto } from '../../types/money/add-money-trade.dto';
 import { AddTradeDto } from '../../types/add-trade.dto';
 
 @Component({

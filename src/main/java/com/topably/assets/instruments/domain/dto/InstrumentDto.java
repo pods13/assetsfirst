@@ -1,6 +1,6 @@
-package com.topably.assets.securities.domain.dto;
+package com.topably.assets.instruments.domain.dto;
 
-import com.topably.assets.securities.domain.SecurityType;
+import com.topably.assets.instruments.domain.InstrumentType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,7 +12,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class SecurityDto {
+public class InstrumentDto {
 
     private Long id;
 
@@ -20,5 +20,5 @@ public class SecurityDto {
 
     private String name;
 
-    private SecurityType securityType;
+    private InstrumentType instrumentType;
 }

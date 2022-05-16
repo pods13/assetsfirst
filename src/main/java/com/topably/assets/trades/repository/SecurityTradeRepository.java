@@ -9,17 +9,17 @@ import java.util.Collection;
 
 public interface SecurityTradeRepository extends JpaRepository<SecurityTrade, Long> {
 
-    @EntityGraph(attributePaths = {"security", "security.exchange"})
+    @EntityGraph(attributePaths = {"instrument", "instrument.exchange"})
     Collection<SecurityTrade> findAllByUser_Username(String username);
 
-    @EntityGraph(attributePaths = {"security", "security.exchange"})
-    Collection<SecurityTrade> findAllByUser_UsernameAndSecurity_SecurityType(String username, String securityType);
+    @EntityGraph(attributePaths = {"instrument", "instrument.exchange"})
+    Collection<SecurityTrade> findAllByUser_UsernameAndInstrument_InstrumentType(String username, String instrumentType);
 
     @Query(value = "from SecurityTrade t " +
             "join User u on u.username = :username " +
-            "join fetch t.security security " +
-            "join fetch t.security.exchange exchange " +
-            "where exists(select d from Dividend d where d.security.id = t.security.id) " +
+            "join fetch t.instrument instrument " +
+            "join fetch t.instrument.exchange exchange " +
+            "where exists(select d from Dividend d where d.instrument.id = t.instrument.id) " +
             "order by t.date")
     Collection<SecurityTrade> findUserDividendPayingTradesOrderByTradeDate(String username);
 }

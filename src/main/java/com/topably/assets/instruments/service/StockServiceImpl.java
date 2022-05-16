@@ -1,9 +1,9 @@
-package com.topably.assets.securities.service;
+package com.topably.assets.instruments.service;
 
 import com.topably.assets.exchanges.domain.TickerSymbol;
-import com.topably.assets.securities.domain.Stock;
-import com.topably.assets.securities.domain.dto.StockDto;
-import com.topably.assets.securities.repository.security.StockRepository;
+import com.topably.assets.instruments.domain.Stock;
+import com.topably.assets.instruments.domain.dto.StockDto;
+import com.topably.assets.instruments.repository.security.StockRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

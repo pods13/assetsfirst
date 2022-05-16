@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Getter
 public class AddTradeDto {
 
-    private Long securityId;
+    private Long instrumentId;
     private TradeOperation operation;
     private LocalDateTime date;
     private BigDecimal price;

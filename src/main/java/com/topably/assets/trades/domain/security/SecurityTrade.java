@@ -1,15 +1,13 @@
 package com.topably.assets.trades.domain.security;
 
 import com.topably.assets.auth.domain.User;
-import com.topably.assets.securities.domain.Security;
-import com.topably.assets.securities.domain.Stock;
+import com.topably.assets.instruments.domain.Instrument;
 import com.topably.assets.trades.domain.TradeOperation;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.Any;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.Column;
@@ -21,7 +19,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.time.LocalDateTime;
@@ -44,8 +41,8 @@ public class SecurityTrade {
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "SECURITY_ID", referencedColumnName = "ID", nullable = false)
-    private Security security;
+    @JoinColumn(name = "INSTRUMENT_ID", referencedColumnName = "ID", nullable = false)
+    private Instrument instrument;
 
     private LocalDateTime date;
 

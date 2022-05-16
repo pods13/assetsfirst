@@ -1,4 +1,4 @@
-package com.topably.assets.securities.domain;
+package com.topably.assets.instruments.domain;
 
 
 import com.topably.assets.exchanges.domain.Exchange;
@@ -26,16 +26,16 @@ import javax.persistence.ManyToOne;
 @SuperBuilder
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "SECURITY_TYPE")
-public abstract class Security {
+@DiscriminatorColumn(name = "INSTRUMENT_TYPE")
+public abstract class Instrument {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
     @GenericGenerator(name = "native", strategy = "native")
     private Long id;
 
-    @Column(name = "SECURITY_TYPE", insertable = false, updatable = false)
-    private String securityType;
+    @Column(name = "INSTRUMENT_TYPE", insertable = false, updatable = false)
+    private String instrumentType;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "EXCHANGE_ID", referencedColumnName = "ID")

@@ -3,8 +3,8 @@ package com.topably.assets.trades.service;
 import com.topably.assets.auth.domain.User;
 import com.topably.assets.auth.service.UserService;
 import com.topably.assets.exchanges.domain.TickerSymbol;
-import com.topably.assets.securities.domain.Security;
-import com.topably.assets.securities.domain.SecurityType;
+import com.topably.assets.instruments.domain.Instrument;
+import com.topably.assets.instruments.domain.InstrumentType;
 import com.topably.assets.trades.domain.TradeOperation;
 import com.topably.assets.trades.domain.dto.TradeDto;
 import com.topably.assets.trades.domain.dto.add.AddTradeDto;
@@ -51,8 +51,8 @@ public class SecurityTradeServiceImpl implements SecurityTradeService {
     @Override
     @Transactional
     public Collection<SecurityAggregatedTrade> findUserAggregatedStockTrades(String username) {
-        String securityType = SecurityType.STOCK.name();
-        Collection<SecurityTrade> trades = tradeRepository.findAllByUser_UsernameAndSecurity_SecurityType(username, securityType);
+        String instrumentType = InstrumentType.STOCK.name();
+        Collection<SecurityTrade> trades = tradeRepository.findAllByUser_UsernameAndInstrument_InstrumentType(username, instrumentType);
         return aggregateTrades(trades);
 
     }
@@ -60,8 +60,8 @@ public class SecurityTradeServiceImpl implements SecurityTradeService {
     private Collection<SecurityAggregatedTrade> aggregateTrades(Collection<SecurityTrade> trades) {
         var groupedTrades = trades.stream()
                 .collect(groupingBy(trade -> {
-                    Security security = trade.getSecurity();
-                    return new TickerSymbol(security.getTicker(), security.getExchange().getCode());
+                    Instrument instrument = trade.getInstrument();
+                    return new TickerSymbol(instrument.getTicker(), instrument.getExchange().getCode());
                 }));
         return groupedTrades.entrySet().stream()
                 .map(entry -> aggregateTrades(entry.getKey(), entry.getValue()))
@@ -77,10 +77,10 @@ public class SecurityTradeServiceImpl implements SecurityTradeService {
         BigInteger quantity = trades.stream().map(this::calculateTotalQuantity).reduce(BigInteger.ZERO, BigInteger::add);
         Iterator<SecurityTrade> tradeIterator = trades.iterator();
         var security = tradeIterator.hasNext()
-                ? Optional.of(tradeIterator.next().getSecurity())
-                : Optional.<Security>empty();
+                ? Optional.of(tradeIterator.next().getInstrument())
+                : Optional.<Instrument>empty();
         return SecurityAggregatedTrade.builder()
-                .securityId(security.map(Security::getId).orElse(null))
+                .securityId(security.map(Instrument::getId).orElse(null))
                 .identifier(key)
                 .total(total)
                 .currency(security.map(s -> s.getExchange().getCurrency()).orElse(null))
@@ -106,10 +106,10 @@ public class SecurityTradeServiceImpl implements SecurityTradeService {
 
     @Override
     @Transactional
-    public TradeDto addTrade(AddTradeDto dto, String username, Security tradedSecurity) {
+    public TradeDto addTrade(AddTradeDto dto, String username, Instrument tradedInstrument) {
         User user = userService.findByUsername(username);
         var trade = SecurityTrade.builder()
-                .security(tradedSecurity)
+                .instrument(tradedInstrument)
                 .operation(dto.getOperation())
                 .price(dto.getPrice())
                 .quantity(dto.getQuantity())

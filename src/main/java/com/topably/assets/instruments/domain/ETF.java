@@ -1,4 +1,4 @@
-package com.topably.assets.securities.domain;
+package com.topably.assets.instruments.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,7 +16,7 @@ import javax.persistence.Entity;
 @SuperBuilder
 @Entity
 @DiscriminatorValue("ETF")
-public class ETF extends Security {
+public class ETF extends Instrument {
 
     private String name;
 }

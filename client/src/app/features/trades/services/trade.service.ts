@@ -15,7 +15,7 @@ export class TradeService {
 
   addTrade(dto: AddTradeDto) {
     const tradeCategory = dto.tradeCategory.toLowerCase();
-    const urlPrefix = dto.tradeCategory !== TradeCategory.MONEY ? tradeCategory + 's' : tradeCategory;
+    const urlPrefix = tradeCategory + 's';
     return this.http.post(`/${urlPrefix}/trades`, dto);
   }
 }

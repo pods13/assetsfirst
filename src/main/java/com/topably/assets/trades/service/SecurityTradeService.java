@@ -1,6 +1,6 @@
 package com.topably.assets.trades.service;
 
-import com.topably.assets.securities.domain.Security;
+import com.topably.assets.instruments.domain.Instrument;
 import com.topably.assets.trades.domain.dto.TradeDto;
 import com.topably.assets.trades.domain.dto.add.AddTradeDto;
 import com.topably.assets.trades.domain.security.SecurityAggregatedTrade;
@@ -18,5 +18,5 @@ public interface SecurityTradeService {
 
     Collection<SecurityAggregatedTrade> findUserAggregatedStockTrades(String username);
 
-    TradeDto addTrade(AddTradeDto dto, String username, Security tradedSecurity);
+    TradeDto addTrade(AddTradeDto dto, String username, Instrument tradedInstrument);
 }

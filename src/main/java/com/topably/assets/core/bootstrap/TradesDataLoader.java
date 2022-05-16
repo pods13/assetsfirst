@@ -7,10 +7,10 @@ import com.topably.assets.companies.repository.CompanyRepository;
 import com.topably.assets.companies.repository.IndustryRepository;
 import com.topably.assets.exchanges.domain.Exchange;
 import com.topably.assets.exchanges.repository.ExchangeRepository;
-import com.topably.assets.securities.domain.ETF;
-import com.topably.assets.securities.domain.Stock;
-import com.topably.assets.securities.repository.security.ETFRepository;
-import com.topably.assets.securities.repository.security.StockRepository;
+import com.topably.assets.instruments.domain.ETF;
+import com.topably.assets.instruments.domain.Stock;
+import com.topably.assets.instruments.repository.security.ETFRepository;
+import com.topably.assets.instruments.repository.security.StockRepository;
 import com.topably.assets.trades.domain.TradeOperation;
 import com.topably.assets.trades.domain.security.SecurityTrade;
 import com.topably.assets.trades.repository.SecurityTradeRepository;
@@ -77,7 +77,7 @@ public class TradesDataLoader implements CommandLineRunner {
                 .build());
         securityTradeRepository.save(SecurityTrade.builder()
                 .date(LocalDateTime.of(2022, 2, 23, 11, 0))
-                .security(newmontStock)
+                .instrument(newmontStock)
                 .user(user)
                 .operation(TradeOperation.BUY)
                 .price(BigDecimal.valueOf(67.92))
@@ -94,7 +94,7 @@ public class TradesDataLoader implements CommandLineRunner {
                 .ticker("KRBN")
                 .build());
         securityTradeRepository.save(SecurityTrade.builder()
-                .security(krbn)
+                .instrument(krbn)
                 .date(LocalDateTime.of(2021, 12, 1, 11, 0))
                 .user(user)
                 .operation(TradeOperation.BUY)
@@ -117,7 +117,7 @@ public class TradesDataLoader implements CommandLineRunner {
                 .build());
         securityTradeRepository.save(SecurityTrade.builder()
                 .date(LocalDateTime.of(2021, 12, 1, 11, 0))
-                .security(bayerStock)
+                .instrument(bayerStock)
                 .user(user)
                 .operation(TradeOperation.BUY)
                 .price(BigDecimal.valueOf(47.23))
@@ -139,7 +139,7 @@ public class TradesDataLoader implements CommandLineRunner {
 
         securityTradeRepository.save(SecurityTrade.builder()
                 .date(LocalDateTime.of(2021, 12, 1, 11, 0))
-                .security(moStock)
+                .instrument(moStock)
                 .user(user)
                 .operation(TradeOperation.BUY)
                 .price(BigDecimal.valueOf(45.67))
@@ -161,7 +161,7 @@ public class TradesDataLoader implements CommandLineRunner {
 
         securityTradeRepository.save(SecurityTrade.builder()
                 .date(LocalDateTime.of(2021, 12, 1, 11, 0))
-                .security(ohiStock)
+                .instrument(ohiStock)
                 .user(user)
                 .operation(TradeOperation.BUY)
                 .price(BigDecimal.valueOf(31.82))
@@ -183,7 +183,7 @@ public class TradesDataLoader implements CommandLineRunner {
 
         securityTradeRepository.save(SecurityTrade.builder()
                 .date(LocalDateTime.of(2021, 12, 1, 11, 0))
-                .security(koStock)
+                .instrument(koStock)
                 .user(user)
                 .operation(TradeOperation.BUY)
                 .price(BigDecimal.valueOf(52.04))
@@ -206,7 +206,7 @@ public class TradesDataLoader implements CommandLineRunner {
 
         securityTradeRepository.save(SecurityTrade.builder()
                 .date(LocalDateTime.of(2021, 12, 1, 11, 0))
-                .security(totalStock)
+                .instrument(totalStock)
                 .user(user)
                 .operation(TradeOperation.BUY)
                 .price(BigDecimal.valueOf(45.3659))
@@ -230,7 +230,7 @@ public class TradesDataLoader implements CommandLineRunner {
 
         securityTradeRepository.save(SecurityTrade.builder()
                 .date(LocalDateTime.of(2022, 1, 18, 8, 0))
-                .security(rosnStock)
+                .instrument(rosnStock)
                 .user(user)
                 .operation(TradeOperation.BUY)
                 .price(BigDecimal.valueOf(393.15))
@@ -239,7 +239,7 @@ public class TradesDataLoader implements CommandLineRunner {
 
         securityTradeRepository.save(SecurityTrade.builder()
                 .date(LocalDateTime.of(2022, 3, 24, 8, 0))
-                .security(rosnStock)
+                .instrument(rosnStock)
                 .user(user)
                 .operation(TradeOperation.BUY)
                 .price(BigDecimal.valueOf(357.12))
@@ -262,7 +262,7 @@ public class TradesDataLoader implements CommandLineRunner {
 
         securityTradeRepository.save(SecurityTrade.builder()
                 .date(LocalDateTime.of(2021, 12, 1, 11, 0))
-                .security(gazpromStock)
+                .instrument(gazpromStock)
                 .user(user)
                 .operation(TradeOperation.BUY)
                 .price(BigDecimal.valueOf(288.96))
@@ -285,7 +285,7 @@ public class TradesDataLoader implements CommandLineRunner {
 
         securityTradeRepository.save(SecurityTrade.builder()
                 .date(LocalDateTime.of(2021, 12, 1, 11, 0))
-                .security(rosAgroStock)
+                .instrument(rosAgroStock)
                 .user(user)
                 .operation(TradeOperation.BUY)
                 .price(BigDecimal.valueOf(1029.8))
@@ -308,7 +308,7 @@ public class TradesDataLoader implements CommandLineRunner {
 
         securityTradeRepository.save(SecurityTrade.builder()
                 .date(LocalDateTime.of(2021, 12, 1, 11, 0))
-                .security(polyusStock)
+                .instrument(polyusStock)
                 .user(user)
                 .operation(TradeOperation.BUY)
                 .price(BigDecimal.valueOf(13179.4))
@@ -331,7 +331,7 @@ public class TradesDataLoader implements CommandLineRunner {
 
         securityTradeRepository.save(SecurityTrade.builder()
                 .date(LocalDateTime.of(2021, 12, 1, 11, 0))
-                .security(phosStock)
+                .instrument(phosStock)
                 .user(user)
                 .operation(TradeOperation.BUY)
                 .price(BigDecimal.valueOf(4945))
@@ -340,7 +340,7 @@ public class TradesDataLoader implements CommandLineRunner {
 
         securityTradeRepository.save(SecurityTrade.builder()
                 .date(LocalDateTime.of(2022, 3, 24, 11, 0))
-                .security(phosStock)
+                .instrument(phosStock)
                 .user(user)
                 .operation(TradeOperation.BUY)
                 .price(BigDecimal.valueOf(4945))

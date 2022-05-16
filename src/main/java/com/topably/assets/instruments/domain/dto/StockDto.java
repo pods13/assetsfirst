@@ -1,4 +1,4 @@
-package com.topably.assets.securities.domain.dto;
+package com.topably.assets.instruments.domain.dto;
 
 import com.topably.assets.exchanges.domain.TickerSymbol;
 import lombok.AllArgsConstructor;
