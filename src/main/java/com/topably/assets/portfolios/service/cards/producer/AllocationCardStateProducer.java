@@ -7,8 +7,8 @@ import com.topably.assets.portfolios.domain.cards.input.AllocationCard;
 import com.topably.assets.portfolios.domain.cards.output.AllocationCardData;
 import com.topably.assets.portfolios.domain.cards.output.AllocationSegment;
 import com.topably.assets.portfolios.service.cards.CardStateProducer;
-import com.topably.assets.trades.domain.security.SecurityAggregatedTrade;
-import com.topably.assets.trades.service.SecurityTradeService;
+import com.topably.assets.trades.domain.AggregatedTrade;
+import com.topably.assets.trades.service.TradeService;
 import com.topably.assets.xrates.service.currency.CurrencyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,7 +19,6 @@ import java.math.RoundingMode;
 import java.security.Principal;
 import java.util.Collection;
 import java.util.Comparator;
-import java.util.Currency;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
@@ -27,14 +26,14 @@ import static java.util.stream.Collectors.toList;
 @Service(CardContainerType.ALLOCATION)
 @RequiredArgsConstructor
 public class AllocationCardStateProducer implements CardStateProducer<AllocationCard> {
-    private final SecurityTradeService tradeService;
+    private final TradeService tradeService;
     private final ExchangeService exchangeService;
     private final CurrencyService currencyService;
 
     @Override
     @Transactional
     public PortfolioCardData produce(Principal user, AllocationCard card) {
-        Collection<SecurityAggregatedTrade> aggregatedTrades = tradeService.findUserAggregatedTrades(user.getName());
+        Collection<AggregatedTrade> aggregatedTrades = tradeService.findUserAggregatedTrades(user.getName());
         var segments = aggregatedTrades.stream()
                 .map(this::convertToSegment)
                 .sorted(Comparator.comparing(AllocationSegment::getValue).reversed())
@@ -46,7 +45,7 @@ public class AllocationCardStateProducer implements CardStateProducer<Allocation
                 .build();
     }
 
-    private AllocationSegment convertToSegment(SecurityAggregatedTrade trade) {
+    private AllocationSegment convertToSegment(AggregatedTrade trade) {
         var name = trade.getIdentifier().toString();
         var price = currencyService.convert(trade.getTotal(), trade.getCurrency());
         return new AllocationSegment(name, price);
@@ -59,7 +58,7 @@ public class AllocationCardStateProducer implements CardStateProducer<Allocation
                 .setScale(2, RoundingMode.HALF_EVEN);
     }
 
-    private BigDecimal calculateCurrentValue(Collection<SecurityAggregatedTrade> aggregatedTrades) {
+    private BigDecimal calculateCurrentValue(Collection<AggregatedTrade> aggregatedTrades) {
         return aggregatedTrades.stream()
                 .map(t -> exchangeService.findTickerRecentPrice(t.getIdentifier())
                         .map(value -> value.multiply(new BigDecimal(t.getQuantity())))

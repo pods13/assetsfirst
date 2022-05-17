@@ -9,8 +9,8 @@ import com.topably.assets.portfolios.domain.cards.input.DividendGoalsCard;
 import com.topably.assets.portfolios.domain.cards.output.dividend.goal.DividendGoalsCardData;
 import com.topably.assets.portfolios.domain.cards.output.dividend.goal.PositionItem;
 import com.topably.assets.portfolios.service.cards.CardStateProducer;
-import com.topably.assets.trades.domain.security.SecurityAggregatedTrade;
-import com.topably.assets.trades.service.SecurityTradeService;
+import com.topably.assets.trades.domain.AggregatedTrade;
+import com.topably.assets.trades.service.TradeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,7 +20,6 @@ import java.math.RoundingMode;
 import java.security.Principal;
 import java.time.Year;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.TreeSet;
 
 import static java.util.stream.Collectors.toList;
@@ -29,7 +28,7 @@ import static java.util.stream.Collectors.toList;
 @RequiredArgsConstructor
 public class DividendGoalsCardStateProducer implements CardStateProducer<DividendGoalsCard> {
 
-    private final SecurityTradeService tradeService;
+    private final TradeService tradeService;
     private final DividendService dividendService;
     private final ExchangeService exchangeService;
 
@@ -46,7 +45,7 @@ public class DividendGoalsCardStateProducer implements CardStateProducer<Dividen
                 .build();
     }
 
-    private PositionItem convertToPositionItems(SecurityAggregatedTrade trade, DividendGoalsCard card) {
+    private PositionItem convertToPositionItems(AggregatedTrade trade, DividendGoalsCard card) {
         var averagePrice = trade.getTotal().divide(new BigDecimal(trade.getQuantity()), RoundingMode.HALF_EVEN);
         TickerSymbol tickerSymbol = trade.getIdentifier();
         var annualDividend = dividendService.calculateAnnualDividend(tickerSymbol, Year.now());

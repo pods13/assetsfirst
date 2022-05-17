@@ -8,8 +8,8 @@ import com.topably.assets.portfolios.domain.cards.output.SectoralDistributionDat
 import com.topably.assets.portfolios.service.cards.CardStateProducer;
 import com.topably.assets.instruments.domain.Instrument;
 import com.topably.assets.instruments.service.StockService;
-import com.topably.assets.trades.domain.security.SecurityAggregatedTrade;
-import com.topably.assets.trades.service.SecurityTradeService;
+import com.topably.assets.trades.domain.AggregatedTrade;
+import com.topably.assets.trades.service.TradeService;
 import com.topably.assets.xrates.service.currency.CurrencyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -28,22 +28,22 @@ import static java.util.stream.Collectors.*;
 @RequiredArgsConstructor
 public class SectoralDistributionCardStateProducer implements CardStateProducer<SectoralDistributionCard> {
 
-    private final SecurityTradeService securityTradeService;
+    private final TradeService tradeService;
     private final StockService stockService;
     private final CurrencyService currencyService;
 
     @Override
     @Transactional
     public PortfolioCardData produce(Principal user, SectoralDistributionCard card) {
-        var aggregatedTrades = securityTradeService.findUserAggregatedStockTrades(user.getName());
-        var stockIdByTrade = aggregatedTrades.stream().collect(toMap(SecurityAggregatedTrade::getSecurityId, Function.identity()));
+        var aggregatedTrades = tradeService.findUserAggregatedStockTrades(user.getName());
+        var stockIdByTrade = aggregatedTrades.stream().collect(toMap(AggregatedTrade::getInstrumentId, Function.identity()));
 
         return SectoralDistributionCardData.builder()
                 .items(composeDataItems(stockIdByTrade))
                 .build();
     }
 
-    private Collection<SectoralDistributionDataItem> composeDataItems(Map<Long, SecurityAggregatedTrade> stockIdByTrade) {
+    private Collection<SectoralDistributionDataItem> composeDataItems(Map<Long, AggregatedTrade> stockIdByTrade) {
         var stocks = stockService.findAllById(stockIdByTrade.keySet());
         var companyNameByStockIds = stocks.stream().collect(groupingBy(s -> s.getCompany().getName(),
                 mapping(Instrument::getId, toSet())));

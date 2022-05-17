@@ -1,51 +1,25 @@
 package com.topably.assets.trades.service;
 
+import com.topably.assets.instruments.domain.Instrument;
 import com.topably.assets.trades.domain.TradeView;
-import com.topably.assets.trades.exception.FileUploadException;
-import com.topably.assets.trades.repository.TradeViewRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
+import com.topably.assets.trades.domain.dto.TradeDto;
+import com.topably.assets.trades.domain.dto.add.AddTradeDto;
+import com.topably.assets.trades.domain.AggregatedTrade;
+import com.topably.assets.trades.domain.Trade;
 
-import javax.annotation.PostConstruct;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Collection;
-import java.util.Objects;
 
-@Service
-@RequiredArgsConstructor
-public class TradeService {
+public interface TradeService {
 
-    private final TradeViewRepository tradeViewRepository;
+    Collection<Trade> findUserTrades(String username);
 
-    @Value("${app.upload.trades.path}")
-    private String uploadTradesPath;
+    Collection<Trade> findUserDividendPayingTrades(String username);
 
-    @PostConstruct
-    public void createMissingUploadDirectories() throws IOException {
-        Files.createDirectories(Paths.get(uploadTradesPath));
-    }
+    Collection<AggregatedTrade> findUserAggregatedTrades(String username);
 
-    @Transactional
-    public void saveExportedTradesFile(MultipartFile file) {
-        try {
-            Path root = Paths.get(uploadTradesPath);
-            Path resolve = root.resolve(Objects.requireNonNull(file.getOriginalFilename()));
-            if (resolve.toFile().exists()) {
-                throw new FileUploadException("File already exists: " + file.getOriginalFilename());
-            }
-            Files.copy(file.getInputStream(), resolve);
-        } catch (Exception e) {
-            throw new FileUploadException("Could not store the file. Error: " + e.getMessage());
-        }
-    }
+    Collection<AggregatedTrade> findUserAggregatedStockTrades(String username);
 
-    public Collection<TradeView> getUserTrades(String username) {
-        return tradeViewRepository.findByUsername(username);
-    }
+    TradeDto addTrade(AddTradeDto dto, String username, Instrument tradedInstrument);
+
+    Collection<TradeView> getUserTrades(String username);
 }

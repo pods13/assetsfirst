@@ -32,7 +32,7 @@ import java.util.Currency;
         "       trade.quantity,\n" +
         "       trade.price,\n" +
         "       exch.currency\n" +
-        "from security_trade trade\n" +
+        "from trade trade\n" +
         "         join instrument s2 on s2.id = trade.instrument_id\n" +
         "         join user u2 on u2.id = trade.user_id\n" +
         "         join exchange exch on exch.id = s2.exchange_id\n" +

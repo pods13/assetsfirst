@@ -1,4 +1,4 @@
-package com.topably.assets.trades.domain.security;
+package com.topably.assets.trades.domain;
 
 import com.topably.assets.auth.domain.User;
 import com.topably.assets.instruments.domain.Instrument;
@@ -29,7 +29,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 @Entity
-public class SecurityTrade {
+public class Trade {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")

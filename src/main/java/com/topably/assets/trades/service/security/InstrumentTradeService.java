@@ -3,7 +3,7 @@ package com.topably.assets.trades.service.security;
 import com.topably.assets.trades.domain.dto.TradeDto;
 import com.topably.assets.trades.domain.dto.add.AddTradeDto;
 
-public interface FinInstTradeService {
+public interface InstrumentTradeService {
 
     TradeDto addTrade(AddTradeDto dto, String username);
 }

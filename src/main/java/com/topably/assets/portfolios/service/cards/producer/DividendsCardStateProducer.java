@@ -13,8 +13,8 @@ import com.topably.assets.portfolios.domain.cards.output.dividend.DividendsCardD
 import com.topably.assets.portfolios.domain.cards.output.dividend.TimeFrameDividend;
 import com.topably.assets.portfolios.service.cards.CardStateProducer;
 import com.topably.assets.trades.domain.TradeOperation;
-import com.topably.assets.trades.domain.security.SecurityTrade;
-import com.topably.assets.trades.service.SecurityTradeService;
+import com.topably.assets.trades.domain.Trade;
+import com.topably.assets.trades.service.TradeService;
 import com.topably.assets.xrates.service.currency.CurrencyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -41,7 +41,7 @@ import static java.util.stream.Collectors.toList;
 @RequiredArgsConstructor
 public class DividendsCardStateProducer implements CardStateProducer<DividendsCard> {
 
-    private final SecurityTradeService tradeService;
+    private final TradeService tradeService;
     private final DividendService dividendService;
     private final CurrencyService currencyService;
 
@@ -73,7 +73,7 @@ public class DividendsCardStateProducer implements CardStateProducer<DividendsCa
                 .build();
     }
 
-    private Collection<DividendDetails> composeDividendDetails(Map.Entry<TickerSymbol, List<SecurityTrade>> tradesByKey) {
+    private Collection<DividendDetails> composeDividendDetails(Map.Entry<TickerSymbol, List<Trade>> tradesByKey) {
         var key = tradesByKey.getKey();
         Collection<Dividend> dividends = dividendService.findDividends(key.getSymbol(), key.getExchange());
         var quantity = BigInteger.ZERO;
@@ -83,7 +83,7 @@ public class DividendsCardStateProducer implements CardStateProducer<DividendsCa
         int index = 0;
         for (Dividend dividend : dividends) {
             for (; index < trades.size(); index++) {
-                SecurityTrade trade = trades.get(index);
+                Trade trade = trades.get(index);
                 if (trade.getDate().toLocalDate().compareTo(dividend.getRecordDate()) < 0) {
                     var operationQty = TradeOperation.SELL.equals(trade.getOperation()) ? trade.getQuantity().negate() : trade.getQuantity();
                     quantity =  quantity.add(operationQty);

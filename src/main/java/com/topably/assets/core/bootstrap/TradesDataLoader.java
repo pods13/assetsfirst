@@ -12,8 +12,8 @@ import com.topably.assets.instruments.domain.Stock;
 import com.topably.assets.instruments.repository.security.ETFRepository;
 import com.topably.assets.instruments.repository.security.StockRepository;
 import com.topably.assets.trades.domain.TradeOperation;
-import com.topably.assets.trades.domain.security.SecurityTrade;
-import com.topably.assets.trades.repository.SecurityTradeRepository;
+import com.topably.assets.trades.domain.Trade;
+import com.topably.assets.trades.repository.TradeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -41,7 +41,7 @@ public class TradesDataLoader implements CommandLineRunner {
 
     private final StockRepository stockRepository;
     private final ETFRepository exchangeTradedFundRepository;
-    private final SecurityTradeRepository securityTradeRepository;
+    private final TradeRepository tradeRepository;
 
     @Override
     @Transactional
@@ -75,7 +75,7 @@ public class TradesDataLoader implements CommandLineRunner {
                 .ticker("NEM")
                 .exchange(nyse)
                 .build());
-        securityTradeRepository.save(SecurityTrade.builder()
+        tradeRepository.save(Trade.builder()
                 .date(LocalDateTime.of(2022, 2, 23, 11, 0))
                 .instrument(newmontStock)
                 .user(user)
@@ -93,7 +93,7 @@ public class TradesDataLoader implements CommandLineRunner {
                 .exchange(nysearca)
                 .ticker("KRBN")
                 .build());
-        securityTradeRepository.save(SecurityTrade.builder()
+        tradeRepository.save(Trade.builder()
                 .instrument(krbn)
                 .date(LocalDateTime.of(2021, 12, 1, 11, 0))
                 .user(user)
@@ -115,7 +115,7 @@ public class TradesDataLoader implements CommandLineRunner {
                 .exchange(xetra)
                 .ticker("BAYN")
                 .build());
-        securityTradeRepository.save(SecurityTrade.builder()
+        tradeRepository.save(Trade.builder()
                 .date(LocalDateTime.of(2021, 12, 1, 11, 0))
                 .instrument(bayerStock)
                 .user(user)
@@ -137,7 +137,7 @@ public class TradesDataLoader implements CommandLineRunner {
                 .ticker("MO")
                 .build());
 
-        securityTradeRepository.save(SecurityTrade.builder()
+        tradeRepository.save(Trade.builder()
                 .date(LocalDateTime.of(2021, 12, 1, 11, 0))
                 .instrument(moStock)
                 .user(user)
@@ -159,7 +159,7 @@ public class TradesDataLoader implements CommandLineRunner {
                 .ticker("OHI")
                 .build());
 
-        securityTradeRepository.save(SecurityTrade.builder()
+        tradeRepository.save(Trade.builder()
                 .date(LocalDateTime.of(2021, 12, 1, 11, 0))
                 .instrument(ohiStock)
                 .user(user)
@@ -181,7 +181,7 @@ public class TradesDataLoader implements CommandLineRunner {
                 .ticker("KO")
                 .build());
 
-        securityTradeRepository.save(SecurityTrade.builder()
+        tradeRepository.save(Trade.builder()
                 .date(LocalDateTime.of(2021, 12, 1, 11, 0))
                 .instrument(koStock)
                 .user(user)
@@ -204,7 +204,7 @@ public class TradesDataLoader implements CommandLineRunner {
                 .ticker("TTE")
                 .build());
 
-        securityTradeRepository.save(SecurityTrade.builder()
+        tradeRepository.save(Trade.builder()
                 .date(LocalDateTime.of(2021, 12, 1, 11, 0))
                 .instrument(totalStock)
                 .user(user)
@@ -228,7 +228,7 @@ public class TradesDataLoader implements CommandLineRunner {
                 .ticker("ROSN")
                 .build());
 
-        securityTradeRepository.save(SecurityTrade.builder()
+        tradeRepository.save(Trade.builder()
                 .date(LocalDateTime.of(2022, 1, 18, 8, 0))
                 .instrument(rosnStock)
                 .user(user)
@@ -237,7 +237,7 @@ public class TradesDataLoader implements CommandLineRunner {
                 .quantity(BigInteger.valueOf(700L))
                 .build());
 
-        securityTradeRepository.save(SecurityTrade.builder()
+        tradeRepository.save(Trade.builder()
                 .date(LocalDateTime.of(2022, 3, 24, 8, 0))
                 .instrument(rosnStock)
                 .user(user)
@@ -260,7 +260,7 @@ public class TradesDataLoader implements CommandLineRunner {
                 .ticker("GAZP")
                 .build());
 
-        securityTradeRepository.save(SecurityTrade.builder()
+        tradeRepository.save(Trade.builder()
                 .date(LocalDateTime.of(2021, 12, 1, 11, 0))
                 .instrument(gazpromStock)
                 .user(user)
@@ -283,7 +283,7 @@ public class TradesDataLoader implements CommandLineRunner {
                 .ticker("AGRO")
                 .build());
 
-        securityTradeRepository.save(SecurityTrade.builder()
+        tradeRepository.save(Trade.builder()
                 .date(LocalDateTime.of(2021, 12, 1, 11, 0))
                 .instrument(rosAgroStock)
                 .user(user)
@@ -306,7 +306,7 @@ public class TradesDataLoader implements CommandLineRunner {
                 .ticker("PLZL")
                 .build());
 
-        securityTradeRepository.save(SecurityTrade.builder()
+        tradeRepository.save(Trade.builder()
                 .date(LocalDateTime.of(2021, 12, 1, 11, 0))
                 .instrument(polyusStock)
                 .user(user)
@@ -329,7 +329,7 @@ public class TradesDataLoader implements CommandLineRunner {
                 .ticker("PHOR")
                 .build());
 
-        securityTradeRepository.save(SecurityTrade.builder()
+        tradeRepository.save(Trade.builder()
                 .date(LocalDateTime.of(2021, 12, 1, 11, 0))
                 .instrument(phosStock)
                 .user(user)
@@ -338,7 +338,7 @@ public class TradesDataLoader implements CommandLineRunner {
                 .quantity(BigInteger.valueOf(10L))
                 .build());
 
-        securityTradeRepository.save(SecurityTrade.builder()
+        tradeRepository.save(Trade.builder()
                 .date(LocalDateTime.of(2022, 3, 24, 11, 0))
                 .instrument(phosStock)
                 .user(user)
