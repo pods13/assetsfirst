@@ -1,4 +1,4 @@
-import { TradeCategory } from './trade-category';
+import { InstrumentType } from './instrument-type';
 import { TradeOperation } from './trade-operation';
 
 export interface AddTradeDto {
@@ -6,6 +6,6 @@ export interface AddTradeDto {
   operation: TradeOperation;
   price: number;
   quantity: number;
-  tradeCategory: TradeCategory;
+  instrumentType: InstrumentType;
   date: Date;
 }

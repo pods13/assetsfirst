@@ -1,6 +1,6 @@
-package com.topably.assets.trades.service.security;
+package com.topably.assets.trades.service.instrument;
 
-import com.topably.assets.instruments.repository.security.StockRepository;
+import com.topably.assets.instruments.repository.instrument.StockRepository;
 import com.topably.assets.trades.domain.dto.TradeDto;
 import com.topably.assets.trades.domain.dto.add.AddTradeDto;
 import com.topably.assets.trades.service.TradeService;

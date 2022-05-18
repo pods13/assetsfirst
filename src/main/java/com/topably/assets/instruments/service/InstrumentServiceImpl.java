@@ -1,9 +1,10 @@
 package com.topably.assets.instruments.service;
 
-import com.topably.assets.instruments.domain.ETF;
+import com.topably.assets.instruments.domain.instrument.ETF;
 import com.topably.assets.instruments.domain.Instrument;
 import com.topably.assets.instruments.domain.InstrumentType;
-import com.topably.assets.instruments.domain.Stock;
+import com.topably.assets.instruments.domain.instrument.FX;
+import com.topably.assets.instruments.domain.instrument.Stock;
 import com.topably.assets.instruments.domain.dto.InstrumentDto;
 import com.topably.assets.instruments.repository.InstrumentRepository;
 import lombok.RequiredArgsConstructor;
@@ -37,6 +38,12 @@ public class InstrumentServiceImpl implements InstrumentService {
                         .ticker(instrument.getTicker())
                         .name(((ETF) instrument).getName())
                         .instrumentType(InstrumentType.ETF)
+                        .build();
+            } else if (instrument instanceof FX) {
+                return InstrumentDto.builder()
+                        .id(instrument.getId())
+                        .ticker(instrument.getTicker())
+                        .instrumentType(InstrumentType.FX)
                         .build();
             }
             return InstrumentDto.builder()

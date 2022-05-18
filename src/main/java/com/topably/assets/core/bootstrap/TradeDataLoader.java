@@ -7,10 +7,10 @@ import com.topably.assets.companies.repository.CompanyRepository;
 import com.topably.assets.companies.repository.IndustryRepository;
 import com.topably.assets.exchanges.domain.Exchange;
 import com.topably.assets.exchanges.repository.ExchangeRepository;
-import com.topably.assets.instruments.domain.ETF;
-import com.topably.assets.instruments.domain.Stock;
-import com.topably.assets.instruments.repository.security.ETFRepository;
-import com.topably.assets.instruments.repository.security.StockRepository;
+import com.topably.assets.instruments.domain.instrument.ETF;
+import com.topably.assets.instruments.domain.instrument.Stock;
+import com.topably.assets.instruments.repository.instrument.ETFRepository;
+import com.topably.assets.instruments.repository.instrument.StockRepository;
 import com.topably.assets.trades.domain.TradeOperation;
 import com.topably.assets.trades.domain.Trade;
 import com.topably.assets.trades.repository.TradeRepository;
@@ -30,9 +30,9 @@ import static com.topably.assets.exchanges.domain.USExchange.NYSEARCA;
 
 @RequiredArgsConstructor
 @Component
-@Order(4)
+@Order(5)
 @ConditionalOnProperty(name = "app.bootstrap.with.data", havingValue = "true")
-public class TradesDataLoader implements CommandLineRunner {
+public class TradeDataLoader implements CommandLineRunner {
 
     private final UserRepository userRepository;
     private final CompanyRepository companyRepository;

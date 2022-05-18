@@ -1,6 +1,6 @@
-package com.topably.assets.instruments.repository.security;
+package com.topably.assets.instruments.repository.instrument;
 
-import com.topably.assets.instruments.domain.ETF;
+import com.topably.assets.instruments.domain.instrument.ETF;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ETFRepository extends JpaRepository<ETF, Long> {

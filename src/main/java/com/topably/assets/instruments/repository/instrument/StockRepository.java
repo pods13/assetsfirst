@@ -1,7 +1,7 @@
-package com.topably.assets.instruments.repository.security;
+package com.topably.assets.instruments.repository.instrument;
 
 
-import com.topably.assets.instruments.domain.Stock;
+import com.topably.assets.instruments.domain.instrument.Stock;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;

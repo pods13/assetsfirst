@@ -1,6 +1,7 @@
-package com.topably.assets.instruments.domain;
+package com.topably.assets.instruments.domain.instrument;
 
 import com.topably.assets.companies.domain.Company;
+import com.topably.assets.instruments.domain.Instrument;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -2,7 +2,7 @@ package com.topably.assets.trades;
 
 import com.topably.assets.trades.domain.dto.TradeDto;
 import com.topably.assets.trades.domain.dto.add.AddTradeDto;
-import com.topably.assets.trades.service.security.ETFTradeService;
+import com.topably.assets.trades.service.instrument.ETFTradeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;

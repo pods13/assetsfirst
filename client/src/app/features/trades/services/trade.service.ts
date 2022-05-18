@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AddTradeDto } from '../types/add-trade.dto';
-import { TradeCategory } from '../types/trade-category';
+import { InstrumentType } from '../types/instrument-type';
 
 @Injectable()
 export class TradeService {
@@ -14,8 +14,14 @@ export class TradeService {
   }
 
   addTrade(dto: AddTradeDto) {
-    const tradeCategory = dto.tradeCategory.toLowerCase();
-    const urlPrefix = tradeCategory + 's';
+    const urlPrefix = this.getUrlPrefixByType(dto.instrumentType);
     return this.http.post(`/${urlPrefix}/trades`, dto);
+  }
+
+  private getUrlPrefixByType(instrumentType: InstrumentType): string {
+    if (InstrumentType.FX === instrumentType) {
+      return instrumentType.toLowerCase();
+    }
+    return instrumentType.toLowerCase() + 's';
   }
 }
