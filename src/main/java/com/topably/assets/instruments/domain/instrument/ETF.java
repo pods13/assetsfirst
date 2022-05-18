@@ -13,11 +13,14 @@ import javax.persistence.Entity;
 @Setter
 @Getter
 @NoArgsConstructor
-@AllArgsConstructor
 @SuperBuilder
 @Entity
 @DiscriminatorValue("ETF")
 public class ETF extends Instrument {
 
-    private String name;
+    public static final String NAME_ATTRIBUTE = "name";
+
+    public String getName() {
+        return getAttributes().get(NAME_ATTRIBUTE);
+    }
 }

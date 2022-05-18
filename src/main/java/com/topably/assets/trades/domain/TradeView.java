@@ -24,7 +24,7 @@ import java.util.Currency;
         "       u2.username,\n" +
         "       s2.ticker,\n" +
         "       CASE\n" +
-        "           WHEN s2.instrument_type = 'ETF' THEN s2.name\n" +
+        "           WHEN s2.instrument_type = 'ETF' THEN s2.attributes->>\"$.name\"\n" +
         "           WHEN s2.instrument_type = 'STOCK' THEN c2.name\n" +
         "           END          as name,\n" +
         "       trade.operation,\n" +

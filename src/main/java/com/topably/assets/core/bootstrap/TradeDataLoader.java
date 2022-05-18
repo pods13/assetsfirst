@@ -89,7 +89,7 @@ public class TradeDataLoader implements CommandLineRunner {
         Exchange nysearca = exchangeRepository.findByCode(NYSEARCA.name());
 
         ETF krbn = exchangeTradedFundRepository.save(ETF.builder()
-                .name("KraneShares Global Carbon Strategy ETF")
+                .attribute(ETF.NAME_ATTRIBUTE, "KraneShares Global Carbon Strategy ETF")
                 .exchange(nysearca)
                 .ticker("KRBN")
                 .build());

@@ -5,8 +5,10 @@ import com.topably.assets.exchanges.domain.Exchange;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.Singular;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
@@ -19,6 +21,7 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import java.util.Map;
 
 @Setter
 @Getter
@@ -42,4 +45,9 @@ public abstract class Instrument {
     private Exchange exchange;
 
     private String ticker;
+
+    @Singular
+    @Column(name = "ATTRIBUTES", columnDefinition = "json")
+    @Type(type = "json")
+    private Map<String, String> attributes;
 }
