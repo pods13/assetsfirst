@@ -20,7 +20,7 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { TradingInstrumentService } from './services/trading-instrument.service';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
-import { AssignStockEtfTradeSpecificsComponent } from './components/assign-stock-etf-trade-specifics/assign-stock-etf-trade-specifics.component';
+import { AssignTradeAttributesComponent } from './components/assign-trade-attributes/assign-trade-attributes.component';
 import { CurrencyService } from './services/currency.service';
 
 
@@ -30,7 +30,7 @@ import { CurrencyService } from './services/currency.service';
     TradesContainerComponent,
     DatatableActionsBarComponent,
     TradeDialogComponent,
-    AssignStockEtfTradeSpecificsComponent,
+    AssignTradeAttributesComponent,
   ],
   imports: [
     CommonModule,

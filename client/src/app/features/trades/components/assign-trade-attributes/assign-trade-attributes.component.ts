@@ -10,7 +10,7 @@ import {
 import { TradeOperation } from '../../types/trade-operation';
 
 @Component({
-  selector: 'app-assign-stock-etf-trade-specifics',
+  selector: 'app-assign-trade-attributes',
   template: `
     <form [formGroup]="form">
       <div class="">
@@ -44,13 +44,13 @@ import { TradeOperation } from '../../types/trade-operation';
       </div>
     </form>
   `,
-  styleUrls: ['./assign-stock-etf-trade-specifics.component.scss'],
+  styleUrls: ['./assign-trade-attributes.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   viewProviders: [
     {provide: ControlContainer, useExisting: FormGroupDirective}
   ]
 })
-export class AssignStockEtfTradeSpecificsComponent implements OnInit {
+export class AssignTradeAttributesComponent implements OnInit {
 
   form!: FormGroup;
 

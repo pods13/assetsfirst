@@ -26,7 +26,7 @@ import { AddTradeDto } from '../../types/add-trade.dto';
             </mat-option>
           </mat-select>
         </mat-form-field>
-        <app-assign-stock-etf-trade-specifics></app-assign-stock-etf-trade-specifics>
+        <app-assign-trade-attributes></app-assign-trade-attributes>
       </form>
     </div>
     <div mat-dialog-actions>
