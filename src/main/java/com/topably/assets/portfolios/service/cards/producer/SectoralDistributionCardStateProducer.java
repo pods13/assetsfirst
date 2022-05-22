@@ -1,7 +1,7 @@
 package com.topably.assets.portfolios.service.cards.producer;
 
 import com.topably.assets.portfolios.domain.cards.CardContainerType;
-import com.topably.assets.portfolios.domain.cards.PortfolioCardData;
+import com.topably.assets.portfolios.domain.cards.CardData;
 import com.topably.assets.portfolios.domain.cards.input.SectoralDistributionCard;
 import com.topably.assets.portfolios.domain.cards.output.SectoralDistributionCardData;
 import com.topably.assets.portfolios.domain.cards.output.SectoralDistributionDataItem;
@@ -34,7 +34,7 @@ public class SectoralDistributionCardStateProducer implements CardStateProducer<
 
     @Override
     @Transactional
-    public PortfolioCardData produce(Principal user, SectoralDistributionCard card) {
+    public CardData produce(Principal user, SectoralDistributionCard card) {
         var aggregatedTrades = tradeService.findUserAggregatedStockTrades(user.getName());
         var stockIdByTrade = aggregatedTrades.stream().collect(toMap(AggregatedTrade::getInstrumentId, Function.identity()));
 

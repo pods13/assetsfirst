@@ -2,7 +2,7 @@ package com.topably.assets.portfolios.service.cards.producer;
 
 import com.topably.assets.exchanges.service.ExchangeService;
 import com.topably.assets.portfolios.domain.cards.CardContainerType;
-import com.topably.assets.portfolios.domain.cards.PortfolioCardData;
+import com.topably.assets.portfolios.domain.cards.CardData;
 import com.topably.assets.portfolios.domain.cards.input.AllocationCard;
 import com.topably.assets.portfolios.domain.cards.output.AllocationCardData;
 import com.topably.assets.portfolios.domain.cards.output.AllocationSegment;
@@ -32,7 +32,7 @@ public class AllocationCardStateProducer implements CardStateProducer<Allocation
 
     @Override
     @Transactional
-    public PortfolioCardData produce(Principal user, AllocationCard card) {
+    public CardData produce(Principal user, AllocationCard card) {
         Collection<AggregatedTrade> aggregatedTrades = tradeService.findUserAggregatedTrades(user.getName());
         var segments = aggregatedTrades.stream()
                 .map(this::convertToSegment)

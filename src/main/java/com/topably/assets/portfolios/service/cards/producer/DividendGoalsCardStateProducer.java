@@ -4,7 +4,7 @@ import com.topably.assets.dividends.service.DividendService;
 import com.topably.assets.exchanges.domain.TickerSymbol;
 import com.topably.assets.exchanges.service.ExchangeService;
 import com.topably.assets.portfolios.domain.cards.CardContainerType;
-import com.topably.assets.portfolios.domain.cards.PortfolioCardData;
+import com.topably.assets.portfolios.domain.cards.CardData;
 import com.topably.assets.portfolios.domain.cards.input.DividendGoalsCard;
 import com.topably.assets.portfolios.domain.cards.output.dividend.goal.DividendGoalsCardData;
 import com.topably.assets.portfolios.domain.cards.output.dividend.goal.PositionItem;
@@ -34,7 +34,7 @@ public class DividendGoalsCardStateProducer implements CardStateProducer<Dividen
 
     @Override
     @Transactional
-    public PortfolioCardData produce(Principal user, DividendGoalsCard card) {
+    public CardData produce(Principal user, DividendGoalsCard card) {
         var trades = tradeService.findUserAggregatedTrades(user.getName());
         var items = trades.stream()
                 .map(t -> this.convertToPositionItems(t, card))

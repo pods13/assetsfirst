@@ -1,13 +1,12 @@
 package com.topably.assets.portfolios.domain.cards.output.dividend.goal;
 
-import com.topably.assets.portfolios.domain.cards.PortfolioCardData;
+import com.topably.assets.portfolios.domain.cards.CardData;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.math.BigDecimal;
 import java.util.Collection;
 
 @Setter
@@ -15,7 +14,7 @@ import java.util.Collection;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class DividendGoalsCardData implements PortfolioCardData {
+public class DividendGoalsCardData implements CardData {
 
     private Collection<PositionItem> items;
 }

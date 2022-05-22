@@ -1,6 +1,6 @@
 package com.topably.assets.portfolios.domain.cards.output.dividend;
 
-import com.topably.assets.portfolios.domain.cards.PortfolioCardData;
+import com.topably.assets.portfolios.domain.cards.CardData;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,7 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class DividendsCardData implements PortfolioCardData {
+public class DividendsCardData implements CardData {
 
     private List<TimeFrameDividend> dividends;
 

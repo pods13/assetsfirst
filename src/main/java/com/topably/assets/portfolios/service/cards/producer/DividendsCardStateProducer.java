@@ -5,7 +5,7 @@ import com.topably.assets.dividends.service.DividendService;
 import com.topably.assets.exchanges.domain.TickerSymbol;
 import com.topably.assets.instruments.domain.Instrument;
 import com.topably.assets.portfolios.domain.cards.CardContainerType;
-import com.topably.assets.portfolios.domain.cards.PortfolioCardData;
+import com.topably.assets.portfolios.domain.cards.CardData;
 import com.topably.assets.portfolios.domain.cards.input.DividendsCard;
 import com.topably.assets.portfolios.domain.cards.output.dividend.DividendDetails;
 import com.topably.assets.portfolios.domain.cards.output.dividend.DividendSummary;
@@ -47,7 +47,7 @@ public class DividendsCardStateProducer implements CardStateProducer<DividendsCa
 
     @Override
     @Transactional
-    public PortfolioCardData produce(Principal user, DividendsCard card) {
+    public CardData produce(Principal user, DividendsCard card) {
         var groupedTrades = tradeService.findUserDividendPayingTrades(user.getName()).stream()
                 .collect(groupingBy(trade -> {
                     Instrument instrument = trade.getInstrument();
