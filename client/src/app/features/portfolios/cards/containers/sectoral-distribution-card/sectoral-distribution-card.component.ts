@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { SectoralDistributionCardData } from '../../types/out/sectoral-distribution-card-data';
 import { TreeMapDataItem } from '@swimlane/ngx-charts';
 import { DataItem } from '@swimlane/ngx-charts/lib/models/chart-data.model';
-import { PortfolioCard } from '../../types/portfolio-card';
+import { DashboardCard } from '../../types/dashboard-card';
 
 @Component({
   selector: 'app-sectoral-distribution-card',
@@ -31,9 +31,9 @@ import { PortfolioCard } from '../../types/portfolio-card';
   styleUrls: ['./sectoral-distribution-card.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SectoralDistributionCardComponent implements CardContainer<PortfolioCard, SectoralDistributionCardData>, OnInit {
+export class SectoralDistributionCardComponent implements CardContainer<DashboardCard, SectoralDistributionCardData>, OnInit {
 
-  card!: PortfolioCard;
+  card!: DashboardCard;
   data$!: Observable<SectoralDistributionCardData>;
 
   treemap!: any[];

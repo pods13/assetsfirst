@@ -1,6 +1,6 @@
 import { PortfolioCardOutletDirective } from '../directives/portfolio-card-outlet.directive';
 import { Injectable } from '@angular/core';
-import { PortfolioCard } from '../types/portfolio-card';
+import { DashboardCard } from '../types/dashboard-card';
 import { cardContainerTemplateMapper } from '../types/card-container-template-mapper';
 import { CardContainer } from '../types/card-container';
 import { Observable } from 'rxjs';
@@ -26,7 +26,7 @@ export class CardContentLoaderService {
       return;
     }
     const componentRef = viewContainerRef.createComponent(containerClass)
-    const instance = componentRef.instance as CardContainer<PortfolioCard, CardData>;
+    const instance = componentRef.instance as CardContainer<DashboardCard, CardData>;
     instance.card = template.card;
     instance.data$ = cardData$;
   }

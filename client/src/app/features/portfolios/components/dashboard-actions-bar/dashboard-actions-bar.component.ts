@@ -5,14 +5,14 @@ import { CardContainerType } from '../../cards/types/card-container-type';
 import { filter } from 'rxjs';
 
 @Component({
-  selector: 'app-portfolio-actions-bar',
+  selector: 'app-dashboard-actions-bar',
   template: `
     <button mat-button (click)="onAddNewCard()">+ Add New Card</button>
   `,
-  styleUrls: ['./portfolio-actions-bar.component.scss'],
+  styleUrls: ['./dashboard-actions-bar.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PortfolioActionsBarComponent implements OnInit {
+export class DashboardActionsBarComponent implements OnInit {
 
   @Output()
   addNewCard = new EventEmitter<CardContainerType>();

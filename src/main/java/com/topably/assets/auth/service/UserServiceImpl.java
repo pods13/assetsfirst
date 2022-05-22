@@ -5,7 +5,6 @@ import com.topably.assets.auth.domain.UserDto;
 import com.topably.assets.auth.event.UserCreatedEvent;
 import com.topably.assets.auth.repository.AuthorityRepository;
 import com.topably.assets.auth.repository.UserRepository;
-import com.topably.assets.portfolios.service.PortfolioService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.crypto.password.PasswordEncoder;

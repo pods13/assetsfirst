@@ -3,10 +3,10 @@ import { CommonModule } from '@angular/common';
 import { PortfolioViewComponent } from './views/portfolio-view/portfolio-view.component';
 import { PortfolioDashboardComponent } from './containers/portfolio-dashboard/portfolio-dashboard.component';
 import { GridsterModule } from 'angular-gridster2';
-import { PortfolioCardsModule } from './cards/portfolio-cards.module';
+import { DashboardCardsModule } from './cards/dashboard-cards.module';
 import { PortfoliosRoutingModule } from './portfolios-routing.module';
-import { PortfolioService } from './services/portfolio.service';
-import { PortfolioActionsBarComponent } from './components/portfolio-actions-bar/portfolio-actions-bar.component';
+import { PortfolioDashboardService } from './services/portfolio-dashboard.service';
+import { DashboardActionsBarComponent } from './components/dashboard-actions-bar/dashboard-actions-bar.component';
 import { MatButtonModule } from '@angular/material/button';
 
 
@@ -14,17 +14,17 @@ import { MatButtonModule } from '@angular/material/button';
   declarations: [
     PortfolioViewComponent,
     PortfolioDashboardComponent,
-    PortfolioActionsBarComponent
+    DashboardActionsBarComponent
   ],
     imports: [
         CommonModule,
         PortfoliosRoutingModule,
         GridsterModule,
-        PortfolioCardsModule,
+        DashboardCardsModule,
         MatButtonModule
     ],
   providers: [
-    PortfolioService
+    PortfolioDashboardService
   ]
 })
 export class PortfoliosModule {

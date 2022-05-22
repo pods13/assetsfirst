@@ -5,7 +5,7 @@ import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { DividendGoalsCardData } from '../../types/out/dividend-goals-card-data';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { DividendGoalsCard } from '../../types/in/dividend-goals-card';
-import { PortfolioCardStore } from '../../services/portfolio-card.store';
+import { DashboardCardStore } from '../../services/dashboard-card-store.service';
 import { tapOnce } from '../../../../../core/helpers/tapOnce';
 
 @UntilDestroy()
@@ -42,7 +42,7 @@ export class DividendGoalsCardComponent implements CardContainer<DividendGoalsCa
   form: FormGroup;
 
   constructor(private fb: FormBuilder,
-              private store: PortfolioCardStore,
+              private store: DashboardCardStore,
               private cd: ChangeDetectorRef) {
     this.form = fb.group({
       desiredYields: fb.array([]),

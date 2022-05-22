@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { PortfolioCardStore } from '../../cards/services/portfolio-card.store';
+import { DashboardCardStore } from '../../cards/services/dashboard-card-store.service';
 
 @Component({
   selector: 'app-portfolio-view',
@@ -9,7 +9,7 @@ import { PortfolioCardStore } from '../../cards/services/portfolio-card.store';
   styleUrls: ['./portfolio-view.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
-    PortfolioCardStore
+    DashboardCardStore
   ]
 })
 export class PortfolioViewComponent implements OnInit {

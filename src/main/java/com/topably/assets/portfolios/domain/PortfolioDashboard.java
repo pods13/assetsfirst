@@ -1,7 +1,7 @@
 package com.topably.assets.portfolios.domain;
 
 import com.topably.assets.auth.domain.User;
-import com.topably.assets.portfolios.domain.cards.PortfolioCard;
+import com.topably.assets.portfolios.domain.cards.DashboardCard;
 import com.vladmihalcea.hibernate.type.json.JsonType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -33,7 +33,7 @@ import java.util.Set;
         @TypeDef(name = "json", typeClass = JsonType.class)
 })
 @Entity
-public class Portfolio {
+public class PortfolioDashboard {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
@@ -47,5 +47,5 @@ public class Portfolio {
     @Singular
     @Column(name = "CARDS", columnDefinition = "json")
     @Type(type = "json")
-    private Set<PortfolioCard> cards;
+    private Set<DashboardCard> cards;
 }

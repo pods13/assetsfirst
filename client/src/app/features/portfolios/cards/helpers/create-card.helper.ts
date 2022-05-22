@@ -1,12 +1,12 @@
 import { AllocationCardFactory } from './factory/allocation-card.factory';
 import { CardContainerType } from '../types/card-container-type';
-import { PortfolioCard } from '../types/portfolio-card';
+import { DashboardCard } from '../types/dashboard-card';
 import { DividendsCardFactory } from './factory/dividends-card.factory';
 import { DividendGoalsCardFactory } from './factory/dividend-goals-card.factory';
 import { SectoralDistributionCardFactory } from './factory/sectoral-distribution-card.factory';
 
 
-export function createCard(containerType: CardContainerType): PortfolioCard {
+export function createCard(containerType: CardContainerType): DashboardCard {
   const cardFactory = cardContainerTypeByFactory[containerType];
   if (!cardFactory) {
     throw new Error(`Cannot find card factory for ${containerType}`);

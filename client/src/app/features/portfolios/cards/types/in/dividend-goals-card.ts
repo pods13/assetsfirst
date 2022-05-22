@@ -1,5 +1,5 @@
-import { PortfolioCard } from '../portfolio-card';
+import { DashboardCard } from '../dashboard-card';
 
-export interface DividendGoalsCard extends PortfolioCard {
+export interface DividendGoalsCard extends DashboardCard {
   desiredYieldByIssuer: {[key: string]: number};
 }

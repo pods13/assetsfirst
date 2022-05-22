@@ -1,6 +1,6 @@
 package com.topably.assets.portfolios.service.cards;
 
-import com.topably.assets.portfolios.domain.cards.PortfolioCard;
+import com.topably.assets.portfolios.domain.cards.DashboardCard;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
@@ -15,7 +15,7 @@ public class CardStateProducerFactory {
     }
 
     @SuppressWarnings("unchecked")
-    public <T extends PortfolioCard> CardStateProducer<T> getProducer(T card) {
+    public <T extends DashboardCard> CardStateProducer<T> getProducer(T card) {
         return (CardStateProducer<T>) cardStateProducers.get(card.getContainerType());
     }
 }

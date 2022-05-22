@@ -7,13 +7,11 @@ import com.topably.assets.portfolios.domain.cards.input.AllocationCard;
 import com.topably.assets.portfolios.domain.cards.input.DividendGoalsCard;
 import com.topably.assets.portfolios.domain.cards.input.DividendsCard;
 import com.topably.assets.portfolios.domain.cards.input.SectoralDistributionCard;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
-import java.util.Objects;
 
 import static com.fasterxml.jackson.annotation.JsonTypeInfo.As.EXISTING_PROPERTY;
 import static com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NAME;
@@ -29,7 +27,7 @@ import static com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NAME;
 @Getter
 @Setter
 @NoArgsConstructor
-public abstract class PortfolioCard implements Serializable {
+public abstract class DashboardCard implements Serializable {
 
     private String id;
     private String containerType;

@@ -59,5 +59,5 @@ import { SectoralDistributionCardComponent } from './containers/sectoral-distrib
     SelectCardDialogComponent
   ]
 })
-export class PortfolioCardsModule {
+export class DashboardCardsModule {
 }

@@ -1,6 +1,6 @@
 package com.topably.assets.portfolios.domain.dto;
 
-import com.topably.assets.portfolios.domain.cards.PortfolioCard;
+import com.topably.assets.portfolios.domain.cards.DashboardCard;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,8 +14,8 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class PortfolioDto {
+public class PortfolioDashboardDto {
 
     private Long id;
-    private Set<PortfolioCard> cards;
+    private Set<DashboardCard> cards;
 }

@@ -1,5 +1,5 @@
 import { generateId } from './id-generator.helper';
-import { PortfolioCard } from '../types/portfolio-card';
+import { DashboardCard } from '../types/dashboard-card';
 import { CardContainerType } from '../types/card-container-type';
 
 export const defaultCardProps = {
@@ -11,8 +11,8 @@ export const defaultCardProps = {
   minItemRows: 2,
 };
 
-export abstract class CardFactory<T extends PortfolioCard> {
-  protected originCard: PortfolioCard;
+export abstract class CardFactory<T extends DashboardCard> {
+  protected originCard: DashboardCard;
 
   protected constructor(containerType: CardContainerType) {
     this.originCard = {id: generateId(), containerType, ...defaultCardProps};

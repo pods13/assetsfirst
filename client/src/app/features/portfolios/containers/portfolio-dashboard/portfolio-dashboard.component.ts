@@ -1,16 +1,16 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { GRIDSTER_CONFIG } from './portfolio-dashboard.configs';
-import { PortfolioCard } from '../../cards/types/portfolio-card';
+import { DashboardCard } from '../../cards/types/dashboard-card';
 import { CardContainerType } from '../../cards/types/card-container-type';
-import { PortfolioCardStore } from '../../cards/services/portfolio-card.store';
+import { DashboardCardStore } from '../../cards/services/dashboard-card-store.service';
 import { createCard } from '../../cards/helpers/create-card.helper';
-import { PortfolioService } from '../../services/portfolio.service';
+import { PortfolioDashboardService } from '../../services/portfolio-dashboard.service';
 import { first } from 'rxjs';
 
 @Component({
   selector: 'app-portfolio-dashboard',
   template: `
-    <app-portfolio-actions-bar (addNewCard)="addNewCard($event)"></app-portfolio-actions-bar>
+    <app-dashboard-actions-bar (addNewCard)="addNewCard($event)"></app-dashboard-actions-bar>
     <gridster [options]="options">
       <ng-container *ngIf="store.cardsByItems$ | async as cardsByItems">
         <gridster-item *ngFor="let card of cardsByItems.cards; let i = index; trackBy: trackByCardId"
@@ -27,18 +27,18 @@ import { first } from 'rxjs';
 export class PortfolioDashboardComponent implements OnInit {
   options = {...GRIDSTER_CONFIG, itemChangeCallback: (card: any) => this.store.updateCard(card)};
 
-  constructor(public store: PortfolioCardStore,
-              private portfolioService: PortfolioService) {
+  constructor(public store: DashboardCardStore,
+              private dashboardService: PortfolioDashboardService) {
 
   }
 
   ngOnInit(): void {
-    this.portfolioService.getUserPortfolio().pipe(
+    this.dashboardService.getUserPortfolioDashboard().pipe(
       first(),
     ).subscribe(portfolio => this.store.init(portfolio.id, portfolio.cards));
   }
 
-  trackByCardId(index: number, card: PortfolioCard) {
+  trackByCardId(index: number, card: DashboardCard) {
     if (!card) {
       return null;
     }

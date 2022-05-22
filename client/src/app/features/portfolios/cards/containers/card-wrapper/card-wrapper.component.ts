@@ -9,14 +9,14 @@ import {
   SimpleChanges,
   ViewChild
 } from '@angular/core';
-import { PortfolioCard } from '../../types/portfolio-card';
+import { DashboardCard } from '../../types/dashboard-card';
 import { PortfolioCardOutletDirective } from '../../directives/portfolio-card-outlet.directive';
 import { CardContentLoaderService } from '../../services/card-content-loader.service';
 import { RxStompService } from '../../../../../core/services/rx-stomp.service';
 import { map, Observable, shareReplay } from 'rxjs';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { defaultCardProps } from '../../helpers/card-factory';
-import { PortfolioCardStore } from '../../services/portfolio-card.store';
+import { DashboardCardStore } from '../../services/dashboard-card-store.service';
 
 @UntilDestroy()
 @Component({
@@ -45,13 +45,13 @@ export class CardWrapperComponent implements OnInit, AfterViewInit, OnChanges {
   @ViewChild(PortfolioCardOutletDirective, {static: true}) cardOutlet!: PortfolioCardOutletDirective;
 
   @Input()
-  card!: PortfolioCard;
+  card!: DashboardCard;
 
   cardData$!: Observable<any>;
 
   constructor(private cardContentLoaderService: CardContentLoaderService,
               private rxStompService: RxStompService,
-              private cardStore: PortfolioCardStore,
+              private cardStore: DashboardCardStore,
               private cd: ChangeDetectorRef) {
   }
 
@@ -65,7 +65,7 @@ export class CardWrapperComponent implements OnInit, AfterViewInit, OnChanges {
     this.publishCard(this.card);
   }
 
-  private publishCard(card: PortfolioCard): void {
+  private publishCard(card: DashboardCard): void {
     this.rxStompService.publish({
       destination: '/app/cards',
       body: JSON.stringify(card)
@@ -88,7 +88,7 @@ export class CardWrapperComponent implements OnInit, AfterViewInit, OnChanges {
     }
   }
 
-  private getCardData(card: PortfolioCard) {
+  private getCardData(card: DashboardCard) {
     return this.rxStompService.watch(`/user/topic/cards/${card.id}`)
       .pipe(
         untilDestroyed(this),

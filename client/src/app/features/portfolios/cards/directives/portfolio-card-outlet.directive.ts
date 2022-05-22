@@ -1,11 +1,11 @@
 import { Directive, Input, ViewContainerRef } from '@angular/core';
-import { PortfolioCard } from '../types/portfolio-card';
+import { DashboardCard } from '../types/dashboard-card';
 
 @Directive({
   selector: '[appPortfolioCardOutlet]'
 })
 export class PortfolioCardOutletDirective {
-  @Input() card!: PortfolioCard;
+  @Input() card!: DashboardCard;
 
   constructor(public viewContainerRef: ViewContainerRef) {
   }

@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { CardContainer } from '../../types/card-container';
 import { Observable } from 'rxjs';
-import { PortfolioCard } from '../../types/portfolio-card';
+import { DashboardCard } from '../../types/dashboard-card';
 import { DividendIncomeCardData } from '../../types/out/dividend-income-card-data';
 
 @Component({
@@ -31,9 +31,9 @@ import { DividendIncomeCardData } from '../../types/out/dividend-income-card-dat
   styleUrls: ['./dividends-card.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DividendsCardComponent implements OnInit, CardContainer<PortfolioCard, DividendIncomeCardData> {
+export class DividendsCardComponent implements OnInit, CardContainer<DashboardCard, DividendIncomeCardData> {
 
-  card!: PortfolioCard;
+  card!: DashboardCard;
   data$!: Observable<DividendIncomeCardData>;
 
   constructor() {
