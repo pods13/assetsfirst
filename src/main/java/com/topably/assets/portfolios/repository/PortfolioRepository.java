@@ -7,5 +7,5 @@ import java.util.Collection;
 
 public interface PortfolioRepository extends JpaRepository<Portfolio, Long> {
 
-    Collection<Portfolio> findByUserId(Long userId);
+    Portfolio findByUserId(Long userId);
 }

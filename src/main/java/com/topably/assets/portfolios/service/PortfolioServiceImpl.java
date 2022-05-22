@@ -3,15 +3,13 @@ package com.topably.assets.portfolios.service;
 import com.topably.assets.auth.domain.User;
 import com.topably.assets.auth.service.UserService;
 import com.topably.assets.portfolios.domain.Portfolio;
-import com.topably.assets.portfolios.domain.dto.AddPortfolioDto;
 import com.topably.assets.portfolios.domain.dto.PortfolioDto;
 import com.topably.assets.portfolios.repository.PortfolioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collection;
-import java.util.stream.Collectors;
+import java.util.HashSet;
 
 @Service
 @RequiredArgsConstructor
@@ -22,30 +20,22 @@ public class PortfolioServiceImpl implements PortfolioService {
 
     @Override
     @Transactional
-    public Collection<PortfolioDto> findUserPortfolios(String username) {
+    public PortfolioDto findUserPortfolio(String username) {
         User user = userService.findByUsername(username);
-        Collection<Portfolio> portfolios = portfolioRepository.findByUserId(user.getId());
-        return portfolios.stream()
-                .map(p -> {
-                    return PortfolioDto.builder()
-                            .id(p.getId())
-                            .cards(p.getCards())
-                            .build();
-                }).collect(Collectors.toList());
+        var portfolio = portfolioRepository.findByUserId(user.getId());
+        return PortfolioDto.builder()
+                .id(portfolio.getId())
+                .cards(portfolio.getCards())
+                .build();
     }
 
     @Override
     @Transactional
-    public PortfolioDto addPortfolio(String username, AddPortfolioDto dto) {
-        User user = userService.findByUsername(username);
+    public Portfolio createDefaultUserPortfolio(Long userId) {
         var portfolio = Portfolio.builder()
-                .user(user)
-                .cards(dto.getCards())
+                .user(userService.getById(userId))
+                .cards(new HashSet<>())
                 .build();
-        Portfolio savedPortfolio = portfolioRepository.save(portfolio);
-        return PortfolioDto.builder()
-                .id(savedPortfolio.getId())
-                .cards(savedPortfolio.getCards())
-                .build();
+        return portfolioRepository.save(portfolio);
     }
 }

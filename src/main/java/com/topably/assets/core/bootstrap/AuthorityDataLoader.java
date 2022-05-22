@@ -1,7 +1,7 @@
 package com.topably.assets.core.bootstrap;
 
-import com.topably.assets.auth.domain.UserDto;
-import com.topably.assets.auth.service.UserService;
+import com.topably.assets.auth.domain.Authority;
+import com.topably.assets.auth.repository.AuthorityRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -11,15 +11,15 @@ import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Component
-@Order(10)
+@Order(5)
 @ConditionalOnProperty(name = "app.bootstrap.with.data", havingValue = "true")
-public class UserDataLoader implements CommandLineRunner {
+public class AuthorityDataLoader implements CommandLineRunner {
 
-    private final UserService userService;
+    private final AuthorityRepository authorityRepository;
 
     @Override
     @Transactional
     public void run(String... args) throws Exception {
-        userService.createNewUserAccount(UserDto.builder().username("user").password("&}vU6Nw6").build());
+        authorityRepository.save(Authority.builder().role("USER").build());
     }
 }

@@ -17,7 +17,7 @@ import java.util.Set;
 
 @RequiredArgsConstructor
 @Component
-@Order(3)
+@Order(20)
 @ConditionalOnProperty(name = "app.bootstrap.with.data", havingValue = "true")
 /*
   See https://en.wikipedia.org/wiki/Global_Industry_Classification_Standard

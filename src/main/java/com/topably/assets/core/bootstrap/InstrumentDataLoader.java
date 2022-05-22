@@ -15,7 +15,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Component
-@Order(4)
+@Order(25)
 @ConditionalOnProperty(name = "app.bootstrap.with.data", havingValue = "true")
 public class InstrumentDataLoader implements CommandLineRunner {
 

@@ -30,7 +30,7 @@ import static com.topably.assets.exchanges.domain.USExchange.NYSEARCA;
 
 @RequiredArgsConstructor
 @Component
-@Order(5)
+@Order(30)
 @ConditionalOnProperty(name = "app.bootstrap.with.data", havingValue = "true")
 public class TradeDataLoader implements CommandLineRunner {
 

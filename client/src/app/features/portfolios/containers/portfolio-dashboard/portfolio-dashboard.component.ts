@@ -5,7 +5,7 @@ import { CardContainerType } from '../../cards/types/card-container-type';
 import { PortfolioCardStore } from '../../cards/services/portfolio-card.store';
 import { createCard } from '../../cards/helpers/create-card.helper';
 import { PortfolioService } from '../../services/portfolio.service';
-import { first, of, switchMap } from 'rxjs';
+import { first } from 'rxjs';
 
 @Component({
   selector: 'app-portfolio-dashboard',
@@ -33,8 +33,7 @@ export class PortfolioDashboardComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.portfolioService.getUserPortfolios().pipe(
-      switchMap(portfolios => portfolios.length ? of(portfolios[0]) : this.portfolioService.addPortfolio({cards: []})),
+    this.portfolioService.getUserPortfolio().pipe(
       first(),
     ).subscribe(portfolio => this.store.init(portfolio.id, portfolio.cards));
   }

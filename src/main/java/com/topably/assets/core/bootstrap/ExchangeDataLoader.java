@@ -17,7 +17,7 @@ import static com.topably.assets.exchanges.domain.USExchange.*;
 
 @RequiredArgsConstructor
 @Component
-@Order(2)
+@Order(15)
 @ConditionalOnProperty(name = "app.bootstrap.with.data", havingValue = "true")
 public class ExchangeDataLoader implements CommandLineRunner {
 
