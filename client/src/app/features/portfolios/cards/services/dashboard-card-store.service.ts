@@ -16,20 +16,20 @@ export class DashboardCardStore extends Store<DashboardCardStoreState> {
     super(new DashboardCardStoreState());
   }
 
-  init(portfolioId: number, cards: DashboardCard[]) {
+  init(dashboardId: number, cards: DashboardCard[]) {
     //TODO go through cards and propagate into them possible changes to their state structure, i.e. new property
-    this.setState({...this.state, id: portfolioId, cards: [...cards]});
+    this.setState({...this.state, dashboardId, cards: [...cards]});
   }
 
   addCard(card: DashboardCard) {
-    const {id} = this.state;
-    this.cardService.addCard(id, card);
+    const {dashboardId} = this.state;
+    this.cardService.addCard(dashboardId, card);
     this.setState({...this.state, cards: [...this.state.cards, card]});
   }
 
   updateCard(cardToUpdate: DashboardCard) {
-    const {id} = this.state;
-    this.cardService.updateCard(id, cardToUpdate);
+    const {dashboardId} = this.state;
+    this.cardService.updateCard(dashboardId, cardToUpdate);
     this.setState({
       ...this.state,
       cards: [...this.state.cards.filter(card => card.id !== cardToUpdate.id), {...cardToUpdate}]
@@ -37,8 +37,8 @@ export class DashboardCardStore extends Store<DashboardCardStoreState> {
   }
 
   deleteCard(cardToDelete: DashboardCard) {
-    const {id} = this.state;
-    this.cardService.deleteCard(id, cardToDelete);
+    const {dashboardId} = this.state;
+    this.cardService.deleteCard(dashboardId, cardToDelete);
     this.setState({
       ...this.state,
       cards: [...this.state.cards.filter(card => card.id !== cardToDelete.id)]

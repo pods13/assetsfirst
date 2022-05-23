@@ -1,6 +1,6 @@
 import { DashboardCard } from '../types/dashboard-card';
 
 export class DashboardCardStoreState {
-  id!: number;
+  dashboardId!: number;
   cards: DashboardCard[] = [];
 }

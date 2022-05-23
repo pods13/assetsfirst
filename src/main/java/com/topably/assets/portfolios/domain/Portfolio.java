@@ -1,49 +1,40 @@
 package com.topably.assets.portfolios.domain;
 
 import com.topably.assets.auth.domain.User;
-import com.topably.assets.portfolios.domain.cards.DashboardCard;
-import com.vladmihalcea.hibernate.type.json.JsonType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.Singular;
 import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Type;
-import org.hibernate.annotations.TypeDef;
-import org.hibernate.annotations.TypeDefs;
 
-import javax.persistence.Column;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
-import java.util.Set;
 
 @Setter
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@TypeDefs({
-        @TypeDef(name = "json", typeClass = JsonType.class)
-})
 @Entity
-public class PortfolioDashboard {
+public class Portfolio {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
     @GenericGenerator(name = "native", strategy = "native")
     private Long id;
 
-    @Singular
-    @Column(name = "CARDS", columnDefinition = "json")
-    @Type(type = "json")
-    private Set<DashboardCard> cards;
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(nullable = false, unique = true)
+    private User user;
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false)
+    @JoinColumn(name = "DASHBOARD_ID", referencedColumnName = "ID", nullable = false, unique = true)
+    private PortfolioDashboard dashboard;
 }

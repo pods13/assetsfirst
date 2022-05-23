@@ -8,7 +8,7 @@ export class PortfolioDashboardService {
   constructor(private http: HttpClient) {
   }
 
-  getUserPortfolioDashboard() {
+  getUserPortfolio() {
     return this.http.get<PortfolioDashboardDto>('/portfolio-dashboards');
   }
 }

@@ -2,6 +2,7 @@ package com.topably.assets.portfolios.listener;
 
 import com.topably.assets.auth.event.UserCreatedEvent;
 import com.topably.assets.portfolios.service.PortfolioDashboardService;
+import com.topably.assets.portfolios.service.PortfolioService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.event.TransactionPhase;
@@ -11,10 +12,10 @@ import org.springframework.transaction.event.TransactionalEventListener;
 @RequiredArgsConstructor
 public class UserCreatedListener {
 
-    private final PortfolioDashboardService portfolioDashboardService;
+    private final PortfolioService portfolioService;
 
     @TransactionalEventListener(phase = TransactionPhase.BEFORE_COMMIT)
     public void onApplicationEvent(UserCreatedEvent event) {
-        portfolioDashboardService.createDefaultUserPortfolioDashboard(event.getUserId());
+        portfolioService.createDefaultUserPortfolio(event.getUserId());
     }
 }

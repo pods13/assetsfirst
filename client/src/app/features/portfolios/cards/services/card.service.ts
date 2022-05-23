@@ -10,21 +10,21 @@ export class CardService {
               private rxStompService: RxStompService) {
   }
 
-  addCard(portfolioId: number, card: DashboardCard) {
-    this.manageCard(portfolioId, card, 'add');
+  addCard(dashboardId: number, card: DashboardCard) {
+    this.manageCard(dashboardId, card, 'add');
   }
 
-  updateCard(portfolioId: number, card: DashboardCard) {
-    this.manageCard(portfolioId, card, 'update');
+  updateCard(dashboardId: number, card: DashboardCard) {
+    this.manageCard(dashboardId, card, 'update');
   }
 
-  deleteCard(portfolioId: number, card: DashboardCard) {
-    this.manageCard(portfolioId, card, 'delete');
+  deleteCard(dashboardId: number, card: DashboardCard) {
+    this.manageCard(dashboardId, card, 'delete');
   }
 
-  private manageCard(portfolioId: number, card: DashboardCard, operation: string) {
+  private manageCard(dashboardId: number, card: DashboardCard, operation: string) {
     this.rxStompService.publish({
-      destination: `/app/${portfolioId}/cards/${operation}`,
+      destination: `/app/${dashboardId}/cards/${operation}`,
       body: JSON.stringify(card),
     });
   }

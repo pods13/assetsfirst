@@ -33,7 +33,7 @@ export class PortfolioDashboardComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.dashboardService.getUserPortfolioDashboard().pipe(
+    this.dashboardService.getUserPortfolio().pipe(
       first(),
     ).subscribe(portfolio => this.store.init(portfolio.id, portfolio.cards));
   }
