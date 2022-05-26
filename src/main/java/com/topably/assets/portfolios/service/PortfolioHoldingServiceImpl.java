@@ -64,6 +64,7 @@ public class PortfolioHoldingServiceImpl implements PortfolioHoldingService {
                     Instrument instrument = holding.getInstrument();
                     return PortfolioHoldingDto.builder()
                             .instrumentId(instrument.getId())
+                            .instrumentType(instrument.getInstrumentType())
                             .identifier(instrument.toTickerSymbol())
                             .currency(instrument.getExchange().getCurrency())
                             .quantity(holding.getQuantity())

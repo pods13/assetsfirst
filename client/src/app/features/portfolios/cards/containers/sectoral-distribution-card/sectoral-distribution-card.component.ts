@@ -5,7 +5,9 @@ import { SectoralDistributionCardData } from '../../types/out/sectoral-distribut
 import { TreeMapDataItem } from '@swimlane/ngx-charts';
 import { DataItem } from '@swimlane/ngx-charts/lib/models/chart-data.model';
 import { DashboardCard } from '../../types/dashboard-card';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
+@UntilDestroy()
 @Component({
   selector: 'app-sectoral-distribution-card',
   template: `
@@ -43,7 +45,7 @@ export class SectoralDistributionCardComponent implements CardContainer<Dashboar
   }
 
   ngOnInit(): void {
-    this.data$.pipe()
+    this.data$.pipe(untilDestroyed(this))
       .subscribe(data => {
         this.treemap = [...data.items];
         this.treemapPath = [{ name: 'All', children: [...this.treemap], value: -1 }];
