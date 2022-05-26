@@ -8,8 +8,10 @@ import com.topably.assets.portfolios.domain.cards.CardData;
 import com.topably.assets.portfolios.domain.cards.input.DividendGoalsCard;
 import com.topably.assets.portfolios.domain.cards.output.dividend.goal.DividendGoalsCardData;
 import com.topably.assets.portfolios.domain.cards.output.dividend.goal.PositionItem;
+import com.topably.assets.portfolios.service.PortfolioHoldingService;
+import com.topably.assets.portfolios.service.PortfolioService;
 import com.topably.assets.portfolios.service.cards.CardStateProducer;
-import com.topably.assets.trades.domain.AggregatedTrade;
+import com.topably.assets.portfolios.domain.dto.PortfolioHoldingDto;
 import com.topably.assets.trades.service.TradeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -28,16 +30,17 @@ import static java.util.stream.Collectors.toList;
 @RequiredArgsConstructor
 public class DividendGoalsCardStateProducer implements CardStateProducer<DividendGoalsCard> {
 
-    private final TradeService tradeService;
     private final DividendService dividendService;
-    private final ExchangeService exchangeService;
+    private final PortfolioService portfolioService;
+    private final PortfolioHoldingService portfolioHoldingService;
 
     @Override
     @Transactional
     public CardData produce(Principal user, DividendGoalsCard card) {
-        var trades = tradeService.findUserAggregatedTrades(user.getName());
-        var items = trades.stream()
-                .map(t -> this.convertToPositionItems(t, card))
+        var portfolio = portfolioService.findByUsername(user.getName());
+        var holdingDtos = portfolioHoldingService.findPortfolioHoldings(portfolio.getId());
+        var items = holdingDtos.stream()
+                .map(h -> this.convertToPositionItems(h, card))
                 .filter(p -> p.getCurrentYield().compareTo(BigDecimal.ZERO) > 0)
                 .collect(toList());
         return DividendGoalsCardData.builder()
@@ -45,9 +48,9 @@ public class DividendGoalsCardStateProducer implements CardStateProducer<Dividen
                 .build();
     }
 
-    private PositionItem convertToPositionItems(AggregatedTrade trade, DividendGoalsCard card) {
-        var averagePrice = trade.getTotal().divide(new BigDecimal(trade.getQuantity()), RoundingMode.HALF_EVEN);
-        TickerSymbol tickerSymbol = trade.getIdentifier();
+    private PositionItem convertToPositionItems(PortfolioHoldingDto holding, DividendGoalsCard card) {
+        var averagePrice = holding.getTotal().divide(new BigDecimal(holding.getQuantity()), RoundingMode.HALF_EVEN);
+        TickerSymbol tickerSymbol = holding.getIdentifier();
         var annualDividend = dividendService.calculateAnnualDividend(tickerSymbol, Year.now());
         var currentYield = annualDividend.multiply(BigDecimal.valueOf(100)).divide(averagePrice, 2, RoundingMode.HALF_EVEN);
 

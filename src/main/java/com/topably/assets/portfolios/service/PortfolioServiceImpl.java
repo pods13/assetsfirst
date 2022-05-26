@@ -31,4 +31,9 @@ public class PortfolioServiceImpl implements PortfolioService {
                 .build();
         return portfolioRepository.save(portfolio);
     }
+
+    @Override
+    public Portfolio findByUsername(String username) {
+        return portfolioRepository.findByUser_Username(username);
+    }
 }

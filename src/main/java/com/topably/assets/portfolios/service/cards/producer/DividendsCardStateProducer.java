@@ -11,6 +11,7 @@ import com.topably.assets.portfolios.domain.cards.output.dividend.DividendDetail
 import com.topably.assets.portfolios.domain.cards.output.dividend.DividendSummary;
 import com.topably.assets.portfolios.domain.cards.output.dividend.DividendsCardData;
 import com.topably.assets.portfolios.domain.cards.output.dividend.TimeFrameDividend;
+import com.topably.assets.portfolios.service.PortfolioService;
 import com.topably.assets.portfolios.service.cards.CardStateProducer;
 import com.topably.assets.trades.domain.TradeOperation;
 import com.topably.assets.trades.domain.Trade;
@@ -44,13 +45,15 @@ public class DividendsCardStateProducer implements CardStateProducer<DividendsCa
     private final TradeService tradeService;
     private final DividendService dividendService;
     private final CurrencyService currencyService;
+    private final PortfolioService portfolioService;
 
     @Override
     @Transactional
     public CardData produce(Principal user, DividendsCard card) {
-        var groupedTrades = tradeService.findUserDividendPayingTrades(user.getName()).stream()
+        var portfolio = portfolioService.findByUsername(user.getName());
+        var groupedTrades = tradeService.findDividendPayingTrades(portfolio.getId()).stream()
                 .collect(groupingBy(trade -> {
-                    Instrument instrument = trade.getInstrument();
+                    Instrument instrument = trade.getPortfolioHolding().getInstrument();
                     return new TickerSymbol(instrument.getTicker(), instrument.getExchange().getCode());
                 }));
         var details = groupedTrades.entrySet().stream()
@@ -79,7 +82,7 @@ public class DividendsCardStateProducer implements CardStateProducer<DividendsCa
         var quantity = BigInteger.ZERO;
         var dividendDetails = new ArrayList<DividendDetails>();
         var trades = tradesByKey.getValue();
-        var currency = trades.iterator().hasNext() ? trades.iterator().next().getInstrument().getExchange().getCurrency() : null;
+        var currency = trades.iterator().hasNext() ? trades.iterator().next().getPortfolioHolding().getInstrument().getExchange().getCurrency() : null;
         int index = 0;
         for (Dividend dividend : dividends) {
             for (; index < trades.size(); index++) {

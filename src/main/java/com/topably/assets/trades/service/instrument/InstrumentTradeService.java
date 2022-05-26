@@ -5,5 +5,5 @@ import com.topably.assets.trades.domain.dto.add.AddTradeDto;
 
 public interface InstrumentTradeService {
 
-    TradeDto addTrade(AddTradeDto dto, String username);
+    TradeDto addTrade(AddTradeDto dto);
 }

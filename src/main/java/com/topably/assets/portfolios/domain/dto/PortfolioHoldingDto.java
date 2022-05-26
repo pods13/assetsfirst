@@ -1,4 +1,4 @@
-package com.topably.assets.trades.domain;
+package com.topably.assets.portfolios.domain.dto;
 
 import com.topably.assets.exchanges.domain.TickerSymbol;
 import lombok.AllArgsConstructor;
@@ -16,7 +16,7 @@ import java.util.Currency;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class AggregatedTrade {
+public class PortfolioHoldingDto {
 
     private Long instrumentId;
     private TickerSymbol identifier;

@@ -15,7 +15,7 @@ public class StockTradeService implements InstrumentTradeService {
     private final TradeService tradeService;
 
     @Override
-    public TradeDto addTrade(AddTradeDto dto, String username) {
-        return tradeService.addTrade(dto, username, stockRepository.getById(dto.getInstrumentId()));
+    public TradeDto addTrade(AddTradeDto dto) {
+        return tradeService.addTrade(dto, stockRepository.getById(dto.getInstrumentId()));
     }
 }

@@ -5,10 +5,12 @@ import com.topably.assets.portfolios.domain.cards.CardData;
 import com.topably.assets.portfolios.domain.cards.input.SectoralDistributionCard;
 import com.topably.assets.portfolios.domain.cards.output.SectoralDistributionCardData;
 import com.topably.assets.portfolios.domain.cards.output.SectoralDistributionDataItem;
+import com.topably.assets.portfolios.service.PortfolioHoldingService;
+import com.topably.assets.portfolios.service.PortfolioService;
 import com.topably.assets.portfolios.service.cards.CardStateProducer;
 import com.topably.assets.instruments.domain.Instrument;
 import com.topably.assets.instruments.service.StockService;
-import com.topably.assets.trades.domain.AggregatedTrade;
+import com.topably.assets.portfolios.domain.dto.PortfolioHoldingDto;
 import com.topably.assets.trades.service.TradeService;
 import com.topably.assets.xrates.service.currency.CurrencyService;
 import lombok.RequiredArgsConstructor;
@@ -28,22 +30,26 @@ import static java.util.stream.Collectors.*;
 @RequiredArgsConstructor
 public class SectoralDistributionCardStateProducer implements CardStateProducer<SectoralDistributionCard> {
 
-    private final TradeService tradeService;
     private final StockService stockService;
     private final CurrencyService currencyService;
+
+    private final PortfolioService portfolioService;
+    private final PortfolioHoldingService portfolioHoldingService;
 
     @Override
     @Transactional
     public CardData produce(Principal user, SectoralDistributionCard card) {
-        var aggregatedTrades = tradeService.findUserAggregatedStockTrades(user.getName());
-        var stockIdByTrade = aggregatedTrades.stream().collect(toMap(AggregatedTrade::getInstrumentId, Function.identity()));
+        var portfolio = portfolioService.findByUsername(user.getName());
+        //TODO leave only stock holdings
+        var holdingDtos = portfolioHoldingService.findPortfolioHoldings(portfolio.getId());
+        var stockIdByTrade = holdingDtos.stream().collect(toMap(PortfolioHoldingDto::getInstrumentId, Function.identity()));
 
         return SectoralDistributionCardData.builder()
                 .items(composeDataItems(stockIdByTrade))
                 .build();
     }
 
-    private Collection<SectoralDistributionDataItem> composeDataItems(Map<Long, AggregatedTrade> stockIdByTrade) {
+    private Collection<SectoralDistributionDataItem> composeDataItems(Map<Long, PortfolioHoldingDto> stockIdByTrade) {
         var stocks = stockService.findAllById(stockIdByTrade.keySet());
         var companyNameByStockIds = stocks.stream().collect(groupingBy(s -> s.getCompany().getName(),
                 mapping(Instrument::getId, toSet())));

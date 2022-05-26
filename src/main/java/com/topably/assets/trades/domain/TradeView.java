@@ -24,17 +24,20 @@ import java.util.Currency;
         "       u2.username,\n" +
         "       s2.ticker,\n" +
         "       CASE\n" +
-        "           WHEN s2.instrument_type = 'ETF' THEN s2.attributes->>\"$.name\"\n" +
+        "           WHEN s2.instrument_type = 'ETF' THEN s2.attributes ->> \"$.name\"\n" +
         "           WHEN s2.instrument_type = 'STOCK' THEN c2.name\n" +
-        "           END          as name,\n" +
+        "           END            as name,\n" +
         "       trade.operation,\n" +
         "       trade.date,\n" +
         "       trade.quantity,\n" +
         "       trade.price,\n" +
         "       exch.currency\n" +
-        "from trade trade\n" +
-        "         join instrument s2 on s2.id = trade.instrument_id\n" +
-        "         join user u2 on u2.id = trade.user_id\n" +
+        "from trade\n" +
+        "         join portfolio_holding ph on trade.portfolio_holding_id = ph.id\n" +
+        "         join portfolio p on p.id = ph.portfolio_id\n" +
+        "         join user u2 on u2.id = p.user_id\n" +
+        "         join instrument s2 on ph.instrument_id = s2." +
+        "id\n" +
         "         join exchange exch on exch.id = s2.exchange_id\n" +
         "         left join company c2 on c2.id = s2.company_id\n")
 @IdClass(TradeViewId.class)

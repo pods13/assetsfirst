@@ -22,6 +22,7 @@ public class FXTradesController {
 
     @PostMapping
     public TradeDto addTrade(@Validated @RequestBody AddTradeDto dto, Principal principal) {
-        return tradeService.addTrade(dto, principal.getName());
+        dto.setUsername(principal.getName());
+        return tradeService.addTrade(dto);
     }
 }
