@@ -4,8 +4,10 @@ import com.topably.assets.dividends.domain.Dividend;
 import com.topably.assets.dividends.service.DividendService;
 import com.topably.assets.exchanges.domain.TickerSymbol;
 import com.topably.assets.instruments.domain.Instrument;
+import com.topably.assets.portfolios.domain.Portfolio;
 import com.topably.assets.portfolios.domain.cards.CardContainerType;
 import com.topably.assets.portfolios.domain.cards.CardData;
+import com.topably.assets.portfolios.domain.cards.DashboardCard;
 import com.topably.assets.portfolios.domain.cards.input.DividendsCard;
 import com.topably.assets.portfolios.domain.cards.output.dividend.DividendDetails;
 import com.topably.assets.portfolios.domain.cards.output.dividend.DividendSummary;
@@ -24,7 +26,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
-import java.security.Principal;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.IsoFields;
 import java.util.ArrayList;
@@ -45,12 +46,9 @@ public class DividendsCardStateProducer implements CardStateProducer<DividendsCa
     private final TradeService tradeService;
     private final DividendService dividendService;
     private final CurrencyService currencyService;
-    private final PortfolioService portfolioService;
 
     @Override
-    @Transactional
-    public CardData produce(Principal user, DividendsCard card) {
-        var portfolio = portfolioService.findByUsername(user.getName());
+    public CardData produce(Portfolio portfolio, DividendsCard card) {
         var groupedTrades = tradeService.findDividendPayingTrades(portfolio.getId()).stream()
                 .collect(groupingBy(trade -> {
                     Instrument instrument = trade.getPortfolioHolding().getInstrument();

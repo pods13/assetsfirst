@@ -2,9 +2,10 @@ package com.topably.assets.portfolios.service.cards.producer;
 
 import com.topably.assets.dividends.service.DividendService;
 import com.topably.assets.exchanges.domain.TickerSymbol;
-import com.topably.assets.exchanges.service.ExchangeService;
+import com.topably.assets.portfolios.domain.Portfolio;
 import com.topably.assets.portfolios.domain.cards.CardContainerType;
 import com.topably.assets.portfolios.domain.cards.CardData;
+import com.topably.assets.portfolios.domain.cards.DashboardCard;
 import com.topably.assets.portfolios.domain.cards.input.DividendGoalsCard;
 import com.topably.assets.portfolios.domain.cards.output.dividend.goal.DividendGoalsCardData;
 import com.topably.assets.portfolios.domain.cards.output.dividend.goal.PositionItem;
@@ -12,14 +13,12 @@ import com.topably.assets.portfolios.service.PortfolioHoldingService;
 import com.topably.assets.portfolios.service.PortfolioService;
 import com.topably.assets.portfolios.service.cards.CardStateProducer;
 import com.topably.assets.portfolios.domain.dto.PortfolioHoldingDto;
-import com.topably.assets.trades.service.TradeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.security.Principal;
 import java.time.Year;
 import java.util.Arrays;
 import java.util.TreeSet;
@@ -31,13 +30,10 @@ import static java.util.stream.Collectors.toList;
 public class DividendGoalsCardStateProducer implements CardStateProducer<DividendGoalsCard> {
 
     private final DividendService dividendService;
-    private final PortfolioService portfolioService;
     private final PortfolioHoldingService portfolioHoldingService;
 
     @Override
-    @Transactional
-    public CardData produce(Principal user, DividendGoalsCard card) {
-        var portfolio = portfolioService.findByUsername(user.getName());
+    public CardData produce(Portfolio portfolio, DividendGoalsCard card) {
         var holdingDtos = portfolioHoldingService.findPortfolioHoldings(portfolio.getId());
         var items = holdingDtos.stream()
                 .map(h -> this.convertToPositionItems(h, card))

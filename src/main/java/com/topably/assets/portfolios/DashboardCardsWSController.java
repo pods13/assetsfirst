@@ -16,14 +16,13 @@ import java.security.Principal;
 @RequiredArgsConstructor
 public class DashboardCardsWSController {
 
-    private final CardStateProducerFactory cardStateProducerFactory;
     private final SimpMessagingTemplate simpMessagingTemplate;
     private final DashboardCardService dashboardCardService;
 
     @MessageMapping("/cards")
     public void broadcastCardData(Principal user, @Payload DashboardCard card) {
         this.simpMessagingTemplate.convertAndSendToUser(user.getName(), "/topic/cards/" + card.getId(),
-                cardStateProducerFactory.getProducer(card).produce(user, card));
+                dashboardCardService.produceCardData(user.getName(), card));
     }
 
     @MessageMapping("/{dashboardId}/cards/add")

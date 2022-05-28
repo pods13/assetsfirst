@@ -1,7 +1,9 @@
 package com.topably.assets.portfolios.service.cards.producer;
 
+import com.topably.assets.portfolios.domain.Portfolio;
 import com.topably.assets.portfolios.domain.cards.CardContainerType;
 import com.topably.assets.portfolios.domain.cards.CardData;
+import com.topably.assets.portfolios.domain.cards.DashboardCard;
 import com.topably.assets.portfolios.domain.cards.input.SectoralDistributionCard;
 import com.topably.assets.portfolios.domain.cards.output.SectoralDistributionCardData;
 import com.topably.assets.portfolios.domain.cards.output.SectoralDistributionDataItem;
@@ -11,14 +13,12 @@ import com.topably.assets.portfolios.service.cards.CardStateProducer;
 import com.topably.assets.instruments.domain.Instrument;
 import com.topably.assets.instruments.service.StockService;
 import com.topably.assets.portfolios.domain.dto.PortfolioHoldingDto;
-import com.topably.assets.trades.service.TradeService;
 import com.topably.assets.xrates.service.currency.CurrencyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
@@ -33,13 +33,10 @@ public class SectoralDistributionCardStateProducer implements CardStateProducer<
     private final StockService stockService;
     private final CurrencyService currencyService;
 
-    private final PortfolioService portfolioService;
     private final PortfolioHoldingService portfolioHoldingService;
 
     @Override
-    @Transactional
-    public CardData produce(Principal user, SectoralDistributionCard card) {
-        var portfolio = portfolioService.findByUsername(user.getName());
+    public CardData produce(Portfolio portfolio, SectoralDistributionCard card) {
         //TODO leave only stock holdings
         var holdingDtos = portfolioHoldingService.findPortfolioHoldings(portfolio.getId());
         var stockIdByTrade = holdingDtos.stream().collect(toMap(PortfolioHoldingDto::getInstrumentId, Function.identity()));

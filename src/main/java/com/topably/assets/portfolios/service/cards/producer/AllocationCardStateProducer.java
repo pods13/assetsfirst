@@ -1,8 +1,10 @@
 package com.topably.assets.portfolios.service.cards.producer;
 
 import com.topably.assets.exchanges.service.ExchangeService;
+import com.topably.assets.portfolios.domain.Portfolio;
 import com.topably.assets.portfolios.domain.cards.CardContainerType;
 import com.topably.assets.portfolios.domain.cards.CardData;
+import com.topably.assets.portfolios.domain.cards.DashboardCard;
 import com.topably.assets.portfolios.domain.cards.input.AllocationCard;
 import com.topably.assets.portfolios.domain.cards.output.AllocationCardData;
 import com.topably.assets.portfolios.domain.cards.output.AllocationSegment;
@@ -17,7 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.security.Principal;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
@@ -32,13 +33,10 @@ public class AllocationCardStateProducer implements CardStateProducer<Allocation
     private final ExchangeService exchangeService;
     private final CurrencyService currencyService;
 
-    private final PortfolioService portfolioService;
     private final PortfolioHoldingService portfolioHoldingService;
 
     @Override
-    @Transactional
-    public CardData produce(Principal user, AllocationCard card) {
-        var portfolio = portfolioService.findByUsername(user.getName());
+    public CardData produce(Portfolio portfolio, AllocationCard card) {
         var holdings = portfolioHoldingService.findPortfolioHoldings(portfolio.getId());
         var holdingByTypes = holdings.stream()
                 .collect(groupingBy(PortfolioHoldingDto::getInstrumentType));
