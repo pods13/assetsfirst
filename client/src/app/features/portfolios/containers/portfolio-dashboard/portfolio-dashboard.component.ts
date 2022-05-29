@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { GRIDSTER_CONFIG } from './portfolio-dashboard.configs';
 import { DashboardCard } from '../../cards/types/dashboard-card';
 import { CardContainerType } from '../../cards/types/card-container-type';
-import { DashboardCardStore } from '../../cards/services/dashboard-card-store.service';
+import { DashboardCardStore } from '../../cards/services/dashboard-card.store';
 import { createCard } from '../../cards/helpers/create-card.helper';
 import { PortfolioDashboardService } from '../../services/portfolio-dashboard.service';
 import { first } from 'rxjs';

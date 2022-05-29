@@ -4,6 +4,7 @@ import { DashboardCardStoreState } from './dashboard-card-store.state';
 import { map } from 'rxjs';
 import { CardService } from './card.service';
 import { DashboardCard } from '../types/dashboard-card';
+import { createCard } from '../helpers/create-card.helper';
 
 @Injectable()
 export class DashboardCardStore extends Store<DashboardCardStoreState> {
@@ -17,8 +18,8 @@ export class DashboardCardStore extends Store<DashboardCardStoreState> {
   }
 
   init(dashboardId: number, cards: DashboardCard[]) {
-    //TODO go through cards and propagate into them possible changes to their state structure, i.e. new property
-    this.setState({...this.state, dashboardId, cards: [...cards]});
+    const upgradedCards = cards.map(card => ({...createCard(card.containerType), ...card}));
+    this.setState({...this.state, dashboardId, cards: upgradedCards});
   }
 
   addCard(card: DashboardCard) {

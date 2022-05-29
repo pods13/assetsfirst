@@ -5,7 +5,7 @@ import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { DividendGoalsCardData } from '../../types/out/dividend-goals-card-data';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { DividendGoalsCard } from '../../types/in/dividend-goals-card';
-import { DashboardCardStore } from '../../services/dashboard-card-store.service';
+import { DashboardCardStore } from '../../services/dashboard-card.store';
 import { tapOnce } from '../../../../../core/helpers/tapOnce';
 
 @UntilDestroy()

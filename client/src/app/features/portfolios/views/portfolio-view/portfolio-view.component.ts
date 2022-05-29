@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { DashboardCardStore } from '../../cards/services/dashboard-card-store.service';
+import { DashboardCardStore } from '../../cards/services/dashboard-card.store';
 
 @Component({
   selector: 'app-portfolio-view',

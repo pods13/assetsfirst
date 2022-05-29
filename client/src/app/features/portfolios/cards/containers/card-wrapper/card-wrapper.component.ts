@@ -16,7 +16,7 @@ import { RxStompService } from '../../../../../core/services/rx-stomp.service';
 import { map, Observable, shareReplay } from 'rxjs';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { defaultCardProps } from '../../helpers/card-factory';
-import { DashboardCardStore } from '../../services/dashboard-card-store.service';
+import { DashboardCardStore } from '../../services/dashboard-card.store';
 
 @UntilDestroy()
 @Component({
