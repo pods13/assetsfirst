@@ -18,7 +18,10 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Currency;
+import java.util.HashSet;
 import java.util.List;
 
 import static java.util.Collections.emptyList;
@@ -40,7 +43,12 @@ public class CBRExchangeProvider implements ExchangeProvider {
     }
 
     @Override
-    public List<ExchangeRate> getExchangeRates(Instant time) {
+    public Collection<ExchangeRate> getExchangeRates(Instant time) {
+        return getExchangeRates(time, Collections.emptySet());
+    }
+
+    @Override
+    public Collection<ExchangeRate> getExchangeRates(Instant time, Collection<Currency> sourceCurrenciesToObtain) {
         LocalDate date = time.atZone(DEFAULT_TIMEZONE).toLocalDate();
         var url = generateUrl(date);
         log.info("Trying to get exchange rates from cbr endpoint, url='{}'", url);
@@ -49,6 +57,7 @@ public class CBRExchangeProvider implements ExchangeProvider {
                 .map(CBRExchangeRateData::getCurrencies)
                 .orElse(emptyList());
         return currencies.stream()
+                .filter(currency -> sourceCurrenciesToObtain.contains(Currency.getInstance(currency.getCharCode())))
                 .map(currency -> {
                     var source = Currency.getInstance(currency.getCharCode());
                     BigDecimal conversionRate = currency.getValue()
