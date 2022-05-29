@@ -5,8 +5,6 @@ import { DashboardCard } from '../types/dashboard-card';
   selector: '[appPortfolioCardOutlet]'
 })
 export class PortfolioCardOutletDirective {
-  @Input() card!: DashboardCard;
-
   constructor(public viewContainerRef: ViewContainerRef) {
   }
 }

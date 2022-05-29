@@ -33,7 +33,7 @@ import { DashboardCardStore } from '../../services/dashboard-card-store.service'
       </mat-menu>
     </div>
     <div class="card-body">
-      <ng-template appPortfolioCardOutlet [card]="card">
+      <ng-template appPortfolioCardOutlet>
       </ng-template>
     </div>
   `,
@@ -60,9 +60,13 @@ export class CardWrapperComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   ngAfterViewInit(): void {
-    this.cardContentLoaderService.loadContent(this.cardOutlet, this.cardData$);
+    this.cardContentLoaderService.loadContent(this.cardOutlet, this.card, this.cardData$, this.onCardChanges);
     this.cd.detectChanges();
     this.publishCard(this.card);
+  }
+
+  onCardChanges = (card: DashboardCard) => {
+    this.cardStore.updateCard(card);
   }
 
   private publishCard(card: DashboardCard): void {
@@ -79,11 +83,13 @@ export class CardWrapperComponent implements OnInit, AfterViewInit, OnChanges {
     }
     if (cardChanges.currentValue?.rows !== cardChanges.previousValue?.rows
       || cardChanges.currentValue?.cols !== cardChanges.previousValue?.cols) {
-      this.cardContentLoaderService.loadContent(this.cardOutlet, this.cardData$);
+      this.cardContentLoaderService.loadContent(this.cardOutlet, this.card, this.cardData$, this.onCardChanges);
       this.cd.detectChanges();
       return;
     }
     if (Object.keys(defaultCardProps).every(key => cardChanges.currentValue[key] === cardChanges.previousValue[key])) {
+      this.cardContentLoaderService.loadContent(this.cardOutlet, this.card, this.cardData$, this.onCardChanges);
+      this.cd.detectChanges();
       this.publishCard(this.card);
     }
   }

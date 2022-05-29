@@ -12,14 +12,14 @@ export class CardContentLoaderService {
   constructor() {
   }
 
-  loadContent(template: PortfolioCardOutletDirective, cardData$: Observable<any>): void {
-    if (!template.card) {
+  loadContent(template: PortfolioCardOutletDirective, card: DashboardCard, cardData$: Observable<any>, onCardChanges: any): void {
+    if (!card) {
       return;
     }
 
     const viewContainerRef = template.viewContainerRef;
     viewContainerRef.clear();
-    const containerType = template.card.containerType;
+    const containerType = card.containerType;
     const containerClass = cardContainerTemplateMapper[containerType] as any;
     if (!containerClass) {
       console.error(`You forgot to add ${containerType} to card-container-template-mapper.ts`);
@@ -27,7 +27,8 @@ export class CardContentLoaderService {
     }
     const componentRef = viewContainerRef.createComponent(containerClass)
     const instance = componentRef.instance as CardContainer<DashboardCard, CardData>;
-    instance.card = template.card;
+    instance.card = card;
     instance.data$ = cardData$;
+    instance.cardChanges$?.subscribe((card) => onCardChanges(card));
   }
 }
