@@ -1,18 +1,21 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { catchError, debounceTime, distinctUntilChanged, filter, of, ReplaySubject, switchMap, tap } from 'rxjs';
 import { TradingInstrumentService } from '../../services/trading-instrument.service';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { TradeDto } from '../../types/trade.dto';
+import { EditTradeDto } from '../../types/edit-trade.dto';
 import { AddTradeDto } from '../../types/add-trade.dto';
 
 @Component({
   selector: 'app-trade-dialog',
   template: `
-    <h1 mat-dialog-title>Add New Trade</h1>
+    <h1 mat-dialog-title>{{data?.title}}</h1>
     <div mat-dialog-content>
       <form [formGroup]="form">
         <mat-form-field>
-          <mat-select [formControlName]="'instrument'" placeholder="Ticker or company name">
+          <mat-select [formControlName]="'instrument'" placeholder="Ticker or company name"
+                      [compareWith]="compareFunction">
             <mat-option>
               <ngx-mat-select-search [formControlName]="'instrumentFilter'"
                                      placeholderLabel="Find instrument..."
@@ -26,11 +29,11 @@ import { AddTradeDto } from '../../types/add-trade.dto';
             </mat-option>
           </mat-select>
         </mat-form-field>
-        <app-assign-trade-attributes></app-assign-trade-attributes>
+        <app-assign-trade-attributes [trade]="data?.trade"></app-assign-trade-attributes>
       </form>
     </div>
     <div mat-dialog-actions>
-      <button mat-button [disabled]="form.invalid" (click)="executeTrade()">Save</button>
+      <button mat-button [disabled]="form.invalid" (click)="saveTrade()">Save</button>
     </div>
   `,
   styleUrls: ['./trade-dialog.component.scss'],
@@ -46,11 +49,24 @@ export class TradeDialogComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
               private tradingInstrumentService: TradingInstrumentService,
-              public dialogRef: MatDialogRef<TradeDialogComponent, AddTradeDto>,) {
+              public dialogRef: MatDialogRef<TradeDialogComponent>,
+              @Inject(MAT_DIALOG_DATA) public data: { title: string; trade?: TradeDto; }) {
+    const trade = data?.trade;
+    const instrument = trade ? this.composeInstrument(trade) : null;
+    if (instrument) {
+      this.filteredInstruments.next([instrument]);
+    }
     this.form = this.fb.group({
-      instrument: this.fb.control('', Validators.compose([Validators.required])),
+      instrument: this.fb.control({
+        value: instrument,
+        disabled: trade ?? false
+      }, Validators.compose([Validators.required])),
       instrumentFilter: this.fb.control(''),
     });
+  }
+
+  private composeInstrument(trade: TradeDto) {
+    return {id: trade.instrumentId, instrumentType: trade.instrumentType, ticker: trade.ticker, name: trade.name};
   }
 
   ngOnInit(): void {
@@ -73,17 +89,32 @@ export class TradeDialogComponent implements OnInit {
     });
   }
 
-  executeTrade() {
-    console.log(this.form.value)
-    const {instrument, specifics} = this.form.value;
-    const {operation, date, price, quantity} = specifics;
-    this.dialogRef.close({
-      instrumentId: instrument.id,
-      instrumentType: instrument.instrumentType,
-      operation,
-      date,
-      price,
-      quantity
-    });
+  compareFunction(o1: any, o2: any) {
+    return o1.id === o2.id;
+  }
+
+  saveTrade() {
+    if (this.data?.trade) {
+      const {specifics} = this.form.value;
+      const {date, price, quantity} = specifics;
+      this.dialogRef.close({
+        id: this.data.trade.id,
+        instrumentType: this.data.trade.instrumentType,
+        date,
+        price,
+        quantity
+      } as EditTradeDto)
+    } else {
+      const {instrument, specifics} = this.form.value;
+      const {operation, date, price, quantity} = specifics;
+      this.dialogRef.close({
+        instrumentId: instrument.id,
+        instrumentType: instrument.instrumentType,
+        operation,
+        date,
+        price,
+        quantity
+      } as AddTradeDto);
+    }
   }
 }

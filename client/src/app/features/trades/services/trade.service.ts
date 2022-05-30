@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AddTradeDto } from '../types/add-trade.dto';
 import { InstrumentType } from '../types/instrument-type';
+import { EditTradeDto } from '../types/edit-trade.dto';
+import { TradeDto } from '../types/trade.dto';
 
 @Injectable()
 export class TradeService {
@@ -10,12 +12,17 @@ export class TradeService {
   }
 
   getUserTrades() {
-    return this.http.get('/trades');
+    return this.http.get<TradeDto[]>('/trades');
   }
 
   addTrade(dto: AddTradeDto) {
     const urlPrefix = this.getUrlPrefixByType(dto.instrumentType);
     return this.http.post(`/${urlPrefix}/trades`, dto);
+  }
+
+  editTrade(dto: EditTradeDto) {
+    const urlPrefix = this.getUrlPrefixByType(dto.instrumentType);
+    return this.http.put(`/${urlPrefix}/trades/${dto.id}`, dto);
   }
 
   private getUrlPrefixByType(instrumentType: InstrumentType): string {
