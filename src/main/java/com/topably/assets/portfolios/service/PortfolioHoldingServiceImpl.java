@@ -3,6 +3,7 @@ package com.topably.assets.portfolios.service;
 import com.topably.assets.auth.service.UserService;
 import com.topably.assets.exchanges.domain.TickerSymbol;
 import com.topably.assets.instruments.domain.Instrument;
+import com.topably.assets.portfolios.domain.Portfolio;
 import com.topably.assets.portfolios.domain.PortfolioHolding;
 import com.topably.assets.portfolios.domain.dto.PortfolioHoldingDto;
 import com.topably.assets.portfolios.repository.PortfolioHoldingRepository;
@@ -10,6 +11,7 @@ import com.topably.assets.trades.domain.TradeOperation;
 import com.topably.assets.trades.domain.dto.add.AddTradeDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -55,6 +57,13 @@ public class PortfolioHoldingServiceImpl implements PortfolioHoldingService {
                 .quantity(dto.getQuantity())
                 .averagePrice(dto.getPrice())
                 .build();
+    }
+
+    @Override
+    @Transactional
+    public Collection<PortfolioHoldingDto> findPortfolioHoldings(String username) {
+        var portfolio = portfolioService.findByUsername(username);
+        return findPortfolioHoldings(portfolio.getId());
     }
 
     @Override

@@ -15,4 +15,6 @@ public interface PortfolioHoldingService {
     PortfolioHolding managePortfolioHolding(AddTradeDto dto, Instrument tradedInstrument);
 
     Collection<PortfolioHoldingDto> findPortfolioHoldings(Long portfolioId);
+
+    Collection<PortfolioHoldingDto> findPortfolioHoldings(String username);
 }
