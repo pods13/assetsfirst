@@ -9,6 +9,7 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.math.RoundingMode;
 import java.util.Currency;
 
 @Setter
@@ -22,6 +23,10 @@ public class PortfolioHoldingDto {
     private String instrumentType;
     private TickerSymbol identifier;
     private BigInteger quantity;
-    private BigDecimal total;
+    private BigDecimal price;
     private Currency currency;
+
+    public BigDecimal getTotal() {
+        return getPrice().multiply(new BigDecimal(getQuantity())).setScale(2, RoundingMode.HALF_UP);
+    }
 }

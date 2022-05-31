@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 
 import { PortfolioHoldingsRoutingModule } from './portfolio-holdings-routing.module';
 import { HoldingsContainerComponent } from './containers/holdings-container/holdings-container.component';
+import { PortfolioHoldingService } from './services/portfolio-holding.service';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 
 
 @NgModule({
@@ -11,7 +13,11 @@ import { HoldingsContainerComponent } from './containers/holdings-container/hold
   ],
   imports: [
     CommonModule,
-    PortfolioHoldingsRoutingModule
+    PortfolioHoldingsRoutingModule,
+    NgxDatatableModule
+  ],
+  providers: [
+    PortfolioHoldingService
   ]
 })
 export class PortfolioHoldingsModule { }

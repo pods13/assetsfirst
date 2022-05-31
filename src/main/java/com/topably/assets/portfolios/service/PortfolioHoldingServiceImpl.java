@@ -77,7 +77,7 @@ public class PortfolioHoldingServiceImpl implements PortfolioHoldingService {
                             .identifier(instrument.toTickerSymbol())
                             .currency(instrument.getExchange().getCurrency())
                             .quantity(holding.getQuantity())
-                            .total(holding.getAveragePrice().multiply(new BigDecimal(holding.getQuantity())))
+                            .price(holding.getAveragePrice())
                             .build();
                 }).toList();
     }
