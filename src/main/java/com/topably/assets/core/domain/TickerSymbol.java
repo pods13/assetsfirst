@@ -1,4 +1,4 @@
-package com.topably.assets.exchanges.domain;
+package com.topably.assets.core.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

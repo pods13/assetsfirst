@@ -1,4 +1,4 @@
-package com.topably.assets.instruments.domain.dto;
+package com.topably.assets.fundamentals.domain;
 
 import com.topably.assets.core.domain.TickerSymbol;
 import lombok.AllArgsConstructor;
@@ -7,17 +7,16 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+
 @Setter
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class StockDto {
-
-    private Long id;
+public class FundamentalsDto {
 
     private TickerSymbol identifier;
-
-    private Long companyId;
-
+    private BigDecimal marketValue;
+    private BigDecimal convertedMarketValue;
 }

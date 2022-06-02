@@ -2,18 +2,16 @@ package com.topably.assets.portfolios.service.cards.producer;
 
 import com.topably.assets.dividends.domain.Dividend;
 import com.topably.assets.dividends.service.DividendService;
-import com.topably.assets.exchanges.domain.TickerSymbol;
+import com.topably.assets.core.domain.TickerSymbol;
 import com.topably.assets.instruments.domain.Instrument;
 import com.topably.assets.portfolios.domain.Portfolio;
 import com.topably.assets.portfolios.domain.cards.CardContainerType;
 import com.topably.assets.portfolios.domain.cards.CardData;
-import com.topably.assets.portfolios.domain.cards.DashboardCard;
 import com.topably.assets.portfolios.domain.cards.input.DividendsCard;
 import com.topably.assets.portfolios.domain.cards.output.dividend.DividendDetails;
 import com.topably.assets.portfolios.domain.cards.output.dividend.DividendSummary;
 import com.topably.assets.portfolios.domain.cards.output.dividend.DividendsCardData;
 import com.topably.assets.portfolios.domain.cards.output.dividend.TimeFrameDividend;
-import com.topably.assets.portfolios.service.PortfolioService;
 import com.topably.assets.portfolios.service.cards.CardStateProducer;
 import com.topably.assets.trades.domain.TradeOperation;
 import com.topably.assets.trades.domain.Trade;
@@ -21,7 +19,6 @@ import com.topably.assets.trades.service.TradeService;
 import com.topably.assets.xrates.service.currency.CurrencyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;

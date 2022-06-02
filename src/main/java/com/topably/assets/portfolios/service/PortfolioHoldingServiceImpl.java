@@ -1,5 +1,6 @@
 package com.topably.assets.portfolios.service;
 
+import com.topably.assets.core.domain.TickerSymbol;
 import com.topably.assets.instruments.domain.Instrument;
 import com.topably.assets.portfolios.domain.Portfolio;
 import com.topably.assets.portfolios.domain.PortfolioHolding;
@@ -59,13 +60,6 @@ public class PortfolioHoldingServiceImpl implements PortfolioHoldingService {
     }
 
     @Override
-    @Transactional
-    public Collection<PortfolioHoldingDto> findPortfolioHoldingsByUserId(Long userId) {
-        var portfolio = portfolioRepository.findByUserId(userId);
-        return findPortfolioHoldings(portfolio.getId());
-    }
-
-    @Override
     public Collection<PortfolioHoldingDto> findPortfolioHoldings(Long portfolioId) {
         return portfolioHoldingRepository.findAllByPortfolioId(portfolioId).stream()
                 .map(holding -> {
@@ -79,5 +73,12 @@ public class PortfolioHoldingServiceImpl implements PortfolioHoldingService {
                             .price(holding.getAveragePrice())
                             .build();
                 }).toList();
+    }
+
+    @Override
+    @Transactional
+    public Collection<PortfolioHoldingDto> findPortfolioHoldingsByUserId(Long userId) {
+        var portfolio = portfolioRepository.findByUserId(userId);
+        return findPortfolioHoldings(portfolio.getId());
     }
 }

@@ -1,5 +1,6 @@
 package com.topably.assets.portfolios.service;
 
+import com.topably.assets.core.domain.TickerSymbol;
 import com.topably.assets.instruments.domain.Instrument;
 import com.topably.assets.portfolios.domain.PortfolioHolding;
 import com.topably.assets.portfolios.domain.dto.PortfolioHoldingDto;

@@ -2,7 +2,7 @@ package com.topably.assets.instruments.domain;
 
 
 import com.topably.assets.exchanges.domain.Exchange;
-import com.topably.assets.exchanges.domain.TickerSymbol;
+import com.topably.assets.core.domain.TickerSymbol;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

@@ -3,7 +3,7 @@ package com.topably.assets.dividends.service;
 import com.topably.assets.dividends.domain.Dividend;
 import com.topably.assets.dividends.domain.dto.DividendData;
 import com.topably.assets.dividends.repository.DividendRepository;
-import com.topably.assets.exchanges.domain.TickerSymbol;
+import com.topably.assets.core.domain.TickerSymbol;
 import com.topably.assets.instruments.domain.Instrument;
 import com.topably.assets.instruments.service.InstrumentService;
 import lombok.RequiredArgsConstructor;

@@ -1,6 +1,6 @@
 package com.topably.assets.instruments.service;
 
-import com.topably.assets.exchanges.domain.TickerSymbol;
+import com.topably.assets.core.domain.TickerSymbol;
 import com.topably.assets.instruments.domain.instrument.Stock;
 import com.topably.assets.instruments.domain.dto.StockDto;
 import com.topably.assets.instruments.repository.instrument.StockRepository;

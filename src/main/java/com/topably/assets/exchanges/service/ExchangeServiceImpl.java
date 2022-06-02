@@ -1,6 +1,6 @@
 package com.topably.assets.exchanges.service;
 
-import com.topably.assets.exchanges.domain.TickerSymbol;
+import com.topably.assets.core.domain.TickerSymbol;
 import com.topably.assets.exchanges.domain.USExchange;
 import com.topably.assets.exchanges.repository.ExchangeRepository;
 import com.topably.assets.instruments.domain.InstrumentType;
