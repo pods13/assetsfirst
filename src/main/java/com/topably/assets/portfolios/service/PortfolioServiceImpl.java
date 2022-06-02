@@ -3,21 +3,25 @@ package com.topably.assets.portfolios.service;
 import com.topably.assets.auth.service.UserService;
 import com.topably.assets.portfolios.domain.Portfolio;
 import com.topably.assets.portfolios.domain.PortfolioDashboard;
-import com.topably.assets.portfolios.repository.PortfolioDashboardRepository;
+import com.topably.assets.portfolios.domain.PortfolioHolding;
+import com.topably.assets.portfolios.repository.PortfolioHoldingRepository;
 import com.topably.assets.portfolios.repository.PortfolioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.HashSet;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class PortfolioServiceImpl implements PortfolioService {
 
-    private final PortfolioDashboardRepository portfolioDashboardRepository;
-    private final UserService userService;
     private final PortfolioRepository portfolioRepository;
+    private final PortfolioHoldingRepository portfolioHoldingRepository;
+
+    private final UserService userService;
 
     @Override
     @Transactional

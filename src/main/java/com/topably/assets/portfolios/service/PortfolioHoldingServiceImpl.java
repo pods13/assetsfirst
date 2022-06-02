@@ -1,12 +1,11 @@
 package com.topably.assets.portfolios.service;
 
-import com.topably.assets.auth.service.UserService;
-import com.topably.assets.exchanges.domain.TickerSymbol;
 import com.topably.assets.instruments.domain.Instrument;
 import com.topably.assets.portfolios.domain.Portfolio;
 import com.topably.assets.portfolios.domain.PortfolioHolding;
 import com.topably.assets.portfolios.domain.dto.PortfolioHoldingDto;
 import com.topably.assets.portfolios.repository.PortfolioHoldingRepository;
+import com.topably.assets.portfolios.repository.PortfolioRepository;
 import com.topably.assets.trades.domain.TradeOperation;
 import com.topably.assets.trades.domain.dto.add.AddTradeDto;
 import lombok.RequiredArgsConstructor;
@@ -24,8 +23,7 @@ import java.util.Optional;
 public class PortfolioHoldingServiceImpl implements PortfolioHoldingService {
 
     private final PortfolioHoldingRepository portfolioHoldingRepository;
-
-    private final PortfolioService portfolioService;
+    private final PortfolioRepository portfolioRepository;
 
     @Override
     public Optional<PortfolioHolding> findByUsernameAndInstrumentId(String username, Long instrumentId) {
@@ -51,8 +49,9 @@ public class PortfolioHoldingServiceImpl implements PortfolioHoldingService {
     }
 
     private PortfolioHolding createHolding(AddTradeDto dto, Instrument instrument) {
+        Portfolio portfolio = portfolioRepository.findByUser_Username(dto.getUsername());
         return PortfolioHolding.builder()
-                .portfolio(portfolioService.findByUsername(dto.getUsername()))
+                .portfolio(portfolio)
                 .instrument(instrument)
                 .quantity(dto.getQuantity())
                 .averagePrice(dto.getPrice())
@@ -61,8 +60,8 @@ public class PortfolioHoldingServiceImpl implements PortfolioHoldingService {
 
     @Override
     @Transactional
-    public Collection<PortfolioHoldingDto> findPortfolioHoldings(String username) {
-        var portfolio = portfolioService.findByUsername(username);
+    public Collection<PortfolioHoldingDto> findPortfolioHoldingsByUserId(Long userId) {
+        var portfolio = portfolioRepository.findByUserId(userId);
         return findPortfolioHoldings(portfolio.getId());
     }
 

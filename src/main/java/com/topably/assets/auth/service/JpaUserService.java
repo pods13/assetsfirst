@@ -1,6 +1,7 @@
 package com.topably.assets.auth.service;
 
 import com.topably.assets.auth.domain.Authority;
+import com.topably.assets.auth.domain.security.CurrentUser;
 import com.topably.assets.auth.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -30,8 +31,7 @@ public class JpaUserService implements UserDetailsService {
         var user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Username: " + username + " not found"));
 
-        return new User(user.getUsername(), user.getPassword(), user.getEnabled(), user.getAccountNonExpired(),
-                user.getCredentialsNonExpired(), user.getAccountNonLocked(), convertToSpringAuthorities(user.getAuthorities()));
+        return new CurrentUser(user, convertToSpringAuthorities(user.getAuthorities()));
     }
 
     private Collection<? extends GrantedAuthority> convertToSpringAuthorities(Set<Authority> authorities) {

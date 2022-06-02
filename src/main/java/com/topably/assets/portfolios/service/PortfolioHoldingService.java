@@ -16,5 +16,5 @@ public interface PortfolioHoldingService {
 
     Collection<PortfolioHoldingDto> findPortfolioHoldings(Long portfolioId);
 
-    Collection<PortfolioHoldingDto> findPortfolioHoldings(String username);
+    Collection<PortfolioHoldingDto> findPortfolioHoldingsByUserId(Long userId);
 }
