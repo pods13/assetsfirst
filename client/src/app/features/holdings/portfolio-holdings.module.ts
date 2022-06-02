@@ -5,7 +5,6 @@ import { PortfolioHoldingsRoutingModule } from './portfolio-holdings-routing.mod
 import { HoldingsContainerComponent } from './containers/holdings-container/holdings-container.component';
 import { PortfolioHoldingService } from './services/portfolio-holding.service';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
-import { PortfolioService } from './services/portfolio.service';
 
 
 @NgModule({
@@ -19,7 +18,7 @@ import { PortfolioService } from './services/portfolio.service';
   ],
   providers: [
     PortfolioHoldingService,
-    PortfolioService
   ]
 })
-export class PortfolioHoldingsModule { }
+export class PortfolioHoldingsModule {
+}

@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ColumnMode } from '@swimlane/ngx-datatable';
 import { PortfolioHoldingService } from '../../services/portfolio-holding.service';
-import { PortfolioService } from '../../services/portfolio.service';
 
 @Component({
   selector: 'app-holdings-container',
@@ -27,8 +26,6 @@ import { PortfolioService } from '../../services/portfolio.service';
       <ngx-datatable-column [prop]="'yieldOnCost'" [name]="'Yield On Cost'"></ngx-datatable-column>
       <ngx-datatable-column [prop]="'realizedPnl'" [name]="'Realized P&L'"></ngx-datatable-column>
     </ngx-datatable>
-    <div class="">{{marketValue$ | async}}</div>
-
   `,
   styleUrls: ['./holdings-container.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -43,10 +40,8 @@ export class HoldingsContainerComponent implements OnInit {
   ColumnMode = ColumnMode;
 
   holdings$ = this.portfolioHoldingService.getPortfolioHoldings();
-  marketValue$ = this.portfolioService.getMarketValue();
 
-  constructor(private portfolioHoldingService: PortfolioHoldingService,
-              public portfolioService: PortfolioService) {
+  constructor(private portfolioHoldingService: PortfolioHoldingService) {
   }
 
   ngOnInit(): void {
