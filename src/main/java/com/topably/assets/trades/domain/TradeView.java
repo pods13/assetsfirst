@@ -34,7 +34,8 @@ import java.util.Currency;
                trade.date,
                trade.quantity,
                trade.price,
-               exch.currency
+               exch.currency,
+               b.name as broker
         from trade
                  join portfolio_holding ph on trade.portfolio_holding_id = ph.id
                  join portfolio p on p.id = ph.portfolio_id
@@ -42,6 +43,7 @@ import java.util.Currency;
                  join instrument s2 on ph.instrument_id = s2.id
                  join exchange exch on exch.id = s2.exchange_id
                  left join company c2 on c2.id = s2.company_id
+                 join broker b on b.id = trade.broker_id
         """)
 public class TradeView {
 
@@ -68,5 +70,7 @@ public class TradeView {
     private BigDecimal price;
 
     private Currency currency;
+
+    private String broker;
 
 }

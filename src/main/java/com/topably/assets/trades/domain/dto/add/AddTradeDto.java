@@ -25,4 +25,5 @@ public class AddTradeDto {
     private BigInteger quantity;
 
     private String username;
+    private Long brokerId;
 }

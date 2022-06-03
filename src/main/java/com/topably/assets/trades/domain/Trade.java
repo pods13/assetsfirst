@@ -1,9 +1,7 @@
 package com.topably.assets.trades.domain;
 
-import com.topably.assets.auth.domain.User;
-import com.topably.assets.instruments.domain.Instrument;
 import com.topably.assets.portfolios.domain.PortfolioHolding;
-import com.topably.assets.trades.domain.TradeOperation;
+import com.topably.assets.trades.domain.broker.Broker;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,6 +13,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -37,8 +36,9 @@ public class Trade {
     @GenericGenerator(name = "native", strategy = "native")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "PORTFOLIO_HOLDING_ID", referencedColumnName = "ID", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "PORTFOLIO_HOLDING_ID", referencedColumnName = "ID", nullable = false,
+            foreignKey = @ForeignKey(name = "fk__trade__portfolio_holding_id__portfolio_holding"))
     private PortfolioHolding portfolioHolding;
 
     private LocalDateTime date;
@@ -49,4 +49,9 @@ public class Trade {
 
     private BigInteger quantity;
     private BigDecimal price;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "BROKER_ID", referencedColumnName = "ID", nullable = false,
+            foreignKey = @ForeignKey(name = "fk__trade__broker_id__broker"))
+    private Broker broker;
 }

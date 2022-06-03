@@ -11,4 +11,5 @@ export interface TradeDto {
   operation: TradeOperation;
   price: number;
   quantity: number;
+  broker: string;
 }

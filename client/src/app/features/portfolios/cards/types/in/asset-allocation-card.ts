@@ -6,5 +6,5 @@ export interface AssetAllocationCard extends DashboardCard {
 
 export enum AllocatedByOption {
   INSTRUMENT_TYPE = 'INSTRUMENT_TYPE',
-  BROKERAGE_ACCOUNT = 'BROKERAGE_ACCOUNT'
+  BROKER = 'BROKER'
 }
