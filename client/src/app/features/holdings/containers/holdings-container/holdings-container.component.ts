@@ -4,6 +4,7 @@ import { PortfolioHoldingService } from '../../services/portfolio-holding.servic
 import { FundamentalsService } from '../../services/fundamentals.service';
 import { forkJoin, map } from 'rxjs';
 import { PortfolioHoldingDto } from '../../types/portfolio-holding,dto';
+import { stringifyTickerSymbol } from '../../../../core/types/ticker-symbol';
 
 @Component({
   selector: 'app-holdings-container',
@@ -63,14 +64,14 @@ export class HoldingsContainerComponent implements OnInit {
   composeTableRows(holdings: PortfolioHoldingDto[], fundamentals: any[]) {
     const fundByIds = fundamentals.reduce((acc, fund) => {
       const {identifier} = fund;
-      const key = identifier.symbol + '.' + identifier.exchange;
+      const key = stringifyTickerSymbol(identifier);
       return {...acc, [key]: fund};
     }, {});
     const portfolioMarketValue = fundamentals.reduce((res, fund) => res += fund.convertedMarketValue, 0);
     let pctTotal = 0;
     return holdings.map((holding, index) => {
       const {identifier} = holding;
-      const key = identifier.symbol + '.' + identifier.exchange;
+      const key = stringifyTickerSymbol(identifier);
       const marketValue = fundByIds[key].marketValue;
       const converted = fundByIds[key].convertedMarketValue;
       const pctOfPortfolio = index === holdings.length ? 100 - pctTotal : + ((100 * converted) / portfolioMarketValue).toFixed(1);
