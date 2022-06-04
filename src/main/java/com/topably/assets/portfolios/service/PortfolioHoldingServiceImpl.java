@@ -41,7 +41,7 @@ public class PortfolioHoldingServiceImpl implements PortfolioHoldingService {
                     var holdingTotal = holding.getAveragePrice().multiply(new BigDecimal(holding.getQuantity()));
                     var tradeTotal = dto.getPrice().multiply(new BigDecimal(dtoQuantity));
                     var quantityTotal = holding.getQuantity().add(dtoQuantity);
-                    var averagePrice = holdingTotal.add(tradeTotal)
+                    var averagePrice = BigInteger.ZERO.equals(quantityTotal) ? BigDecimal.ZERO : holdingTotal.add(tradeTotal)
                             .divide(new BigDecimal(quantityTotal), 4, RoundingMode.HALF_UP);
                     holding.setQuantity(quantityTotal);
                     holding.setAveragePrice(averagePrice);
