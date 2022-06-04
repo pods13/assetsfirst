@@ -53,4 +53,9 @@ public class TradeServiceImpl implements TradeService {
     public Collection<TradeView> getUserTrades(String username) {
         return tradeViewRepository.findByUsername(username);
     }
+
+    @Override
+    public Collection<Trade> findTradesByUserId(Long userId) {
+        return tradeRepository.findAllByUserId(userId);
+    }
 }

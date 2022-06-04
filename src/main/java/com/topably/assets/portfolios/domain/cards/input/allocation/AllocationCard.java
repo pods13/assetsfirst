@@ -1,4 +1,4 @@
-package com.topably.assets.portfolios.domain.cards.input;
+package com.topably.assets.portfolios.domain.cards.input.allocation;
 
 import com.topably.assets.portfolios.domain.cards.DashboardCard;
 import lombok.Getter;
@@ -10,6 +10,6 @@ import lombok.Setter;
 @NoArgsConstructor
 public class AllocationCard extends DashboardCard {
 
-    private String allocatedBy;
+    private AllocatedByOption allocatedBy;
 
 }

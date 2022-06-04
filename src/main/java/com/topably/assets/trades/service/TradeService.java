@@ -15,4 +15,6 @@ public interface TradeService {
     TradeDto addTrade(AddTradeDto dto, Instrument tradedInstrument);
 
     Collection<TradeView> getUserTrades(String username);
+
+    Collection<Trade> findTradesByUserId(Long userId);
 }

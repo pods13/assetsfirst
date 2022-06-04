@@ -47,7 +47,9 @@ public class Trade {
     @Column(columnDefinition = "tinyint", nullable = false)
     private TradeOperation operation;
 
+    @Column(name = "QUANTITY", precision = 12, scale = 0)
     private BigInteger quantity;
+    @Column(name = "PRICE", precision = 20, scale = 4)
     private BigDecimal price;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

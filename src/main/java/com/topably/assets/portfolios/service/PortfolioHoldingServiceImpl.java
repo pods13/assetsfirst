@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.math.MathContext;
 import java.math.RoundingMode;
 import java.util.Collection;
 import java.util.Optional;
@@ -40,7 +41,8 @@ public class PortfolioHoldingServiceImpl implements PortfolioHoldingService {
                     var holdingTotal = holding.getAveragePrice().multiply(new BigDecimal(holding.getQuantity()));
                     var tradeTotal = dto.getPrice().multiply(new BigDecimal(dtoQuantity));
                     var quantityTotal = holding.getQuantity().add(dtoQuantity);
-                    var averagePrice = holdingTotal.add(tradeTotal).divide(new BigDecimal(quantityTotal), RoundingMode.HALF_UP);
+                    var averagePrice = holdingTotal.add(tradeTotal)
+                            .divide(new BigDecimal(quantityTotal), 4, RoundingMode.HALF_UP);
                     holding.setQuantity(quantityTotal);
                     holding.setAveragePrice(averagePrice);
                     return holding;

@@ -43,6 +43,9 @@ public class PortfolioHolding {
     @JoinColumn(name = "INSTRUMENT_ID", referencedColumnName = "ID", nullable = false)
     private Instrument instrument;
 
+    @Column(name = "QUANTITY", precision = 12, scale = 0)
     private BigInteger quantity;
+
+    @Column(name = "AVERAGE_PRICE", precision = 20, scale = 4)
     private BigDecimal averagePrice;
 }

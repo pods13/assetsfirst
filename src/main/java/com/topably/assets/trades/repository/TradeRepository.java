@@ -16,4 +16,16 @@ public interface TradeRepository extends JpaRepository<Trade, Long> {
             "where exists(select d from Dividend d where d.instrument.id = t.portfolioHolding.instrument.id) " +
             "order by t.date")
     Collection<Trade> findDividendPayingTradesOrderByTradeDate(Long portfolioId);
+
+    @Query(value = """
+            select t from Trade t
+            join fetch t.portfolioHolding ph
+            join fetch ph.instrument i
+            join fetch i.exchange exch
+            join fetch t.broker br
+            join ph.portfolio p
+            join p.user u
+            where u.id = :userId
+            """)
+    Collection<Trade> findAllByUserId(Long userId);
 }

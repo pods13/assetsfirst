@@ -3,7 +3,7 @@ package com.topably.assets.portfolios.domain.cards;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.topably.assets.portfolios.domain.cards.input.AllocationCard;
+import com.topably.assets.portfolios.domain.cards.input.allocation.AllocationCard;
 import com.topably.assets.portfolios.domain.cards.input.DividendGoalsCard;
 import com.topably.assets.portfolios.domain.cards.input.DividendsCard;
 import com.topably.assets.portfolios.domain.cards.input.SectoralDistributionCard;
