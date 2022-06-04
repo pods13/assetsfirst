@@ -6,6 +6,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { TradeDto } from '../../types/trade.dto';
 import { EditTradeDto } from '../../types/edit-trade.dto';
 import { AddTradeDto } from '../../types/add-trade.dto';
+import { BrokerService } from '../../services/broker.service';
 
 @Component({
   selector: 'app-trade-dialog',
@@ -29,6 +30,14 @@ import { AddTradeDto } from '../../types/add-trade.dto';
             </mat-option>
           </mat-select>
         </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Broker</mat-label>
+          <mat-select [formControlName]="'brokerId'">
+            <mat-option *ngFor="let broker of brokers$ | async" [value]="broker.id">
+              {{broker.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
         <app-assign-trade-attributes [trade]="data?.trade"></app-assign-trade-attributes>
       </form>
     </div>
@@ -47,8 +56,11 @@ export class TradeDialogComponent implements OnInit {
 
   filteredInstruments: ReplaySubject<any[]> = new ReplaySubject<any[]>(1);
 
+  brokers$ = this.brokerService.getBrokers();
+
   constructor(private fb: FormBuilder,
               private tradingInstrumentService: TradingInstrumentService,
+              private brokerService: BrokerService,
               public dialogRef: MatDialogRef<TradeDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: { title: string; trade?: TradeDto; }) {
     const trade = data?.trade;
@@ -62,6 +74,7 @@ export class TradeDialogComponent implements OnInit {
         disabled: trade ?? false
       }, Validators.compose([Validators.required])),
       instrumentFilter: this.fb.control(''),
+      brokerId: this.fb.control(trade?.brokerId, Validators.compose([Validators.required])),
     });
   }
 
@@ -95,17 +108,18 @@ export class TradeDialogComponent implements OnInit {
 
   saveTrade() {
     if (this.data?.trade) {
-      const {specifics} = this.form.value;
+      const {specifics, brokerId} = this.form.value;
       const {date, price, quantity} = specifics;
       this.dialogRef.close({
         id: this.data.trade.id,
         instrumentType: this.data.trade.instrumentType,
         date,
         price,
-        quantity
+        quantity,
+        brokerId
       } as EditTradeDto)
     } else {
-      const {instrument, specifics} = this.form.value;
+      const {instrument, specifics, brokerId} = this.form.value;
       const {operation, date, price, quantity} = specifics;
       this.dialogRef.close({
         instrumentId: instrument.id,
@@ -113,7 +127,8 @@ export class TradeDialogComponent implements OnInit {
         operation,
         date,
         price,
-        quantity
+        quantity,
+        brokerId
       } as AddTradeDto);
     }
   }

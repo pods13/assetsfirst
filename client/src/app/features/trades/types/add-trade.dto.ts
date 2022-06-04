@@ -8,4 +8,5 @@ export interface AddTradeDto {
   quantity: number;
   instrumentType: InstrumentType;
   date: Date;
+  brokerId: number;
 }

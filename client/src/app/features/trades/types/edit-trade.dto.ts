@@ -9,4 +9,5 @@ export interface EditTradeDto {
   price: number;
   quantity: number;
   date: Date;
+  brokerId: number;
 }

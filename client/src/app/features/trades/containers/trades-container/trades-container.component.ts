@@ -50,7 +50,7 @@ export class TradesContainerComponent implements OnInit {
     {prop: 'ticker'}, {prop: 'name'},
     {prop: 'operation'}, {prop: 'date'},
     {prop: 'quantity'}, {prop: 'price'},
-    {prop: 'broker'}
+    {prop: 'brokerName'}
   ];
 
   trades$ = this.tradeService.getUserTrades();

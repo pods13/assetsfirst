@@ -35,7 +35,8 @@ import java.util.Currency;
                trade.quantity,
                trade.price,
                exch.currency,
-               b.name as broker
+               b.id as broker_id,
+               b.name as broker_name
         from trade
                  join portfolio_holding ph on trade.portfolio_holding_id = ph.id
                  join portfolio p on p.id = ph.portfolio_id
@@ -71,6 +72,8 @@ public class TradeView {
 
     private Currency currency;
 
-    private String broker;
+    private Long brokerId;
+
+    private String brokerName;
 
 }

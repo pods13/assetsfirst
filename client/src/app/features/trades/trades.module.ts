@@ -22,6 +22,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { AssignTradeAttributesComponent } from './components/assign-trade-attributes/assign-trade-attributes.component';
 import { CurrencyService } from './services/currency.service';
+import { BrokerService } from './services/broker.service';
 
 
 @NgModule({
@@ -51,7 +52,8 @@ import { CurrencyService } from './services/currency.service';
     UploadFileService,
     TradeService,
     TradingInstrumentService,
-    CurrencyService
+    CurrencyService,
+    BrokerService
   ]
 })
 export class TradesModule {
