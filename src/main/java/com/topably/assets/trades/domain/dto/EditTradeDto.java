@@ -1,4 +1,4 @@
-package com.topably.assets.trades.domain.dto.add;
+package com.topably.assets.trades.domain.dto;
 
 import com.topably.assets.trades.domain.TradeOperation;
 import lombok.AllArgsConstructor;
@@ -16,10 +16,9 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class AddTradeDto {
+public class EditTradeDto {
 
-    private Long instrumentId;
-    private TradeOperation operation;
+    private Long tradeId;
     private LocalDateTime date;
     private BigDecimal price;
     private BigInteger quantity;

@@ -2,10 +2,8 @@ import { InstrumentType } from './instrument-type';
 import { TradeOperation } from './trade-operation';
 
 export interface EditTradeDto {
-  id: number;
-  instrumentId: number;
+  tradeId: number;
   instrumentType: InstrumentType;
-
   price: number;
   quantity: number;
   date: Date;

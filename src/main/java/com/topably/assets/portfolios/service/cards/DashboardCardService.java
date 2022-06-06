@@ -11,5 +11,5 @@ public interface DashboardCardService {
 
     void deleteCard(Long dashboardId, DashboardCard cardToDelete);
 
-    CardData produceCardData(String username, DashboardCard card);
+    CardData produceCardData(Long userId, DashboardCard card);
 }

@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface PortfolioHoldingRepository extends JpaRepository<PortfolioHolding, Long> {
 
-    Optional<PortfolioHolding> findByPortfolio_User_UsernameAndInstrument_Id(String username, Long instrumentId);
+    Optional<PortfolioHolding> findByPortfolio_User_IdAndInstrument_Id(Long userId, Long instrumentId);
 
     @EntityGraph(attributePaths = {"instrument", "instrument.exchange"})
     List<PortfolioHolding> findAllByPortfolioId(Long portfolioId);

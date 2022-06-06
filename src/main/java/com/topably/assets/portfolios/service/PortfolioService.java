@@ -7,5 +7,5 @@ import java.math.BigDecimal;
 public interface PortfolioService {
     Portfolio createDefaultUserPortfolio(Long userId);
 
-    Portfolio findByUsername(String username);
+    Portfolio findByUserId(Long userId);
 }

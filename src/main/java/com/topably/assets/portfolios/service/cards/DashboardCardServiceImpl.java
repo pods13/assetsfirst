@@ -53,8 +53,8 @@ public class DashboardCardServiceImpl implements DashboardCardService {
 
     @Override
     @Transactional
-    public CardData produceCardData(String username, DashboardCard card) {
-        Portfolio portfolio = portfolioService.findByUsername(username);
+    public CardData produceCardData(Long userId, DashboardCard card) {
+        Portfolio portfolio = portfolioService.findByUserId(userId);
         return cardStateProducerFactory.getProducer(card).produce(portfolio, card);
     }
 }

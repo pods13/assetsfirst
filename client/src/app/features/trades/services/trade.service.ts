@@ -22,7 +22,7 @@ export class TradeService {
 
   editTrade(dto: EditTradeDto) {
     const urlPrefix = this.getUrlPrefixByType(dto.instrumentType);
-    return this.http.put(`/${urlPrefix}/trades/${dto.id}`, dto);
+    return this.http.patch(`/${urlPrefix}/trades`, dto);
   }
 
   private getUrlPrefixByType(instrumentType: InstrumentType): string {

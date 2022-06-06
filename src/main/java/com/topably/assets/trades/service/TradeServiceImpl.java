@@ -5,6 +5,7 @@ import com.topably.assets.portfolios.domain.PortfolioHolding;
 import com.topably.assets.portfolios.service.PortfolioHoldingService;
 import com.topably.assets.trades.domain.Trade;
 import com.topably.assets.trades.domain.TradeView;
+import com.topably.assets.trades.domain.dto.EditTradeDto;
 import com.topably.assets.trades.domain.dto.TradeDto;
 import com.topably.assets.trades.domain.dto.add.AddTradeDto;
 import com.topably.assets.trades.repository.TradeRepository;
@@ -34,7 +35,8 @@ public class TradeServiceImpl implements TradeService {
     @Override
     @Transactional
     public TradeDto addTrade(AddTradeDto dto, Instrument tradedInstrument) {
-        PortfolioHolding holding = portfolioHoldingService.managePortfolioHolding(dto, tradedInstrument);
+        PortfolioHolding holding = portfolioHoldingService.findByUserIdAndInstrumentId(dto.getUserId(), dto.getInstrumentId())
+                .orElseGet(() -> portfolioHoldingService.createHolding(dto, tradedInstrument));
         var trade = Trade.builder()
                 .portfolioHolding(holding)
                 .operation(dto.getOperation())
@@ -44,6 +46,9 @@ public class TradeServiceImpl implements TradeService {
                 .broker(brokerRepository.getById(dto.getBrokerId()))
                 .build();
         var savedTrade = tradeRepository.save(trade);
+        Long holdingId = holding.getId();
+        portfolioHoldingService.recalculatePortfolioHolding(holdingId,
+                tradeRepository.findAllByPortfolioHolding_IdOrderByDate(holdingId));
         return TradeDto.builder()
                 .id(savedTrade.getId())
                 .build();
@@ -57,5 +62,22 @@ public class TradeServiceImpl implements TradeService {
     @Override
     public Collection<Trade> findTradesByUserId(Long userId) {
         return tradeRepository.findAllByUserId(userId);
+    }
+
+    @Override
+    @Transactional
+    public TradeDto editTrade(EditTradeDto dto) {
+        Trade trade = tradeRepository.getById(dto.getTradeId());
+        trade.setDate(trade.getDate().equals(dto.getDate()) ? trade.getDate() : dto.getDate());
+        trade.setPrice(trade.getPrice().equals(dto.getPrice()) ? trade.getPrice() : dto.getPrice());
+        trade.setQuantity(trade.getQuantity().equals(dto.getQuantity()) ? trade.getQuantity() : dto.getQuantity());
+        trade.setBroker(trade.getBroker().getId().equals(dto.getBrokerId()) ? trade.getBroker() : brokerRepository.getById(dto.getBrokerId()));
+        var updatedTrade = tradeRepository.save(trade);
+        Long holdingId = trade.getPortfolioHolding().getId();
+        portfolioHoldingService.recalculatePortfolioHolding(holdingId,
+                tradeRepository.findAllByPortfolioHolding_IdOrderByDate(holdingId));
+        return TradeDto.builder()
+                .id(updatedTrade.getId())
+                .build();
     }
 }

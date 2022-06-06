@@ -28,4 +28,6 @@ public interface TradeRepository extends JpaRepository<Trade, Long> {
             where u.id = :userId
             """)
     Collection<Trade> findAllByUserId(Long userId);
+
+    Collection<Trade> findAllByPortfolioHolding_IdOrderByDate(Long holdingId);
 }

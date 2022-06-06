@@ -1,5 +1,7 @@
 package com.topably.assets.core.bootstrap;
 
+import com.topably.assets.auth.domain.User;
+import com.topably.assets.auth.repository.UserRepository;
 import com.topably.assets.exchanges.domain.USExchange;
 import com.topably.assets.instruments.domain.Instrument;
 import com.topably.assets.instruments.service.InstrumentService;
@@ -27,6 +29,7 @@ import java.util.stream.Collectors;
 @ConditionalOnProperty(name = "app.bootstrap.with.data", havingValue = "true")
 public class TradeDataLoader implements CommandLineRunner {
 
+    private final UserRepository userRepository;
     private final BrokerRepository brokerRepository;
 
     private final TradeService tradeService;
@@ -35,40 +38,41 @@ public class TradeDataLoader implements CommandLineRunner {
     @Override
     @Transactional
     public void run(String... args) throws Exception {
+        Long userId = userRepository.findByUsername("user").map(User::getId).orElse(null);
         var brokerNameById = brokerRepository.findAll().stream()
                 .collect(Collectors.toMap(b -> b.getName().split(" ")[0], Broker::getId));
-        addNewmont(brokerNameById.get("Interactive"));
-        addKRBN(brokerNameById.get("Interactive"));
+        addNewmont(userId, brokerNameById.get("Interactive"));
+        addKRBN(userId, brokerNameById.get("Interactive"));
 
-        addBayer(brokerNameById.get("Tinkoff"));
-        addRosneft(brokerNameById);
+        addBayer(userId, brokerNameById.get("Tinkoff"));
+        addRosneft(userId, brokerNameById);
 
-        addAltria(brokerNameById.get("VTB"));
-        addOmega(brokerNameById.get("VTB"));
-        addCoke(brokerNameById.get("VTB"));
-        addTotal(brokerNameById.get("VTB"));
-        addGazprom(brokerNameById.get("Alfa"));
-        addRosAgro(brokerNameById.get("VTB"));
-        addPolyus(brokerNameById.get("Alfa"));
-        addPhor(brokerNameById.get("Alfa"));
+        addAltria(userId, brokerNameById.get("VTB"));
+        addOmega(userId, brokerNameById.get("VTB"));
+        addCoke(userId, brokerNameById.get("VTB"));
+        addTotal(userId, brokerNameById.get("VTB"));
+        addGazprom(userId, brokerNameById.get("Alfa"));
+        addRosAgro(userId, brokerNameById.get("VTB"));
+        addPolyus(userId, brokerNameById.get("Alfa"));
+        addPhor(userId, brokerNameById.get("Alfa"));
     }
 
-    private void addNewmont(Long brokerId) {
+    private void addNewmont(Long userId, Long brokerId) {
         AddTradeDto dto = AddTradeDto.builder()
                 .date(LocalDateTime.of(2022, 2, 23, 11, 0))
                 .operation(TradeOperation.BUY)
                 .price(BigDecimal.valueOf(67.92))
                 .quantity(BigInteger.valueOf(15L))
-                .username("user")
+                .userId(userId)
                 .brokerId(brokerId)
                 .build();
         tradeService.addTrade(dto, instrumentService.findInstrument("NEM", USExchange.NYSE.name()));
     }
 
-    private void addKRBN(Long brokerId) {
+    private void addKRBN(Long userId, Long brokerId) {
         AddTradeDto dto = AddTradeDto.builder()
                 .date(LocalDateTime.of(2021, 12, 1, 11, 0))
-                .username("user")
+                .userId(userId)
                 .operation(TradeOperation.BUY)
                 .price(BigDecimal.valueOf(40.67))
                 .quantity(BigInteger.valueOf(24L))
@@ -77,10 +81,10 @@ public class TradeDataLoader implements CommandLineRunner {
         tradeService.addTrade(dto, instrumentService.findInstrument("KRBN", USExchange.NYSEARCA.name()));
     }
 
-    private void addBayer(Long brokerId) {
+    private void addBayer(Long userId, Long brokerId) {
         AddTradeDto dto = AddTradeDto.builder()
                 .date(LocalDateTime.of(2021, 12, 1, 11, 0))
-                .username("user")
+                .userId(userId)
                 .operation(TradeOperation.BUY)
                 .price(BigDecimal.valueOf(47.23))
                 .quantity(BigInteger.valueOf(110L))
@@ -89,10 +93,10 @@ public class TradeDataLoader implements CommandLineRunner {
         tradeService.addTrade(dto, instrumentService.findInstrument("BAYN", "XETRA"));
     }
 
-    private void addAltria(Long brokerId) {
+    private void addAltria(Long userId, Long brokerId) {
         AddTradeDto dto = AddTradeDto.builder()
                 .date(LocalDateTime.of(2021, 12, 1, 11, 0))
-                .username("user")
+                .userId(userId)
                 .operation(TradeOperation.BUY)
                 .price(BigDecimal.valueOf(45.67))
                 .quantity(BigInteger.valueOf(64L))
@@ -101,10 +105,10 @@ public class TradeDataLoader implements CommandLineRunner {
         tradeService.addTrade(dto, instrumentService.findInstrument("MO", USExchange.NYSE.name()));
     }
 
-    private void addOmega(Long brokerId) {
+    private void addOmega(Long userId, Long brokerId) {
         AddTradeDto dto = AddTradeDto.builder()
                 .date(LocalDateTime.of(2021, 12, 1, 11, 0))
-                .username("user")
+                .userId(userId)
                 .operation(TradeOperation.BUY)
                 .price(BigDecimal.valueOf(31.82))
                 .quantity(BigInteger.valueOf(75L))
@@ -113,10 +117,10 @@ public class TradeDataLoader implements CommandLineRunner {
         tradeService.addTrade(dto, instrumentService.findInstrument("OHI", USExchange.NYSE.name()));
     }
 
-    private void addCoke(Long brokerId) {
+    private void addCoke(Long userId, Long brokerId) {
         AddTradeDto dto = AddTradeDto.builder()
                 .date(LocalDateTime.of(2021, 12, 1, 11, 0))
-                .username("user")
+                .userId(userId)
                 .operation(TradeOperation.BUY)
                 .price(BigDecimal.valueOf(52.04))
                 .quantity(BigInteger.valueOf(24L))
@@ -125,10 +129,10 @@ public class TradeDataLoader implements CommandLineRunner {
         tradeService.addTrade(dto, instrumentService.findInstrument("KO", USExchange.NYSE.name()));
     }
 
-    private void addTotal(Long brokerId) {
+    private void addTotal(Long userId, Long brokerId) {
         AddTradeDto dto = AddTradeDto.builder()
                 .date(LocalDateTime.of(2021, 12, 1, 11, 0))
-                .username("user")
+                .userId(userId)
                 .operation(TradeOperation.BUY)
                 .price(BigDecimal.valueOf(45.3659))
                 .quantity(BigInteger.valueOf(64L))
@@ -137,10 +141,10 @@ public class TradeDataLoader implements CommandLineRunner {
         tradeService.addTrade(dto, instrumentService.findInstrument("TTE", USExchange.NYSE.name()));
     }
 
-    private void addRosneft(Map<String, Long> brokerNameById) {
+    private void addRosneft(Long userId, Map<String, Long> brokerNameById) {
         AddTradeDto dto = AddTradeDto.builder()
                 .date(LocalDateTime.of(2022, 1, 18, 8, 0))
-                .username("user")
+                .userId(userId)
                 .operation(TradeOperation.BUY)
                 .price(BigDecimal.valueOf(393.15))
                 .quantity(BigInteger.valueOf(700L))
@@ -151,7 +155,7 @@ public class TradeDataLoader implements CommandLineRunner {
 
         AddTradeDto dto2 = AddTradeDto.builder()
                 .date(LocalDateTime.of(2022, 3, 24, 8, 0))
-                .username("user")
+                .userId(userId)
                 .operation(TradeOperation.BUY)
                 .price(BigDecimal.valueOf(357.12))
                 .quantity(BigInteger.valueOf(250L))
@@ -160,10 +164,10 @@ public class TradeDataLoader implements CommandLineRunner {
         tradeService.addTrade(dto2, rosn);
     }
 
-    private void addGazprom(Long brokerId) {
+    private void addGazprom(Long userId, Long brokerId) {
         AddTradeDto dto = AddTradeDto.builder()
                 .date(LocalDateTime.of(2021, 12, 1, 11, 0))
-                .username("user")
+                .userId(userId)
                 .operation(TradeOperation.BUY)
                 .price(BigDecimal.valueOf(288.96))
                 .quantity(BigInteger.valueOf(900L))
@@ -172,10 +176,10 @@ public class TradeDataLoader implements CommandLineRunner {
         tradeService.addTrade(dto, instrumentService.findInstrument("GAZP", "MCX"));
     }
 
-    private void addRosAgro(Long brokerId) {
+    private void addRosAgro(Long userId, Long brokerId) {
         AddTradeDto dto = AddTradeDto.builder()
                 .date(LocalDateTime.of(2021, 12, 1, 11, 0))
-                .username("user")
+                .userId(userId)
                 .operation(TradeOperation.BUY)
                 .price(BigDecimal.valueOf(1029.8))
                 .quantity(BigInteger.valueOf(440L))
@@ -184,10 +188,10 @@ public class TradeDataLoader implements CommandLineRunner {
         tradeService.addTrade(dto, instrumentService.findInstrument("AGRO", "MCX"));
     }
 
-    private void addPolyus(Long brokerId) {
+    private void addPolyus(Long userId, Long brokerId) {
         AddTradeDto dto = AddTradeDto.builder()
                 .date(LocalDateTime.of(2021, 12, 1, 11, 0))
-                .username("user")
+                .userId(userId)
                 .operation(TradeOperation.BUY)
                 .price(BigDecimal.valueOf(13179.4))
                 .quantity(BigInteger.valueOf(27L))
@@ -196,10 +200,10 @@ public class TradeDataLoader implements CommandLineRunner {
         tradeService.addTrade(dto, instrumentService.findInstrument("PLZL", "MCX"));
     }
 
-    private void addPhor(Long brokerId) {
+    private void addPhor(Long userId, Long brokerId) {
         AddTradeDto dto = AddTradeDto.builder()
                 .date(LocalDateTime.of(2021, 12, 1, 11, 0))
-                .username("user")
+                .userId(userId)
                 .operation(TradeOperation.BUY)
                 .price(BigDecimal.valueOf(4945))
                 .quantity(BigInteger.valueOf(10L))
@@ -210,7 +214,7 @@ public class TradeDataLoader implements CommandLineRunner {
 
         AddTradeDto dto2 = AddTradeDto.builder()
                 .date(LocalDateTime.of(2022, 3, 24, 11, 0))
-                .username("user")
+                .userId(userId)
                 .operation(TradeOperation.BUY)
                 .price(BigDecimal.valueOf(4945))
                 .quantity(BigInteger.valueOf(5L))

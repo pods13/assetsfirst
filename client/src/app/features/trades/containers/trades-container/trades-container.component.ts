@@ -21,6 +21,7 @@ import { EditTradeDto } from '../../types/edit-trade.dto';
                    [sorts]="[{ prop: 'date', dir: 'desc' }]"
                    [selectionType]="SelectionType.checkbox"
                    [selectAllRowsOnPage]="true"
+                   [selected]="selectedRows"
                    (select)="onSelect($event)">
       <ngx-datatable-column
         [width]="30"
@@ -80,6 +81,7 @@ export class TradesContainerComponent implements OnInit {
   onEditTrade(dto: EditTradeDto) {
     this.tradeService.editTrade(dto)
       .subscribe(res => {
+        this.selectedRows = [];
         this.trades$ = this.tradeService.getUserTrades();
         this.cd.detectChanges();
       });

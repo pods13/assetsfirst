@@ -111,7 +111,7 @@ export class TradeDialogComponent implements OnInit {
       const {specifics, brokerId} = this.form.value;
       const {date, price, quantity} = specifics;
       this.dialogRef.close({
-        id: this.data.trade.id,
+        tradeId: this.data.trade.id,
         instrumentType: this.data.trade.instrumentType,
         date,
         price,

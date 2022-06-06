@@ -15,8 +15,8 @@ public class PortfolioDashboardServiceImpl implements PortfolioDashboardService 
 
     @Override
     @Transactional
-    public PortfolioDashboardDto findUserPortfolioDashboard(String username) {
-        Portfolio portfolio = portfolioRepository.findByUser_Username(username);
+    public PortfolioDashboardDto findPortfolioDashboardByUserId(Long userId) {
+        Portfolio portfolio = portfolioRepository.findByUserId(userId);
         return PortfolioDashboardDto.builder()
                 .id(portfolio.getDashboard().getId())
                 .cards(portfolio.getDashboard().getCards())

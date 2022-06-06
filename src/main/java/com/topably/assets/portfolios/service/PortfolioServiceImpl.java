@@ -3,16 +3,13 @@ package com.topably.assets.portfolios.service;
 import com.topably.assets.auth.service.UserService;
 import com.topably.assets.portfolios.domain.Portfolio;
 import com.topably.assets.portfolios.domain.PortfolioDashboard;
-import com.topably.assets.portfolios.domain.PortfolioHolding;
 import com.topably.assets.portfolios.repository.PortfolioHoldingRepository;
 import com.topably.assets.portfolios.repository.PortfolioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
 import java.util.HashSet;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -36,8 +33,7 @@ public class PortfolioServiceImpl implements PortfolioService {
         return portfolioRepository.save(portfolio);
     }
 
-    @Override
-    public Portfolio findByUsername(String username) {
-        return portfolioRepository.findByUser_Username(username);
+    public Portfolio findByUserId(Long userId) {
+        return portfolioRepository.findByUserId(userId);
     }
 }
