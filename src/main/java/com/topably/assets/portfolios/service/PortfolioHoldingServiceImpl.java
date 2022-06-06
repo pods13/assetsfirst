@@ -76,9 +76,9 @@ public class PortfolioHoldingServiceImpl implements PortfolioHoldingService {
                 throw new RuntimeException(String.format("Operation %s is not supported", operation.name()));
             }
         }
-        var sharesByAvgPrice = trades.stream().collect(Collectors.teeing(
-                Collectors.reducing(BigInteger.ZERO, Trade::getQuantity, BigInteger::add),
-                Collectors.reducing(BigDecimal.ZERO, t -> t.getPrice().multiply(new BigDecimal(t.getQuantity())), BigDecimal::add),
+        var sharesByAvgPrice = buyTradesData.stream().collect(Collectors.teeing(
+                Collectors.reducing(BigInteger.ZERO, AbstractMap.SimpleEntry::getKey, BigInteger::add),
+                Collectors.reducing(BigDecimal.ZERO, t -> t.getValue().multiply(new BigDecimal(t.getKey())), BigDecimal::add),
                 (qty, total) -> new AbstractMap.SimpleEntry<>(qty, BigInteger.ZERO.equals(qty) ? BigDecimal.ZERO :
                         total.divide(new BigDecimal(qty), 4, RoundingMode.HALF_UP))
         ));
