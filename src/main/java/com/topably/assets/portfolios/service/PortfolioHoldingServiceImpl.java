@@ -100,7 +100,7 @@ public class PortfolioHoldingServiceImpl implements PortfolioHoldingService {
     @Override
     public PortfolioHolding createHolding(AddTradeDto dto, Instrument instrument) {
         Portfolio portfolio = portfolioRepository.findByUserId(dto.getUserId());
-        return portfolioHoldingRepository.save(PortfolioHolding.builder()
+        return portfolioHoldingRepository.saveAndFlush(PortfolioHolding.builder()
                 .portfolio(portfolio)
                 .instrument(instrument)
                 .quantity(dto.getQuantity())
