@@ -14,7 +14,8 @@ import { stringifyTickerSymbol } from '../../../../core/types/ticker-symbol';
                    [headerHeight]="headerHeight"
                    [rowHeight]="rowHeight"
                    [limit]="pageLimit"
-                   [footerHeight]="footerHeight">
+                   [footerHeight]="footerHeight"
+                   [sorts]="[{ prop: 'pctOfPortfolio', dir: 'desc' }]">
       <ngx-datatable-column [prop]="'identifier'">
         <ng-template let-value="value" ngx-datatable-cell-template>
           {{value.symbol}}

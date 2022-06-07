@@ -51,6 +51,12 @@ public class ExchangeDataLoader implements CommandLineRunner {
                 .countryCode("DE")
                 .currency(Currency.getInstance("EUR"))
                 .build());
+        exchanges.add(Exchange.builder()
+                .name("The Stock Exchange of Hong Kong Limited")
+                .code("HK")
+                .countryCode("HK")
+                .currency(Currency.getInstance("HKD"))
+                .build());
         exchangeRepository.saveAll(exchanges);
     }
 }

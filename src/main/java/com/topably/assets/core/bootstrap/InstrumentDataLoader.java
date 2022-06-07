@@ -18,6 +18,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.topably.assets.exchanges.domain.USExchange.NYSE;
@@ -47,12 +48,23 @@ public class InstrumentDataLoader implements CommandLineRunner {
 
     private void addEtfInstruments() {
         Exchange nysearca = exchangeRepository.findByCode(NYSEARCA.name());
+        Exchange mcx = exchangeRepository.findByCode("MCX");
 
-        ETF krbn = etfRepository.save(ETF.builder()
+        var etfs = new ArrayList<ETF>();
+
+        etfs.add(ETF.builder()
                 .attribute(ETF.NAME_ATTRIBUTE, "KraneShares Global Carbon Strategy ETF")
                 .exchange(nysearca)
                 .ticker("KRBN")
                 .build());
+
+        etfs.add(ETF.builder()
+                .attribute(ETF.NAME_ATTRIBUTE, "FinEx China UCITS ETF")
+                .exchange(mcx)
+                .ticker("FXCN")
+                .build());
+
+        etfRepository.saveAll(etfs);
     }
 
     private void addStockInstruments() {
@@ -63,6 +75,7 @@ public class InstrumentDataLoader implements CommandLineRunner {
         Exchange nyse = exchangeRepository.findByCode(NYSE.name());
         Exchange xetra = exchangeRepository.findByCode("XETRA");
         Exchange mcx = exchangeRepository.findByCode("MCX");
+        Exchange hkex = exchangeRepository.findByCode("HK");
 
         Stock newmontStock = stockRepository.save(Stock.builder()
                 .company(newmontCorp)
@@ -165,6 +178,51 @@ public class InstrumentDataLoader implements CommandLineRunner {
                 .company(phos)
                 .exchange(mcx)
                 .ticker("PHOR")
+                .build());
+
+        Company irao = companyRepository.save(Company.builder()
+                .name("Public Joint Stock Company Inter RAO UES")
+                .build());
+        Stock iraoStock = stockRepository.save(Stock.builder()
+                .company(irao)
+                .exchange(mcx)
+                .ticker("IRAO")
+                .build());
+
+        Company mts = companyRepository.save(Company.builder()
+                .name("Mobile TeleSystems Public Joint Stock Company")
+                .build());
+        Stock mtsStock = stockRepository.save(Stock.builder()
+                .company(mts)
+                .exchange(mcx)
+                .ticker("MTSS")
+                .build());
+
+        Company magnit = companyRepository.save(Company.builder()
+                .name("Public Joint Stock Company Magnit")
+                .build());
+        Stock magnitStock = stockRepository.save(Stock.builder()
+                .company(magnit)
+                .exchange(mcx)
+                .ticker("MGNT")
+                .build());
+
+        Company moex = companyRepository.save(Company.builder()
+                .name("Public Joint-Stock Company Moscow Exchange MICEX-RTS")
+                .build());
+        Stock moexStock = stockRepository.save(Stock.builder()
+                .company(moex)
+                .exchange(mcx)
+                .ticker("MOEX")
+                .build());
+
+        Company cnooc = companyRepository.save(Company.builder()
+                .name("China National Offshore Oil Corporation")
+                .build());
+        Stock cnoocStock = stockRepository.save(Stock.builder()
+                .company(cnooc)
+                .exchange(hkex)
+                .ticker("0883")
                 .build());
     }
 

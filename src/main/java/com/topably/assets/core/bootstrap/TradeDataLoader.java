@@ -43,6 +43,7 @@ public class TradeDataLoader implements CommandLineRunner {
                 .collect(Collectors.toMap(b -> b.getName().split(" ")[0], Broker::getId));
         addNewmont(userId, brokerNameById.get("Interactive"));
         addKRBN(userId, brokerNameById.get("Interactive"));
+        addCNOOC(userId, brokerNameById.get("Interactive"));
 
         addBayer(userId, brokerNameById.get("Tinkoff"));
         addRosneft(userId, brokerNameById);
@@ -52,9 +53,14 @@ public class TradeDataLoader implements CommandLineRunner {
         addCoke(userId, brokerNameById.get("VTB"));
         addTotal(userId, brokerNameById.get("VTB"));
         addGazprom(userId, brokerNameById.get("Alfa"));
-        addRosAgro(userId, brokerNameById.get("VTB"));
+        addRosAgro(userId, brokerNameById.get("Finam"));
         addPolyus(userId, brokerNameById.get("Alfa"));
         addPhor(userId, brokerNameById.get("Alfa"));
+        addIRao(userId, brokerNameById.get("Alfa"));
+        addMts(userId, brokerNameById.get("Alfa"));
+        addMagnit(userId, brokerNameById.get("Alfa"));
+        addMoex(userId, brokerNameById.get("Alfa"));
+        addFXCN(userId, brokerNameById.get("Finam"));
     }
 
     private void addNewmont(Long userId, Long brokerId) {
@@ -79,6 +85,16 @@ public class TradeDataLoader implements CommandLineRunner {
                 .brokerId(brokerId)
                 .build();
         tradeService.addTrade(dto, instrumentService.findInstrument("KRBN", USExchange.NYSEARCA.name()));
+
+        AddTradeDto dto2 = AddTradeDto.builder()
+                .date(LocalDateTime.of(2022, 6, 3, 20, 33))
+                .userId(userId)
+                .operation(TradeOperation.BUY)
+                .price(BigDecimal.valueOf(50.33))
+                .quantity(BigInteger.valueOf(24L))
+                .brokerId(brokerId)
+                .build();
+        tradeService.addTrade(dto2, instrumentService.findInstrument("KRBN", USExchange.NYSEARCA.name()));
     }
 
     private void addBayer(Long userId, Long brokerId) {
@@ -221,5 +237,83 @@ public class TradeDataLoader implements CommandLineRunner {
                 .brokerId(brokerId)
                 .build();
         tradeService.addTrade(dto2, instrument);
+    }
+
+    private void addIRao(Long userId, Long brokerId) {
+        AddTradeDto dto = AddTradeDto.builder()
+                .date(LocalDateTime.of(2021, 12, 1, 11, 0))
+                .userId(userId)
+                .operation(TradeOperation.BUY)
+                .price(BigDecimal.valueOf(5.0253))
+                .quantity(BigInteger.valueOf(10000L))
+                .brokerId(brokerId)
+                .build();
+        Instrument instrument = instrumentService.findInstrument("IRAO", "MCX");
+        tradeService.addTrade(dto, instrument);
+    }
+
+    private void addMts(Long userId, Long brokerId) {
+        AddTradeDto dto = AddTradeDto.builder()
+                .date(LocalDateTime.of(2021, 12, 1, 11, 0))
+                .userId(userId)
+                .operation(TradeOperation.BUY)
+                .price(BigDecimal.valueOf(317.74))
+                .quantity(BigInteger.valueOf(250L))
+                .brokerId(brokerId)
+                .build();
+        Instrument instrument = instrumentService.findInstrument("MTSS", "MCX");
+        tradeService.addTrade(dto, instrument);
+    }
+
+    private void addMagnit(Long userId, Long brokerId) {
+        AddTradeDto dto = AddTradeDto.builder()
+                .date(LocalDateTime.of(2021, 12, 1, 11, 0))
+                .userId(userId)
+                .operation(TradeOperation.BUY)
+                .price(BigDecimal.valueOf(5222.2))
+                .quantity(BigInteger.valueOf(16L))
+                .brokerId(brokerId)
+                .build();
+        Instrument instrument = instrumentService.findInstrument("MGNT", "MCX");
+        tradeService.addTrade(dto, instrument);
+    }
+
+    private void addMoex(Long userId, Long brokerId) {
+        AddTradeDto dto = AddTradeDto.builder()
+                .date(LocalDateTime.of(2021, 12, 1, 11, 0))
+                .userId(userId)
+                .operation(TradeOperation.BUY)
+                .price(BigDecimal.valueOf(135.51))
+                .quantity(BigInteger.valueOf(110L))
+                .brokerId(brokerId)
+                .build();
+        Instrument instrument = instrumentService.findInstrument("MOEX", "MCX");
+        tradeService.addTrade(dto, instrument);
+    }
+
+    private void addFXCN(Long userId, Long brokerId) {
+        AddTradeDto dto = AddTradeDto.builder()
+                .date(LocalDateTime.of(2021, 12, 1, 11, 0))
+                .userId(userId)
+                .operation(TradeOperation.BUY)
+                .price(BigDecimal.valueOf(3726))
+                .quantity(BigInteger.valueOf(44L))
+                .brokerId(brokerId)
+                .build();
+        Instrument instrument = instrumentService.findInstrument("FXCN", "MCX");
+        tradeService.addTrade(dto, instrument);
+    }
+
+    private void addCNOOC(Long userId, Long brokerId) {
+        AddTradeDto dto = AddTradeDto.builder()
+                .date(LocalDateTime.of(2022, 6, 2, 11, 0))
+                .userId(userId)
+                .operation(TradeOperation.BUY)
+                .price(BigDecimal.valueOf(12.04))
+                .quantity(BigInteger.valueOf(1000L))
+                .brokerId(brokerId)
+                .build();
+        Instrument instrument = instrumentService.findInstrument("0883", "HK");
+        tradeService.addTrade(dto, instrument);
     }
 }
