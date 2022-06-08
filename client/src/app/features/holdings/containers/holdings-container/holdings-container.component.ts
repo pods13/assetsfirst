@@ -31,7 +31,7 @@ import { stringifyTickerSymbol } from '../../../../core/types/ticker-symbol';
       </ngx-datatable-column>
       <ngx-datatable-column [prop]="'total'" [name]="'Total Cost'"></ngx-datatable-column>
       <ngx-datatable-column [prop]="'marketValue'" [name]="'Market Value'"></ngx-datatable-column>
-      <ngx-datatable-column [prop]="'recordDate'" [name]="'Record Date'"></ngx-datatable-column>
+      <ngx-datatable-column [prop]="'exDividendDate'" [name]="'Ex-dividend Date'"></ngx-datatable-column>
       <ngx-datatable-column [prop]="'yieldOnCost'" [name]="'Yield On Cost'"></ngx-datatable-column>
       <ngx-datatable-column [prop]="'realizedPnl'" [name]="'Realized P&L'"></ngx-datatable-column>
     </ngx-datatable>

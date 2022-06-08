@@ -16,7 +16,7 @@ import com.topably.assets.portfolios.service.cards.CardStateProducer;
 import com.topably.assets.trades.domain.TradeOperation;
 import com.topably.assets.trades.domain.Trade;
 import com.topably.assets.trades.service.TradeService;
-import com.topably.assets.xrates.service.currency.CurrencyService;
+import com.topably.assets.xrates.service.currency.CurrencyConverterService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -42,7 +42,7 @@ public class DividendsCardStateProducer implements CardStateProducer<DividendsCa
 
     private final TradeService tradeService;
     private final DividendService dividendService;
-    private final CurrencyService currencyService;
+    private final CurrencyConverterService currencyConverterService;
 
     @Override
     public CardData produce(Portfolio portfolio, DividendsCard card) {
@@ -102,7 +102,7 @@ public class DividendsCardStateProducer implements CardStateProducer<DividendsCa
         return dividendsByYear.entrySet().stream()
                 .map(divsByYear -> {
                     var totalValue = divsByYear.getValue().stream()
-                            .map(div -> currencyService.convert(div.getTotal(), div.getCurrency()))
+                            .map(div -> currencyConverterService.convert(div.getTotal(), div.getCurrency()))
                             .reduce(BigDecimal.ZERO, BigDecimal::add)
                             .setScale(2, RoundingMode.HALF_UP);
                     return new DividendSummary(String.valueOf(divsByYear.getKey()), totalValue, divsByYear.getValue());

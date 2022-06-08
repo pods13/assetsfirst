@@ -1,6 +1,5 @@
 package com.topably.assets.portfolios.service.cards.producer;
 
-import com.topably.assets.core.domain.TickerSymbol;
 import com.topably.assets.exchanges.service.ExchangeService;
 import com.topably.assets.portfolios.domain.Portfolio;
 import com.topably.assets.portfolios.domain.PortfolioHolding;
@@ -12,27 +11,22 @@ import com.topably.assets.portfolios.domain.cards.input.allocation.AllocatedByOp
 import com.topably.assets.portfolios.domain.cards.input.allocation.AllocationCard;
 import com.topably.assets.portfolios.domain.cards.output.AllocationCardData;
 import com.topably.assets.portfolios.domain.cards.output.AllocationSegment;
-import com.topably.assets.portfolios.domain.dto.PortfolioHoldingDto;
 import com.topably.assets.portfolios.service.PortfolioHoldingService;
 import com.topably.assets.portfolios.service.cards.CardStateProducer;
 import com.topably.assets.trades.domain.TradeOperation;
 import com.topably.assets.trades.service.TradeService;
-import com.topably.assets.xrates.service.currency.CurrencyService;
+import com.topably.assets.xrates.service.currency.CurrencyConverterService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.collectingAndThen;
 import static java.util.stream.Collectors.groupingBy;
@@ -45,7 +39,7 @@ import static java.util.stream.Collectors.toMap;
 public class AllocationCardStateProducer implements CardStateProducer<AllocationCard> {
 
     private final ExchangeService exchangeService;
-    private final CurrencyService currencyService;
+    private final CurrencyConverterService currencyConverterService;
 
     private final PortfolioHoldingService portfolioHoldingService;
     private final TradeService tradeService;
@@ -112,7 +106,7 @@ public class AllocationCardStateProducer implements CardStateProducer<Allocation
 
     private AllocationSegment convertToSegment(AggregatedTrade trade) {
         var name = trade.getIdentifier().toString();
-        var price = currencyService.convert(trade.getTotal(), trade.getCurrency());
+        var price = currencyConverterService.convert(trade.getTotal(), trade.getCurrency());
         log.info("{} {} {} {}", name, price, trade.getPrice(), trade.getQuantity());
         return AllocationSegment.builder()
                 .name(name)
@@ -131,7 +125,7 @@ public class AllocationCardStateProducer implements CardStateProducer<Allocation
         return trades.stream()
                 .map(t -> exchangeService.findTickerRecentPrice(t.getIdentifier())
                         .map(value -> value.multiply(new BigDecimal(t.getQuantity())))
-                        .map(total -> currencyService.convert(total, t.getCurrency()))
+                        .map(total -> currencyConverterService.convert(total, t.getCurrency()))
                         .orElse(BigDecimal.ZERO))
                 .reduce(BigDecimal.ZERO, BigDecimal::add)
                 .setScale(0, RoundingMode.HALF_EVEN);

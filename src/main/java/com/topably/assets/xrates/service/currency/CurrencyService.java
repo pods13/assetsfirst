@@ -9,7 +9,4 @@ public interface CurrencyService {
     Collection<Currency> getAvailableCurrencies();
 
     Collection<String> getAvailableCurrencyCodes();
-
-    BigDecimal convert(BigDecimal amount, Currency from);
-    BigDecimal convert(BigDecimal amount, Currency from, Currency to);
 }

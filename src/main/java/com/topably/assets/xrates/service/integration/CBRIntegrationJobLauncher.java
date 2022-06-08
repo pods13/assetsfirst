@@ -10,6 +10,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.Collection;
@@ -29,7 +30,7 @@ public class CBRIntegrationJobLauncher {
     @Scheduled(initialDelay = 0, fixedDelay = 30 * 60 * 1000)
     public void launchCBRIntegrationJob() {
         Collection<Currency> sourceCurrenciesToObtain = currencyService.getAvailableCurrencies();
-        Instant time = LocalDateTime.now().toInstant(ZoneOffset.UTC);
+        Instant time = LocalDate.now().atStartOfDay().toInstant(ZoneOffset.UTC);
         var exchangeRates = cbrExchangeProvider.getExchangeRates(time, sourceCurrenciesToObtain);
         exchangeRateService.updateExchangeRates(DESTINATION_CURRENCY, exchangeRates);
     }

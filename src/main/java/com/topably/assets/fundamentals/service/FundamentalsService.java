@@ -3,7 +3,7 @@ package com.topably.assets.fundamentals.service;
 import com.topably.assets.exchanges.service.ExchangeService;
 import com.topably.assets.fundamentals.domain.FundamentalsDto;
 import com.topably.assets.portfolios.service.PortfolioHoldingService;
-import com.topably.assets.xrates.service.currency.CurrencyService;
+import com.topably.assets.xrates.service.currency.CurrencyConverterService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,7 +17,7 @@ public class FundamentalsService {
 
     private final PortfolioHoldingService portfolioHoldingService;
     private final ExchangeService exchangeService;
-    private final CurrencyService currencyService;
+    private final CurrencyConverterService currencyConverterService;
 
     @Transactional(readOnly = true)
     public Collection<FundamentalsDto> findPortfolioHoldingsFundamentals(Long userId) {
@@ -28,7 +28,7 @@ public class FundamentalsService {
                     var marketValue = exchangeService.findTickerRecentPrice(holding.getIdentifier())
                             .map(value -> value.multiply(new BigDecimal(holding.getQuantity())))
                             .orElse(holding.getTotal());
-                    var convertedMarketValue = currencyService.convert(marketValue, holding.getCurrency());
+                    var convertedMarketValue = currencyConverterService.convert(marketValue, holding.getCurrency());
                     return FundamentalsDto.builder()
                             .identifier(holding.getIdentifier())
                             .marketValue(marketValue)

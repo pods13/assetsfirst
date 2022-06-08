@@ -3,20 +3,17 @@ package com.topably.assets.portfolios.service.cards.producer;
 import com.topably.assets.portfolios.domain.Portfolio;
 import com.topably.assets.portfolios.domain.cards.CardContainerType;
 import com.topably.assets.portfolios.domain.cards.CardData;
-import com.topably.assets.portfolios.domain.cards.DashboardCard;
 import com.topably.assets.portfolios.domain.cards.input.SectoralDistributionCard;
 import com.topably.assets.portfolios.domain.cards.output.SectoralDistributionCardData;
 import com.topably.assets.portfolios.domain.cards.output.SectoralDistributionDataItem;
 import com.topably.assets.portfolios.service.PortfolioHoldingService;
-import com.topably.assets.portfolios.service.PortfolioService;
 import com.topably.assets.portfolios.service.cards.CardStateProducer;
 import com.topably.assets.instruments.domain.Instrument;
 import com.topably.assets.instruments.service.StockService;
 import com.topably.assets.portfolios.domain.dto.PortfolioHoldingDto;
-import com.topably.assets.xrates.service.currency.CurrencyService;
+import com.topably.assets.xrates.service.currency.CurrencyConverterService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -31,7 +28,7 @@ import static java.util.stream.Collectors.*;
 public class SectoralDistributionCardStateProducer implements CardStateProducer<SectoralDistributionCard> {
 
     private final StockService stockService;
-    private final CurrencyService currencyService;
+    private final CurrencyConverterService currencyConverterService;
 
     private final PortfolioHoldingService portfolioHoldingService;
 
@@ -65,7 +62,7 @@ public class SectoralDistributionCardStateProducer implements CardStateProducer<
                         .map(name -> {
                             BigDecimal total = companyNameByStockIds.get(name).stream()
                                     .map(stockIdByTrade::get)
-                                    .map(trade -> currencyService.convert(trade.getTotal(), trade.getCurrency()))
+                                    .map(trade -> currencyConverterService.convert(trade.getTotal(), trade.getCurrency()))
                                             .reduce(BigDecimal.ZERO, BigDecimal::add);
                             return composeLeafItem(name, total);
                         })
