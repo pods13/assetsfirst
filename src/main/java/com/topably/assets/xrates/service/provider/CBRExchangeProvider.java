@@ -6,6 +6,7 @@ import com.topably.assets.xrates.domain.ExchangeRate;
 import com.topably.assets.xrates.domain.cbr.CBRCurrencyData;
 import com.topably.assets.xrates.domain.cbr.CBRExchangeRateData;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -21,7 +22,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Currency;
-import java.util.HashSet;
 import java.util.List;
 
 import static java.util.Collections.emptyList;
@@ -29,6 +29,7 @@ import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toList;
 
 @Slf4j
+@Service
 public class CBRExchangeProvider implements ExchangeProvider {
 
     private static final String DEFAULT_ENDPOINT = "https://www.cbr.ru/scripts/XML_daily.asp";
@@ -36,10 +37,9 @@ public class CBRExchangeProvider implements ExchangeProvider {
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     private final XmlMapper mapper = new XmlMapper();
-    private final Currency destinationCurrency;
+    private final Currency destinationCurrency = Currency.getInstance("RUB");
 
-    public CBRExchangeProvider(Currency destinationCurrency) {
-        this.destinationCurrency = destinationCurrency;
+    public CBRExchangeProvider() {
     }
 
     @Override
