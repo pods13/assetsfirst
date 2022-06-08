@@ -2,7 +2,7 @@ package com.topably.assets.xrates.service;
 
 import com.topably.assets.xrates.domain.ExchangeRate;
 
-import java.math.BigDecimal;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Currency;
@@ -12,7 +12,7 @@ public interface ExchangeRateService {
 
     Collection<ExchangeRate> addExchangeRates(Collection<ExchangeRate> rates);
 
-    Optional<ExchangeRate> findExchangeRate(Currency from, Currency to);
+    Optional<ExchangeRate> findExchangeRate(Currency from, Currency to, Instant time);
 
-    Collection<ExchangeRate> fetchExchangeRates(LocalDate exchangeRatesForDate);
+    Collection<ExchangeRate> fetchExchangeRates(Instant exchangeRatesForTime);
 }

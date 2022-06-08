@@ -25,6 +25,7 @@ import java.math.RoundingMode;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Currency;
 import java.util.List;
 import java.util.Map;
 
@@ -107,7 +108,6 @@ public class AllocationCardStateProducer implements CardStateProducer<Allocation
     private AllocationSegment convertToSegment(AggregatedTrade trade) {
         var name = trade.getIdentifier().toString();
         var price = currencyConverterService.convert(trade.getTotal(), trade.getCurrency());
-        log.info("{} {} {} {}", name, price, trade.getPrice(), trade.getQuantity());
         return AllocationSegment.builder()
                 .name(name)
                 .value(price)

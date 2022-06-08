@@ -66,6 +66,7 @@ public class CBRExchangeProvider implements ExchangeProvider {
                             .sourceCurrency(source)
                             .destinationCurrency(destinationCurrency)
                             .conversionRate(conversionRate)
+                            .date(date)
                             .build();
                 }).collect(toList());
     }

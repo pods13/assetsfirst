@@ -6,6 +6,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneOffset;
 import java.util.Currency;
 import java.util.Optional;
 
@@ -19,15 +22,15 @@ public class CurrencyConverterServiceImpl implements CurrencyConverterService {
 
     @Override
     public BigDecimal convert(BigDecimal amount, Currency from) {
-        return convert(amount, from, DESTINATION_CURRENCY);
+        return convert(amount, from, DESTINATION_CURRENCY, LocalDate.now().atStartOfDay().toInstant(ZoneOffset.UTC));
     }
 
     @Override
-    public BigDecimal convert(BigDecimal amount, Currency from, Currency to) {
+    public BigDecimal convert(BigDecimal amount, Currency from, Currency to, Instant time) {
         if (from.equals(to)) {
             return amount;
         }
-        Optional<ExchangeRate> exchangeRate = exchangeRateService.findExchangeRate(from, to);
+        Optional<ExchangeRate> exchangeRate = exchangeRateService.findExchangeRate(from, to, time);
         return exchangeRate
                 .map(ExchangeRate::getConversionRate)
                 .map(amount::multiply)
