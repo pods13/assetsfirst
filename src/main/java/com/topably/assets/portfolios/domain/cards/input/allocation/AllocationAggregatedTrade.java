@@ -16,7 +16,7 @@ import java.util.Currency;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class AggregatedTrade {
+public class AllocationAggregatedTrade {
 
     private TickerSymbol identifier;
     private Long instrumentId;
@@ -24,7 +24,6 @@ public class AggregatedTrade {
     private BigInteger quantity;
     private BigDecimal price;
     private Currency currency;
-    private String brokerName;
 
     public BigDecimal getTotal() {
         return getPrice().multiply(new BigDecimal(getQuantity()));

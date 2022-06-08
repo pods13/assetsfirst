@@ -16,19 +16,20 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collector;
 
-public class AggregatedTradeCollector implements Collector<AggregatedTrade, Map<TickerSymbol, AggregatedTrade>, List<AggregatedTrade>> {
+public class AllocationAggregatedTradeCollector implements Collector<AllocationAggregatedTrade,
+        Map<TickerSymbol, AllocationAggregatedTrade>, List<AllocationAggregatedTrade>> {
 
     @Override
-    public Supplier<Map<TickerSymbol, AggregatedTrade>> supplier() {
+    public Supplier<Map<TickerSymbol, AllocationAggregatedTrade>> supplier() {
         return HashMap::new;
     }
 
     @Override
-    public BiConsumer<Map<TickerSymbol, AggregatedTrade>, AggregatedTrade> accumulator() {
+    public BiConsumer<Map<TickerSymbol, AllocationAggregatedTrade>, AllocationAggregatedTrade> accumulator() {
         return (map, trade) -> {
             TickerSymbol key = trade.getIdentifier();
             if (map.containsKey(key)) {
-                AggregatedTrade prevTrade = map.get(key);
+                AllocationAggregatedTrade prevTrade = map.get(key);
                 var totalQuantity = prevTrade.getQuantity().add(trade.getQuantity());
                 BigDecimal averagePrice = BigInteger.ZERO.equals(totalQuantity) ? BigDecimal.ZERO : prevTrade.getTotal().add(trade.getTotal())
                         .divide(new BigDecimal(totalQuantity), 4, RoundingMode.HALF_UP);
@@ -41,7 +42,7 @@ public class AggregatedTradeCollector implements Collector<AggregatedTrade, Map<
     }
 
     @Override
-    public BinaryOperator<Map<TickerSymbol, AggregatedTrade>> combiner() {
+    public BinaryOperator<Map<TickerSymbol, AllocationAggregatedTrade>> combiner() {
         return (m1, m2) -> {
             m1.putAll(m2);
             return m1;
@@ -49,7 +50,7 @@ public class AggregatedTradeCollector implements Collector<AggregatedTrade, Map<
     }
 
     @Override
-    public Function<Map<TickerSymbol, AggregatedTrade>, List<AggregatedTrade>> finisher() {
+    public Function<Map<TickerSymbol, AllocationAggregatedTrade>, List<AllocationAggregatedTrade>> finisher() {
         return map -> new ArrayList<>(map.values());
     }
 

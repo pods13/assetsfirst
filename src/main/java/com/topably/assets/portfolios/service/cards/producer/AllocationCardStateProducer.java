@@ -5,8 +5,8 @@ import com.topably.assets.portfolios.domain.Portfolio;
 import com.topably.assets.portfolios.domain.PortfolioHolding;
 import com.topably.assets.portfolios.domain.cards.CardContainerType;
 import com.topably.assets.portfolios.domain.cards.CardData;
-import com.topably.assets.portfolios.domain.cards.input.allocation.AggregatedTrade;
-import com.topably.assets.portfolios.domain.cards.input.allocation.AggregatedTradeCollector;
+import com.topably.assets.portfolios.domain.cards.input.allocation.AllocationAggregatedTrade;
+import com.topably.assets.portfolios.domain.cards.input.allocation.AllocationAggregatedTradeCollector;
 import com.topably.assets.portfolios.domain.cards.input.allocation.AllocatedByOption;
 import com.topably.assets.portfolios.domain.cards.input.allocation.AllocationCard;
 import com.topably.assets.portfolios.domain.cards.output.AllocationCardData;
@@ -25,7 +25,6 @@ import java.math.RoundingMode;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Currency;
 import java.util.List;
 import java.util.Map;
 
@@ -56,7 +55,7 @@ public class AllocationCardStateProducer implements CardStateProducer<Allocation
                             .children(childSegments)
                             .build();
                 }).toList();
-        List<AggregatedTrade> aggregatedTrades = tradesByType.values().stream().flatMap(Collection::stream).toList();
+        List<AllocationAggregatedTrade> aggregatedTrades = tradesByType.values().stream().flatMap(Collection::stream).toList();
         return AllocationCardData.builder()
                 .segments(segments)
                 .investedValue(calculateSegmentsTotalValue(segments))
@@ -64,11 +63,11 @@ public class AllocationCardStateProducer implements CardStateProducer<Allocation
                 .build();
     }
 
-    private Map<String, List<AggregatedTrade>> collectAggregatedTrades(Portfolio portfolio, AllocationCard card) {
+    private Map<String, List<AllocationAggregatedTrade>> collectAggregatedTrades(Portfolio portfolio, AllocationCard card) {
         var allocatedBy = card.getAllocatedBy();
         if (AllocatedByOption.INSTRUMENT_TYPE.equals(allocatedBy)) {
             return portfolioHoldingService.findPortfolioHoldings(portfolio.getId()).stream()
-                    .map(holding -> AggregatedTrade.builder()
+                    .map(holding -> AllocationAggregatedTrade.builder()
                             .identifier(holding.getIdentifier())
                             .instrumentId(holding.getInstrumentId())
                             .instrumentType(holding.getInstrumentType())
@@ -76,36 +75,34 @@ public class AllocationCardStateProducer implements CardStateProducer<Allocation
                             .quantity(holding.getQuantity())
                             .currency(holding.getCurrency())
                             .build())
-                    .collect(groupingBy(AggregatedTrade::getInstrumentType));
+                    .collect(groupingBy(AllocationAggregatedTrade::getInstrumentType));
         } else if (AllocatedByOption.BROKER.equals(allocatedBy)) {
             Long userId = portfolio.getUser().getId();
             return tradeService.findTradesByUserId(userId).stream()
-                    .map(t -> {
-                        PortfolioHolding holding = t.getPortfolioHolding();
-                        return AggregatedTrade.builder()
-                                .identifier(holding.getInstrument().toTickerSymbol())
-                                .instrumentId(holding.getInstrument().getId())
-                                .instrumentType(holding.getInstrument().getInstrumentType())
-                                .price(t.getPrice())
-                                .quantity(TradeOperation.SELL.equals(t.getOperation()) ? t.getQuantity().negate() : t.getQuantity())
-                                .currency(holding.getInstrument().getExchange().getCurrency())
-                                .brokerName(t.getBroker().getName())
-                                .build();
-                    })
-                    .collect(groupingBy(AggregatedTrade::getBrokerName, collectingAndThen(toList(),
-                            trades -> trades.stream().collect(new AggregatedTradeCollector()))));
+                    .collect(groupingBy(t -> t.getBroker().getName(), collectingAndThen(toList(),
+                            trades -> trades.stream().map(t -> {
+                                PortfolioHolding holding = t.getPortfolioHolding();
+                                return AllocationAggregatedTrade.builder()
+                                        .identifier(holding.getInstrument().toTickerSymbol())
+                                        .instrumentId(holding.getInstrument().getId())
+                                        .instrumentType(holding.getInstrument().getInstrumentType())
+                                        .price(t.getPrice())
+                                        .quantity(TradeOperation.SELL.equals(t.getOperation()) ? t.getQuantity().negate() : t.getQuantity())
+                                        .currency(holding.getInstrument().getExchange().getCurrency())
+                                        .build();
+                            }).collect(new AllocationAggregatedTradeCollector()))));
         }
         return Collections.emptyMap();
     }
 
-    private List<AllocationSegment> convertToSegments(Collection<AggregatedTrade> trades) {
+    private List<AllocationSegment> convertToSegments(Collection<AllocationAggregatedTrade> trades) {
         return trades.stream()
                 .map(this::convertToSegment)
                 .sorted(Comparator.comparing(AllocationSegment::getValue).reversed())
                 .collect(toList());
     }
 
-    private AllocationSegment convertToSegment(AggregatedTrade trade) {
+    private AllocationSegment convertToSegment(AllocationAggregatedTrade trade) {
         var name = trade.getIdentifier().toString();
         var price = currencyConverterService.convert(trade.getTotal(), trade.getCurrency());
         return AllocationSegment.builder()
@@ -121,7 +118,7 @@ public class AllocationCardStateProducer implements CardStateProducer<Allocation
                 .setScale(0, RoundingMode.HALF_EVEN);
     }
 
-    private BigDecimal calculateCurrentValue(Collection<AggregatedTrade> trades) {
+    private BigDecimal calculateCurrentValue(Collection<AllocationAggregatedTrade> trades) {
         return trades.stream()
                 .map(t -> exchangeService.findTickerRecentPrice(t.getIdentifier())
                         .map(value -> value.multiply(new BigDecimal(t.getQuantity())))
