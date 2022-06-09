@@ -19,6 +19,7 @@ import java.util.Currency;
 @Builder
 public class PortfolioHoldingDto {
 
+    private Long id;
     private Long instrumentId;
     private String instrumentType;
     private TickerSymbol identifier;

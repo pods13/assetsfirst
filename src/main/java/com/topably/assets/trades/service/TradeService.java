@@ -7,7 +7,9 @@ import com.topably.assets.trades.domain.dto.TradeDto;
 import com.topably.assets.trades.domain.dto.add.AddTradeDto;
 import com.topably.assets.trades.domain.Trade;
 
+import java.math.BigDecimal;
 import java.util.Collection;
+import java.util.Currency;
 
 public interface TradeService {
 
@@ -20,4 +22,6 @@ public interface TradeService {
     Collection<Trade> findTradesByUserId(Long userId);
 
     TradeDto editTrade(EditTradeDto dto, Instrument tradedInstrument);
+
+    BigDecimal calculateInvestedAmountByHoldingId(Long holdingId, Currency holdingCurrency, Currency portfolioCurrency);
 }

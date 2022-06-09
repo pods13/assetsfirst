@@ -54,6 +54,7 @@ public class PortfolioHoldingServiceImpl implements PortfolioHoldingService {
                 .map(holding -> {
                     Instrument instrument = holding.getInstrument();
                     return PortfolioHoldingDto.builder()
+                            .id(holding.getId())
                             .instrumentId(instrument.getId())
                             .instrumentType(instrument.getInstrumentType())
                             .identifier(instrument.toTickerSymbol())
