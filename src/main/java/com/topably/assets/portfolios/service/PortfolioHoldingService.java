@@ -3,7 +3,7 @@ package com.topably.assets.portfolios.service;
 import com.topably.assets.instruments.domain.Instrument;
 import com.topably.assets.portfolios.domain.PortfolioHolding;
 import com.topably.assets.portfolios.domain.dto.PortfolioHoldingDto;
-import com.topably.assets.trades.domain.Trade;
+import com.topably.assets.trades.domain.dto.AggregatedTradeDto;
 import com.topably.assets.trades.domain.dto.add.AddTradeDto;
 
 import java.util.Collection;
@@ -13,7 +13,7 @@ public interface PortfolioHoldingService {
 
     Optional<PortfolioHolding> findByUserIdAndInstrumentId(Long userId, Long instrumentId);
 
-    PortfolioHolding recalculatePortfolioHolding(Long holdingId, Collection<Trade> trades);
+    PortfolioHolding updatePortfolioHolding(Long holdingId, AggregatedTradeDto dto);
 
     PortfolioHolding createHolding(AddTradeDto dto, Instrument instrument);
 

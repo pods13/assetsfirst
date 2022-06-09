@@ -22,6 +22,7 @@ public class FXTradeService implements InstrumentTradeService {
 
     @Override
     public TradeDto editTrade(EditTradeDto dto) {
-        return tradeService.editTrade(dto);
+        return tradeService.editTrade(dto, fxRepository.getById(dto.getInstrumentId()));
+
     }
 }

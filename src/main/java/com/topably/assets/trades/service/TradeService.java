@@ -19,5 +19,5 @@ public interface TradeService {
 
     Collection<Trade> findTradesByUserId(Long userId);
 
-    TradeDto editTrade(EditTradeDto dto);
+    TradeDto editTrade(EditTradeDto dto, Instrument tradedInstrument);
 }

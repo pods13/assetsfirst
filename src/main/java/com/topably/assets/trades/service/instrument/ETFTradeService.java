@@ -22,6 +22,6 @@ public class ETFTradeService implements InstrumentTradeService {
 
     @Override
     public TradeDto editTrade(EditTradeDto dto) {
-        return tradeService.editTrade(dto);
+        return tradeService.editTrade(dto, etfRepository.getById(dto.getInstrumentId()));
     }
 }

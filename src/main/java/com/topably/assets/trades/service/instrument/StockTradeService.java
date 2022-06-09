@@ -22,6 +22,6 @@ public class StockTradeService implements InstrumentTradeService {
 
     @Override
     public TradeDto editTrade(EditTradeDto dto) {
-        return tradeService.editTrade(dto);
+        return tradeService.editTrade(dto, stockRepository.getById(dto.getInstrumentId()));
     }
 }
