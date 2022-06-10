@@ -20,6 +20,7 @@ import { DividendGoalsCardComponent } from './containers/dividend-goals-card/div
 import { MatListModule } from '@angular/material/list';
 import { MatInputModule } from '@angular/material/input';
 import { SectoralDistributionCardComponent } from './containers/sectoral-distribution-card/sectoral-distribution-card.component';
+import { BalanceCardComponent } from './containers/balance-card/balance-card.component';
 
 
 @NgModule({
@@ -32,6 +33,7 @@ import { SectoralDistributionCardComponent } from './containers/sectoral-distrib
     FitChartDirective,
     DividendGoalsCardComponent,
     SectoralDistributionCardComponent,
+    BalanceCardComponent,
   ],
     imports: [
         CommonModule,

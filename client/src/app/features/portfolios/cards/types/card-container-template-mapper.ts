@@ -5,10 +5,12 @@ import { DividendGoalsCardComponent } from '../containers/dividend-goals-card/di
 import {
   SectoralDistributionCardComponent
 } from '../containers/sectoral-distribution-card/sectoral-distribution-card.component';
+import { BalanceCardComponent } from '../containers/balance-card/balance-card.component';
 
 export const cardContainerTemplateMapper = {
   [CardContainerType.ALLOCATION]: AllocationCardComponent,
   [CardContainerType.DIVIDENDS]: DividendsCardComponent,
   [CardContainerType.DIVIDEND_GOALS]: DividendGoalsCardComponent,
   [CardContainerType.SECTORAL_DISTRIBUTION]: SectoralDistributionCardComponent,
+  [CardContainerType.BALANCE]: BalanceCardComponent
 };
