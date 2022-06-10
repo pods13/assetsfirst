@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import yahoofinance.YahooFinance;
 
@@ -45,6 +46,7 @@ public class ExchangeServiceImpl implements ExchangeService {
 
     @Override
     @Cacheable
+    @Transactional(propagation = Propagation.REQUIRES_NEW, readOnly = true)
     public Optional<BigDecimal> findTickerRecentPrice(TickerSymbol symbol) {
         try {
             var stock = YahooFinance.get(convertToYahooFinanceSymbol(symbol));
