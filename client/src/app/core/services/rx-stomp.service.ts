@@ -5,6 +5,14 @@ import { HttpXsrfTokenExtractor } from '@angular/common/http';
 @Injectable()
 export class RxStompService extends RxStomp {
 
+  constructor(private tokenExtractor: HttpXsrfTokenExtractor) {
+    super();
+  }
+
+  setConnectHeaders(): void {
+    console.log('run setConnectHeaders')
+    this.stompClient.connectHeaders = {'X-XSRF-TOKEN': `${this.tokenExtractor.getToken()}`};
+  }
 }
 
 const debugFunc = (msg: string) => {
@@ -20,12 +28,14 @@ export const rxStompConfig: RxStompConfig = {
   connectionTimeout: 1000,
   reconnectDelay: 3000,
 
+  beforeConnect: client => (client as RxStompService).setConnectHeaders(),
+
   debug: isDevMode() ? debugFunc : undefined,
 };
 
 export function rxStompServiceFactory(tokenExtractor: HttpXsrfTokenExtractor) {
-  const rxStomp = new RxStompService();
-  rxStomp.configure({...rxStompConfig, connectHeaders: {'X-XSRF-TOKEN': `${tokenExtractor.getToken()}`}});
+  const rxStomp = new RxStompService(tokenExtractor);
+  rxStomp.configure(rxStompConfig);
   rxStomp.activate();
   return rxStomp;
 }
