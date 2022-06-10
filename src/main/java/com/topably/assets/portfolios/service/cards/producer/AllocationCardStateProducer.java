@@ -5,9 +5,9 @@ import com.topably.assets.portfolios.domain.Portfolio;
 import com.topably.assets.portfolios.domain.PortfolioHolding;
 import com.topably.assets.portfolios.domain.cards.CardContainerType;
 import com.topably.assets.portfolios.domain.cards.CardData;
+import com.topably.assets.portfolios.domain.cards.input.allocation.AllocatedByOption;
 import com.topably.assets.portfolios.domain.cards.input.allocation.AllocationAggregatedTrade;
 import com.topably.assets.portfolios.domain.cards.input.allocation.AllocationAggregatedTradeCollector;
-import com.topably.assets.portfolios.domain.cards.input.allocation.AllocatedByOption;
 import com.topably.assets.portfolios.domain.cards.input.allocation.AllocationCard;
 import com.topably.assets.portfolios.domain.cards.output.AllocationCardData;
 import com.topably.assets.portfolios.domain.cards.output.AllocationSegment;
@@ -31,7 +31,6 @@ import java.util.Map;
 import static java.util.stream.Collectors.collectingAndThen;
 import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.toList;
-import static java.util.stream.Collectors.toMap;
 
 @Service(CardContainerType.ALLOCATION)
 @RequiredArgsConstructor
@@ -58,8 +57,6 @@ public class AllocationCardStateProducer implements CardStateProducer<Allocation
         List<AllocationAggregatedTrade> aggregatedTrades = tradesByType.values().stream().flatMap(Collection::stream).toList();
         return AllocationCardData.builder()
                 .segments(segments)
-                .investedValue(calculateSegmentsTotalValue(segments))
-                .currentValue(calculateCurrentValue(aggregatedTrades))
                 .build();
     }
 
@@ -114,16 +111,6 @@ public class AllocationCardStateProducer implements CardStateProducer<Allocation
     private BigDecimal calculateSegmentsTotalValue(List<AllocationSegment> segments) {
         return segments.stream()
                 .map(AllocationSegment::getValue)
-                .reduce(BigDecimal.ZERO, BigDecimal::add)
-                .setScale(0, RoundingMode.HALF_EVEN);
-    }
-
-    private BigDecimal calculateCurrentValue(Collection<AllocationAggregatedTrade> trades) {
-        return trades.stream()
-                .map(t -> exchangeService.findTickerRecentPrice(t.getIdentifier())
-                        .map(value -> value.multiply(new BigDecimal(t.getQuantity())))
-                        .map(total -> currencyConverterService.convert(total, t.getCurrency()))
-                        .orElse(BigDecimal.ZERO))
                 .reduce(BigDecimal.ZERO, BigDecimal::add)
                 .setScale(0, RoundingMode.HALF_EVEN);
     }
