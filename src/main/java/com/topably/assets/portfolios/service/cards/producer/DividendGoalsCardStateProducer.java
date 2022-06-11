@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.time.Year;
 import java.util.Arrays;
@@ -33,6 +34,7 @@ public class DividendGoalsCardStateProducer implements CardStateProducer<Dividen
     public CardData produce(Portfolio portfolio, DividendGoalsCard card) {
         var holdingDtos = portfolioHoldingService.findPortfolioHoldings(portfolio.getId());
         var items = holdingDtos.stream()
+                .filter(h -> h.getQuantity().compareTo(BigInteger.ZERO) > 0)
                 .map(h -> this.convertToPositionItems(h, card))
                 .filter(p -> p.getCurrentYield().compareTo(BigDecimal.ZERO) > 0)
                 .collect(toList());
@@ -42,7 +44,7 @@ public class DividendGoalsCardStateProducer implements CardStateProducer<Dividen
     }
 
     private PositionItem convertToPositionItems(PortfolioHoldingDto holding, DividendGoalsCard card) {
-        var averagePrice = holding.getTotal().divide(new BigDecimal(holding.getQuantity()), RoundingMode.HALF_EVEN);
+        var averagePrice = holding.getPrice();
         TickerSymbol tickerSymbol = holding.getIdentifier();
         var annualDividend = dividendService.calculateAnnualDividend(tickerSymbol, Year.now());
         var currentYield = annualDividend.multiply(BigDecimal.valueOf(100)).divide(averagePrice, 2, RoundingMode.HALF_EVEN);
