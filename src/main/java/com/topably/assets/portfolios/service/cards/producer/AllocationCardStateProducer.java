@@ -1,5 +1,6 @@
 package com.topably.assets.portfolios.service.cards.producer;
 
+import com.topably.assets.core.domain.TickerSymbol;
 import com.topably.assets.exchanges.service.ExchangeService;
 import com.topably.assets.portfolios.domain.Portfolio;
 import com.topably.assets.portfolios.domain.PortfolioHolding;
@@ -57,6 +58,7 @@ public class AllocationCardStateProducer implements CardStateProducer<Allocation
         List<AllocationAggregatedTrade> aggregatedTrades = tradesByType.values().stream().flatMap(Collection::stream).toList();
         return AllocationCardData.builder()
                 .segments(segments)
+                .currentTotalValue(calculateSegmentsTotalValue(segments))
                 .build();
     }
 
@@ -64,14 +66,18 @@ public class AllocationCardStateProducer implements CardStateProducer<Allocation
         var allocatedBy = card.getAllocatedBy();
         if (AllocatedByOption.INSTRUMENT_TYPE.equals(allocatedBy)) {
             return portfolioHoldingService.findPortfolioHoldings(portfolio.getId()).stream()
-                    .map(holding -> AllocationAggregatedTrade.builder()
-                            .identifier(holding.getIdentifier())
-                            .instrumentId(holding.getInstrumentId())
-                            .instrumentType(holding.getInstrumentType())
-                            .price(holding.getPrice())
-                            .quantity(holding.getQuantity())
-                            .currency(holding.getCurrency())
-                            .build())
+                    .map(holding -> {
+                        var price = exchangeService.findTickerRecentPrice(holding.getIdentifier())
+                                .orElse(holding.getPrice());
+                        return AllocationAggregatedTrade.builder()
+                                .identifier(holding.getIdentifier())
+                                .instrumentId(holding.getInstrumentId())
+                                .instrumentType(holding.getInstrumentType())
+                                .price(price)
+                                .quantity(holding.getQuantity())
+                                .currency(holding.getCurrency())
+                                .build();
+                    })
                     .collect(groupingBy(AllocationAggregatedTrade::getInstrumentType));
         } else if (AllocatedByOption.BROKER.equals(allocatedBy)) {
             Long userId = portfolio.getUser().getId();
@@ -79,11 +85,13 @@ public class AllocationCardStateProducer implements CardStateProducer<Allocation
                     .collect(groupingBy(t -> t.getBroker().getName(), collectingAndThen(toList(),
                             trades -> trades.stream().map(t -> {
                                 PortfolioHolding holding = t.getPortfolioHolding();
+                                var identifier = holding.getInstrument().toTickerSymbol();
+                                var price = exchangeService.findTickerRecentPrice(identifier).orElse(t.getPrice());
                                 return AllocationAggregatedTrade.builder()
-                                        .identifier(holding.getInstrument().toTickerSymbol())
+                                        .identifier(identifier)
                                         .instrumentId(holding.getInstrument().getId())
                                         .instrumentType(holding.getInstrument().getInstrumentType())
-                                        .price(t.getPrice())
+                                        .price(price)
                                         .quantity(TradeOperation.SELL.equals(t.getOperation()) ? t.getQuantity().negate() : t.getQuantity())
                                         .currency(holding.getInstrument().getExchange().getCurrency())
                                         .build();
@@ -111,7 +119,6 @@ public class AllocationCardStateProducer implements CardStateProducer<Allocation
     private BigDecimal calculateSegmentsTotalValue(List<AllocationSegment> segments) {
         return segments.stream()
                 .map(AllocationSegment::getValue)
-                .reduce(BigDecimal.ZERO, BigDecimal::add)
-                .setScale(0, RoundingMode.HALF_EVEN);
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 }

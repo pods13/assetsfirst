@@ -9,8 +9,8 @@ import java.util.List;
 
 public interface ExchangeProvider {
 
-    Collection<ExchangeRate> getExchangeRates(Instant time);
+    List<ExchangeRate> getExchangeRates(Instant time);
 
-    Collection<ExchangeRate> getExchangeRates(Instant time, Collection<Currency> sourceCurrenciesToObtain);
+    List<ExchangeRate> getExchangeRates(Instant time, Collection<Currency> sourceCurrenciesToObtain);
 
 }

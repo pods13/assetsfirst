@@ -26,6 +26,7 @@ import { AllocatedByOption, AssetAllocationCard } from '../../types/in/asset-all
                             [legend]="false"
                             [labels]="false" (select)="onSegmentSelected($event)">
       </ngx-charts-pie-chart>
+      <div class="">{{data.currentTotalValue}}</div>
     </ng-container>
   `,
   styleUrls: ['./allocation-card.component.scss'],

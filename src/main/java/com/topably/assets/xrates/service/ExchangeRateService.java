@@ -6,13 +6,14 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Currency;
+import java.util.List;
 import java.util.Optional;
 
 public interface ExchangeRateService {
 
-    Collection<ExchangeRate> addExchangeRates(Collection<ExchangeRate> rates);
+    Collection<ExchangeRate> addExchangeRates(List<ExchangeRate> rates);
 
     Optional<ExchangeRate> findExchangeRate(Currency from, Currency to, Instant time);
 
-    Collection<ExchangeRate> fetchExchangeRates(Instant exchangeRatesForTime);
+    List<ExchangeRate> fetchExchangeRates(Instant exchangeRatesForTime);
 }

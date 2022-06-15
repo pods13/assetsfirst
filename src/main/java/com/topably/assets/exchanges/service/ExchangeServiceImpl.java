@@ -45,7 +45,7 @@ public class ExchangeServiceImpl implements ExchangeService {
     }
 
     @Override
-    @Cacheable
+    @Cacheable(sync = true)
     @Transactional(propagation = Propagation.REQUIRES_NEW, readOnly = true)
     public Optional<BigDecimal> findTickerRecentPrice(TickerSymbol symbol) {
         try {

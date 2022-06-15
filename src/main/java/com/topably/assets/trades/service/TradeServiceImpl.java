@@ -16,7 +16,6 @@ import com.topably.assets.trades.repository.broker.BrokerRepository;
 import com.topably.assets.xrates.service.currency.CurrencyConverterService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -46,7 +45,6 @@ public class TradeServiceImpl implements TradeService {
     }
 
     @Override
-    @Transactional
     public TradeDto addTrade(AddTradeDto dto, Instrument tradedInstrument) {
         PortfolioHolding holding = portfolioHoldingService.findByUserIdAndInstrumentId(dto.getUserId(), dto.getInstrumentId())
                 .orElseGet(() -> portfolioHoldingService.createHolding(dto, tradedInstrument));
@@ -152,7 +150,6 @@ public class TradeServiceImpl implements TradeService {
     }
 
     @Override
-    @Transactional
     public TradeDto editTrade(EditTradeDto dto, Instrument tradedInstrument) {
         Trade trade = tradeRepository.getById(dto.getTradeId());
         trade.setDate(trade.getDate().equals(dto.getDate()) ? trade.getDate() : dto.getDate());

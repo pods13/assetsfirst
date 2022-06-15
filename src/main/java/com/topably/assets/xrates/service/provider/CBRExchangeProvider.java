@@ -43,12 +43,12 @@ public class CBRExchangeProvider implements ExchangeProvider {
     }
 
     @Override
-    public Collection<ExchangeRate> getExchangeRates(Instant time) {
+    public List<ExchangeRate> getExchangeRates(Instant time) {
         return getExchangeRates(time, Collections.emptySet());
     }
 
     @Override
-    public Collection<ExchangeRate> getExchangeRates(Instant time, Collection<Currency> sourceCurrenciesToObtain) {
+    public List<ExchangeRate> getExchangeRates(Instant time, Collection<Currency> sourceCurrenciesToObtain) {
         LocalDate date = time.atZone(DEFAULT_TIMEZONE).toLocalDate();
         var url = generateUrl(date);
         log.info("Trying to get exchange rates from cbr endpoint, url='{}'", url);
