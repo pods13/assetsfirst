@@ -18,6 +18,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.math.RoundingMode;
 
 @Setter
 @Getter
@@ -48,4 +49,8 @@ public class PortfolioHolding {
 
     @Column(name = "AVERAGE_PRICE", precision = 20, scale = 4)
     private BigDecimal averagePrice;
+
+    public BigDecimal getTotal() {
+        return getAveragePrice().multiply(new BigDecimal(getQuantity()));
+    }
 }

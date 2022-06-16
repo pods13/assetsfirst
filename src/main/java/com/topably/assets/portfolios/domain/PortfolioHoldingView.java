@@ -1,4 +1,4 @@
-package com.topably.assets.portfolios.domain.dto;
+package com.topably.assets.portfolios.domain;
 
 import com.topably.assets.core.domain.TickerSymbol;
 import lombok.AllArgsConstructor;
@@ -9,7 +9,6 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.math.RoundingMode;
 import java.util.Currency;
 
 @Setter
@@ -17,7 +16,7 @@ import java.util.Currency;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class PortfolioHoldingDto {
+public class PortfolioHoldingView {
 
     private Long id;
     private Long instrumentId;
@@ -25,7 +24,9 @@ public class PortfolioHoldingDto {
     private TickerSymbol identifier;
     private BigInteger quantity;
     private BigDecimal price;
-    private Currency currency;
+    private String currencySymbol;
+    private BigDecimal pctOfPortfolio;
+    private BigDecimal marketValue;
 
     public BigDecimal getTotal() {
         return getPrice().multiply(new BigDecimal(getQuantity()));

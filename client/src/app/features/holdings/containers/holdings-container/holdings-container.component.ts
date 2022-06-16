@@ -1,10 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ColumnMode } from '@swimlane/ngx-datatable';
 import { PortfolioHoldingService } from '../../services/portfolio-holding.service';
-import { FundamentalsService } from '../../services/fundamentals.service';
-import { forkJoin, map } from 'rxjs';
-import { PortfolioHoldingDto } from '../../types/portfolio-holding,dto';
-import { stringifyTickerSymbol } from '../../../../core/types/ticker-symbol';
 
 @Component({
   selector: 'app-holdings-container',
@@ -23,14 +19,26 @@ import { stringifyTickerSymbol } from '../../../../core/types/ticker-symbol';
       </ngx-datatable-column>
       <ngx-datatable-column [prop]="'tags'" [name]="'Tags'"></ngx-datatable-column>
       <ngx-datatable-column [prop]="'quantity'" [name]="'Shares'"></ngx-datatable-column>
-      <ngx-datatable-column [prop]="'price'" [name]="'Cost Per Share'"></ngx-datatable-column>
+      <ngx-datatable-column [prop]="'price'" [name]="'Cost Per Share'">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          {{row.price | currency: row.currencySymbol}}
+        </ng-template>
+      </ngx-datatable-column>
       <ngx-datatable-column [prop]="'pctOfPortfolio'" [name]="'% of Portfolio'">
         <ng-template let-value="value" ngx-datatable-cell-template>
           {{value + '%'}}
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column [prop]="'total'" [name]="'Total Cost'"></ngx-datatable-column>
-      <ngx-datatable-column [prop]="'marketValue'" [name]="'Market Value'"></ngx-datatable-column>
+      <ngx-datatable-column [prop]="'total'" [name]="'Total Cost'">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          {{row.total | currency: row.currencySymbol}}
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column [prop]="'marketValue'" [name]="'Market Value'">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          {{row.marketValue | currency: row.currencySymbol}}
+        </ng-template>
+      </ngx-datatable-column>
       <ngx-datatable-column [prop]="'exDividendDate'" [name]="'Ex-dividend Date'"></ngx-datatable-column>
       <ngx-datatable-column [prop]="'yieldOnCost'" [name]="'Yield On Cost'"></ngx-datatable-column>
       <ngx-datatable-column [prop]="'realizedPnl'" [name]="'Realized P&L'"></ngx-datatable-column>
@@ -48,36 +56,11 @@ export class HoldingsContainerComponent implements OnInit {
 
   ColumnMode = ColumnMode;
 
-  holdings$ = forkJoin([
-    this.portfolioHoldingService.getPortfolioHoldings(),
-    this.fundamentalsService.getHoldingsFundamentals()
-  ]).pipe(map(([holdings, fundamentals]) => {
-    return this.composeTableRows(holdings, fundamentals);
-  }));
+  holdings$ = this.portfolioHoldingService.getPortfolioHoldingsView();
 
-  constructor(private portfolioHoldingService: PortfolioHoldingService,
-              private fundamentalsService: FundamentalsService) {
+  constructor(private portfolioHoldingService: PortfolioHoldingService) {
   }
 
   ngOnInit(): void {
-  }
-
-  composeTableRows(holdings: PortfolioHoldingDto[], fundamentals: any[]) {
-    const fundByIds = fundamentals.reduce((acc, fund) => {
-      const {identifier} = fund;
-      const key = stringifyTickerSymbol(identifier);
-      return {...acc, [key]: fund};
-    }, {});
-    const portfolioMarketValue = fundamentals.reduce((res, fund) => res += fund.convertedMarketValue, 0);
-    let pctTotal = 0;
-    return holdings.map((holding, index) => {
-      const {identifier} = holding;
-      const key = stringifyTickerSymbol(identifier);
-      const marketValue = fundByIds[key].marketValue;
-      const converted = fundByIds[key].convertedMarketValue;
-      const pctOfPortfolio = index === holdings.length ? 100 - pctTotal : + ((100 * converted) / portfolioMarketValue).toFixed(1);
-      pctTotal += pctOfPortfolio;
-      return {...holding, marketValue, pctOfPortfolio};
-    });
   }
 }

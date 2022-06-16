@@ -1,6 +1,7 @@
 package com.topably.assets.portfolios;
 
 import com.topably.assets.auth.domain.security.CurrentUser;
+import com.topably.assets.portfolios.domain.PortfolioHoldingView;
 import com.topably.assets.portfolios.domain.dto.PortfolioHoldingDto;
 import com.topably.assets.portfolios.service.PortfolioHoldingService;
 import lombok.RequiredArgsConstructor;
@@ -22,5 +23,10 @@ public class PortfolioHoldingsController {
     @GetMapping
     public Collection<PortfolioHoldingDto> getPortfolioHoldings(@AuthenticationPrincipal CurrentUser user) {
         return portfolioHoldingService.findPortfolioHoldingsByUserId(user.getUserId());
+    }
+
+    @GetMapping("/view")
+    public Collection<PortfolioHoldingView> getPortfolioHoldingsView(@AuthenticationPrincipal CurrentUser user) {
+        return portfolioHoldingService.findPortfolioHoldingsView(user.getUserId());
     }
 }
