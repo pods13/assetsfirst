@@ -26,6 +26,6 @@ public class Sector {
     @GenericGenerator(name = "native", strategy = "native")
     private Long id;
 
-    @Column(unique = true)
+    @Column(name="NAME", unique = true)
     private String name;
 }

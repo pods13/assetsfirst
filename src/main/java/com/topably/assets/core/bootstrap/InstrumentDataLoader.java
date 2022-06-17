@@ -3,14 +3,17 @@ package com.topably.assets.core.bootstrap;
 import com.topably.assets.companies.domain.Company;
 import com.topably.assets.companies.repository.CompanyRepository;
 import com.topably.assets.companies.repository.IndustryRepository;
+import com.topably.assets.core.domain.TickerSymbol;
 import com.topably.assets.exchanges.domain.Exchange;
 import com.topably.assets.exchanges.repository.ExchangeRepository;
+import com.topably.assets.instruments.domain.dto.AddStockDto;
 import com.topably.assets.instruments.domain.instrument.ETF;
 import com.topably.assets.instruments.domain.instrument.FX;
 import com.topably.assets.instruments.domain.instrument.Stock;
 import com.topably.assets.instruments.repository.instrument.ETFRepository;
 import com.topably.assets.instruments.repository.instrument.FXRepository;
 import com.topably.assets.instruments.repository.instrument.StockRepository;
+import com.topably.assets.instruments.service.StockService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -37,6 +40,8 @@ public class InstrumentDataLoader implements CommandLineRunner {
     private final StockRepository stockRepository;
     private final ETFRepository etfRepository;
     private final FXRepository fxRepository;
+
+    private final StockService stockService;
 
     @Override
     @Transactional
@@ -68,24 +73,19 @@ public class InstrumentDataLoader implements CommandLineRunner {
     }
 
     private void addStockInstruments() {
-        Company newmontCorp = companyRepository.save(Company.builder()
-                .name("Newmont Corporation")
-                .subIndustry(industryRepository.findByParent_NameAndName("Metals & Mining", "Gold"))
+        stockService.addStock(AddStockDto.builder()
+                .companyName("Newmont Goldcorp Corp")
+                .identifier(new TickerSymbol("NEM", NYSE.name()))
                 .build());
+
         Exchange nyse = exchangeRepository.findByCode(NYSE.name());
         Exchange xetra = exchangeRepository.findByCode("XETRA");
         Exchange mcx = exchangeRepository.findByCode("MCX");
         Exchange hkex = exchangeRepository.findByCode("HK");
 
-        Stock newmontStock = stockRepository.save(Stock.builder()
-                .company(newmontCorp)
-                .ticker("NEM")
-                .exchange(nyse)
-                .build());
 
         Company bayer = companyRepository.save(Company.builder()
                 .name("Bayer AG")
-                .subIndustry(industryRepository.findByParent_NameAndName("Pharmaceuticals", "Pharmaceuticals"))
                 .build());
         Stock bayerStock = stockRepository.save(Stock.builder()
                 .company(bayer)
@@ -122,7 +122,6 @@ public class InstrumentDataLoader implements CommandLineRunner {
 
         Company total = companyRepository.save(Company.builder()
                 .name("TotalEnergies SE")
-                .subIndustry(industryRepository.findByParent_NameAndName("Oil, Gas & Consumable Fuels", "Integrated Oil & Gas"))
                 .build());
         Stock totalStock = stockRepository.save(Stock.builder()
                 .company(total)
@@ -132,7 +131,6 @@ public class InstrumentDataLoader implements CommandLineRunner {
 
         Company rosneft = companyRepository.save(Company.builder()
                 .name("PJSC Rosneft Oil Company")
-                .subIndustry(industryRepository.findByParent_NameAndName("Oil, Gas & Consumable Fuels", "Integrated Oil & Gas"))
                 .build());
         Stock rosnStock = stockRepository.save(Stock.builder()
                 .company(rosneft)
@@ -142,7 +140,6 @@ public class InstrumentDataLoader implements CommandLineRunner {
 
         Company gazprom = companyRepository.save(Company.builder()
                 .name("PJSC Gazprom")
-                .subIndustry(industryRepository.findByParent_NameAndName("Oil, Gas & Consumable Fuels", "Integrated Oil & Gas"))
                 .build());
         Stock gazpromStock = stockRepository.save(Stock.builder()
                 .company(gazprom)
@@ -152,7 +149,6 @@ public class InstrumentDataLoader implements CommandLineRunner {
 
         Company rosAgro = companyRepository.save(Company.builder()
                 .name("Ros Agro PLC")
-                .subIndustry(industryRepository.findByParent_NameAndName("Food Products", "Agricultural Products"))
                 .build());
         Stock rosAgroStock = stockRepository.save(Stock.builder()
                 .company(rosAgro)
@@ -162,7 +158,6 @@ public class InstrumentDataLoader implements CommandLineRunner {
 
         Company polyus = companyRepository.save(Company.builder()
                 .name("PJSC Polyus")
-                .subIndustry(industryRepository.findByParent_NameAndName("Metals & Mining", "Gold"))
                 .build());
         Stock polyusStock = stockRepository.save(Stock.builder()
                 .company(polyus)
@@ -172,7 +167,6 @@ public class InstrumentDataLoader implements CommandLineRunner {
 
         Company phos = companyRepository.save(Company.builder()
                 .name("PhosAgro")
-                .subIndustry(industryRepository.findByParent_NameAndName("Chemicals", "Fertilizers & Agricultural Chemicals"))
                 .build());
         Stock phosStock = stockRepository.save(Stock.builder()
                 .company(phos)

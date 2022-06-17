@@ -17,6 +17,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 @Setter
 @Getter
@@ -24,6 +26,9 @@ import javax.persistence.ManyToOne;
 @AllArgsConstructor
 @Builder
 @Entity
+@Table(name = "company", uniqueConstraints = {
+        @UniqueConstraint(name = "company_name_key", columnNames = {"NAME"}),
+})
 public class Company {
 
     @Id
@@ -31,12 +36,10 @@ public class Company {
     @GenericGenerator(name = "native", strategy = "native")
     private Long id;
 
+    @Column(name = "NAME")
     private String name;
 
-    @Column(name = "SUB_INDUSTRY_ID", insertable = false, updatable = false)
-    private Long subIndustryId;
-
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "SUB_INDUSTRY_ID", referencedColumnName = "ID", foreignKey=@ForeignKey(name = "fk__company__sub_industry_id__industry"))
-    private Industry subIndustry;
+    @JoinColumn(name = "INDUSTRY_ID", referencedColumnName = "ID", foreignKey = @ForeignKey(name = "fk__company__industry_id__industry"))
+    private Industry industry;
 }

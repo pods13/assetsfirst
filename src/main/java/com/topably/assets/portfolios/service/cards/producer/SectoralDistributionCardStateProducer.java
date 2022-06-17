@@ -45,12 +45,12 @@ public class SectoralDistributionCardStateProducer implements CardStateProducer<
 
     private Collection<SectoralDistributionDataItem> composeDataItems(Map<Long, PortfolioHoldingDto> stockIdByTrade) {
         var stocks = stockService.findAllById(stockIdByTrade.keySet());
-        var companyNameByStockIds = stocks.stream().collect(groupingBy(s -> s.getCompany().getName(),
-                mapping(Instrument::getId, toSet())));
+        var companyNameByStockIds = stocks.stream()
+                .collect(groupingBy(s -> s.getCompany().getName(), mapping(Instrument::getId, toSet())));
         var companyGroupings = stocks.stream()
-                .filter(s -> s.getCompany().getSubIndustry() != null)
-                .collect(groupingBy(stock -> stock.getCompany().getSubIndustry().getGroup().getName(),
-                        groupingBy(s -> s.getCompany().getSubIndustry().getName(), mapping(s -> s.getCompany().getName(), toSet()))));
+                .filter(s -> s.getCompany().getIndustry() != null)
+                .collect(groupingBy(stock -> stock.getCompany().getIndustry().getSector().getName(),
+                        groupingBy(s -> s.getCompany().getIndustry().getName(), mapping(s -> s.getCompany().getName(), toSet()))));
 
         var items = new ArrayList<SectoralDistributionDataItem>();
         companyGroupings.forEach((group, rest) -> {

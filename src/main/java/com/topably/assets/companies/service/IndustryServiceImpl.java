@@ -1,21 +1,16 @@
 package com.topably.assets.companies.service;
 
 import com.topably.assets.companies.domain.Industry;
-import com.topably.assets.companies.domain.IndustryGroup;
+import com.topably.assets.companies.domain.Sector;
 import com.topably.assets.companies.domain.dto.IndustryDto;
 import com.topably.assets.companies.domain.dto.IndustryTaxonomyDto;
-import com.topably.assets.companies.repository.IndustryGroupRepository;
 import com.topably.assets.companies.repository.IndustryRepository;
+import com.topably.assets.companies.repository.SectorRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityExistsException;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 import static java.util.stream.Collectors.toList;
 
@@ -23,7 +18,7 @@ import static java.util.stream.Collectors.toList;
 @RequiredArgsConstructor
 public class IndustryServiceImpl implements IndustryService {
 
-    private final IndustryGroupRepository industryGroupRepository;
+    private final SectorRepository sectorRepository;
     private final IndustryRepository industryRepository;
 
     @Override
@@ -36,40 +31,22 @@ public class IndustryServiceImpl implements IndustryService {
     @Override
     @Transactional
     public IndustryDto addIndustry(IndustryTaxonomyDto dto) {
-        IndustryGroup group = industryGroupRepository.findBySector_NameAndName(dto.getSectorName(), dto.getIndustryGroupName());
-        if (group == null) {
-            var cause = String.format("Cannot find industry group with name %s under %s sector",
-                    dto.getIndustryGroupName(), dto.getSectorName());
-            throw new RuntimeException(cause);
+        if (dto.getSectorName() == null || dto.getIndustryName() == null) {
+            return null;
         }
-        var industryNames = new HashSet<>(Arrays.asList(dto.getIndustryName(), dto.getSubIndustryName()));
-        List<Industry> industries = industryRepository.findAllByGroup(group).stream()
-                .filter(industry -> industryNames.contains(industry.getName()))
-                .collect(toList());
-        if (industries.size() == 2) {
-            var cause = dto.getIndustryName() + "->" + dto.getSubIndustryName();
-            throw new EntityExistsException("Industries " + cause + " are already in place");
-        } else if (industries.size() == 0) {
-            industries.add(industryRepository.save(createIndustry(group, null, dto.getIndustryName())));
-        }
+        var sector = sectorRepository.findByName(dto.getSectorName())
+                .orElseGet(() -> sectorRepository.save(Sector.builder().name(dto.getSectorName()).build()));
+        Industry industry = industryRepository.findBySector_IdAndName(sector.getId(), dto.getIndustryName())
+                .orElseGet(() -> industryRepository.save(Industry.builder().name(dto.getIndustryName()).sector(sector).build()));
 
-        Industry subIndustry = industryRepository.save(createIndustry(group, industries.get(0), dto.getSubIndustryName()));
-        return convertToDto(subIndustry);
-    }
-
-    private Industry createIndustry(IndustryGroup group, Industry parent, String name) {
-        return Industry.builder()
-                .name(name)
-                .group(group)
-                .parent(parent)
-                .build();
+        return convertToDto(industry);
     }
 
     private IndustryDto convertToDto(Industry industry) {
         return IndustryDto.builder()
                 .id(industry.getId())
                 .name(industry.getName())
-                .parentId(industry.getParentId())
+                .sectorId(industry.getSector().getId())
                 .build();
     }
 }

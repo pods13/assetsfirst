@@ -15,6 +15,6 @@ public interface StockRepository extends JpaRepository<Stock, Long> {
     Page<Stock> findAll(Pageable pageable);
 
     @Override
-    @EntityGraph(attributePaths = {"exchange", "company", "company.subIndustry", "company.subIndustry.group"})
+    @EntityGraph(attributePaths = {"exchange", "company", "company.industry", "company.industry.sector"})
     List<Stock> findAllById(Iterable<Long> ids);
 }

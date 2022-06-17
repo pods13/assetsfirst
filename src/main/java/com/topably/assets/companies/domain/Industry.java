@@ -30,17 +30,10 @@ public class Industry {
     @GenericGenerator(name = "native", strategy = "native")
     private Long id;
 
+    @Column(name="NAME", unique = true)
     private String name;
 
     @ManyToOne()
-    @JoinColumn(name = "INDUSTRY_GROUP_ID", referencedColumnName = "ID", foreignKey=@ForeignKey(name = "fk__industry__industry_group_id__industry_group"))
-    private IndustryGroup group;
-
-    @Column(name = "PARENT_ID", insertable = false, updatable = false)
-    private Long parentId;
-
-    @ManyToOne()
-    @JoinColumn(name = "PARENT_ID", referencedColumnName = "ID", foreignKey=@ForeignKey(name = "fk__industry__parent_id__industry"))
-    private Industry parent;
-
+    @JoinColumn(name = "SECTOR_ID", referencedColumnName = "ID", foreignKey=@ForeignKey(name = "fk__industry__sector_id__sector"))
+    private Sector sector;
 }

@@ -13,6 +13,6 @@ import lombok.Setter;
 @Builder
 public class PatchCompanyDto {
 
-    private Long subIndustryId;
+    private Long industryId;
 
 }

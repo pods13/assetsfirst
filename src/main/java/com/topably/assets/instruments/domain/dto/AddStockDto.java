@@ -1,22 +1,25 @@
-package com.topably.assets.companies.domain.dto;
+package com.topably.assets.instruments.domain.dto;
 
+import com.topably.assets.core.domain.TickerSymbol;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.validation.constraints.NotBlank;
-
 @Setter
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class IndustryTaxonomyDto {
+public class AddStockDto {
 
-    @NotBlank
+    private String companyName;
+
+    private TickerSymbol identifier;
+
     private String sectorName;
-    @NotBlank
+
     private String industryName;
+
 }
