@@ -22,6 +22,8 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import java.util.Map;
 
 @Setter
@@ -31,6 +33,9 @@ import java.util.Map;
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "INSTRUMENT_TYPE")
+@Table(name = "instrument", uniqueConstraints = {
+        @UniqueConstraint(name = "instrument_ticker_exchange_id_key", columnNames = {"TICKER", "EXCHANGE_ID"}),
+})
 public abstract class Instrument {
 
     @Id
@@ -45,6 +50,7 @@ public abstract class Instrument {
     @JoinColumn(name = "EXCHANGE_ID", referencedColumnName = "ID")
     private Exchange exchange;
 
+    @Column(name = "TICKER")
     private String ticker;
 
     @Singular

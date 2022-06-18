@@ -1,6 +1,6 @@
 package com.topably.assets.instruments.service;
 
-import com.topably.assets.instruments.domain.dto.AddStockDto;
+import com.topably.assets.instruments.domain.dto.StockDataDto;
 import com.topably.assets.instruments.domain.instrument.Stock;
 import com.topably.assets.instruments.domain.dto.StockDto;
 import org.springframework.data.domain.Page;
@@ -14,5 +14,7 @@ public interface StockService {
 
     Collection<Stock> findAllById(Collection<Long> ids);
 
-    StockDto addStock(AddStockDto dto);
+    StockDto addStock(StockDataDto dto);
+
+    StockDto importStock(StockDataDto dto);
 }

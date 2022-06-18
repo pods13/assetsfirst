@@ -2,10 +2,10 @@ package com.topably.assets.companies.service;
 
 import com.topably.assets.companies.domain.Company;
 import com.topably.assets.companies.domain.Industry;
-import com.topably.assets.companies.domain.dto.AddCompanyDto;
+import com.topably.assets.companies.domain.dto.CompanyDataDto;
 import com.topably.assets.companies.domain.dto.CompanyDto;
+import com.topably.assets.companies.domain.dto.IndustryDto;
 import com.topably.assets.companies.domain.dto.IndustryTaxonomyDto;
-import com.topably.assets.companies.domain.dto.PatchCompanyDto;
 import com.topably.assets.companies.repository.CompanyRepository;
 import com.topably.assets.companies.repository.IndustryRepository;
 import lombok.RequiredArgsConstructor;
@@ -31,10 +31,8 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     @Transactional
-    public CompanyDto addCompany(AddCompanyDto dto) {
-        var taxonomyDto = IndustryTaxonomyDto.builder()
-                .sectorName(dto.getSector()).industryName(dto.getIndustry()).build();
-        var industryDto = industryService.addIndustry(taxonomyDto);
+    public CompanyDto addCompany(CompanyDataDto dto) {
+        var industryDto = addIndustry(dto);
         var industry = Optional.ofNullable(industryDto).map(i -> industryRepository.getById(i.getId())).orElse(null);
         Company company = companyRepository.save(Company.builder().name(dto.getName())
                 .industry(industry)
@@ -42,14 +40,25 @@ public class CompanyServiceImpl implements CompanyService {
         return convertToDto(company);
     }
 
+    private IndustryDto addIndustry(CompanyDataDto dto) {
+        var taxonomyDto = IndustryTaxonomyDto.builder()
+                .sectorName(dto.getSector()).industryName(dto.getIndustry()).build();
+        return industryService.addIndustry(taxonomyDto);
+    }
+
     @Override
     @Transactional
-    public CompanyDto patchCompany(Long companyId, PatchCompanyDto dto) {
+    public CompanyDto updateCompany(Long companyId, CompanyDataDto dto) {
         var company = companyRepository.findById(companyId).orElseThrow(() -> {
             throw new EntityNotFoundException();
         });
-        Optional<Industry> subIndustry = industryRepository.findById(dto.getIndustryId());
-        company.setIndustry(subIndustry.orElse(company.getIndustry()));
+        company.setName(dto.getName());
+        Industry industry = industryRepository.findBySector_NameAndName(dto.getSector(), dto.getIndustry())
+                .orElseGet(() -> {
+                    var industryDto = addIndustry(dto);
+                    return industryRepository.getById(industryDto.getId());
+                });
+        company.setIndustry(industry);
         Company updateCompany = companyRepository.save(company);
         return convertToDto(updateCompany);
     }

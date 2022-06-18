@@ -24,10 +24,7 @@ import javax.persistence.ManyToOne;
 @DiscriminatorValue("STOCK")
 public class Stock extends Instrument {
 
-    @Column(name = "COMPANY_ID", insertable = false, updatable = false)
-    private Long companyId;
-
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "COMPANY_ID", referencedColumnName = "ID", nullable = false)
+    @JoinColumn(name = "COMPANY_ID", referencedColumnName = "ID")
     private Company company;
 }

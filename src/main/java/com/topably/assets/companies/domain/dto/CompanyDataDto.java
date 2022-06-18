@@ -6,13 +6,16 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.constraints.NotBlank;
+
 @Setter
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class AddCompanyDto {
+public class CompanyDataDto {
 
+    @NotBlank
     private String name;
     private String sector;
     private String industry;

@@ -1,12 +1,13 @@
 package com.topably.assets.core.bootstrap;
 
 import com.topably.assets.companies.domain.Company;
+import com.topably.assets.companies.domain.dto.CompanyDataDto;
 import com.topably.assets.companies.repository.CompanyRepository;
 import com.topably.assets.companies.repository.IndustryRepository;
 import com.topably.assets.core.domain.TickerSymbol;
 import com.topably.assets.exchanges.domain.Exchange;
 import com.topably.assets.exchanges.repository.ExchangeRepository;
-import com.topably.assets.instruments.domain.dto.AddStockDto;
+import com.topably.assets.instruments.domain.dto.StockDataDto;
 import com.topably.assets.instruments.domain.instrument.ETF;
 import com.topably.assets.instruments.domain.instrument.FX;
 import com.topably.assets.instruments.domain.instrument.Stock;
@@ -73,8 +74,8 @@ public class InstrumentDataLoader implements CommandLineRunner {
     }
 
     private void addStockInstruments() {
-        stockService.addStock(AddStockDto.builder()
-                .companyName("Newmont Goldcorp Corp")
+        stockService.addStock(StockDataDto.builder()
+                .company(CompanyDataDto.builder().name("Newmont Goldcorp Corp").build())
                 .identifier(new TickerSymbol("NEM", NYSE.name()))
                 .build());
 

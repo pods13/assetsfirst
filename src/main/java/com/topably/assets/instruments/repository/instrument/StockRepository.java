@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface StockRepository extends JpaRepository<Stock, Long> {
 
@@ -17,4 +18,7 @@ public interface StockRepository extends JpaRepository<Stock, Long> {
     @Override
     @EntityGraph(attributePaths = {"exchange", "company", "company.industry", "company.industry.sector"})
     List<Stock> findAllById(Iterable<Long> ids);
+
+    @EntityGraph(attributePaths = {"exchange"})
+    Optional<Stock> findByTickerAndExchange_Code(String ticker, String exchangeCode);
 }
