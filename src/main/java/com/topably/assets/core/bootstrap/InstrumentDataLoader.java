@@ -84,23 +84,14 @@ public class InstrumentDataLoader implements CommandLineRunner {
         Exchange mcx = exchangeRepository.findByCode("MCX");
         Exchange hkex = exchangeRepository.findByCode("HK");
 
-
-        Company bayer = companyRepository.save(Company.builder()
-                .name("Bayer AG")
-                .build());
-        Stock bayerStock = stockRepository.save(Stock.builder()
-                .company(bayer)
-                .exchange(xetra)
-                .ticker("BAYN")
+        stockService.addStock(StockDataDto.builder()
+                .company(CompanyDataDto.builder().name("Bayer AG NA").build())
+                .identifier(new TickerSymbol("BAYGn", "XETRA"))
                 .build());
 
-        Company altria = companyRepository.save(Company.builder()
-                .name("Altria Group")
-                .build());
-        Stock moStock = stockRepository.save(Stock.builder()
-                .company(altria)
-                .exchange(nyse)
-                .ticker("MO")
+        stockService.addStock(StockDataDto.builder()
+                .company(CompanyDataDto.builder().name("Altria Group").build())
+                .identifier(new TickerSymbol("MO", NYSE.name()))
                 .build());
 
         Company omega = companyRepository.save(Company.builder()

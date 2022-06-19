@@ -48,7 +48,7 @@ public class TradeDataLoader implements CommandLineRunner {
         addBayer(userId, brokerNameById.get("Tinkoff"));
         addRosneft(userId, brokerNameById);
 
-        addAltria(userId, brokerNameById.get("VTB"));
+        addAltria(userId, brokerNameById);
         addOmega(userId, brokerNameById.get("VTB"));
         addCoke(userId, brokerNameById.get("VTB"));
         addTotal(userId, brokerNameById.get("VTB"));
@@ -106,19 +106,30 @@ public class TradeDataLoader implements CommandLineRunner {
                 .price(BigDecimal.valueOf(47.23))
                 .quantity(BigInteger.valueOf(110L))
                 .brokerId(brokerId)
-                .instrumentId(instrumentService.findInstrument("BAYN", "XETRA").getId())
+                .instrumentId(instrumentService.findInstrument("BAYGn", "XETRA").getId())
                 .build());
     }
 
-    private void addAltria(Long userId, Long brokerId) {
+    private void addAltria(Long userId, Map<String, Long> brokerNameById) {
+        Long stockId = instrumentService.findInstrument("MO", USExchange.NYSE.name()).getId();
         stockTradeService.addTrade(AddTradeDto.builder()
                 .date(LocalDateTime.of(2021, 12, 1, 11, 0))
                 .userId(userId)
                 .operation(TradeOperation.BUY)
                 .price(BigDecimal.valueOf(45.67))
                 .quantity(BigInteger.valueOf(64L))
-                .brokerId(brokerId)
-                .instrumentId(instrumentService.findInstrument("MO", USExchange.NYSE.name()).getId())
+                .brokerId(brokerNameById.get("VTB"))
+                .instrumentId(stockId)
+                .build());
+
+        stockTradeService.addTrade(AddTradeDto.builder()
+                .date(LocalDateTime.of(2022, 6, 10, 18, 0))
+                .userId(userId)
+                .operation(TradeOperation.BUY)
+                .price(BigDecimal.valueOf(48.04))
+                .quantity(BigInteger.valueOf(23L))
+                .brokerId(brokerNameById.get("Interactive"))
+                .instrumentId(stockId)
                 .build());
     }
 
@@ -301,6 +312,7 @@ public class TradeDataLoader implements CommandLineRunner {
     }
 
     private void addCNOOC(Long userId, Long brokerId) {
+        Long stockId = instrumentService.findInstrument("0883", "HK").getId();
         stockTradeService.addTrade(AddTradeDto.builder()
                 .date(LocalDateTime.of(2022, 6, 2, 11, 0))
                 .userId(userId)
@@ -308,7 +320,17 @@ public class TradeDataLoader implements CommandLineRunner {
                 .price(BigDecimal.valueOf(12.04))
                 .quantity(BigInteger.valueOf(1000L))
                 .brokerId(brokerId)
-                .instrumentId(instrumentService.findInstrument("0883", "HK").getId())
+                .instrumentId(stockId)
+                .build());
+
+        stockTradeService.addTrade(AddTradeDto.builder()
+                .date(LocalDateTime.of(2022, 6, 16, 3, 44))
+                .userId(userId)
+                .operation(TradeOperation.BUY)
+                .price(BigDecimal.valueOf(10.86))
+                .quantity(BigInteger.valueOf(1000L))
+                .brokerId(brokerId)
+                .instrumentId(stockId)
                 .build());
     }
 }
