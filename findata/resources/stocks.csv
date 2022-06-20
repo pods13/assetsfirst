@@ -1,0 +1,213 @@
+symbol,exchange,name,sector,industry,slug
+MMMCL,Santiago,3M,Industrials,Industrial Conglomerates,3m-co?cid=1180882
+HABITAT,Santiago,A.F.P. Habitat,Financial,Capital Markets,a.f.p.-habitat
+PROVIDA,Santiago,A.F.P. Provida,Financial,Capital Markets,a.f.p.-provida
+ABTCL,Santiago,Abbott Labs,Healthcare,Health Care Equipment & Supplies,abbott-laboratories?cid=1180845
+ABT,Santiago,Abbott Labs,Healthcare,Health Care Equipment & Supplies,abbott-laboratories?cid=1161674
+AESANDES,Santiago,AES Gener,Utilities,Independent Power and Renewable Electricity Producers,aesgener
+AFPCAPITAL,Santiago,AFP Capital,Financial,Capital Markets,afp-capital
+AGUASA,Santiago,Aguas Andinas,Utilities,Water Utilities,aguas-andinas
+AIG,Santiago,AIG,Financial,Insurance,american-intl-group?cid=1161673
+ALMENDRAL,Santiago,Almendral,Communication Services,Wireless Telecommunication Services,almendral
+GOOGL,Santiago,Alphabet A,Communication Services,Interactive Media & Services,google-inc?cid=1161685
+GOOGCL,Santiago,Alphabet C,Communication Services,Interactive Media & Services,google-inc-c?cid=1180867
+GOOG,Santiago,Alphabet C,Communication Services,Interactive Media & Services,google-inc-c?cid=1161687
+AMZNCL,Santiago,Amazon.com,Consumer Discretionary,Internet & Direct Marketing Retail,amazon-com-inc?cid=1180842
+AMZN,Santiago,Amazon.com,Consumer Discretionary,Internet & Direct Marketing Retail,amazon-com-inc?cid=1161670
+AXPCL,Santiago,American Express,Financial,Consumer Finance,american-express?cid=1180844
+AXP,Santiago,American Express,Financial,Consumer Finance,american-express?cid=1161671
+ANTARCHILE,Santiago,Antar Chile,Industrials,Industrial Conglomerates,antar-chile
+AAPLCL,Santiago,Apple,Information Technology,"Technology Hardware, Storage & Peripherals",apple-computer-inc?cid=1180843
+AAPL,Santiago,Apple,Information Technology,"Technology Hardware, Storage & Peripherals",apple-computer-inc?cid=1161672
+AQUACHILE,Santiago,Aquachile,Consumer Staples,Food Products,aquachile
+T,Santiago,AT&T,Communication Services,Diversified Telecommunication Services,at-t?cid=1055341
+AXXION,Santiago,Axxion,Financial,Capital Markets,axxion-sa
+AZULAZUL,Santiago,Azul Azul Sa,Communication Services,Entertainment,azul-azul-sa
+CHILE,Santiago,Banco De Chile (SN),Financial,Banks,banco-de-chile-(sn)
+BCI,Santiago,Banco de Credito e Inversiones,Financial,Banks,bci-(sn)
+BINT,Santiago,Banco Internacional SA,Financial,Banks,banco-internacional-sa
+BACCL,Santiago,Bank of America,Financial,Banks,bank-of-america?cid=1180849
+BAC,Santiago,Bank of America,Financial,Banks,bank-of-america?cid=1055317
+BANVIDA,Santiago,Banvida,Financial,Insurance,banvida
+BESALCO,Santiago,Besalco Sa,Industrials,Construction & Engineering,besalco-sa
+BETLANDOS,Santiago,Betlan Dos,Financial,Capital Markets,betlan-dos-sa
+BICECORP,Santiago,Bicecorp,Financial,Diversified Financial Services,bicecorp
+BIIB,Santiago,Biogen,Healthcare,Biotechnology,biogen-idec-inc?cid=1161677
+COLOCOLO,Santiago,Blanco Y Negro,Communication Services,Entertainment,blanco-y-negro
+BLUMAR,Santiago,Blumar,Consumer Staples,Food Products,blumar
+BACL,Santiago,Boeing,Industrials,Aerospace & Defense,boeing-co?cid=1180848
+BA,Santiago,Boeing,Industrials,Aerospace & Defense,boeing-co?cid=1161678
+BOLSASTGO,Santiago,Bolsa de Comercio de Santiago Bolsa de Valores,Financial,Capital Markets,bolsa-de-comercio-de-santiago
+BKNG,Santiago,Booking,Consumer Discretionary,"Hotels, Restaurants & Leisure",priceline.com-inc?cid=1161679
+BKNGCL,Santiago,Booking,Consumer Discretionary,"Hotels, Restaurants & Leisure",priceline.com-inc?cid=1180850
+CAMPOS,Santiago,Campos Chileno,Consumer Staples,Food Products,campos-chileno
+CAP,Santiago,Cap,Materials,Metals & Mining,cap
+CAROZZI,Santiago,Carozzi,Consumer Staples,Food Products,carozzi-sa
+CEM,Santiago,CEM SA,Consumer Discretionary,Household Durables,cem-sa
+CEMARGOSCL,Santiago,Cemargos,Materials,Construction Materials,cemargos?cid=1180855
+POLPAICO,Santiago,Cemento Polpai,Materials,Construction Materials,cemento-polpai
+CEMENTOS,Santiago,Cementos Bio-B,Materials,Construction Materials,cementos-bio-b
+CENCOSUD,Santiago,Cencosud,Consumer Staples,Food & Staples Retailing,cencosud
+CENCOSHOPP,Santiago,Cencosud Shopping,Real Estate,Real Estate Management & Development,cencosud-shopping-sa
+CCU,Santiago,Cervecerias,Consumer Staples,Beverages,cervecerias-un
+CVX,Santiago,Chevron,Energy,"Oil, Gas & Consumable Fuels",chevron?cid=1055320
+CINTAC,Santiago,Cintac,Materials,Metals & Mining,cintac
+CSCOCL,Santiago,Cisco,Information Technology,Communications Equipment,cisco-sys-inc?cid=1180857
+CSCO,Santiago,Cisco,Information Technology,Communications Equipment,cisco-sys-inc?cid=1161681
+CCL,Santiago,Citigroup,Financial,Banks,citigroup?cid=1180856
+C,Santiago,Citigroup,Financial,Banks,citigroup?cid=1161682
+POLO,Santiago,Club de Polo y Equitacion San Cristobal,Consumer Discretionary,"Hotels, Restaurants & Leisure",club-de-polo-y-equitacion
+KOCL,Santiago,Coca-Cola,Consumer Staples,Beverages,coca-cola-co?cid=1180879
+KO,Santiago,Coca-Cola,Consumer Staples,Beverages,coca-cola-co?cid=1161694
+COLBUN,Santiago,Colbun,Utilities,Independent Power and Renewable Electricity Producers,colbun
+COPEVAL,Santiago,Compania Agropecuaria COPEVAL,Industrials,Trading Companies & Distributors,compania-agropecuaria-copeval
+FOSFOROS,Santiago,Compania Chilena de Fosforos,Consumer Staples,Household Products,compania-chilena-de-fosforos-sa
+CGE,Santiago,Compania General de Electricidad,Utilities,Electric Utilities,cia-gral-elect
+VOLCAN,Santiago,Compania Industr el Volcan SA,Materials,Construction Materials,compania-industr-el-volcan-sa
+CIC,Santiago,Companias CIC,Consumer Discretionary,Household Durables,cic-(sn)
+PASUR,Santiago,Constr Pasur,Financial,Diversified Financial Services,constr-pasur
+COST,Santiago,Costco,Consumer Staples,Food & Staples Retailing,costco-whsl-corp-new?cid=1055323
+CRISTALES,Santiago,Cristales,Materials,Containers & Packaging,cristales
+CRUZADOS,Santiago,Cruzados,Communication Services,Entertainment,cruzados
+CUPRUM,Santiago,Cuprum,Financial,Capital Markets,cuprum
+CVSCL,Santiago,CVS Health Corp,Healthcare,Health Care Providers & Services,cvs-corp?cid=1180858
+CVS,Santiago,CVS Health Corp,Healthcare,Health Care Providers & Services,cvs-corp?cid=1055327
+GOLF,Santiago,Deportes Club de Golf Santiago,Consumer Discretionary,"Hotels, Restaurants & Leisure",deportes-club-de-golf-santiago
+DUNCANFOX,Santiago,Duncan Fox,Consumer Staples,Food Products,duncan-fox
+EBAYCL,Santiago,eBay,Consumer Discretionary,Internet & Direct Marketing Retail,ebay-inc?cid=1180864
+EISA,Santiago,Eche Izquierdo,Industrials,Construction & Engineering,eche-izquierdo
+ELECMETAL,Santiago,Elec Metalurgi,Industrials,Industrial Conglomerates,elec-metalurgi
+ELUXSA,Santiago,Electrolux Chile,Consumer Discretionary,Household Durables,electrolux-chile
+EMBONORA,Santiago,Embonor A,Consumer Staples,Beverages,embonor-a
+EMBONORB,Santiago,Embonor B,Consumer Staples,Beverages,embonor-b
+ANDINAA,Santiago,Embotelladora Andina,Consumer Staples,Beverages,emb-andina-a
+ANDINAB,Santiago,Embotelladora Andina B,Consumer Staples,Beverages,emb-andina-b
+EDELMAG,Santiago,Empresa Electrica de Magallanes,Utilities,Electric Utilities,empresa-electrica-de-magallanes
+ENTEL,Santiago,Empresa Nacional de Telecomunicaciones,Communication Services,Wireless Telecommunication Services,entel
+CMPC,Santiago,Empresas CMPC,Materials,Paper & Forest Products,cmpc
+COPEC,Santiago,Empresas Copec,Energy,"Oil, Gas & Consumable Fuels",empresas-copec
+NUEVAPOLAR,Santiago,Empresas la Polar,Consumer Discretionary,Multiline Retail,nuevapolar
+LIPIGAS,Santiago,Empresas Lipigas,Energy,"Oil, Gas & Consumable Fuels",empresas-lipigas-sa
+TRICOT,Santiago,Empresas Tricot,Consumer Discretionary,Specialty Retail,empresas-tricot
+ENAEX,Santiago,Enaex,Materials,Chemicals,enaex
+ENELAM,Santiago,ENEL Americas,Utilities,Electric Utilities,enersis
+ENELCHILE,Santiago,Enel Chile,Utilities,Electric Utilities,enersis-chile-sa
+ENELDXCH,Santiago,Enel Distribucion Chile,Utilities,Electric Utilities,chilectra-sa
+ENELGXCH,Santiago,Enel Generacion Chile,Utilities,Independent Power and Renewable Electricity Producers,endesa-(sn)
+ENELTXCH,Santiago,Enel Transmision Chile,Utilities,Electric Utilities,enel-transmision-chile
+ENLASA,Santiago,Energia Latina,Utilities,Independent Power and Renewable Electricity Producers,energia-latina
+ECL,Santiago,Engie Energia Chile,Utilities,Electric Utilities,ecl-sa
+ENJOY,Santiago,Enjoy,Consumer Discretionary,"Hotels, Restaurants & Leisure",enjoy
+EDELPA,Santiago,Envases Pacifi,Materials,Containers & Packaging,envases-pacifi
+ESVALC,Santiago,Esval Pref,Utilities,Water Utilities,esval-pref
+XOM,Santiago,Exxon Mobil,Energy,"Oil, Gas & Consumable Fuels",exxon-mobil?cid=1161707
+FALABELLA,Santiago,Falabella,Consumer Discretionary,Multiline Retail,falabella
+FORUS,Santiago,Forus,Consumer Discretionary,"Textiles, Apparel & Luxury Goods",forus
+FCX,Santiago,Freeport-McMoran,Materials,Metals & Mining,freeport-mcm?cid=1161684
+VICONTO,Santiago,Fruticola Viconto,Consumer Staples,Food Products,fruticola-viconto-sa
+CGEGAS,Santiago,Gas Natural Chile,Utilities,Gas Utilities,gas-natural-chile-sa
+GASCO,Santiago,Gasco,Utilities,Gas Utilities,gasco
+GASCOINV,Santiago,Gasco Inversiones,Real Estate,Real Estate Management & Development,gasco-inversiones
+GE,Santiago,General Electric,Industrials,Industrial Conglomerates,general-electric?cid=1161686
+GECL,Santiago,General Electric,Industrials,Industrial Conglomerates,general-electric?cid=1180870
+GILDCL,Santiago,Gilead,Healthcare,Biotechnology,gilead-sciences-inc?cid=1180871
+GILD,Santiago,Gilead,Healthcare,Biotechnology,gilead-sciences-inc?cid=1161688
+GRPARGOSCL,Santiago,Grupo Argos,Materials,Construction Materials,grupoargos?cid=1180868
+NAVIERA,Santiago,Grupo Empresas Navieras,Industrials,Marine,grupo-empresas-navieras-sa
+SECURITY,Santiago,Grupo Security,Financial,Banks,grupo-security
+HALCL,Santiago,Halliburton,Energy,Energy Equipment & Services,halliburton-co?cid=1180873
+HIPERMARC,Santiago,Hipermarc,Consumer Staples,Food & Staples Retailing,hipermarc-sa
+HITES,Santiago,Hites S.A.,Consumer Discretionary,Multiline Retail,hites-s.a.
+HF,Santiago,Hortifrut,Consumer Staples,Food Products,hortifrut
+HPQ,Santiago,HP Inc,Information Technology,"Technology Hardware, Storage & Peripherals",hewlett-pack?cid=1180872
+IANSA,Santiago,Iansa,Consumer Staples,Food Products,iansa
+INFODEMA,Santiago,Infodema,Consumer Discretionary,Household Durables,infodema
+INGEVEC,Santiago,Ingevec,Industrials,Construction & Engineering,ingevec
+MANQUEHUE,Santiago,Inmobiliaria Manquehue,Consumer Discretionary,Household Durables,inmobiliaria-manquehue-sa
+ISANPA,Santiago,Inmobiliaria San Patricio,Real Estate,Real Estate Management & Development,inmobiliaria-san-patricio
+INDISA,Santiago,Inst Diagnosti,Healthcare,Health Care Providers & Services,inst-diagnosti
+INTASA,Santiago,Intasa,Materials,Metals & Mining,intasa
+INTC,Santiago,Intel,Information Technology,Semiconductors & Semiconductor Equipment,intel-corp?cid=1161692
+INTCCL,Santiago,Intel,Information Technology,Semiconductors & Semiconductor Equipment,intel-corp?cid=1180877
+ILC,Santiago,Inv La Constru,Financial,Diversified Financial Services,inv-la-constru
+TRICAHUE,Santiago,Inv Tricahue,Financial,Capital Markets,inv-tricahue
+INVERCAP,Santiago,Invercap,Financial,Diversified Financial Services,invercap
+INVERNOVA,Santiago,Invernova,Financial,Capital Markets,invernova-sa
+IACSA,Santiago,Inversiones Agricolas y Comerciales,Consumer Staples,Food Products,inversiones-agricolas-y-comerciales
+IAM,Santiago,Inversiones Aguas Metropolitanas,Utilities,Water Utilities,iam-sa
+COVADONGA,Santiago,Inversiones Covadonga,Financial,Diversified Financial Services,inversiones-covadonga
+NUTRAVALOR,Santiago,Inversiones Nutravalor,Consumer Staples,Food Products,empresa-pesquera-eperva
+INVIESPA,Santiago,Inversiones Union Espanola,Financial,Capital Markets,inversiones-union-espanola-sa
+INVEXANS,Santiago,Invexans,Industrials,Electrical Equipment,invexans
+ITAUCORP,Santiago,Itau CorpBanca,Financial,Banks,corpbanca-(sn)
+JPMCL,Santiago,JPMorgan,Financial,Banks,jp-morgan-chase?cid=1180878
+JPM,Santiago,JPMorgan,Financial,Banks,jp-morgan-chase?cid=1161693
+LASCONDES,Santiago,Las Condes,Healthcare,Health Care Providers & Services,las-condes
+LTM,Santiago,Latam Airlines,Industrials,Airlines,latam-airlines
+MARINSA,Santiago,Maritima De In,Financial,Diversified Financial Services,maritima-de-in
+MASISA,Santiago,Masisa,Materials,Paper & Forest Products,masisa
+MELON,Santiago,Melon,Materials,Construction Materials,melon-sa
+METACL,Santiago,Meta Platforms,Communication Services,Interactive Media & Services,facebook-inc?cid=1180865
+META,Santiago,Meta Platforms,Communication Services,Interactive Media & Services,facebook-inc?cid=1055331
+MSFTCL,Santiago,Microsoft,Information Technology,Software,microsoft-corp?cid=1180881
+MSFT,Santiago,Microsoft,Information Technology,Software,microsoft-corp?cid=1055335
+MINERA,Santiago,Minera,Utilities,Independent Power and Renewable Electricity Producers,minera
+MOLLER,Santiago,Moller Y Perez,Industrials,Construction & Engineering,moller-y-perez
+MOLYMET,Santiago,Molymet,Materials,Metals & Mining,molymet
+MDLZ,Santiago,Mondelez,Consumer Staples,Food Products,mondelez-international-inc?cid=1180880
+MULTIX,Santiago,Multiexport Fo,Consumer Staples,Food Products,multiexport-fo
+NEM,Santiago,Newmont Goldcorp,Materials,Metals & Mining,newmont-mining?cid=1161699
+NKECL,Santiago,Nike,Consumer Discretionary,"Textiles, Apparel & Luxury Goods",nike?cid=1180883
+NKE,Santiago,Nike,Consumer Discretionary,"Textiles, Apparel & Luxury Goods",nike?cid=1161698
+NITRATOS,Santiago,Nitratos de Chile,Financial,Capital Markets,nitratos-de-chile-sa
+NORTEGRAN,Santiago,Norte Grande,Financial,Capital Markets,norte-grande
+NUTRESACL,Santiago,Nutresa,Consumer Staples,Food Products,nutresa?cid=1180884
+OROBLANCO,Santiago,Oro Blanco,Financial,Capital Markets,oro-blanco
+OXIQUIM,Santiago,Oxiquim,Materials,Chemicals,oxiquim
+CALICHERAA,Santiago,Pampa Calichera,Financial,Capital Markets,pampa-calichera
+PARAUCO,Santiago,Parq Arauco,Real Estate,Real Estate Management & Development,parq-arauco
+PAZ,Santiago,Paz Corp,Consumer Discretionary,Household Durables,paz-corp
+BTU,Santiago,Peabody Energy,Energy,"Oil, Gas & Consumable Fuels",peabody-energy-corp?cid=1180847
+PEHUENCHE,Santiago,Pehuenche,Utilities,Electric Utilities,pehuenche
+CAMANCHACA,Santiago,Pes Camanchaca,Consumer Staples,Food Products,pes-camanchaca
+COLOSO,Santiago,Pesquera Coloso,Consumer Staples,Food Products,pesquera-coloso
+PFE,Santiago,Pfizer,Healthcare,Pharmaceuticals,pfizer?cid=1161702
+MALLPLAZA,Santiago,Plaza,Real Estate,Real Estate Management & Development,plaza
+FROWARD,Santiago,Portuaria Cabo,Industrials,Transportation Infrastructure,portuaria-cabo-froward-sa
+POTASIOSB,Santiago,Potasios Chile,Financial,Capital Markets,potasios-chile
+POTASIOSA,Santiago,Potasios de Chile,Financial,Capital Markets,potasios-a
+VENTANAS,Santiago,Puerto Ventana,Industrials,Transportation Infrastructure,puerto-ventana
+QUINENCO,Santiago,Quinenco,Industrials,Industrial Conglomerates,quinenco
+RIPLEY,Santiago,Ripley Corp,Consumer Discretionary,Multiline Retail,ripley-corp
+SANTARITA,Santiago,SA Vina Santa Rita,Consumer Staples,Beverages,sa-vina-santa-rita
+SALFACORP,Santiago,Salfacorp,Industrials,Construction & Engineering,salfacorp
+SALMOCAM,Santiago,Salmones Camanchaca,Consumer Staples,Food Products,salmones-camanchaca
+BSANTANDER,Santiago,Santander Chile,Financial,Banks,santander-chil
+SCHWAGER,Santiago,Schwager,Industrials,Commercial Services & Supplies,schwager
+SCOTIABKCL,Santiago,Scotiabank Chile,Financial,Banks,scotiabank-chile
+SK,Santiago,Sigdo Koppers,Industrials,Industrial Conglomerates,sigdo-koppers
+SMU,Santiago,SMU,Consumer Staples,Food & Staples Retailing,smu
+CALICHERAB,Santiago,Sociedad de Inversiones Pampa Calichera Prf,Financial,Capital Markets,sociedad-de-inversiones-pampa-prf
+SMSAAM,Santiago,Sociedad Matriz,Industrials,Transportation Infrastructure,smsaam
+PUCOBRE,Santiago,Sociedad Punta del Cobre,Materials,Metals & Mining,sociedad-punta-del-cobre-sa
+SOCOVESA,Santiago,Socovesa,Consumer Discretionary,Household Durables,socovesa
+SONDA,Santiago,Sonda,Information Technology,IT Services,sonda
+SOQUICOM,Santiago,Soquicom,Materials,Chemicals,soquicom
+SQMB,Santiago,Soquimich B,Materials,Chemicals,soquimich-b
+SQMA,Santiago,Soquimich Pref A,Materials,Chemicals,soquimich-a
+SBUX,Santiago,Starbucks,Consumer Discretionary,"Hotels, Restaurants & Leisure",starbucks-corp?cid=1055340
+TGT,Santiago,Target,Consumer Discretionary,Multiline Retail,target?cid=1161704
+CTC,Santiago,Telefonica Chile,Communication Services,Diversified Telecommunication Services,telefonica-chile
+CLUBUNION,Santiago,Union Inmobiliaria,Real Estate,Real Estate Management & Development,union-inmobiliaria
+VAPORES,Santiago,Vapores,Industrials,Marine,vapores
+VZ,Santiago,Verizon,Communication Services,Diversified Telecommunication Services,verizon-communications?cid=1055342
+CONCHATORO,Santiago,Vina Concha To,Consumer Staples,Beverages,vina-concha-to
+VSPT,Santiago,Vina San Pedro,Consumer Staples,Beverages,vina-san-pedro
+EMILIANA,Santiago,Vinedos Emiliana,Consumer Staples,Beverages,vinedos-emiliana
+V,Santiago,Visa A,Information Technology,IT Services,visa-inc?cid=1055343
+WMT,Santiago,Walmart,Consumer Staples,Food & Staples Retailing,wal-mart-stores?cid=1161706
+DISCL,Santiago,Walt Disney,Communication Services,Entertainment,disney?cid=1180860
+DIS,Santiago,Walt Disney,Communication Services,Entertainment,disney?cid=1161683
+WATTS,Santiago,Watts SA,Consumer Staples,Food Products,watts
+WFC,Santiago,Wells Fargo&Co,Financial,Banks,wells-fargo?cid=1055344
+ZOFRI,Santiago,Zofri,Consumer Discretionary,Real Estate Operations,zofri
