@@ -24,8 +24,8 @@ function pushData(client: AxiosInstance, data: any) {
 }
 
 function filterData(data: any) {
-    const supportedExchanges = ['MCX', 'XETRA', 'HK'];
-    return data.slug.indexOf('?cid') === -1 && supportedExchanges.includes(data.exchange);
+    return (data.slug.indexOf('?cid') === -1 && ['MCX', 'HK', 'NASDAQ', 'NYSE'].includes(data.exchange))
+        || ('XETRA' === data.exchange && data.slug.indexOf('-ag') !== -1);
 }
 
 export async function importStocks(pathToFile: string) {
@@ -37,5 +37,6 @@ export async function importStocks(pathToFile: string) {
         .on('end', (rowCount: number) => console.log(`Pushed ${rowCount} stocks`));
 }
 
-importStocks('./resources/stocks/russia.csv');
-importStocks('./resources/stocks/hong-kong.csv');
+// importStocks('./resources/stocks/russia.csv');
+// importStocks('./resources/stocks/hong-kong.csv');
+importStocks('./resources/stocks/germany.csv');

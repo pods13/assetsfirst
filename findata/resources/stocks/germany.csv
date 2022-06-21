@@ -1,0 +1,746 @@
+symbol,exchange,name,sector,industry,slug
+TGTG,XETRA,11 88 0 Solutions,Industrials,Commercial Services & Supplies,telegate-ag
+1U1,XETRA,11 AG,Communication Services,Wireless Telecommunication Services,drillisch
+123F,XETRA,123fahrschule SE,Consumer Discretionary,Diversified Consumer Services,123fahrschule-se
+2GBG,XETRA,2G energy,Industrials,Electrical Equipment,2g-energy-ag
+2INVn,XETRA,2Invest,Healthcare,Biotechnology,sygnis-pharma-ag
+MMM,XETRA,3M,Industrials,Industrial Conglomerates,3m-co?cid=29418
+UUUG,XETRA,3U Holding AG,Industrials,Industrial Conglomerates,3u-holding-ag
+VSCk,XETRA,4Sc AG,Healthcare,Biotechnology,4sc-ag?cid=962854
+HRPKk,XETRA,7C Solarparken,Utilities,Independent Power and Renewable Electricity Producers,7c-solarparken-ag
+AAQ1k,XETRA,Aap Implantate AG,Healthcare,Health Care Equipment & Supplies,aap-implantate-ag
+ARLG,XETRA,Aareal Bank AG,Financial,Thrifts & Mortgage Finance,aareal-bank?cid=1073858
+ABT,XETRA,Abbott Labs,Healthcare,Health Care Equipment & Supplies,abbott-laboratories?cid=963489
+ABOG,XETRA,ABO Invest,Utilities,Independent Power and Renewable Electricity Producers,abo-invest-ag?cid=1176369
+AB9,XETRA,ABO Wind,Utilities,Independent Power and Renewable Electricity Producers,abo-wind-ag?cid=1173163
+YOUG,XETRA,ABOUT YOU Holding AG,Consumer Discretionary,Internet & Direct Marketing Retail,about-you-holding-ag
+AO1B,XETRA,Accell,Consumer Discretionary,Leisure Products,accell?cid=1163901
+A4Y,XETRA,Accentro Real Estate,Real Estate,Real Estate Management & Development,estavis-ag?cid=962888
+APME,XETRA,AD Pepper Media,Communication Services,Media,ad-pepper-media-international
+ADNGk,XETRA,Adesso,Information Technology,IT Services,adesso-ag
+ADSGn,XETRA,Adidas,Consumer Discretionary,"Textiles, Apparel & Luxury Goods",adidas-salomon?cid=23229
+ADJ,XETRA,Adler,Real Estate,Real Estate Management & Development,ado-properties-sarl
+ADDG,XETRA,Adler Modemaerkte AG,Consumer Discretionary,Specialty Retail,adler-modemarkte-ag
+ADLG,XETRA,Adler Real Estate,Real Estate,Real Estate Management & Development,adler-real
+P4JC,XETRA,Adm Energy,Energy,"Oil, Gas & Consumable Fuels",mx-oil?cid=1163911
+ADAG,XETRA,Adva Optical,Information Technology,Communications Equipment,adva-exch
+ADVVv,XETRA,ADVA Optical Networking SE,Information Technology,Communications Equipment,adva-optical-networking-se
+BWQ,XETRA,Advanced Blockchain,Information Technology,Software,advanced-blockchain?cid=1173167
+A62,XETRA,Advantag,Industrials,Construction & Engineering,advantag?cid=1173165
+AEGN,XETRA,Aegon,Financial,Insurance,aegon?cid=963249
+AHOG,XETRA,Ahold Delhaize,Consumer Staples,Food & Staples Retailing,ahold-kon?cid=1056254
+EBE,XETRA,aifinyo AG,Financial,Diversified Financial Services,aifinyo-ag
+AIG,XETRA,AIG,Financial,Insurance,american-intl-group?cid=963469
+AIL,XETRA,Air Liquide,Materials,Chemicals,air-liquide?cid=963297
+AIRG,XETRA,Airbus Group,Industrials,Aerospace & Defense,eads?cid=962988
+AIXGn,XETRA,Aixtron,Information Technology,Semiconductors & Semiconductor Equipment,aixtron?cid=25361
+AIXe,XETRA,Aixtron SE,,,aixtron-de
+ASLG,XETRA,Akasol,Industrials,Electrical Equipment,akasol
+NMIG,XETRA,Aladdin Blockchain,Healthcare,Health Care Technology,ae-new-media-innovations-se?cid=1176382
+MTVG,XETRA,Albis Leasing,Financial,Diversified Financial Services,albis-leasing-ag
+AHLAy,XETRA,Alibaba ADR,Consumer Discretionary,Internet & Direct Marketing Retail,alibaba?cid=1056243
+A1OS,XETRA,All For One Steeb AG,Information Technology,IT Services,all-for-one-steeb-ag
+LNSX,XETRA,Allane SE,Industrials,Road & Rail,sixt-leasing-ag
+AEIGn,XETRA,Allgeier,Information Technology,IT Services,allgeier-se
+ALVG,XETRA,Allianz,Financial,Insurance,allianz-ag?cid=23109
+ABEA,XETRA,Alphabet A,Communication Services,Interactive Media & Services,google-inc?cid=963387
+ABECG,XETRA,Alphabet C,Communication Services,Interactive Media & Services,google-inc-c?cid=963657
+AOXG,XETRA,Alstria,Real Estate,Equity Real Estate Investment Trusts (REITs),alstria-office-reit-ag
+MO,XETRA,Altria,Consumer Staples,Tobacco,altria-group?cid=963471
+ACT1,XETRA,AlzChem Group,Materials,Chemicals,softmatic-ag?cid=1056289
+AMDG,XETRA,Amadeus Fire AG,Industrials,Professional Services,amadeus-fire-ag
+AMZN,XETRA,Amazon.com,Consumer Discretionary,Internet & Direct Marketing Retail,amazon-com-inc?cid=29501
+AMD,XETRA,AMD,Information Technology,Semiconductors & Semiconductor Equipment,adv-micro-device?cid=963497
+AMGN,XETRA,Amgen,Healthcare,Biotechnology,amgen-inc?cid=29505
+ANDR,XETRA,Andritz AG,Industrials,Machinery,andritz-ag?cid=963363
+AAL,XETRA,Anglo American,Materials,Metals & Mining,anglo-american?cid=29515
+ABI,XETRA,Anheuser Busch Inbev,Consumer Staples,Beverages,anheuser-busch-inbev?cid=963541
+APPHG,XETRA,Apontis Pharma AG,Healthcare,Pharmaceuticals,apontis-pharma-ag
+AAPL,XETRA,Apple,Information Technology,"Technology Hardware, Storage & Peripherals",apple-computer-inc?cid=963008
+AMAT,XETRA,Applied Materials,Information Technology,Semiconductors & Semiconductor Equipment,applied-matls-inc?cid=982158
+ARRD,XETRA,ArcelorMittal,Materials,Metals & Mining,arcelormittal-reg?cid=963425
+ADM,XETRA,Archer-Daniels-Midland,Consumer Staples,Food Products,archer-daniels-mid?cid=963475
+47I,XETRA,Arconic,Materials,Metals & Mining,arconic-inc?cid=1163906
+AT1,XETRA,Aroundtown,Real Estate,Real Estate Management & Development,aroundtown-property-holdings-plc?cid=961763
+A6TG,XETRA,artec technologies,Information Technology,"Electronic Equipment, Instruments & Components",artec-technologies-ag
+AYDGn,XETRA,Artnet AG,Consumer Discretionary,Internet & Direct Marketing Retail,artnet-ag?cid=962860
+ACWNn,XETRA,AS Creation Tapeten,Consumer Discretionary,Household Durables,as-creation-tapeten-ag?cid=962861
+ASKn,XETRA,asknet Solutions AG,Information Technology,IT Services,asknet-ag
+ASME,XETRA,ASML Holding,Information Technology,Semiconductors & Semiconductor Equipment,asml-holding?cid=963429
+GASI,XETRA,Assicurazioni Generali,Financial,Insurance,generali-ass?cid=963255
+AZN,XETRA,AstraZeneca,Healthcare,Pharmaceuticals,astrazeneca?cid=29510
+ATSV,XETRA,At&S Austria,Information Technology,"Electronic Equipment, Instruments & Components",at-s-austria?cid=963042
+T,XETRA,AT&T,Communication Services,Diversified Telecommunication Services,at-t?cid=29393
+AOFG,XETRA,Atoss AG,Information Technology,Software,atoss-software-ag
+AAGG,XETRA,Aumann,Industrials,Misc. Capital Goods,aumann-ag?cid=1034495
+AR4G,XETRA,Aurelius,Financial,Capital Markets,aurelius-ag
+NAFG,XETRA,Aurubis AG,Materials,Metals & Mining,aurubis-ag?cid=1073867
+AG1G,XETRA,Auto1,Consumer Discretionary,Specialty Retail,auto1-group?cid=1169593
+AVES,XETRA,Aves One,Industrials,Trading Companies & Distributors,aves-one-ag
+AXAF,XETRA,AXA,Financial,Insurance,axa?cid=29444
+DTDGk,XETRA,B+S Banksysteme,Information Technology,Software,bs-banksysteme-ag
+BLMG,XETRA,Baader Bank,Financial,Capital Markets,baader-bank-ag
+BAC,XETRA,Bank of America,Financial,Banks,bank-of-america?cid=29392
+BARC,XETRA,Barclays,Financial,Banks,barclays?cid=29420
+ABX,XETRA,Barrick Gold,Materials,Metals & Mining,barrick-gold-corp.?cid=963563
+BASFn,XETRA,BASF,Materials,Chemicals,basf-ag?cid=23434
+BSLG,XETRA,Basler AG,Information Technology,"Electronic Equipment, Instruments & Components",basler-ag
+BST1,XETRA,Bastei Lueb,Communication Services,Media,bastei-lueb
+B5AG,XETRA,Bauer AG,Industrials,Construction & Engineering,bauer-ag
+TINCk,XETRA,Baumot,Consumer Discretionary,Auto Components,twintec-ag
+B8AG,XETRA,Bavaria Industries Group,Financial,Capital Markets,bavaria-industries-group-ag
+BAYGn,XETRA,Bayer,Healthcare,Pharmaceuticals,bayer-ag?cid=23344
+BYWG,XETRA,Baywa AG,Industrials,Trading Companies & Distributors,baywa-ag-na?cid=962864
+BYWGnx,XETRA,Baywa Vink AG,Industrials,Trading Companies & Distributors,baywa-ag-vna
+BIONn,XETRA,BB Biotech,Financial,Capital Markets,bb-biotech-ag-exch
+BBVA,XETRA,BBVA,Financial,Banks,bbva?cid=29471
+BC8G,XETRA,Bechtle AG,Information Technology,IT Services,bechtle-exch
+BBBY,XETRA,Bed Bath&Beyond,Consumer Discretionary,Specialty Retail,bed-bath---beyond-inc?cid=1180413
+BFSA,XETRA,Befesa,Industrials,Commercial Services & Supplies,befesa-sa
+BEIG,XETRA,Beiersdorf AG,Consumer Staples,Personal Products,beiersdorf?cid=21580
+BEZ,XETRA,Berentzen,Consumer Staples,Beverages,berentzen-gruppe-ag-de
+BRKa,XETRA,Berkshire Hathaway A,Financial,Diversified Financial Services,berkshire-hathaway-inc?cid=963581
+BRKb,XETRA,Berkshire Hathaway B,Financial,Diversified Financial Services,berkshire-hathaway?cid=963557
+BDTG,XETRA,Bertrandt AG,Industrials,Professional Services,bertrandt
+ARTG,XETRA,bet at homem,Consumer Discretionary,"Hotels, Restaurants & Leisure",bet-at-home-com-ag
+0Q3,XETRA,Beyond Meat,Consumer Staples,Food Products,beyond-meat-inc?cid=1168289
+BILG,XETRA,BHP Billiton Ltd,Materials,Metals & Mining,bhp-billiton-limited?cid=29519
+BIJG,XETRA,Bijou Brigitte,Consumer Discretionary,"Textiles, Apparel & Luxury Goods",bijou-brigitte?cid=963039
+BIKE,XETRA,Bike24 Holding AG,Consumer Discretionary,Internet & Direct Marketing Retail,bike24-holding-ag
+GBFG,XETRA,Bilfinger SE,Industrials,Commercial Services & Supplies,bilfinger---berg?cid=22334
+MA10,XETRA,Binect,Financial,Capital Markets,max21-management-und-beteiligungen
+B8FGn,XETRA,Biofrontera AG,Healthcare,Pharmaceuticals,biofrontera-ag
+BIIB,XETRA,Biogen,Healthcare,Biotechnology,biogen-idec-inc?cid=29502
+22UAy,XETRA,BioNTech,Healthcare,Biotechnology,biontech-se?cid=1168290
+BIO2,XETRA,Biotest,Healthcare,Biotechnology,biotest
+BIOG,XETRA,Biotest AG ST,Healthcare,Biotechnology,biotest-ag-st
+BIOG_p,XETRA,Biotest AG VZ,Healthcare,Biotechnology,biotest-ag-vz
+BIO1_p,XETRA,Biotest Prf,Healthcare,Biotechnology,biotest-prf
+ADE,XETRA,Bitcoin Group,Financial,Capital Markets,bitcoin-group-se
+B7EG,XETRA,Blue Cap,Financial,Capital Markets,blue-cap-ag
+BMWG_p,XETRA,BMW Pref,Consumer Discretionary,Automobiles,bmw-ag-vz
+BMWG,XETRA,BMW ST,Consumer Discretionary,Automobiles,bay-mot-werke?cid=23246
+BNPP,XETRA,BNP Paribas,Financial,Money Center Banks,bnp-paribas?cid=962994
+BA,XETRA,Boeing,Industrials,Aerospace & Defense,boeing-co?cid=29386
+BVB,XETRA,Borussia Dortmund,Communication Services,Entertainment,borussia-dortmund-gmbh---co-kgaa?cid=963035
+BP,XETRA,BP,Energy,"Oil, Gas & Consumable Fuels",bp?cid=29421
+BPEz,XETRA,BP PLC DE,Energy,"Oil, Gas & Consumable Fuels",bp-de
+BNNn,XETRA,Brain,Materials,Chemicals,brain-biotechnology-research
+BNRGn,XETRA,Brenntag AG,Industrials,Trading Companies & Distributors,brenntag-ag?cid=1073860
+BMY,XETRA,Bristol-Myers Squibb,Healthcare,Pharmaceuticals,bristol-myer-squiib?cid=29556
+BATS,XETRA,British American Tobacco,Consumer Staples,Tobacco,british-american-tobacco?cid=963237
+BKHTn,XETRA,Brockhaus Technologies,Information Technology,"Electronic Equipment, Instruments & Components",brockhaus-capital-management-ag-de
+BT,XETRA,BT Group,Communication Services,Diversified Telecommunication Services,bt-group?cid=963419
+COKG,XETRA,Cancom SE,Information Technology,IT Services,cancom-ag
+CPXG,XETRA,Capsensixx,Financial,Capital Markets,capsensixx-ag
+AFXG,XETRA,Carl Zeiss AG,Healthcare,Health Care Equipment & Supplies,carl-zeiss-medi-exch
+CARR,XETRA,Carrefour,Consumer Staples,Food & Staples Retailing,carrefour?cid=963307
+4PN,XETRA,Carrier Global,Industrials,Building Products,carrier-global-corp?cid=1163904
+CAT1,XETRA,Caterpillar,Industrials,Machinery,caterpillar?cid=29395
+CECG,XETRA,Ceconomy,Consumer Discretionary,Specialty Retail,metro-ag?cid=23039
+CEC1_p,XETRA,Ceconomy Pref,Consumer Discretionary,Specialty Retail,metro-ag-vz
+CSHG,XETRA,Cenit AG,Information Technology,Software,cenit-ag
+CEKG,XETRA,Ceotronics Audio Video Data,Information Technology,Communications Equipment,ceotronics-audio-video-data?cid=1176370
+CWCG,XETRA,Cewe Color,Industrials,Commercial Services & Supplies,cewe-color-holding-ag
+C3RY,XETRA,Cherry AG,Information Technology,"Technology Hardware, Storage & Peripherals",cherry-ag
+CVX,XETRA,Chevron,Energy,"Oil, Gas & Consumable Fuels",chevron?cid=29389
+CSCO,XETRA,Cisco,Information Technology,Communications Equipment,cisco-sys-inc?cid=29409
+SD1n,XETRA,Clean Logistics SE,Communication Services,Entertainment,sendr
+CLIQ,XETRA,Cliq Digital,Information Technology,Software,cliq-digital-ag
+KO,XETRA,Coca-Cola,Consumer Staples,Beverages,coca-cola-co?cid=963231
+CNWk,XETRA,CoDon AG,Healthcare,Biotechnology,co-don-ag
+8HC,XETRA,Cogia,Information Technology,Software,cogia?cid=1178638
+1QZ,XETRA,Coinbase Global,Financial,Capital Markets,coinbase-global?cid=1172874
+CL,XETRA,Colgate-Palmolive,Consumer Staples,Household Products,colgate-palmo?cid=29536
+CBHD,XETRA,Coloplast,Healthcare,Health Care Equipment & Supplies,coloplast--b-?cid=963573
+CBKG,XETRA,Commerzbank,Financial,Regional Banks,commerzbank-ag?cid=22558
+C0M,XETRA,Compleo Charging,Industrials,Electrical Equipment,compleo-charging-solutions-ag
+COP1n,XETRA,CompuGroup AG,Healthcare,Health Care Technology,compugroup-medical-ag
+COP,XETRA,ConocoPhillips,Energy,"Oil, Gas & Consumable Fuels",conoco-phillips?cid=963461
+CC11,XETRA,CONSUS Commercial Property,Real Estate,Real Estate Management & Development,consus-commercial-property
+CONG,XETRA,Continental AG,Consumer Discretionary,Auto Components,continental-ag?cid=22564
+COR2,XETRA,Coreo,Financial,Capital Markets,nanostart-ag
+CCAG,XETRA,Corestate,Real Estate,Real Estate Management & Development,corestate-capital?cid=1056259
+1COV,XETRA,Covestro,Materials,Chemicals,covestro-ag?cid=958839
+O5G,XETRA,Cpi Property,Real Estate,Real Estate Management & Development,orco-germany-sa
+CRZKG,XETRA,CR Capital,Real Estate,Real Estate Management & Development,cr-capital-real-estate-ag
+CSQG,XETRA,Creditshelf,Financial,Diversified Financial Services,creditshelf-aktiengesellschaft
+CE2G,XETRA,Cropenergies AG,Energy,"Oil, Gas & Consumable Fuels",cropenergies-ag
+EVDG,XETRA,CTS Eventim AG,Communication Services,Entertainment,cts-eventim-ag
+5CV,XETRA,CureVac NV,Healthcare,Biotechnology,curevac-bv?cid=1169070
+CYR,XETRA,Cyan,Information Technology,Software,cyan-ag
+T5OG,XETRA,CytoTools,Healthcare,Biotechnology,cytotools-ag
+MBGn,XETRA,Daimler,Consumer Discretionary,Automobiles,daimler?cid=23122
+DTGGe,XETRA,Daimler Truck Holding,Industrials,Machinery,daimler-truck-holding
+4DSG,XETRA,Daldrup Soehne,Energy,Energy Equipment & Services,daldrup-soehne-ag
+DANO,XETRA,Danone,Consumer Staples,Food Products,danone?cid=963301
+DAMG,XETRA,Data Modul AG,Information Technology,"Electronic Equipment, Instruments & Components",data-modul-ag
+D6HG,XETRA,Datagroup,Information Technology,IT Services,datagroup-ag
+DARG,XETRA,Datron,Industrials,Machinery,datron-ag
+DE,XETRA,Deere&Company,Industrials,Machinery,deere---co?cid=963223
+DEF,XETRA,Defama Deutsche Fachmarkt,Real Estate,Real Estate Management & Development,defama-deutsche-fachmarkt
+DLXG,XETRA,Delignit,Materials,Paper & Forest Products,delignit-ag
+DHER,XETRA,Delivery Hero,Consumer Discretionary,Internet & Direct Marketing Retail,delivery-hero-ag?cid=1177364
+DEXGn,XETRA,Delticom AG,Consumer Discretionary,Internet & Direct Marketing Retail,delticom-ag?cid=23008
+DMRE,XETRA,Demire Deutsche Mittelstand RE,Real Estate,Real Estate Management & Development,demire-deutsche-mittelstand-re
+DMPG,XETRA,Dermapharm,Healthcare,Pharmaceuticals,dermapharm-holding-se
+DBKGn,XETRA,Deutsche Bank AG,Financial,Regional Banks,deutsche-bank?cid=23646
+DBANn,XETRA,Deutsche Beteiligungs AG,Financial,Capital Markets,deutsche-beteiligungs-ag
+DBIG,XETRA,Deutsche Biotech,Healthcare,Biotechnology,deutsche-biotech-innovativ-ag?cid=1163903
+DB1Gn,XETRA,Deutsche Boerse,Financial,Capital Markets,dt-boerse?cid=22223
+EFFG,XETRA,Deutsche Effecten und Wechsel,Financial,Capital Markets,deutsche-effecten-und-wechsel
+JZ6,XETRA,Deutsche Eigenheim Union,Consumer Discretionary,Household Durables,deutsche-eigenheim-union
+DEQV,XETRA,Deutsche EuroShop,Real Estate,Real Estate Management & Development,deutsche-euroshop
+DEQGn,XETRA,Deutsche Euroshop AG,Real Estate,Real Estate Management & Development,dt-euroshop-exch
+DGRG,XETRA,Deutsche Grundstuecksauktionen,Real Estate,Real Estate Management & Development,deutsche-grundstuecksauktionen-ag
+JB7,XETRA,Deutsche Industrie Grundbesitz,Real Estate,Equity Real Estate Investment Trusts (REITs),deutsche-industrie-grundbesitz
+DKG,XETRA,Deutsche Konsum REIT,Real Estate,Equity Real Estate Investment Trusts (REITs),deutsche-konsum-grundbesitz-ag
+PBBG,XETRA,Deutsche Pfandbriefbank AG,Financial,Thrifts & Mortgage Finance,deutsche-pfandbriefbank-ag
+DPWGn,XETRA,Deutsche Post,Industrials,Air Freight & Logistics,deutsche-post?cid=22322
+DR0G,XETRA,Deutsche Rohstoff,Energy,"Oil, Gas & Consumable Fuels",deutsche-rohstoff-ag
+DTEGn,XETRA,Deutsche Telekom AG,Communication Services,Diversified Telecommunication Services,dt-telekom?cid=22043
+DWNG,XETRA,Deutsche Wohnen,Real Estate,Real Estate Management & Development,deutsche-wohnen-ag-exch?cid=1177365
+DEZG,XETRA,Deutz AG,Industrials,Machinery,deutz?cid=1073861
+DFTKn,XETRA,DF Deutsche Forfait AG,Financial,Diversified Financial Services,df-deutsche-forfait-ag?cid=962879
+DFV,XETRA,DFV Deutsche,Financial,Insurance,dfv-deutsche-familienversicherung
+DGE,XETRA,Diageo,Consumer Staples,Beverages,diageo?cid=1056260
+DICn,XETRA,DIC Asset AG,Real Estate,Real Estate Management & Development,dic-asset-ag
+DBD,XETRA,Diebold,Information Technology,"Technology Hardware, Storage & Peripherals",diebold-inc?cid=991234
+DIEG,XETRA,Dieriging,Consumer Discretionary,"Textiles, Apparel & Luxury Goods",dierig-holding-ag
+ENGLG,XETRA,Digital Invest eV,Financial,Thrifts & Mortgage Finance,digital-invest-ev
+DISG,XETRA,Diskus Werke,Industrials,Machinery,diskus-werke-ag?cid=1176371
+GILG,XETRA,DMG Mori Seiki,Industrials,Machinery,gildemeister?cid=1073862
+DOCO,XETRA,DO & CO,Industrials,Commercial Services & Supplies,do---co-rest---cat?cid=1056261
+ANWGn,XETRA,Doccheck,Healthcare,Health Care Technology,doccheck-ag
+HNLG,XETRA,Dr. Hoenle AG,Industrials,Electrical Equipment,dr-honle-ag
+DRWG,XETRA,Draegerwerk ST,Healthcare,Health Care Equipment & Supplies,dragerwerk-ag---co.-st
+DRWG_p,XETRA,Draegerwerk VZO,Healthcare,Health Care Equipment & Supplies,draegerwerk
+1Q5,XETRA,Dropbox,Information Technology,Software,dropbox-inc?cid=1180412
+DUEG,XETRA,Duerr AG,Industrials,Machinery,duerr
+DWSG,XETRA,DWS Group,Financial,Capital Markets,dws-group-gmbh-co.-kgaa
+EONGn,XETRA,E.ON SE,Utilities,Multi-Utilities,e.on?cid=23453
+ESYGn,XETRA,Easy Software,Information Technology,Software,easy-software-ag
+EBAY,XETRA,eBay,Consumer Discretionary,Internet & Direct Marketing Retail,ebay-inc?cid=963221
+EUZG,XETRA,Eckert&Ziegler AG,Healthcare,Health Care Equipment & Supplies,eckert---ziegler-ag
+E4CG,XETRA,Ecotel AG,Communication Services,Diversified Telecommunication Services,ecotel-communication-ag?cid=962883
+ED4,XETRA,EDAG Engineering Group,Consumer Discretionary,Auto Components,edag-engineering-group-ag
+EDLG,XETRA,edel,Communication Services,Entertainment,edel-ag
+EING_p,XETRA,Einhell VZO,Consumer Discretionary,Household Durables,einhell-germany-ag?cid=962884
+ETEG,XETRA,Ekotechnika,Industrials,Trading Companies & Distributors,ekotechnika?cid=1176372
+EDF,XETRA,Electricite de France,Utilities,Electric Utilities,edf?cid=963299
+E8XG,XETRA,elexxion,Healthcare,Health Care Equipment & Supplies,elexxion-ag
+LLY,XETRA,Eli Lilly,Healthcare,Pharmaceuticals,eli-lilly-and-co?cid=963233
+ELGG,XETRA,Elmos AG,Information Technology,Semiconductors & Semiconductor Equipment,elmos-semiconductor-ag
+ZILGn,XETRA,Elringklinger AG,Consumer Discretionary,Auto Components,elringklinger?cid=22828
+ELBG,XETRA,Elumeo SE,Consumer Discretionary,"Textiles, Apparel & Luxury Goods",elumeo-se
+H2OG,XETRA,Enapter,Industrials,Electrical Equipment,s-o-agrar-ag?cid=1176376
+EBKG,XETRA,Enbw Energie Baden Wuerttemberg,Utilities,Electric Utilities,enbw-energie-baden-wuerttemberg-ag
+ECVG,XETRA,Encavis,Utilities,Independent Power and Renewable Electricity Producers,capital-sta
+ENEI,XETRA,Enel,Utilities,Electric Utilities,enel?cid=963437
+EKTG,XETRA,Energiekontor,Industrials,Electrical Equipment,energiekontor-ag
+GSZ,XETRA,Engie,Utilities,Multi-Utilities,gdf-suez?cid=29447
+ENI,XETRA,Eni SpA,Energy,"Oil, Gas & Consumable Fuels",eni?cid=29528
+ETGG,XETRA,Envitec,Energy,"Oil, Gas & Consumable Fuels",envitec-biogas-ag
+ECXn,XETRA,Epigenomics AG,Healthcare,Biotechnology,epigenomics-ag
+EQSn,XETRA,Eqs Group,Information Technology,Software,eqs-group-ag
+2EM,XETRA,Ergomed,Healthcare,Life Sciences Tools & Services,ergomed?cid=1056251
+ERICa,XETRA,Ericsson A,Information Technology,Communications Equipment,telefon-lm-ericsson?cid=29482
+EADG,XETRA,Erlebnis Akademie,Consumer Discretionary,"Hotels, Restaurants & Leisure",erlebnis-akademie?cid=1176373
+HXCKk,XETRA,Ernst Russ,Financial,Capital Markets,hci-capital-ag?cid=962900
+ERST,XETRA,Erste Group Bank AG,Financial,Banks,erste-bank?cid=963365
+ERWE,XETRA,ERWE Immobilien,Financial,Capital Markets,deutsche-technologie-beteiligungen?cid=1176374
+EUCAn,XETRA,Euromicron AG,Information Technology,Communications Equipment,euromicron-ag
+T3PA,XETRA,European Energy Exchange,Financial,Capital Markets,european-energy-exchange-ag
+EAA3,XETRA,European Energy Exchange,,,european-energy-exchange
+EVKn,XETRA,Evonik,Materials,Chemicals,evonik-industries-ag
+EVTG,XETRA,Evotec AG,Healthcare,Life Sciences Tools & Services,evotec-ag
+EXLn,XETRA,Exasol,Information Technology,Software,exasol-ag
+EXCL,XETRA,exceet Group,Information Technology,"Electronic Equipment, Instruments & Components",exceet-group-se?cid=962891
+XON,XETRA,Exxon Mobil,Energy,"Oil, Gas & Consumable Fuels",exxon-mobil?cid=29535
+BTCGk,XETRA,Eyemaxx Real Estate,Real Estate,Real Estate Management & Development,eyemaxx-real-estate-ag
+FAAS,XETRA,Fabasoft AG,Information Technology,Software,fabasoft-ag?cid=962892
+FSNT,XETRA,fashionette,Consumer Discretionary,Internet & Direct Marketing Retail,fashionette-ag
+FF24,XETRA,Fast Finance 24,Financial,Consumer Finance,beijing-precise-instruments
+FC9,XETRA,FCR Immobilien,Consumer Discretionary,Real Estate Operations,the-corporate-executive-board-comp?cid=1097766
+FDX,XETRA,FedEx,Industrials,Air Freight & Logistics,fedex-corp?cid=963225
+2FE,XETRA,Ferrari NV,Consumer Discretionary,Automobiles,ferrari-nv?cid=963695
+FIEG,XETRA,Fielmann AG,Consumer Discretionary,Specialty Retail,fielmann-ag-exch
+A7AGn,XETRA,Finlab,Financial,Capital Markets,finlab-ag
+SISG,XETRA,First Sensor AG,Information Technology,Semiconductors & Semiconductor Equipment,first-sensor-ag
+FSLR,XETRA,First Solar,Information Technology,Semiconductors & Semiconductor Equipment,first-solar-inc?cid=963547
+FTKn,XETRA,flatexDEGIRO AG,Financial,Capital Markets,fintech-group-ag
+07G,XETRA,FleetCor,Information Technology,IT Services,fleetcor-tech?cid=1180408
+F,XETRA,Ford Motor,Consumer Discretionary,Automobiles,ford-motor-co?cid=29402
+FRSG,XETRA,Foris Beteiligungs,Financial,Diversified Financial Services,foris-beteiligungs-ag
+FYB,XETRA,Formycon,Healthcare,Biotechnology,formycon-ag
+FEVG,XETRA,Fortec,Information Technology,"Electronic Equipment, Instruments & Components",fortec-elektronik-ag?cid=962895
+FPHG,XETRA,Francotyp-Postalia,Industrials,Commercial Services & Supplies,francotyp-postalia-holding-ag
+FRAG,XETRA,Fraport AG,Industrials,Transportation Infrastructure,fraport?cid=23457
+FNTGn,XETRA,Freenet AG,Communication Services,Wireless Telecommunication Services,freenet?cid=23456
+FQT,XETRA,Frequentis,Industrials,Aerospace & Defense,frequentis
+FMEG,XETRA,Fresenius Medical Care,Healthcare,Health Care Providers & Services,fresenius-medi?cid=21787
+FREG,XETRA,Fresenius SE,Healthcare,Health Care Providers & Services,fresenius-ag?cid=22452
+VH2,XETRA,Friedrich Vorwerk Group SE,Energy,"Oil, Gas & Consumable Fuels",friedrich-vorwerk-group-se
+CEAG,XETRA,Friwo,Industrials,Electrical Equipment,friwo-ag
+FPEn,XETRA,Fuchs Petrolub AG,Materials,Chemicals,fuchs-petrolub-l?cid=22584
+FPE3_p,XETRA,Fuchs Petrolub AG VZO Pref,Materials,Chemicals,fuchs-petrolub-ag?cid=969240
+FBEN,XETRA,Fyber NV,Information Technology,Software,rnts-media-nv
+GLPG,XETRA,Galapagos,Healthcare,Biotechnology,galapagos?cid=1163907
+GTYG,XETRA,Gateway Real Estate,Real Estate,Real Estate Management & Development,gateway-real-estate?cid=1131047
+GAZPy,XETRA,Gazprom DRC,Energy,"Oil, Gas & Consumable Fuels",gazprom?cid=963082
+INWk,XETRA,GBS Software AG,Information Technology,Software,gbs-software-ag
+G1AG,XETRA,GEA Group AG,Industrials,Machinery,gea-group?cid=25357
+GCP,XETRA,General Electric,Industrials,Industrial Conglomerates,general-electric?cid=29561
+GIS,XETRA,General Mills,Consumer Staples,Food Products,general-mills?cid=963227
+GMC,XETRA,General Motors,Consumer Discretionary,Automobiles,gen-motors?cid=29388
+GMEG,XETRA,Geratherm,Healthcare,Health Care Equipment & Supplies,geratherm-medical-ag
+SGFn,XETRA,German Startups Group Berlin GmbH,Financial,Capital Markets,german-startups-group-berlin-gmbh
+GXIG,XETRA,Gerresheimer AG,Healthcare,Life Sciences Tools & Services,gerresheimer-ag?cid=22460
+GWI2k,XETRA,Gerry Weber,Consumer Discretionary,"Textiles, Apparel & Luxury Goods",gerry-weber-intl
+GSC1n,XETRA,Gesco AG,Industrials,Machinery,gesco-ag
+GFTG,XETRA,GFT Technologies AG,Information Technology,IT Services,gft-technologies-ag
+2GI,XETRA,GIEAG Immobilien,Real Estate,Real Estate Management & Development,gieag-immobilien?cid=1177830
+GGS,XETRA,Gigaset AG,Information Technology,Communications Equipment,gigaset-ag
+GILD,XETRA,Gilead,Healthcare,Biotechnology,gilead-sciences-inc?cid=1056266
+GKSG,XETRA,GK Software,Information Technology,Software,gk-software-ag
+GFG,XETRA,Global Fashion Group,Consumer Discretionary,Internet & Direct Marketing Retail,global-fashion-group-sa
+G6PGn,XETRA,Going Public Media,Communication Services,Media,going-public-media-ag
+GS,XETRA,Goldman Sachs,Financial,Capital Markets,goldman-sachs-group?cid=29411
+GMMG,XETRA,Grammer AG,Consumer Discretionary,Auto Components,grammer
+GYC,XETRA,Grand City,Real Estate,Real Estate Management & Development,grand-city-properties-sa
+GLJn,XETRA,Grenke,Financial,Diversified Financial Services,grenkeleasing-ag
+AMMn,XETRA,Grounds Real Estate,Real Estate,Real Estate Management & Development,grounds-real-estate
+G5NA,XETRA,Groupon,Consumer Discretionary,Internet & Direct Marketing Retail,groupon-inc?cid=1163908
+GS7,XETRA,GSK plc,Healthcare,Pharmaceuticals,glaxosmithkline?cid=29516
+HEMS,XETRA,H&M B,Consumer Discretionary,Specialty Retail,hennes---mauritz?cid=963345
+2HR,XETRA,H&R,Materials,Chemicals,h-r-ag
+HAEk,XETRA,Haemato,Healthcare,Health Care Providers & Services,haemato-ag
+HAL,XETRA,Halliburton,Energy,Energy Equipment & Services,halliburton-co?cid=963457
+HABAn,XETRA,Hamborner AG,Real Estate,Equity Real Estate Investment Trusts (REITs),hamborner-reit-ag
+HHFGn,XETRA,Hamburger Hafen A-SP,Industrials,Transportation Infrastructure,hamburger-hafen-und-logistik?cid=21613
+HNRGn,XETRA,Hannover Rueckversicherung SE,Financial,Insurance,hannover-rueck?cid=1073863
+H9YG,XETRA,HanseYachts,Consumer Discretionary,Leisure Products,hanseyachts
+HLAG,XETRA,Hapag Lloyd AG,Industrials,Marine,hapag-lloyd-ag
+HOG,XETRA,Harley-Davidson,Consumer Discretionary,Automobiles,harley-davidson?cid=963495
+HAWG,XETRA,Hawesko AG,Consumer Staples,Food & Staples Retailing,hawesko-holding-ag
+HPHA,XETRA,Heidelberg Pharma AG,Healthcare,Biotechnology,wilex-ag
+HEIG,XETRA,Heidelbergcement,Materials,Construction Materials,heidelbergcement-ag-exch?cid=22056
+IPOKk,XETRA,Heidelberger Beteiligungs,Financial,Capital Markets,heidelberger-beteiligungsholding-ag?cid=1176378
+HDDG,XETRA,Heidelberger Druckmaschinen,Industrials,Machinery,heidelberg?cid=21571
+HEIN,XETRA,Heineken,Consumer Staples,Beverages,heineken?cid=1056267
+HPBGn,XETRA,Heliad,Financial,Capital Markets,heliad-equity-partners-gmbh---co.
+HLE,XETRA,Hella KGaA Hueck & Co,Consumer Discretionary,Auto Components,hella-kgaa-hueck---co
+HFGG,XETRA,HelloFresh,Consumer Staples,Food & Staples Retailing,hellofresh-se
+H5EG,XETRA,Helma Eigenheimbau,Consumer Discretionary,Household Durables,helma-eigenheimbau-ag
+HNKG,XETRA,Henkel ST,Consumer Staples,Household Products,henkel-ag---co.-st
+HNKG_p,XETRA,Henkel VZO,Consumer Staples,Household Products,henkel-hgaa-vz?cid=969242
+HAGG,XETRA,Hensoldt,Industrials,Aerospace & Defense,hensoldt-ag
+HGEA,XETRA,hGears AG,Consumer Discretionary,Auto Components,hgears-ag
+HLGZ,XETRA,Highlight Communications,Communication Services,Entertainment,highlight-communications-ag
+ESRI,XETRA,Highlight Event Entertainment,Communication Services,Media,highlight-event-entertainment?cid=1056263
+HMUG,XETRA,HMS Bergbau,Energy,Coal,hms-bergbau-ag-be?cid=1176375
+HOTG,XETRA,Hochtief AG,Industrials,Construction & Engineering,hochtief?cid=1073864
+HOC,XETRA,HolidayCheck,Consumer Discretionary,"Hotels, Restaurants & Leisure",tomorrow-focus-ag
+HD,XETRA,Home Depot,Consumer Discretionary,Specialty Retail,home-depot?cid=29546
+H24,XETRA,home24,Consumer Discretionary,Internet & Direct Marketing Retail,home24
+HHHAk,XETRA,Homes Holiday,Real Estate,Real Estate Management & Development,homes-holiday
+HTGG,XETRA,HomeToGo SE,Consumer Discretionary,"Hotels, Restaurants & Leisure",lakestar
+HBH,XETRA,Hornbach,Consumer Discretionary,Specialty Retail,hornbach-holding-ag
+48Z,XETRA,Howmet,Industrials,Aerospace & Defense,howmet-aerospace-inc?cid=29401
+7HP,XETRA,HP Inc,Information Technology,"Technology Hardware, Storage & Peripherals",hewlett-pack?cid=29566
+HSBA,XETRA,HSBC,Financial,Banks,hsbc-holdings?cid=963239
+BOSSn,XETRA,Hugo Boss AG,Consumer Discretionary,"Textiles, Apparel & Luxury Goods",hugo-boss?cid=23247
+H9WG,XETRA,HWA,Consumer Discretionary,Automobiles,hwa-ag
+HYQGn,XETRA,Hypoport AG,Financial,Diversified Financial Services,hypoport-ag
+IBE,XETRA,Iberdrola,Utilities,Electric Utilities,iberdrola?cid=963335
+IBM,XETRA,IBM,Information Technology,IT Services,ibm?cid=29548
+IBU,XETRA,IBU tec advanced,Materials,Chemicals,ibu-tec-advanced-materials-ag
+IS8G,XETRA,ifa systems,Healthcare,Health Care Technology,ifa-systems-ag
+IMT,XETRA,Imperial Brands,Consumer Staples,Tobacco,imperial-tobacco?cid=962343
+IC8Gn,XETRA,InCity Immobilien,Real Estate,Real Estate Management & Development,incity-immobilien-ag
+IXD1,XETRA,Inditex,Consumer Discretionary,Specialty Retail,inditex?cid=963333
+INHG,XETRA,Indus AG,Industrials,Industrial Conglomerates,indus-holding-ag
+IFXGn,XETRA,Infineon,Information Technology,Semiconductors & Semiconductor Equipment,infineon-tech?cid=21748
+INN1,XETRA,ING Groep,Financial,Banks,ing-groep?cid=29422
+IXXG,XETRA,Init Innovation,Information Technology,Software,init-innovation-in-traffic-systems
+INS2,XETRA,Instone Real Estate,Real Estate,Real Estate Management & Development,instone-real-estate
+INTC,XETRA,Intel,Information Technology,Semiconductors & Semiconductor Equipment,intel-corp?cid=29397
+II8G,XETRA,InterCard Informationssysteme,Information Technology,"Technology Hardware, Storage & Peripherals",intercard-informationssysteme-ag?cid=1176377
+IP,XETRA,International Paper,Materials,Containers & Packaging,intl-paper-co?cid=963459
+ISH1k,XETRA,Intershop,Information Technology,Software,intershop-communications-ag
+ITMG,XETRA,Intertainment,Communication Services,Entertainment,intertainment-ag
+ISP,XETRA,Intesa Sanpaolo,Financial,Banks,intesa-sanpaolo?cid=963433
+IS7G,XETRA,Intica Systems AG,Information Technology,"Electronic Equipment, Instruments & Components",intica-systems-ag
+IVXG,XETRA,Invision AG,Information Technology,Software,invision-software-ag
+ISRG,XETRA,Isra Vision,Information Technology,"Electronic Equipment, Instruments & Components",isra-vision-ag
+I7NG,XETRA,ItN Nanovation,Industrials,Machinery,itn-nanovation-ag
+IVUG,XETRA,IVU Traffic,Information Technology,Software,ivu-traffic-technologies-ag
+JNJ,XETRA,J&J,Healthcare,Pharmaceuticals,johnson-johnson?cid=29557
+JDC,XETRA,JDC Group,Financial,Capital Markets,jdc-group-ag
+JENGn,XETRA,Jenoptik,Information Technology,"Electronic Equipment, Instruments & Components",jenoptik-exch
+JSTG,XETRA,JOST Werke,Industrials,Machinery,jost-werke-f?cid=1031264
+JPM,XETRA,JPMorgan,Financial,Banks,jp-morgan-chase?cid=29412
+JUNG_p,XETRA,Jungheinrich AG,Industrials,Machinery,jungheinrich-ag
+SDFGn,XETRA,K&S AG,Materials,Chemicals,k-s-ag?cid=21877
+IURG,XETRA,Kap,Industrials,Industrial Conglomerates,kap-beteiligungs-ag?cid=1129329
+KTEK,XETRA,Katek Se,Information Technology,"Electronic Equipment, Instruments & Components",katek-se
+K,XETRA,Kellogg,Consumer Staples,Food Products,kellogg-co.?cid=963511
+KWGG,XETRA,KHD Humboldt Wedag Int,Industrials,Machinery,khd-humboldt?cid=963655
+KGC,XETRA,Kinross Gold,Materials,Metals & Mining,kinross-gold?cid=963453
+KGX,XETRA,Kion Group AG,Industrials,Machinery,kion-group-ag
+KA8Gn,XETRA,Klassik Radio,Communication Services,Media,klassik-radio-ag
+KCOGn,XETRA,Kloeckner SE,Industrials,Trading Companies & Distributors,kloeckner?cid=25360
+KTAG,XETRA,Knaus Tabbert,Consumer Discretionary,Automobiles,knaus-tabbert-ag?cid=1176379
+KBX,XETRA,Knorr-Bremse,Industrials,Machinery,knorr-bremse
+SKBG,XETRA,Koenig&Bauer AG,Industrials,Machinery,koenig---bauer-ag
+KTN,XETRA,Kontron,Information Technology,IT Services,s-t-ag?cid=962940
+HACGn,XETRA,KPS,Information Technology,IT Services,kps-ag
+KHNZ,XETRA,Kraft Heinz,Consumer Staples,Food Products,kraft-foods-inc?cid=1056272
+K1RG,XETRA,Kromi,Industrials,Trading Companies & Distributors,kromi-logistik-ag?cid=962914
+KRNG,XETRA,Krones AG,Industrials,Machinery,krones?cid=23515
+KSBG,XETRA,KSB,Industrials,Machinery,ksb-ag
+KSBG_p,XETRA,KSB Pref,Industrials,Machinery,ksb-ag-pref
+KU2G,XETRA,Kuka AG,Industrials,Machinery,kuka
+KWSG,XETRA,KWS SAAT AG,Consumer Staples,Food Products,kws-saat-ag
+OREP,XETRA,L'Oreal,Consumer Staples,Personal Products,l-oreal?cid=29452
+LUS1n,XETRA,Lang und Schwarz Wertpapierhandel,Financial,Capital Markets,lang-und-schwarz-wertpapierhandel
+LXSG,XETRA,Lanxess AG,Materials,Chemicals,lanxess?cid=23470
+LEGn,XETRA,LEG Immobilien AG,Real Estate,Real Estate Management & Development,leg-immobilien-ag
+LEIG,XETRA,Leifheit AG,Consumer Discretionary,Household Durables,leifheit-ag
+LENV,XETRA,Lenzing AG,Materials,Chemicals,lenzing-ag?cid=1056273
+LEOGn,XETRA,Leoni AG,Consumer Discretionary,Auto Components,leoni-ag?cid=1073865
+LIK,XETRA,Limes Schlosskliniken,Healthcare,Health Care Providers & Services,limes-schlosskliniken
+LINI,XETRA,Linde PLC,Materials,Chemicals,linde-plc?cid=1128810
+LDF,XETRA,Linus Digital Finance,Financial,Thrifts & Mortgage Finance,linus-digital-finance
+LMIA,XETRA,Lion E Mobility,Industrials,Electrical Equipment,lion-e-mobility?cid=1056274
+L1OGk,XETRA,Lloyd Fonds AG,Financial,Capital Markets,lloyd-fonds-ag?cid=962916
+LLOY,XETRA,Lloyds Banking,Financial,Banks,lloyds-banking-grp?cid=963241
+ERICb,XETRA,LM Ericsson B,Information Technology,Communications Equipment,ericsson-b?cid=963343
+LMT,XETRA,Lockheed Martin,Industrials,Aerospace & Defense,lockheed-martin?cid=963451
+TGHN,XETRA,Logwin,Industrials,Air Freight & Logistics,logwin-ag
+LO2k,XETRA,Lotto24 AG,Consumer Discretionary,"Hotels, Restaurants & Leisure",lotto24-ag
+LVMH,XETRA,Louis Vuitton,Consumer Discretionary,"Textiles, Apparel & Luxury Goods",l.v.m.h.?cid=29450
+LPKG,XETRA,LPKF,Information Technology,"Electronic Equipment, Instruments & Components",lpkf-laser---electronics-ag
+LSXG,XETRA,LS Telcom AG,Information Technology,Software,ls-telcom-ag
+ECKG,XETRA,Ludwig Beck,Consumer Discretionary,Multiline Retail,ludwig-beck-ag?cid=962919
+LHAG,XETRA,Lufthansa,Industrials,Airlines,dt-lufthansa?cid=21923
+LY0,XETRA,LYFT,Industrials,Road & Rail,lyft?cid=1168309
+M12,XETRA,M1 Kliniken,Healthcare,Health Care Providers & Services,m1-beauty-ag
+MF6G,XETRA,Magforce,Healthcare,Health Care Equipment & Supplies,magforce-ag
+M5ZG,XETRA,Manz AG,Information Technology,Semiconductors & Semiconductor Equipment,manz-automation
+MKTX,XETRA,MarketAxesss,Financial,Capital Markets,marketaxess-holdi?cid=1180409
+9MW,XETRA,Marvell,Information Technology,Semiconductors & Semiconductor Equipment,marvell-technology-group-ltd?cid=1180411
+MA,XETRA,Mastercard,Information Technology,IT Services,mastercard-cl-a?cid=963449
+MZXG,XETRA,Masterflex,Industrials,Machinery,masterflex-ag
+MAKG,XETRA,Maternus Kliniken,Healthcare,Health Care Providers & Services,maternus-kliniken-ag
+MXHNn,XETRA,Max Automation,Industrials,Machinery,max-automation-ag
+MBBG,XETRA,MBB Industries AG,Industrials,Industrial Conglomerates,mbb-industries-ag?cid=962922
+M8H,XETRA,MBH Corp,Industrials,Construction & Engineering,mbh-corp
+MCD,XETRA,McDonald’s,Consumer Discretionary,"Hotels, Restaurants & Leisure",mcdonalds?cid=29415
+M8G,XETRA,Media and Games,Communication Services,Entertainment,xanthus-holdings?cid=985180
+MCEG,XETRA,Medicallumbus,Healthcare,Health Care Technology,medical-columbus-ag?cid=1034497
+MEDG,XETRA,MediClin AG,Healthcare,Health Care Providers & Services,mediclin-ag?cid=962923
+MDG1k,XETRA,Medigene,Healthcare,Biotechnology,medigene-exch
+MDNG,XETRA,Medion AG,Consumer Discretionary,Distributors,medion
+ILM1k,XETRA,Medios AG,Healthcare,Health Care Providers & Services,medios-ag
+AMI1,XETRA,Medondo Holding AG,Information Technology,IT Services,amalphi-ag?cid=1173164
+2M6,XETRA,Medtronic,Healthcare,Health Care Equipment & Supplies,medtronic?cid=945093
+MEIA,XETRA,MeinAuto Group AG,Consumer Discretionary,Internet & Direct Marketing Retail,meinauto-group-ag
+MUMG,XETRA,Mensch und Maschine Software,Information Technology,Software,mensch-und-maschine-software-se
+MRCG,XETRA,Merck,Healthcare,Pharmaceuticals,merck-kgaa?cid=969239
+MRK,XETRA,Merck&Co,Healthcare,Pharmaceuticals,merck---co?cid=29416
+MBKG,XETRA,Merkur Bank KGaA,Financial,Banks,merkur-bank-kgaa
+FB2A,XETRA,Meta Platforms,Communication Services,Interactive Media & Services,facebook-inc?cid=32429
+B4B,XETRA,Metro Wholesale,Consumer Staples,Food & Staples Retailing,metro-wholesale-de
+B4B3_p,XETRA,Metro Wholesale Pref,Consumer Staples,Food & Staples Retailing,metro-wholesale-pref-de
+M3VGn,XETRA,MeVis,Healthcare,Health Care Technology,mevis-medical-solutions-ag
+CDZ0,XETRA,MHP Hotel,Healthcare,Health Care Technology,nbic-capital
+MU,XETRA,Micron,Information Technology,Semiconductors & Semiconductor Equipment,micron-tech?cid=963479
+MSFT,XETRA,Microsoft,Information Technology,Software,microsoft-corp?cid=29399
+MRXG,XETRA,Mister Spex SE,Consumer Discretionary,Specialty Retail,mister-spex-se
+MLPG,XETRA,MLP AG,Financial,Capital Markets,mlp-exch
+MBQGn,XETRA,Mobotix AG,Information Technology,"Electronic Equipment, Instruments & Components",mobotix-ag
+MWD,XETRA,Morgan Stanley,Financial,Capital Markets,morgan-stanley?cid=963473
+MORG,XETRA,Morphosys AG,Healthcare,Biotechnology,morphosys?cid=23293
+ECF1,XETRA,Mountain Alliance,Consumer Discretionary,Internet & Direct Marketing Retail,ecommerce-alliance-ag
+MPCKk,XETRA,MPC Capital,Financial,Capital Markets,mpc-capital-exch?cid=962991
+93M1k,XETRA,MPH Health Care AG,Healthcare,Pharmaceuticals,mph-mittelstaendische-pharma-hold
+MSAG,XETRA,MS Industrie,Industrials,Machinery,ms-industrie-ag
+MTXGn,XETRA,MTU Aero,Industrials,Aerospace & Defense,mtu-aero-eng?cid=21637
+MPSCk,XETRA,Muehl Productrvice,Industrials,Trading Companies & Distributors,muehl-product-service-ag?cid=1187389
+MUBG,XETRA,Muehlbauer,Industrials,Machinery,muehlbauer-holding-ag
+M4NG,XETRA,Muehlhan,Industrials,Construction & Engineering,muehlhan-ag
+MLLG,XETRA,Mueller Die Lila Logistik,Industrials,Air Freight & Logistics,mueller-die-lila-logistik-ag
+MUVGn,XETRA,Muench. Rueckvers.,Financial,Insurance,muench.-rueck?cid=22261
+FRU,XETRA,Multitude SE,Financial,Consumer Finance,ferratum-oyj
+MUXG,XETRA,Mutares,Financial,Capital Markets,mutares-ag
+C1VG,XETRA,mVISE,Information Technology,IT Services,mvise-ag
+MVVGn,XETRA,MVV Energie AG,Utilities,Multi-Utilities,mvv-energie
+MWBG,XETRA,mwb Fairtrade Wertpapierhandels,Financial,Capital Markets,mwb-fairtrade-wertpapierhandels
+MYRKk,XETRA,Myhammering,Communication Services,Interactive Media & Services,myhammer-holding-ag
+M0Y,XETRA,Mynaric,Industrials,Aerospace & Defense,mynaric
+NTGG,XETRA,Nabaltec,Materials,Chemicals,nabaltec-ag
+N4G,XETRA,NAGA,Information Technology,Software & Programming,the-naga-group-ag?cid=1024883
+NA9n,XETRA,Nagarro SE,Information Technology,IT Services,nagarro-se
+N2FGn,XETRA,NanoFocus,Information Technology,"Electronic Equipment, Instruments & Components",nanofocus-ag
+N7GG,XETRA,Nanogate AG,Materials,Chemicals,nanogate-ag
+NN6G,XETRA,NanoRepro,Healthcare,Health Care Equipment & Supplies,nanorepro-a?cid=963037
+RYS1,XETRA,NatWest Group,Financial,Regional Banks,royal-bank-of-scotland?cid=963245
+NEKG,XETRA,Nemetschek AG,Information Technology,Software,nemetschek-ag
+VRL,XETRA,Net Digital,Information Technology,IT Services,black-pearl-digital
+NFLO,XETRA,Netflix,Communication Services,Entertainment,"netflix,-inc.?cid=963537"
+NF4,XETRA,Netfonds,Financial,Capital Markets,netfonds
+NWOn,XETRA,New Work,Communication Services,Interactive Media & Services,xing-ag
+NXRG,XETRA,NEXR Technologies SE,Information Technology,"Electronic Equipment, Instruments & Components",social-commerce-group-se
+NXUG,XETRA,Nexus,Healthcare,Health Care Technology,nexus-ag
+NFN,XETRA,NFON,Communication Services,Diversified Telecommunication Services,nfon-ag
+NIIGn,XETRA,Niiio Finance,Information Technology,Software & Programming,niiio-finance-group-ag?cid=989448
+NKE,XETRA,Nike,Consumer Discretionary,"Textiles, Apparel & Luxury Goods",nike?cid=29577
+NOKS,XETRA,Nokia Oyj,Information Technology,Communications Equipment,nokia-finland?cid=963383
+NUVG,XETRA,Noratis,Real Estate,Real Estate Management & Development,noratis-ag
+NC5Ak,XETRA,NorCom Information Technology,Information Technology,IT Services,norcom-information-technology-ag
+NDXG,XETRA,Nordex SE,Industrials,Electrical Equipment,nordex?cid=23521
+NOEJ,XETRA,Norma AG,Industrials,Machinery,norma-group-ag
+NB2,XETRA,Northern Data,Information Technology,Software,northern-bitcoin?cid=1117820
+NOVCb,XETRA,Novo Nordisk B,Healthcare,Pharmaceuticals,novo-nordisk?cid=963357
+NLVGn,XETRA,Nuernberger Beteiligungs,Financial,Insurance,nuernberger-beteiligungs-ag
+NVDA,XETRA,NVIDIA,Information Technology,Semiconductors & Semiconductor Equipment,nvidia-corp?cid=1056282
+M7UG,XETRA,Nynomic,Information Technology,"Electronic Equipment, Instruments & Components",mut-ag-messgeraete-fuer-medizin
+OXY,XETRA,Occidental,Energy,"Oil, Gas & Consumable Fuels",occidental-petro?cid=963465
+ODP1,XETRA,ODP,Consumer Discretionary,Specialty Retail,office-depot?cid=1163910
+VVVGn_p,XETRA,OeKOWORLD Pref,Financial,Diversified Financial Services,oekoworld-ag-pref
+POST,XETRA,Oesterr. Post AG,Industrials,Air Freight & Logistics,oesterreich-post?cid=963533
+OHBG,XETRA,OHB AG,Industrials,Aerospace & Defense,ohb-ag
+OMVV,XETRA,OMV AG,Energy,"Oil, Gas & Consumable Fuels",omv-ag?cid=963371
+2QUn,XETRA,Onoff AG,Information Technology,IT Services,onoff-ag
+O5H,XETRA,Openlimiting,Information Technology,Software,openlimit-holding-ag
+ORCL,XETRA,Oracle,Information Technology,Software,oracle-corp?cid=963235
+FTE,XETRA,Orange,Communication Services,Diversified Telecommunication Services,france-telecom?cid=945905
+OBS,XETRA,Orbis,Information Technology,IT Services,orbis-ag
+4PG,XETRA,Otis Worldwide,Industrials,Machinery,otis-worldwide-corp?cid=1163905
+TR9G,XETRA,Otrs,Information Technology,Software,otrs-ag?cid=1163912
+O4BG,XETRA,OVB Holding AG,Financial,Capital Markets,ovb-holding-ag?cid=962933
+PRYG,XETRA,Pacifico Renewables Yield AG,Utilities,Independent Power and Renewable Electricity Producers,pacifico-renewables-yield-ag
+PA8G,XETRA,Paion,Healthcare,Biotechnology,paion-ag
+PTXG,XETRA,Palantir,Information Technology,Software,palantir-technologies-inc?cid=1170417
+PALG,XETRA,Pantaflix,Communication Services,Entertainment,pantaleon-entertainment-ag
+PGNG,XETRA,Paragon AG,Consumer Discretionary,Auto Components,paragon-ag
+PATGn,XETRA,Patrizia Immobilien,Real Estate,Real Estate Management & Development,patrizia-immobilien-ag
+2PP,XETRA,PayPal Holdings Inc,Information Technology,IT Services,paypal-holdings-inc?cid=963685
+PEP,XETRA,PepsiCo,Consumer Staples,Beverages,pepsico?cid=29573
+O2C,XETRA,Petro Welt Tech,Energy,Energy Equipment & Services,cat-oil-ag
+PV,XETRA,Pfeiffer,Industrials,Machinery,pfeiffer-vacuum?cid=22500
+EMHn,XETRA,Pferdewetten de,Consumer Discretionary,"Hotels, Restaurants & Leisure",pferdewetten-de-ag
+PFE,XETRA,Pfizer,Healthcare,Pharmaceuticals,pfizer?cid=29540
+PSGG,XETRA,Pharmasgp,Healthcare,Pharmaceuticals,pharmasgp-holding-se
+PH6,XETRA,Philion,Consumer Discretionary,Specialty Retail,philion
+PHI1,XETRA,Philips,Healthcare,Health Care Equipment & Supplies,philips-kon?cid=963251
+P4OG,XETRA,Plan Optik,Information Technology,Semiconductors & Semiconductor Equipment,plan-optik-ag
+PLUN,XETRA,Plug Power,Industrials,Electrical Equipment,plug-power?cid=1167505
+PNEGn,XETRA,PNE Wind AG,Industrials,Electrical Equipment,pne-wind-ag
+PSHG_p,XETRA,Porsche,Consumer Discretionary,Automobiles,porsche?cid=1073868
+PAGn,XETRA,PREOS Global Office,Real Estate,Equity Real Estate Investment Trusts (REITs),preos-global-office-re-tech
+PDAG,XETRA,Pro DV,Information Technology,IT Services,pro-dv-ag
+PCZ,XETRA,ProCredit Holding,Financial,Banks,procredit-holding-ag---co-kgaa
+PG,XETRA,Procter&Gamble,Consumer Staples,Household Products,procter-gamble?cid=29578
+PWOG,XETRA,Progress Werk Oberkirch,Consumer Discretionary,Auto Components,progress-werk-oberkirch-ag?cid=962938
+PSMGn,XETRA,Prosiebensat,Communication Services,Media,pro-sieben?cid=6297
+PSAGn,XETRA,PSI AG,Information Technology,Software,psi-ag
+PBYG,XETRA,Publity,Real Estate,Real Estate Management & Development,publity-ag
+PUMG,XETRA,Puma SE,Consumer Discretionary,"Textiles, Apparel & Luxury Goods",puma-se-cfd?cid=23613
+TPEG,XETRA,PVA Tepla AG,Information Technology,Semiconductors & Semiconductor Equipment,pva-tepla-ag
+M3Bk,XETRA,Pyramid,Information Technology,"Technology Hardware, Storage & Peripherals",mic-ag
+QBYn,XETRA,q.beyond,Information Technology,IT Services,qsc
+QIA,XETRA,Qiagen,Healthcare,Life Sciences Tools & Services,qiagen?cid=23528
+690D,XETRA,Qingdao Haier,Consumer Discretionary,Household Durables,qingdao-haier-co
+QCOM,XETRA,Qualcomm,Information Technology,Semiconductors & Semiconductor Equipment,qualcomm-inc?cid=963389
+QB7G,XETRA,Quirin Privatbank,Financial,Money Center Banks,quirin-bank?cid=1176383
+RSL2,XETRA,R. Stahl AG,Industrials,Machinery,r.-stahl-ag
+RBIV,XETRA,Raiffeisen Bank,Financial,Banks,raiffeisen-int?cid=963373
+RAAG,XETRA,Rational AG,Industrials,Machinery,rational-ag?cid=23066
+5UR,XETRA,Raytheon Technologies,Industrials,Aerospace & Defense,united-tech?cid=29563
+RCMN,XETRA,Rcm Beteiligungs,Real Estate,Real Estate Management & Development,rcm-beteiligungs-ag
+RTCG,XETRA,Realtech AG,Information Technology,IT Services,realtech-ag
+RB,XETRA,Reckitt Benckiser,Consumer Staples,Household Products,reckitt-benckiser?cid=963403
+RENA,XETRA,Renault,Consumer Discretionary,Automobiles,renault?cid=963321
+REP,XETRA,Repsol,Energy,"Oil, Gas & Consumable Fuels",repsol-ypf?cid=963002
+RHMG,XETRA,Rheinmetall AG,Industrials,Aerospace & Defense,rheinmetall?cid=1073870
+RHKG,XETRA,Rhoen-Klinikum,Healthcare,Health Care Providers & Services,rhoen-klinikum?cid=1073869
+RIB,XETRA,RIB Software AG,Information Technology,Software,rib-software-ag
+HP3An,XETRA,Ringmetall SE,Industrials,Machinery,hpi-holding-ag
+RIO,XETRA,Rio Tinto PLC,Materials,Metals & Mining,rio-tinto?cid=29514
+RBAV,XETRA,Rosenbauer,Industrials,Machinery,rosenbauer?cid=1056286
+RY8,XETRA,Roy Ceramics,Industrials,Constr. - Supplies & Fixtures,roy-ceramics-ag-de?cid=1176384
+RRTL,XETRA,RTL Group,Communication Services,Media,rtl-group-lu?cid=41032
+RWEG,XETRA,RWE AG ST,Utilities,Independent Power and Renewable Electricity Producers,rwe-st-a?cid=23310
+RYA,XETRA,Ryanair,Industrials,Airlines,ryanair-holdings-exch?cid=960690
+SIAG,XETRA,S Immo Ag,Real Estate,Real Estate Management & Development,s-immo-ag?cid=963647
+SFQ,XETRA,SAF Holland,Consumer Discretionary,Auto Components,saf-holland
+SGOB,XETRA,Saint Gobain,Industrials,Building Products,saint-gobain?cid=1056290
+FOO,XETRA,Salesforce.com,Information Technology,Software,salesforce-com?cid=963503
+SZGG,XETRA,Salzgitter AG,Materials,Metals & Mining,salzgitter?cid=1073872
+SASY,XETRA,Sanofi,Healthcare,Pharmaceuticals,sanofi-aventis?cid=29462
+SAN,XETRA,Santander,Financial,Banks,banco-santander?cid=29479
+SAPG,XETRA,SAP,Information Technology,Software,sap-ag?cid=23532
+SATG,XETRA,Sartorius AG,Healthcare,Health Care Equipment & Supplies,sartorius-ag-st?cid=962945
+SATG_p,XETRA,Sartorius AG VZO,Healthcare,Health Care Equipment & Supplies,sartorius-ag-vz
+SHA_p,XETRA,Schaeffler Pref,Consumer Discretionary,Auto Components,schaeffler-ag
+SLTG,XETRA,Schaltbau,Industrials,Machinery,schaltbau-holding-ag
+PZSG,XETRA,Scherzer,Financial,Diversified Financial Services,scherzer-co-ag
+SWAG,XETRA,Schloss Wachenheim,Consumer Staples,Beverages,schloss-wachenheim-ag
+SCHN,XETRA,Schneider Electric,Industrials,Electrical Equipment,schneider-electr?cid=29454
+SBOE,XETRA,Schoeller-Bleckmann AG,Energy,Energy Equipment & Services,schoeller-bleck?cid=1056288
+SWEGn,XETRA,Schweizer Electronic,Information Technology,"Electronic Equipment, Instruments & Components",schweizer-electronic-ag
+G24n,XETRA,Scout24 AG,Communication Services,Interactive Media & Services,scout24-ag
+75Sn,XETRA,Sdm SE,Industrials,Commercial Services & Supplies,sdm-se
+YSNG,XETRA,Secunet AG,Information Technology,IT Services,secunet-security-networks-ag
+SJJG,XETRA,Serviceware,Information Technology,Software,serviceware-se
+T3T1k,XETRA,Seven Principles AG,Information Technology,IT Services,seven-principles-ag?cid=963040
+F3CG,XETRA,SFC Energy AG,Industrials,Electrical Equipment,sfc-energy-ag
+SGCG,XETRA,SGL Carbon SE,Industrials,Electrical Equipment,sgl-carbon?cid=1073871
+SHVA,XETRA,Shareholder Value Beteiligungen AG,Financial,Capital Markets,shareholder-value-beteiligungen-ag
+R6C0,XETRA,Shell,Energy,"Oil, Gas & Consumable Fuels",royal-dutch-shell-a-shr?cid=963247
+SAEG,XETRA,Shop Apotheke Europe,Consumer Staples,Food & Staples Retailing,shop-apotheke-europe-nv
+SHSGk,XETRA,SHS Viveon,Information Technology,Software & Programming,shs-viveon-ag?cid=1176386
+SW1,XETRA,SHW AG,Consumer Discretionary,Auto Components,shw-ag
+SIEGn,XETRA,Siemens AG,Industrials,Industrial Conglomerates,siemens?cid=23201
+ENR1n,XETRA,Siemens Energy AG,Industrials,Electrical Equipment,siemens-energy-ag?cid=1177366
+SHLG,XETRA,Siemens Healthineers,Healthcare,Health Care Equipment & Supplies,siemens-healthineers-ag
+WAFGn,XETRA,Siltronic AG,Information Technology,Semiconductors & Semiconductor Equipment,siltronic-ag
+SNGGk,XETRA,Singulus Tech,Industrials,Machinery,singulus-tech
+XTPG,XETRA,sino,Financial,Investment Services,sino?cid=1178639
+SIXG_p,XETRA,Sixt AG VZO,Industrials,Road & Rail,sixt-ag-vz
+SIXG,XETRA,Sixt SE,Industrials,Road & Rail,sixt-ag
+BTBB,XETRA,SLEEPZ,Consumer Discretionary,Internet & Direct Marketing Retail,bmp-ag
+AM3D,XETRA,SLM Solutions,Industrials,Machinery,slm-solution-g
+SMWN,XETRA,SM Wirtschaftsberatungs,Real Estate,Real Estate Management & Development,sm-wirtschaftsberatungs-ag
+S92G,XETRA,SMA Solar AG,Information Technology,Semiconductors & Semiconductor Equipment,sma-solar-technology-ag-exch
+S4AG,XETRA,SMT Scharf AG,Industrials,Machinery,smt-scharf-ag
+1SI,XETRA,Snap,Communication Services,Interactive Media & Services,snap-inc?cid=1010667
+SHFG,XETRA,SNP Schneider,Information Technology,IT Services,snp-schneider
+SOGN,XETRA,Societe Generale,Financial,Regional Banks,societe-generale?cid=29459
+SYTG,XETRA,Softing AG,Information Technology,"Electronic Equipment, Instruments & Components",softing-ag
+SFDGk,XETRA,Softline,Information Technology,IT Services,softline-ag
+SOWGn,XETRA,Software AG,Information Technology,Software,software?cid=23409
+ZSOL,XETRA,Solutiance,Information Technology,Software,progeo-holding?cid=1176390
+SPME,XETRA,Splendid Medien,Communication Services,Entertainment,splendid-medien-ag
+WIGGk,XETRA,Sporttotal,Communication Services,Media,wige-media-ag
+639,XETRA,Spotify Tech,Communication Services,Entertainment,spotify-technology?cid=1097265
+S6P,XETRA,Spvgg Unterhaching,Communication Services,Entertainment,spielvereinigung-unterhaching-fussb
+STAB,XETRA,Stabilus,Industrials,Machinery,stabilus
+SBUX,XETRA,Starbucks,Consumer Discretionary,"Hotels, Restaurants & Leisure",starbucks-corp?cid=963399
+ST5G,XETRA,Steico,Industrials,Building Products,steico-se
+8TI,XETRA,Stellantis NV,Consumer Discretionary,Automobiles,fiat?cid=963022
+S9I,XETRA,Stemmer Imaging,Information Technology,"Electronic Equipment, Instruments & Components",stemmer-imaging-ag
+STOG_p,XETRA,Sto KGaA,Materials,Construction Materials,sto-se-co-kgaa
+SBSG,XETRA,STRATEC Biomedical,Healthcare,Health Care Equipment & Supplies,stratec-biomedical-ag
+SAXG,XETRA,Stroeer,Communication Services,Media,stroeer-out-of-home-media-ag
+SF3,XETRA,STS Group,Industrials,Machinery,sts-group-ag
+SZUG,XETRA,Suedzucker,Consumer Staples,Food Products,suedzucker
+SMHNn,XETRA,Suess Microtec,Information Technology,Semiconductors & Semiconductor Equipment,suess-microtec-n?cid=22389
+SURG,XETRA,Surteco SE,Consumer Discretionary,Household Durables,surteco-se
+SUSEG,XETRA,Suse,Information Technology,Software,suse
+SR9,XETRA,Swiss Re,Financial,Insurance,swiss-re?cid=963271
+SY1G,XETRA,Symrise AG,Materials,Chemicals,symrise-ag?cid=25363
+SBXn,XETRA,SynBiotic SE,Healthcare,Pharmaceuticals,synbiotic-se
+SYAB,XETRA,Synlab AG,Healthcare,Health Care Providers & Services,synlab-ag
+SYZG,XETRA,Syzygy AG,Communication Services,Media,syzygy-ag
+TEGG,XETRA,Tag Immobilien,Real Estate,Real Estate Management & Development,tag-immobilien-ag
+TTKG,XETRA,Takkt AG,Consumer Discretionary,Internet & Direct Marketing Retail,takkt-ag
+TLXGn,XETRA,Talanx AG,Financial,Insurance,talanx
+TGT,XETRA,Target,Consumer Discretionary,Multiline Retail,target?cid=1169083
+TMV,XETRA,TeamViewer,Information Technology,Software,teamviewer
+TTRGn,XETRA,Technotrans AG,Industrials,Machinery,technotrans-ag
+TC1n,XETRA,Tele Columbus AG,Communication Services,Media,tele-columbus-ag
+TLIT,XETRA,Telecom Italia,Communication Services,Diversified Telecommunication Services,telecom-italia?cid=963253
+TLITn,XETRA,Telecom Italia RSP,Communication Services,Diversified Telecommunication Services,telecom-italia-rnc?cid=963593
+TEF,XETRA,Telefonica,Communication Services,Diversified Telecommunication Services,telefonica?cid=29475
+O2Dn,XETRA,Telefonica Deutschland AG,Communication Services,Diversified Telecommunication Services,telefonica-deutschland-holding-ag
+TLIK,XETRA,TELES Informationstechnologien AG,Communication Services,Diversified Telecommunication Services,teles-ag-info-tech?cid=962959
+TCO0,XETRA,Tesco,Consumer Staples,Food & Staples Retailing,tesco?cid=963405
+TSLA,XETRA,Tesla,Consumer Discretionary,Automobiles,tesla-motors?cid=963569
+PU11n,XETRA,The Social Chain AG,Communication Services,Interactive Media & Services,the-social-chain-ag
+TKAG,XETRA,Thyssenkrupp AG,Materials,Metals & Mining,thyssen-krupp?cid=22517
+TLGG,XETRA,TLG Immobilien AG,Real Estate,Real Estate Management & Development,tlg-immobilien-ag
+14Dn,XETRA,Tokentus Investment,Financial,Capital Markets,tokentus-investment
+TNIE,XETRA,Tonies SE,Consumer Discretionary,Leisure Products,tonies-se
+GTK,XETRA,Tonkens Agrar,Consumer Staples,Food Products,tonkens-agrar-ag
+TOTF,XETRA,TotalEnergies SE,Energy,"Oil, Gas & Consumable Fuels",total?cid=963315
+8TRA,XETRA,Traton,Industrials,Machinery,traton-se
+TRUG,XETRA,Traumhaus,Consumer Discretionary,Household Durables,traumhaus?cid=1176387
+TTOG,XETRA,TTL Beteiligungs,Real Estate,Real Estate Management & Development,ttl-information-technology-ag?cid=1117819
+9TS,XETRA,TubeSolar AG,Information Technology,Semiconductors & Semiconductor Equipment,tubesolar-ag
+TUFG,XETRA,Tuff,Energy,Energy Equipment & Services,tuff?cid=1123885
+TUIGn,XETRA,Tui,Consumer Discretionary,"Hotels, Restaurants & Leisure",tui-n?cid=25352
+TWTR,XETRA,Twitter Inc,Communication Services,Interactive Media & Services,twitter-inc?cid=963038
+CFCG,XETRA,UET United Electronic Technology,Information Technology,Communications Equipment,uet-united-electronic-technology-ag
+UMDk,XETRA,UMT United Mobility,Information Technology,Software,umt-united-mobility-technology-ag
+UBKG,XETRA,Umweltbank,Financial,Banks,umweltbank?cid=987088
+CRIG,XETRA,UniCredit,Financial,Banks,unicredito?cid=963435
+UDCG,XETRA,UniDevice,Information Technology,"Electronic Equipment, Instruments & Components",unidevice?cid=1176388
+ULVR,XETRA,Unilever,Consumer Staples,Personal Products,unilever-ord?cid=1167053
+UN01,XETRA,Uniper SE,Utilities,Independent Power and Renewable Electricity Producers,uniper-se?cid=1073874
+UNIQ,XETRA,Uniqa Insurance AG,Financial,Insurance,uniqa-vers?cid=1056296
+UTDI,XETRA,United Internet AG,Communication Services,Diversified Telecommunication Services,united-internet?cid=22522
+ULCG,XETRA,United Labels,Consumer Discretionary,Leisure Products,united-labels-ag?cid=962961
+OSPGk,XETRA,USU Software AG,Information Technology,Software,usu-software-ag
+UZUG,XETRA,Uzin Utz,Materials,Chemicals,uzin-utz-ag
+VQTG,XETRA,va Q tec,Industrials,Machinery,va-q-tec-ag
+VTWRn,XETRA,Vantage Towers AG,Communication Services,Diversified Telecommunication Services,vantage-towers-ag
+VAO,XETRA,Vapiano,Consumer Discretionary,"Hotels, Restaurants & Leisure",vapiano-se
+VG8G,XETRA,Varengold Bank,Financial,Capital Markets,varengold-bank-ag
+VAR1,XETRA,Varta,Industrials,Electrical Equipment,varta
+NB11,XETRA,Vaxart,Healthcare,Biotechnology,nabi-pharmaceuticals?cid=1180410
+V3SG,XETRA,Vectron Systems,Information Technology,"Electronic Equipment, Instruments & Components",vectron-systems-ag
+VEZ,XETRA,Veganz,Consumer Staples,Food Products,veganz
+VIE,XETRA,Veolia Environnement,Utilities,Multi-Utilities,veolia-environ?cid=963323
+VBKG,XETRA,Verbio Vereinigte,Energy,"Oil, Gas & Consumable Fuels",verbio-vereinigte-bioenergie-ag
+VERB,XETRA,Verbund AG Kat. A,Utilities,Electric Utilities,verbund?cid=963379
+GIVG,XETRA,Verianos Real Estate,Real Estate,Real Estate Management & Development,verianos-real-estate-ag
+VZ,XETRA,Verizon,Communication Services,Diversified Telecommunication Services,verizon-communications?cid=29554
+VWSB,XETRA,Vestas Wind,Industrials,Electrical Equipment,vestas-wind?cid=103939
+VFC,XETRA,VF,Consumer Discretionary,"Textiles, Apparel & Luxury Goods",vf-corp?cid=1167509
+VIH1n,XETRA,VIB Vermoegen,Real Estate,Real Estate Management & Development,vib-vermoegen-ag
+VIBG_p,XETRA,Villeroy&Boch AG,Industrials,Building Products,villeroy---boch-ag-vz
+SGEF,XETRA,Vinci,Industrials,Construction & Engineering,vinci?cid=963319
+Va,XETRA,Visa A,Information Technology,IT Services,visa-inc?cid=963505
+V6CG,XETRA,Viscom AG,Information Technology,"Electronic Equipment, Instruments & Components",viscom-ag
+V3VGn,XETRA,Vita 34 AG,Healthcare,Health Care Providers & Services,vita-34-ag?cid=962966
+VTSCn,XETRA,Vitesco Technologies,Consumer Discretionary,Auto Components,vitesco-technologies-ger
+VIV,XETRA,Vivendi,Communication Services,Media,vivendi?cid=29464
+05Y,XETRA,Vivoryon Therapeutics,Healthcare,Biotechnology,probiodrug-ag?cid=1129330
+VODI,XETRA,Vodafone Group PLC,Communication Services,Wireless Telecommunication Services,vodafone?cid=963006
+VOES,XETRA,Voestalpine,Materials,Metals & Mining,voestalppine?cid=963377
+VOWG,XETRA,Volkswagen ST,Consumer Discretionary,Automobiles,volkswagen-ag?cid=22824
+VOWG_p,XETRA,Volkswagen VZO,Consumer Discretionary,Automobiles,volkswagen-vz?cid=10520
+VBX,XETRA,Voltabox AG,Industrials,Electrical Equipment,voltabox-ag
+VNAn,XETRA,Vonovia,Real Estate,Real Estate Management & Development,deutsche-annington-immobilien-se?cid=1177367
+VOSG,XETRA,Vossloh AG,Industrials,Machinery,vossloh
+WCHG,XETRA,Wacker Chemie,Materials,Chemicals,wacker-chemie?cid=25355
+WACGn,XETRA,Wacker Neuson,Industrials,Machinery,wacker-neuson-se
+WSO1k,XETRA,Wallstreet Online,Communication Services,Interactive Media & Services,wallstreet-online-ag
+WMT,XETRA,Walmart,Consumer Staples,Food & Staples Retailing,wal-mart-stores?cid=29541
+DIS,XETRA,Walt Disney,Communication Services,Entertainment,disney?cid=29405
+WXFB,XETRA,Warimpex Ag,Consumer Discretionary,"Hotels, Restaurants & Leisure",warimpex-ag?cid=1056298
+WSUG,XETRA,WashTec AG,Industrials,Machinery,washtec-ag
+WCMKk,XETRA,WCM Beteiligungs und Grundbesitz,Real Estate,Real Estate Management & Development,wcm-beteiligungs-und-grundbesitz-ag
+NOB,XETRA,Wells Fargo&Co,Financial,Banks,wells-fargo?cid=963467
+WFTG,XETRA,Weng Fine Art,Consumer Discretionary,Specialty Retail,weng-fine-art?cid=1176389
+WEG1,XETRA,Westgrund,Real Estate,Real Estate Management & Development,westgrund
+WEW,XETRA,Westwing Group,Consumer Discretionary,Internet & Direct Marketing Retail,westwing-group
+SIIG,XETRA,Wheaton Precious Metals,Materials,Metals & Mining,silver-wheaton-corp?cid=963481
+WBSV,XETRA,Wienerberger AG,Materials,Construction Materials,wienerberger?cid=963381
+WBAHk,XETRA,Wild Bunch,Communication Services,Entertainment,wild-bunch-ag
+WDL1k,XETRA,Windeln de,Consumer Discretionary,Internet & Direct Marketing Retail,windeln-de-ag
+WAH,XETRA,Wolftank Adisa Holding AG,Industrials,Commercial Services & Supplies,wolftank-adisa-holding-ag
+WUWGn,XETRA,Wuestenrot Wuerttembergische,Financial,Insurance,wuestenrot-wuerttembergische-ag
+XLS,XETRA,Xlife Sciences AG,Healthcare,Life Sciences Tools & Services,xlife-sciences-ag-de
+YRI,XETRA,Yamana Gold,Materials,Metals & Mining,yamana-gold?cid=963493
+YOCG,XETRA,Yoc AG,Communication Services,Interactive Media & Services,yoc-ag
+RTVGn,XETRA,Youramily Entertainment,Communication Services,Entertainment,your-family-entertainment-ag?cid=1176385
+YUM,XETRA,Yum! Brands,Consumer Discretionary,"Hotels, Restaurants & Leisure",yum!-brands-inc?cid=963509
+ZALG,XETRA,Zalando SE,Consumer Discretionary,Internet & Direct Marketing Retail,zalando-se?cid=1073876
+TIMAn,XETRA,ZEAL Network SE,Consumer Discretionary,Recreational Activities,tipp24?cid=993600
+ZEFG,XETRA,Zhongde Waste,Industrials,Construction & Engineering,zhongde-waste-technology-ag
+ZO1G,XETRA,Zooplus AG,Consumer Discretionary,Internet & Direct Marketing Retail,zooplus-ag
+ZUMV,XETRA,Zumtobel AG,Industrials,Electrical Equipment,zumtobel-ag?cid=1056300

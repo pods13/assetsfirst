@@ -3,7 +3,7 @@ import { randomInteger } from '../../utils/random-int';
 import { CsvFormatterStream, format } from 'fast-csv';
 import fs from 'fs';
 
-export async function collectStocks(countryName: string) {
+export async function collectStocks(countryName: string, exchange?: string) {
     const browser = await playwright.chromium.launch({
         headless: false, args: ['--single-process']
     });
@@ -18,6 +18,7 @@ export async function collectStocks(countryName: string) {
     try {
         const page = await openStockScreenerPage(context);
         await selectCountry(page, countryName);
+        await selectExchange(page, exchange);
         let nextButtonVisible = await isNextButtonVisible(page);
         while (pageNum === 0 || nextButtonVisible) {
             pageNum += 1;
@@ -62,6 +63,15 @@ async function adjustTableColumns(page: playwright.Page) {
 async function selectCountry(page: playwright.Page, countryName: string) {
     await page.click('[placeholder="Select country"]');
     await page.click(`#countriesUL > li:has-text("${countryName}")`);
+    await page.waitForTimeout(randomInteger(4000, 6000));
+}
+
+async function selectExchange(page: playwright.Page, exchange: string | undefined): Promise<void> {
+    if (!exchange) {
+        return;
+    }
+    await page.click('[placeholder="Select Exchange"]');
+    await page.click(`#exchangesUL > li:has-text("${exchange}")`);
     await page.waitForTimeout(randomInteger(4000, 6000));
 }
 
@@ -110,3 +120,4 @@ async function selectNextPage(page: playwright.Page, pageToSelect: number) {
 
 collectStocks('Russia');
 collectStocks('Hong Kong');
+collectStocks('Germany', 'Xetra');
