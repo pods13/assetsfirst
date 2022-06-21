@@ -70,7 +70,7 @@ async function isNextButtonVisible(page: playwright.Page) {
 }
 
 async function collectPageData(page: playwright.Page) {
-    return await page.$$eval('#resultsTable > tbody tr', (equities) => {
+    const parsedData = await page.$$eval('#resultsTable > tbody tr', (equities) => {
         return equities.map(eq => {
             const name = eq.querySelector('td:nth-child(2)').textContent;
             const link = eq.querySelector('td:nth-child(2) a').getAttribute('href');
@@ -84,8 +84,21 @@ async function collectPageData(page: playwright.Page) {
             };
         });
     });
+
+    return parsedData.map(eq => {
+        const exchange = mapExchange(eq.exchange);
+        return {...eq, exchange};
+    });
 }
 
+function mapExchange(exchange: string): string {
+    if (exchange === 'Hong Kong') {
+        return 'HK';
+    } else if (exchange === 'Moscow') {
+        return 'MCX'
+    }
+    return exchange.toUpperCase();
+}
 
 function savePageData(csv: CsvFormatterStream<any, any>, pageData: any[]) {
     pageData.forEach(data => csv.write(data));
