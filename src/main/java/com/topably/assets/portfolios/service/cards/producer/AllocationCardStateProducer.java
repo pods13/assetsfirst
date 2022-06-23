@@ -28,6 +28,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 
 import static java.util.stream.Collectors.collectingAndThen;
 import static java.util.stream.Collectors.groupingBy;
@@ -64,22 +65,7 @@ public class AllocationCardStateProducer implements CardStateProducer<Allocation
 
     private Map<String, List<AllocationAggregatedTrade>> collectAggregatedTrades(Portfolio portfolio, AllocationCard card) {
         var allocatedBy = card.getAllocatedBy();
-        if (AllocatedByOption.INSTRUMENT_TYPE.equals(allocatedBy)) {
-            return portfolioHoldingService.findPortfolioHoldings(portfolio.getId()).stream()
-                    .map(holding -> {
-                        var price = exchangeService.findTickerRecentPrice(holding.getIdentifier())
-                                .orElse(holding.getPrice());
-                        return AllocationAggregatedTrade.builder()
-                                .identifier(holding.getIdentifier())
-                                .instrumentId(holding.getInstrumentId())
-                                .instrumentType(holding.getInstrumentType())
-                                .price(price)
-                                .quantity(holding.getQuantity())
-                                .currency(holding.getCurrency())
-                                .build();
-                    })
-                    .collect(groupingBy(AllocationAggregatedTrade::getInstrumentType));
-        } else if (AllocatedByOption.BROKER.equals(allocatedBy)) {
+        if (AllocatedByOption.BROKER.equals(allocatedBy)) {
             Long userId = portfolio.getUser().getId();
             return tradeService.findTradesByUserId(userId).stream()
                     .collect(groupingBy(t -> t.getBroker().getName(), collectingAndThen(toList(),
@@ -97,7 +83,29 @@ public class AllocationCardStateProducer implements CardStateProducer<Allocation
                                         .build();
                             }).collect(new AllocationAggregatedTradeCollector()))));
         }
-        return Collections.emptyMap();
+        return portfolioHoldingService.findPortfolioHoldings(portfolio.getId()).stream()
+                .map(holding -> {
+                    var price = exchangeService.findTickerRecentPrice(holding.getIdentifier())
+                            .orElse(holding.getPrice());
+                    return AllocationAggregatedTrade.builder()
+                            .identifier(holding.getIdentifier())
+                            .instrumentId(holding.getInstrumentId())
+                            .instrumentType(holding.getInstrumentType())
+                            .price(price)
+                            .quantity(holding.getQuantity())
+                            .currency(holding.getCurrency())
+                            .build();
+                })
+                .collect(groupingBy(getAllocatedByClassifier(allocatedBy)));
+    }
+
+    private Function<AllocationAggregatedTrade, String> getAllocatedByClassifier(AllocatedByOption allocatedBy) {
+        if (AllocatedByOption.INSTRUMENT_TYPE.equals(allocatedBy)) {
+            return AllocationAggregatedTrade::getInstrumentType;
+        } else if (AllocatedByOption.TRADING_CURRENCY.equals(allocatedBy)) {
+            return t -> t.getCurrency().getCurrencyCode();
+        }
+        throw new RuntimeException();
     }
 
     private List<AllocationSegment> convertToSegments(Collection<AllocationAggregatedTrade> trades) {
