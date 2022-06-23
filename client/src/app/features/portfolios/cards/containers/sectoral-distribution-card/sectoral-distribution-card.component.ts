@@ -2,8 +2,6 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { CardContainer } from '../../types/card-container';
 import { Observable } from 'rxjs';
 import { SectoralDistributionCardData } from '../../types/out/sectoral-distribution-card-data';
-import { TreeMapDataItem } from '@swimlane/ngx-charts';
-import { DataItem } from '@swimlane/ngx-charts/lib/models/chart-data.model';
 import { DashboardCard } from '../../types/dashboard-card';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
@@ -20,14 +18,14 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
           <span *ngIf="!last"> / </span>
         </ng-container>
       </div>
-      <div class="tree-wrapper">
-        <ngx-charts-tree-map appFitChart
-                             [scheme]="'vivid'"
-                             [results]="treemap"
-                             [animations]="true"
-                             (select)="treemapSelect($event)">
-        </ngx-charts-tree-map>
-      </div>
+      <ngx-charts-tree-map class="clearfix"
+                           [view]="[card.cols * 108 + 6.5 * (card.cols - (card.minItemCols || card.cols)),
+                             card.rows * 80 + 10 * (card.rows - (card.minItemRows || card.rows))]"
+                           [scheme]="'vivid'"
+                           [results]="treemap"
+                           [animations]="true"
+                           (select)="treemapSelect($event)">
+      </ngx-charts-tree-map>
     </ng-container>
   `,
   styleUrls: ['./sectoral-distribution-card.component.scss'],
@@ -48,7 +46,7 @@ export class SectoralDistributionCardComponent implements CardContainer<Dashboar
     this.data$.pipe(untilDestroyed(this))
       .subscribe(data => {
         this.treemap = [...data.items];
-        this.treemapPath = [{ name: 'All', children: [...this.treemap], value: -1 }];
+        this.treemapPath = [{name: 'All', children: [...this.treemap], value: -1}];
       });
   }
 
