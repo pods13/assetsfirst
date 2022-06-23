@@ -27,7 +27,7 @@ import javax.persistence.UniqueConstraint;
 @Builder
 @Entity
 @Table(name = "company", uniqueConstraints = {
-        @UniqueConstraint(name = "company_name_key", columnNames = {"NAME"}),
+        @UniqueConstraint(name = "uq_company_name", columnNames = {"name"}),
 })
 public class Company {
 
@@ -36,7 +36,7 @@ public class Company {
     @GenericGenerator(name = "native", strategy = "native")
     private Long id;
 
-    @Column(name = "NAME")
+    @Column(name = "name")
     private String name;
 
     @ManyToOne(fetch = FetchType.LAZY)

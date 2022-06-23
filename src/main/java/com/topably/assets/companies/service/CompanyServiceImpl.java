@@ -31,7 +31,7 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    @Transactional
     public CompanyDto addCompany(CompanyDataDto dto) {
         var industryDto = addIndustry(dto);
         var industry = Optional.ofNullable(industryDto).map(i -> industryRepository.getById(i.getId())).orElse(null);

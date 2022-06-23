@@ -9,13 +9,14 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 @Setter
 @Getter
@@ -23,6 +24,9 @@ import javax.persistence.ManyToOne;
 @AllArgsConstructor
 @Builder
 @Entity
+@Table(name = "industry", uniqueConstraints = {
+        @UniqueConstraint(name = "uq_industry_name", columnNames = {"name"}),
+})
 public class Industry {
 
     @Id
@@ -30,10 +34,10 @@ public class Industry {
     @GenericGenerator(name = "native", strategy = "native")
     private Long id;
 
-    @Column(name="NAME", unique = true)
+    @Column(name = "name")
     private String name;
 
     @ManyToOne()
-    @JoinColumn(name = "SECTOR_ID", referencedColumnName = "ID", foreignKey=@ForeignKey(name = "fk__industry__sector_id__sector"))
+    @JoinColumn(name = "SECTOR_ID", referencedColumnName = "ID", foreignKey = @ForeignKey(name = "fk__industry__sector_id__sector"))
     private Sector sector;
 }

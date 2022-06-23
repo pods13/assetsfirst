@@ -1,7 +1,7 @@
 import fs from 'fs';
 import { parse } from 'fast-csv';
 import { getClient } from '../utils/client';
-import { AxiosInstance } from 'axios';
+import { AxiosError, AxiosInstance } from 'axios';
 
 function pushData(client: AxiosInstance, data: any) {
     if (!filterData(data)) {
@@ -19,7 +19,7 @@ function pushData(client: AxiosInstance, data: any) {
         }
     };
     // console.log(dto);
-    client.put(`/stocks/import`, dto)
+    retry(() => client.put(`/stocks/import`, dto), isRetryableError)
         .catch(err => console.error(`Cannot push data for ${data.symbol}.${data.exchange}`));
 }
 
@@ -40,8 +40,30 @@ export async function importStocks(pathToFile: string) {
         .on('end', (rowCount: number) => console.log(`Pushed ${rowCount} stocks`));
 }
 
-// importStocks('./resources/stocks/russia.csv');
-// importStocks('./resources/stocks/hong-kong.csv');
-// importStocks('./resources/stocks/germany.csv');
-// importStocks('./resources/stocks/united-states.csv');
-importStocks('./resources/stocks-temp.csv');
+async function retry(fn: Function, retryCondition: (err: AxiosError) => boolean, retries = 1, err?: any) {
+    if (!retries) {
+        return Promise.reject(err);
+    }
+    return fn().catch((err: AxiosError) => {
+        if (retryCondition(err)) {
+            return retry(fn, retryCondition, retries - 1, err);
+        }
+        return Promise.reject(err);
+    })
+}
+
+export function isRetryableError(error: AxiosError) {
+    if (!error.config) {
+        return false;
+    }
+    const errorMsg: string = (error.response?.data as any)?.message ?? '';
+    const companyDuplicate = errorMsg.indexOf('uq_company_name') !== -1;
+    const sectorDuplicate = errorMsg.indexOf('uq_sector_name') !== -1;
+    const industryDuplicate = errorMsg.indexOf('uq_industry_name') !== -1;
+    return companyDuplicate || sectorDuplicate || industryDuplicate;
+}
+
+importStocks('./resources/stocks/russia.csv');
+importStocks('./resources/stocks/hong-kong.csv');
+importStocks('./resources/stocks/germany.csv');
+importStocks('./resources/stocks/united-states.csv');

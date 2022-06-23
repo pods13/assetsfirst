@@ -12,6 +12,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 @Setter
 @Getter
@@ -19,6 +21,9 @@ import javax.persistence.Id;
 @AllArgsConstructor
 @Builder
 @Entity
+@Table(name = "sector", uniqueConstraints = {
+        @UniqueConstraint(name = "uq_sector_name", columnNames = {"name"}),
+})
 public class Sector {
 
     @Id
@@ -26,6 +31,6 @@ public class Sector {
     @GenericGenerator(name = "native", strategy = "native")
     private Long id;
 
-    @Column(name="NAME", unique = true)
+    @Column(name = "name")
     private String name;
 }
