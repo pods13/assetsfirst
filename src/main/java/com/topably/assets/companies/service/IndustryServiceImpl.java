@@ -8,6 +8,7 @@ import com.topably.assets.companies.repository.IndustryRepository;
 import com.topably.assets.companies.repository.SectorRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;

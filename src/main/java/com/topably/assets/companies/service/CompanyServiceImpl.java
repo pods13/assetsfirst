@@ -10,6 +10,7 @@ import com.topably.assets.companies.repository.CompanyRepository;
 import com.topably.assets.companies.repository.IndustryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
@@ -30,7 +31,7 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    @Transactional
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public CompanyDto addCompany(CompanyDataDto dto) {
         var industryDto = addIndustry(dto);
         var industry = Optional.ofNullable(industryDto).map(i -> industryRepository.getById(i.getId())).orElse(null);

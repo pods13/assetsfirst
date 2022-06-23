@@ -18,14 +18,17 @@ function pushData(client: AxiosInstance, data: any) {
             industry: data.industry,
         }
     };
-    client.post(`/stocks/import`, dto)
+    // console.log(dto);
+    client.put(`/stocks/import`, dto)
         .catch(err => console.error(`Cannot push data for ${data.symbol}.${data.exchange}`));
-    console.log(dto);
 }
 
 function filterData(data: any) {
+    if (!data.sector && !data.industry) {
+        return false;
+    }
     return (data.slug.indexOf('?cid') === -1 && ['MCX', 'HK', 'NASDAQ', 'NYSE'].includes(data.exchange))
-        || ('XETRA' === data.exchange && data.slug.indexOf('-ag') !== -1);
+        || ('XETRA' === data.exchange && (data.slug.indexOf('?cid') === -1 || data.slug.indexOf('-ag') !== -1));
 }
 
 export async function importStocks(pathToFile: string) {
@@ -39,4 +42,6 @@ export async function importStocks(pathToFile: string) {
 
 // importStocks('./resources/stocks/russia.csv');
 // importStocks('./resources/stocks/hong-kong.csv');
-importStocks('./resources/stocks/germany.csv');
+// importStocks('./resources/stocks/germany.csv');
+// importStocks('./resources/stocks/united-states.csv');
+importStocks('./resources/stocks-temp.csv');

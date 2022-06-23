@@ -34,6 +34,12 @@ public class ExchangeDataLoader implements CommandLineRunner {
                 .currency(Currency.getInstance("USD"))
                 .build());
         exchanges.add(Exchange.builder()
+                .name("Nasdaq Stock Market")
+                .code(NASDAQ.name())
+                .countryCode("US")
+                .currency(Currency.getInstance("USD"))
+                .build());
+        exchanges.add(Exchange.builder()
                 .name("NYSE Arca")
                 .code(NYSEARCA.name())
                 .countryCode("US")

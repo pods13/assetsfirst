@@ -1,29 +1,52 @@
 import playwright from 'playwright-chromium';
 import { randomInteger } from '../../utils/random-int';
-import { CsvFormatterStream, format } from 'fast-csv';
+import { CsvFormatterStream, format, parse } from 'fast-csv';
 import fs from 'fs';
+import { unlink } from 'fs/promises';
 
-export async function collectStocks(countryName: string, exchange?: string) {
+export async function collectStocks(country: string, exchanges: string[] = []) {
+    if (!exchanges.length) {
+        return await collectStocksByExchange(country, null);
+    }
+    const whenStocksCollected = exchanges.map(exchange => collectStocksByExchange(country, exchange));
+    const filenames = await Promise.allSettled(whenStocksCollected);
+    const mainStream = format({headers: true});
+    const filename = composeFilename(country);
+    mainStream.pipe(fs.createWriteStream(`./resources/stocks/${filename}`));
+    filenames.filter(f => f.status === "fulfilled")
+        .map(f => {
+            const filename = (f as PromiseFulfilledResult<string>).value;
+            const filePath = `./resources/stocks/${filename}`;
+            return fs.createReadStream(filePath)
+                .pipe(parse({headers: true}))
+                .on('error', error => console.error(error))
+                .on('data', row => mainStream.write(row))
+                .on('end', () => unlink(filePath));
+        })
+
+}
+
+async function collectStocksByExchange(country: string, exchange: string | null): Promise<string> {
+    const csvStream = format({headers: true});
+    const filename = composeFilename(exchange ?? country);
+    csvStream.pipe(fs.createWriteStream(`./resources/stocks/${filename}`));
+
     const browser = await playwright.chromium.launch({
         headless: false, args: ['--single-process']
     });
-
-    const csvStream = format({ headers: true });
-    const filename = `${countryName.replaceAll(' ', '-').toLowerCase()}.csv`;
-    const writeStream = fs.createWriteStream(`./resources/stocks/${filename}`);
-    csvStream.pipe(writeStream).on('end', () => writeStream.end());
 
     const context = await browser.newContext();
     let pageNum = 0;
     try {
         const page = await openStockScreenerPage(context);
-        await selectCountry(page, countryName);
+        await selectCountry(page, country);
         await selectExchange(page, exchange);
         let nextButtonVisible = await isNextButtonVisible(page);
         while (pageNum === 0 || nextButtonVisible) {
             pageNum += 1;
             const pageData = await collectPageData(page);
             savePageData(csvStream, pageData);
+            await closePopup(page);
             nextButtonVisible = await isNextButtonVisible(page);
             if (nextButtonVisible) {
                 await selectNextPage(page, pageNum + 1);
@@ -37,7 +60,14 @@ export async function collectStocks(countryName: string, exchange?: string) {
         csvStream.end();
         await browser.close();
     }
+
+    return filename;
 }
+
+function composeFilename(subject: string) {
+    return `${subject.replaceAll(' ', '-').toLowerCase()}.csv`;
+}
+
 async function openStockScreenerPage(browserContext: playwright.BrowserContext): Promise<playwright.Page> {
     const page = await browserContext.newPage();
     try {
@@ -60,19 +90,26 @@ async function adjustTableColumns(page: playwright.Page) {
     await page.click('#selectColumnsButton_stock_screener');
 }
 
-async function selectCountry(page: playwright.Page, countryName: string) {
+async function selectCountry(page: playwright.Page, country: string) {
     await page.click('[placeholder="Select country"]');
-    await page.click(`#countriesUL > li:has-text("${countryName}")`);
+    await page.click(`#countriesUL > li:has-text("${country}")`);
     await page.waitForTimeout(randomInteger(4000, 6000));
 }
 
-async function selectExchange(page: playwright.Page, exchange: string | undefined): Promise<void> {
+async function selectExchange(page: playwright.Page, exchange: string | null): Promise<void> {
     if (!exchange) {
         return;
     }
     await page.click('[placeholder="Select Exchange"]');
     await page.click(`#exchangesUL > li:has-text("${exchange}")`);
     await page.waitForTimeout(randomInteger(4000, 6000));
+}
+
+async function closePopup(page: playwright.Page) {
+    const isPopupAppeared = await page.isVisible('.largeBannerCloser');
+    if (isPopupAppeared) {
+        await page.click('.largeBannerCloser');
+    }
 }
 
 async function isNextButtonVisible(page: playwright.Page) {
@@ -90,7 +127,7 @@ async function collectPageData(page: playwright.Page) {
             const sector = eq.querySelector('td:nth-child(5)').textContent;
             const industry = eq.querySelector('td:nth-child(6)').textContent;
             return {
-                symbol,exchange,name,sector,industry,slug
+                symbol, exchange, name, sector, industry, slug
             };
         });
     });
@@ -120,4 +157,5 @@ async function selectNextPage(page: playwright.Page, pageToSelect: number) {
 
 collectStocks('Russia');
 collectStocks('Hong Kong');
-collectStocks('Germany', 'Xetra');
+collectStocks('Germany', ['Xetra']);
+collectStocks('United States', ['NASDAQ', 'NYSE']);
