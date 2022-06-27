@@ -10,8 +10,5 @@ public interface InstrumentService {
 
     Collection<InstrumentDto> searchTradingInstruments(String searchTerm, Collection<InstrumentType> instrumentTypes);
 
-    Collection<Instrument> findCertainTypeOfInstrumentsByExchangeCodes(Collection<InstrumentType> instrumentTypes,
-                                                                       Collection<String> exchangeCodes);
-
     Instrument findInstrument(String ticker, String exchange);
 }

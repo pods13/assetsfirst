@@ -10,9 +10,6 @@ public interface InstrumentRepository extends JpaRepository<Instrument, Long> {
 
     Collection<Instrument> findAllByTickerLikeAndInstrumentTypeIn(String search, Collection<String> instrumentTypes);
 
-    Collection<Instrument> findAllByInstrumentTypeInAndExchange_CodeIn(Collection<String> instrumentTypes,
-                                                                       Collection<String> exchangeCodes);
-
     Instrument findByTickerAndExchange_Code(String ticker, String exchange);
 
 }
