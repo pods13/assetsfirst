@@ -2,6 +2,7 @@ import {load} from 'cheerio';
 import axios, { AxiosInstance } from "axios";
 import { getClient } from '../../utils/client';
 import { Page } from '../../utils/page';
+import { addMonths } from '../../utils/add-months';
 
 export async function fetchDividends() {
     const client = await getClient();
@@ -91,19 +92,6 @@ function convertDate(dateStr: string) {
         return dateParts[2] + '-' + dateParts[1] + '-' + dateParts[0];
     }
     return null;
-}
-
-function addMonths(date: string | null, months: number) {
-    if (!date) {
-        return;
-    }
-    const res = new Date(date);
-    const d = res.getDate();
-    res.setMonth(res.getMonth() + +months);
-    if (res.getDate() !== d) {
-        res.setDate(0);
-    }
-    return res;
 }
 
 fetchDividends();

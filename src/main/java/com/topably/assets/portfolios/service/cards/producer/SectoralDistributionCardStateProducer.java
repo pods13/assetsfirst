@@ -42,15 +42,16 @@ public class SectoralDistributionCardStateProducer implements CardStateProducer<
         var holdingDtos = portfolioHoldingService.findPortfolioHoldings(portfolio.getId())
                 .stream().filter(dto -> InstrumentType.STOCK.name().equals(dto.getInstrumentType()))
                 .toList();
-        var stockIdByTrade = holdingDtos.stream().collect(toMap(PortfolioHoldingDto::getInstrumentId, Function.identity()));
+        var stockIdByHolding = holdingDtos.stream()
+                .collect(toMap(PortfolioHoldingDto::getInstrumentId, Function.identity()));
 
         return SectoralDistributionCardData.builder()
-                .items(composeDataItems(stockIdByTrade))
+                .items(composeDataItems(stockIdByHolding))
                 .build();
     }
 
-    private Collection<SectoralDistributionDataItem> composeDataItems(Map<Long, PortfolioHoldingDto> stockIdByTrade) {
-        var stocks = stockService.findAllById(stockIdByTrade.keySet());
+    private Collection<SectoralDistributionDataItem> composeDataItems(Map<Long, PortfolioHoldingDto> stockIdByHolding) {
+        var stocks = stockService.findAllById(stockIdByHolding.keySet());
         var companyNameByStockIds = stocks.stream()
                 .collect(groupingBy(s -> s.getCompany().getName(), mapping(Instrument::getId, toSet())));
         var companyGroupings = stocks.stream()
@@ -67,7 +68,7 @@ public class SectoralDistributionCardStateProducer implements CardStateProducer<
                 var children = names.stream()
                         .map(name -> {
                             BigDecimal total = companyNameByStockIds.get(name).stream()
-                                    .map(stockIdByTrade::get)
+                                    .map(stockIdByHolding::get)
                                     .map(trade -> currencyConverterService.convert(trade.getTotal(), trade.getCurrency()))
                                     .reduce(BigDecimal.ZERO, BigDecimal::add);
                             return composeLeafItem(name, total);
