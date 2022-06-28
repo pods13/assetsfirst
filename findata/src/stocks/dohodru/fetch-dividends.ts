@@ -1,13 +1,26 @@
 import {load} from 'cheerio';
-import axios from "axios";
+import axios, { AxiosInstance } from "axios";
 import { getClient } from '../../utils/client';
+import { Page } from '../../utils/page';
 
 export async function fetchDividends() {
     const client = await getClient();
-    //TODO use &page= param to iterate over all tickers
-    const securitiesRes = await client.get(`/exchanges/MCX/tickers?size=10`);
-    const securities = securitiesRes.data?.content;
-    console.log(securities);
+    let page = 1;
+    let last = false;
+    do {
+        const paginatedSecurities = await getPaginatedSecurities(client, page);
+        await saveParsedDividends(client, paginatedSecurities.content);
+        last = paginatedSecurities.last;
+        page += 1;
+    } while (!last);
+}
+
+async function getPaginatedSecurities(client: AxiosInstance, page: number) {
+    const securitiesRes = await client.get<Page<any>>(`/exchanges/MCX/tickers?size=10&page=${page}`);
+    return securitiesRes.data;
+}
+
+async function saveParsedDividends(client: AxiosInstance, securities: any[]) {
     const whenDividendsParsed = securities.map((s: any) => getDividendHistoryByTicker(s.symbol));
     try {
         const dividendData = await Promise.allSettled(whenDividendsParsed);
@@ -40,7 +53,8 @@ export async function fetchDividends() {
 }
 
 async function getDividendHistoryByTicker(symbol: string) {
-    const res = await axios.get(`https://www.dohod.ru/ik/analytics/dividend/${symbol.toLowerCase()}`);
+    const sym = symbol.toLowerCase().replaceAll('_', '');
+    const res = await axios.get(`https://www.dohod.ru/ik/analytics/dividend/${sym}`);
     const $ = load(res.data);
     const dividendsTable = $(`p.table-title:contains('Все выплаты') + table`);
     const result: any[] = [];
