@@ -16,6 +16,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
@@ -25,6 +27,9 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Builder
 @Entity
+@Table(name = "dividend", uniqueConstraints = {
+        @UniqueConstraint(name = "uq_dividend_record_date", columnNames = {"record_date"}),
+})
 public class Dividend {
 
     @Id
@@ -36,12 +41,15 @@ public class Dividend {
     @JoinColumn(name = "INSTRUMENT_ID", referencedColumnName = "ID", nullable = false)
     private Instrument instrument;
 
+    @Column(name = "declare_date")
     private LocalDate declareDate;
 
-    @Column(name = "RECORD_DATE", nullable = false)
+    @Column(name = "record_date")
     private LocalDate recordDate;
 
+    @Column(name = "pay_date")
     private LocalDate payDate;
 
+    @Column(name = "amount")
     private BigDecimal amount;
 }

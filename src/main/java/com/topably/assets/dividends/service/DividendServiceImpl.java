@@ -1,9 +1,9 @@
 package com.topably.assets.dividends.service;
 
+import com.topably.assets.core.domain.TickerSymbol;
 import com.topably.assets.dividends.domain.Dividend;
 import com.topably.assets.dividends.domain.dto.DividendData;
 import com.topably.assets.dividends.repository.DividendRepository;
-import com.topably.assets.core.domain.TickerSymbol;
 import com.topably.assets.instruments.domain.Instrument;
 import com.topably.assets.instruments.service.InstrumentService;
 import lombok.RequiredArgsConstructor;
@@ -11,8 +11,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.Year;
 import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
 
 import static java.util.stream.Collectors.toList;
 
@@ -32,8 +35,8 @@ public class DividendServiceImpl implements DividendService {
     @Transactional
     public void addDividends(String ticker, String exchange, Collection<DividendData> dividendData) {
         deleteForecastedDividends(ticker, exchange);
-        Collection<Dividend> securityDividends = collectDividendsToPersist(ticker, exchange, dividendData);
-        dividendRepository.saveAll(securityDividends);
+        var instrumentDividends = collectDividendsToPersist(ticker, exchange, dividendData);
+        dividendRepository.upsertAll(instrumentDividends);
     }
 
     @Override
@@ -44,20 +47,24 @@ public class DividendServiceImpl implements DividendService {
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
-    private Collection<Dividend> collectDividendsToPersist(String ticker, String exchange,
-                                                           Collection<DividendData> dividendData) {
+    private List<Dividend> collectDividendsToPersist(String ticker, String exchange,
+                                                     Collection<DividendData> dividendData) {
         Dividend lastDeclaredDividend = dividendRepository.findLastDeclaredDividend(ticker, exchange);
-        if (lastDeclaredDividend == null) {
-            Instrument instrument = instrumentService.findInstrument(ticker, exchange);
-            return dividendData.stream()
-                    .map(data -> convertToDividend(data, instrument))
-                    .collect(toList());
-        }
+        var instrument = Optional.ofNullable(lastDeclaredDividend)
+                .map(Dividend::getInstrument)
+                .orElseGet(() -> instrumentService.findInstrument(ticker, exchange));
         return dividendData.stream()
-                .filter(data -> data.getDeclareDate() == null
-                        || data.getDeclareDate().compareTo(lastDeclaredDividend.getDeclareDate()) > 0)
-                .map(data -> convertToDividend(data, lastDeclaredDividend.getInstrument()))
+                .filter(data -> lastDeclaredDividend == null || afterLastDeclaredDividend(lastDeclaredDividend, data.getDeclareDate()))
+                .filter(data -> data.getAmount().compareTo(BigDecimal.ZERO) > 0)
+                .map(data -> convertToDividend(data, instrument))
                 .collect(toList());
+    }
+
+    private boolean afterLastDeclaredDividend(Dividend lastDeclaredDividend, LocalDate declaredDate) {
+        if (declaredDate == null) {
+            return true;
+        }
+        return declaredDate.compareTo(lastDeclaredDividend.getDeclareDate()) > 0;
     }
 
     private Dividend convertToDividend(DividendData data, Instrument instrument) {

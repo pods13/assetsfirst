@@ -1,12 +1,13 @@
 package com.topably.assets.dividends.repository;
 
+import com.topably.assets.core.repository.UpsertRepository;
 import com.topably.assets.dividends.domain.Dividend;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.Collection;
 
-public interface DividendRepository extends JpaRepository<Dividend, Long> {
+public interface DividendRepository extends JpaRepository<Dividend, Long>, UpsertRepository<Dividend, Long> {
 
     Collection<Dividend> findByInstrument_TickerAndInstrument_Exchange_CodeOrderByRecordDateAsc(String ticker, String exchange);
 
