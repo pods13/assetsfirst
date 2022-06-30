@@ -11,6 +11,7 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -33,21 +34,20 @@ public class PortfolioHolding {
     @GenericGenerator(name = "native", strategy = "native")
     private Long id;
 
-    @Column(name = "PORTFOLIO_ID", insertable = false, updatable = false)
-    private Long portfolioId;
-
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "PORTFOLIO_ID", referencedColumnName = "ID", nullable = false)
+    @JoinColumn(name = "portfolio_id", referencedColumnName = "ID",
+            foreignKey = @ForeignKey(name = "fk__portfolio_holding__portfolio_id__portfolio"))
     private Portfolio portfolio;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "INSTRUMENT_ID", referencedColumnName = "ID", nullable = false)
+    @JoinColumn(name = "instrument_id", referencedColumnName = "ID",
+            foreignKey = @ForeignKey(name = "fk__portfolio_holding__instrument_id__instrument"))
     private Instrument instrument;
 
-    @Column(name = "QUANTITY", precision = 12, scale = 0)
+    @Column(name = "quantity", precision = 12, scale = 0)
     private BigInteger quantity;
 
-    @Column(name = "AVERAGE_PRICE", precision = 20, scale = 4)
+    @Column(name = "average_price", precision = 20, scale = 4)
     private BigDecimal averagePrice;
 
     public BigDecimal getTotal() {

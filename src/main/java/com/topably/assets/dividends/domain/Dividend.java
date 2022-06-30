@@ -11,6 +11,7 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -37,8 +38,9 @@ public class Dividend {
     @GenericGenerator(name = "native", strategy = "native")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "INSTRUMENT_ID", referencedColumnName = "ID", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "INSTRUMENT_ID", referencedColumnName = "ID",
+            foreignKey = @ForeignKey(name = "fk__dividend__instrument_id__instrument"))
     private Instrument instrument;
 
     @Column(name = "declare_date")

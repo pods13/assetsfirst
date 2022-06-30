@@ -11,6 +11,7 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -38,8 +39,10 @@ public class User {
     @Singular
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinTable(name = "user_authority",
-            joinColumns = {@JoinColumn(name = "USER_ID", referencedColumnName = "ID")},
-            inverseJoinColumns = {@JoinColumn(name = "AUTHORITY_ID", referencedColumnName = "ID")})
+            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "ID")},
+            foreignKey = @ForeignKey(name = "fk__user__user_id__authority"),
+            inverseJoinColumns = {@JoinColumn(name = "authority_id", referencedColumnName = "ID")},
+            inverseForeignKey = @ForeignKey(name = "fk__user__authority_id__authority"))
     private Set<Authority> authorities;
 
     @Builder.Default

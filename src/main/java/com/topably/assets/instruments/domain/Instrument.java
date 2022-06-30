@@ -15,6 +15,7 @@ import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -46,8 +47,9 @@ public abstract class Instrument {
     @Column(name = "INSTRUMENT_TYPE", insertable = false, updatable = false)
     private String instrumentType;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "EXCHANGE_ID", referencedColumnName = "ID")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "EXCHANGE_ID", referencedColumnName = "ID",
+            foreignKey = @ForeignKey(name = "fk__instrument__exchange_id__exchange"))
     private Exchange exchange;
 
     @Column(name = "TICKER")

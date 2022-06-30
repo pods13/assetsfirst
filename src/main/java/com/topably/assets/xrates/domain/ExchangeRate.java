@@ -25,7 +25,7 @@ import java.util.Currency;
 @Builder
 @Entity
 @Table(name = "exchange_rate", uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"SOURCE_CURRENCY", "DESTINATION_CURRENCY", "DATE"}),
+        @UniqueConstraint(name="uq_exchange_rate", columnNames = {"source_currency", "destination_currency", "date"}),
 })
 public class ExchangeRate {
 
@@ -34,13 +34,13 @@ public class ExchangeRate {
     @GenericGenerator(name = "native", strategy = "native")
     private Long id;
 
-    @Column(name = "SOURCE_CURRENCY")
+    @Column(name = "source_currency")
     private Currency sourceCurrency;
-    @Column(name = "DESTINATION_CURRENCY")
+    @Column(name = "destination_currency")
     private Currency destinationCurrency;
-    @Column(name = "CONVERSION_RATE")
+    @Column(name = "conversion_rate")
     private BigDecimal conversionRate;
 
-    @Column(name = "DATE")
+    @Column(name = "date")
     private LocalDate date;
 }

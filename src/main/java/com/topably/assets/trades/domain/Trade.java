@@ -37,7 +37,7 @@ public class Trade {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "PORTFOLIO_HOLDING_ID", referencedColumnName = "ID", nullable = false,
+    @JoinColumn(name = "portfolio_holding_id", referencedColumnName = "ID",
             foreignKey = @ForeignKey(name = "fk__trade__portfolio_holding_id__portfolio_holding"))
     private PortfolioHolding portfolioHolding;
 
@@ -47,13 +47,13 @@ public class Trade {
     @Column(columnDefinition = "tinyint", nullable = false)
     private TradeOperation operation;
 
-    @Column(name = "QUANTITY", precision = 12, scale = 0)
+    @Column(name = "quantity", precision = 12, scale = 0)
     private BigInteger quantity;
-    @Column(name = "PRICE", precision = 20, scale = 4)
+    @Column(name = "price", precision = 20, scale = 4)
     private BigDecimal price;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "BROKER_ID", referencedColumnName = "ID", nullable = false,
+    @JoinColumn(name = "BROKER_ID", referencedColumnName = "ID",
             foreignKey = @ForeignKey(name = "fk__trade__broker_id__broker"))
     private Broker broker;
 }
