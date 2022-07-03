@@ -29,7 +29,7 @@ import java.time.LocalDate;
 @Builder
 @Entity
 @Table(name = "dividend", uniqueConstraints = {
-        @UniqueConstraint(name = "uq_dividend_record_date", columnNames = {"record_date"}),
+        @UniqueConstraint(name = "uq_dividend_instrument_id_record_date", columnNames = {"instrument_id", "record_date"}),
 })
 public class Dividend {
 
@@ -39,7 +39,7 @@ public class Dividend {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "INSTRUMENT_ID", referencedColumnName = "ID",
+    @JoinColumn(name = "instrument_id", referencedColumnName = "id",
             foreignKey = @ForeignKey(name = "fk__dividend__instrument_id__instrument"))
     private Instrument instrument;
 

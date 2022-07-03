@@ -8,9 +8,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Collection;
+import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/exchanges")
@@ -19,8 +21,14 @@ public class ExchangesController {
 
     private final ExchangeService exchangeService;
 
+    @GetMapping("/tickers")
+    public Page<TickerSymbol> getTickers(Pageable pageable, @RequestParam(required = false) Set<String> instrumentTypes) {
+        return exchangeService.getTickers(pageable, instrumentTypes);
+    }
+
     @GetMapping("/{exchange}/tickers")
-    public Page<TickerSymbol> findTickers(@PathVariable String exchange, Pageable pageable) {
-        return exchangeService.findTickersByExchange(exchange, pageable);
+    public Page<TickerSymbol> getTickersByExchange(@PathVariable String exchange, Pageable pageable,
+                                                   @RequestParam(required = false) Set<String> instrumentTypes) {
+        return exchangeService.getTickersByExchange(exchange, pageable, instrumentTypes);
     }
 }

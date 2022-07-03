@@ -1,4 +1,4 @@
 databaseChangeLog:
-  - include:
-      file: migrations/changeset-000.sql
+  - includeAll:
+      path: migrations/
       relativeToChangelogFile: true

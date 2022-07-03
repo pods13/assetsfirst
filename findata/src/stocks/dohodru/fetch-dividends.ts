@@ -6,18 +6,19 @@ import { addMonths } from '../../utils/add-months';
 
 export async function fetchDividends() {
     const client = await getClient();
+    const exchange = 'MCX';
     let page = 1;
     let last = false;
     do {
-        const paginatedSecurities = await getPaginatedSecurities(client, page);
+        const paginatedSecurities = await getTickersByExchange(client, exchange, page);
         await saveParsedDividends(client, paginatedSecurities.content);
         last = paginatedSecurities.last;
         page += 1;
     } while (!last);
 }
 
-async function getPaginatedSecurities(client: AxiosInstance, page: number) {
-    const securitiesRes = await client.get<Page<any>>(`/exchanges/MCX/tickers?size=10&page=${page}`);
+async function getTickersByExchange(client: AxiosInstance, exchange: string, page: number) {
+    const securitiesRes = await client.get<Page<any>>(`/exchanges/${exchange}/tickers?size=10&page=${page}&instrumentTypes=STOCK`);
     return securitiesRes.data;
 }
 

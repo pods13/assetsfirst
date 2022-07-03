@@ -28,17 +28,29 @@ import static java.util.stream.Collectors.toSet;
 @RequiredArgsConstructor
 public class ExchangeServiceImpl implements ExchangeService {
 
-    private static final Set<String> US_EXCHANGE_CODES = Arrays.stream(USExchange.values()).map(USExchange::name).collect(toSet());
+    private static final Set<String> US_EXCHANGE_CODES = Arrays.stream(USExchange.values())
+            .map(USExchange::name).collect(toSet());
+    private static final Set<String> DEFAULT_INSTRUMENT_TYPES = Stream.of(InstrumentType.values())
+            .map(InstrumentType::name).collect(toSet());
 
     private final ExchangeRepository exchangeRepository;
 
     @Override
+    public Page<TickerSymbol> getTickers(Pageable pageable, Set<String> instrumentTypes) {
+        return exchangeRepository.findInstrumentsOfCertainTypesByExchangeCodes(pageable, null,
+                useDefaultInstrumentTypesIfNull(instrumentTypes));
+    }
+
+    private Set<String> useDefaultInstrumentTypesIfNull(Set<String> instrumentTypes) {
+        return Optional.ofNullable(instrumentTypes).orElse(DEFAULT_INSTRUMENT_TYPES);
+    }
+
+    @Override
     @Transactional
-    public Page<TickerSymbol> findTickersByExchange(String exchange, Pageable pageable) {
+    public Page<TickerSymbol> getTickersByExchange(String exchange, Pageable pageable, Set<String> instrumentTypes) {
         var exchangeCodes = "US".equals(exchange) ? US_EXCHANGE_CODES : Set.of(exchange);
-        var securityTypes = Stream.of(InstrumentType.STOCK, InstrumentType.ETF)
-                .map(InstrumentType::name).collect(toSet());
-        return exchangeRepository.findCertainTypeOfInstrumentsByExchangeCodes(exchangeCodes, securityTypes, pageable);
+        return exchangeRepository.findInstrumentsOfCertainTypesByExchangeCodes(pageable, exchangeCodes,
+                useDefaultInstrumentTypesIfNull(instrumentTypes));
     }
 
     @Override

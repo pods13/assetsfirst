@@ -55,7 +55,6 @@ public class DividendServiceImpl implements DividendService {
                 .orElseGet(() -> instrumentService.findInstrument(ticker, exchange));
         return dividendData.stream()
                 .filter(data -> lastDeclaredDividend == null || afterLastDeclaredDividend(lastDeclaredDividend, data.getDeclareDate()))
-                .filter(data -> data.getAmount().compareTo(BigDecimal.ZERO) > 0)
                 .map(data -> convertToDividend(data, instrument))
                 .collect(toList());
     }

@@ -16,9 +16,9 @@ public interface ExchangeRepository extends JpaRepository<Exchange, Long> {
     @Query(value = """
             select new com.topably.assets.core.domain.TickerSymbol(i.ticker, e.code) from Exchange e
             join Instrument i on i.exchange.id = e.id and i.instrumentType in :instrumentTypes
-            where e.code in :exchangeCodes
+            where e.id in (select exch.id from Exchange exch where :exchangeCodes is null or exch.code in :exchangeCodes)
             """)
-    Page<TickerSymbol> findCertainTypeOfInstrumentsByExchangeCodes(Collection<String> exchangeCodes,
-                                                                   Collection<String> instrumentTypes,
-                                                                   Pageable pageable);
+    Page<TickerSymbol> findInstrumentsOfCertainTypesByExchangeCodes(Pageable pageable,
+                                                                    Collection<String> exchangeCodes,
+                                                                    Collection<String> instrumentTypes);
 }

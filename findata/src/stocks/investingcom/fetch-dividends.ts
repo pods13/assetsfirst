@@ -2,24 +2,49 @@ import { parse } from 'fast-csv';
 import fs from 'fs';
 import fsPromises from 'fs/promises';
 import path from 'path';
-import axios from 'axios';
+import axios, { AxiosInstance } from 'axios';
 import { load } from 'cheerio';
 import { addMonths } from '../../utils/add-months';
+import { getClient } from '../../utils/client';
+import { Page } from '../../utils/page';
 
 const tickerSymbolBySlug: { [key: string]: string } = {};
 
 export async function fetchDividends() {
-    //TODO fetch stock dividends
     const resourceFolderPath = './resources/stocks';
     const filenames = await fsPromises.readdir(resourceFolderPath);
-    const whenFilesRead = filenames.map(f => fillTickerSymbolCacheFromFile(path.join(resourceFolderPath, f)));
+    const whenFilesRead = filenames
+        .map(f => fillTickerSymbolCacheFromFile(path.join(resourceFolderPath, f)));
     await Promise.all(whenFilesRead);
-    const parsedDividends = await parseRecentDividends(tickerSymbolBySlug['GAZP.MCX']);
+
+    const client = await getClient();
+    let page = 1;
+    let last = false;
+    do {
+        const paginatedTickers = await getTickers(client, page);
+        console.log(paginatedTickers.content)
+        const whenDividendsPushed = paginatedTickers.content.map((s: any) =>
+            pushDividends(client, {symbol: s.symbol, exchange: s.exchange, slug: tickerSymbolBySlug[`${s.symbol}.${s.exchange}`]}));
+        try {
+            await Promise.allSettled(whenDividendsPushed);
+        } catch (e) {
+            console.error(`Cannot push dividends`);
+        }
+        last = paginatedTickers.last;
+        page += 1;
+    } while (!last);
+}
+
+async function getTickers(client: AxiosInstance, page: number) {
+    const res = await client.get<Page<any>>(`/exchanges/tickers?size=10&page=${page}&instrumentTypes=STOCK`);
+    return res.data;
+}
+
+async function pushDividends(client: AxiosInstance, el: any) {
+    const parsedDividends = await parseRecentDividends(el.slug);
     const dividendsToSave = transformToDividendDtos(parsedDividends);
-    console.log(dividendsToSave);
-    // console.log(await parseDividendHistory(tickerSymbolBySlug['YNDX.MCX']));
-
-
+    // console.log(dividendsToSave);
+    return await client.post(`/dividends?ticker=${el.symbol}&exchange=${el.exchange}`, dividendsToSave);
 }
 
 async function fillTickerSymbolCacheFromFile(path: string) {
@@ -72,10 +97,18 @@ function transformToDividendDtos(parsedDividends: ParsedDividend[]) {
     return parsedDividends.map(d => {
         const oneDayInMs = 3600 * 1000 * 24;
         const recordDate = new Date(d.exDivDate + oneDayInMs);
-        const declareDate = addMonths(recordDate, -1);
 
-        const payDateTimestamp = d.payDate ?? addMonths(recordDate, 1)?.getTime();
-        const payDate = payDateTimestamp ? new Date(payDateTimestamp) : null;
+        const currentYear = new Date().getFullYear();
+        let declareDate = null;
+        let payDate = null;
+        if (recordDate.getFullYear() === currentYear) {
+            payDate = d.payDate ? new Date(d.payDate) : null;
+            declareDate = d.payDate ? addMonths(recordDate, -1) : null;
+        } else {
+            declareDate = addMonths(recordDate, -1);
+            const payDateTimestamp = d.payDate ?? addMonths(recordDate, 1)?.getTime();
+            payDate = payDateTimestamp ? new Date(payDateTimestamp) : null;
+        }
         return {
             amount: d.amount,
             declareDate,
