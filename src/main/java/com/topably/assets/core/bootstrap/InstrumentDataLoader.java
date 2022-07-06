@@ -222,10 +222,18 @@ public class InstrumentDataLoader implements CommandLineRunner {
                 .exchange(mcx)
                 .ticker("EURRUB_TOM")
                 .build();
+        var cnyrub_tom = FX.builder()
+                .exchange(mcx)
+                .ticker("CNYRUB_TOM")
+                .build();
+        var hkdrub_tom = FX.builder()
+                .exchange(mcx)
+                .ticker("HKDRUB_TOM")
+                .build();
         var gldrub_tom = FX.builder()
                 .exchange(mcx)
                 .ticker("GLDRUB_TOM")
                 .build();
-        fxRepository.saveAll(List.of(usdrub_tom, eurrub_tom, gldrub_tom));
+        fxRepository.saveAll(List.of(usdrub_tom, eurrub_tom, cnyrub_tom, hkdrub_tom, gldrub_tom));
     }
 }
