@@ -23,4 +23,6 @@ public interface PortfolioHoldingService {
     Collection<PortfolioHoldingDto> findPortfolioHoldingsByUserId(Long userId);
 
     Collection<PortfolioHoldingView> findPortfolioHoldingsView(Long userId);
+
+    void deletePortfolioHolding(Long holdingId);
 }

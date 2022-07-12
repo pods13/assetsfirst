@@ -1,21 +1,22 @@
 package com.topably.assets.trades;
 
 import com.topably.assets.auth.domain.security.CurrentUser;
+import com.topably.assets.trades.domain.dto.DeleteTradeDto;
 import com.topably.assets.trades.domain.dto.EditTradeDto;
 import com.topably.assets.trades.domain.dto.TradeDto;
 import com.topably.assets.trades.domain.dto.add.AddTradeDto;
 import com.topably.assets.trades.service.instrument.StockTradeService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.security.Principal;
 
 @RestController
 @RequestMapping("/stocks/trades")
@@ -34,5 +35,11 @@ public class StockTradesController {
     public TradeDto editTrade(@Validated @RequestBody EditTradeDto dto, @AuthenticationPrincipal CurrentUser user) {
         dto.setUserId(user.getUserId());
         return this.tradeService.editTrade(dto);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteTrade(@PathVariable Long id, @Validated @RequestBody DeleteTradeDto dto) {
+        tradeService.deleteTrade(dto);
+        return ResponseEntity.noContent().build();
     }
 }

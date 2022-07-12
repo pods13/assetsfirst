@@ -7,6 +7,7 @@ import com.topably.assets.trades.domain.Trade;
 import com.topably.assets.trades.domain.TradeOperation;
 import com.topably.assets.trades.domain.TradeView;
 import com.topably.assets.trades.domain.dto.AggregatedTradeDto;
+import com.topably.assets.trades.domain.dto.DeleteTradeDto;
 import com.topably.assets.trades.domain.dto.EditTradeDto;
 import com.topably.assets.trades.domain.dto.TradeDto;
 import com.topably.assets.trades.domain.dto.add.AddTradeDto;
@@ -177,5 +178,19 @@ public class TradeServiceImpl implements TradeService {
                             t.tradeTime().toInstant(ZoneOffset.UTC));
                 })
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
+    @Override
+    public void deleteTrade(DeleteTradeDto dto, Instrument tradedInstrument) {
+        Trade trade = tradeRepository.getById(dto.getTradeId());
+        Long holdingId = trade.getPortfolioHolding().getId();
+        tradeRepository.delete(trade);
+        AggregatedTradeDto aggregatedTrade = aggregateTrades(tradedInstrument,
+                tradeRepository.findAllByPortfolioHolding_IdOrderByDate(holdingId));
+        if (BigInteger.ZERO.equals(aggregatedTrade.getQuantity())) {
+            portfolioHoldingService.deletePortfolioHolding(holdingId);
+        } else {
+            portfolioHoldingService.updatePortfolioHolding(holdingId, aggregatedTrade);
+        }
     }
 }

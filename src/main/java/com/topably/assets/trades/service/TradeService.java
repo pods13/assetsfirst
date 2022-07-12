@@ -2,6 +2,7 @@ package com.topably.assets.trades.service;
 
 import com.topably.assets.instruments.domain.Instrument;
 import com.topably.assets.trades.domain.TradeView;
+import com.topably.assets.trades.domain.dto.DeleteTradeDto;
 import com.topably.assets.trades.domain.dto.EditTradeDto;
 import com.topably.assets.trades.domain.dto.TradeDto;
 import com.topably.assets.trades.domain.dto.add.AddTradeDto;
@@ -24,4 +25,6 @@ public interface TradeService {
     TradeDto editTrade(EditTradeDto dto, Instrument tradedInstrument);
 
     BigDecimal calculateInvestedAmountByHoldingId(Long holdingId, Currency holdingCurrency, Currency portfolioCurrency);
+
+    void deleteTrade(DeleteTradeDto dto, Instrument tradedInstrument);
 }

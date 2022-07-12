@@ -4,13 +4,15 @@ import { TradeService } from '../../services/trade.service';
 import { AddTradeDto } from '../../types/add-trade.dto';
 import { TradeDto } from '../../types/trade.dto';
 import { EditTradeDto } from '../../types/edit-trade.dto';
+import { DeleteTradeDto } from '../../types/delete-trade.dto';
 
 @Component({
   selector: 'app-trades-container',
   template: `
     <app-datatable-actions-bar [selectedRows]="selectedRows"
                                (addTrade)="onAddTrade($event)"
-                               (editTrade)="onEditTrade($event)">
+                               (editTrade)="onEditTrade($event)"
+                               (deleteTrade)="onDeleteTrade($event)">
     </app-datatable-actions-bar>
     <ngx-datatable class="material" [rows]="trades$ | async"
                    [columnMode]="ColumnMode.force"
@@ -80,6 +82,15 @@ export class TradesContainerComponent implements OnInit {
 
   onEditTrade(dto: EditTradeDto) {
     this.tradeService.editTrade(dto)
+      .subscribe(res => {
+        this.selectedRows = [];
+        this.trades$ = this.tradeService.getUserTrades();
+        this.cd.detectChanges();
+      });
+  }
+
+  onDeleteTrade(dto: DeleteTradeDto) {
+    this.tradeService.deleteTrade(dto)
       .subscribe(res => {
         this.selectedRows = [];
         this.trades$ = this.tradeService.getUserTrades();

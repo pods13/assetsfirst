@@ -1,6 +1,7 @@
 package com.topably.assets.trades.service.instrument;
 
 import com.topably.assets.instruments.repository.instrument.ETFRepository;
+import com.topably.assets.trades.domain.dto.DeleteTradeDto;
 import com.topably.assets.trades.domain.dto.EditTradeDto;
 import com.topably.assets.trades.domain.dto.TradeDto;
 import com.topably.assets.trades.domain.dto.add.AddTradeDto;
@@ -26,5 +27,11 @@ public class ETFTradeService implements InstrumentTradeService {
     @Transactional
     public TradeDto editTrade(EditTradeDto dto) {
         return tradeService.editTrade(dto, etfRepository.getById(dto.getInstrumentId()));
+    }
+
+    @Override
+    @Transactional
+    public void deleteTrade(DeleteTradeDto dto) {
+        tradeService.deleteTrade(dto, etfRepository.getById(dto.getInstrumentId()));
     }
 }

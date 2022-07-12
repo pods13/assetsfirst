@@ -146,4 +146,9 @@ public class PortfolioHoldingServiceImpl implements PortfolioHoldingService {
                                                  BigDecimal convertedMarketValue) {
 
     }
+
+    @Override
+    public void deletePortfolioHolding(Long holdingId) {
+        portfolioHoldingRepository.deleteById(holdingId);
+    }
 }

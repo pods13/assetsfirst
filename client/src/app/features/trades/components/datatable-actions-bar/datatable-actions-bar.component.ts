@@ -5,6 +5,7 @@ import { filter } from 'rxjs';
 import { AddTradeDto } from '../../types/add-trade.dto';
 import { TradeDto } from '../../types/trade.dto';
 import { EditTradeDto } from '../../types/edit-trade.dto';
+import { DeleteTradeDto } from '../../types/delete-trade.dto';
 
 @Component({
   selector: 'app-datatable-actions-bar',
@@ -13,10 +14,16 @@ import { EditTradeDto } from '../../types/edit-trade.dto';
       <mat-icon>add</mat-icon>
       {{'Add Trade'}}
     </button>
-    <button *ngIf="selectedRows.length === 1" mat-button (click)="openEditTradeDialog(selectedRows[0])">
-      <mat-icon>edit</mat-icon>
-      {{'Edit Trade'}}
-    </button>
+    <ng-container *ngIf="selectedRows.length === 1">
+      <button mat-button (click)="openEditTradeDialog(selectedRows[0])">
+        <mat-icon>edit</mat-icon>
+        {{'Edit Trade'}}
+      </button>
+      <button mat-button (click)="handleDeleteTrade(selectedRows[0])">
+        <mat-icon>delete</mat-icon>
+        {{'Delete Trade'}}
+      </button>
+    </ng-container>
   `,
   styleUrls: ['./datatable-actions-bar.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -30,6 +37,8 @@ export class DatatableActionsBarComponent implements OnInit {
   addTrade = new EventEmitter<AddTradeDto>();
   @Output()
   editTrade = new EventEmitter<EditTradeDto>();
+  @Output()
+  deleteTrade = new EventEmitter<DeleteTradeDto>();
 
   constructor(private dialog: MatDialog) {
   }
@@ -64,5 +73,14 @@ export class DatatableActionsBarComponent implements OnInit {
       .subscribe(result => {
         this.editTrade.emit(result);
       });
+  }
+
+  handleDeleteTrade(trade: TradeDto): void {
+    const tradeToDelete = {
+      tradeId: trade.id,
+      instrumentId: trade.instrumentId,
+      instrumentType: trade.instrumentType
+    } as DeleteTradeDto;
+    this.deleteTrade.emit(tradeToDelete);
   }
 }

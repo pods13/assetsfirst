@@ -4,6 +4,7 @@ import { AddTradeDto } from '../types/add-trade.dto';
 import { InstrumentType } from '../types/instrument-type';
 import { EditTradeDto } from '../types/edit-trade.dto';
 import { TradeDto } from '../types/trade.dto';
+import { DeleteTradeDto } from '../types/delete-trade.dto';
 
 @Injectable()
 export class TradeService {
@@ -30,5 +31,13 @@ export class TradeService {
       return instrumentType.toLowerCase();
     }
     return instrumentType.toLowerCase() + 's';
+  }
+
+  deleteTrade(dto: DeleteTradeDto) {
+    const urlPrefix = this.getUrlPrefixByType(dto.instrumentType);
+    const {instrumentId, tradeId} = dto;
+    return this.http.delete(`/${urlPrefix}/trades/${dto.tradeId}`, {
+      body: {tradeId, instrumentId}
+    });
   }
 }
