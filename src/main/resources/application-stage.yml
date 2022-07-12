@@ -1,0 +1,15 @@
+spring:
+  datasource:
+    url: jdbc:mysql://CAPITAL:CAPITAL@localhost:3306/investments?useSSL=false
+  liquibase:
+    enabled: 'true'
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        show_sql: 'true'
+app:
+  bootstrap:
+    with:
+      data: false

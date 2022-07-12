@@ -1,0 +1,18 @@
+spring:
+  jpa:
+    properties:
+      hibernate:
+        types:
+          print:
+            banner: 'false'
+    open-in-view: false
+  data:
+    web:
+      pageable:
+        one-indexed-parameters: 'true'
+  main:
+    banner-mode: 'off'
+app:
+  bootstrap:
+    with:
+      data: 'false'
