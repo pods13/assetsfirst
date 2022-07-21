@@ -69,9 +69,6 @@ public class ExchangeServiceImpl implements ExchangeService {
         if (US_EXCHANGE_CODES.contains(tickerSymbol.getExchange())) {
             return tickerSymbol.getSymbol();
         } else if ("XETRA".equals(tickerSymbol.getExchange())) {
-            if ("BAYGn".equals(tickerSymbol.getSymbol())) {
-                return "BAYN.DE";
-            }
             return tickerSymbol.getSymbol() + ".DE";
         } else if ("MCX".equals(tickerSymbol.getExchange())) {
             return tickerSymbol.getSymbol() + ".ME";

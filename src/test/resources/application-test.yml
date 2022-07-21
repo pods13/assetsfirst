@@ -1,0 +1,11 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: validate
+  datasource:
+    username: test
+    password: test
+app:
+  bootstrap:
+    with:
+      data: true

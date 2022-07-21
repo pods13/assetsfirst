@@ -80,13 +80,12 @@ public class InstrumentDataLoader implements CommandLineRunner {
                 .build());
 
         Exchange nyse = exchangeRepository.findByCode(NYSE.name());
-        Exchange xetra = exchangeRepository.findByCode("XETRA");
         Exchange mcx = exchangeRepository.findByCode("MCX");
         Exchange hkex = exchangeRepository.findByCode("HK");
 
         stockService.addStock(StockDataDto.builder()
                 .company(CompanyDataDto.builder().name("Bayer AG NA").build())
-                .identifier(new TickerSymbol("BAYGn", "XETRA"))
+                .identifier(new TickerSymbol("BAYN", "XETRA"))
                 .build());
 
         stockService.addStock(StockDataDto.builder()

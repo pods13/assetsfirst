@@ -106,7 +106,7 @@ public class TradeDataLoader implements CommandLineRunner {
                 .price(BigDecimal.valueOf(47.23))
                 .quantity(BigInteger.valueOf(110L))
                 .brokerId(brokerId)
-                .instrumentId(instrumentService.findInstrument("BAYGn", "XETRA").getId())
+                .instrumentId(instrumentService.findInstrument("BAYN", "XETRA").getId())
                 .build());
     }
 

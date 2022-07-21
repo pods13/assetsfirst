@@ -1,13 +1,16 @@
 package com.topably.assets;
 
+import com.topably.assets.integration.base.IT;
+import com.topably.assets.integration.base.IntegrationTestBase;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
-class AssetsApplicationTests {
+@Slf4j
+@IT
+class AssetsApplicationTests extends IntegrationTestBase {
 
-	@Test
-	void contextLoads() {
-	}
+    @Test
+    void contextLoads() {
+    }
 
 }

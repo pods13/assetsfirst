@@ -3,6 +3,7 @@ import { randomInteger } from '../../utils/random-int';
 import { CsvFormatterStream, format, parse } from 'fast-csv';
 import fs from 'fs';
 import { unlink } from 'fs/promises';
+import modifiedData from './modified-data.json';
 
 export async function collectStocks(country: string, exchanges: string[] = []) {
     if (!exchanges.length) {
@@ -23,7 +24,6 @@ export async function collectStocks(country: string, exchanges: string[] = []) {
                 .on('data', row => mainStream.write(row))
                 .on('end', () => unlink(filePath));
         })
-
 }
 
 async function collectStocksByExchange(country: string, exchange: string | null): Promise<string> {
@@ -134,7 +134,9 @@ async function collectPageData(page: playwright.Page) {
 
     return parsedData.map(eq => {
         const exchange = mapExchange(eq.exchange);
-        return {...eq, exchange};
+        const data = modifiedData as { [key: string]: object }
+        const eqModifications = data[`${eq.symbol}.${exchange}`] ?? {};
+        return {...eq, exchange, ...eqModifications};
     });
 }
 

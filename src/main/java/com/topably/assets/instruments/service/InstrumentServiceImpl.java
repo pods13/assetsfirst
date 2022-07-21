@@ -9,6 +9,7 @@ import com.topably.assets.instruments.domain.instrument.Stock;
 import com.topably.assets.instruments.repository.InstrumentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 
@@ -16,6 +17,7 @@ import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class InstrumentServiceImpl implements InstrumentService {
 
