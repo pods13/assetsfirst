@@ -8,6 +8,7 @@ import com.topably.assets.instruments.domain.instrument.FX;
 import com.topably.assets.instruments.domain.instrument.Stock;
 import com.topably.assets.instruments.repository.InstrumentRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,9 +24,8 @@ public class InstrumentServiceImpl implements InstrumentService {
 
     private final InstrumentRepository instrumentRepository;
 
-    public Collection<InstrumentDto> searchTradingInstruments(String searchTerm, Collection<InstrumentType> instrumentTypes) {
-        var types = instrumentTypes.stream().map(InstrumentType::name).collect(toSet());
-        Collection<Instrument> instruments = instrumentRepository.findAllByTickerLikeAndInstrumentTypeIn("%" + searchTerm + "%", types);
+    public Collection<InstrumentDto> searchTradingInstruments(Specification<Instrument> specification) {
+        Collection<Instrument> instruments = instrumentRepository.findAll(specification);
         return instruments.stream().map(instrument -> {
             if (instrument instanceof Stock) {
                 return InstrumentDto.builder()

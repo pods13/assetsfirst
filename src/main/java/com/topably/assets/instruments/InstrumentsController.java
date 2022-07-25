@@ -3,6 +3,7 @@ package com.topably.assets.instruments;
 import com.topably.assets.instruments.domain.InstrumentType;
 import com.topably.assets.instruments.domain.dto.InstrumentDto;
 import com.topably.assets.instruments.service.InstrumentService;
+import com.topably.assets.instruments.spec.InstrumentSpecification;
 import lombok.RequiredArgsConstructor;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
@@ -21,14 +22,11 @@ public class InstrumentsController {
 
     private final InstrumentService instrumentService;
 
-    @GetMapping("")
-    public Collection<InstrumentDto> findTradingInstruments(@RequestParam(value = "search", required = false) String search,
-                                                            @RequestParam(required = false) Collection<InstrumentType> instrumentTypes) {
-        var types = CollectionUtils.isEmpty(instrumentTypes) ? Set.of(InstrumentType.values()) : instrumentTypes;
-        if (StringUtils.hasText(search)) {
-            return instrumentService.searchTradingInstruments(search, types);
-        }
-
-        return instrumentService.searchTradingInstruments("", types);
+    @GetMapping
+    public Collection<InstrumentDto> findTradingInstruments(@RequestParam(required = false) String search,
+                                                            @RequestParam(required = false) Collection<InstrumentType> instrumentTypes,
+                                                            InstrumentSpecification specification) {
+        //TODO add limit via pagination
+        return instrumentService.searchTradingInstruments(specification);
     }
 }
