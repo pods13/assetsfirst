@@ -1,7 +1,7 @@
-import axios from "axios";
+import axios, { AxiosInstance } from "axios";
 import FormData from "form-data";
-import {wrapper} from 'axios-cookiejar-support';
-import {CookieJar}  from 'tough-cookie';
+import { wrapper } from 'axios-cookiejar-support';
+import { CookieJar } from 'tough-cookie';
 
 export async function getClient() {
     const jar = new CookieJar();
@@ -11,13 +11,8 @@ export async function getClient() {
         withCredentials: true,
         headers: {'X-Requested-With': 'XMLHttpRequest'},
     }));
-    let token = '';
-    try {
-        await client.get('/auth/user');
-    } catch (e: any) {
-        const cookies = e.response.headers['set-cookie'];
-        token = getCsrfToken(cookies[0]);
-    }
+
+    const token = await getInitialCsrfToken(client);
     const authData = new FormData();
     authData.append('username', 'user');
     authData.append('password', '&}vU6Nw6');
@@ -29,14 +24,27 @@ export async function getClient() {
             }
         });
         const loggedCookie: any = loginResponse.headers['set-cookie'];
-        client.defaults.headers.common['X-XSRF-TOKEN'] = getCsrfToken(loggedCookie[1]);
+        client.defaults.headers.common['X-XSRF-TOKEN'] = getCsrfTokenFromCookie(loggedCookie[1]);
     } catch (e: any) {
         console.log(e.config.data)
     }
     return client;
 }
 
-export function getCsrfToken(cookie: string): string {
+async function getInitialCsrfToken(client: AxiosInstance) {
+    try {
+        await client.get('/auth/user');
+    } catch (e: any) {
+        if (!e.response) {
+            throw e.message;
+        }
+        const cookies = e.response.headers['set-cookie'];
+        return getCsrfTokenFromCookie(cookies[0]);
+    }
+    return '';
+}
+
+function getCsrfTokenFromCookie(cookie: string): string {
     const xsrfCookies = cookie.split(';')
         .map(c => c.trim())
         .filter(c => c.startsWith('XSRF-TOKEN='));

@@ -2,6 +2,8 @@ import fs from 'fs';
 import { parse } from 'fast-csv';
 import { getClient } from '../utils/client';
 import { AxiosError, AxiosInstance } from 'axios';
+import fsPromises from 'fs/promises';
+import path from 'path';
 
 function pushData(client: AxiosInstance, data: any) {
     if (!filterData(data)) {
@@ -31,16 +33,16 @@ function filterData(data: any) {
         || ('XETRA' === data.exchange && (data.slug.indexOf('?cid') === -1 || data.slug.indexOf('-ag') !== -1));
 }
 
-export async function importStocks(pathToFile: string) {
+export async function importCountryStocks(pathToFile: string) {
     const client = await getClient();
     return fs.createReadStream(pathToFile)
         .pipe(parse({headers: true}))
         .on('error', error => console.error(error))
         .on('data', row => pushData(client, row))
-        .on('end', (rowCount: number) => console.log(`Pushed ${rowCount} stocks`));
+        .on('end', (rowCount: number) => {});
 }
 
-async function retry(fn: Function, retryCondition: (err: AxiosError) => boolean, retries = 1, err?: any) {
+async function retry(fn: Function, retryCondition: (err: AxiosError) => boolean, retries = 2, err?: any) {
     if (!retries) {
         return Promise.reject(err);
     }
@@ -52,7 +54,7 @@ async function retry(fn: Function, retryCondition: (err: AxiosError) => boolean,
     })
 }
 
-export function isRetryableError(error: AxiosError) {
+function isRetryableError(error: AxiosError) {
     if (!error.config) {
         return false;
     }
@@ -63,7 +65,17 @@ export function isRetryableError(error: AxiosError) {
     return companyDuplicate || sectorDuplicate || industryDuplicate;
 }
 
-importStocks('./resources/stocks/russia.csv');
-importStocks('./resources/stocks/hong-kong.csv');
-importStocks('./resources/stocks/germany.csv');
-importStocks('./resources/stocks/united-states.csv');
+async function importStocks() {
+    const resourceFolderPath = './resources/stocks';
+    const filenames = await fsPromises.readdir(resourceFolderPath);
+    for (let filename of filenames) {
+        try {
+            const filePath = path.join(resourceFolderPath, filename);
+            await importCountryStocks(filePath);
+        } catch (e) {
+            console.error(e);
+        }
+    }
+}
+
+importStocks();
