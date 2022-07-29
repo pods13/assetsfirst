@@ -15,6 +15,8 @@ import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
@@ -115,7 +117,9 @@ public class UpsertRepositoryImpl<T, ID extends Serializable> implements UpsertR
     @SneakyThrows
     public List<T> upsertAll(List<T> entities) {
         Assert.notNull(entities, "Entity must not be null.");
-        Assert.notEmpty(entities, "Entity must not be empty.");
+        if (entities.isEmpty()) {
+            return Collections.emptyList();
+        }
         final T sampleEntity = entities.get(0);
         final List<Field> columnFields = getColumnFields(sampleEntity.getClass());
         Assert.notEmpty(columnFields, "Define the entity with proper JPA annotations");
