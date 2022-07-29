@@ -479,6 +479,7 @@ M-RM,MCX,Macy’s Inc,Consumer Discretionary,Multiline Retail,macys?cid=1172698
 MAGE,MCX,Magadanenergo ao,Utilities,Electric Utilities,magadanenergo
 MAGE_p,MCX,Magadanenergo Pref,Utilities,Electric Utilities,magadanenergo-(pref)
 MGNT,MCX,Magnit,Consumer Staples,Food & Staples Retailing,magnit_rts
+MGNTDR,MCX,Magnit DRC,Consumer Staples,Food & Staples Retailing,magnit-cfd?cid=1192661
 MGY-RM,MCX,Magnolia Oil,Energy,"Oil, Gas & Consumable Fuels",tpg-pace-energy-class-a?cid=1183168
 MRO-RM,MCX,Marathon Oil,Energy,"Oil, Gas & Consumable Fuels",marathon-oil?cid=1177895
 MPC-RM,MCX,Marathon Petroleum,Energy,"Oil, Gas & Consumable Fuels",marathon-petroleum-corp.?cid=1172672
@@ -680,7 +681,7 @@ ROK-RM,MCX,Rockwell Automation,Industrials,Electrical Equipment,rockwell-automat
 ROKU-RM,MCX,Roku,Communication Services,Entertainment,roku?cid=1183755
 ROL-RM,MCX,Rollins,Industrials,Commercial Services & Supplies,rollins-inc?cid=1179731
 ROP-RM,MCX,Roper Technologies,Information Technology,Software,roper-industries?cid=1177347
-AGRODR,MCX,Ros Agro PLC,Consumer Staples,Food Products,ros-agro-plc
+AGRO,MCX,Ros Agro PLC,Consumer Staples,Food Products,ros-agro-plc
 RDRB,MCX,RosDorBank PAO,Financial,Banks,rosdorbank-pao
 RGSS,MCX,Rosgosstrakh OAO,Financial,Insurance,rosgosstrakh-oao
 ROST,MCX,ROSINTER RESTAURANTS,Consumer Discretionary,"Hotels, Restaurants & Leisure",rosinter-restaurants-holding

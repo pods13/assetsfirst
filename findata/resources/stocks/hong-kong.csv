@@ -8,7 +8,7 @@ symbol,exchange,name,sector,industry,slug
 8088,HK,8088 Investment Holdings,Financial,Capital Markets,aid-partners-capital-hld
 1737,HK,A & S Group,Industrials,Air Freight & Logistics,as-group-holdings-limited
 3319,HK,A-Living Services,Real Estate,Real Estate Management & Development,a-living-services-co-ltd
-0800,HK,A8 New Media,Communication Services,Entertainment,a8-new-media-group-ltd
+0800,HK,A8 New Media,Real Estate,Real Estate Management & Development,a8-new-media-group-ltd
 2018,HK,AAC Technologies,Information Technology,"Electronic Equipment, Instruments & Components",aac-tech
 2686,HK,AAG Energy Holdings Ltd,Energy,"Oil, Gas & Consumable Fuels",aag-energy-holdings-ltd
 1615,HK,AB Builders Group,Industrials,Construction & Engineering,ab-builders-group
@@ -122,7 +122,7 @@ symbol,exchange,name,sector,industry,slug
 1717,HK,Ausnutria Dairy Corp,Consumer Staples,Food Products,ausnutria-dairy-corp?cid=990807
 6118,HK,Austar Lifesciences,Healthcare,Life Sciences Tools & Services,austar-lifesciences-ltd
 2031,HK,AUSupreme Intl,Consumer Discretionary,Distributors,ausupreme-international-holdings
-0720,HK,Auto Italia,Consumer Discretionary,Specialty Retail,auto-italia-holdings-ltd-be?cid=990438
+0720,HK,Auto Italia,Real Estate,Real Estate Management & Development,auto-italia-holdings-ltd-be?cid=990438
 2518,HK,Autohome,Communication Services,Interactive Media & Services,autohome
 0771,HK,Automated Systems Holdings Ltd,Information Technology,IT Services,automated-systems-holdings-ltd
 2080,HK,AUX International Hldg,Real Estate,Real Estate Management & Development,aux-international-hldg?cid=990850
@@ -167,7 +167,6 @@ symbol,exchange,name,sector,industry,slug
 0863,HK,Bc Technology,Financial,Capital Markets,branding-china-group-ltd
 8412,HK,BCI Group,Consumer Discretionary,"Hotels, Restaurants & Leisure",bci-group-holdings-ltd
 0706,HK,Beautiful China,Industrials,Commercial Services & Supplies,beautiful-china-holdings-company-lt
-8275,HK,Beaver,Industrials,Construction & Engineering,beaver-group
 6160,HK,Beigene,Healthcare,Biotechnology,beigene-ltd
 2251,HK,Beijing Airdoc Technology,Healthcare,Health Care Technology,beijing-airdoc-technology
 8095,HK,Beijing Beida Jade Bird Universal,Consumer Discretionary,"Hotels, Restaurants & Leisure",beijing-beida-jade-bird-universal
@@ -217,10 +216,11 @@ symbol,exchange,name,sector,industry,slug
 0888,HK,Bison Finance,Communication Services,Media,roadshow-holdings-ltd
 6993,HK,Blue Moon,Consumer Staples,Household Products,blue-moon-group-holdings
 0498,HK,Blue River Holdings,Industrials,Transportation Infrastructure,pyi-corp-ltd
+1204,HK,BoardWare Intelligence Technology,Information Technology,IT Services,boardware-intelligence-technology
 2588,HK,Boc Aviation,Industrials,Trading Companies & Distributors,boc-aviation-ltd
 2388,HK,BOC Hong Kong,Financial,Banks,boc-hong-kong
 3329,HK,BOCOM International,Financial,Capital Markets,bocom-international-holdings-co-ltd
-0710,HK,Boe Varitronix,Information Technology,Semiconductors & Semiconductor Equipment,varitronix-international?cid=990431
+0710,HK,Boe Varitronix,Information Technology,"Electronic Equipment, Instruments & Components",varitronix-international?cid=990431
 1685,HK,Boer Power,Industrials,Electrical Equipment,boer-power
 1246,HK,Boill Healthcare,Industrials,Construction & Engineering,ngai-shun-holdings-ltd
 1758,HK,Bojun Education,Consumer Discretionary,Diversified Consumer Services,bojun-education-company-ltd
@@ -271,7 +271,7 @@ symbol,exchange,name,sector,industry,slug
 0643,HK,Carry Wealth,Consumer Discretionary,"Textiles, Apparel & Luxury Goods",carry-wealth-holdings-ltd
 2171,HK,CARsgen Therapeutics Holdings,Healthcare,Biotechnology,carsgen-therapeutics-holdings
 2223,HK,Casablanca,Consumer Discretionary,Household Durables,casablanca-group-ltd
-0510,HK,CASH Financial Services Group,Financial,Capital Markets,cash-financial-services-group?cid=990317
+0510,HK,CASH Financial Services,Financial,Capital Markets,cash-financial-services-group-ltd
 0293,HK,Cathay Airways,Industrials,Airlines,cathay-pac-air
 1981,HK,Cathay Media,Communication Services,Entertainment,cathay-media-and-education-group-in
 8428,HK,CBK,Consumer Discretionary,"Hotels, Restaurants & Leisure",cbk-holdings-ltd
@@ -431,6 +431,7 @@ symbol,exchange,name,sector,industry,slug
 8281,HK,China Golden Classic,Consumer Staples,Personal Products,china-golden-classic-group-ltd
 0512,HK,China Grand Pharma,Healthcare,Pharmaceuticals,china-grand-pharmaceutical-and-heal
 0063,HK,China Graphene,Real Estate,Real Estate Management & Development,winfoong-international-ltd
+2237,HK,China Graphite,Materials,Metals & Mining,china-graphite
 0904,HK,China Green,Consumer Staples,Food Products,titan-petrochemicals-group-ltd
 6183,HK,China Greenfresh,Consumer Staples,Food Products,china-greenfresh-group-co-ltd
 1253,HK,China Greenland Broad,Industrials,Commercial Services & Supplies,broad-greenstate-international
@@ -595,6 +596,7 @@ symbol,exchange,name,sector,industry,slug
 1427,HK,China Tianbao,Industrials,Construction & Engineering,china-tianbao-group-dev-co-ltd
 6162,HK,China Tianrui Automotive Interiors,Consumer Discretionary,Auto Components,china-tianrui-automotive-interiors
 1252,HK,China Tianrui Cement,Materials,Construction Materials,china-tianrui-group-cement-co-ltd
+8196,HK,China TianYF Holdings,Industrials,Trading Companies & Distributors,great-water-holdings-ltd
 3398,HK,China Ting,Consumer Discretionary,"Textiles, Apparel & Luxury Goods",china-ting-group-holdings-ltd
 2188,HK,China Titans Energy Tech,Industrials,Electrical Equipment,china-titans-energy-technology-grou
 6055,HK,China Tobacco International HK,Consumer Discretionary,Distributors,china-tobacco-international-co-ltd
@@ -681,6 +683,7 @@ symbol,exchange,name,sector,industry,slug
 8232,HK,Classified,Consumer Discretionary,"Hotels, Restaurants & Leisure",classified-group-holdings-ltd
 3686,HK,Clifford Modern Living,Industrials,Industrial Conglomerates,clifford-modern-living-holdings-ltd
 9899,HK,Cloud Village,Communication Services,Entertainment,cloud-village
+9955,HK,ClouDr,Healthcare,Health Care Providers & Services,cloudr
 2197,HK,Clover Biopharmaceuticals,Healthcare,Biotechnology,clover-biopharmaceuticals
 0002,HK,CLP Holdings,Utilities,Electric Utilities,clp-holdings
 6877,HK,CLSA Premium,Financial,Capital Markets,kvb-kunlun-fg
@@ -779,6 +782,7 @@ symbol,exchange,name,sector,industry,slug
 0889,HK,Datronix,Information Technology,"Electronic Equipment, Instruments & Components",datronix-holdings-ltd
 2348,HK,Dawnrays Pharma,Healthcare,Pharmaceuticals,dawnrays-pharma-holdings-ltd
 8040,HK,DCB Holdings,Industrials,Construction & Engineering,dcb-holdings
+2418,HK,Deewin Tianxia,Industrials,Road & Rail,deewin-tianxia
 1452,HK,Denox Environmental & Tech,Industrials,Machinery,denox-environmental-technology-ho
 1545,HK,Design Capital,Industrials,Trading Companies & Distributors,design-capital-ltd
 0262,HK,Deson Development Intl,Real Estate,Real Estate Management & Development,deson-development-international-hol
@@ -823,7 +827,7 @@ symbol,exchange,name,sector,industry,slug
 0029,HK,Dynamic,Real Estate,Real Estate Management & Development,dynamic-holdings-ltd
 0828,HK,Dynasty Fine Wines,Consumer Staples,Beverages,dynasty-fine-wines-gr-ltd
 1733,HK,E -Commodities Hlds,Materials,Metals & Mining,winsway
-8222,HK,E Lighting,Consumer Discretionary,Furniture & Fixtures,e-lighting-group-holdings-ltd
+8222,HK,E Lighting,Consumer Discretionary,Specialty Retail,e-lighting-group-holdings-ltd
 1142,HK,E P Global Holdings,Industrials,Trading Companies & Distributors,siberian-mining
 6668,HK,E Star Commercial Management Co,Real Estate,Real Estate Management & Development,e-star-commercial-management-co
 2048,HK,E-House China,Real Estate,Real Estate Management & Development,ehouse-china-enterprise-holdings
@@ -1008,7 +1012,7 @@ symbol,exchange,name,sector,industry,slug
 2931,HK,Glory Sun Land,Communication Services,Entertainment,glory-sun-land
 0299,HK,Glory Sun Land,Industrials,Trading Companies & Distributors,new-sports-group-ltd
 8188,HK,GME Group,Industrials,Construction & Engineering,gme-group-holdings-ltd
-2246,HK,GOGOX Holdings,,,gogox-holdings
+2246,HK,GOGOX Holdings,Industrials,Air Freight & Logistics,gogox-holdings
 0040,HK,Gold Peak Industries,Information Technology,"Electronic Equipment, Instruments & Components",gold-peak-industries-holdings-ltd
 3308,HK,Golden Eagle Retail,Consumer Discretionary,Multiline Retail,golden-eagle
 2863,HK,Golden Faith,Industrials,Construction & Engineering,golden-faith-group
@@ -1049,7 +1053,6 @@ symbol,exchange,name,sector,industry,slug
 0524,HK,Great Wall Belt,Communication Services,Diversified Telecommunication Services,e-kong-group-ltd
 2333,HK,Great Wall Motor,Consumer Discretionary,Automobiles,greatwall-moto
 0583,HK,Great Wall Pan Asia,Real Estate,Real Estate Management & Development,great-wall-pan-asia
-8196,HK,Great Water,Industrials,Trading Companies & Distributors,great-water-holdings-ltd
 8003,HK,Great World Company Holdings,Materials,Paper & Forest Products,great-world
 1189,HK,Greater Bay Area Dynamic Growth Holding,Consumer Discretionary,"Hotels, Restaurants & Leisure",rosedale-hotel-holdings-ltd
 0431,HK,Greater China Financial,Financial,Consumer Finance,greater-china-financial-holdings-lt
@@ -1063,7 +1066,7 @@ symbol,exchange,name,sector,industry,slug
 0061,HK,Green Leader Holdings,Materials,Metals & Mining,north-asia-resources
 0094,HK,Greenheart,Materials,Paper & Forest Products,greenheart-group-ltd
 0337,HK,Greenland Hong Kong Holdings,Real Estate,Real Estate Management & Development,greenland-hk
-0195,HK,Greentech,Materials,Metals & Mining,lsea-resources-intl-ho-be?cid=990138
+0195,HK,Greentech,Materials,Metals & Mining,lsea-resources-intl-ho-be
 9979,HK,Greentown,Industrials,Construction & Engineering,greentown-management-holdings-co-lt
 3900,HK,Greentown China,Real Estate,Real Estate Management & Development,greentown-chin
 2869,HK,Greentown Service,Real Estate,Real Estate Management & Development,greentown-service-group-co-ltd
@@ -1249,6 +1252,7 @@ symbol,exchange,name,sector,industry,slug
 0704,HK,Huscoke Resources,Energy,"Oil, Gas & Consumable Fuels",huscoke-resources-holdings-ltd
 0013,HK,Hutchison China,Healthcare,Pharmaceuticals,hutchison-china-meditech-ltd?cid=1174911
 0215,HK,Hutchison Telecom,Communication Services,Wireless Telecommunication Services,hutchtel-hk
+6661,HK,Huzhou Gas,Utilities,Gas Utilities,huzhou-gas
 1188,HK,Hybrid Kinetic,Consumer Discretionary,Automobiles,hybrid-kinetic-group-ltd
 8512,HK,Hyfusin,Consumer Staples,Household Products,hyfusin-group-holdings
 6078,HK,Hygeia Health,Healthcare,Health Care Providers & Services,hygeia-healthcare-holdings-co-ltd
@@ -1373,7 +1377,7 @@ symbol,exchange,name,sector,industry,slug
 2231,HK,Jy Grandmark,Real Estate,Real Estate Management & Development,jy-grandmark-holdings-ltd
 0675,HK,K & P Intl,Information Technology,"Electronic Equipment, Instruments & Components",k-p-international-holdings
 8475,HK,K Group,Consumer Discretionary,"Hotels, Restaurants & Leisure",k-group-holdings-ltd
-1557,HK,K H,Industrials,Construction Services,k-h-group-holdings-ltd
+1557,HK,K H,Industrials,Construction & Engineering,k-h-group-holdings-ltd
 8411,HK,K W Nelson Interior,Consumer Discretionary,Diversified Consumer Services,k-w-nelson-interior-architect-group
 0173,HK,K Wah Int,Real Estate,Real Estate Management & Development,k.-wah-intl
 2108,HK,K2 F&B HOLDINGS,Consumer Discretionary,"Hotels, Restaurants & Leisure",k2-f-b-holdings
@@ -1429,6 +1433,7 @@ symbol,exchange,name,sector,industry,slug
 3888,HK,Kingsoft Corp Ltd,Communication Services,Entertainment,kingsoft
 1031,HK,Kingston Financial Group,Financial,Capital Markets,kingston-financial-group?cid=990578
 1195,HK,Kingwell,Real Estate,Real Estate Management & Development,kingwell-group-ltd
+8295,HK,Kingwisoft Tech,Financial,Capital Markets,asian-capital-holdings-ltd
 1110,HK,Kingworld Medicines,Healthcare,Health Care Providers & Services,kingworld-medicines-group-ltd
 6822,HK,King’s Flair Intl,Consumer Discretionary,Household Durables,king-s-flair-international-holdings
 9939,HK,Kintor Pharma,Healthcare,Biotechnology,kintor-pharmaceutical-ltd
@@ -1489,6 +1494,7 @@ symbol,exchange,name,sector,industry,slug
 1540,HK,Left Field Printing Group,Industrials,Commercial Services & Supplies,left-field-printing-group
 3396,HK,Legend Holdings Corp,Information Technology,"Technology Hardware, Storage & Peripherals",legend-holdings-corp
 1355,HK,Legend Strategy Intl,Consumer Discretionary,"Hotels, Restaurants & Leisure",legend-strategy-international-holdi
+0459,HK,Legend Upstar Holdings,Real Estate,Real Estate Management & Development,midland-ic-i
 8585,HK,Legendary,Industrials,Commercial Services & Supplies,legendary
 2129,HK,Legion Consortium,Industrials,Road & Rail,legion-consortium
 0992,HK,Lenovo Group,Information Technology,"Technology Hardware, Storage & Peripherals",lenovo-group-ltd
@@ -1525,7 +1531,7 @@ symbol,exchange,name,sector,industry,slug
 1008,HK,Litu Holdings,Industrials,Commercial Services & Supplies,brilliant-circle-holdings-internati
 0194,HK,Liu Chong Hing Investment,Real Estate,Real Estate Management & Development,liu-chong-hing
 1513,HK,Livzon Pharma,Healthcare,Pharmaceuticals,livzon-pharma
-0558,HK,LK Tech,Industrials,Misc. Capital Goods,lk-technology-holdings-ltd
+0558,HK,LK Tech,Industrials,Machinery,lk-technology-holdings-ltd
 8162,HK,Loco Hong Kong,Industrials,Trading Companies & Distributors,loco-hong-kong-holdings-ltd
 3380,HK,Logan Property Co,Real Estate,Real Estate Management & Development,logan-ppt
 0960,HK,Longfor Properties,Real Estate,Real Estate Management & Development,longfor-ppt
@@ -1591,6 +1597,7 @@ symbol,exchange,name,sector,industry,slug
 8161,HK,Medinet,Healthcare,Healthcare Facilities,medinet-group-ltd
 2159,HK,Mediwelcome Healthcare,Healthcare,Health Care Providers & Services,mediwelcome-healthcare
 2192,HK,Medlive Technology Co,Healthcare,Health Care Technology,medlive-technology
+6667,HK,Mega Genomics,Healthcare,Health Care Providers & Services,mega-genomics-ltd
 6939,HK,Megain Holding,Information Technology,Semiconductors & Semiconductor Equipment,megain-holding
 0391,HK,Mei Ah Entertainment,Communication Services,Entertainment,mei-ah-entertainment-group
 2327,HK,Meilleure Health,Industrials,Trading Companies & Distributors,u-home-group-holdings-ltd-be
@@ -1605,14 +1612,15 @@ symbol,exchange,name,sector,industry,slug
 0022,HK,Mexan,Consumer Discretionary,"Hotels, Restaurants & Leisure",mexan-ltd
 2282,HK,MGM China Holdings,Consumer Discretionary,"Hotels, Restaurants & Leisure",mgm-china
 8473,HK,Mi Ming Mart Holdings,Consumer Discretionary,Specialty Retail,mi-ming-mart-holdings
+8645,HK,Michong Metaverse China Holdings,Information Technology,IT Services,nomad-technologies-holdings-ltd
 2235,HK,Micro Tech Medical Hangzhou,Healthcare,Health Care Equipment & Supplies,micro-tech-medical-hangzhou
 2160,HK,Microport Cardioflow Medtech,Healthcare,Health Care Equipment & Supplies,microport-cardioflow-medtech
+2172,HK,MicroPort NeuroTech,Healthcare,Health Care Equipment & Supplies,microport-neurotech
 0853,HK,MicroPort Scientific,Healthcare,Health Care Equipment & Supplies,microport
 4338,HK,Microsoft,Information Technology,Software,microsoft-corp?cid=990974
 1985,HK,Microware Group,Information Technology,IT Services,microware-group-ltd
 3990,HK,Midea Real Estate,Real Estate,Real Estate Management & Development,midea-real-estate
 1200,HK,Midland Holdings,Real Estate,Real Estate Management & Development,midland-holdin
-0459,HK,Midland Ic&I,Real Estate,Real Estate Management & Development,midland-ic-i
 1555,HK,MIE Holdings Corp,Energy,"Oil, Gas & Consumable Fuels",mie-holdings
 1715,HK,Miji International,Consumer Discretionary,Household Durables,miji-international-holdings
 1247,HK,Miko Intl,Consumer Discretionary,"Textiles, Apparel & Luxury Goods",miko-international-holdings-ltd
@@ -1628,6 +1636,7 @@ symbol,exchange,name,sector,industry,slug
 3828,HK,Ming Fai Intl,Consumer Staples,Personal Products,ming-fai-international-holdings-ltd
 0909,HK,Ming Yuan Cloud,Information Technology,Software,ming-yuan-cloud-group-holdings-ltd
 0846,HK,Mingfa Group Int,Real Estate,Real Estate Management & Development,mingfa-group
+9896,HK,MINISO Holding,Consumer Discretionary,Multiline Retail,miniso-holding
 0230,HK,Minmetals Land,Real Estate,Real Estate Management & Development,minmetals-land-ltd
 1632,HK,Minshang Creative,Consumer Discretionary,"Hotels, Restaurants & Leisure",food-wise-holdings-ltd
 1569,HK,Minsheng Education,Consumer Discretionary,Diversified Consumer Services,minsheng-education-group-co-ltd
@@ -1715,11 +1724,11 @@ symbol,exchange,name,sector,industry,slug
 2689,HK,Nine Dragons,Materials,Paper & Forest Products,nine-dragons-paper
 8249,HK,Ningbo WanHao,Information Technology,"Electronic Equipment, Instruments & Components",ningbo-wanhao-holdings-co-ltd-be?cid=991088
 9866,HK,NIO,Consumer Discretionary,Automobiles,nio-inc.
-1245,HK,Niraku GC Inc,Consumer Discretionary,Recreational Activities,niraku-gc-holdings-inc
+1245,HK,Niraku GC Inc,Consumer Discretionary,"Hotels, Restaurants & Leisure",niraku-gc-holdings-inc
 1475,HK,Nissin Foods,Consumer Staples,Food Products,nissin-foods
 3773,HK,NNK,Consumer Discretionary,Internet & Direct Marketing Retail,nnk-group-ltd
+6686,HK,Noah Holdings Private Wealth and,Financial,Capital Markets,noah-holdings-private-wealth-and
 8445,HK,Noble Engineering,Industrials,Construction & Engineering,noble-engineering
-8645,HK,Nomad Tech,Information Technology,IT Services,nomad-technologies-holdings-ltd
 9633,HK,Nongfu Spring,Consumer Staples,Beverages,nongfu-spring-co-ltd
 8080,HK,North Asia Strategic,Industrials,Trading Companies & Distributors,north-asia-strategic
 0433,HK,North Mining Shares,Materials,Metals & Mining,north-mining
@@ -1875,10 +1884,12 @@ symbol,exchange,name,sector,industry,slug
 9993,HK,Radiance,Real Estate,Real Estate Management & Development,radiance-holdings-group-co-ltd
 1376,HK,Raffles Interior,Industrials,Construction & Engineering,raffles-interior-ltd
 2135,HK,Raily Aesthetic,Healthcare,Health Care Providers & Services,raily-aesthetic-medicine-intl-hldg
+2297,HK,Rainmed Medical,Healthcare,Health Care Equipment & Supplies,rainmed-medical
 0601,HK,Rare Earth Magnesium Technology Group Holdings,Materials,Metals & Mining,group-sense-international-ltd?cid=990363
 0229,HK,Raymond Industrial,Consumer Discretionary,Household Durables,raymond-industrial-ltd
 1337,HK,Razer,Information Technology,"Technology Hardware, Storage & Peripherals",razer-inc
 8471,HK,Reach New,Consumer Discretionary,"Textiles, Apparel & Luxury Goods",reach-new
+2385,HK,Readboy Education Holding,Information Technology,"Technology Hardware, Storage & Peripherals",readboy-education-holding
 1196,HK,Realord Group,Industrials,Trading Companies & Distributors,realord-group-holdings
 1528,HK,Red Star Macalline Group Corp Ltd,Real Estate,Real Estate Management & Development,red-star-macalline-group-corp-ltd
 2370,HK,Redco Healthy Living,Real Estate,Real Estate Management & Development,redco-healthy-living
@@ -2158,6 +2169,7 @@ symbol,exchange,name,sector,industry,slug
 0403,HK,Starlite,Materials,Containers & Packaging,starlite-holdings-ltd
 1616,HK,Starrise Media,Communication Services,Entertainment,silverman-holdings-ltd
 0918,HK,State Energy,Consumer Discretionary,"Textiles, Apparel & Luxury Goods",takson-holdings-ltd
+8275,HK,State Innovation Holdings,Industrials,Construction & Engineering,beaver-group
 8277,HK,Steed Oriental,Materials,Paper & Forest Products,steed-oriental-(holdings)-company-l
 1836,HK,Stella Intl,Consumer Discretionary,"Textiles, Apparel & Luxury Goods",stella-international-holdings-ltd
 0084,HK,STELUX Intl,Consumer Discretionary,Specialty Retail,stelux-holdings-international-ltd
@@ -2254,6 +2266,7 @@ symbol,exchange,name,sector,industry,slug
 0990,HK,Theme Intl,Industrials,Trading Companies & Distributors,theme-international-holdings-ltd
 2935,HK,Theme Intl,Information Technology,IT Services,kantone-holdings
 2292,HK,Thing On Ent.,Real Estate,Real Estate Management & Development,thing-on-enterprise
+2167,HK,TI Cloud,Information Technology,Software,ti-cloud
 0028,HK,Tian An China Investments,Real Estate,Real Estate Management & Development,tian-an-china-investments-co-ltd
 2182,HK,Tian Chang Group,Materials,Chemicals,tian-chang-group-holdings
 1980,HK,Tian Ge Interactive,Communication Services,Interactive Media & Services,tian-ge-interactive-holdin-ltd
@@ -2273,6 +2286,7 @@ symbol,exchange,name,sector,industry,slug
 0117,HK,Tianli,Information Technology,"Electronic Equipment, Instruments & Components",tianli-holdings-group-ltd
 1773,HK,Tianli Education,Consumer Discretionary,Diversified Consumer Services,tianli-education-international
 0819,HK,Tianneng Power Int,Consumer Discretionary,Auto Components,tianneng-power
+9696,HK,Tianqi Lithium,Materials,Chemicals,tianqi-lithium
 6836,HK,Tianyun Intl,Consumer Staples,Food Products,tianyun-international-holdings-ltd
 1115,HK,Tibet Water Resources,Consumer Staples,Beverages,tibet-5100
 3347,HK,Tigermed,Healthcare,Life Sciences Tools & Services,hangzhou-tigermed-consulting-co-ltd
@@ -2336,6 +2350,7 @@ symbol,exchange,name,sector,industry,slug
 1314,HK,Tsui Wah,Consumer Discretionary,"Hotels, Restaurants & Leisure",tsui-wah-hldg
 1701,HK,Tu Yi Holding,Consumer Discretionary,"Hotels, Restaurants & Leisure",tu-yi-holding-co-ltd
 0518,HK,Tungtex,Consumer Discretionary,"Textiles, Apparel & Luxury Goods",tungtex-holdings-co-ltd
+2391,HK,Tuya Inc,Information Technology,Software,tuya-inc
 6182,HK,Twintek Investment,Industrials,Construction & Engineering,twintek-investment-holdings
 3390,HK,Tycoon Gr,Healthcare,Health Care Providers & Services,tycoon-group-holdings-ltd
 0687,HK,Tysan Holdings,Industrials,Construction & Engineering,tysan-holdings-ltd
@@ -2379,7 +2394,6 @@ symbol,exchange,name,sector,industry,slug
 8540,HK,Victory Securities,Financial,Capital Markets,victory-securities
 0422,HK,Vietnam Manufacturing and Export,Consumer Discretionary,Automobiles,vietnam-manufacturing-and-export-pr
 1612,HK,Vincent Medical,Healthcare,Health Care Equipment & Supplies,vincent-medical-holdings-ltd
-8340,HK,Vinco Financial,Financial,Capital Markets,vinco-financial-group-ltd
 3331,HK,Vinda Int Holdings,Consumer Staples,Household Products,vinda-intl
 1565,HK,Virscend Education,Consumer Discretionary,Diversified Consumer Services,virscend-education-co-ltd
 1520,HK,Virtual Mind Holding,Consumer Discretionary,"Textiles, Apparel & Luxury Goods",runway-global-holdings-co-ltd
@@ -2510,6 +2524,7 @@ symbol,exchange,name,sector,industry,slug
 1266,HK,Xiwang Special Steel,Materials,Metals & Mining,xiwang-special-steel-co-ltd?cid=990695
 9868,HK,Xpeng,Consumer Discretionary,Automobiles,xpeng
 1368,HK,Xtep International,Consumer Discretionary,"Textiles, Apparel & Luxury Goods",xtep-intl
+2392,HK,Xuan Wu Cloud Technology Holdings,Information Technology,Software,xuan-wu-cloud-technology-holdings
 1585,HK,Yadea Group,Consumer Discretionary,Automobiles,yadea-group-holdings-ltd
 1795,HK,Yadong,Consumer Discretionary,"Textiles, Apparel & Luxury Goods",yadong-group-holdings-ltd
 1480,HK,Yan Tat,Information Technology,"Electronic Equipment, Instruments & Components",yan-tat-group-holdings-ltd
@@ -2617,6 +2632,7 @@ symbol,exchange,name,sector,industry,slug
 1176,HK,Zhuguang,Real Estate,Real Estate Management & Development,zhuguang-holdings-group-co-ltd
 3898,HK,Zhuzhou CRRC,Industrials,Electrical Equipment,csr-times-elec
 2899,HK,Zijin Mining Group,Materials,Metals & Mining,zijin-mining-group
+8340,HK,Zijing International Financial Holdings,Financial,Capital Markets,vinco-financial-group-ltd
 8287,HK,Zioncom Holdings,Information Technology,Communications Equipment,zioncom-holdings
 8223,HK,Ziyuanyuan,Financial,Diversified Financial Services,ziyuanyuan-holdings-group
 8135,HK,ZMFY Automobile Glass Services,Consumer Discretionary,Specialty Retail,zmfy-automobile-glass-services-ltd
@@ -2626,4 +2642,3 @@ symbol,exchange,name,sector,industry,slug
 2057,HK,Zto Express,Industrials,Air Freight & Logistics,zto-express-cayman-inc-hk
 6866,HK,Zuoli Kechuang Micro finance Co Ltd,Financial,Consumer Finance,zuoli-kechuang-micro-finance-co-ltd
 2190,HK,ZyloxTonbridge Medical Technology Co,Healthcare,Health Care Equipment & Supplies,zyloxtonbridge-medical-tech
-8295,HK,ZZ Tech,Financial,Capital Markets,asian-capital-holdings-ltd

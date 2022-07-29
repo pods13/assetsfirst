@@ -10,7 +10,7 @@ import { Page } from '../../utils/page';
 
 const tickerSymbolBySlug: { [key: string]: string } = {};
 
-export async function fetchDividends() {
+export async function fetchAllDividends() {
     const resourceFolderPath = './resources/stocks';
     const filenames = await fsPromises.readdir(resourceFolderPath);
     const whenFilesRead = filenames
@@ -118,4 +118,4 @@ function transformToDividendDtos(parsedDividends: ParsedDividend[]) {
     })
 }
 
-fetchDividends();
+fetchAllDividends();

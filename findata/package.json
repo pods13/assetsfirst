@@ -3,9 +3,16 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "build": "npx tsc",
+    "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/main.js\"",
     "build:watch": "rimraf dist && npx tsc --watch",
-    "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/main.js\""
+    "build": "rimraf dist && npx tsc",
+    "collect:stocks:ru": "node dist/collectors/investingcom Russia",
+    "collect:stocks:ge": "node dist/collectors/investingcom Germany \"Xetra\"",
+    "collect:stocks:us": "node dist/collectors/investingcom \"United States\" \"NASDAQ,NYSE\"",
+    "collect:stocks:hk": "node dist/collectors/investingcom \"Hong Kong\"",
+    "import:stocks": "node dist/data-imports",
+    "dividends:all": "node dist/stocks/investingcom/fetch-dividends.js",
+    "dividends:ru": "node dist/stocks/dohodru/fetch-dividends.js"
   },
   "keywords": [],
   "author": "",
