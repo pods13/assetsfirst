@@ -24,7 +24,11 @@ export async function fetchAllDividends() {
         const paginatedTickers = await getTickers(client, page);
         console.log(paginatedTickers.content)
         const whenDividendsPushed = paginatedTickers.content.map((s: any) =>
-            pushDividends(client, {symbol: s.symbol, exchange: s.exchange, slug: tickerSymbolBySlug[`${s.symbol}.${s.exchange}`]}));
+            pushDividends(client, {
+                symbol: s.symbol,
+                exchange: s.exchange,
+                slug: tickerSymbolBySlug[`${s.symbol}.${s.exchange}`]
+            }));
         try {
             await Promise.allSettled(whenDividendsPushed);
         } catch (e) {
@@ -60,7 +64,8 @@ async function fillTickerSymbolCacheFromFile(path: string) {
 }
 
 async function parseRecentDividends(slug: string): Promise<ParsedDividend[]> {
-    const res = await axios.get(`https://www.investing.com/equities/${slug}-dividends`);
+    const url = composeDividendPageUrl(slug);
+    const res = await axios.get(url);
     const $ = load(res.data);
     const dividendsTable = $(`.dividendTbl`);
     if (!dividendsTable) {
@@ -85,6 +90,12 @@ async function parseRecentDividends(slug: string): Promise<ParsedDividend[]> {
         result.push(divData as ParsedDividend);
     });
     return result;
+}
+
+function composeDividendPageUrl(slug: string): string {
+    const [path, query] = slug.split('?');
+    const suffix = path + '-dividends' + (query ? `?${query}` : '');
+    return `https://www.investing.com/equities/${suffix}`;
 }
 
 interface ParsedDividend {

@@ -156,8 +156,3 @@ function savePageData(csv: CsvFormatterStream<any, any>, pageData: any[]) {
 async function selectNextPage(page: playwright.Page, pageToSelect: number) {
     return await page.click('.text_align_lang_base_2 > a:has-text("Next")');
 }
-//
-// collectStocks('Russia');
-// collectStocks('Hong Kong');
-// collectStocks('Germany', ['Xetra']);
-// collectStocks('United States', ['NASDAQ', 'NYSE']);
