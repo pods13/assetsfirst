@@ -2,6 +2,7 @@ package com.topably.assets.core.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -10,6 +11,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
@@ -27,6 +29,8 @@ import java.util.List;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+    private static final String X_REQUESTED_WITH_HEADER = "X-Requested-With";
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -54,19 +58,23 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(List.of("http://localhost:4200"));
         configuration.setAllowedMethods(List.of("GET", "POST", "OPTIONS", "PATCH", "PUT", "DELETE"));
-        configuration.setAllowedHeaders(List.of("X-Requested-With", "Content-Type", "x-xsrf-token"));
+        configuration.setAllowedHeaders(List.of(X_REQUESTED_WITH_HEADER, HttpHeaders.CONTENT_TYPE, "x-xsrf-token"));
         configuration.setAllowCredentials(true);
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
 
-    static class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
+    static class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
 
         @Override
-        public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
-            response.setStatus(HttpStatus.OK.value());
-            super.clearAuthenticationAttributes(request);
+        public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws ServletException, IOException {
+            if ("XMLHttpRequest".equals(request.getHeader(X_REQUESTED_WITH_HEADER))) {
+                response.setStatus(HttpStatus.OK.value());
+                super.clearAuthenticationAttributes(request);
+            } else {
+                super.onAuthenticationSuccess(request, response, authentication);
+            }
         }
     }
 
