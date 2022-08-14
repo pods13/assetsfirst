@@ -5,6 +5,8 @@ spring:
         types:
           print:
             banner: 'false'
+        jdbc:
+          time_zone: UTC
     open-in-view: false
   data:
     web:
