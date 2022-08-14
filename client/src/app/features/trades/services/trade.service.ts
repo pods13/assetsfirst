@@ -7,7 +7,7 @@ import { TradeDto } from '../types/trade.dto';
 import { DeleteTradeDto } from '../types/delete-trade.dto';
 import { Page } from '../../../core/types/page';
 import { Pageable } from '../../../core/types/pageable';
-import { toHttpParams } from '../../../core/helpers/pageable.helper';
+import { toHttpParams } from '../../../core/helpers/pageable.helpers';
 
 @Injectable()
 export class TradeService {
