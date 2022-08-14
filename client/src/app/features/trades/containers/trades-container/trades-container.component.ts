@@ -5,6 +5,7 @@ import { AddTradeDto } from '../../types/add-trade.dto';
 import { TradeDto } from '../../types/trade.dto';
 import { EditTradeDto } from '../../types/edit-trade.dto';
 import { DeleteTradeDto } from '../../types/delete-trade.dto';
+import { PageSort } from '../../../../core/types/page-sort';
 
 @Component({
   selector: 'app-trades-container',
@@ -14,17 +15,24 @@ import { DeleteTradeDto } from '../../types/delete-trade.dto';
                                (editTrade)="onEditTrade($event)"
                                (deleteTrade)="onDeleteTrade($event)">
     </app-datatable-actions-bar>
-    <ngx-datatable class="material" [rows]="trades$ | async"
+    <ngx-datatable class="material"
+                   [rows]="rows"
                    [columnMode]="ColumnMode.force"
                    [headerHeight]="headerHeight"
                    [rowHeight]="rowHeight"
-                   [limit]="pageLimit"
+                   [limit]="pageSize"
                    [footerHeight]="50"
-                   [sorts]="[{ prop: 'date', dir: 'desc' }]"
+                   [sorts]="pageSorts"
                    [selectionType]="SelectionType.checkbox"
                    [selectAllRowsOnPage]="true"
                    [selected]="selectedRows"
-                   (select)="onSelect($event)">
+                   (select)="onSelect($event)"
+                   [externalPaging]="true"
+                   [externalSorting]="true"
+                   [count]="totalElements"
+                   [offset]="pageNumber"
+                   (page)="setPage($event)"
+                   (sort)="onSort($event)">
       <ngx-datatable-column
         [width]="30"
         [sortable]="false"
@@ -44,7 +52,14 @@ export class TradesContainerComponent implements OnInit {
 
   readonly headerHeight = 50;
   readonly rowHeight = 50;
-  readonly pageLimit = 10;
+  readonly pageSize = 10;
+
+  totalElements!: number;
+  firstPageNumber = 0;
+  pageNumber = this.firstPageNumber;
+
+
+  pageSorts = [{prop: 'date', dir: 'desc'}];
 
   ColumnMode = ColumnMode;
   SelectionType = SelectionType;
@@ -56,8 +71,7 @@ export class TradesContainerComponent implements OnInit {
     {prop: 'brokerName'}
   ];
 
-  trades$ = this.tradeService.getUserTrades();
-
+  rows: TradeDto[] = [];
   selectedRows: TradeDto[] = [];
 
   constructor(private tradeService: TradeService,
@@ -65,14 +79,27 @@ export class TradesContainerComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.setPage({pageSize: this.pageSize, offset: this.pageNumber});
+  }
+
+  setPage(pageInfo: { pageSize: number; offset: number; sorts?: PageSort[] }) {
+    const pageNumber = pageInfo.offset;
+    this.tradeService.getUserTrades({
+      size: pageInfo.pageSize, page: pageNumber + 1,
+      sorts: pageInfo.sorts ?? this.pageSorts
+    }).subscribe((page => {
+      this.totalElements = page.totalElements;
+      this.rows = page.content;
+      this.pageNumber = pageNumber;
+      this.cd.detectChanges();
+    }));
   }
 
   onAddTrade(dto: AddTradeDto) {
     this.selectedRows = [];
     this.tradeService.addTrade(dto)
       .subscribe(res => {
-        this.trades$ = this.tradeService.getUserTrades();
-        this.cd.detectChanges();
+        this.setPage({pageSize: this.pageSize, offset: this.firstPageNumber});
       });
   }
 
@@ -84,8 +111,7 @@ export class TradesContainerComponent implements OnInit {
     this.tradeService.editTrade(dto)
       .subscribe(res => {
         this.selectedRows = [];
-        this.trades$ = this.tradeService.getUserTrades();
-        this.cd.detectChanges();
+        this.setPage({pageSize: this.pageSize, offset: this.pageNumber});
       });
   }
 
@@ -93,8 +119,11 @@ export class TradesContainerComponent implements OnInit {
     this.tradeService.deleteTrade(dto)
       .subscribe(res => {
         this.selectedRows = [];
-        this.trades$ = this.tradeService.getUserTrades();
-        this.cd.detectChanges();
+        this.setPage({pageSize: this.pageSize, offset: this.firstPageNumber});
       });
+  }
+
+  onSort({sorts}: { sorts: PageSort[] }) {
+    this.setPage({pageSize: this.pageSize, offset: this.firstPageNumber, sorts})
   }
 }

@@ -7,6 +7,8 @@ import com.topably.assets.trades.domain.dto.EditTradeDto;
 import com.topably.assets.trades.domain.dto.TradeDto;
 import com.topably.assets.trades.domain.dto.add.AddTradeDto;
 import com.topably.assets.trades.domain.Trade;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.math.BigDecimal;
 import java.util.Collection;
@@ -18,7 +20,7 @@ public interface TradeService {
 
     TradeDto addTrade(AddTradeDto dto, Instrument tradedInstrument);
 
-    Collection<TradeView> getUserTrades(String username);
+    Page<TradeView> getUserTrades(Long userId, Pageable pageable);
 
     Collection<Trade> findTradesByUserId(Long userId);
 

@@ -24,7 +24,7 @@ import java.util.Currency;
         select trade.id,
                s2.id as instrument_id,
                s2.instrument_type,
-               u2.username,
+               p.user_id,
                s2.ticker,
                CASE
                    WHEN s2.instrument_type = 'ETF' THEN s2.attributes ->> "$.name"
@@ -40,7 +40,6 @@ import java.util.Currency;
         from trade
                  join portfolio_holding ph on trade.portfolio_holding_id = ph.id
                  join portfolio p on p.id = ph.portfolio_id
-                 join user u2 on u2.id = p.user_id
                  join instrument s2 on ph.instrument_id = s2.id
                  join exchange exch on exch.id = s2.exchange_id
                  left join company c2 on c2.id = s2.company_id
@@ -55,7 +54,7 @@ public class TradeView {
     private String instrumentType;
 
     @JsonIgnore
-    private String username;
+    private Long userId;
 
     private String ticker;
 

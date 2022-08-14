@@ -1,10 +1,13 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { AddTradeDto } from '../types/add-trade.dto';
 import { InstrumentType } from '../types/instrument-type';
 import { EditTradeDto } from '../types/edit-trade.dto';
 import { TradeDto } from '../types/trade.dto';
 import { DeleteTradeDto } from '../types/delete-trade.dto';
+import { Page } from '../../../core/types/page';
+import { Pageable } from '../../../core/types/pageable';
+import { toHttpParams } from '../../../core/helpers/pageable.helper';
 
 @Injectable()
 export class TradeService {
@@ -12,8 +15,8 @@ export class TradeService {
   constructor(private http: HttpClient) {
   }
 
-  getUserTrades() {
-    return this.http.get<TradeDto[]>('/trades');
+  getUserTrades(pageable: Pageable) {
+    return this.http.get<Page<TradeDto[]>>('/trades', {params: toHttpParams(pageable)});
   }
 
   addTrade(dto: AddTradeDto) {

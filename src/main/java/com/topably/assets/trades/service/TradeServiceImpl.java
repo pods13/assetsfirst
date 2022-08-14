@@ -16,6 +16,8 @@ import com.topably.assets.trades.repository.TradeViewRepository;
 import com.topably.assets.trades.repository.broker.BrokerRepository;
 import com.topably.assets.xrates.service.currency.CurrencyConverterService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -141,8 +143,8 @@ public class TradeServiceImpl implements TradeService {
     }
 
     @Override
-    public Collection<TradeView> getUserTrades(String username) {
-        return tradeViewRepository.findByUsername(username);
+    public Page<TradeView> getUserTrades(Long userId, Pageable pageable) {
+        return tradeViewRepository.findByUserId(userId, pageable);
     }
 
     @Override
