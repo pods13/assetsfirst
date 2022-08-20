@@ -1,6 +1,6 @@
 import { AllocationCardComponent } from '../containers/allocation-card/allocation-card.component';
 import { CardContainerType } from './card-container-type';
-import { DividendsCardComponent } from '../containers/dividends-card/dividends-card.component';
+import { DividendIncomeCardComponent } from '../containers/dividend-income-card/dividend-income-card.component';
 import { DividendGoalsCardComponent } from '../containers/dividend-goals-card/dividend-goals-card.component';
 import {
   SectoralDistributionCardComponent
@@ -9,7 +9,7 @@ import { BalanceCardComponent } from '../containers/balance-card/balance-card.co
 
 export const cardContainerTemplateMapper = {
   [CardContainerType.ALLOCATION]: AllocationCardComponent,
-  [CardContainerType.DIVIDENDS]: DividendsCardComponent,
+  [CardContainerType.DIVIDEND_INCOME]: DividendIncomeCardComponent,
   [CardContainerType.DIVIDEND_GOALS]: DividendGoalsCardComponent,
   [CardContainerType.SECTORAL_DISTRIBUTION]: SectoralDistributionCardComponent,
   [CardContainerType.BALANCE]: BalanceCardComponent

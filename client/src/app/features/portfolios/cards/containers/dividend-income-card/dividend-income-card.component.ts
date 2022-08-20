@@ -28,10 +28,10 @@ import { DividendIncomeCardData } from '../../types/out/dividend-income-card-dat
       </ng-template>
     </ngx-charts-bar-vertical-2d>
   `,
-  styleUrls: ['./dividends-card.component.scss'],
+  styleUrls: ['./dividend-income-card.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DividendsCardComponent implements OnInit, CardContainer<DashboardCard, DividendIncomeCardData> {
+export class DividendIncomeCardComponent implements OnInit, CardContainer<DashboardCard, DividendIncomeCardData> {
 
   card!: DashboardCard;
   data$!: Observable<DividendIncomeCardData>;

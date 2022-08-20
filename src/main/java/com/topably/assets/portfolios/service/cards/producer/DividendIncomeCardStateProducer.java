@@ -7,10 +7,10 @@ import com.topably.assets.instruments.domain.Instrument;
 import com.topably.assets.portfolios.domain.Portfolio;
 import com.topably.assets.portfolios.domain.cards.CardContainerType;
 import com.topably.assets.portfolios.domain.cards.CardData;
-import com.topably.assets.portfolios.domain.cards.input.DividendsCard;
+import com.topably.assets.portfolios.domain.cards.input.DividendIncomeCard;
 import com.topably.assets.portfolios.domain.cards.output.dividend.DividendDetails;
 import com.topably.assets.portfolios.domain.cards.output.dividend.DividendSummary;
-import com.topably.assets.portfolios.domain.cards.output.dividend.DividendsCardData;
+import com.topably.assets.portfolios.domain.cards.output.dividend.DividendIncomeCardData;
 import com.topably.assets.portfolios.domain.cards.output.dividend.TimeFrameDividend;
 import com.topably.assets.portfolios.service.cards.CardStateProducer;
 import com.topably.assets.trades.domain.TradeOperation;
@@ -36,16 +36,16 @@ import java.util.TreeMap;
 import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.toList;
 
-@Service(CardContainerType.DIVIDENDS)
+@Service(CardContainerType.DIVIDEND_INCOME)
 @RequiredArgsConstructor
-public class DividendsCardStateProducer implements CardStateProducer<DividendsCard> {
+public class DividendIncomeCardStateProducer implements CardStateProducer<DividendIncomeCard> {
 
     private final TradeService tradeService;
     private final DividendService dividendService;
     private final CurrencyConverterService currencyConverterService;
 
     @Override
-    public CardData produce(Portfolio portfolio, DividendsCard card) {
+    public CardData produce(Portfolio portfolio, DividendIncomeCard card) {
         var groupedTrades = tradeService.findDividendPayingTrades(portfolio.getId()).stream()
                 .collect(groupingBy(trade -> {
                     Instrument instrument = trade.getPortfolioHolding().getInstrument();
@@ -66,7 +66,7 @@ public class DividendsCardStateProducer implements CardStateProducer<DividendsCa
                             composeDividendSummary(divsByYear));
                 })
                 .toList();
-        return DividendsCardData.builder()
+        return DividendIncomeCardData.builder()
                 .dividends(dividends)
                 .build();
     }

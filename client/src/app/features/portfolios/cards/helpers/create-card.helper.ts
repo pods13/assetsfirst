@@ -17,7 +17,7 @@ export function createCard(containerType: CardContainerType): DashboardCard {
 
 const cardContainerTypeByFactory = {
   [CardContainerType.ALLOCATION]: AllocationCardFactory,
-  [CardContainerType.DIVIDENDS]: DividendsCardFactory,
+  [CardContainerType.DIVIDEND_INCOME]: DividendsCardFactory,
   [CardContainerType.DIVIDEND_GOALS]: DividendGoalsCardFactory,
   [CardContainerType.SECTORAL_DISTRIBUTION]: SectoralDistributionCardFactory,
   [CardContainerType.BALANCE]: BalanceCardFactory,

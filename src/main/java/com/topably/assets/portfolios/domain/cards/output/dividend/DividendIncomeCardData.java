@@ -14,7 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class DividendsCardData implements CardData {
+public class DividendIncomeCardData implements CardData {
 
     private List<TimeFrameDividend> dividends;
 
