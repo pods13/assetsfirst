@@ -1,6 +1,7 @@
 package com.topably.assets.auth.service;
 
 import com.topably.assets.auth.domain.User;
+import com.topably.assets.auth.domain.CreateUserDto;
 import com.topably.assets.auth.domain.UserDto;
 import com.topably.assets.auth.event.UserCreatedEvent;
 import com.topably.assets.auth.repository.AuthorityRepository;
@@ -13,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class UserServiceImpl implements UserService {
 
     private final AuthorityRepository authorityRepository;
@@ -32,8 +34,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional
-    public User createNewUserAccount(UserDto userDto) {
+    public UserDto createNewUserAccount(CreateUserDto userDto) {
+        if (userRepository.findByUsername(userDto.getUsername()).isPresent()) {
+            throw new RuntimeException();
+        }
         var userRole = authorityRepository.findByRole("USER");
         User user = User.builder()
                 .username(userDto.getUsername())
@@ -42,6 +46,6 @@ public class UserServiceImpl implements UserService {
                 .build();
         User newUser = userRepository.save(user);
         eventPublisher.publishEvent(new UserCreatedEvent(this, newUser.getId()));
-        return newUser;
+        return new UserDto(user.getId(), user.getUsername());
     }
 }

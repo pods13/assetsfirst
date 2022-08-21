@@ -1,6 +1,7 @@
 package com.topably.assets.auth.service;
 
 import com.topably.assets.auth.domain.User;
+import com.topably.assets.auth.domain.CreateUserDto;
 import com.topably.assets.auth.domain.UserDto;
 
 public interface UserService {
@@ -9,5 +10,5 @@ public interface UserService {
 
     User findByUsername(String username);
 
-    User createNewUserAccount(UserDto userDto);
+    UserDto createNewUserAccount(CreateUserDto userDto);
 }

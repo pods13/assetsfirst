@@ -6,6 +6,7 @@ import { catchError, map, Observable, of, switchMap, tap } from 'rxjs';
 import { User } from '../types/user';
 import { MatDialog } from '@angular/material/dialog';
 import { NotificationService } from '../../core/services/notification.service';
+import { CreateUserDto } from '../types/create-user.dto';
 
 @Injectable({
   providedIn: 'root'
@@ -64,5 +65,9 @@ export class AuthService {
 
   private doLogout() {
     this.loggedUser = null;
+  }
+
+  signup(dto: CreateUserDto) {
+    return this.http.post<User>(`/auth/signup`, dto);
   }
 }

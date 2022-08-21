@@ -1,6 +1,6 @@
 package com.topably.assets.core.bootstrap;
 
-import com.topably.assets.auth.domain.UserDto;
+import com.topably.assets.auth.domain.CreateUserDto;
 import com.topably.assets.auth.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
@@ -20,6 +20,6 @@ public class UserDataLoader implements CommandLineRunner {
     @Override
     @Transactional
     public void run(String... args) throws Exception {
-        userService.createNewUserAccount(UserDto.builder().username("user").password("&}vU6Nw6").build());
+        userService.createNewUserAccount(CreateUserDto.builder().username("user").password("&}vU6Nw6").build());
     }
 }
