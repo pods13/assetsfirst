@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.topably</groupId>
 	<artifactId>assets</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0-SNAPSHOT</version>
 	<name>assets</name>
 	<description>Track your assets</description>
 	<properties>
