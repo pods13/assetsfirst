@@ -1,13 +1,22 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, OnInit } from '@angular/core';
 import { CardContainer } from '../../types/card-container';
 import { Observable } from 'rxjs';
-import { DashboardCard } from '../../types/dashboard-card';
 import { DividendIncomeCardData } from '../../types/out/dividend-income-card-data';
+import { DividendIncomeCard, TimeFrameOption } from '../../types/in/dividend-income-card';
 
 @Component({
   selector: 'app-dividends-card',
   template: `
-    <ngx-charts-bar-vertical-2d appFitChart *ngIf="data$ | async as data"
+    <mat-form-field appearance="legacy">
+      <div matPrefix>{{'By:'}}</div>
+      <mat-select [value]="card.timeFrame" (valueChange)="onTimeFrameOptionChanged($event)">
+        <mat-option *ngFor="let timeFrame of timeFrameOptions"
+                    [value]="timeFrame.value">
+          {{timeFrame.value}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <ngx-charts-bar-vertical-2d *ngIf="data$ | async as data" class="dividend-income-chart clearfix"
                                 [results]="data.dividends"
                                 [scheme]="'vivid'"
                                 [xAxis]="true"
@@ -31,10 +40,14 @@ import { DividendIncomeCardData } from '../../types/out/dividend-income-card-dat
   styleUrls: ['./dividend-income-card.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DividendIncomeCardComponent implements OnInit, CardContainer<DashboardCard, DividendIncomeCardData> {
+export class DividendIncomeCardComponent implements OnInit, CardContainer<DividendIncomeCard, DividendIncomeCardData> {
 
-  card!: DashboardCard;
+  card!: DividendIncomeCard;
   data$!: Observable<DividendIncomeCardData>;
+
+  cardChanges$ = new EventEmitter<DividendIncomeCard>();
+
+  timeFrameOptions = Object.keys(TimeFrameOption).map(timeFrame => ({value: timeFrame}));
 
   constructor() {
   }
@@ -42,4 +55,7 @@ export class DividendIncomeCardComponent implements OnInit, CardContainer<Dashbo
   ngOnInit(): void {
   }
 
+  onTimeFrameOptionChanged(timeFrame: TimeFrameOption) {
+    this.cardChanges$.emit({...this.card, timeFrame});
+  }
 }

@@ -8,6 +8,7 @@ import com.topably.assets.portfolios.domain.cards.input.allocation.AllocationCar
 import com.topably.assets.portfolios.domain.cards.input.DividendGoalsCard;
 import com.topably.assets.portfolios.domain.cards.input.DividendIncomeCard;
 import com.topably.assets.portfolios.domain.cards.input.SectoralDistributionCard;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -26,8 +27,7 @@ import static com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NAME;
         @JsonSubTypes.Type(name = CardContainerType.BALANCE, value = BalanceCard.class),
 })
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 public abstract class DashboardCard implements Serializable {
 

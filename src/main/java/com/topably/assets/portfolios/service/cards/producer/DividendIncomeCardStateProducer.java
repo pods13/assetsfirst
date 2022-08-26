@@ -1,20 +1,21 @@
 package com.topably.assets.portfolios.service.cards.producer;
 
+import com.topably.assets.core.domain.TickerSymbol;
 import com.topably.assets.dividends.domain.Dividend;
 import com.topably.assets.dividends.service.DividendService;
-import com.topably.assets.core.domain.TickerSymbol;
 import com.topably.assets.instruments.domain.Instrument;
 import com.topably.assets.portfolios.domain.Portfolio;
 import com.topably.assets.portfolios.domain.cards.CardContainerType;
 import com.topably.assets.portfolios.domain.cards.CardData;
 import com.topably.assets.portfolios.domain.cards.input.DividendIncomeCard;
 import com.topably.assets.portfolios.domain.cards.output.dividend.DividendDetails;
-import com.topably.assets.portfolios.domain.cards.output.dividend.DividendSummary;
 import com.topably.assets.portfolios.domain.cards.output.dividend.DividendIncomeCardData;
+import com.topably.assets.portfolios.domain.cards.output.dividend.DividendSummary;
 import com.topably.assets.portfolios.domain.cards.output.dividend.TimeFrameDividend;
+import com.topably.assets.portfolios.domain.cards.output.dividend.TimeFrameOption;
 import com.topably.assets.portfolios.service.cards.CardStateProducer;
-import com.topably.assets.trades.domain.TradeOperation;
 import com.topably.assets.trades.domain.Trade;
+import com.topably.assets.trades.domain.TradeOperation;
 import com.topably.assets.trades.service.TradeService;
 import com.topably.assets.xrates.service.currency.CurrencyConverterService;
 import lombok.RequiredArgsConstructor;
@@ -56,19 +57,7 @@ public class DividendIncomeCardStateProducer implements CardStateProducer<Divide
                 .flatMap(Collection::stream)
                 .filter(divDetails -> divDetails.getTotal().compareTo(BigDecimal.ZERO) > 0)
                 .toList();
-        var dividendsByYearQuarter = details.stream()
-                .collect(groupingBy(d -> d.getPayDate().get(IsoFields.QUARTER_OF_YEAR), TreeMap::new,
-                        groupingBy(d -> d.getPayDate().getYear(), TreeMap::new, toList())));
-        var dividends = dividendsByYearQuarter.entrySet().stream()
-                .map(divsByQuarter -> {
-                    var divsByYear = enrichWithMissingYears(dividendsByYearQuarter.values(), divsByQuarter.getValue());
-                    return new TimeFrameDividend("Q" + divsByQuarter.getKey(),
-                            composeDividendSummary(divsByYear));
-                })
-                .toList();
-        return DividendIncomeCardData.builder()
-                .dividends(dividends)
-                .build();
+        return produceDividendsGroupedByTimeFrame(details, card.getTimeFrame());
     }
 
     private Collection<DividendDetails> composeDividendDetails(Map.Entry<TickerSymbol, List<Trade>> tradesByKey) {
@@ -84,7 +73,7 @@ public class DividendIncomeCardStateProducer implements CardStateProducer<Divide
                 Trade trade = trades.get(index);
                 if (trade.getDate().toLocalDate().compareTo(dividend.getRecordDate()) < 0) {
                     var operationQty = TradeOperation.SELL.equals(trade.getOperation()) ? trade.getQuantity().negate() : trade.getQuantity();
-                    quantity =  quantity.add(operationQty);
+                    quantity = quantity.add(operationQty);
                 } else {
                     break;
                 }
@@ -98,21 +87,73 @@ public class DividendIncomeCardStateProducer implements CardStateProducer<Divide
         return dividendDetails;
     }
 
-    private Collection<DividendSummary> composeDividendSummary(Map<Integer, List<DividendDetails>> dividendsByYear) {
-        return dividendsByYear.entrySet().stream()
-                .map(divsByYear -> {
-                    var totalValue = divsByYear.getValue().stream()
+    private CardData produceDividendsGroupedByTimeFrame(List<DividendDetails> details, TimeFrameOption timeFrame) {
+        switch (timeFrame) {
+            case MONTH -> {
+                return produceDividendsGroupedByMonth(details, timeFrame);
+            }
+            case QUARTER -> {
+                return produceDividendsGroupedByQuarter(details, timeFrame);
+            }
+            default -> {
+                var dividendsByYear = details.stream()
+                        .collect(groupingBy(d -> d.getPayDate().getYear()));
+                var dividends = new TimeFrameDividend("Annual", composeDividendSummary(dividendsByYear));
+
+                return DividendIncomeCardData.builder()
+                        .dividends(List.of(dividends))
+                        .build();
+            }
+        }
+    }
+
+    private CardData produceDividendsGroupedByMonth(List<DividendDetails> details, TimeFrameOption timeFrame) {
+        var dividendsByYearMonth = details.stream()
+                .collect(groupingBy(d -> d.getPayDate().getMonthValue(), TreeMap::new,
+                        groupingBy(d -> d.getPayDate().getYear(), TreeMap::new, toList())));
+        var dividends = dividendsByYearMonth.entrySet().stream()
+                .map(divsByMonth -> {
+                    var divsByYear = enrichWithMissingYears(dividendsByYearMonth.values(), divsByMonth.getValue());
+                    return new TimeFrameDividend("M" + divsByMonth.getKey(),
+                            composeDividendSummary(divsByYear));
+                })
+                .toList();
+        return DividendIncomeCardData.builder()
+                .dividends(dividends)
+                .build();
+    }
+
+    private CardData produceDividendsGroupedByQuarter(List<DividendDetails> details, TimeFrameOption timeFrame) {
+        var dividendsByYearQuarter = details.stream()
+                .collect(groupingBy(d -> d.getPayDate().get(IsoFields.QUARTER_OF_YEAR), TreeMap::new,
+                        groupingBy(d -> d.getPayDate().getYear(), TreeMap::new, toList())));
+        var dividends = dividendsByYearQuarter.entrySet().stream()
+                .map(divsByQuarter -> {
+                    var divsByYear = enrichWithMissingYears(dividendsByYearQuarter.values(), divsByQuarter.getValue());
+                    return new TimeFrameDividend("Q" + divsByQuarter.getKey(),
+                            composeDividendSummary(divsByYear));
+                })
+                .toList();
+        return DividendIncomeCardData.builder()
+                .dividends(dividends)
+                .build();
+    }
+
+    private Collection<DividendSummary> composeDividendSummary(Map<Integer, List<DividendDetails>> groupedDividends) {
+        return groupedDividends.entrySet().stream()
+                .map(divsByTimeFrame -> {
+                    var totalValue = divsByTimeFrame.getValue().stream()
                             .map(div -> currencyConverterService.convert(div.getTotal(), div.getCurrency()))
                             .reduce(BigDecimal.ZERO, BigDecimal::add)
                             .setScale(2, RoundingMode.HALF_UP);
-                    return new DividendSummary(String.valueOf(divsByYear.getKey()), totalValue, divsByYear.getValue());
+                    return new DividendSummary(String.valueOf(divsByTimeFrame.getKey()), totalValue, divsByTimeFrame.getValue());
                 }).collect(toList());
     }
 
-    private Map<Integer, List<DividendDetails>> enrichWithMissingYears(Collection<TreeMap<Integer, List<DividendDetails>>> dividendsByYearForAllQuarters,
+    private Map<Integer, List<DividendDetails>> enrichWithMissingYears(Collection<TreeMap<Integer, List<DividendDetails>>> dividendsByYearForAllTimeFrames,
                                                                        Map<Integer, List<DividendDetails>> dividendsByYear) {
         var res = new TreeMap<>(dividendsByYear);
-        dividendsByYearForAllQuarters.stream()
+        dividendsByYearForAllTimeFrames.stream()
                 .map(TreeMap::keySet)
                 .flatMap(Collection::stream)
                 .forEach(year -> res.putIfAbsent(year, Collections.emptyList()));
