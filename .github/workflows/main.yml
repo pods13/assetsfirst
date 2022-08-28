@@ -24,4 +24,4 @@ jobs:
     - name: Build with Maven
       run: mvn -B package --file pom.xml
     - uses: superfly/flyctl-actions/setup-flyctl@master
-    - run: flyctl deploy --remote-only
+    - run: flyctl deploy --local-only
