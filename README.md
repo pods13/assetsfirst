@@ -4,8 +4,8 @@
 
 ## Usage
 ```
-docker-compose -f db.dev.yaml up -d --build
-docker-compose -f db.dev.yaml down 
+docker-compose up -d --build
+docker-compose down 
 ```
 <details>
   <summary>1.0.0 Features</summary>
