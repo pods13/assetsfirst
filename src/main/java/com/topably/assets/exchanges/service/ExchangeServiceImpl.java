@@ -1,8 +1,10 @@
 package com.topably.assets.exchanges.service;
 
 import com.topably.assets.core.domain.TickerSymbol;
+import com.topably.assets.exchanges.domain.InstrumentPrice;
 import com.topably.assets.exchanges.domain.USExchange;
 import com.topably.assets.exchanges.repository.ExchangeRepository;
+import com.topably.assets.exchanges.repository.InstrumentPriceRepository;
 import com.topably.assets.instruments.domain.InstrumentType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheConfig;
@@ -34,9 +36,10 @@ public class ExchangeServiceImpl implements ExchangeService {
             .map(InstrumentType::name).collect(toSet());
 
     private final ExchangeRepository exchangeRepository;
+    private final InstrumentPriceRepository priceRepository;
 
     @Override
-    public Page<TickerSymbol> getTickers(Pageable pageable, Set<String> instrumentTypes) {
+    public Page<TickerSymbol> getSymbols(Pageable pageable, Set<String> instrumentTypes) {
         return exchangeRepository.findInstrumentsOfCertainTypesByExchangeCodes(pageable, null,
                 useDefaultInstrumentTypesIfNull(instrumentTypes));
     }
@@ -47,7 +50,7 @@ public class ExchangeServiceImpl implements ExchangeService {
 
     @Override
     @Transactional
-    public Page<TickerSymbol> getTickersByExchange(String exchange, Pageable pageable, Set<String> instrumentTypes) {
+    public Page<TickerSymbol> getSymbolsByExchange(String exchange, Pageable pageable, Set<String> instrumentTypes) {
         var exchangeCodes = "US".equals(exchange) ? US_EXCHANGE_CODES : Set.of(exchange);
         return exchangeRepository.findInstrumentsOfCertainTypesByExchangeCodes(pageable, exchangeCodes,
                 useDefaultInstrumentTypesIfNull(instrumentTypes));
@@ -56,10 +59,18 @@ public class ExchangeServiceImpl implements ExchangeService {
     @Override
     @Cacheable(sync = true)
     @Transactional(propagation = Propagation.REQUIRES_NEW, readOnly = true)
-    public Optional<BigDecimal> findTickerRecentPrice(TickerSymbol symbol) {
+    public Optional<BigDecimal> findSymbolRecentPrice(TickerSymbol symbol) {
         try {
             var stock = YahooFinance.get(convertToYahooFinanceSymbol(symbol));
-            return Optional.ofNullable(stock).map(s -> s.getQuote().getPrice());
+            Optional<BigDecimal> price = Optional.ofNullable(stock).map(s -> s.getQuote().getPrice());
+
+            //TODO refactoring needed as soon as all prices from all exchanges become available in price table
+            if ("MCX".equals(symbol.getExchange())) {
+                return priceRepository.findTopBySymbolOrderByDatetimeDesc(symbol.toString())
+                        .map(InstrumentPrice::getValue)
+                        .or(() -> price);
+            }
+            return price;
         } catch (IOException e) {
             return Optional.empty();
         }

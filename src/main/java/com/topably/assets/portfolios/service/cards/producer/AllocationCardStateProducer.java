@@ -1,6 +1,5 @@
 package com.topably.assets.portfolios.service.cards.producer;
 
-import com.topably.assets.core.domain.TickerSymbol;
 import com.topably.assets.exchanges.service.ExchangeService;
 import com.topably.assets.portfolios.domain.Portfolio;
 import com.topably.assets.portfolios.domain.PortfolioHolding;
@@ -22,9 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -72,7 +69,7 @@ public class AllocationCardStateProducer implements CardStateProducer<Allocation
                             trades -> trades.stream().map(t -> {
                                 PortfolioHolding holding = t.getPortfolioHolding();
                                 var identifier = holding.getInstrument().toTickerSymbol();
-                                var price = exchangeService.findTickerRecentPrice(identifier).orElse(t.getPrice());
+                                var price = exchangeService.findSymbolRecentPrice(identifier).orElse(t.getPrice());
                                 return AllocationAggregatedTrade.builder()
                                         .identifier(identifier)
                                         .instrumentId(holding.getInstrument().getId())
@@ -85,7 +82,7 @@ public class AllocationCardStateProducer implements CardStateProducer<Allocation
         }
         return portfolioHoldingService.findPortfolioHoldings(portfolio.getId()).stream()
                 .map(holding -> {
-                    var price = exchangeService.findTickerRecentPrice(holding.getIdentifier())
+                    var price = exchangeService.findSymbolRecentPrice(holding.getIdentifier())
                             .orElse(holding.getPrice());
                     return AllocationAggregatedTrade.builder()
                             .identifier(holding.getIdentifier())

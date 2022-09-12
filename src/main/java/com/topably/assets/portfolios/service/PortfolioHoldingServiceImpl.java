@@ -132,7 +132,7 @@ public class PortfolioHoldingServiceImpl implements PortfolioHoldingService {
                     Instrument instrument = holding.getInstrument();
                     Currency currency = instrument.getExchange().getCurrency();
                     TickerSymbol tickerSymbol = instrument.toTickerSymbol();
-                    var marketValue = exchangeService.findTickerRecentPrice(tickerSymbol)
+                    var marketValue = exchangeService.findSymbolRecentPrice(tickerSymbol)
                             .map(value -> value.multiply(new BigDecimal(holding.getQuantity())))
                             .orElse(holding.getTotal());
                     var convertedMarketValue = currencyConverterService.convert(marketValue, currency);

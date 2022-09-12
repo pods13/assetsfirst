@@ -41,7 +41,7 @@ public class BalanceCardStateProducer implements CardStateProducer<BalanceCard> 
     private BigDecimal calculateCurrentAmount(Collection<PortfolioHoldingDto> holdings) {
         return holdings.stream()
                 .map(h -> {
-                    var marketValue = exchangeService.findTickerRecentPrice(h.getIdentifier())
+                    var marketValue = exchangeService.findSymbolRecentPrice(h.getIdentifier())
                             .map(value -> value.multiply(new BigDecimal(h.getQuantity())))
                             .orElse(h.getTotal());
                     return currencyConverterService.convert(marketValue, h.getCurrency());

@@ -10,9 +10,9 @@ import java.util.Set;
 
 public interface ExchangeService {
 
-    Page<TickerSymbol> getTickers(Pageable pageable, Set<String> instrumentTypes);
+    Page<TickerSymbol> getSymbols(Pageable pageable, Set<String> instrumentTypes);
 
-    Page<TickerSymbol> getTickersByExchange(String exchange, Pageable pageable, Set<String> instrumentTypes);
+    Page<TickerSymbol> getSymbolsByExchange(String exchange, Pageable pageable, Set<String> instrumentTypes);
 
-    Optional<BigDecimal> findTickerRecentPrice(TickerSymbol symbol);
+    Optional<BigDecimal> findSymbolRecentPrice(TickerSymbol symbol);
 }

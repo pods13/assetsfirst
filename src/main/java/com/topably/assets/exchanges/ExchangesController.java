@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
 import java.util.Set;
 
 @RestController
@@ -23,12 +22,12 @@ public class ExchangesController {
 
     @GetMapping("/tickers")
     public Page<TickerSymbol> getTickers(Pageable pageable, @RequestParam(required = false) Set<String> instrumentTypes) {
-        return exchangeService.getTickers(pageable, instrumentTypes);
+        return exchangeService.getSymbols(pageable, instrumentTypes);
     }
 
     @GetMapping("/{exchange}/tickers")
     public Page<TickerSymbol> getTickersByExchange(@PathVariable String exchange, Pageable pageable,
                                                    @RequestParam(required = false) Set<String> instrumentTypes) {
-        return exchangeService.getTickersByExchange(exchange, pageable, instrumentTypes);
+        return exchangeService.getSymbolsByExchange(exchange, pageable, instrumentTypes);
     }
 }
