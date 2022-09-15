@@ -1,18 +1,23 @@
 {
-  "name": "findata",
+  "name": "@assets/findata",
   "version": "1.0.0",
   "description": "",
   "scripts": {
     "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/main.js\"",
     "build:watch": "rimraf dist && npx tsc --watch",
     "build": "rimraf dist && npx tsc",
+    "prepare" : "npm run build",
     "collect:stocks:ru": "node dist/collectors/investingcom Russia",
     "collect:stocks:ge": "node dist/collectors/investingcom Germany \"Xetra\"",
     "collect:stocks:us": "node dist/collectors/investingcom \"United States\" \"NASDAQ,NYSE\"",
     "collect:stocks:hk": "node dist/collectors/investingcom \"Hong Kong\"",
     "import:stocks": "node dist/data-imports",
     "dividends:all": "node dist/stocks/investingcom/fetch-dividends.js",
-    "dividends:ru": "node dist/stocks/dohodru/fetch-dividends.js"
+    "dividends:ru": "node dist/stocks/dohodru/fetch-dividends.js",
+    "prices:ru": "node dist/moex-price-worker/index.js"
+  },
+  "bin": {
+    "prices:ru": "dist/moex-price-worker/index.js"
   },
   "keywords": [],
   "author": "",

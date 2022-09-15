@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import MoexAPI from 'moex-api';
 import connection from '../common/connection';
 
