@@ -1,0 +1,25 @@
+name: Pull Data
+
+on:
+  workflow_dispatch:
+
+jobs:
+  pull-moex-prices:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./findata
+    permissions:
+      contents: read
+      packages: read
+    env:
+      DATABASE_URL: ${{secrets.GITHUB_TOKEN}}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          registry-url: https://npm.pkg.github.com/
+          always-auth: true
+      - run: npx -p @pods13/findata prices:ru
+
