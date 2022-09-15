@@ -13,7 +13,8 @@ jobs:
       contents: read
       packages: read
     env:
-      DATABASE_URL: ${{secrets.GITHUB_TOKEN}}
+      DATABASE_URL: ${{secrets.DATABASE_URL}}
+      NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
