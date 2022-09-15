@@ -17,7 +17,7 @@
     "prices:ru": "node dist/moex-price-worker/index.js"
   },
   "bin": {
-    "prices:ru": "dist/moex-price-worker/index.js"
+    "prices-ru": "dist/moex-price-worker/index.js"
   },
   "keywords": [],
   "author": "",
