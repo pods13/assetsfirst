@@ -5,20 +5,9 @@
   padding: 0 5px;
 }
 
-.card-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.title {
-  min-width: calc(100% - 65px);
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  font-weight: 500;
-}
-
 .btn {
-  width: 20px;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 30px;
 }

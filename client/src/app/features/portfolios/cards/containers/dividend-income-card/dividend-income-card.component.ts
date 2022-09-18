@@ -7,15 +7,18 @@ import { DividendIncomeCard, TimeFrameOption } from '../../types/in/dividend-inc
 @Component({
   selector: 'app-dividends-card',
   template: `
-    <mat-form-field appearance="legacy">
-      <div matPrefix>{{'By:'}}</div>
-      <mat-select [value]="card.timeFrame" (valueChange)="onTimeFrameOptionChanged($event)">
-        <mat-option *ngFor="let timeFrame of timeFrameOptions"
-                    [value]="timeFrame.value">
-          {{timeFrame.value}}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
+    <div class="card-header">
+      <h2 class="title">{{ card?.title }}</h2>
+      <mat-form-field appearance="legacy">
+        <div matPrefix>{{'By:'}}</div>
+        <mat-select [value]="card.timeFrame" (valueChange)="onTimeFrameOptionChanged($event)">
+          <mat-option *ngFor="let timeFrame of timeFrameOptions"
+                      [value]="timeFrame.value">
+            {{timeFrame.value}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
     <ngx-charts-bar-vertical-2d *ngIf="data$ | async as data" class="dividend-income-chart clearfix"
                                 [results]="data.dividends"
                                 [scheme]="'vivid'"

@@ -9,20 +9,23 @@ import { AllocatedByOption, AssetAllocationCard } from '../../types/in/asset-all
 @Component({
   selector: 'app-allocation-card',
   template: `
-    <mat-form-field appearance="legacy">
-      <div matPrefix>{{'By:'}}</div>
-      <mat-select [value]="card.allocatedBy" (valueChange)="onAllocatedByOptionChanged($event)">
-        <mat-option *ngFor="let allocatedBy of allocatedByOptions"
-                    [value]="allocatedBy.value">
-          {{allocatedBy.value}}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
+    <div class="card-header">
+      <h2 class="title">{{ card?.title }}</h2>
+      <mat-form-field appearance="legacy">
+        <div matPrefix>{{'by:'}}</div>
+        <mat-select [value]="card.allocatedBy" (valueChange)="onAllocatedByOptionChanged($event)">
+          <mat-option *ngFor="let allocatedBy of allocatedByOptions"
+                      [value]="allocatedBy.value">
+            {{allocatedBy.value}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
     <ng-container *ngIf="data$ | async as data">
       <ngx-charts-pie-chart class="pie-chart clearfix"
                             [scheme]="'vivid'"
                             [results]="chartSegments"
-                            [view]="[(card.cols - 2) * 100 + 100, (card.rows - 2) * 100 + 100]"
+                            [view]="[(card.cols - 1.5) * 100 + 100, (card.rows - 1.5) * 100 + 100]"
                             [legend]="false"
                             [labels]="false" (select)="onSegmentSelected($event)">
       </ngx-charts-pie-chart>

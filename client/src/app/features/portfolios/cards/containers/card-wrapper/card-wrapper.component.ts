@@ -22,20 +22,15 @@ import { DashboardCardStore } from '../../services/dashboard-card.store';
 @Component({
   selector: 'app-card-wrapper',
   template: `
-    <div class="card-header">
-      <div class="title">{{ card?.title }}</div>
-      <button class="btn" mat-icon-button aria-label="Configure Card" [matMenuTriggerFor]="menu">
-        <mat-icon>more_vert</mat-icon>
-      </button>
-      <mat-menu #menu="matMenu">
-        <button mat-menu-item>Edit</button>
-        <button mat-menu-item (click)="deleteCard()">Delete</button>
-      </mat-menu>
-    </div>
-    <div class="card-body">
-      <ng-template appPortfolioCardOutlet>
-      </ng-template>
-    </div>
+    <button class="btn" mat-icon-button aria-label="Configure Card" [matMenuTriggerFor]="menu">
+      <mat-icon>more_vert</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item>Edit</button>
+      <button mat-menu-item (click)="deleteCard()">Delete</button>
+    </mat-menu>
+    <ng-template appPortfolioCardOutlet>
+    </ng-template>
   `,
   styleUrls: ['./card-wrapper.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

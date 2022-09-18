@@ -9,6 +9,9 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 @Component({
   selector: 'app-sectoral-distribution-card',
   template: `
+    <div class="card-header">
+      <h2 class="title">{{ card?.title }}</h2>
+    </div>
     <ng-container *ngIf="data$ | async as data">
       <div class="breadcrumbs" *ngIf="treemapPath.length > 1">
         <ng-container *ngFor="let item of treemapPath; let last = last">
@@ -20,7 +23,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
       </div>
       <ngx-charts-tree-map class="clearfix"
                            [view]="[card.cols * 108 + 6.5 * (card.cols - (card.minItemCols || card.cols)),
-                             card.rows * 80 + 10 * (card.rows - (card.minItemRows || card.rows))]"
+                             card.rows * 95 + 10 * (card.rows - (card.minItemRows || card.rows))]"
                            [scheme]="'vivid'"
                            [results]="treemap"
                            [animations]="true"
