@@ -1,12 +1,12 @@
 {
   "name": "@pods13/findata",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "",
   "scripts": {
     "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/main.js\"",
     "build:watch": "rimraf dist && npx tsc --watch",
     "build": "rimraf dist && npx tsc",
-    "prepare" : "npm run build",
+    "prepare": "npm run build",
     "collect:stocks:ru": "node dist/collectors/investingcom Russia",
     "collect:stocks:ge": "node dist/collectors/investingcom Germany \"Xetra\"",
     "collect:stocks:us": "node dist/collectors/investingcom \"United States\" \"NASDAQ,NYSE\"",
