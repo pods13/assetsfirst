@@ -2,6 +2,162 @@
   "AGRODR.MCX": {
     "symbol": "AGRO"
   },
+  "TRNF_p.MCX": {
+    "symbol": "TRNFP"
+  },
+  "BANE_p.MCX": {
+    "symbol": "BANEP"
+  },
+  "BSPB_p.MCX": {
+    "symbol": "BSPBP"
+  },
+  "BISV_p.MCX": {
+    "symbol": "BISVP"
+  },
+  "WTCM_p.MCX": {
+    "symbol": "WTCMP"
+  },
+  "DZRD_p.MCX": {
+    "symbol": "DZRDP"
+  },
+  "GAZA_p.MCX": {
+    "symbol": "GAZAP"
+  },
+  "RLMN_p.MCX": {
+    "symbol": "RLMNP"
+  },
+  "IGST_p.MCX": {
+    "symbol": "IGSTP"
+  },
+  "KCHE_p.MCX": {
+    "symbol": "KCHEP"
+  },
+  "KGKC_p.MCX": {
+    "symbol": "KGKCP"
+  },
+  "HIMC_p.MCX": {
+    "symbol": "HIMCP"
+  },
+  "KRSB_p.MCX": {
+    "symbol": "KRSBP"
+  },
+  "KROT_p.MCX": {
+    "symbol": "KROTP"
+  },
+  "KTSB_p.MCX": {
+    "symbol": "KTSBP"
+  },
+  "KAZT_p.MCX": {
+    "symbol": "KAZTP"
+  },
+  "TGKD_p.MCX": {
+    "symbol": "TGKDP"
+  },
+  "LSNG_p.MCX": {
+    "symbol": "LSNGP"
+  },
+  "LNZL_p.MCX": {
+    "symbol": "LNZLP"
+  },
+  "MAGE_p.MCX": {
+    "symbol": "MAGEP"
+  },
+  "MTLR_p.MCX": {
+    "symbol": "MTLRP"
+  },
+  "MGTS_p.MCX": {
+    "symbol": "MGTSP"
+  },
+  "NKNC_p.MCX": {
+    "symbol": "NKNCP"
+  },
+  "MVZMI_p.MCX": {
+    "symbol": "MVZMIP"
+  },
+  "OMZZ_p.MCX": {
+    "symbol": "OMZZP"
+  },
+  "KZOS_p.MCX": {
+    "symbol": "KZOSP"
+  },
+  "PMSB_p.MCX": {
+    "symbol": "PMSBP"
+  },
+  "RSTI_p.MCX": {
+    "symbol": "RSTIP"
+  },
+  "RTKM_p.MCX": {
+    "symbol": "RTKMP"
+  },
+  "RTSB_p.MCX": {
+    "symbol": "RTSBP"
+  },
+  "SAGO_p.MCX": {
+    "symbol": "SAGOP"
+  },
+  "SARE_p.MCX": {
+    "symbol": "SAREP"
+  },
+  "KRKN_p.MCX": {
+    "symbol": "KRKNP"
+  },
+  "SBER_p.MCX": {
+    "symbol": "SBERP"
+  },
+  "MFGS_p.MCX": {
+    "symbol": "MFGSP"
+  },
+  "JNOS_p.MCX": {
+    "symbol": "JNOSP"
+  },
+  "STSB_p.MCX": {
+    "symbol": "STSBP"
+  },
+  "SNGS_p.MCX": {
+    "symbol": "SNGSP"
+  },
+  "TASB_p.MCX": {
+    "symbol": "TASBP"
+  },
+  "TATN_p.MCX": {
+    "symbol": "TATNP"
+  },
+  "TGKB_p.MCX": {
+    "symbol": "TGKBP"
+  },
+  "KRKO_p.MCX": {
+    "symbol": "KRKOP"
+  },
+  "MISB_p.MCX": {
+    "symbol": "MISBP"
+  },
+  "NNSB_p.MCX": {
+    "symbol": "NNSBP"
+  },
+  "VRSB_p.MCX": {
+    "symbol": "VRSBP"
+  },
+  "YRSB_p.MCX": {
+    "symbol": "YRSBP"
+  },
+  "TORS_p.MCX": {
+    "symbol": "TORSP"
+  },
+  "CNTL_p.MCX": {
+    "symbol": "CNTLP"
+  },
+  "VJGZ_p.MCX": {
+    "symbol": "VJGZP"
+  },
+  "VGSB_p.MCX": {
+    "symbol": "VGSBP"
+  },
+  "VSYD_p.MCX": {
+    "symbol": "VSYDP"
+  },
+  "YKEN_p.MCX": {
+    "symbol": "YKENP"
+  },
   "BAYGn.XETRA": {
     "symbol": "BAYN"
   }
