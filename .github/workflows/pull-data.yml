@@ -22,7 +22,6 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 16
-          cache: npm
           registry-url: https://npm.pkg.github.com/
           always-auth: true
       - uses: szenius/set-timezone@v1.0
