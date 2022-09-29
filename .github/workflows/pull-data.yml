@@ -8,6 +8,9 @@ on:
 jobs:
   pull-mcx-prices:
     runs-on: self-hosted
+    defaults:
+      run:
+        working-directory: ./runner/
     permissions:
       contents: read
       packages: read
