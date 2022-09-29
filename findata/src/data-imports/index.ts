@@ -4,8 +4,9 @@ import { getClient } from '../utils/client';
 import { AxiosError, AxiosInstance } from 'axios';
 import fsPromises from 'fs/promises';
 import path from 'path';
+import { StockData } from '../common/types/stock-data';
 
-function pushData(client: AxiosInstance, data: any) {
+function pushData(client: AxiosInstance, data: StockData) {
     if (!filterData(data)) {
         return;
     }
@@ -20,12 +21,11 @@ function pushData(client: AxiosInstance, data: any) {
             industry: data.industry,
         }
     };
-    // console.log(dto);
     retry(() => client.put(`/stocks/import`, dto), isRetryableError)
         .catch(err => console.error(`Cannot push data for ${data.symbol}.${data.exchange}`));
 }
 
-function filterData(data: any) {
+function filterData(data: StockData) {
     if (!data.sector && !data.industry) {
         return false;
     }

@@ -1,934 +1,362 @@
 symbol,exchange,name,sector,industry,slug
 TSVT-RM,MCX,2Seventy Bio,Healthcare,Biotechnology,2seventy-bio?cid=1180705
-TWOU-RM,MCX,2U Inc,Consumer Discretionary,Diversified Consumer Services,2u-inc?cid=1185384
-MMM-RM,MCX,3M,Industrials,Industrial Conglomerates,3m-co?cid=1172690
-EGHT-RM,MCX,8x8,Information Technology,Software,8x8-inc?cid=1185084
-ABT-RM,MCX,Abbott Labs,Healthcare,Health Care Equipment & Supplies,abbott-laboratories?cid=1169909
-ABBV-RM,MCX,AbbVie,Healthcare,Biotechnology,abbvie-inc?cid=1167266
-ANF-RM,MCX,Abercrombie&Fitch,Consumer Discretionary,Specialty Retail,aberc-fitch-a?cid=1185078
-ABMD-RM,MCX,ABIOMED,Healthcare,Health Care Equipment & Supplies,abiomed?cid=1177911
 ABRD,MCX,Abrau Durso OAO,Consumer Staples,Beverages,abrau-durso-oao
-ASO-RM,MCX,Academy Sports,Consumer Discretionary,Specialty Retail,academy-sports-outdoors-inc?cid=1184110
-ACAD-RM,MCX,ACADIA,Healthcare,Biotechnology,acadia-pharmaceuticals?cid=1177290
-ATVI-RM,MCX,Activision Blizzard,Communication Services,Entertainment,activision-inc?cid=1165933
-ADBE-RM,MCX,Adobe,Information Technology,Software,adobe-sys-inc?cid=1167265
-ADP-RM,MCX,ADP,Information Technology,IT Services,auto-data-process?cid=1177292
 AAP-RM,MCX,Advance Auto Parts,Consumer Discretionary,Specialty Retail,advance-auto-parts?cid=1180677
 AFLT,MCX,Aeroflot,Industrials,Airlines,aeroflot
 AFKS,MCX,AFK Sistema,Communication Services,Wireless Telecommunication Services,afk-sistema_rts
-AFL-RM,MCX,Aflac,Financial,Insurance,aflac-inc?cid=1177293
-A-RM,MCX,Agilent Technologies,Healthcare,Life Sciences Tools & Services,agilent-tech?cid=1179710
-AIG-RM,MCX,AIG,Financial,Insurance,american-intl-group?cid=1178089
-APD-RM,MCX,Air Products,Materials,Chemicals,air-prods---chem?cid=1177298
 ABNB-RM,MCX,Airbnb,Consumer Discretionary,"Hotels, Restaurants & Leisure",airbnb-inc?cid=1180675
-TRNF_p,MCX,AK Transneft Pref,Energy,"Oil, Gas & Consumable Fuels",transneft-p_rts
-AKAM-RM,MCX,Akamai,Information Technology,IT Services,akamai-technologies-inc?cid=1179721
+TRNFP,MCX,AK Transneft Pref,Energy,"Oil, Gas & Consumable Fuels",transneft-p_rts
 AVAN,MCX,AKB Avangard OAO,Financial,Banks,akb-avangard-oao
 PRMB,MCX,Akb Primorye OAO,Financial,Banks,akb-primorye-oao
 ROSB,MCX,AKB Rosbank,Financial,Banks,rosbank
 AKRN,MCX,Akron,Materials,Chemicals,akron_rts
-ALK-RM,MCX,Alaska Air,Industrials,Airlines,alaska-air?cid=1179705
-ALB-RM,MCX,Albemarle,Materials,Chemicals,albemarle?cid=1177295
-AA-RM,MCX,Alcoa,Materials,Metals & Mining,alcoa?cid=1177926
-BABA-RMDR,MCX,Alibaba ADR,Consumer Discretionary,Internet & Direct Marketing Retail,alibaba?cid=1167268
 ALGN-RM,MCX,Align,Healthcare,Health Care Equipment & Supplies,align-technology?cid=1180678
-LNT-RM,MCX,Alliant Energy,Utilities,Electric Utilities,alliant-energy?cid=1179727
-MDRX-RM,MCX,Allscripts,Healthcare,Health Care Technology,allscripts-misys-healthcre-solution?cid=1185375
-ALL-RM,MCX,Allstate,Financial,Insurance,allstate-corporation?cid=1179703
-ALLY-RM,MCX,Ally Financial Inc,Financial,Consumer Finance,ally-financ?cid=1183807
-GOOG-RM,MCX,Alphabet C,Communication Services,Interactive Media & Services,google-inc-c?cid=1165937
 ALRS,MCX,ALROSA ao,Materials,Metals & Mining,alrosa-ao
-AYX-RM,MCX,Alteryx,Information Technology,Software,alteryx-inc?cid=1177912
-ATUS-RM,MCX,Altice USA,Communication Services,Media,altice-usa-inc?cid=1183803
-MO-RM,MCX,Altria,Consumer Staples,Tobacco,altria-group?cid=1177334
-AMZN-RM,MCX,Amazon.com,Consumer Discretionary,Internet & Direct Marketing Retail,amazon-com-inc?cid=1165932
-AMC-RM,MCX,AMC Entertainment,Communication Services,Entertainment,amc-entertat-hld?cid=1177874
-AMD-RM,MCX,AMD,Information Technology,Semiconductors & Semiconductor Equipment,adv-micro-device?cid=1165931
-AEE-RM,MCX,Ameren,Utilities,Multi-Utilities,ameren-corp?cid=1179728
-AAL-RM,MCX,American Airlines,Industrials,Airlines,american-airlines-group?cid=1167264
-AEO-RM,MCX,American Eagle Outfitters,Consumer Discretionary,Specialty Retail,american-eagle-outfitters?cid=1183738
-AEP-RM,MCX,American Electric Power,Utilities,Electric Utilities,american-electric?cid=1178116
-AXP-RM,MCX,American Express,Financial,Consumer Finance,american-express?cid=1177884
 AWK-RM,MCX,American Water Works,Utilities,Water Utilities,american-water-works-inc?cid=1179768
 AMP-RM,MCX,Ameriprise Financial,Financial,Capital Markets,ameriprise-fincl?cid=1182937
 ABC-RM,MCX,AmerisourceBergen,Healthcare,Health Care Providers & Services,amerisourcebergn?cid=1179756
 AME-RM,MCX,Ametek,Industrials,Electrical Equipment,ametek-inc?cid=1179759
-AMGN-RM,MCX,Amgen,Healthcare,Biotechnology,amgen-inc?cid=1171996
-FOLD-RM,MCX,Amicus,Healthcare,Biotechnology,amicus-therapeutics?cid=1184154
 ZILL,MCX,AMO ZIL PAO,Consumer Discretionary,Automobiles,amo-zil
-APH-RM,MCX,Amphenol,Information Technology,"Electronic Equipment, Instruments & Components",amphenol-corp?cid=1177910
-ADI-RM,MCX,Analog Devices,Information Technology,Semiconductors & Semiconductor Equipment,analog-devices?cid=1178115
-PLAN-RM,MCX,Anaplan,Information Technology,Software,anaplan?cid=1184172
-ANGI-RM,MCX,ANGI Homeservices,Communication Services,Interactive Media & Services,angies-list-inc?cid=1185079
 BANE,MCX,ANK Bashneft,Energy,"Oil, Gas & Consumable Fuels",bashneft_rts
-BANE_p,MCX,ANK Bashneft Pref,Energy,"Oil, Gas & Consumable Fuels",bashneft-(pref)
-ANSS-RM,MCX,ANSYS,Information Technology,Software,ansys?cid=1177296
-ANTM-RM,MCX,Anthem,Healthcare,Health Care Providers & Services,wellpoint-inc?cid=1174113
-AOS-RM,MCX,AO Smith,Industrials,Building Products,a.o-smith-corp?cid=1177297
-APA-RM,MCX,APA Corp,Energy,"Oil, Gas & Consumable Fuels",apache-corp?cid=1174121
+BANEP,MCX,ANK Bashneft Pref,Energy,"Oil, Gas & Consumable Fuels",bashneft-(pref)
 APPH-RM,MCX,Appharvest,Consumer Staples,Food Products,novus-capital-corp?cid=1183158
-AAPL-RM,MCX,Apple,Information Technology,"Technology Hardware, Storage & Peripherals",apple-computer-inc?cid=1166031
-AMAT-RM,MCX,Applied Materials,Information Technology,Semiconductors & Semiconductor Equipment,applied-matls-inc?cid=1172663
-APP-RM,MCX,Applovin,Information Technology,Software,applovin?cid=1185715
 APTK,MCX,Apteki 36,Consumer Staples,Food & Staples Retailing,apteka-36-6_rts
-ADM-RM,MCX,Archer-Daniels-Midland,Consumer Staples,Food Products,archer-daniels-mid?cid=1177291
-ARCC-RM,MCX,Ares Capital,Financial,Capital Markets,ares-capital?cid=1184109
 ANET-RM,MCX,Arista Networks,Information Technology,Communications Equipment,arista-networks?cid=1180676
 AJG-RM,MCX,Arthur J Gallagher,Financial,Insurance,arthur-j.-gallagher---co?cid=1179748
 AMEZ,MCX,Ashinskiy Metzavod PAO,Materials,Metals & Mining,ashinskiy-metallurgical-works
-AIZ-RM,MCX,Assurant,Financial,Insurance,assurant?cid=1177294
 ASSB,MCX,Astrakhanskaya energosbytovaya OAO,Utilities,Electric Utilities,astrakhan-power-sale-comp
-T-RM,MCX,AT&T,Communication Services,Diversified Telecommunication Services,at-t?cid=1165946
-ATO-RM,MCX,Atmos Energy,Utilities,Gas Utilities,atmos-energy-corp?cid=1177299
-ADSK-RM,MCX,Autodesk,Information Technology,Software,autodesk-inc?cid=1179733
 AZO-RM,MCX,AutoZone,Consumer Discretionary,Specialty Retail,autozone-inc?cid=1182935
-AVTR-RM,MCX,Avantor,Healthcare,Life Sciences Tools & Services,avantor-inc?cid=1183801
 AVY-RM,MCX,Avery Dennison,Materials,Containers & Packaging,avery-dennison?cid=1182936
 SIBG,MCX,Ays Stim Rus PAO,Consumer Staples,Food Products,sibirskiy-gostinets-pao
-BGS-RM,MCX,B&G Foods,Consumer Staples,Food Products,b-g-foods-holdings-corp?cid=1185080
-BIDU-RMDR,MCX,Baidu,Communication Services,Interactive Media & Services,baidu.com?cid=1167270
-BKR-RM,MCX,Baker Hughes,Energy,Energy Equipment & Services,baker-hughes?cid=1172695
-BALL-RM,MCX,Ball,Materials,Containers & Packaging,ball-corp?cid=1179696
 KUZB,MCX,Bank Kuznetskiy OAO,Financial,Banks,bank-kuznetskiy-oao
-BAC-RM,MCX,Bank of America,Financial,Banks,bank-of-america?cid=1174099
-BK-RM,MCX,Bank of NY Mellon,Financial,Capital Markets,bk-of-ny?cid=1177877
-BSPB_p,MCX,Bank SanktPeterburg PAO,Financial,Banks,bank-sanktpeterburg-pao-prf
+BSPBP,MCX,Bank SanktPeterburg PAO,Financial,Banks,bank-sanktpeterburg-pao-prf
 USBN,MCX,Bank Uralsib,Financial,Banks,bank-uralsib
 VTBR,MCX,Bank VTB PAO,Financial,Banks,vtb_rts
 BISV,MCX,BashInformSvyaz ao,Communication Services,Diversified Telecommunication Services,bashinformsvyaz
-BISV_p,MCX,Bashinformsvyaz Pref,Communication Services,Diversified Telecommunication Services,bashinformsvyaz-(pref)
-BBWI-RM,MCX,Bath & Body Works,Consumer Discretionary,Specialty Retail,limited-brands?cid=1178093
-BAX-RM,MCX,Baxter,Healthcare,Health Care Equipment & Supplies,baxter-intl?cid=1178117
-BDX-RM,MCX,Becton Dickinson,Healthcare,Health Care Equipment & Supplies,becton-dickinsn?cid=1177300
-BBBY-RM,MCX,Bed Bath&Beyond,Consumer Discretionary,Specialty Retail,bed-bath---beyond-inc?cid=1180680
+BISVP,MCX,Bashinformsvyaz Pref,Communication Services,Diversified Telecommunication Services,bashinformsvyaz-(pref)
+BBBY-RM,MCX,Bed Bath & Beyond,Consumer Discretionary,Specialty Retail,bed-bath---beyond-inc?cid=1180680
 BLNG,MCX,Belon ao,Materials,Metals & Mining,belon_rts
 BELU,MCX,Beluga,Consumer Staples,Beverages,synergy_rts
-BRKB-RM,MCX,Berkshire Hathaway B,Financial,Diversified Financial Services,berkshire-hathaway?cid=1172681
-BBY-RM,MCX,Best Buy,Consumer Discretionary,Specialty Retail,best-buy?cid=1178126
-BYND-RM,MCX,Beyond Meat,Consumer Staples,Food Products,beyond-meat-inc?cid=1177303
-BILI-RMDR,MCX,Bilibili,Communication Services,Entertainment,bilibili-inc?cid=1177893
-BILL-RM,MCX,Bill Com,Information Technology,Software,bill-com-holdings-inc?cid=1185371
 BIO-RM,MCX,Bio-Rad Labs,Healthcare,Life Sciences Tools & Services,bio-rad-laboratories-inc?cid=1182870
-BIIB-RM,MCX,Biogen,Healthcare,Biotechnology,biogen-idec-inc?cid=1167269
 BNGO-RM,MCX,Bionano Genomics,Healthcare,Life Sciences Tools & Services,bionano-genomics?cid=1180679
-BLK-RM,MCX,BlackRock,Financial,Capital Markets,"blackrock,-inc.-c?cid=1174106"
-BX-RM,MCX,Blackstone Group,Financial,Capital Markets,the-blackstone-group?cid=1183809
-BLNK-RM,MCX,Blink Charging,Industrials,Electrical Equipment,car-charging-group?cid=1183818
-SQ-RM,MCX,Block,Information Technology,IT Services,square-inc?cid=1174116
-BLMN-RM,MCX,Bloomin Brands,Consumer Discretionary,"Hotels, Restaurants & Leisure",bloomin-brands-inc?cid=1185716
-BLUE-RM,MCX,Bluebird,Healthcare,Biotechnology,bluebird-bio-inc?cid=1177894
-BA-RM,MCX,Boeing,Industrials,Aerospace & Defense,boeing-co?cid=1165934
-BKNG-RM,MCX,Booking,Consumer Discretionary,"Hotels, Restaurants & Leisure",priceline.com-inc?cid=1171366
-BWA-RM,MCX,BorgWarner,Consumer Discretionary,Auto Components,borgwarner?cid=1178141
-BSX-RM,MCX,Boston Scientific,Healthcare,Health Care Equipment & Supplies,boston-scien-cp?cid=1172664
-BOX-RM,MCX,Box Inc,Information Technology,Software,seacube-container-leasing-ltd?cid=1184112
-BMY-RM,MCX,Bristol-Myers Squibb,Healthcare,Pharmaceuticals,bristol-myer-squiib?cid=1167271
-AVGO-RM,MCX,Broadcom,Information Technology,Semiconductors & Semiconductor Equipment,avago-technologies?cid=1167267
-BR-RM,MCX,Broadridge,Information Technology,IT Services,broadridge-financial-solutions?cid=1183289
-BFB-RM,MCX,Brown Forman,Consumer Staples,Beverages,brown-forman-b?cid=1177302
 BSPB,MCX,BSP,Financial,Banks,bank-st-petersbr_rts
-BLDR-RM,MCX,Builders FirstSource,Industrials,Building Products,builders-firstsou?cid=1184111
 BRZL,MCX,Buryatzoloto ao,Materials,Metals & Mining,buryatzoloto
-CDNS-RM,MCX,Cadence Design,Information Technology,Software,cadence-design-system-inc?cid=1179715
-CZR-RM,MCX,Caesars,Consumer Discretionary,"Hotels, Restaurants & Leisure",caesars-entertainment-corp?cid=1178112
-CPB-RM,MCX,Campbell Soup,Consumer Staples,Food Products,campbell-soup?cid=1177891
-COF-RM,MCX,Capital One Financial,Financial,Consumer Finance,capital-one?cid=1178109
-CARA-RM,MCX,Cara Therapeutic,Healthcare,Pharmaceuticals,cara-therapeutic?cid=1185081
-CAH-RM,MCX,Cardinal Health,Healthcare,Health Care Providers & Services,cardinal-health?cid=1177304
 KMX-RM,MCX,CarMax,Consumer Discretionary,Specialty Retail,carmax-inc?cid=1179747
-PRTS-RM,MCX,CarpParts.Com,Consumer Discretionary,Internet & Direct Marketing Retail,us-auto-parts-network?cid=1185379
-CARR-RM,MCX,Carrier Global,Industrials,Building Products,carrier-global-corp?cid=1178078
-CVNA-RM,MCX,Carvana,Consumer Discretionary,Specialty Retail,carvana?cid=1185718
-SAVA-RM,MCX,Cassava Sciences,Healthcare,Pharmaceuticals,pain-therapeutics?cid=1183742
 CTLT-RM,MCX,Catalent Inc,Healthcare,Pharmaceuticals,catalent-inc?cid=1179757
-CAT-RM,MCX,Caterpillar,Industrials,Machinery,caterpillar?cid=1169914
-CDW-RM,MCX,CDW Corp,Information Technology,"Electronic Equipment, Instruments & Components",cdw-corp?cid=1183290
 CE-RM,MCX,Celanese,Materials,Chemicals,celanese?cid=1180825
-CNC-RM,MCX,Centene,Healthcare,Health Care Providers & Services,centene?cid=1178099
-CNP-RM,MCX,CenterPoint Energy,Utilities,Multi-Utilities,centerpoint?cid=1178081
-CERN-RM,MCX,Cerner,Healthcare,Health Care Technology,cerner-corporatio?cid=1178142
-CF-RM,MCX,CF Industries,Materials,Chemicals,cf-industries?cid=1174088
-CHRW-RM,MCX,CH Robinson,Industrials,Air Freight & Logistics,c-h-robinson-worldwide-inc?cid=1177880
-CHX-RM,MCX,ChampionX Corp,Consumer Staples,Food Products,apergy?cid=1186047
-CHNG-RM,MCX,Change Healthcare,Healthcare,Health Care Technology,change-healthcare-inc?cid=1184150
 CRL-RM,MCX,Charles River Laboratories,Healthcare,Life Sciences Tools & Services,charles-river-laboratories-intl?cid=1180826
-SCHW-RM,MCX,Charles Schwab,Financial,Capital Markets,charles-schwab?cid=1177890
-CHTR-RM,MCX,Charter Communications,Communication Services,Media,charter-communications?cid=1177878
-CHGG-RM,MCX,Chegg Inc,Consumer Discretionary,Diversified Consumer Services,chegg-inc?cid=1185083
 CHMK,MCX,Chelyabinsk Metallurg,Materials,Metals & Mining,chmk
 CHKZ,MCX,Chelyabinskiy Kuznechno Presso,Consumer Discretionary,Auto Components,chelyabinskiy-kuznechno-presso
-CCXI-RM,MCX,ChemoCentryx,Healthcare,Biotechnology,chemocentryx-inc?cid=1184113
-CC-RM,MCX,Chemours Co,Materials,Chemicals,chemours-co?cid=1185717
-CVX-RM,MCX,Chevron,Energy,"Oil, Gas & Consumable Fuels",chevron?cid=1169917
-CHWY-RM,MCX,Chewy,Consumer Discretionary,Internet & Direct Marketing Retail,chewy-inc?cid=1183808
-CMG-RM,MCX,Chipotle Mexican Grill,Consumer Discretionary,"Hotels, Restaurants & Leisure",chipotle-mexican-grill-inc?cid=1183291
 CHEP,MCX,CHTPZ,Materials,Metals & Mining,chtpz
-CHD-RM,MCX,Church&Dwight,Consumer Staples,Household Products,church---dwight?cid=1179725
 PRFN,MCX,Chzpsn-Profnastil OAO,Materials,Metals & Mining,chzpsn-profnastil-oao
 CIANDR,MCX,Cian ADR,Communication Services,Interactive Media & Services,cian-adr?cid=1180342
-CI-RM,MCX,Cigna,Healthcare,Health Care Providers & Services,cigna-corp?cid=1174120
-CINF-RM,MCX,Cincinnati Financial,Financial,Insurance,cincinnati-fin?cid=1177305
-CNK-RM,MCX,Cinemark,Communication Services,Entertainment,cinemark-hldg?cid=1177882
-CTAS-RM,MCX,Cintas,Industrials,Commercial Services & Supplies,cintas-corp?cid=1177308
-CSCO-RM,MCX,Cisco,Information Technology,Communications Equipment,cisco-sys-inc?cid=1167272
-C-RM,MCX,Citigroup,Financial,Banks,citigroup?cid=1177907
-CFG-RM,MCX,Citizens Financial Group Inc,Financial,Banks,citizens-financial-group-inc?cid=1178090
-CTXS-RM,MCX,Citrix Systems,Information Technology,Software,citrix-sys-inc?cid=1179724
-CLSK-RM,MCX,CleanSpark,Information Technology,Software,cleanspark?cid=1183171
-CLF-RM,MCX,Cleveland-Cliffs,Materials,Metals & Mining,cleveland-cliffs?cid=1177306
-CLX-RM,MCX,Clorox,Consumer Staples,Household Products,clorox-co?cid=1177307
-NET-RM,MCX,Cloudflare,Information Technology,IT Services,cloudflare-inc?cid=1183802
-CLOV-RM,MCX,Clover Health Investments,Healthcare,Health Care Providers & Services,social-capital-hedosophia-hold-iii?cid=1177875
-CME-RM,MCX,CME Group,Financial,Capital Markets,cme-group-inc.?cid=1177931
-CMS-RM,MCX,CMS Energy,Utilities,Multi-Utilities,cms-energy-corp?cid=1178149
 WTCM,MCX,CMT,Real Estate,Real Estate Management & Development,cmt
-WTCM_p,MCX,CMT Pref,Real Estate,Real Estate Management & Development,cmt-(pref)
-CNX-RM,MCX,CNX Resources,Energy,"Oil, Gas & Consumable Fuels",consol-energy?cid=1183819
-KO-RM,MCX,Coca-Cola,Consumer Staples,Beverages,coca-cola-co?cid=1169916
-CTSH-RM,MCX,Cognizant A,Information Technology,IT Services,cognizant-technology-solutio?cid=1178105
-COIN-RM,MCX,Coinbase Global,Financial,Capital Markets,coinbase-global?cid=1177888
-CL-RM,MCX,Colgate-Palmolive,Consumer Staples,Household Products,colgate-palmo?cid=1172700
-CMCSA-RM,MCX,Comcast,Communication Services,Media,comcast-corp-new?cid=1171367
-CMA-RM,MCX,Comerica,Financial,Banks,comerica-inc?cid=1179719
-CAG-RM,MCX,ConAgra Foods,Consumer Staples,Food Products,conagra-foods?cid=1178102
-COP-RM,MCX,ConocoPhillips,Energy,"Oil, Gas & Consumable Fuels",conoco-phillips?cid=1172665
-ED-RM,MCX,Consolidated Edison,Utilities,Multi-Utilities,cocnsol-edison?cid=1177311
+WTCMP,MCX,CMT Pref,Real Estate,Real Estate Management & Development,cmt-(pref)
 STZ-RM,MCX,Constellation Brands A,Consumer Staples,Beverages,constellation-a?cid=1179749
-WISH-RM,MCX,Contextlogic,Consumer Discretionary,Internet & Direct Marketing Retail,contextlogic?cid=1177899
 CLR-RM,MCX,Continental Resources,Energy,"Oil, Gas & Consumable Fuels",continental-resources-inc?cid=1183162
-COO-RM,MCX,Cooper,Healthcare,Health Care Equipment & Supplies,cooper-companies-inc?cid=1183292
-CPRT-RM,MCX,Copart,Industrials,Commercial Services & Supplies,copart-inc?cid=1177922
-GLW-RM,MCX,Corning,Information Technology,"Electronic Equipment, Instruments & Components",corning-inc?cid=1177913
-CTVA-RM,MCX,Corteva,Materials,Chemicals,corteva?cid=1178104
-CSGP-RM,MCX,CoStar,Industrials,Professional Services,costar-group?cid=1184114
-COST-RM,MCX,Costco,Consumer Staples,Food & Staples Retailing,costco-whsl-corp-new?cid=1172703
-CTRA-RM,MCX,Coterra Energy,Energy,"Oil, Gas & Consumable Fuels",cabot-oil---gas?cid=1178313
-COTY-RM,MCX,Coty Inc,Consumer Staples,Personal Products,coty-inc?cid=1177929
 CPNG-RM,MCX,Coupang LLC,Consumer Discretionary,Internet & Direct Marketing Retail,coupang-llc?cid=1180681
-COUR-RM,MCX,Coursera,Consumer Discretionary,Diversified Consumer Services,coursera?cid=1185372
-CROX-RM,MCX,Crocs,Consumer Discretionary,"Textiles, Apparel & Luxury Goods",crocs?cid=1185082
-CRWD-RM,MCX,Crowdstrike Holdings,Information Technology,Software,crowdstrike-holdings-inc?cid=1183788
-CSX-RM,MCX,CSX,Industrials,Road & Rail,csx-corp?cid=1178075
 CMI-RM,MCX,Cummins,Industrials,Machinery,cummins-inc?cid=1179751
-CVS-RM,MCX,CVS Health Corp,Healthcare,Health Care Providers & Services,cvs-corp?cid=1174109
 DASB,MCX,Dagestanskaya Energ,Utilities,Electric Utilities,dagestan-sb
 FESH,MCX,Dal’nevostochnoye Morskoye Parokhodstvo PAO,Industrials,Marine,dvmp-oao
-DHR-RM,MCX,Danaher,Healthcare,Life Sciences Tools & Services,danaher-corp?cid=1178131
-DRI-RM,MCX,Darden Restaurants,Consumer Discretionary,"Hotels, Restaurants & Leisure",dardem-rest?cid=1179711
-DDOG-RM,MCX,Datadog,Information Technology,Software,datadog-inc?cid=1184152
-PLAY-RM,MCX,Dave & Buster’s Entertainment,Consumer Discretionary,"Hotels, Restaurants & Leisure",dave-busters-entertainment?cid=1185548
 DVA-RM,MCX,DaVita,Healthcare,Health Care Providers & Services,davita-inc?cid=1180827
 DVEC,MCX,DEC,Utilities,Electric Utilities,dec
-DE-RM,MCX,Deere&Company,Industrials,Machinery,deere---co?cid=1179706
-DELL-RM,MCX,Dell Tech,Information Technology,"Technology Hardware, Storage & Peripherals",dell-inc?cid=1184151
-DAL-RM,MCX,Delta Air Lines,Industrials,Airlines,delta-air-lines-new?cid=1178074
-XRAY-RM,MCX,Dentsply,Healthcare,Health Care Equipment & Supplies,dentsply-intl-inc-new?cid=1179718
 DSKY,MCX,Detskiy Mir,Consumer Discretionary,Specialty Retail,detskiy-mir-pao
-DVN-RM,MCX,Devon Energy,Energy,"Oil, Gas & Consumable Fuels",devon-energy?cid=1177310
-DXCM-RM,MCX,DexCom,Healthcare,Health Care Equipment & Supplies,dexcom?cid=1174114
-FANG-RM,MCX,Diamondback,Energy,"Oil, Gas & Consumable Fuels",diamondback-energy-inc?cid=1178110
-DKS-RM,MCX,Dick’s Sporting Goods,Consumer Discretionary,Specialty Retail,dicks-sporting-goods-inc?cid=1183170
-APPS-RM,MCX,Digital Turbine,Information Technology,Software,mandalay-digital-group-inc?cid=1183804
 DIOD,MCX,Diod OAO,Healthcare,Pharmaceuticals,diod-oao
-DFS-RM,MCX,Discover,Financial,Consumer Finance,discover-financl?cid=1178135
-DISH-RM,MCX,DISH Network,Communication Services,Media,dish-network?cid=1178100
-DOCU-RM,MCX,DocuSign,Information Technology,Software,docusign-inc?cid=1183820
-DG-RM,MCX,Dollar General,Consumer Discretionary,Multiline Retail,dollar-general-corp?cid=1174101
-DLTR-RM,MCX,Dollar Tree,Consumer Discretionary,Multiline Retail,dollar-tree-inc?cid=1178152
-D-RM,MCX,Dominion Energy,Utilities,Multi-Utilities,dominion-res?cid=1178098
-DPZ-RM,MCX,Domino’s Pizza Inc,Consumer Discretionary,"Hotels, Restaurants & Leisure",dominos-pizza-inc?cid=1183293
 DZRD,MCX,Donskoy Zavod Radiodetaley OAO,Information Technology,"Electronic Equipment, Instruments & Components",donskoy-zavod-radiodetaley-oao
-DZRD_p,MCX,Donskoy Zavod Radiodetaley OAO Pref,Information Technology,"Electronic Equipment, Instruments & Components",donskoy-zavod-radiodetaley-oao-pref
-DASH-RM,MCX,DoorDash,Consumer Discretionary,Internet & Direct Marketing Retail,doordash-inc?cid=1183812
-DOV-RM,MCX,Dover,Industrials,Machinery,dover-corp?cid=1177309
-DOW-RM,MCX,Dow,Materials,Chemicals,dow-chemical?cid=1177932
-DOCS-RM,MCX,Doximity,Healthcare,Health Care Technology,doximity?cid=1184153
-DHI-RM,MCX,DR Horton,Consumer Discretionary,Household Durables,d.r.-horton-inc?cid=1177903
-DKNG-RM,MCX,DraftKings,Consumer Discretionary,"Hotels, Restaurants & Leisure",diamond-eagle-acquisition-corp?cid=1180683
+DZRDP,MCX,Donskoy Zavod Radiodetaley OAO Pref,Information Technology,"Electronic Equipment, Instruments & Components",donskoy-zavod-radiodetaley-oao-pref
 DBX-RM,MCX,Dropbox,Information Technology,Software,dropbox-inc?cid=1180682
-DUK-RM,MCX,Duke Energy,Utilities,Electric Utilities,duke-energy?cid=1178111
-DD-RM,MCX,DuPont De Nemours,Materials,Chemicals,du-pont?cid=1172697
-DXC-RM,MCX,DXC Technology,Information Technology,IT Services,comp-science?cid=1178128
-GTLC,MCX,Dzhitiel PAO,Energy,"Oil, Gas & Consumable Fuels",gtl-oao
 EMN-RM,MCX,Eastman Chemical,Materials,Chemicals,eastman-chem?cid=1180828
-EBAY-RM,MCX,eBay,Consumer Discretionary,Internet & Direct Marketing Retail,ebay-inc?cid=1172699
-ECL-RM,MCX,Ecolab,Materials,Chemicals,ecolab-inc?cid=1174111
-EIX-RM,MCX,Edison,Utilities,Electric Utilities,edison-intl?cid=1179697
-EDIT-RM,MCX,Editas Medicine,Healthcare,Biotechnology,editas-medicine?cid=1185085
-EW-RM,MCX,Edwards Lifesciences,Healthcare,Health Care Equipment & Supplies,edward-lifescience?cid=1178130
-EHTH-RM,MCX,eHealth,Financial,Insurance,ehealth?cid=1174110
-ELAN-RM,MCX,Elanco Animal Health,Healthcare,Pharmaceuticals,elanco-animal-health?cid=1183786
-EA-RM,MCX,Electronic Arts,Communication Services,Entertainment,electronic-arts-inc?cid=1167273
-LEPSI,MCX,Elektromashinostoitelnyi Lepse,Industrials,Aerospace & Defense,elektromashinostoitelnyi-lepse
 ELTZ,MCX,Elektrotsink ao,Materials,Metals & Mining,electrozinc
-LLY-RM,MCX,Eli Lilly,Healthcare,Pharmaceuticals,eli-lilly-and-co?cid=1172669
-EMR-RM,MCX,Emerson,Industrials,Electrical Equipment,emerson-elec?cid=1177885
 ENPG,MCX,En Plus,Materials,Metals & Mining,en-plus-group-international-pao
 ENRU,MCX,Enel Russia OAO,Utilities,Electric Utilities,ogk-5
-ENPH-RM,MCX,Enphase,Information Technology,Semiconductors & Semiconductor Equipment,enphase-energy-inc?cid=1177312
-ETR-RM,MCX,Entergy,Utilities,Electric Utilities,entergy-corp?cid=1179732
-EOG-RM,MCX,EOG Resources,Energy,"Oil, Gas & Consumable Fuels",eog-resources?cid=1178086
 EQT-RM,MCX,EQT,Energy,"Oil, Gas & Consumable Fuels",eqt-corporation?cid=1180684
 EFX-RM,MCX,Equifax,Industrials,Professional Services,equifax-inc?cid=1180685
-ETRN-RM,MCX,Equitrans Midstream,Energy,"Oil, Gas & Consumable Fuels",equitrans-midstream?cid=1183782
 EL-RM,MCX,Estee Lauder,Consumer Staples,Personal Products,estee-lauder?cid=1179739
 ETLNDR,MCX,Etalon Group,Real Estate,Real Estate Management & Development,etalon-group?cid=1156755
-ETSY-RM,MCX,Etsy Inc,Consumer Discretionary,Internet & Direct Marketing Retail,etsy-inc?cid=1178107
-EVRG-RM,MCX,Evergy,Utilities,Electric Utilities,westar-energy?cid=1179722
-ES-RM,MCX,Eversource Energy,Utilities,Electric Utilities,northeast-utilities?cid=1179716
-EXEL-RM,MCX,Exelixis,Healthcare,Biotechnology,exelixis-inc?cid=1183185
-EXC-RM,MCX,Exelon,Utilities,Electric Utilities,exelon-corp?cid=1178083
-EXPE-RM,MCX,Expedia,Consumer Discretionary,"Hotels, Restaurants & Leisure",expedia?cid=1178120
-EXPD-RM,MCX,Expeditors Washington,Industrials,Air Freight & Logistics,expeditors-intl-wash-inc?cid=1177313
-XOM-RM,MCX,Exxon Mobil,Energy,"Oil, Gas & Consumable Fuels",exxon-mobil?cid=1165949
-FFIV-RM,MCX,F5 Networks,Information Technology,Communications Equipment,f5-networks-inc?cid=1177314
 LIFE,MCX,Farmsintez,Healthcare,Pharmaceuticals,pharmsynthez
-FAST-RM,MCX,Fastenal,Industrials,Trading Companies & Distributors,fastenal-co?cid=1178108
-FSLY-RM,MCX,Fastly,Information Technology,IT Services,fastly-inc?cid=1177317
-FDX-RM,MCX,FedEx,Industrials,Air Freight & Logistics,fedex-corp?cid=1167275
 HYDR,MCX,FGK Rusgidro PAO,Utilities,Electric Utilities,gidroogk-011d
-FGEN-RM,MCX,FibroGen Inc,Healthcare,Biotechnology,fibrogen-inc?cid=1185542
-FNF-RM,MCX,Fidelity Financial,Financial,Insurance,fidelity-national-financial?cid=1185373
-FIS-RM,MCX,Fidelity National Info,Information Technology,IT Services,fidelity-natl-in?cid=1178106
-FITB-RM,MCX,Fifth Third,Financial,Banks,fifth-third-bk?cid=1178080
-FSLR-RM,MCX,First Solar,Information Technology,Semiconductors & Semiconductor Equipment,first-solar-inc?cid=1177316
-FE-RM,MCX,FirstEnergy,Utilities,Electric Utilities,first-energy?cid=1178087
-FISV-RM,MCX,Fiserv,Information Technology,IT Services,fiserv-inc?cid=1172666
-FIVN-RM,MCX,Five9,Information Technology,Software,five9-inc?cid=1185541
 FIXPDR,MCX,Fix Price Group,Consumer Discretionary,Multiline Retail,fix-price-group-drc?cid=1171256
-FLT-RM,MCX,FleetCor,Information Technology,IT Services,fleetcor-tech?cid=1183295
-FLR-RM,MCX,Fluor,Industrials,Construction & Engineering,fluor-corp?cid=1184155
 FMC-RM,MCX,FMC,Materials,Chemicals,fmc-corp?cid=1179766
-FL-RM,MCX,Foot Locker,Consumer Discretionary,Specialty Retail,foot-locker?cid=1185540
-F-RM,MCX,Ford Motor,Consumer Discretionary,Automobiles,ford-motor-co?cid=1167274
 FTNT-RM,MCX,Fortinet,Information Technology,Software,fortinet?cid=1179746
-FTV-RM,MCX,Fortive,Industrials,Machinery,fortive-corp?cid=1178136
-FBHS-RM,MCX,Fortune Brands,Industrials,Building Products,fortune-brands-home---security?cid=1183294
-FOX-RM,MCX,Fox Corp B,Communication Services,Media,fox-corp-b?cid=1177933
-BEN-RM,MCX,Franklin Resources,Financial,Capital Markets,franklin-res?cid=1177301
-FCX-RM,MCX,Freeport-McMoran,Materials,Metals & Mining,freeport-mcm?cid=1172693
 FEES,MCX,FSK EES,Utilities,Electric Utilities,fsk-ees_rts
-FNKO-RM,MCX,Funko,Consumer Discretionary,Distributors,funko-inc?cid=1177315
-GTHX-RM,MCX,G1 Therapeutics,Healthcare,Biotechnology,g1-therapeutics-inc?cid=1174095
-GPS-RM,MCX,Gap,Consumer Discretionary,Specialty Retail,gap.inc?cid=1172696
-IT-RM,MCX,Gartner,Information Technology,IT Services,gartner?cid=1183297
 GAZA,MCX,Gaz PAO,Consumer Discretionary,Automobiles,gaz-auto-plant
-GAZA_p,MCX,Gaz PAO Pref,Consumer Discretionary,Automobiles,gaz-auto-plant-(pref)
+GAZAP,MCX,Gaz PAO Pref,Consumer Discretionary,Automobiles,gaz-auto-plant-(pref)
 RTGZ,MCX,Gazprom Gazoraspredeleniye,Utilities,Gas Utilities,gazprom-gazoraspredeleniye
 SIBN,MCX,Gazprom Neft,Energy,"Oil, Gas & Consumable Fuels",gazprom-neft_rts
 GAZP,MCX,Gazprom PAO,Energy,"Oil, Gas & Consumable Fuels",gazprom_rts
 GNRC-RM,MCX,Generac,Industrials,Electrical Equipment,generac-holdings?cid=1179772
-GD-RM,MCX,General Dynamics,Industrials,Aerospace & Defense,general-dynam?cid=1177318
-GE-RM,MCX,General Electric,Industrials,Industrial Conglomerates,general-electric?cid=1167276
-GIS-RM,MCX,General Mills,Consumer Staples,Food Products,general-mills?cid=1178096
-GM-RM,MCX,General Motors,Consumer Discretionary,Automobiles,gen-motors?cid=1167277
-GNTX-RM,MCX,Gentex,Consumer Discretionary,Auto Components,gentex-corp?cid=1185374
-GPC-RM,MCX,Genuine Parts,Consumer Discretionary,Distributors,genuine-parts-co?cid=1177319
 GEVO-RM,MCX,Gevo,Energy,"Oil, Gas & Consumable Fuels",gevo?cid=1180686
-GILD-RM,MCX,Gilead,Healthcare,Biotechnology,gilead-sciences-inc?cid=1172685
-RLMN,MCX,Gk Rollman OAO,Materials,Chemicals,gk-rollman-oao
-RLMN_p,MCX,GK Rollman OAO Pref,Materials,Chemicals,gk-rollman-oao-pref
 SMLT,MCX,Gk Samolet,Real Estate,Real Estate Management & Development,gk-samolet-pao
 TNSE,MCX,GK TNS energo PAO,Utilities,Independent Power and Renewable Electricity Producers,gk-tns-energo-pao
-GPN-RM,MCX,Global Payments,Information Technology,IT Services,global-payments?cid=1179700
 GLTRDR,MCX,Globaltrans Inv,Industrials,Road & Rail,globaltrans-inv?cid=1167212
 GTRK,MCX,Globaltruck Management PAO,Industrials,Road & Rail,globaltrak
-GS-RM,MCX,Goldman Sachs,Financial,Capital Markets,goldman-sachs-group?cid=1174090
-GDRX-RM,MCX,Goodrx,Healthcare,Health Care Technology,goodrx-holdings-inc?cid=1184156
-GT-RM,MCX,Goodyear Tire & Rubber Co,Consumer Discretionary,Auto Components,goodyear-tire?cid=1174093
 GRNT,MCX,Gorodskiye Innovatsionnyye Tekhnologii,Industrials,Industrial Conglomerates,gorodskiye-innovatsionnyye-tekhnolo
 GCHE,MCX,Gruppa Cherkizovo,Consumer Staples,Food Products,gruppa-cherkizovo
 LSRG,MCX,Gruppa LSR,Real Estate,Real Estate Management & Development,lsr-group_rts
 POSI,MCX,Gruppa Pozitiv PAO,Information Technology,Software,gruppa-pozitiv-pao
 RENI,MCX,Gruppa Renessans Strakhovaniye PAO,Financial,Insurance,gruppa-renessans-strakhovaniye
-HRB-RM,MCX,H&R Block,Consumer Discretionary,Diversified Consumer Services,h---r-block-inc?cid=1185086
-HAL-RM,MCX,Halliburton,Energy,Energy Equipment & Services,halliburton-co?cid=1172694
-HBI-RM,MCX,Hanesbrands,Consumer Discretionary,"Textiles, Apparel & Luxury Goods",hanesbrands?cid=1178084
 HOG-RM,MCX,Harley-Davidson,Consumer Discretionary,Automobiles,harley-davidson?cid=1183167
-HIG-RM,MCX,Hartford,Financial,Insurance,hartford-finl?cid=1178129
 HAS-RM,MCX,Hasbro,Consumer Discretionary,Leisure Products,hasbro-inc?cid=1180687
-HCA-RM,MCX,HCA,Healthcare,Health Care Providers & Services,hca-holdings-inc?cid=1179720
 HHRUDR,MCX,HeadHunter ADR,Industrials,Professional Services,headhunter-group-plc?cid=1166764
-MOMO-RMDR,MCX,Hello Group,Communication Services,Interactive Media & Services,momo-inc?cid=1174108
 HSIC-RM,MCX,Henry Schein,Healthcare,Health Care Providers & Services,henry-schein?cid=1179761
-HRTX-RM,MCX,Heron Therapeuti,Healthcare,Biotechnology,heron-therapeuti?cid=1177324
-HSY-RM,MCX,Hershey Co,Consumer Staples,Food Products,hershey-co?cid=1177914
-HES-RM,MCX,Hess,Energy,"Oil, Gas & Consumable Fuels",hess-corp?cid=1178147
-HPE-RM,MCX,Hewlett Packard,Information Technology,"Technology Hardware, Storage & Peripherals",hewlett-packard-enterprise-co?cid=1174086
-HLT-RM,MCX,Hilton Worldwide,Consumer Discretionary,"Hotels, Restaurants & Leisure",hilton-worldwide?cid=1178137
 HMSGDR,MCX,HMS Hydraulic Machines Systems Group DRC,Industrials,Machinery,hms-hydraulic-machines-and-syste-be?cid=1174083
-HFC-RM,MCX,HollyFrontier,Energy,"Oil, Gas & Consumable Fuels",hollyfrontier-co?cid=1184157
-HOLX-RM,MCX,Hologic,Healthcare,Health Care Equipment & Supplies,hologic-inc?cid=1178144
-HD-RM,MCX,Home Depot,Consumer Discretionary,Specialty Retail,home-depot?cid=1172684
-HON-RM,MCX,Honeywell,Industrials,Industrial Conglomerates,honeywell-intl?cid=1172688
-HRL-RM,MCX,Hormel Foods,Consumer Staples,Food Products,hormel-foods-corp?cid=1177323
-TWNK-RM,MCX,Hostess Brands,Consumer Staples,Food Products,gores-holdings-inc?cid=1185386
-HWM-RM,MCX,Howmet,Industrials,Aerospace & Defense,howmet-aerospace-inc?cid=1178103
-HPQ-RM,MCX,HP Inc,Information Technology,"Technology Hardware, Storage & Peripherals",hewlett-pack?cid=1167278
-HUM-RM,MCX,Humana,Healthcare,Health Care Providers & Services,humana-inc?cid=1177923
-HBAN-RM,MCX,Huntington Bancshares,Financial,Banks,huntgtn-bkshr?cid=1177321
-HII-RM,MCX,Huntington Ingalls Industries,Industrials,Aerospace & Defense,huntington-ingalls-industries-inc?cid=1183296
-HYLN-RM,MCX,Hyliion Holdings,Industrials,Machinery,tortoise-acquisition-corp?cid=1183783
-IBM-RM,MCX,IBM,Information Technology,IT Services,ibm?cid=1169921
-ICE-RM,MCX,ICE,Financial,Capital Markets,intercontintlex?cid=1178133
 IEX-RM,MCX,IDEX,Industrials,Machinery,idex?cid=1180829
 IDXX-RM,MCX,IDEXX Labs,Healthcare,Health Care Equipment & Supplies,idexx-laboratorie?cid=1180688
-IFF-RM,MCX,IFF,Materials,Chemicals,intl-flav---frag?cid=1178123
-IIVI-RM,MCX,II-VI,Information Technology,"Electronic Equipment, Instruments & Components",ii-vi-inc?cid=1185087
-ITW-RM,MCX,Illinois Tool Works,Industrials,Machinery,illinois-tool-wk-r?cid=1177325
-ILMN-RM,MCX,Illumina,Healthcare,Life Sciences Tools & Services,"illumina,-inc.?cid=1172667"
-INCY-RM,MCX,Incyte,Healthcare,Biotechnology,incyte-corp?cid=1174118
-IR-RM,MCX,Ingersoll Rand,Industrials,Machinery,ingersoll-rand?cid=1178145
 INGR,MCX,Ingrad PAO,Real Estate,Real Estate Management & Development,otkrytye-investitsii-oao
-INSG-RM,MCX,Inseego,Information Technology,Communications Equipment,novatel-wireless?cid=1184158
 ISKJ,MCX,Institut Stvolovykh Kletok Cheloveka PAO,Healthcare,Biotechnology,human-stem-cells-institute
-INTC-RM,MCX,Intel,Information Technology,Semiconductors & Semiconductor Equipment,intel-corp?cid=1165938
-NTLA-RM,MCX,Intellia Therapeutics Inc,Healthcare,Biotechnology,intellia-therapeutics-inc?cid=1185376
 IRAO,MCX,Inter rao ees,Utilities,Electric Utilities,inter-rao-ees_mm
-IP-RM,MCX,International Paper,Materials,Containers & Packaging,intl-paper-co?cid=1178121
-INTU-RM,MCX,Intuit,Information Technology,Software,intuit?cid=1174115
-ISRG-RM,MCX,Intuitive Surgical,Healthcare,Health Care Equipment & Supplies,intuitive-surgical-inc?cid=1174091
 IDVP,MCX,Invest-Development PAO,Real Estate,Real Estate Management & Development,invest-development-pao
-NVTA-RM,MCX,InVitae Corp,Healthcare,Health Care Providers & Services,invitae-corp?cid=1183800
-IONS-RM,MCX,Ionis Pharma,Healthcare,Biotechnology,isis-pharma?cid=1185543
-IOVA-RM,MCX,Iovance Biotherapeutics,Healthcare,Biotechnology,lion-biotechnologies?cid=1184159
-IPG-RM,MCX,IPG,Communication Services,Media,interpublic-grp?cid=1178094
 IPGP-RM,MCX,IPG Photonics,Information Technology,"Electronic Equipment, Instruments & Components",ipg-photonics-corp.?cid=1180689
 IQV-RM,MCX,IQVIA Holdings,Healthcare,Life Sciences Tools & Services,quintis-trl-hlgs?cid=1179763
 IRGZ,MCX,Irkutskenergo,Utilities,Electric Utilities,irkutskenergo
 IGST,MCX,Izhstal,Materials,Metals & Mining,izhstal
-IGST_p,MCX,Izhstal Pref,Materials,Metals & Mining,izhstal-(pref)
-JNJ-RM,MCX,J&J,Healthcare,Pharmaceuticals,johnson-johnson?cid=1169911
+IGSTP,MCX,Izhstal Pref,Materials,Metals & Mining,izhstal-(pref)
 JKHY-RM,MCX,Jack Henry&Associates,Information Technology,IT Services,jack-henry---asso?cid=1180690
-J-RM,MCX,Jacobs Engineering,Industrials,Professional Services,jacobs-engineer?cid=1177327
 JBHT-RM,MCX,JB Hunt,Industrials,Road & Rail,j.b.-hunt-transpo?cid=1180830
-JD-RMDR,MCX,JD.com Inc Adr,Consumer Discretionary,Internet & Direct Marketing Retail,jd.com-inc-adr?cid=1177904
-JEF-RM,MCX,Jefferies Financial,Financial,Capital Markets,leucadia-natl?cid=1183173
 SJM-RM,MCX,JM Smucker,Consumer Staples,Food Products,jm-smucker-co?cid=1179758
-JPM-RM,MCX,JPMorgan,Financial,Banks,jp-morgan-chase?cid=1177326
-JNPR-RM,MCX,Juniper,Information Technology,Communications Equipment,juniper-networks-inc?cid=1178095
 KLSB,MCX,Kaluzhsk Sbytovaya,Utilities,Independent Power and Renewable Electricity Producers,kaluga-power-sale-comp
 KMAZ,MCX,KAMAZ,Industrials,Machinery,kamaz
 KCHE,MCX,Kamchatskenergo,Utilities,Electric Utilities,kamchatskenergo
-KCHE_p,MCX,Kamchatskenergo Pref,Utilities,Electric Utilities,kamchatskenergo-(pref)
-KPMOI,MCX,Kazanskoye Motoros,Industrials,Electrical Equipment,kazanskoye-motoros-proizvod
-K-RM,MCX,Kellogg,Consumer Staples,Food Products,kellogg-co.?cid=1177915
+KCHEP,MCX,Kamchatskenergo Pref,Utilities,Electric Utilities,kamchatskenergo-(pref)
 KDP-RM,MCX,Keurig Dr Pepper,Consumer Staples,Beverages,dr-pepper-snapple?cid=1180831
-KEY-RM,MCX,KeyCorp,Financial,Banks,keycorp-new?cid=1177328
 KEYS-RM,MCX,Keysight Technologies,Information Technology,"Electronic Equipment, Instruments & Components",keysight-technologies?cid=1179762
 KGKC,MCX,KGK,Utilities,Water Utilities,kurganskaya-generiruyushchaya-komp
-KGKC_p,MCX,KGK Pref,Utilities,Water Utilities,kurganskaya-generiruyushchaya-pref
+KGKCP,MCX,KGK Pref,Utilities,Water Utilities,kurganskaya-generiruyushchaya-pref
 HIMC,MCX,Khimprom,Materials,Chemicals,khimprom
-HIMC_p,MCX,Khimprom Pref,Materials,Chemicals,khimprom-(pref)
-KMB-RM,MCX,Kimberly-Clark,Consumer Staples,Household Products,kimberly-clark?cid=1177330
-KMI-RM,MCX,Kinder Morgan,Energy,"Oil, Gas & Consumable Fuels",kinder-morgan?cid=1177331
-KKR-RM,MCX,KKR & Co,Financial,Capital Markets,kkr---co-lp?cid=1184160
-KLAC-RM,MCX,KLA-Tencor,Information Technology,Semiconductors & Semiconductor Equipment,kla-tencor-corp?cid=1177329
+HIMCP,MCX,Khimprom Pref,Materials,Chemicals,khimprom-(pref)
 UNKL,MCX,Kombinat Yuzhuralnikel' OAO,Materials,Metals & Mining,kombinat-yuzhuralnikel-oao
-KOPN-RM,MCX,Kopin,Information Technology,Semiconductors & Semiconductor Equipment,kopin-corp?cid=1183810
 VSMO,MCX,Korporatsiya VSMPO AVISMA PAO,Materials,Metals & Mining,vsmpo-avisma-crp_rts
 KOGK,MCX,Korshunovskii GOK,Materials,Metals & Mining,korshynov-mining-plant
 KMEZ,MCX,Kovrovskiy Mekhanicheskiy,Industrials,Machinery,kovrovskiy-mekhanicheskiy
-KHC-RM,MCX,Kraft Heinz,Consumer Staples,Food Products,kraft-foods-inc?cid=1168229
 KRSB,MCX,Krasnoyarskenergosbyt,Utilities,Electric Utilities,krasnoyarskenergosbyt
-KRSB_p,MCX,Krasnoyarskenergosbyt Pref,Utilities,Electric Utilities,krasnoyarskenergosbyt-(pref)
+KRSBP,MCX,Krasnoyarskenergosbyt Pref,Utilities,Electric Utilities,krasnoyarskenergosbyt-(pref)
 KROT,MCX,Krasnyi Oktyabr,Consumer Staples,Food Products,krasnyj-octyabr-co.
-KROT_p,MCX,Krasnyi Oktyabr pref,Consumer Staples,Food Products,krasnyj-octyabr-co.-(pref)
-KR-RM,MCX,Kroger,Consumer Staples,Food & Staples Retailing,kroger-co?cid=1172668
+KROTP,MCX,Krasnyi Oktyabr pref,Consumer Staples,Food Products,krasnyj-octyabr-co.-(pref)
 KTSB,MCX,KSB PAO,Utilities,Electric Utilities,kostroma-retail-company
-KTSB_p,MCX,KSB PAO Pref,Utilities,Electric Utilities,kostroma-retail-company-(pref)
+KTSBP,MCX,KSB PAO Pref,Utilities,Electric Utilities,kostroma-retail-company-(pref)
 KUBE,MCX,KubanEnrg,Utilities,Electric Utilities,kubanenergo-oao
-KAZT_p,MCX,Kuibishevazot Pref,Materials,Chemicals,kuibyshevazot-(pref)
+KAZTP,MCX,Kuibishevazot Pref,Materials,Chemicals,kuibyshevazot-(pref)
 KAZT,MCX,KuybyshevAzot,Materials,Chemicals,kuibyshevazot
 TGKD,MCX,Kvadra Generiruyushchaya Kompaniya PAO,Utilities,Electric Utilities,quadra---power-generation
-TGKD_p,MCX,Kvadra Generiruyushchaya Kompaniya PAO Prf,Utilities,Electric Utilities,quadra---power-generation-(pref)
+TGKDP,MCX,Kvadra Generiruyushchaya Kompaniya PAO Prf,Utilities,Electric Utilities,quadra---power-generation-(pref)
 KD-RM,MCX,Kyndryl Holdings,Information Technology,IT Services,kyndryl-holdings?cid=1180691
 LHX-RM,MCX,L3Harris Technologies,Industrials,Aerospace & Defense,harris-corporation?cid=1179750
 LH-RM,MCX,Laboratory America,Healthcare,Health Care Providers & Services,laboratory-corp-of-amer?cid=1180832
-LRCX-RM,MCX,Lam Research,Information Technology,Semiconductors & Semiconductor Equipment,lam-research-corp?cid=1172671
 LW-RM,MCX,Lamb Weston Holdings,Consumer Staples,Food Products,lamb-weston-holdings-inc?cid=1179752
-LVS-RM,MCX,Las Vegas Sands,Consumer Discretionary,"Hotels, Restaurants & Leisure",las-vegas-sands?cid=1177889
-LSCC-RM,MCX,Lattice,Information Technology,Semiconductors & Semiconductor Equipment,lattice-semiconductor?cid=1185545
-LEG-RM,MCX,Leggett&Platt,Consumer Discretionary,Household Durables,leggett---platt?cid=1177332
 LDOS-RM,MCX,Leidos,Industrials,Professional Services,leidos-holdings?cid=1179774
-LSNG_p,MCX,Lenenergo Pref,Utilities,Electric Utilities,lenenergo-(pref)
+LSNGP,MCX,Lenenergo Pref,Utilities,Electric Utilities,lenenergo-(pref)
 LSNG,MCX,LenEnrg,Utilities,Electric Utilities,lenenergo
-LEN-RM,MCX,Lennar,Consumer Discretionary,Household Durables,lennar?cid=1178127
-LNTADR,MCX,Lenta Ltd,Consumer Staples,Food & Staples Retailing,lenta-ltd?cid=962408
 LNZL,MCX,Lenzoloto PAO,Materials,Metals & Mining,lenzoloto-oao
-LNZL_p,MCX,Lenzoloto PAO Prf,Materials,Metals & Mining,lenzoloto-oao-pref
+LNZLP,MCX,Lenzoloto PAO Prf,Materials,Metals & Mining,lenzoloto-oao-pref
 LVHK,MCX,Levenguk OAO,Information Technology,"Electronic Equipment, Instruments & Components",levenguk-oao
-LI-RMDR,MCX,Li Auto,Consumer Discretionary,Automobiles,li-auto-inc?cid=1177900
-LNC-RM,MCX,Lincoln National,Financial,Insurance,lincoln-natl?cid=1177886
 LPSB,MCX,Lipetskaya energosbytovaya,Utilities,Electric Utilities,lipetsk-power-sale-comp
-LYV-RM,MCX,Live Nation Entertainment,Communication Services,Entertainment,live-nation-entertainment-inc?cid=1178139
-LTHM-RM,MCX,Livent,Materials,Chemicals,livent-corp?cid=1177361
-LKQ-RM,MCX,LKQ,Consumer Discretionary,Distributors,lkq?cid=1179707
-LMT-RM,MCX,Lockheed Martin,Industrials,Aerospace & Defense,lockheed-martin?cid=1172689
 L-RM,MCX,Loews,Financial,Insurance,loews-corporation?cid=1179765
 RIDE-RM,MCX,Lordstown Motors,Consumer Discretionary,Automobiles,diamondpeak-holdings-corp?cid=1180700
-LPX-RM,MCX,Louisiana-Pacific,Materials,Paper & Forest Products,louisiana-pacific?cid=1183184
-LOW-RM,MCX,Lowe’s,Consumer Discretionary,Specialty Retail,lowes-companies?cid=1172670
 LKOH,MCX,Lukoil,Energy,"Oil, Gas & Consumable Fuels",lukoil_rts
-LULU-RM,MCX,Lululemon Athletica,Consumer Discretionary,"Textiles, Apparel & Luxury Goods",lululemon-athletica?cid=1185544
-LUMN-RM,MCX,Lumen Technologies,Communication Services,Diversified Telecommunication Services,centurylink?cid=1174092
 LAZR-RM,MCX,Luminar Tech,Consumer Discretionary,Auto Components,gores-metropoulos-inc?cid=1180692
 LYFT-RM,MCX,LYFT,Industrials,Road & Rail,lyft?cid=1180693
 MTB-RM,MCX,M&T Bank,Financial,Banks,m-t-bank-corp?cid=1179760
-M-RM,MCX,Macy’s Inc,Consumer Discretionary,Multiline Retail,macys?cid=1172698
 MAGE,MCX,Magadanenergo ao,Utilities,Electric Utilities,magadanenergo
-MAGE_p,MCX,Magadanenergo Pref,Utilities,Electric Utilities,magadanenergo-(pref)
+MAGEP,MCX,Magadanenergo Pref,Utilities,Electric Utilities,magadanenergo-(pref)
 MGNT,MCX,Magnit,Consumer Staples,Food & Staples Retailing,magnit_rts
-MGNTDR,MCX,Magnit DRC,Consumer Staples,Food & Staples Retailing,magnit-cfd?cid=1192661
+MGNTDR,MCX,Magnit PAO DRC,Consumer Staples,Food & Staples Retailing,magnit-cfd
 MGY-RM,MCX,Magnolia Oil,Energy,"Oil, Gas & Consumable Fuels",tpg-pace-energy-class-a?cid=1183168
-MRO-RM,MCX,Marathon Oil,Energy,"Oil, Gas & Consumable Fuels",marathon-oil?cid=1177895
-MPC-RM,MCX,Marathon Petroleum,Energy,"Oil, Gas & Consumable Fuels",marathon-petroleum-corp.?cid=1172672
 MKTX-RM,MCX,MarketAxesss,Financial,Capital Markets,marketaxess-holdi?cid=1182872
-MQ-RM,MCX,Marqeta,Information Technology,IT Services,marqeta?cid=1183181
-MAR-RM,MCX,Marriott Int,Consumer Discretionary,"Hotels, Restaurants & Leisure",marriott-intl?cid=1178134
-MMC-RM,MCX,Marsh McLennan,Financial,Insurance,marsh---mclennan?cid=1179702
-MLM-RM,MCX,Martin Marietta Materials,Materials,Construction Materials,martin-marietta-materials-inc?cid=1183298
 MRVL-RM,MCX,Marvell,Information Technology,Semiconductors & Semiconductor Equipment,marvell-technology-group-ltd?cid=1180695
-MAS-RM,MCX,Masco,Industrials,Building Products,masco-corp?cid=1179698
-MA-RM,MCX,Mastercard,Information Technology,IT Services,mastercard-cl-a?cid=1165941
-MTCH-RM,MCX,Match Group,Communication Services,Interactive Media & Services,match-group-inc?cid=1184164
-MAT-RM,MCX,Mattel,Consumer Discretionary,Leisure Products,mattel-inc?cid=1184161
-MKC-RM,MCX,McCormick&Co,Consumer Staples,Food Products,mccormick---co?cid=1177333
-MCD-RM,MCX,McDonald’s,Consumer Discretionary,"Hotels, Restaurants & Leisure",mcdonalds?cid=1165942
 MCK-RM,MCX,McKesson,Healthcare,Health Care Providers & Services,mckesson-corp?cid=1179745
 MDMGDR,MCX,MD Medical DRC,Healthcare,Health Care Providers & Services,md-medical-drc?cid=1167487
 MTLR,MCX,Mechel PAO,Materials,Metals & Mining,sg-mechel_rts
-MTLR_p,MCX,Mechel Pref,Materials,Metals & Mining,mechel-(pref)
+MTLRP,MCX,Mechel Pref,Materials,Metals & Mining,mechel-(pref)
 ODVA,MCX,Mediaholding,Communication Services,Media,o2-tv
-MRK-RM,MCX,Merck&Co,Healthcare,Pharmaceuticals,merck---co?cid=1171368
-FB-RM,MCX,Meta Platforms,Communication Services,Interactive Media & Services,facebook-inc?cid=1165936
-MET-RM,MCX,MetLife,Financial,Insurance,metlife-inc?cid=1177916
-MTD-RM,MCX,Mettler-Toledo,Healthcare,Life Sciences Tools & Services,mettler-toledo-international-inc?cid=1183299
 MRKU,MCX,Mezhregional’naya Raspredelitel’naya Setevaya Komp,Utilities,Electric Utilities,mrsk-urala-ao
-MTG-RM,MCX,MGIC Investment,Financial,Thrifts & Mortgage Finance,mgic-inv?cid=1184162
-MGM-RM,MCX,MGM,Consumer Discretionary,"Hotels, Restaurants & Leisure",mgm-mirage?cid=1177876
 MGTS,MCX,MGTS,Communication Services,Diversified Telecommunication Services,moscow-city-telephone-network
-MGTS_p,MCX,MGTS Pref,Communication Services,Diversified Telecommunication Services,mgts-(pref)
-MCHP-RM,MCX,Microchip,Information Technology,Semiconductors & Semiconductor Equipment,microchip-technology-inc?cid=1179699
-MU-RM,MCX,Micron,Information Technology,Semiconductors & Semiconductor Equipment,micron-tech?cid=1165940
-MSFT-RM,MCX,Microsoft,Information Technology,Software,microsoft-corp?cid=1165939
-MSTR-RM,MCX,MicroStrategy,Information Technology,Software,microstrategy-inc?cid=1174098
+MGTSP,MCX,MGTS Pref,Communication Services,Diversified Telecommunication Services,mgts-(pref)
 MVIS-RM,MCX,Microvision,Information Technology,"Electronic Equipment, Instruments & Components",microvision?cid=1180694
 LENT,MCX,MK Lenta PAO,Consumer Staples,Food & Staples Retailing,mk-lenta-pao
 MAGN,MCX,MMK,Materials,Metals & Mining,mmk_rts
 GEMA,MCX,MMTsB,Healthcare,Health Care Providers & Services,mmtsb-pao
-MRNA-RM,MCX,Moderna,Healthcare,Biotechnology,moderna?cid=1172691
 MHK-RM,MCX,Mohawk Industries,Consumer Discretionary,Household Durables,mohawk-industries?cid=1182873
-TAP-RM,MCX,Molson Coors Brewing B,Consumer Staples,Beverages,molson-coors?cid=1178140
-MDLZ-RM,MCX,Mondelez,Consumer Staples,Food Products,mondelez-international-inc?cid=1177879
-MPWR-RM,MCX,Monolithic,Information Technology,Semiconductors & Semiconductor Equipment,monolithic-power?cid=1184165
-MNST-RM,MCX,Monster Beverage,Consumer Staples,Beverages,monster-beverage?cid=1174097
 MCO-RM,MCX,Moody’s,Financial,Capital Markets,moodys-corp?cid=1182874
 MRSB,MCX,Mordovskaya Energosbytovaya,Utilities,Electric Utilities,mordovskaya-energosbytovaya
-MS-RM,MCX,Morgan Stanley,Financial,Capital Markets,morgan-stanley?cid=1174104
-MORI,MCX,Morion OAO,Information Technology,Communications Equipment,morion-oao
 MSRS,MCX,Mos obl sb,Utilities,Electric Utilities,mos-obl-sb_rts
-MOS-RM,MCX,Mosaic,Materials,Chemicals,mosaic-company?cid=1174119
 MSNG,MCX,MosEnrg,Utilities,Electric Utilities,mosenergo_rts
 MOEX,MCX,Moskovskaya Birzha OAO,Financial,Capital Markets,moskovskaya-birzha-oao
 CBOM,MCX,Moskovskiy Kreditnyi Bank OAO,Financial,Banks,moskovskiy-kreditnyi-bank-oao
 MSTT,MCX,Mostotrest,Industrials,Construction & Engineering,mostotrest_rts
 MSI-RM,MCX,Motorola,Information Technology,Communications Equipment,motorola-inc?cid=1182871
-MRKC,MCX,MRSK Tsentra,Utilities,Electric Utilities,mrsk-centra
-MSCI-RM,MCX,MSCI,Financial,Capital Markets,msci-inc?cid=1177335
 MTSS,MCX,MTS,Communication Services,Wireless Telecommunication Services,mts_rts
-MSST,MCX,MulTisistema OAO,Industrials,Commercial Services & Supplies,multisistema-oao
-MUR-RM,MCX,Murphy Oil,Energy,"Oil, Gas & Consumable Fuels",murphy-oil-corp?cid=1184163
 MVID,MCX,MVideo,Consumer Discretionary,Specialty Retail,mvideo_rts
 NDAQ-RM,MCX,Nasdaq Inc,Financial,Capital Markets,nasdaq-omx-group?cid=1180696
 NSVZ,MCX,Nauka-Svyaz OAO ao,Communication Services,Diversified Telecommunication Services,nauka-svyaz
-NAVI-RM,MCX,Navient,Financial,Consumer Finance,navient-cor?cid=1185377
 NFAZ,MCX,NefAZ,Industrials,Machinery,nefaz
-NTAP-RM,MCX,NetApp,Information Technology,"Technology Hardware, Storage & Peripherals",network-appliance-inc?cid=1177924
-NFLX-RM,MCX,Netflix,Communication Services,Entertainment,"netflix,-inc.?cid=1165944"
-NWL-RM,MCX,Newell Brands,Consumer Discretionary,Household Durables,newell-rubber?cid=1178125
-NEM-RM,MCX,Newmont Goldcorp,Materials,Metals & Mining,newmont-mining?cid=1167279
-NWS-RM,MCX,News Corp,Communication Services,Media,news-corporation?cid=1177337
-NEE-RM,MCX,NextEra Energy,Utilities,Electric Utilities,nextera-energy-inc?cid=1169913
-NKE-RM,MCX,Nike,Consumer Discretionary,"Textiles, Apparel & Luxury Goods",nike?cid=1169920
-NIO-RMDR,MCX,Nio A ADR,Consumer Discretionary,Automobiles,nio-inc?cid=1176203
-NI-RM,MCX,NiSource,Utilities,Multi-Utilities,ni-source-inc?cid=1178101
 NKNC,MCX,Nizhnekamskneftekhim,Materials,Chemicals,nizhnekamskneftekhim
-NKNC_p,MCX,Nizhnekamskneftekhim Pref,Materials,Chemicals,nizhnekamskneftekhim-(pref)
+NKNCP,MCX,Nizhnekamskneftekhim Pref,Materials,Chemicals,nizhnekamskneftekhim-(pref)
 NKSH,MCX,Nizhnekamskshina,Consumer Discretionary,Auto Components,nizhnekamskshina
 RNFT,MCX,NK RussNeft,Energy,"Oil, Gas & Consumable Fuels",ruspetro
 NKHP,MCX,NKHP PAO,Industrials,Transportation Infrastructure,nkhp-pao
 NLMK,MCX,NLMK PAO,Materials,Metals & Mining,nlmk_rts
 NMTP,MCX,NMTP,Industrials,Transportation Infrastructure,nmtp_rts
-JWN-RM,MCX,Nordstrom,Consumer Discretionary,Multiline Retail,nordstrom-inc?cid=1183787
 NSC-RM,MCX,Norfolk Southern,Industrials,Road & Rail,norfolk-southern?cid=1179737
 GMKN,MCX,Norilskiy Nikel,Materials,Metals & Mining,gmk-noril-nickel_rts
 NTRS-RM,MCX,Northern Trust,Financial,Capital Markets,northern-trust?cid=1179771
-NOC-RM,MCX,Northrop Grumman,Industrials,Aerospace & Defense,northrop-grumman?cid=1177887
-NLOK-RM,MCX,NortonLifeLock Inc,Information Technology,Software,symantec-corp?cid=1174096
-NOV-RM,MCX,Nov,Energy,Energy Equipment & Services,ntl-oilwell-varc?cid=1178082
-NVS-RMDR,MCX,Novartis ADR,Healthcare,Pharmaceuticals,novartis-ag?cid=1173224
 NVTK,MCX,NOVATEK,Energy,"Oil, Gas & Consumable Fuels",novatek_rts
 IRKT,MCX,Np Korp Irkut,Industrials,Aerospace & Defense,irkut-corp
 UWGN,MCX,NPK OVK PAO,Industrials,Machinery,npk-ovk-pao
 NAUK,MCX,Npo Nauka,Industrials,Aerospace & Defense,nauka
-NRG-RM,MCX,NRG,Utilities,Electric Utilities,nrg-energy-inc?cid=1178113
-MVZMI_p,MCX,NTSV Mil’ i Kamov AO Prf,Industrials,Aerospace & Defense,mvz-im-milya
-NUE-RM,MCX,Nucor,Materials,Metals & Mining,nucor?cid=1177927
-NTNX-RM,MCX,Nutanix,Information Technology,Software,nutanix-inc?cid=1184166
-NVDA-RM,MCX,NVIDIA,Information Technology,Semiconductors & Semiconductor Equipment,nvidia-corp?cid=1165943
-NVR-RM,MCX,NVR,Consumer Discretionary,Household Durables,nvr-inc?cid=1177336
-OI-RM,MCX,O-I Glass,Materials,Containers & Packaging,owens-illinois-inc?cid=1185546
 UCSS,MCX,Obyedinennye Kreditnye Sist,Financial,Diversified Financial Services,obyedinennye-kreditnye-sist
 UNAC,MCX,Ob’’yedinennaya Aviastroitel’naya Korporatsiya PAO,Industrials,Aerospace & Defense,united-aircraft-corporation
-OMZZ_p,MCX,Ob’’yedinennyye Mashinostroitel’nyye Zavody PAO Pr,Industrials,Industrial Conglomerates,omz-(pref)
-OXY-RM,MCX,Occidental,Energy,"Oil, Gas & Consumable Fuels",occidental-petro?cid=1172674
-OGE-RM,MCX,OGE Energy,Utilities,Electric Utilities,oge-energy?cid=1185378
+OMZZP,MCX,Ob’’yedinennyye Mashinostroitel’nyye Zavody PAO Pr,Industrials,Industrial Conglomerates,omz-(pref)
 OGKB,MCX,OGK-2,Utilities,Independent Power and Renewable Electricity Producers,ogk-2_rts
 RUAL,MCX,OK Rusal MKPAO,Materials,Metals & Mining,united-company-rusal-plc`
 OKEYDR,MCX,OKey DRC,Consumer Staples,Food & Staples Retailing,okey-drc?cid=1168315
-OKTA-RM,MCX,Okta,Information Technology,IT Services,okta-inc?cid=1185719
-ODFL-RM,MCX,Old Dominion Freight Line,Industrials,Road & Rail,old-dominion-freight-line-inc?cid=1183300
-OMC-RM,MCX,Omnicom,Communication Services,Media,omnicom-gp-inc?cid=1179708
 ON-RM,MCX,ON Semiconductor,Information Technology,Semiconductors & Semiconductor Equipment,on-semiconductor?cid=1180697
-OKE-RM,MCX,ONEOK,Energy,"Oil, Gas & Consumable Fuels",oneok?cid=1175478
 ORUP,MCX,OR PAO,Consumer Discretionary,"Textiles, Apparel & Luxury Goods",or-pao
-ORCL-RM,MCX,Oracle,Information Technology,Software,oracle-corp?cid=1172687
-OSUR-RM,MCX,OraSure,Healthcare,Health Care Equipment & Supplies,orasure-tech?cid=1177362
 KZOS,MCX,Organicheskiy Sintez,Materials,Chemicals,kazanorgsintez
-KZOS_p,MCX,Organicheskiy Sintez Pref,Materials,Chemicals,organicheskiy-sintez-kpao
-OGN-RM,MCX,Organon Co,Healthcare,Pharmaceuticals,organon-co?cid=1177917
-OTIS-RM,MCX,Otis Worldwide,Industrials,Machinery,otis-worldwide-corp?cid=1178138
-OVV-RM,MCX,Ovintiv,Energy,"Oil, Gas & Consumable Fuels",encana-corporation?cid=1184167
+KZOSP,MCX,Organicheskiy Sintez Pref,Materials,Chemicals,organicheskiy-sintez-kpao
 OZONDR,MCX,Ozon,Consumer Discretionary,Internet & Direct Marketing Retail,ozon-holdings-plc?cid=1167498
 ORLY-RM,MCX,O’Reilly Automotive,Consumer Discretionary,Specialty Retail,oreilly-automotive?cid=1180833
-PCAR-RM,MCX,PACCAR,Industrials,Machinery,paccar-inc?cid=1177925
-PKG-RM,MCX,Packaging America,Materials,Containers & Packaging,packaging-corp?cid=1184170
-PD-RM,MCX,Pagerduty,Information Technology,Software,pagerduty-inc?cid=1185720
-PLTR-RM,MCX,Palantir,Information Technology,Software,palantir-technologies-inc?cid=1174089
-PARA-RM,MCX,Paramount Global B,Communication Services,Media,viacom-cl-b?cid=1186219
-VIAC-RM,MCX,Paramount Global B,Communication Services,Media,viacom-cl-b?cid=1174107
 PH-RM,MCX,Parker-Hannifin,Industrials,Machinery,parkerhannifin?cid=1179764
 PAZA,MCX,Pavlovskiy Avtobus OAO,Industrials,Machinery,pavlovskiy-avtobus-oao
-PAYX-RM,MCX,Paychex,Information Technology,IT Services,paychex-inc?cid=1177919
-PAYC-RM,MCX,Paycom Soft,Information Technology,Software,paycom-soft?cid=1177338
-PYPL-RM,MCX,PayPal Holdings Inc,Information Technology,IT Services,paypal-holdings-inc?cid=1167280
-PBF-RM,MCX,PBF Energy,Energy,"Oil, Gas & Consumable Fuels",pbf-energy-inc?cid=1177340
-PTON-RM,MCX,Peloton Interactive,Consumer Discretionary,Leisure Products,peloton-interactive-inc?cid=1179695
-PENN-RM,MCX,Penn National Gaming,Consumer Discretionary,"Hotels, Restaurants & Leisure",penn-national-gaming-inc?cid=1178088
-PBCT-RM,MCX,People’s United,Financial,Banks,peoples-united-financial?cid=1177339
-PEP-RM,MCX,PepsiCo,Consumer Staples,Beverages,pepsico?cid=1177918
-PFGC-RM,MCX,Performance Food Group Co,Consumer Staples,Food & Staples Retailing,performance-food-group-co?cid=1185547
 PKI-RM,MCX,PerkinElmer,Healthcare,Life Sciences Tools & Services,perkinelmer?cid=1179770
 PMSB,MCX,Permskaya Energosbytovaya,Utilities,Electric Utilities,perm-sb
-PMSB_p,MCX,Permskaya Pref,Utilities,Electric Utilities,perm-energosbyt-pref
-PTR-RMDR,MCX,PetroChina ADR,Energy,"Oil, Gas & Consumable Fuels",petrochina-co-ads-exch?cid=1173225
-POGR,MCX,Petropavlovsk,Materials,Metals & Mining,petropavlovsk?cid=1163242
-PFE-RM,MCX,Pfizer,Healthcare,Pharmaceuticals,pfizer?cid=1165945
+PMSBP,MCX,Permskaya Pref,Utilities,Electric Utilities,perm-energosbyt-pref
 PCG-RM,MCX,PG E,Utilities,Electric Utilities,pacific-gas-electric?cid=1180698
-PM-RM,MCX,Philip Morris,Consumer Staples,Tobacco,philip-morris-intl?cid=1177873
-PSX-RM,MCX,Phillips 66,Energy,"Oil, Gas & Consumable Fuels",phillips-66-ltd?cid=1177901
 PHOR,MCX,PhosAgro ao,Materials,Chemicals,phosagro
 MERF,MCX,Pifn Meridian OAO,Financial,Capital Markets,pifn-meridian-oao
 PIKK,MCX,PIK,Consumer Discretionary,Household Durables,pik_rts
-PINS-RM,MCX,Pinterest,Communication Services,Interactive Media & Services,pinterest-inc?cid=1177341
-PXD-RM,MCX,Pioneer Natural,Energy,"Oil, Gas & Consumable Fuels",pioneer-natural-resources?cid=1178132
-PBI-RM,MCX,Pitney Bowes,Industrials,Commercial Services & Supplies,pitney-bowes-inc?cid=1184168
-PLUG-RM,MCX,Plug Power,Industrials,Electrical Equipment,plug-power?cid=1177342
-PNC-RM,MCX,PNC Financial,Financial,Banks,pnc-fin-serv?cid=1179709
 PEkREN,MCX,PNK Rental ZPIFN,Financial,Capital Markets,novosibirsk-development1-zpifn
 POLY,MCX,Polymetal,Materials,Metals & Mining,polymetal?cid=44465
 PLZL,MCX,Polyus,Materials,Metals & Mining,polyus-zoloto_rts
-POOL-RM,MCX,Pool,Consumer Discretionary,Distributors,pool-corp?cid=1184171
-PPG-RM,MCX,PPG Industries,Materials,Chemicals,ppg-industries?cid=1177343
-PPL-RM,MCX,PPL,Utilities,Electric Utilities,ppl-corp?cid=1178085
 FPR,MCX,Primary Placement Fund CEIF RU,Financial,Capital Markets,fond-pervichnykh-razmeshcheniy
-PFG-RM,MCX,Principal Financial,Financial,Insurance,principal-fin?cid=1179723
-PG-RM,MCX,Procter&Gamble,Consumer Staples,Household Products,procter-gamble?cid=1168316
-PGR-RM,MCX,Progressive,Financial,Insurance,the-progressive?cid=1178119
-PRU-RM,MCX,Prudential Financial,Financial,Insurance,prudential-fin?cid=1178146
 PTC-RM,MCX,PTC,Information Technology,Software,ptc?cid=1179773
-PEG-RM,MCX,Public Service Enterprise,Utilities,Multi-Utilities,publ-svc-enter?cid=1178148
-PHM-RM,MCX,PulteGroup,Consumer Discretionary,Household Durables,pulte-homes-inc?cid=1178114
-PSTG-RM,MCX,Pure Storage Inc,Information Technology,"Technology Hardware, Storage & Peripherals",pure-storage-inc?cid=1183736
 PVH-RM,MCX,PVH,Consumer Discretionary,"Textiles, Apparel & Luxury Goods",pvh?cid=1179755
 QIWIDR,MCX,QIWI,Information Technology,IT Services,qiwi-plc?cid=960754
-QRVO-RM,MCX,Qorvo Inc,Information Technology,Semiconductors & Semiconductor Equipment,qorvo-inc?cid=1177928
-QCOM-RM,MCX,Qualcomm,Information Technology,Semiconductors & Semiconductor Equipment,qualcomm-inc?cid=1167281
-XM-RM,MCX,Qualtrics International,Information Technology,Software,qualtrics-international-inc?cid=1185391
 PWR-RM,MCX,Quanta Services,Industrials,Construction & Engineering,quanta-services?cid=1179743
 QS-RM,MCX,Quantumscape,Consumer Discretionary,Auto Components,kensington-capital-acquisition?cid=1180699
 DGX-RM,MCX,Quest Diagnostics,Healthcare,Health Care Providers & Services,quest-diag?cid=1179741
-QDEL-RM,MCX,Quidel,Healthcare,Health Care Equipment & Supplies,quidel-corp?cid=1177344
-QRTEA-RM,MCX,Qurate Retail A,Consumer Discretionary,Internet & Direct Marketing Retail,liberty-media-inter?cid=1183811
-RL-RM,MCX,Ralph Lauren A,Consumer Discretionary,"Textiles, Apparel & Luxury Goods",polo-ralph-laur?cid=1177896
-RRC-RM,MCX,Range Resources,Energy,"Oil, Gas & Consumable Fuels",range-resources-corp?cid=1183733
 RASP,MCX,Raspadskaya,Materials,Metals & Mining,raspadskaya
-RAVN,MCX,Raven Russia,Real Estate,Real Estate Management & Development,raven-russia-ltd?cid=1162033
-RJF-RM,MCX,Raymond James Financial,Financial,Capital Markets,raymond-james-financial-inc?cid=1184173
-RTX-RM,MCX,Raytheon Technologies,Industrials,Aerospace & Defense,united-tech?cid=1172675
 RBCM,MCX,RBK ao,Communication Services,Media,rbk-tv-moskva
-REGN-RM,MCX,Regeneron Pharma,Healthcare,Biotechnology,regeneron-phar.?cid=1172704
-RF-RM,MCX,Regions Financial,Financial,Banks,regions-fin?cid=1177346
-REGI-RM,MCX,Renewable Energy,Energy,"Oil, Gas & Consumable Fuels",renewable-energy-group-inc?cid=1177345
 RSG-RM,MCX,Republic Services,Industrials,Commercial Services & Supplies,republic-services-inc?cid=1179740
-RMD-RM,MCX,ResMed,Healthcare,Health Care Equipment & Supplies,resmed-inc?cid=1184174
 RKKE,MCX,RKK Energia,Industrials,Aerospace & Defense,rsc-energia
 CHGZ,MCX,RN Zapadnaya Sibir’ PAO,Industrials,Professional Services,chernorgorneft
 RHI-RM,MCX,Robert Half,Industrials,Professional Services,robert-half-intl?cid=1179767
-HOOD-RM,MCX,Robinhood Markets,Financial,Capital Markets,robinhood-markets?cid=1177322
 ROK-RM,MCX,Rockwell Automation,Industrials,Electrical Equipment,rockwell-automat?cid=1180702
-ROKU-RM,MCX,Roku,Communication Services,Entertainment,roku?cid=1183755
-ROL-RM,MCX,Rollins,Industrials,Commercial Services & Supplies,rollins-inc?cid=1179731
-ROP-RM,MCX,Roper Technologies,Information Technology,Software,roper-industries?cid=1177347
 AGRO,MCX,Ros Agro PLC,Consumer Staples,Food Products,ros-agro-plc
 RDRB,MCX,RosDorBank PAO,Financial,Banks,rosdorbank-pao
 RGSS,MCX,Rosgosstrakh OAO,Financial,Insurance,rosgosstrakh-oao
 ROST,MCX,ROSINTER RESTAURANTS,Consumer Discretionary,"Hotels, Restaurants & Leisure",rosinter-restaurants-holding
 ROSN,MCX,Rosneft,Energy,"Oil, Gas & Consumable Fuels",rosneft_rts
-ROST-RM,MCX,Ross Stores,Consumer Discretionary,Specialty Retail,ross-stores-inc?cid=1178150
 MRKK,MCX,Rosseti Severnyi Kavkaz PAO,Utilities,Electric Utilities,mrsk-severnogo-kavkaza
 MRKZ,MCX,Rosseti Severo Zapad PAO,Utilities,Electric Utilities,mrsk-severo-zapada
 MRKS,MCX,Rosseti Sibir’ PAO,Utilities,Electric Utilities,mrsk-sibiri
 MRKP,MCX,Rosseti Tsentr I Privolzh’ye,Utilities,Electric Utilities,mrsk-cip
+MRKC,MCX,Rosseti Tsentr PAO,Utilities,Electric Utilities,mrsk-centra
 MRKV,MCX,Rosseti Volga PAO,Utilities,Electric Utilities,mrsk-volgi
 MRKY,MCX,Rosseti Yug PAO,Utilities,Electric Utilities,mrsk-yuga
 RSTI,MCX,Rossiyskiye Seti PAO,Utilities,Electric Utilities,rosseti-ao
-RSTI_p,MCX,Rossiyskiye Seti PAO Prf,Utilities,Electric Utilities,rosseti-ap-(pref)
+RSTIP,MCX,Rossiyskiye Seti PAO Prf,Utilities,Electric Utilities,rosseti-ap-(pref)
 RTKM,MCX,Rostelecom,Communication Services,Diversified Telecommunication Services,rostelecom
-RTKM_p,MCX,Rostelekom Pref,Communication Services,Diversified Telecommunication Services,rostelecom-(pref)
+RTKMP,MCX,Rostelekom Pref,Communication Services,Diversified Telecommunication Services,rostelecom-(pref)
 RTSB,MCX,Rostovenergosbyt,Utilities,Electric Utilities,rostov-sb
-RTSB_p,MCX,Rostovenergosbyt Pref,Utilities,Electric Utilities,rostov-sb-(pref)
+RTSBP,MCX,Rostovenergosbyt Pref,Utilities,Electric Utilities,rostov-sb-(pref)
 RUGR,MCX,Rusgrain Holding OAO,Consumer Staples,Food Products,rusgrain-holding-oao
 ROLO,MCX,Rusolovo OAO,Materials,Metals & Mining,rusolovo-oao
 RUSI,MCX,RUSS-INVEST IC ao,Financial,Capital Markets,ic-russ-invest
 AQUA,MCX,Russkaya Akvakultura,Consumer Staples,Food Products,russian-sea-group
 RZSB,MCX,Ryazansk Energetich Sbytovaya,Utilities,Electric Utilities,ryazan-sb
-SPGI-RM,MCX,S&P Global,Financial,Capital Markets,mcgraw-hill?cid=1177905
 SLEN,MCX,Sakhalinenergo,Utilities,Electric Utilities,sakhalinenergo-oao
-CRM-RM,MCX,Salesforce.com,Information Technology,Software,salesforce-com?cid=1169912
 SAGO,MCX,SamaraEnergo ao,Utilities,Independent Power and Renewable Electricity Producers,samaraenergo
-SAGO_p,MCX,Samaraenergo Pref,Utilities,Independent Power and Renewable Electricity Producers,samaraenergo(pref)
-SAP-RMDR,MCX,SAP ADR,Information Technology,Software,sap-ag-ads-exch?cid=1173174
+SAGOP,MCX,Samaraenergo Pref,Utilities,Independent Power and Renewable Electricity Producers,samaraenergo(pref)
 SARE,MCX,Saratovenergo,Utilities,Electric Utilities,saratovenergo
-SARE_p,MCX,Saratovenergo Pref,Utilities,Electric Utilities,saratovenergo-(pref)
+SAREP,MCX,Saratovenergo Pref,Utilities,Electric Utilities,saratovenergo-(pref)
 KRKN,MCX,Saratovskiy NPZ ao,Energy,"Oil, Gas & Consumable Fuels",saratov-oil-refenery
-KRKN_p,MCX,Saratovskiy NPZ ap,Energy,"Oil, Gas & Consumable Fuels",saratov-oil-refenery-(pref)
-SRPT-RM,MCX,Sarepta,Healthcare,Biotechnology,sarepta?cid=1177350
+KRKNP,MCX,Saratovskiy NPZ ap,Energy,"Oil, Gas & Consumable Fuels",saratov-oil-refenery-(pref)
 SBER,MCX,Sberbank Rossii,Financial,Banks,sberbank_rts
-SBER_p,MCX,Sberbank Rossii Pref,Financial,Banks,sberbank-p_rts
+SBERP,MCX,Sberbank Rossii Pref,Financial,Banks,sberbank-p_rts
 SEE-RM,MCX,Sealed Air,Materials,Containers & Packaging,sealed-air?cid=1179742
 SGZH,MCX,Segezha Group,Materials,Paper & Forest Products,segezha-group-pao
 SELG,MCX,Seligdar,Materials,Metals & Mining,seligdar
-SRE-RM,MCX,Sempra Energy,Utilities,Multi-Utilities,sempra-energy?cid=1179717
-S-RM,MCX,SentinelOne,Information Technology,Software,sentinelone?cid=1184180
-NOW-RM,MCX,ServiceNow Inc,Information Technology,Software,servicenow-inc?cid=1172673
 CHMF,MCX,Severstal - ao,Materials,Metals & Mining,severstal_rts
 SFIN,MCX,SFI PAO,Financial,Consumer Finance,yevroplan-pao
-SHW-RM,MCX,Sherwin-Williams,Materials,Chemicals,sherwinwilliams?cid=1177349
-SHLS-RM,MCX,Shoals Technologies Group,Industrials,Electrical Equipment,shoals-technologies-group?cid=1185721
-SI-RM,MCX,Silvergate Cap,Financial,Banks,silvergate-capital-corp?cid=1185381
-SKX-RM,MCX,Skechers,Consumer Discretionary,"Textiles, Apparel & Luxury Goods",skechers-usa-inc?cid=1185549
 SKLZ-RM,MCX,Skillz Platform,Communication Services,Entertainment,flying-eagle-acquisition-corp?cid=1180703
-SWKS-RM,MCX,Skyworks,Information Technology,Semiconductors & Semiconductor Equipment,skyworks-solutions-inc?cid=1178151
-MFGS_p,MCX,Slavneft Megionneft Pref,Energy,"Oil, Gas & Consumable Fuels",slavneft-megionneftegaz-(pref)
+MFGSP,MCX,Slavneft Megionneft Pref,Energy,"Oil, Gas & Consumable Fuels",slavneft-megionneftegaz-(pref)
 MFGS,MCX,Slavneft Megionneftegaz,Energy,"Oil, Gas & Consumable Fuels",slavneft-megionneftegaz
-JNOS_p,MCX,Slavneft Yaroslavnef Pref,Energy,"Oil, Gas & Consumable Fuels",slavneft-(pref)
+JNOSP,MCX,Slavneft Yaroslavnef Pref,Energy,"Oil, Gas & Consumable Fuels",slavneft-(pref)
 JNOS,MCX,Slavneft-JANOS,Energy,"Oil, Gas & Consumable Fuels",slavneft
-SWBI-RM,MCX,Smith & Wesson,Consumer Discretionary,Leisure Products,smith---wesson?cid=1184175
-SNAP-RM,MCX,Snap,Communication Services,Interactive Media & Services,snap-inc?cid=1177930
-SNA-RM,MCX,Snap-On,Industrials,Machinery,snapon-inc?cid=1184182
 SFTLDR,MCX,Softline Holding Plc DRC,Information Technology,IT Services,softline-holding-plc-drc?cid=1180213
-SEDG-RM,MCX,SolarEdge Technologies Inc,Information Technology,Semiconductors & Semiconductor Equipment,solaredge-technologies-inc?cid=1177348
-SLDB-RM,MCX,Solid Biosciences,Healthcare,Biotechnology,solid-biosciences?cid=1185382
 MGNZ,MCX,Solikamskiy Magniyevyi Zavod,Materials,Metals & Mining,solikamskiy-magniyevyi-zavod
 SVAV,MCX,Sollers,Consumer Discretionary,Automobiles,sollers
-SONO-RM,MCX,Sonos,Consumer Discretionary,Household Durables,sonos-inc?cid=1184176
-SONY-RMDR,MCX,Sony ADR,Consumer Discretionary,Household Durables,sony?cid=1173223
-SJI-RM,MCX,South Jersey Industries,Utilities,Gas Utilities,south-jersey-industries-inc?cid=1185380
-SO-RM,MCX,Southern,Utilities,Electric Utilities,southern-co?cid=1178097
-SCCO-RM,MCX,Southern Copper,Materials,Metals & Mining,southern-copper-corp.?cid=1174105
-LUV-RM,MCX,Southwest Airlines,Industrials,Airlines,sth-west-airlines?cid=1174094
-SWN-RM,MCX,Southwestern Energy,Energy,"Oil, Gas & Consumable Fuels",southwestern-energy-company?cid=1172676
 FLOT,MCX,Sovkomflot PAO,Energy,"Oil, Gas & Consumable Fuels",sovcomflot-pao
 SPBE,MCX,SPB Birzha PAO,Financial,Capital Markets,spb-birzha-pao
-SPR-RM,MCX,Spirit Aerosystems,Industrials,Aerospace & Defense,spirit-aerosystems-holdings-inc?cid=1183182
-SAVE-RM,MCX,Spirit Airlines,Industrials,Airlines,spirit-airlines?cid=1183785
-SPLK-RM,MCX,Splunk,Information Technology,Software,splunk-inc?cid=1174112
-SFM-RM,MCX,Sprouts Farmers,Consumer Staples,Food & Staples Retailing,sprts-frmr?cid=1184179
 SWK-RM,MCX,Stanley Black Decker,Industrials,Machinery,stanley-works?cid=1179744
-SBUX-RM,MCX,Starbucks,Consumer Discretionary,"Hotels, Restaurants & Leisure",starbucks-corp?cid=1169915
-STT-RM,MCX,State Street,Financial,Capital Markets,state-street?cid=1177897
 STSB,MCX,StavropolEnergoSbyt,Utilities,Electric Utilities,stavropolenergosbyt
-STSB_p,MCX,Stavropolenergosbyt Pref,Utilities,Electric Utilities,stavropolenergosbyt-(pref)
-STLD-RM,MCX,Steel Dynamics,Materials,Metals & Mining,steel-dynamics?cid=1184178
-SFIX-RM,MCX,Stitch Fix,Consumer Discretionary,Internet & Direct Marketing Retail,stitch-fix?cid=1185722
-SYK-RM,MCX,Stryker,Healthcare,Health Care Equipment & Supplies,stryker?cid=1177920
+STSBP,MCX,Stavropolenergosbyt Pref,Utilities,Electric Utilities,stavropolenergosbyt-(pref)
 RUN-RM,MCX,Sunrun Inc,Industrials,Electrical Equipment,sunrun-inc?cid=1180701
 SNGS,MCX,Surgut,Energy,"Oil, Gas & Consumable Fuels",surgutneftegas_rts
-SNGS_p,MCX,Surgut-pref,Energy,"Oil, Gas & Consumable Fuels",surgutneftegas-p_rts
-SIVB-RM,MCX,SVB,Financial,Banks,svb-financial-gro?cid=1184177
+SNGSP,MCX,Surgut-pref,Energy,"Oil, Gas & Consumable Fuels",surgutneftegas-p_rts
 SVET,MCX,Svetofor Group PAO,Consumer Discretionary,Diversified Consumer Services,svetofor-group-pao
-SWCH-RM,MCX,Switch,Information Technology,IT Services,switch?cid=1184181
-SYF-RM,MCX,Synchrony Financial,Financial,Consumer Finance,synchrony-fin?cid=1178077
 SNPS-RM,MCX,Synopsys,Information Technology,Software,synopsys-inc?cid=1179769
-SYY-RM,MCX,Sysco,Consumer Staples,Food & Staples Retailing,sysco-corp?cid=1177351
-TROW-RM,MCX,T Rowe,Financial,Capital Markets,t-rowe-price-gp?cid=1177354
-TMUS-RM,MCX,T-Mobile US,Communication Services,Wireless Telecommunication Services,metropcs-communications?cid=1172702
-TSM-RMDR,MCX,Taiwan Semiconductor,Information Technology,Semiconductors & Semiconductor Equipment,taiwan-semicond.manufacturing-co?cid=1177714
-TTWO-RM,MCX,Take-Two,Communication Services,Entertainment,take-two-interactive?cid=1172692
-TAL-RMDR,MCX,TAL Education,Consumer Discretionary,Diversified Consumer Services,tal-education-group?cid=1177883
 TASB,MCX,Tambovskaya Energ,Utilities,Electric Utilities,tambov-power-sale
-TASB_p,MCX,Tambovskaya Pref,Utilities,Electric Utilities,tambov-power-sale-(pref)
-TPR-RM,MCX,Tapestry,Consumer Discretionary,"Textiles, Apparel & Luxury Goods",coach?cid=1178092
-TGT-RM,MCX,Target,Consumer Discretionary,Multiline Retail,target?cid=1169919
-TATN_p,MCX,Tatneft Pref,Energy,"Oil, Gas & Consumable Fuels",tatneft-p_rts
+TASBP,MCX,Tambovskaya Pref,Utilities,Electric Utilities,tambov-power-sale-(pref)
+TATNP,MCX,Tatneft Pref,Energy,"Oil, Gas & Consumable Fuels",tatneft-p_rts
 TATN,MCX,Tatneft-3,Energy,"Oil, Gas & Consumable Fuels",tatneft_rts
 TTLK,MCX,Tattelekom,Communication Services,Diversified Telecommunication Services,tattelecom
-TTCF-RM,MCX,Tattooed Chef,Consumer Staples,Food Products,forum-merger-ii?cid=1185385
-TMHC-RM,MCX,Taylor Morn Home,Consumer Discretionary,Household Durables,taylor-morn-home?cid=1185551
 TCSGDR,MCX,TCS Group Holding PLC,Financial,Banks,tcs-group-holding-plc?cid=1153662
-TGNA-RM,MCX,Tegna,Communication Services,Media,tegna-inc?cid=1185550
-TDOC-RM,MCX,Teladoc Inc,Healthcare,Health Care Technology,teladoc-inc?cid=1177352
-TDY-RM,MCX,Teledyne Technologies,Information Technology,"Electronic Equipment, Instruments & Components",teledyne-technologies-inc?cid=1177353
-TFX-RM,MCX,Teleflex,Healthcare,Health Care Equipment & Supplies,teleflex-inc?cid=1184184
-TDS-RM,MCX,Telephone&Data Systems,Communication Services,Wireless Telecommunication Services,telephone-and-data-systems-inc?cid=1185723
 TPX-RM,MCX,Tempur Sealy International,Consumer Discretionary,Household Durables,tempur-pedic-international-inc?cid=1183169
-TDC-RM,MCX,Teradata,Information Technology,Software,teradata?cid=1185387
-TER-RM,MCX,Teradyne,Information Technology,Semiconductors & Semiconductor Equipment,teradyne-inc?cid=1179713
 TGKN,MCX,Territorial’naya Generiruyushchaya Kompaniya No 14,Utilities,Electric Utilities,tgc-14
 TGKB,MCX,Territorial’naya Generiruyushchaya Kompaniya No2 P,Utilities,Electric Utilities,tgk-2
-TGKB_p,MCX,Territorial’naya Generiruyushchaya Kompaniya No2 P,Utilities,Electric Utilities,tgk-2-(pref)
-TSLA-RM,MCX,Tesla,Consumer Discretionary,Automobiles,tesla-motors?cid=1167282
-TXN-RM,MCX,Texas Instruments,Information Technology,Semiconductors & Semiconductor Equipment,texas-instru?cid=1172701
-TXT-RM,MCX,Textron,Industrials,Aerospace & Defense,textron-inc?cid=1177921
+TGKBP,MCX,Territorial’naya Generiruyushchaya Kompaniya No2 P,Utilities,Electric Utilities,tgk-2-(pref)
 TGKA,MCX,TGK-1,Utilities,Electric Utilities,tgk-1
-AES-RM,MCX,The AES,Utilities,Independent Power and Renewable Electricity Producers,aes-corp?cid=1178076
-TMO-RM,MCX,Thermo Fisher Scientific,Healthcare,Life Sciences Tools & Services,thermo-fisher-sc?cid=1172677
-TJX-RM,MCX,TJX,Consumer Discretionary,Specialty Retail,tjx-co-inc?cid=1174103
-KRKO_p,MCX,TKZ Krasny Kotelshchik ap,Industrials,Machinery,krasny-kotelshchik-(pref)
+TTD-RM,MCX,The Trade Desk,Information Technology,Software,trade-desk-inc?cid=1180704
+KRKOP,MCX,TKZ Krasny Kotelshchik ap,Industrials,Machinery,krasny-kotelshchik-(pref)
 TRMK,MCX,TMK,Energy,Energy Equipment & Services,tmk
 KBSB,MCX,TNS Energo Kuban’ PAO,Utilities,Electric Utilities,kubanenergosbyt-oao
 MISB,MCX,TNS Energo Mariy El PAO,Utilities,Electric Utilities,marienergosbyt
-MISB_p,MCX,TNS Energo Mariy El PAO Prf,Utilities,Electric Utilities,marienergosbyt-(pref)
+MISBP,MCX,TNS Energo Mariy El PAO Prf,Utilities,Electric Utilities,marienergosbyt-(pref)
 NNSB,MCX,TNS Energo Nizhniy Novgorod,Utilities,Electric Utilities,nizhegorodskaya-sbytovaya-komp
-NNSB_p,MCX,TNS Energo Nizhniy Novgorod pref,Utilities,Electric Utilities,tns-energo-nizhniy-novgorod-pao
-VRSB_p,MCX,TNS Energo Voronezh PAO Prf,Utilities,Electric Utilities,voronezh-sb-(pref)
+NNSBP,MCX,TNS Energo Nizhniy Novgorod pref,Utilities,Electric Utilities,tns-energo-nizhniy-novgorod-pao
+VRSBP,MCX,TNS Energo Voronezh PAO Prf,Utilities,Electric Utilities,voronezh-sb-(pref)
 YRSB,MCX,TNS Energo Yaroslavl PAO,Utilities,Electric Utilities,yask
-YRSB_p,MCX,TNS Energo Yaroslavl PAO Prf,Utilities,Electric Utilities,yaroslav-sbyt-pref
-TORS_p,MCX,Tomsk raspredelit. komp ap,Utilities,Electric Utilities,tomsk-distribution-(pref)
+YRSBP,MCX,TNS Energo Yaroslavl PAO Prf,Utilities,Electric Utilities,yaroslav-sbyt-pref
+TORSP,MCX,Tomsk raspredelit. komp ap,Utilities,Electric Utilities,tomsk-distribution-(pref)
 TORS,MCX,Tomskaya Raspredelit,Utilities,Electric Utilities,tomsk-distribution
-TM-RMDR,MCX,Toyota Motor ADR,Consumer Discretionary,Automobiles,toyota?cid=1173222
 TSCO-RM,MCX,Tractor Supply,Consumer Discretionary,Specialty Retail,tractor-supply-company?cid=1179753
-TTD-RM,MCX,Trade Desk,Information Technology,Software,trade-desk-inc?cid=1180704
-TDG-RM,MCX,Transdigm,Industrials,Aerospace & Defense,transdigm-group-inc?cid=1184185
-TRV-RM,MCX,Travelers,Financial,Insurance,the-travelers-co?cid=1179736
-TPH-RM,MCX,TRI Pointe Homes,Industrials,Construction Services,tri-pointe-homes?cid=1185383
-TRMB-RM,MCX,Trimble,Information Technology,"Electronic Equipment, Instruments & Components",trimble-navigation-ltd?cid=1179729
-TRIP-RM,MCX,TripAdvisor,Communication Services,Interactive Media & Services,tripadvisor?cid=1184183
-TFC-RM,MCX,Truist Financial Corp,Financial,Banks,bb-t-corp?cid=1178079
 CNTL,MCX,Tsentralnyi Telegraf,Communication Services,Diversified Telecommunication Services,central-telegraph
-CNTL_p,MCX,Tsentralnyi Telegraf Pref,Communication Services,Diversified Telecommunication Services,central-telegraph-(pref)
-TSP-RM,MCX,Tusimple Holdings,Industrials,Road & Rail,tusimple-holdings?cid=1183183
+CNTLP,MCX,Tsentralnyi Telegraf Pref,Communication Services,Diversified Telecommunication Services,central-telegraph-(pref)
 TWLO-RM,MCX,Twilio,Information Technology,IT Services,twilio-inc-a?cid=1183161
-TWTR-RM,MCX,Twitter Inc,Communication Services,Interactive Media & Services,twitter-inc?cid=1165947
-TYL-RM,MCX,Tyler Technologies,Information Technology,Software,tyler-technologies-inc?cid=1177355
-TSN-RM,MCX,Tyson Foods,Consumer Staples,Food Products,tyson-foods?cid=1174102
 TUZA,MCX,TZA OAO,Industrials,Machinery,tza-oao
-USB-RM,MCX,U.S. Bancorp,Financial,Banks,us-bancorp?cid=1177906
-UBER-RM,MCX,Uber Tech,Industrials,Road & Rail,uber-technologies-inc?cid=1169910
-PATH-RM,MCX,Uipath,Information Technology,Software,uipath?cid=1184169
 ARSA,MCX,UK Arsagera,Financial,Capital Markets,arsagera
 ULTA-RM,MCX,Ulta Beauty,Consumer Discretionary,Specialty Retail,ulta-salon-cosmetics---fragrance?cid=1180707
-UA-RM,MCX,Under Armour C,Consumer Discretionary,"Textiles, Apparel & Luxury Goods",under-armour-c?cid=1177898
-UNP-RM,MCX,Union Pacific,Industrials,Road & Rail,union-pacific?cid=1172678
 UPRO,MCX,Unipro,Utilities,Independent Power and Renewable Electricity Producers,e.on-russia
-UAL-RM,MCX,United Airlines Holdings,Industrials,Airlines,united-continenta?cid=1172683
 GEMCDR,MCX,United Medical Group Cy Plc,Healthcare,Health Care Providers & Services,united-medical-group-drc
-UPS-RM,MCX,United Parcel Service,Industrials,Air Freight & Logistics,united-parcel?cid=1172679
-URI-RM,MCX,United Rentals,Industrials,Trading Companies & Distributors,united-rentals?cid=1184186
-UNH-RM,MCX,UnitedHealth,Healthcare,Health Care Providers & Services,united-health-group?cid=1172682
-U-RM,MCX,Unity Software,Information Technology,Software,unity-software-inc?cid=1183805
 UHS-RM,MCX,Universal Health Services,Healthcare,Health Care Providers & Services,universal-health-services?cid=1180706
-UNM-RM,MCX,Unum,Financial,Insurance,unum-group?cid=1178143
-UPWK-RM,MCX,Upwork,Industrials,Professional Services,upwork?cid=1185553
 URKZ,MCX,Uralskaya Kuznitsa OAO,Materials,Metals & Mining,uralskaya-kuznitsa-oao
-URBN-RM,MCX,Urban Outfitters,Consumer Discretionary,Specialty Retail,urban-outfitters?cid=1185552
-USFD-RM,MCX,US Foods,Consumer Staples,Food & Staples Retailing,us-foods-holding-corp?cid=1184187
 UTAR,MCX,UTair Aviakompaniya OAO,Industrials,Airlines,utair-aviakompaniya-oao
 UKUZ,MCX,Uzhnyi Kuzbass,Energy,"Oil, Gas & Consumable Fuels",south-kuzbass
-VLO-RM,MCX,Valero Energy,Energy,"Oil, Gas & Consumable Fuels",valero-energy?cid=1178091
 VJGZ,MCX,Var’yeganneftegaz PAO,Energy,"Oil, Gas & Consumable Fuels",varyeganneftegaz
-VJGZ_p,MCX,Var’yeganneftegaz PAO Prf,Energy,"Oil, Gas & Consumable Fuels",varyeganneftegaz-(pref)
+VJGZP,MCX,Var’yeganneftegaz PAO Prf,Energy,"Oil, Gas & Consumable Fuels",varyeganneftegaz-(pref)
 VXRT-RM,MCX,Vaxart,Healthcare,Biotechnology,nabi-pharmaceuticals?cid=1180709
-VLDR-RM,MCX,Velodyne Lidar,Information Technology,"Electronic Equipment, Instruments & Components",graf-industrial-corp?cid=1183784
 VEON-RX,MCX,VEON,Communication Services,Wireless Telecommunication Services,veon-ltd?cid=1180708
 VRSN-RM,MCX,VeriSign,Information Technology,IT Services,verisign-inc?cid=1180834
 VRSK-RM,MCX,Verisk,Industrials,Professional Services,verisk-analytics-inc?cid=1179754
-VZ-RM,MCX,Verizon,Communication Services,Diversified Telecommunication Services,verizon-communications?cid=1172686
-VRTX-RM,MCX,Vertex,Healthcare,Biotechnology,vertex-pharm?cid=1172680
-VFC-RM,MCX,VF,Consumer Discretionary,"Textiles, Apparel & Luxury Goods",vf-corp?cid=1177356
-VTRS-RM,MCX,Viatris,Healthcare,Pharmaceuticals,mylan-inc?cid=1169918
-VMEO-RM,MCX,Vimeo,Communication Services,Interactive Media & Services,vimeo?cid=1185388
-VIPS-RMDR,MCX,Vipshop,Consumer Discretionary,Internet & Direct Marketing Retail,vipshop-holdings?cid=1177881
-SPCE-RM,MCX,Virgin Galactic Holdings,Industrials,Aerospace & Defense,social-capital-hedosophia?cid=1174085
-VIRT-RM,MCX,Virtu Financial Inc,Financial,Capital Markets,virtu-financial-inc?cid=1185554
-V-RM,MCX,Visa A,Information Technology,IT Services,visa-inc?cid=1165948
 VKCODR,MCX,VK DRC,Communication Services,Interactive Media & Services,mail.ru-grp-wi?cid=1163363
 VLHZ,MCX,Vladimirskiy Khimicheskiy,Materials,Chemicals,vladimirskiy-khimicheskiy
 VGSB,MCX,Volgogradenergosbyt,Utilities,Electric Utilities,volgogradenergosbyt
-VGSB_p,MCX,Volgogradenergosbyt Pref,Utilities,Electric Utilities,volgogradenergosbyt-(pref)
-VG-RM,MCX,Vonage,Information Technology,Software,vonage-holdings-corp?cid=1184188
-VNT-RM,MCX,Vontier,Information Technology,"Electronic Equipment, Instruments & Components",vontier?cid=1174117
+VGSBP,MCX,Volgogradenergosbyt Pref,Utilities,Electric Utilities,volgogradenergosbyt-(pref)
 VRSB,MCX,Voronezh SB,Utilities,Electric Utilities,voronezh-sb
-VMC-RM,MCX,Vulcan Materials,Materials,Construction Materials,vulcan-matrls?cid=1177357
 VUZI-RM,MCX,Vuzix Corp Cmn Stk,Consumer Discretionary,Household Durables,vuzix-corp-cmn-stk?cid=1180710
-VSYD_p,MCX,Vyborgskiy Sudostroitelnyi PAO,Industrials,Machinery,vyborgskiy-sudostroitelnyi-pao
+VSYDP,MCX,Vyborgskiy Sudostroitelnyi PAO,Industrials,Machinery,vyborgskiy-sudostroitelnyi-pao
 VSYD,MCX,Vyborgskiy sudostroitelnyi zavod,Industrials,Machinery,vyborgskiy-sudostroitelnyi-zavod
-WBA-RM,MCX,Walgreens Boots,Consumer Staples,Food & Staples Retailing,walgreen-co?cid=1177358
-WMT-RM,MCX,Walmart,Consumer Staples,Food & Staples Retailing,wal-mart-stores?cid=1167283
-DIS-RM,MCX,Walt Disney,Communication Services,Entertainment,disney?cid=1165935
-DISCA-RM,MCX,Warner Bros Discovery,Communication Services,Entertainment,discovery-holding-co?cid=1177908
-WM-RM,MCX,Waste Management,Industrials,Commercial Services & Supplies,waste-managemnt?cid=1179712
-WAT-RM,MCX,Waters,Healthcare,Life Sciences Tools & Services,waters-corp?cid=1184189
 WEC-RM,MCX,WEC Energy,Utilities,Multi-Utilities,wisconsin-energy-corp?cid=1179738
-WFC-RM,MCX,Wells Fargo&Co,Financial,Banks,wells-fargo?cid=1177902
-WST-RM,MCX,West Pharmaceutical Services,Healthcare,Life Sciences Tools & Services,west-pharmaceutical-services-inc?cid=1177360
-WDC-RM,MCX,Western Digital,Information Technology,"Technology Hardware, Storage & Peripherals",western-digital?cid=1174100
-WU-RM,MCX,Western Union,Information Technology,IT Services,western-union?cid=1177892
-WAB-RM,MCX,Westinghouse Air Brake,Industrials,Machinery,westinghouse-air-brake-tech?cid=1179734
-WRK-RM,MCX,WestRock Co,Materials,Containers & Packaging,westrock-co?cid=1179701
 WHR-RM,MCX,Whirlpool,Consumer Discretionary,Household Durables,whirl-pool-corp?cid=1180711
-WMB-RM,MCX,Williams,Energy,"Oil, Gas & Consumable Fuels",williams-cos?cid=1177359
-WSM-RM,MCX,Williams-Sonoma,Consumer Discretionary,Specialty Retail,williams-sonoma-inc?cid=1185389
 WRB-RM,MCX,WR Berkley,Financial,Insurance,wr-berkley-corp?cid=1180835
-GWW-RM,MCX,WW Grainger,Industrials,Trading Companies & Distributors,w-w-grainger-inc?cid=1177320
-WW-RM,MCX,WW International,Consumer Discretionary,Diversified Consumer Services,weight-watcher?cid=1185390
-WYNN-RM,MCX,Wynn Resorts,Consumer Discretionary,"Hotels, Restaurants & Leisure",wynn-resorts-ltd?cid=1178118
 FIVEDR,MCX,X5 Retail Group,Consumer Staples,Food & Staples Retailing,x5-retail-grp?cid=1061926
-XEL-RM,MCX,Xcel Energy,Utilities,Electric Utilities,xcel-energy?cid=1178124
-XRX-RM,MCX,Xerox,Information Technology,"Technology Hardware, Storage & Peripherals",xerox-corp?cid=1184190
-XPEV-RMDR,MCX,Xpeng,Consumer Discretionary,Automobiles,xpeng-inc?cid=1177909
-XPO-RM,MCX,XPO Logistics,Industrials,Road & Rail,xpo-logistics?cid=1185555
 XYL-RM,MCX,Xylem,Industrials,Machinery,xylem?cid=1182875
 YAKG,MCX,Yakutskaya Toplivno Energeticheskaya Kompaniya PAO,Energy,"Oil, Gas & Consumable Fuels",yatek
 YKEN,MCX,YakutskEnergo,Utilities,Electric Utilities,yakutskenergo
-YKEN_p,MCX,YakutskEnergo ap,Utilities,Electric Utilities,yakutskenergo-(pref)
+YKENP,MCX,YakutskEnergo ap,Utilities,Electric Utilities,yakutskenergo-(pref)
 YNDX,MCX,Yandex,Communication Services,Interactive Media & Services,yandex?cid=102063
-YETI-RM,MCX,YETI,Consumer Discretionary,Leisure Products,yeti-holdings?cid=1185556
 EELT,MCX,Yevropyeyskaya Elyektrotyekhnika PAO,Industrials,Construction & Engineering,yevropeyskaya-elektrotekhnika
-YEXT-RM,MCX,Yext,Information Technology,Software,yext-inc?cid=1185392
-YUMC-RM,MCX,Yum China Holdings,Consumer Discretionary,"Hotels, Restaurants & Leisure",yum-china-holdings-inc?cid=1184191
-YUM-RM,MCX,Yum! Brands,Consumer Discretionary,"Hotels, Restaurants & Leisure",yum!-brands-inc?cid=1179714
 ACKO,MCX,Yuzhural-Asko,Financial,Insurance,yuzhural-asko
 ZBRA-RM,MCX,Zebra,Information Technology,"Electronic Equipment, Instruments & Components",zebra-tech?cid=1180712
-Z-RM,MCX,Zillow C,Real Estate,Real Estate Management & Development,zillow?cid=1184192
-ZBH-RM,MCX,Zimmer Biomet,Healthcare,Health Care Equipment & Supplies,zimmer-hldgs?cid=1179730
-ZION-RM,MCX,Zions,Financial,Banks,zions-bancorp?cid=1179726
-ZIP-RM,MCX,Ziprecruiter,Communication Services,Interactive Media & Services,ziprecruiter?cid=1185557
-ZTS-RM,MCX,Zoetis Inc,Healthcare,Pharmaceuticals,zoetis-inc?cid=1179704
-ZM-RM,MCX,Zoom Video,Information Technology,Software,zoom-video-communications?cid=1174084
-ZI-RM,MCX,ZoomInfo,Communication Services,Interactive Media & Services,zoominfo-technologies-inc?cid=1184193
-ZS-RM,MCX,Zscaler,Information Technology,Software,zscaler-inc?cid=1185393
 ZVEZ,MCX,Zvezda,Industrials,Machinery,zvezda
-ZYNE-RM,MCX,Zynerba Pharma,Healthcare,Pharmaceuticals,zynerba-pharmaceuticals-inc?cid=1174087

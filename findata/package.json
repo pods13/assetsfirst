@@ -1,6 +1,6 @@
 {
   "name": "@pods13/findata",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "",
   "scripts": {
     "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/main.js\"",
@@ -14,10 +14,10 @@
     "import:stocks": "node dist/data-imports",
     "dividends:all": "node dist/stocks/investingcom/fetch-dividends.js",
     "dividends:ru": "node dist/stocks/dohodru/fetch-dividends.js",
-    "prices:ru": "node dist/moex-price-worker/index.js"
+    "prices:ru": "node dist/tasks/mcx-prices/index.js"
   },
   "bin": {
-    "prices-ru": "dist/moex-price-worker/index.js"
+    "prices-ru": "dist/tasks/mcx-prices/index.js"
   },
   "keywords": [],
   "author": "",

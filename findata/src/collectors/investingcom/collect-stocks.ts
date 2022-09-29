@@ -4,6 +4,7 @@ import { CsvFormatterStream, format, parse } from 'fast-csv';
 import fs from 'fs';
 import { unlink } from 'fs/promises';
 import modifiedData from './modified-data.json';
+import { StockData } from '../../common/types/stock-data';
 
 export async function collectStocks(country: string, exchanges: string[] = []) {
     if (!exchanges.length) {
@@ -72,8 +73,8 @@ async function openStockScreenerPage(browserContext: playwright.BrowserContext):
     const page = await browserContext.newPage();
     try {
         await page.goto('https://www.investing.com/stock-screener/?sp=country::27|sector::a|industry::a|equityType::a|exchange::a%3Ename_trans;1', {waitUntil: 'domcontentloaded'});
-        // await adjustTableColumns(page);
         await page.waitForTimeout(3000);
+        await closeTrustPopup(page);
         return page;
     } catch (error) {
         console.error(error);
@@ -105,6 +106,13 @@ async function selectExchange(page: playwright.Page, exchange: string | null): P
     await page.waitForTimeout(randomInteger(4000, 6000));
 }
 
+async function closeTrustPopup(page: playwright.Page) {
+    const isPopupAppeared = await page.isVisible('div#onetrust-banner-sdk');
+    if (isPopupAppeared) {
+        await page.click('button#onetrust-accept-btn-handler');
+    }
+}
+
 async function closePopup(page: playwright.Page) {
     const isPopupAppeared = await page.isVisible('.largeBannerCloser');
     if (isPopupAppeared) {
@@ -116,7 +124,7 @@ async function isNextButtonVisible(page: playwright.Page) {
     return await page.isVisible('.text_align_lang_base_2 > a:has-text("Next")');
 }
 
-async function collectPageData(page: playwright.Page) {
+async function collectPageData(page: playwright.Page): Promise<StockData[]> {
     const parsedData = await page.$$eval('#resultsTable > tbody tr', (equities) => {
         return equities.map(eq => {
             const name = eq.querySelector('td:nth-child(2)').textContent;
