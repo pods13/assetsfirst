@@ -71,7 +71,7 @@ public class DividendIncomeCardStateProducer implements CardStateProducer<Divide
         for (Dividend dividend : dividends) {
             for (; index < trades.size(); index++) {
                 Trade trade = trades.get(index);
-                if (trade.getDate().toLocalDate().compareTo(dividend.getRecordDate()) < 0) {
+                if (trade.getDate().compareTo(dividend.getRecordDate()) < 0) {
                     var operationQty = TradeOperation.SELL.equals(trade.getOperation()) ? trade.getQuantity().negate() : trade.getQuantity();
                     quantity = quantity.add(operationQty);
                 } else {

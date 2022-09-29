@@ -62,7 +62,7 @@ export class AssignTradeAttributesComponent implements OnInit {
       operation: this.fb.control({
         value: this.trade?.operation ?? TradeOperation.BUY, disabled: this.trade ?? false
       }, Validators.compose([Validators.required])),
-      date: this.fb.control(this.trade?.date ?? new Date(new Date().toUTCString()), Validators.compose([Validators.required])),
+      date: this.fb.control(this.trade?.date ?? new Date(), Validators.compose([Validators.required])),
       price: this.fb.control(this.trade?.price ?? '', Validators.compose([Validators.required])),
       quantity: this.fb.control(this.trade?.quantity ?? '', Validators.compose([Validators.required])),
     });

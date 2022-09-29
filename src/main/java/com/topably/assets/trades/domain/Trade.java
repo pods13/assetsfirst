@@ -21,6 +21,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Setter
@@ -41,7 +42,7 @@ public class Trade {
             foreignKey = @ForeignKey(name = "fk__trade__portfolio_holding_id__portfolio_holding"))
     private PortfolioHolding portfolioHolding;
 
-    private LocalDateTime date;
+    private LocalDate date;
 
     @Enumerated
     @Column(columnDefinition = "tinyint", nullable = false)

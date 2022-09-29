@@ -1,6 +1,5 @@
 package com.topably.assets.trades.domain.dto;
 
-import com.topably.assets.trades.domain.TradeOperation;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -9,7 +8,7 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Setter
 @Getter
@@ -20,7 +19,7 @@ public class EditTradeDto {
 
     private Long tradeId;
     private Long instrumentId;
-    private LocalDateTime date;
+    private LocalDate date;
     private BigDecimal price;
     private BigInteger quantity;
 

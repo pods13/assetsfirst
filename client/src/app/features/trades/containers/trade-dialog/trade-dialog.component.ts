@@ -110,11 +110,12 @@ export class TradeDialogComponent implements OnInit {
     if (this.data?.trade) {
       const {specifics, brokerId} = this.form.value;
       const {date, price, quantity} = specifics;
+      const offsetDate = this.getTimeZoneOffsetDate(date);
       this.dialogRef.close({
         tradeId: this.data.trade.id,
         instrumentId: this.data.trade.instrumentId,
         instrumentType: this.data.trade.instrumentType,
-        date,
+        date: offsetDate,
         price,
         quantity,
         brokerId
@@ -122,15 +123,22 @@ export class TradeDialogComponent implements OnInit {
     } else {
       const {instrument, specifics, brokerId} = this.form.value;
       const {operation, date, price, quantity} = specifics;
+      const offsetDate = this.getTimeZoneOffsetDate(date);
       this.dialogRef.close({
         instrumentId: instrument.id,
         instrumentType: instrument.instrumentType,
         operation,
-        date,
+        date: offsetDate,
         price,
         quantity,
         brokerId
       } as AddTradeDto);
     }
+  }
+
+  getTimeZoneOffsetDate(date: Date): Date {
+    const res = new Date(date);
+    res.setMinutes(res.getMinutes() - res.getTimezoneOffset());
+    return res;
   }
 }

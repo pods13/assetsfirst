@@ -9,7 +9,7 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Setter
 @Getter
@@ -20,7 +20,7 @@ public class AddTradeDto {
 
     private Long instrumentId;
     private TradeOperation operation;
-    private LocalDateTime date;
+    private LocalDate date;
     private BigDecimal price;
     private BigInteger quantity;
 

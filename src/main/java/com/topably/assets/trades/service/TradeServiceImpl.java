@@ -23,7 +23,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.time.ZoneOffset;
 import java.util.AbstractMap;
 import java.util.Collection;
@@ -86,7 +86,7 @@ public class TradeServiceImpl implements TradeService {
                 .build();
     }
 
-    private record TradeData(BigInteger shares, BigDecimal price, LocalDateTime tradeTime) {
+    private record TradeData(BigInteger shares, BigDecimal price, LocalDate tradeTime) {
     }
 
     private InterimTradeResult calculateInterimTradeResult(Collection<Trade> tradesOrderedByDate) {
@@ -177,7 +177,7 @@ public class TradeServiceImpl implements TradeService {
                 .map(t -> {
                     BigDecimal total = t.price().multiply(new BigDecimal(t.shares()));
                     return currencyConverterService.convert(total, holdingCurrency, portfolioCurrency,
-                            t.tradeTime().toInstant(ZoneOffset.UTC));
+                            t.tradeTime().atStartOfDay().toInstant(ZoneOffset.UTC));
                 })
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }

@@ -19,6 +19,7 @@ import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -65,7 +66,7 @@ public class TradeDataLoader implements CommandLineRunner {
 
     private void addNewmont(Long userId, Long brokerId) {
         stockTradeService.addTrade(AddTradeDto.builder()
-                .date(LocalDateTime.of(2022, 2, 23, 11, 0))
+                .date(LocalDate.of(2022, 2, 23))
                 .operation(TradeOperation.BUY)
                 .price(BigDecimal.valueOf(67.92))
                 .quantity(BigInteger.valueOf(15L))
@@ -78,7 +79,7 @@ public class TradeDataLoader implements CommandLineRunner {
     private void addKRBN(Long userId, Long brokerId) {
         Long etfId = instrumentService.findInstrument("KRBN", USExchange.NYSEARCA.name()).getId();
         etfTradeService.addTrade(AddTradeDto.builder()
-                .date(LocalDateTime.of(2021, 12, 1, 11, 0))
+                .date(LocalDate.of(2021, 12, 1))
                 .userId(userId)
                 .operation(TradeOperation.BUY)
                 .price(BigDecimal.valueOf(40.67))
@@ -88,7 +89,7 @@ public class TradeDataLoader implements CommandLineRunner {
                 .build());
 
         etfTradeService.addTrade(AddTradeDto.builder()
-                .date(LocalDateTime.of(2022, 6, 3, 20, 33))
+                .date(LocalDate.of(2022, 6, 3))
                 .userId(userId)
                 .operation(TradeOperation.SELL)
                 .price(BigDecimal.valueOf(50.33))
@@ -100,7 +101,7 @@ public class TradeDataLoader implements CommandLineRunner {
 
     private void addBayer(Long userId, Long brokerId) {
         stockTradeService.addTrade(AddTradeDto.builder()
-                .date(LocalDateTime.of(2021, 12, 1, 11, 0))
+                .date(LocalDate.of(2021, 12, 1))
                 .userId(userId)
                 .operation(TradeOperation.BUY)
                 .price(BigDecimal.valueOf(47.23))
@@ -113,7 +114,7 @@ public class TradeDataLoader implements CommandLineRunner {
     private void addAltria(Long userId, Map<String, Long> brokerNameById) {
         Long stockId = instrumentService.findInstrument("MO", USExchange.NYSE.name()).getId();
         stockTradeService.addTrade(AddTradeDto.builder()
-                .date(LocalDateTime.of(2021, 12, 1, 11, 0))
+                .date(LocalDate.of(2021, 12, 1))
                 .userId(userId)
                 .operation(TradeOperation.BUY)
                 .price(BigDecimal.valueOf(45.67))
@@ -123,7 +124,7 @@ public class TradeDataLoader implements CommandLineRunner {
                 .build());
 
         stockTradeService.addTrade(AddTradeDto.builder()
-                .date(LocalDateTime.of(2022, 6, 10, 18, 0))
+                .date(LocalDate.of(2022, 6, 10))
                 .userId(userId)
                 .operation(TradeOperation.BUY)
                 .price(BigDecimal.valueOf(48.04))
@@ -135,7 +136,7 @@ public class TradeDataLoader implements CommandLineRunner {
 
     private void addOmega(Long userId, Long brokerId) {
         stockTradeService.addTrade(AddTradeDto.builder()
-                .date(LocalDateTime.of(2021, 12, 1, 11, 0))
+                .date(LocalDate.of(2021, 12, 1))
                 .userId(userId)
                 .operation(TradeOperation.BUY)
                 .price(BigDecimal.valueOf(31.82))
@@ -147,7 +148,7 @@ public class TradeDataLoader implements CommandLineRunner {
 
     private void addCoke(Long userId, Long brokerId) {
         stockTradeService.addTrade(AddTradeDto.builder()
-                .date(LocalDateTime.of(2021, 12, 1, 11, 0))
+                .date(LocalDate.of(2021, 12, 1))
                 .userId(userId)
                 .operation(TradeOperation.BUY)
                 .price(BigDecimal.valueOf(52.04))
@@ -159,7 +160,7 @@ public class TradeDataLoader implements CommandLineRunner {
 
     private void addTotal(Long userId, Long brokerId) {
         stockTradeService.addTrade(AddTradeDto.builder()
-                .date(LocalDateTime.of(2021, 12, 1, 11, 0))
+                .date(LocalDate.of(2021, 12, 1))
                 .userId(userId)
                 .operation(TradeOperation.BUY)
                 .price(BigDecimal.valueOf(45.3659))
@@ -172,7 +173,7 @@ public class TradeDataLoader implements CommandLineRunner {
     private void addRosneft(Long userId, Map<String, Long> brokerNameById) {
         Long stockId = instrumentService.findInstrument("ROSN", "MCX").getId();
         stockTradeService.addTrade(AddTradeDto.builder()
-                .date(LocalDateTime.of(2022, 1, 18, 8, 0))
+                .date(LocalDate.of(2022, 1, 18))
                 .userId(userId)
                 .operation(TradeOperation.BUY)
                 .price(BigDecimal.valueOf(393.15))
@@ -182,7 +183,7 @@ public class TradeDataLoader implements CommandLineRunner {
                 .build());
 
         stockTradeService.addTrade(AddTradeDto.builder()
-                .date(LocalDateTime.of(2022, 3, 24, 8, 0))
+                .date(LocalDate.of(2022, 3, 24))
                 .userId(userId)
                 .operation(TradeOperation.BUY)
                 .price(BigDecimal.valueOf(357.12))
@@ -194,7 +195,7 @@ public class TradeDataLoader implements CommandLineRunner {
 
     private void addGazprom(Long userId, Long brokerId) {
         stockTradeService.addTrade(AddTradeDto.builder()
-                .date(LocalDateTime.of(2021, 12, 1, 11, 0))
+                .date(LocalDate.of(2021, 12, 1))
                 .userId(userId)
                 .operation(TradeOperation.BUY)
                 .price(BigDecimal.valueOf(288.96))
@@ -206,7 +207,7 @@ public class TradeDataLoader implements CommandLineRunner {
 
     private void addRosAgro(Long userId, Long brokerId) {
         stockTradeService.addTrade(AddTradeDto.builder()
-                .date(LocalDateTime.of(2021, 12, 1, 11, 0))
+                .date(LocalDate.of(2021, 12, 1))
                 .userId(userId)
                 .operation(TradeOperation.BUY)
                 .price(BigDecimal.valueOf(1029.8))
@@ -218,7 +219,7 @@ public class TradeDataLoader implements CommandLineRunner {
 
     private void addPolyus(Long userId, Long brokerId) {
         stockTradeService.addTrade(AddTradeDto.builder()
-                .date(LocalDateTime.of(2021, 12, 1, 11, 0))
+                .date(LocalDate.of(2021, 12, 1))
                 .userId(userId)
                 .operation(TradeOperation.BUY)
                 .price(BigDecimal.valueOf(13179.4))
@@ -231,7 +232,7 @@ public class TradeDataLoader implements CommandLineRunner {
     private void addPhor(Long userId, Long brokerId) {
         var stockId = instrumentService.findInstrument("PHOR", "MCX").getId();
         stockTradeService.addTrade(AddTradeDto.builder()
-                .date(LocalDateTime.of(2021, 12, 1, 11, 0))
+                .date(LocalDate.of(2021, 12, 1))
                 .userId(userId)
                 .operation(TradeOperation.BUY)
                 .price(BigDecimal.valueOf(4945))
@@ -241,7 +242,7 @@ public class TradeDataLoader implements CommandLineRunner {
                 .build());
 
         stockTradeService.addTrade(AddTradeDto.builder()
-                .date(LocalDateTime.of(2022, 3, 24, 11, 0))
+                .date(LocalDate.of(2022, 3, 24))
                 .userId(userId)
                 .operation(TradeOperation.BUY)
                 .price(BigDecimal.valueOf(4945))
@@ -253,7 +254,7 @@ public class TradeDataLoader implements CommandLineRunner {
 
     private void addIRao(Long userId, Long brokerId) {
         stockTradeService.addTrade(AddTradeDto.builder()
-                .date(LocalDateTime.of(2021, 12, 1, 11, 0))
+                .date(LocalDate.of(2021, 12, 1))
                 .userId(userId)
                 .operation(TradeOperation.BUY)
                 .price(BigDecimal.valueOf(5.0253))
@@ -265,7 +266,7 @@ public class TradeDataLoader implements CommandLineRunner {
 
     private void addMts(Long userId, Long brokerId) {
         stockTradeService.addTrade(AddTradeDto.builder()
-                .date(LocalDateTime.of(2021, 12, 1, 11, 0))
+                .date(LocalDate.of(2021, 12, 1))
                 .userId(userId)
                 .operation(TradeOperation.BUY)
                 .price(BigDecimal.valueOf(317.74))
@@ -277,7 +278,7 @@ public class TradeDataLoader implements CommandLineRunner {
 
     private void addMagnit(Long userId, Long brokerId) {
         stockTradeService.addTrade(AddTradeDto.builder()
-                .date(LocalDateTime.of(2021, 12, 1, 11, 0))
+                .date(LocalDate.of(2021, 12, 1))
                 .userId(userId)
                 .operation(TradeOperation.BUY)
                 .price(BigDecimal.valueOf(5222.2))
@@ -289,7 +290,7 @@ public class TradeDataLoader implements CommandLineRunner {
 
     private void addMoex(Long userId, Long brokerId) {
         stockTradeService.addTrade(AddTradeDto.builder()
-                .date(LocalDateTime.of(2021, 12, 1, 11, 0))
+                .date(LocalDate.of(2021, 12, 1))
                 .userId(userId)
                 .operation(TradeOperation.BUY)
                 .price(BigDecimal.valueOf(135.51))
@@ -301,7 +302,7 @@ public class TradeDataLoader implements CommandLineRunner {
 
     private void addFXCN(Long userId, Long brokerId) {
         etfTradeService.addTrade(AddTradeDto.builder()
-                .date(LocalDateTime.of(2021, 12, 1, 11, 0))
+                .date(LocalDate.of(2021, 12, 1))
                 .userId(userId)
                 .operation(TradeOperation.BUY)
                 .price(BigDecimal.valueOf(3726))
@@ -314,7 +315,7 @@ public class TradeDataLoader implements CommandLineRunner {
     private void addCNOOC(Long userId, Long brokerId) {
         Long stockId = instrumentService.findInstrument("0883", "HK").getId();
         stockTradeService.addTrade(AddTradeDto.builder()
-                .date(LocalDateTime.of(2022, 6, 2, 11, 0))
+                .date(LocalDate.of(2022, 6, 2))
                 .userId(userId)
                 .operation(TradeOperation.BUY)
                 .price(BigDecimal.valueOf(12.04))
@@ -324,7 +325,7 @@ public class TradeDataLoader implements CommandLineRunner {
                 .build());
 
         stockTradeService.addTrade(AddTradeDto.builder()
-                .date(LocalDateTime.of(2022, 6, 16, 3, 44))
+                .date(LocalDate.of(2022, 6, 16))
                 .userId(userId)
                 .operation(TradeOperation.BUY)
                 .price(BigDecimal.valueOf(10.86))
