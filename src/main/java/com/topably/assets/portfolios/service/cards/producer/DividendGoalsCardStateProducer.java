@@ -46,7 +46,7 @@ public class DividendGoalsCardStateProducer implements CardStateProducer<Dividen
     private PositionItem convertToPositionItems(PortfolioHoldingDto holding, DividendGoalsCard card) {
         var averagePrice = holding.getPrice();
         TickerSymbol tickerSymbol = holding.getIdentifier();
-        var annualDividend = dividendService.calculateAnnualDividend(tickerSymbol, Year.now());
+        var annualDividend = dividendService.calculateProbableAnnualDividend(tickerSymbol, Year.now());
         var currentYield = annualDividend.multiply(BigDecimal.valueOf(100)).divide(averagePrice, 2, RoundingMode.HALF_EVEN);
 
         var desiredYield = card.getDesiredYieldByIssuer().getOrDefault(tickerSymbol.toString(), currentYield);

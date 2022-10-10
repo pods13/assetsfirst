@@ -15,4 +15,6 @@ public interface DividendService {
     void addDividends(String ticker, String exchange, Collection<DividendData> dividendData);
 
     BigDecimal calculateAnnualDividend(TickerSymbol tickerSymbol, Year year);
+
+    BigDecimal calculateProbableAnnualDividend(TickerSymbol symbol, Year year);
 }

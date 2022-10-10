@@ -13,14 +13,20 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.Year;
+import java.time.temporal.ChronoUnit;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
+import static java.util.stream.Collectors.collectingAndThen;
 import static java.util.stream.Collectors.toList;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class DividendServiceImpl implements DividendService {
 
     private final InstrumentService instrumentService;
@@ -32,7 +38,6 @@ public class DividendServiceImpl implements DividendService {
     }
 
     @Override
-    @Transactional
     public void addDividends(String ticker, String exchange, Collection<DividendData> dividendData) {
         deleteForecastedDividends(ticker, exchange);
         var instrumentDividends = collectDividendsToPersist(ticker, exchange, dividendData);
@@ -40,11 +45,41 @@ public class DividendServiceImpl implements DividendService {
     }
 
     @Override
-    public BigDecimal calculateAnnualDividend(TickerSymbol tickerSymbol, Year year) {
-        return dividendRepository.findDividendsByYear(tickerSymbol.getSymbol(), tickerSymbol.getExchange(), year.getValue())
+    public BigDecimal calculateAnnualDividend(TickerSymbol symbol, Year year) {
+        return dividendRepository.findDividendsByYears(symbol, year.getValue())
                 .stream()
                 .map(Dividend::getAmount)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
+    @Override
+    public BigDecimal calculateProbableAnnualDividend(TickerSymbol symbol, Year year) {
+        var selectedYear = year.getValue();
+        var dividendsByYear = dividendRepository.findDividendsByYears(symbol, selectedYear, selectedYear - 1, selectedYear - 2)
+                .stream()
+                .collect(Collectors.groupingBy(d -> d.getRecordDate().getYear(), collectingAndThen(toList(),
+                        divs -> divs.stream().sorted(Comparator.comparing(Dividend::getRecordDate)).toList())));
+        var selectedYearDividends = dividendsByYear.get(selectedYear);
+        if (selectedYearDividends == null || selectedYearDividends.isEmpty()) {
+            return Optional.ofNullable(dividendsByYear.get(selectedYear - 1)).filter(d -> !d.isEmpty())
+                    .or(() -> Optional.ofNullable(dividendsByYear.get(selectedYear - 2)))
+                    .map(d -> d.stream().map(Dividend::getAmount).reduce(BigDecimal.ZERO, BigDecimal::add))
+                    .orElse(BigDecimal.ZERO);
+        }
+
+        var lastRecorded = selectedYearDividends.get(selectedYearDividends.size() - 1);
+        var recordedDividendAmount = selectedYearDividends.stream().map(Dividend::getAmount).reduce(BigDecimal.ZERO, BigDecimal::add);
+        var date = lastRecorded.getRecordDate().plus(2, ChronoUnit.WEEKS);
+        if (date.getYear() > selectedYear) {
+            return recordedDividendAmount;
+        }
+        //TODO fix case when in prev year divs were cancelled -> look into dividends of {selectedYear - 2} year
+        return recordedDividendAmount.add(Optional.ofNullable(dividendsByYear.get(selectedYear - 1))
+                .orElse(Collections.emptyList())
+                .stream()
+                .filter(d -> d.getRecordDate().compareTo(date) > 0)
+                .map(Dividend::getAmount)
+                .reduce(BigDecimal.ZERO, BigDecimal::add));
     }
 
     private List<Dividend> collectDividendsToPersist(String ticker, String exchange,
