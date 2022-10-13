@@ -93,8 +93,8 @@ public class PortfolioHoldingServiceImpl implements PortfolioHoldingService {
     public Collection<PortfolioHoldingView> findPortfolioHoldingsView(Long userId) {
         var portfolio = portfolioRepository.findByUserId(userId);
         var holdings = portfolioHoldingRepository.findAllByPortfolioId(portfolio.getId());
-        var tickerSymbolByFinData = collectHoldingFinancialData(holdings);
-        var portfolioMarketValue = tickerSymbolByFinData.values().stream()
+        var tickerByFinData = collectHoldingFinancialData(holdings);
+        var portfolioMarketValue = tickerByFinData.values().stream()
                 .map(PortfolioHoldingFinancialData::convertedMarketValue)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
         AtomicReference<BigDecimal> pctTotal = new AtomicReference<>(BigDecimal.ZERO);
@@ -103,7 +103,7 @@ public class PortfolioHoldingServiceImpl implements PortfolioHoldingService {
                     PortfolioHolding holding = holdings.get(i);
                     Instrument instrument = holding.getInstrument();
                     Ticker ticker = instrument.toTicker();
-                    var finData = tickerSymbolByFinData.get(ticker);
+                    var finData = tickerByFinData.get(ticker);
                     BigDecimal pctOfPortfolio;
                     if (i == holdings.size() - 1) {
                         pctOfPortfolio = BigDecimal.valueOf(100).subtract(pctTotal.get());
