@@ -1,6 +1,6 @@
 package com.topably.assets.dividends.repository;
 
-import com.topably.assets.core.domain.TickerSymbol;
+import com.topably.assets.core.domain.Ticker;
 import com.topably.assets.core.repository.UpsertRepository;
 import com.topably.assets.dividends.domain.Dividend;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,10 +16,10 @@ public interface DividendRepository extends JpaRepository<Dividend, Long>, Upser
             select d from Dividend d
                 join d.instrument i
             where year(d.recordDate) in :years
-              and i.ticker = :#{#symbol.symbol}
-              and i.exchange.code = :#{#symbol.exchange}
+              and i.ticker = :#{#ticker.symbol}
+              and i.exchange.code = :#{#ticker.exchange}
             """)
-    Collection<Dividend> findDividendsByYears(TickerSymbol symbol, int... years);
+    Collection<Dividend> findDividendsByYears(Ticker ticker, int... years);
 
     @Query(nativeQuery = true, value = "select d.*\n" +
             "from dividend d\n" +

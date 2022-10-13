@@ -8,13 +8,13 @@ import { addMonths } from '../../utils/add-months';
 import { getClient } from '../../utils/client';
 import { Page } from '../../utils/page';
 
-const tickerSymbolBySlug: { [key: string]: string } = {};
+const tickerBySlug: { [key: string]: string } = {};
 
 export async function fetchAllDividends() {
     const resourceFolderPath = './resources/stocks';
     const filenames = await fsPromises.readdir(resourceFolderPath);
     const whenFilesRead = filenames
-        .map(f => fillTickerSymbolCacheFromFile(path.join(resourceFolderPath, f)));
+        .map(f => fillTickerCacheFromFile(path.join(resourceFolderPath, f)));
     await Promise.all(whenFilesRead);
 
     const client = await getClient();
@@ -27,7 +27,7 @@ export async function fetchAllDividends() {
             pushDividends(client, {
                 symbol: s.symbol,
                 exchange: s.exchange,
-                slug: tickerSymbolBySlug[`${s.symbol}.${s.exchange}`]
+                slug: tickerBySlug[`${s.symbol}.${s.exchange}`]
             }));
         try {
             await Promise.allSettled(whenDividendsPushed);
@@ -51,14 +51,14 @@ async function pushDividends(client: AxiosInstance, el: any) {
     return await client.post(`/dividends?ticker=${el.symbol}&exchange=${el.exchange}`, dividendsToSave);
 }
 
-async function fillTickerSymbolCacheFromFile(path: string) {
+async function fillTickerCacheFromFile(path: string) {
     return new Promise<any>((resolve, reject) => {
         fs.createReadStream(path)
             .pipe(parse({headers: true}))
             .on('error', reject)
             .on('data', row => {
                 const key = `${row.symbol}.${row.exchange}`;
-                tickerSymbolBySlug[key] = row.slug;
+                tickerBySlug[key] = row.slug;
             }).on('end', resolve);
     })
 }

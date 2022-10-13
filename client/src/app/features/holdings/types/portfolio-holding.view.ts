@@ -1,10 +1,10 @@
-import { TickerSymbol } from '../../../core/types/ticker-symbol';
+import { Ticker } from '../../../core/types/ticker';
 
 export interface PortfolioHoldingView {
   id: number;
   instrumentId: number;
   instrumentType: any;
-  identifier: TickerSymbol;
+  identifier: Ticker;
   quantity: number;
   price: number;
   currencySymbol: string;

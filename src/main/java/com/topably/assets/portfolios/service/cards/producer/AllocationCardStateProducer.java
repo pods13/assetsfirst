@@ -68,7 +68,7 @@ public class AllocationCardStateProducer implements CardStateProducer<Allocation
                     .collect(groupingBy(t -> t.getBroker().getName(), collectingAndThen(toList(),
                             trades -> trades.stream().map(t -> {
                                 PortfolioHolding holding = t.getPortfolioHolding();
-                                var identifier = holding.getInstrument().toTickerSymbol();
+                                var identifier = holding.getInstrument().toTicker();
                                 var price = exchangeService.findSymbolRecentPrice(identifier).orElse(t.getPrice());
                                 return AllocationAggregatedTrade.builder()
                                         .identifier(identifier)

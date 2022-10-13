@@ -11,7 +11,7 @@ import lombok.Setter;
 @EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
-public class TickerSymbol {
+public class Ticker {
 
     private String symbol;
     private String exchange;

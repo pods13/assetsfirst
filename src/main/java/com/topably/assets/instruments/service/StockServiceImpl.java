@@ -3,7 +3,7 @@ package com.topably.assets.instruments.service;
 import com.topably.assets.companies.domain.dto.CompanyDto;
 import com.topably.assets.companies.repository.CompanyRepository;
 import com.topably.assets.companies.service.CompanyService;
-import com.topably.assets.core.domain.TickerSymbol;
+import com.topably.assets.core.domain.Ticker;
 import com.topably.assets.exchanges.repository.ExchangeRepository;
 import com.topably.assets.instruments.domain.dto.StockDataDto;
 import com.topably.assets.instruments.domain.dto.StockDto;
@@ -68,7 +68,7 @@ public class StockServiceImpl implements StockService {
     private StockDto convertToDto(Stock stock) {
         return StockDto.builder()
                 .id(stock.getId())
-                .identifier(new TickerSymbol(stock.getTicker(), stock.getExchange().getCode()))
+                .identifier(new Ticker(stock.getTicker(), stock.getExchange().getCode()))
                 .companyId(stock.getCompany().getId())
                 .build();
     }

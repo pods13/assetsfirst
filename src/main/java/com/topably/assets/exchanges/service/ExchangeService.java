@@ -1,6 +1,6 @@
 package com.topably.assets.exchanges.service;
 
-import com.topably.assets.core.domain.TickerSymbol;
+import com.topably.assets.core.domain.Ticker;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -10,9 +10,9 @@ import java.util.Set;
 
 public interface ExchangeService {
 
-    Page<TickerSymbol> getSymbols(Pageable pageable, Set<String> instrumentTypes);
+    Page<Ticker> getSymbols(Pageable pageable, Set<String> instrumentTypes);
 
-    Page<TickerSymbol> getSymbolsByExchange(String exchange, Pageable pageable, Set<String> instrumentTypes);
+    Page<Ticker> getSymbolsByExchange(String exchange, Pageable pageable, Set<String> instrumentTypes);
 
-    Optional<BigDecimal> findSymbolRecentPrice(TickerSymbol symbol);
+    Optional<BigDecimal> findSymbolRecentPrice(Ticker ticker);
 }

@@ -1,6 +1,6 @@
 package com.topably.assets.exchanges;
 
-import com.topably.assets.core.domain.TickerSymbol;
+import com.topably.assets.core.domain.Ticker;
 import com.topably.assets.exchanges.service.ExchangeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -21,13 +21,13 @@ public class ExchangesController {
     private final ExchangeService exchangeService;
 
     @GetMapping("/tickers")
-    public Page<TickerSymbol> getTickers(Pageable pageable, @RequestParam(required = false) Set<String> instrumentTypes) {
+    public Page<Ticker> getTickers(Pageable pageable, @RequestParam(required = false) Set<String> instrumentTypes) {
         return exchangeService.getSymbols(pageable, instrumentTypes);
     }
 
     @GetMapping("/{exchange}/tickers")
-    public Page<TickerSymbol> getTickersByExchange(@PathVariable String exchange, Pageable pageable,
-                                                   @RequestParam(required = false) Set<String> instrumentTypes) {
+    public Page<Ticker> getTickersByExchange(@PathVariable String exchange, Pageable pageable,
+                                             @RequestParam(required = false) Set<String> instrumentTypes) {
         return exchangeService.getSymbolsByExchange(exchange, pageable, instrumentTypes);
     }
 }

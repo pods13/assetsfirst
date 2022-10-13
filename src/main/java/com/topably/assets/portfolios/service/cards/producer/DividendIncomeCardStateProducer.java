@@ -1,6 +1,6 @@
 package com.topably.assets.portfolios.service.cards.producer;
 
-import com.topably.assets.core.domain.TickerSymbol;
+import com.topably.assets.core.domain.Ticker;
 import com.topably.assets.dividends.domain.Dividend;
 import com.topably.assets.dividends.service.DividendService;
 import com.topably.assets.instruments.domain.Instrument;
@@ -50,7 +50,7 @@ public class DividendIncomeCardStateProducer implements CardStateProducer<Divide
         var groupedTrades = tradeService.findDividendPayingTrades(portfolio.getId()).stream()
                 .collect(groupingBy(trade -> {
                     Instrument instrument = trade.getPortfolioHolding().getInstrument();
-                    return new TickerSymbol(instrument.getTicker(), instrument.getExchange().getCode());
+                    return new Ticker(instrument.getTicker(), instrument.getExchange().getCode());
                 }));
         var details = groupedTrades.entrySet().stream()
                 .map(this::composeDividendDetails)
@@ -60,7 +60,7 @@ public class DividendIncomeCardStateProducer implements CardStateProducer<Divide
         return produceDividendsGroupedByTimeFrame(details, card.getTimeFrame());
     }
 
-    private Collection<DividendDetails> composeDividendDetails(Map.Entry<TickerSymbol, List<Trade>> tradesByKey) {
+    private Collection<DividendDetails> composeDividendDetails(Map.Entry<Ticker, List<Trade>> tradesByKey) {
         var key = tradesByKey.getKey();
         Collection<Dividend> dividends = dividendService.findDividends(key.getSymbol(), key.getExchange());
         var quantity = BigInteger.ZERO;

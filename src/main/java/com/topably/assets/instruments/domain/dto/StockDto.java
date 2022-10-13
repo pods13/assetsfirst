@@ -1,6 +1,6 @@
 package com.topably.assets.instruments.domain.dto;
 
-import com.topably.assets.core.domain.TickerSymbol;
+import com.topably.assets.core.domain.Ticker;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -16,7 +16,7 @@ public class StockDto {
 
     private Long id;
 
-    private TickerSymbol identifier;
+    private Ticker identifier;
 
     private Long companyId;
 

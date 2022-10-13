@@ -1,6 +1,6 @@
 package com.topably.assets.trades.domain.dto;
 
-import com.topably.assets.core.domain.TickerSymbol;
+import com.topably.assets.core.domain.Ticker;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,7 +18,7 @@ import java.util.Currency;
 @Builder
 public class AggregatedTradeDto {
 
-    private TickerSymbol identifier;
+    private Ticker identifier;
     private BigInteger quantity;
     private BigDecimal price;
     private Currency currency;

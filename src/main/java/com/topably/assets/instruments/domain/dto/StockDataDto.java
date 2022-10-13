@@ -1,14 +1,13 @@
 package com.topably.assets.instruments.domain.dto;
 
 import com.topably.assets.companies.domain.dto.CompanyDataDto;
-import com.topably.assets.core.domain.TickerSymbol;
+import com.topably.assets.core.domain.Ticker;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Setter
@@ -19,7 +18,7 @@ import javax.validation.constraints.NotNull;
 public class StockDataDto {
 
     @NotNull
-    private TickerSymbol identifier;
+    private Ticker identifier;
 
     @NotNull
     private CompanyDataDto company;

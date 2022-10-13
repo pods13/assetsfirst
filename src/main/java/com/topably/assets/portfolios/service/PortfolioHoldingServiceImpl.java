@@ -1,6 +1,6 @@
 package com.topably.assets.portfolios.service;
 
-import com.topably.assets.core.domain.TickerSymbol;
+import com.topably.assets.core.domain.Ticker;
 import com.topably.assets.exchanges.service.ExchangeService;
 import com.topably.assets.instruments.domain.Instrument;
 import com.topably.assets.portfolios.domain.Portfolio;
@@ -73,7 +73,7 @@ public class PortfolioHoldingServiceImpl implements PortfolioHoldingService {
                             .id(holding.getId())
                             .instrumentId(instrument.getId())
                             .instrumentType(instrument.getInstrumentType())
-                            .identifier(instrument.toTickerSymbol())
+                            .identifier(instrument.toTicker())
                             .currency(instrument.getExchange().getCurrency())
                             .quantity(holding.getQuantity())
                             .price(holding.getAveragePrice())
@@ -102,8 +102,8 @@ public class PortfolioHoldingServiceImpl implements PortfolioHoldingService {
                 .mapToObj(i -> {
                     PortfolioHolding holding = holdings.get(i);
                     Instrument instrument = holding.getInstrument();
-                    TickerSymbol tickerSymbol = instrument.toTickerSymbol();
-                    var finData = tickerSymbolByFinData.get(tickerSymbol);
+                    Ticker ticker = instrument.toTicker();
+                    var finData = tickerSymbolByFinData.get(ticker);
                     BigDecimal pctOfPortfolio;
                     if (i == holdings.size() - 1) {
                         pctOfPortfolio = BigDecimal.valueOf(100).subtract(pctTotal.get());
@@ -116,7 +116,7 @@ public class PortfolioHoldingServiceImpl implements PortfolioHoldingService {
                             .id(holding.getId())
                             .instrumentId(instrument.getId())
                             .instrumentType(instrument.getInstrumentType())
-                            .identifier(tickerSymbol)
+                            .identifier(ticker)
                             .currencySymbol(instrument.getExchange().getCurrency().getSymbol())
                             .quantity(holding.getQuantity())
                             .price(holding.getAveragePrice())
@@ -126,23 +126,23 @@ public class PortfolioHoldingServiceImpl implements PortfolioHoldingService {
                 }).collect(Collectors.toList());
     }
 
-    private Map<TickerSymbol, PortfolioHoldingFinancialData> collectHoldingFinancialData(List<PortfolioHolding> holdings) {
+    private Map<Ticker, PortfolioHoldingFinancialData> collectHoldingFinancialData(List<PortfolioHolding> holdings) {
         return holdings.stream()
                 .map(holding -> {
                     Instrument instrument = holding.getInstrument();
                     Currency currency = instrument.getExchange().getCurrency();
-                    TickerSymbol tickerSymbol = instrument.toTickerSymbol();
-                    var marketValue = exchangeService.findSymbolRecentPrice(tickerSymbol)
+                    Ticker ticker = instrument.toTicker();
+                    var marketValue = exchangeService.findSymbolRecentPrice(ticker)
                             .map(value -> value.multiply(new BigDecimal(holding.getQuantity())))
                             .orElse(holding.getTotal());
                     var convertedMarketValue = currencyConverterService.convert(marketValue, currency);
 
-                    return new PortfolioHoldingFinancialData(tickerSymbol, marketValue, convertedMarketValue);
+                    return new PortfolioHoldingFinancialData(ticker, marketValue, convertedMarketValue);
                 })
-                .collect(Collectors.toMap(PortfolioHoldingFinancialData::tickerSymbol, Function.identity()));
+                .collect(Collectors.toMap(PortfolioHoldingFinancialData::ticker, Function.identity()));
     }
 
-    private record PortfolioHoldingFinancialData(TickerSymbol tickerSymbol, BigDecimal marketValue,
+    private record PortfolioHoldingFinancialData(Ticker ticker, BigDecimal marketValue,
                                                  BigDecimal convertedMarketValue) {
 
     }

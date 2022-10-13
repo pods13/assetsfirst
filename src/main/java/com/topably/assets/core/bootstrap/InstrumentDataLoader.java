@@ -4,7 +4,7 @@ import com.topably.assets.companies.domain.Company;
 import com.topably.assets.companies.domain.dto.CompanyDataDto;
 import com.topably.assets.companies.repository.CompanyRepository;
 import com.topably.assets.companies.repository.IndustryRepository;
-import com.topably.assets.core.domain.TickerSymbol;
+import com.topably.assets.core.domain.Ticker;
 import com.topably.assets.exchanges.domain.Exchange;
 import com.topably.assets.exchanges.repository.ExchangeRepository;
 import com.topably.assets.instruments.domain.dto.StockDataDto;
@@ -76,7 +76,7 @@ public class InstrumentDataLoader implements CommandLineRunner {
     private void addStockInstruments() {
         stockService.addStock(StockDataDto.builder()
                 .company(CompanyDataDto.builder().name("Newmont Goldcorp Corp").build())
-                .identifier(new TickerSymbol("NEM", NYSE.name()))
+                .identifier(new Ticker("NEM", NYSE.name()))
                 .build());
 
         Exchange nyse = exchangeRepository.findByCode(NYSE.name());
@@ -85,12 +85,12 @@ public class InstrumentDataLoader implements CommandLineRunner {
 
         stockService.addStock(StockDataDto.builder()
                 .company(CompanyDataDto.builder().name("Bayer AG NA").build())
-                .identifier(new TickerSymbol("BAYN", "XETRA"))
+                .identifier(new Ticker("BAYN", "XETRA"))
                 .build());
 
         stockService.addStock(StockDataDto.builder()
                 .company(CompanyDataDto.builder().name("Altria Group").build())
-                .identifier(new TickerSymbol("MO", NYSE.name()))
+                .identifier(new Ticker("MO", NYSE.name()))
                 .build());
 
         Company omega = companyRepository.save(Company.builder()

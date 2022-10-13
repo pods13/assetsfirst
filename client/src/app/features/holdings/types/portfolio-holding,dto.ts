@@ -1,7 +1,7 @@
-import { TickerSymbol } from '../../../core/types/ticker-symbol';
+import { Ticker } from '../../../core/types/ticker';
 
 export interface PortfolioHoldingDto {
-  identifier: TickerSymbol;
+  identifier: Ticker;
   quantity: number;
   price: number;
 }

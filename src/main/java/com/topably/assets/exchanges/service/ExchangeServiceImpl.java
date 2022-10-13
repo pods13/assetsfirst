@@ -1,6 +1,6 @@
 package com.topably.assets.exchanges.service;
 
-import com.topably.assets.core.domain.TickerSymbol;
+import com.topably.assets.core.domain.Ticker;
 import com.topably.assets.exchanges.domain.InstrumentPrice;
 import com.topably.assets.exchanges.domain.USExchange;
 import com.topably.assets.exchanges.repository.ExchangeRepository;
@@ -39,7 +39,7 @@ public class ExchangeServiceImpl implements ExchangeService {
     private final InstrumentPriceRepository priceRepository;
 
     @Override
-    public Page<TickerSymbol> getSymbols(Pageable pageable, Set<String> instrumentTypes) {
+    public Page<Ticker> getSymbols(Pageable pageable, Set<String> instrumentTypes) {
         return exchangeRepository.findInstrumentsOfCertainTypesByExchangeCodes(pageable, null,
                 useDefaultInstrumentTypesIfNull(instrumentTypes));
     }
@@ -50,7 +50,7 @@ public class ExchangeServiceImpl implements ExchangeService {
 
     @Override
     @Transactional
-    public Page<TickerSymbol> getSymbolsByExchange(String exchange, Pageable pageable, Set<String> instrumentTypes) {
+    public Page<Ticker> getSymbolsByExchange(String exchange, Pageable pageable, Set<String> instrumentTypes) {
         var exchangeCodes = "US".equals(exchange) ? US_EXCHANGE_CODES : Set.of(exchange);
         return exchangeRepository.findInstrumentsOfCertainTypesByExchangeCodes(pageable, exchangeCodes,
                 useDefaultInstrumentTypesIfNull(instrumentTypes));
@@ -59,14 +59,14 @@ public class ExchangeServiceImpl implements ExchangeService {
     @Override
     @Cacheable(sync = true)
     @Transactional(propagation = Propagation.REQUIRES_NEW, readOnly = true)
-    public Optional<BigDecimal> findSymbolRecentPrice(TickerSymbol symbol) {
+    public Optional<BigDecimal> findSymbolRecentPrice(Ticker ticker) {
         try {
-            var stock = YahooFinance.get(convertToYahooFinanceSymbol(symbol));
+            var stock = YahooFinance.get(convertToYahooFinanceSymbol(ticker));
             Optional<BigDecimal> price = Optional.ofNullable(stock).map(s -> s.getQuote().getPrice());
 
             //TODO refactoring needed as soon as all prices from all exchanges become available in price table
-            if ("MCX".equals(symbol.getExchange())) {
-                return priceRepository.findTopBySymbolOrderByDatetimeDesc(symbol.toString())
+            if ("MCX".equals(ticker.getExchange())) {
+                return priceRepository.findTopBySymbolOrderByDatetimeDesc(ticker.toString())
                         .map(InstrumentPrice::getValue)
                         .or(() -> price);
             }
@@ -76,14 +76,14 @@ public class ExchangeServiceImpl implements ExchangeService {
         }
     }
 
-    private String convertToYahooFinanceSymbol(TickerSymbol tickerSymbol) {
-        if (US_EXCHANGE_CODES.contains(tickerSymbol.getExchange())) {
-            return tickerSymbol.getSymbol();
-        } else if ("XETRA".equals(tickerSymbol.getExchange())) {
-            return tickerSymbol.getSymbol() + ".DE";
-        } else if ("MCX".equals(tickerSymbol.getExchange())) {
-            return tickerSymbol.getSymbol() + ".ME";
+    private String convertToYahooFinanceSymbol(Ticker ticker) {
+        if (US_EXCHANGE_CODES.contains(ticker.getExchange())) {
+            return ticker.getSymbol();
+        } else if ("XETRA".equals(ticker.getExchange())) {
+            return ticker.getSymbol() + ".DE";
+        } else if ("MCX".equals(ticker.getExchange())) {
+            return ticker.getSymbol() + ".ME";
         }
-        return tickerSymbol.toString();
+        return ticker.toString();
     }
 }

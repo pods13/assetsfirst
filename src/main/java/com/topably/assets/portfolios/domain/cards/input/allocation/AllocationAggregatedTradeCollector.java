@@ -1,6 +1,6 @@
 package com.topably.assets.portfolios.domain.cards.input.allocation;
 
-import com.topably.assets.core.domain.TickerSymbol;
+import com.topably.assets.core.domain.Ticker;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -17,17 +17,17 @@ import java.util.function.Supplier;
 import java.util.stream.Collector;
 
 public class AllocationAggregatedTradeCollector implements Collector<AllocationAggregatedTrade,
-        Map<TickerSymbol, AllocationAggregatedTrade>, List<AllocationAggregatedTrade>> {
+        Map<Ticker, AllocationAggregatedTrade>, List<AllocationAggregatedTrade>> {
 
     @Override
-    public Supplier<Map<TickerSymbol, AllocationAggregatedTrade>> supplier() {
+    public Supplier<Map<Ticker, AllocationAggregatedTrade>> supplier() {
         return HashMap::new;
     }
 
     @Override
-    public BiConsumer<Map<TickerSymbol, AllocationAggregatedTrade>, AllocationAggregatedTrade> accumulator() {
+    public BiConsumer<Map<Ticker, AllocationAggregatedTrade>, AllocationAggregatedTrade> accumulator() {
         return (map, trade) -> {
-            TickerSymbol key = trade.getIdentifier();
+            Ticker key = trade.getIdentifier();
             if (map.containsKey(key)) {
                 AllocationAggregatedTrade prevTrade = map.get(key);
                 var totalQuantity = prevTrade.getQuantity().add(trade.getQuantity());
@@ -42,7 +42,7 @@ public class AllocationAggregatedTradeCollector implements Collector<AllocationA
     }
 
     @Override
-    public BinaryOperator<Map<TickerSymbol, AllocationAggregatedTrade>> combiner() {
+    public BinaryOperator<Map<Ticker, AllocationAggregatedTrade>> combiner() {
         return (m1, m2) -> {
             m1.putAll(m2);
             return m1;
@@ -50,7 +50,7 @@ public class AllocationAggregatedTradeCollector implements Collector<AllocationA
     }
 
     @Override
-    public Function<Map<TickerSymbol, AllocationAggregatedTrade>, List<AllocationAggregatedTrade>> finisher() {
+    public Function<Map<Ticker, AllocationAggregatedTrade>, List<AllocationAggregatedTrade>> finisher() {
         return map -> new ArrayList<>(map.values());
     }
 

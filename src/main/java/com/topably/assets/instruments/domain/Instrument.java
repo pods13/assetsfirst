@@ -2,7 +2,7 @@ package com.topably.assets.instruments.domain;
 
 
 import com.topably.assets.exchanges.domain.Exchange;
-import com.topably.assets.core.domain.TickerSymbol;
+import com.topably.assets.core.domain.Ticker;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -60,7 +60,7 @@ public abstract class Instrument {
     @Type(type = "json")
     private Map<String, String> attributes;
 
-    public TickerSymbol toTickerSymbol() {
-        return new TickerSymbol(ticker, exchange.getCode());
+    public Ticker toTicker() {
+        return new Ticker(ticker, exchange.getCode());
     }
 }

@@ -1,6 +1,6 @@
 package com.topably.assets.portfolios.domain.cards.input.allocation;
 
-import com.topably.assets.core.domain.TickerSymbol;
+import com.topably.assets.core.domain.Ticker;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,7 +18,7 @@ import java.util.Currency;
 @Builder
 public class AllocationAggregatedTrade {
 
-    private TickerSymbol identifier;
+    private Ticker identifier;
     private Long instrumentId;
     private String instrumentType;
     private BigInteger quantity;

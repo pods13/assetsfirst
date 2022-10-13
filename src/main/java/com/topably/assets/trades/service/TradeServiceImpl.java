@@ -79,7 +79,7 @@ public class TradeServiceImpl implements TradeService {
         ));
 
         return AggregatedTradeDto.builder()
-                .identifier(tradedInstrument.toTickerSymbol())
+                .identifier(tradedInstrument.toTicker())
                 .quantity(sharesByAvgPrice.getKey())
                 .price(sharesByAvgPrice.getValue())
                 .currency(tradedInstrument.getExchange().getCurrency())

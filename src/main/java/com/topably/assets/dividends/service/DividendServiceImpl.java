@@ -1,6 +1,6 @@
 package com.topably.assets.dividends.service;
 
-import com.topably.assets.core.domain.TickerSymbol;
+import com.topably.assets.core.domain.Ticker;
 import com.topably.assets.dividends.domain.Dividend;
 import com.topably.assets.dividends.domain.dto.DividendData;
 import com.topably.assets.dividends.repository.DividendRepository;
@@ -45,17 +45,17 @@ public class DividendServiceImpl implements DividendService {
     }
 
     @Override
-    public BigDecimal calculateAnnualDividend(TickerSymbol symbol, Year year) {
-        return dividendRepository.findDividendsByYears(symbol, year.getValue())
+    public BigDecimal calculateAnnualDividend(Ticker ticker, Year year) {
+        return dividendRepository.findDividendsByYears(ticker, year.getValue())
                 .stream()
                 .map(Dividend::getAmount)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
     @Override
-    public BigDecimal calculateProbableAnnualDividend(TickerSymbol symbol, Year year) {
+    public BigDecimal calculateProbableAnnualDividend(Ticker ticker, Year year) {
         var selectedYear = year.getValue();
-        var dividendsByYear = dividendRepository.findDividendsByYears(symbol, selectedYear, selectedYear - 1, selectedYear - 2)
+        var dividendsByYear = dividendRepository.findDividendsByYears(ticker, selectedYear, selectedYear - 1, selectedYear - 2)
                 .stream()
                 .collect(Collectors.groupingBy(d -> d.getRecordDate().getYear(), collectingAndThen(toList(),
                         divs -> divs.stream().sorted(Comparator.comparing(Dividend::getRecordDate)).toList())));
