@@ -24,12 +24,15 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
+import java.time.Month;
+import java.time.format.TextStyle;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.IsoFields;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.TreeMap;
@@ -114,8 +117,8 @@ public class DividendIncomeCardStateProducer implements CardStateProducer<Divide
         var dividends = dividendsByYearMonth.entrySet().stream()
                 .map(divsByMonth -> {
                     var divsByYear = enrichWithMissingYears(dividendsByYearMonth.values(), divsByMonth.getValue());
-                    return new TimeFrameDividend("M" + divsByMonth.getKey(),
-                            composeDividendSummary(divsByYear));
+                    var monthDisplayName = Month.of(divsByMonth.getKey()).getDisplayName(TextStyle.SHORT_STANDALONE, Locale.ENGLISH);
+                    return new TimeFrameDividend(monthDisplayName, composeDividendSummary(divsByYear));
                 })
                 .toList();
         return DividendIncomeCardData.builder()
