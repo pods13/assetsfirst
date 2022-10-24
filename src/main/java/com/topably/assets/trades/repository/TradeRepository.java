@@ -1,7 +1,6 @@
 package com.topably.assets.trades.repository;
 
 import com.topably.assets.trades.domain.Trade;
-import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

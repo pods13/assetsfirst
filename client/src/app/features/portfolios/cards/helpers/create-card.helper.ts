@@ -5,6 +5,7 @@ import { DividendIncomeCardFactory } from './factory/dividend-income-card.factor
 import { DividendGoalsCardFactory } from './factory/dividend-goals-card.factory';
 import { SectoralDistributionCardFactory } from './factory/sectoral-distribution-card.factory';
 import { BalanceCardFactory } from './factory/balance-card.factory';
+import { ContributionCardFactory } from './factory/contribution-card.factory';
 
 
 export function createCard(containerType: CardContainerType): DashboardCard {
@@ -21,4 +22,5 @@ const cardContainerTypeByFactory = {
   [CardContainerType.DIVIDEND_GOALS]: DividendGoalsCardFactory,
   [CardContainerType.SECTORAL_DISTRIBUTION]: SectoralDistributionCardFactory,
   [CardContainerType.BALANCE]: BalanceCardFactory,
+  [CardContainerType.CONTRIBUTION]: ContributionCardFactory
 };

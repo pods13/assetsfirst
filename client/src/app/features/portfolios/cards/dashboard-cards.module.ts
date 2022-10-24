@@ -21,6 +21,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatInputModule } from '@angular/material/input';
 import { SectoralDistributionCardComponent } from './containers/sectoral-distribution-card/sectoral-distribution-card.component';
 import { BalanceCardComponent } from './containers/balance-card/balance-card.component';
+import { ContributionCardComponent } from './containers/contribution-card/contribution-card.component';
 
 
 @NgModule({
@@ -34,6 +35,7 @@ import { BalanceCardComponent } from './containers/balance-card/balance-card.com
     DividendGoalsCardComponent,
     SectoralDistributionCardComponent,
     BalanceCardComponent,
+    ContributionCardComponent,
   ],
     imports: [
         CommonModule,

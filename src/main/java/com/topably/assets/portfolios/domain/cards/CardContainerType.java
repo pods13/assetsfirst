@@ -7,4 +7,6 @@ public class CardContainerType {
     public static final String DIVIDEND_GOALS = "DIVIDEND_GOALS";
     public static final String SECTORAL_DISTRIBUTION = "SECTORAL_DISTRIBUTION";
     public static final String BALANCE = "BALANCE";
+
+    public static final String CONTRIBUTION = "CONTRIBUTION";
 }

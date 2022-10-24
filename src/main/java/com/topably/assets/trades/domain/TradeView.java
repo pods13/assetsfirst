@@ -10,10 +10,9 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
-import javax.persistence.IdClass;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.Currency;
 
 @Setter
@@ -60,7 +59,7 @@ public class TradeView {
 
     private String name;
 
-    private LocalDateTime date;
+    private LocalDate date;
 
     @Enumerated
     @Column(columnDefinition = "tinyint")
