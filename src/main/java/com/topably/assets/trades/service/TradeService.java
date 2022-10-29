@@ -27,12 +27,12 @@ import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.ZoneOffset;
-import java.time.temporal.TemporalAdjuster;
 import java.time.temporal.TemporalAdjusters;
 import java.util.AbstractMap;
 import java.util.Collection;
 import java.util.Currency;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -46,8 +46,8 @@ public class TradeService {
     private final PortfolioHoldingService portfolioHoldingService;
     private final CurrencyConverterService currencyConverterService;
 
-    public Collection<Trade> findDividendPayingTrades(Long portfolioId) {
-        return tradeRepository.findDividendPayingTradesOrderByTradeDate(portfolioId);
+    public Collection<Trade> findDividendPayingTrades(Long portfolioId, Collection<Integer> tradeYears) {
+        return tradeRepository.findDividendPayingTradesOrderByTradeDate(portfolioId, tradeYears);
     }
 
     public TradeDto addTrade(AddTradeDto dto, Instrument tradedInstrument) {

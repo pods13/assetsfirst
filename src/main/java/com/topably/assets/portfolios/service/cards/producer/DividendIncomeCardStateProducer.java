@@ -1,9 +1,6 @@
 package com.topably.assets.portfolios.service.cards.producer;
 
-import com.topably.assets.core.domain.Ticker;
-import com.topably.assets.dividends.domain.Dividend;
 import com.topably.assets.dividends.service.DividendService;
-import com.topably.assets.instruments.domain.Instrument;
 import com.topably.assets.portfolios.domain.Portfolio;
 import com.topably.assets.portfolios.domain.cards.CardContainerType;
 import com.topably.assets.portfolios.domain.cards.CardData;
@@ -14,27 +11,21 @@ import com.topably.assets.portfolios.domain.cards.output.dividend.DividendSummar
 import com.topably.assets.portfolios.domain.cards.output.dividend.TimeFrameDividend;
 import com.topably.assets.portfolios.domain.cards.output.dividend.TimeFrameOption;
 import com.topably.assets.portfolios.service.cards.CardStateProducer;
-import com.topably.assets.trades.domain.Trade;
-import com.topably.assets.trades.domain.TradeOperation;
-import com.topably.assets.trades.service.TradeService;
 import com.topably.assets.xrates.service.currency.CurrencyConverterService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.math.RoundingMode;
+import java.time.LocalDate;
 import java.time.Month;
 import java.time.format.TextStyle;
-import java.time.temporal.ChronoUnit;
 import java.time.temporal.IsoFields;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Optional;
 import java.util.TreeMap;
 
 import static java.util.stream.Collectors.groupingBy;
@@ -44,50 +35,17 @@ import static java.util.stream.Collectors.toList;
 @RequiredArgsConstructor
 public class DividendIncomeCardStateProducer implements CardStateProducer<DividendIncomeCard> {
 
-    private final TradeService tradeService;
     private final DividendService dividendService;
     private final CurrencyConverterService currencyConverterService;
 
     @Override
     public CardData produce(Portfolio portfolio, DividendIncomeCard card) {
-        var groupedTrades = tradeService.findDividendPayingTrades(portfolio.getId()).stream()
-                .collect(groupingBy(trade -> {
-                    Instrument instrument = trade.getPortfolioHolding().getInstrument();
-                    return new Ticker(instrument.getTicker(), instrument.getExchange().getCode());
-                }));
-        var details = groupedTrades.entrySet().stream()
-                .map(this::composeDividendDetails)
-                .flatMap(Collection::stream)
-                .filter(divDetails -> divDetails.getTotal().compareTo(BigDecimal.ZERO) > 0)
+        var currentYear = LocalDate.now().getYear();
+        var tradeYears = List.of(currentYear - 1, currentYear, currentYear + 1);
+        var details = dividendService.aggregateDividends(portfolio, tradeYears).stream()
+                .map(d -> new DividendDetails(d.getTicker().getSymbol(), d.getPayDate(), d.isForecasted(), d.getTotal(), d.getCurrency()))
                 .toList();
         return produceDividendsGroupedByTimeFrame(details, card.getTimeFrame());
-    }
-
-    private Collection<DividendDetails> composeDividendDetails(Map.Entry<Ticker, List<Trade>> tradesByKey) {
-        var key = tradesByKey.getKey();
-        Collection<Dividend> dividends = dividendService.findDividends(key.getSymbol(), key.getExchange());
-        var quantity = BigInteger.ZERO;
-        var dividendDetails = new ArrayList<DividendDetails>();
-        var trades = tradesByKey.getValue();
-        var currency = trades.iterator().hasNext() ? trades.iterator().next().getPortfolioHolding().getInstrument().getExchange().getCurrency() : null;
-        int index = 0;
-        for (Dividend dividend : dividends) {
-            for (; index < trades.size(); index++) {
-                Trade trade = trades.get(index);
-                if (trade.getDate().compareTo(dividend.getRecordDate()) < 0) {
-                    var operationQty = TradeOperation.SELL.equals(trade.getOperation()) ? trade.getQuantity().negate() : trade.getQuantity();
-                    quantity = quantity.add(operationQty);
-                } else {
-                    break;
-                }
-            }
-            BigDecimal total = dividend.getAmount().multiply(new BigDecimal(quantity));
-            var forecasted = dividend.getPayDate() == null;
-            var payDate = Optional.ofNullable((dividend.getPayDate()))
-                    .orElseGet(() -> dividend.getRecordDate().plus(1, ChronoUnit.MONTHS));
-            dividendDetails.add(new DividendDetails(key.getSymbol(), payDate, forecasted, total, currency));
-        }
-        return dividendDetails;
     }
 
     private CardData produceDividendsGroupedByTimeFrame(List<DividendDetails> details, TimeFrameOption timeFrame) {
