@@ -41,8 +41,8 @@ public class DividendIncomeCardStateProducer implements CardStateProducer<Divide
     @Override
     public CardData produce(Portfolio portfolio, DividendIncomeCard card) {
         var currentYear = LocalDate.now().getYear();
-        var tradeYears = List.of(currentYear - 1, currentYear, currentYear + 1);
-        var details = dividendService.aggregateDividends(portfolio, tradeYears).stream()
+        var dividendYears = List.of(currentYear - 1, currentYear, currentYear + 1);
+        var details = dividendService.aggregateDividends(portfolio, dividendYears).stream()
                 .map(d -> new DividendDetails(d.getTicker().getSymbol(), d.getPayDate(), d.isForecasted(), d.getTotal(), d.getCurrency()))
                 .toList();
         return produceDividendsGroupedByTimeFrame(details, card.getTimeFrame());

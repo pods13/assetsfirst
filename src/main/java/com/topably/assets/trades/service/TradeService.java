@@ -46,8 +46,8 @@ public class TradeService {
     private final PortfolioHoldingService portfolioHoldingService;
     private final CurrencyConverterService currencyConverterService;
 
-    public Collection<Trade> findDividendPayingTrades(Long portfolioId, Collection<Integer> tradeYears) {
-        return tradeRepository.findDividendPayingTradesOrderByTradeDate(portfolioId, tradeYears);
+    public Collection<Trade> findDividendPayingTrades(Long portfolioId, Collection<Integer> dividendYears) {
+        return tradeRepository.findDividendPayingTradesOrderByTradeDate(portfolioId, dividendYears);
     }
 
     public TradeDto addTrade(AddTradeDto dto, Instrument tradedInstrument) {

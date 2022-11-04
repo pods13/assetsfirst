@@ -27,6 +27,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.collectingAndThen;
@@ -43,7 +44,7 @@ public class DividendService {
     private final TradeService tradeService;
 
     @Transactional(readOnly = true)
-    public Collection<Dividend> findDividends(Ticker ticker) {
+    public Collection<Dividend> findDividends(Ticker ticker, Collection<Integer> dividendYears) {
         return dividendRepository.findByInstrument_TickerAndInstrument_Exchange_CodeOrderByRecordDateAsc(ticker.getSymbol(), ticker.getExchange());
     }
 
@@ -54,7 +55,7 @@ public class DividendService {
     }
 
     public BigDecimal calculateAnnualDividend(Ticker ticker, Year year) {
-        return dividendRepository.findDividendsByYears(ticker, year.getValue())
+        return dividendRepository.findDividendsByYears(ticker, List.of(year.getValue()))
                 .stream()
                 .map(Dividend::getAmount)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
@@ -62,7 +63,8 @@ public class DividendService {
 
     public BigDecimal calculateProbableAnnualDividend(Ticker ticker, Year year) {
         var selectedYear = year.getValue();
-        var dividendsByYear = dividendRepository.findDividendsByYears(ticker, selectedYear, selectedYear - 1, selectedYear - 2)
+        var dividendYears = Set.of(selectedYear, selectedYear - 1, selectedYear - 2);
+        var dividendsByYear = dividendRepository.findDividendsByYears(ticker, dividendYears)
                 .stream()
                 .collect(Collectors.groupingBy(d -> d.getRecordDate().getYear(), collectingAndThen(toList(),
                         divs -> divs.stream().sorted(Comparator.comparing(Dividend::getRecordDate)).toList())));
@@ -123,28 +125,29 @@ public class DividendService {
         dividendRepository.deleteAll(forecastedDividends);
     }
 
-    public Collection<AggregatedDividendDto> aggregateDividends(Portfolio portfolio, Collection<Integer> tradeYears) {
-        var groupedTrades = tradeService.findDividendPayingTrades(portfolio.getId(), tradeYears).stream()
+    public Collection<AggregatedDividendDto> aggregateDividends(Portfolio portfolio, Collection<Integer> dividendYears) {
+        var groupedTrades = tradeService.findDividendPayingTrades(portfolio.getId(), dividendYears).stream()
                 .collect(groupingBy(trade -> {
                     Instrument instrument = trade.getPortfolioHolding().getInstrument();
                     return new Ticker(instrument.getTicker(), instrument.getExchange().getCode());
                 }));
 
         return groupedTrades.entrySet().stream()
-                .map(this::composeAggregatedDividends)
+                .map(tradesByTicker -> composeAggregatedDividends(tradesByTicker, dividendYears))
                 .flatMap(Collection::stream)
                 .filter(divDetails -> divDetails.getTotal().compareTo(BigDecimal.ZERO) > 0)
                 .toList();
     }
 
-    private Collection<AggregatedDividendDto> composeAggregatedDividends(Map.Entry<Ticker, List<Trade>> tradesByTicker) {
+    private Collection<AggregatedDividendDto> composeAggregatedDividends(Map.Entry<Ticker, List<Trade>> tradesByTicker,
+                                                                         Collection<Integer> dividendYears) {
         var ticker = tradesByTicker.getKey();
         var quantity = BigInteger.ZERO;
         var aggregatedDividends = new ArrayList<AggregatedDividendDto>();
         var trades = tradesByTicker.getValue();
         var currency = trades.iterator().hasNext() ? trades.iterator().next().getPortfolioHolding().getInstrument().getExchange().getCurrency() : null;
         int index = 0;
-        for (Dividend dividend : findDividends(ticker)) {
+        for (Dividend dividend : dividendRepository.findDividendsByYears(ticker, dividendYears)) {
             for (; index < trades.size(); index++) {
                 Trade trade = trades.get(index);
                 if (trade.getDate().compareTo(dividend.getRecordDate()) < 0) {

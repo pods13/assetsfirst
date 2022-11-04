@@ -9,16 +9,22 @@ import java.util.Collection;
 public interface TradeRepository extends JpaRepository<Trade, Long> {
 
     @Query(value = """
-            from Trade t
-            join t.portfolioHolding holding
-            join Portfolio p on p.id = holding.portfolio.id and p.id = :portfolioId
-            join fetch t.portfolioHolding.instrument instrument
-            join fetch t.portfolioHolding.instrument.exchange exchange
-            where exists(select d from Dividend d where d.instrument.id = t.portfolioHolding.instrument.id)
-                and year(t.date) in (:tradeYears)
+            select t.*, i.*, e.*
+            from trade t
+                     join portfolio_holding ph on ph.id = t.portfolio_holding_id
+                     join portfolio p on p.id = ph.portfolio_id and p.id = :portfolioId
+                     join instrument i on i.id = ph.instrument_id
+                     join exchange e on e.id = i.exchange_id
+            where exists(select d.id
+                         from dividend d
+                                  join instrument i2 on i2.id = d.instrument_id
+                         where i2.id = i.id
+                           and ((d.pay_date is not null and year(d.pay_date) in :dividendYears)
+                             or (d.pay_date is null and year(adddate(d.record_date, interval 1 month)) in :dividendYears))
+                      )
             order by t.date
-            """)
-    Collection<Trade> findDividendPayingTradesOrderByTradeDate(Long portfolioId, Collection<Integer> tradeYears);
+            """, nativeQuery = true)
+    Collection<Trade> findDividendPayingTradesOrderByTradeDate(Long portfolioId, Collection<Integer> dividendYears);
 
     @Query(value = """
             select t from Trade t
