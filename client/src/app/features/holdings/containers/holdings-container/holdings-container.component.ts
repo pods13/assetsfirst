@@ -40,7 +40,11 @@ import { PortfolioHoldingService } from '../../services/portfolio-holding.servic
         </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-column [prop]="'exDividendDate'" [name]="'Ex-dividend Date'"></ngx-datatable-column>
-      <ngx-datatable-column [prop]="'yieldOnCost'" [name]="'Yield On Cost'"></ngx-datatable-column>
+      <ngx-datatable-column [prop]="'yieldOnCost'" [name]="'Yield On Cost'">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          {{row.yieldOnCost + '%'}}
+        </ng-template>
+      </ngx-datatable-column>
       <ngx-datatable-column [prop]="'realizedPnl'" [name]="'Realized P&L'"></ngx-datatable-column>
     </ngx-datatable>
   `,

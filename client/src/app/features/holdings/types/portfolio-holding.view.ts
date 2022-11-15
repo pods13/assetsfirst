@@ -10,4 +10,5 @@ export interface PortfolioHoldingView {
   currencySymbol: string;
   pctOfPortfolio: number;
   marketValue: number;
+  yieldOnCost: number;
 }

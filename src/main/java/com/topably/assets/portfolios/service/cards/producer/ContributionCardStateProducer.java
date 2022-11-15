@@ -44,7 +44,8 @@ public class ContributionCardStateProducer implements CardStateProducer<Contribu
         var tradesByMonthValue = currentYearTrades.stream()
                 .collect(Collectors.groupingBy(t -> t.getDate().getMonthValue(), TreeMap::new, Collectors.toList()));
         var dividendYears = Set.of(LocalDate.now().getYear());
-        var dividendsByMonthValue = dividendService.aggregateDividends(portfolio, dividendYears).stream()
+        var trades = tradeService.findDividendPayingTrades(portfolio.getId(), dividendYears);
+        var dividendsByMonthValue = dividendService.aggregateDividends(trades, dividendYears).stream()
                 .collect(Collectors.groupingBy(d -> d.getPayDate().getMonthValue(), TreeMap::new, Collectors.toList()));
         var contributions = EnumSet.allOf(Month.class).stream()
                 .map(month -> {

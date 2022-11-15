@@ -26,6 +26,7 @@ public class PortfolioHoldingView {
     private String currencySymbol;
     private BigDecimal pctOfPortfolio;
     private BigDecimal marketValue;
+    private BigDecimal yieldOnCost;
 
     public BigDecimal getTotal() {
         return getPrice().multiply(new BigDecimal(getQuantity()));

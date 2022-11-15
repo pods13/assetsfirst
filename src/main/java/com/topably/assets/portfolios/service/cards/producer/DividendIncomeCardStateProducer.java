@@ -11,6 +11,7 @@ import com.topably.assets.portfolios.domain.cards.output.dividend.DividendSummar
 import com.topably.assets.portfolios.domain.cards.output.dividend.TimeFrameDividend;
 import com.topably.assets.portfolios.domain.cards.output.dividend.TimeFrameOption;
 import com.topably.assets.portfolios.service.cards.CardStateProducer;
+import com.topably.assets.trades.service.TradeService;
 import com.topably.assets.xrates.service.currency.CurrencyConverterService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
 
 import static java.util.stream.Collectors.groupingBy;
@@ -35,6 +37,7 @@ import static java.util.stream.Collectors.toList;
 @RequiredArgsConstructor
 public class DividendIncomeCardStateProducer implements CardStateProducer<DividendIncomeCard> {
 
+    private final TradeService tradeService;
     private final DividendService dividendService;
     private final CurrencyConverterService currencyConverterService;
 
@@ -42,7 +45,9 @@ public class DividendIncomeCardStateProducer implements CardStateProducer<Divide
     public CardData produce(Portfolio portfolio, DividendIncomeCard card) {
         var currentYear = LocalDate.now().getYear();
         var dividendYears = List.of(currentYear - 1, currentYear, currentYear + 1);
-        var details = dividendService.aggregateDividends(portfolio, dividendYears).stream()
+        var trades = tradeService.findDividendPayingTrades(portfolio.getId(), dividendYears);
+
+        var details = dividendService.aggregateDividends(trades, dividendYears).stream()
                 .map(d -> new DividendDetails(d.getTicker().getSymbol(), d.getPayDate(), d.isForecasted(), d.getTotal(), d.getCurrency()))
                 .toList();
         return produceDividendsGroupedByTimeFrame(details, card.getTimeFrame());

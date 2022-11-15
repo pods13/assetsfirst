@@ -7,10 +7,8 @@ import com.topably.assets.dividends.domain.dto.DividendData;
 import com.topably.assets.dividends.repository.DividendRepository;
 import com.topably.assets.instruments.domain.Instrument;
 import com.topably.assets.instruments.service.InstrumentService;
-import com.topably.assets.portfolios.domain.Portfolio;
 import com.topably.assets.trades.domain.Trade;
 import com.topably.assets.trades.domain.TradeOperation;
-import com.topably.assets.trades.service.TradeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,7 +39,6 @@ public class DividendService {
 
     private final DividendRepository dividendRepository;
     private final InstrumentService instrumentService;
-    private final TradeService tradeService;
 
     @Transactional(readOnly = true)
     public Collection<Dividend> findDividends(Ticker ticker, Collection<Integer> dividendYears) {
@@ -125,8 +122,8 @@ public class DividendService {
         dividendRepository.deleteAll(forecastedDividends);
     }
 
-    public Collection<AggregatedDividendDto> aggregateDividends(Portfolio portfolio, Collection<Integer> dividendYears) {
-        var groupedTrades = tradeService.findDividendPayingTrades(portfolio.getId(), dividendYears).stream()
+    public Collection<AggregatedDividendDto> aggregateDividends(Collection<Trade> trades, Collection<Integer> dividendYears) {
+        var groupedTrades = trades.stream()
                 .collect(groupingBy(trade -> {
                     Instrument instrument = trade.getPortfolioHolding().getInstrument();
                     return new Ticker(instrument.getTicker(), instrument.getExchange().getCode());
