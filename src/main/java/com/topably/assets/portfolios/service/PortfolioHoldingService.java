@@ -142,7 +142,7 @@ public class PortfolioHoldingService {
     }
 
     private BigDecimal calculateYieldOnCost(PortfolioHolding holding) {
-        var annualDividend = dividendService.calculateProbableAnnualDividend(holding.getInstrument().toTicker(), Year.now());
+        var annualDividend = dividendService.calculateAnnualDividend(holding.getInstrument().toTicker(), Year.now());
         return Optional.ofNullable(holding.getAveragePrice())
                 .filter(price -> price.compareTo(BigDecimal.ZERO) > 0)
                 .map(price -> BigDecimal.valueOf(100).multiply(annualDividend).divide(price, RoundingMode.HALF_EVEN))

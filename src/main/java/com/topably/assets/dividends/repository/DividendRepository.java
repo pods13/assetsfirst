@@ -6,7 +6,9 @@ import com.topably.assets.dividends.domain.Dividend;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.time.LocalDate;
 import java.util.Collection;
+import java.util.Optional;
 
 public interface DividendRepository extends JpaRepository<Dividend, Long>, UpsertRepository<Dividend, Long> {
 
@@ -35,4 +37,6 @@ public interface DividendRepository extends JpaRepository<Dividend, Long>, Upser
     Dividend findLastDeclaredDividend(String ticker, String exchange);
 
     Collection<Dividend> findAllByDeclareDateIsNullAndInstrument_TickerAndInstrument_Exchange_Code(String ticker, String exchange);
+
+    Optional<Dividend> findTopByRecordDateBeforeOrderByRecordDateDesc(LocalDate date);
 }

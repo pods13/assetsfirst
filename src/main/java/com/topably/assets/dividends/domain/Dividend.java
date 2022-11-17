@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.Column;
@@ -26,7 +27,7 @@ import java.time.LocalDate;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@Accessors(chain = true)
 @Entity
 @Table(name = "dividend", uniqueConstraints = {
         @UniqueConstraint(name = "uq_dividend_instrument_id_record_date", columnNames = {"instrument_id", "record_date"}),

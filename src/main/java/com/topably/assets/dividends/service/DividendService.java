@@ -20,7 +20,6 @@ import java.time.Year;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -52,40 +51,52 @@ public class DividendService {
     }
 
     public BigDecimal calculateAnnualDividend(Ticker ticker, Year year) {
-        return dividendRepository.findDividendsByYears(ticker, List.of(year.getValue()))
-                .stream()
-                .map(Dividend::getAmount)
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
-    }
-
-    public BigDecimal calculateProbableAnnualDividend(Ticker ticker, Year year) {
         var selectedYear = year.getValue();
-        var dividendYears = Set.of(selectedYear, selectedYear - 1, selectedYear - 2);
-        var dividendsByYear = dividendRepository.findDividendsByYears(ticker, dividendYears)
-                .stream()
-                .collect(Collectors.groupingBy(d -> d.getRecordDate().getYear(), collectingAndThen(toList(),
-                        divs -> divs.stream().sorted(Comparator.comparing(Dividend::getRecordDate)).toList())));
+        var latestDividendYear = getLatestDividendYear(selectedYear);
+        var dividendYears = Optional.ofNullable(latestDividendYear)
+                .map(dividendYear -> Set.of(selectedYear, dividendYear, dividendYear - 1))
+                .orElseGet(() -> Set.of(selectedYear));
+        var dividends = dividendRepository.findDividendsByYears(ticker, dividendYears);
+        var dividendsByYear = groupDividendsByRecordDate(dividends);
         var selectedYearDividends = dividendsByYear.get(selectedYear);
         if (selectedYearDividends == null || selectedYearDividends.isEmpty()) {
-            return Optional.ofNullable(dividendsByYear.get(selectedYear - 1)).filter(d -> !d.isEmpty())
-                    .or(() -> Optional.ofNullable(dividendsByYear.get(selectedYear - 2)))
+            if (latestDividendYear == null) {
+                return BigDecimal.ZERO;
+            }
+            return Optional.ofNullable(dividendsByYear.get(latestDividendYear))
+                    .filter(d -> !d.isEmpty())
                     .map(d -> d.stream().map(Dividend::getAmount).reduce(BigDecimal.ZERO, BigDecimal::add))
                     .orElse(BigDecimal.ZERO);
         }
 
         var lastRecorded = selectedYearDividends.get(selectedYearDividends.size() - 1);
         var recordedDividendAmount = selectedYearDividends.stream().map(Dividend::getAmount).reduce(BigDecimal.ZERO, BigDecimal::add);
-        var date = lastRecorded.getRecordDate().plus(2, ChronoUnit.WEEKS);
-        if (date.getYear() > selectedYear) {
+        var lastRecordDate = lastRecorded.getRecordDate().plus(2, ChronoUnit.WEEKS);
+        var isRecordedForFullYear = lastRecordDate.getYear() > selectedYear;
+        if (isRecordedForFullYear) {
             return recordedDividendAmount;
         }
-        //TODO fix case when in prev year divs were cancelled -> look into dividends of {selectedYear - 2} year
-        return recordedDividendAmount.add(Optional.ofNullable(dividendsByYear.get(selectedYear - 1))
-                .orElse(Collections.emptyList())
-                .stream()
-                .filter(d -> d.getRecordDate().compareTo(date) > 0)
+
+        var firstRecordDate = selectedYearDividends.get(0).getRecordDate();
+        var projectedDividendsByPrevYearsData = dividends.stream()
+                .filter(d -> d.getRecordDate().compareTo(lastRecordDate.minusYears(1)) >= 0
+                        && d.getRecordDate().compareTo(firstRecordDate) < 0)
                 .map(Dividend::getAmount)
-                .reduce(BigDecimal.ZERO, BigDecimal::add));
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+        return recordedDividendAmount.add(projectedDividendsByPrevYearsData);
+    }
+
+    private Integer getLatestDividendYear(int selectedYear) {
+        return dividendRepository.findTopByRecordDateBeforeOrderByRecordDateDesc(LocalDate.ofYearDay(selectedYear, 1))
+                .map(Dividend::getRecordDate)
+                .map(LocalDate::getYear)
+                .orElse(null);
+    }
+
+    private Map<Integer, List<Dividend>> groupDividendsByRecordDate(Collection<Dividend> dividends) {
+        return dividends.stream()
+                .collect(Collectors.groupingBy(d -> d.getRecordDate().getYear(), collectingAndThen(toList(),
+                        divs -> divs.stream().sorted(Comparator.comparing(Dividend::getRecordDate)).toList())));
     }
 
     private List<Dividend> collectDividendsToPersist(String ticker, String exchange,
@@ -108,13 +119,12 @@ public class DividendService {
     }
 
     private Dividend convertToDividend(DividendData data, Instrument instrument) {
-        return Dividend.builder()
-                .instrument(instrument)
-                .amount(data.getAmount())
-                .declareDate(data.getDeclareDate())
-                .recordDate(data.getRecordDate())
-                .payDate(data.getPayDate())
-                .build();
+        return new Dividend()
+                .setInstrument(instrument)
+                .setAmount(data.getAmount())
+                .setDeclareDate(data.getDeclareDate())
+                .setRecordDate(data.getRecordDate())
+                .setPayDate(data.getPayDate());
     }
 
     private void deleteForecastedDividends(String ticker, String exchange) {
