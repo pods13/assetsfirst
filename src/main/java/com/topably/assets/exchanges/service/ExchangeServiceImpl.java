@@ -60,17 +60,19 @@ public class ExchangeServiceImpl implements ExchangeService {
     @Cacheable(sync = true)
     @Transactional(propagation = Propagation.REQUIRES_NEW, readOnly = true)
     public Optional<BigDecimal> findSymbolRecentPrice(Ticker ticker) {
+        //TODO refactoring needed as soon as all prices from all exchanges become available in price table
+        if ("MCX".equals(ticker.getExchange())) {
+            return priceRepository.findTopBySymbolOrderByDatetimeDesc(ticker.toString())
+                .map(InstrumentPrice::getValue)
+                .or(() -> findSymbolRecentPriceOnYahoo(ticker));
+        }
+        return findSymbolRecentPriceOnYahoo(ticker);
+    }
+
+    private Optional<BigDecimal> findSymbolRecentPriceOnYahoo(Ticker ticker) {
         try {
             var stock = YahooFinance.get(convertToYahooFinanceSymbol(ticker));
-            Optional<BigDecimal> price = Optional.ofNullable(stock).map(s -> s.getQuote().getPrice());
-
-            //TODO refactoring needed as soon as all prices from all exchanges become available in price table
-            if ("MCX".equals(ticker.getExchange())) {
-                return priceRepository.findTopBySymbolOrderByDatetimeDesc(ticker.toString())
-                        .map(InstrumentPrice::getValue)
-                        .or(() -> price);
-            }
-            return price;
+            return Optional.ofNullable(stock).map(s -> s.getQuote().getPrice());
         } catch (IOException e) {
             return Optional.empty();
         }
