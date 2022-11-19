@@ -2,7 +2,6 @@ package com.topably.assets.portfolios;
 
 import com.topably.assets.auth.domain.security.CurrentUser;
 import com.topably.assets.portfolios.domain.cards.DashboardCard;
-import com.topably.assets.portfolios.service.cards.CardStateProducerFactory;
 import com.topably.assets.portfolios.service.cards.DashboardCardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
@@ -12,7 +11,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 
-import java.security.Principal;
+import java.util.Collection;
 
 @Controller
 @RequiredArgsConstructor
@@ -33,8 +32,8 @@ public class DashboardCardsWSController {
     }
 
     @MessageMapping("/{dashboardId}/cards/update")
-    public void updateCard(@DestinationVariable Long dashboardId, @Payload DashboardCard card) {
-        dashboardCardService.updateCard(dashboardId, card);
+    public void updateCards(@DestinationVariable Long dashboardId, @Payload Collection<DashboardCard> cards) {
+        dashboardCardService.updateCards(dashboardId, cards);
     }
 
     @MessageMapping("/{dashboardId}/cards/delete")
