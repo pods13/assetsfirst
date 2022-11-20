@@ -3,6 +3,7 @@ import { CardContainer } from '../../types/card-container';
 import { ContributionCardData } from '../../types/out/contribution-card-data';
 import { Observable } from 'rxjs';
 import { ContributionCard } from '../../types/in/contribution-card';
+import { lightColor } from '../../helpers/chart-color-sets';
 
 @Component({
   selector: 'app-contribution-card',
@@ -13,7 +14,7 @@ import { ContributionCard } from '../../types/in/contribution-card';
     <ng-container *ngIf="data$ | async as data">
       <ngx-charts-bar-vertical-stacked
         [view]="[card.cols * 100, card.rows * 100 - 5]"
-        [scheme]="'vivid'"
+        [scheme]="colorScheme"
         [results]="data.contributions"
         [xAxis]="true"
         [yAxis]="true"
@@ -30,6 +31,8 @@ export class ContributionCardComponent implements CardContainer<ContributionCard
 
   card!: ContributionCard;
   data$!: Observable<ContributionCardData>;
+
+  colorScheme = lightColor;
 
   constructor() {
   }

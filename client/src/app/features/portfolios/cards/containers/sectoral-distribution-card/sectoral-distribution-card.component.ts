@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { SectoralDistributionCardData } from '../../types/out/sectoral-distribution-card-data';
 import { DashboardCard } from '../../types/dashboard-card';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { lightColor } from '../../helpers/chart-color-sets';
 
 @UntilDestroy()
 @Component({
@@ -24,7 +25,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
       <ngx-charts-tree-map class="clearfix"
                            [view]="[card.cols * 108 + 6.5 * (card.cols - (card.minItemCols || card.cols)),
                              card.rows * 95 + 10 * (card.rows - (card.minItemRows || card.rows))]"
-                           [scheme]="'vivid'"
+                           [scheme]="colorScheme"
                            [results]="treemap"
                            [animations]="true"
                            (select)="treemapSelect($event)">
@@ -41,6 +42,8 @@ export class SectoralDistributionCardComponent implements CardContainer<Dashboar
 
   treemap!: any[];
   treemapPath: any[] = [];
+
+  colorScheme = lightColor;
 
   constructor() {
   }

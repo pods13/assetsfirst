@@ -3,6 +3,7 @@ import { CardContainer } from '../../types/card-container';
 import { Observable } from 'rxjs';
 import { DividendIncomeCardData } from '../../types/out/dividend-income-card-data';
 import { DividendIncomeCard, TimeFrameOption } from '../../types/in/dividend-income-card';
+import { lightColor } from '../../helpers/chart-color-sets';
 
 @Component({
   selector: 'app-dividends-card',
@@ -21,7 +22,7 @@ import { DividendIncomeCard, TimeFrameOption } from '../../types/in/dividend-inc
     </div>
     <ngx-charts-bar-vertical-2d *ngIf="data$ | async as data" class="dividend-income-chart clearfix"
                                 [results]="data.dividends"
-                                [scheme]="'vivid'"
+                                [scheme]="colorScheme"
                                 [xAxis]="true"
                                 [yAxis]="true"
                                 [showYAxisLabel]="true" [yAxisLabel]="'Earned Dividends'"
@@ -49,6 +50,8 @@ export class DividendIncomeCardComponent implements OnInit, CardContainer<Divide
   data$!: Observable<DividendIncomeCardData>;
 
   cardChanges$ = new EventEmitter<DividendIncomeCard>();
+
+  colorScheme = lightColor;
 
   timeFrameOptions = Object.keys(TimeFrameOption).map(timeFrame => ({value: timeFrame}));
 

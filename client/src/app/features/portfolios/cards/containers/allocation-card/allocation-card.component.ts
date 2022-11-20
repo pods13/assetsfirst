@@ -4,6 +4,8 @@ import { Observable } from 'rxjs';
 import { AssetsAllocationCardData } from '../../types/out/assets-allocation-card-data';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { AllocatedByOption, AssetAllocationCard } from '../../types/in/asset-allocation-card';
+import { Color } from '@swimlane/ngx-charts';
+import { lightColor } from '../../helpers/chart-color-sets';
 
 @UntilDestroy()
 @Component({
@@ -23,7 +25,7 @@ import { AllocatedByOption, AssetAllocationCard } from '../../types/in/asset-all
     </div>
     <ng-container *ngIf="data$ | async as data">
       <ngx-charts-pie-chart class="pie-chart clearfix"
-                            [scheme]="'vivid'"
+                            [scheme]="colorScheme"
                             [results]="chartSegments"
                             [view]="[(card.cols - 1.5) * 100 + 100, (card.rows - 1.5) * 100 + 100]"
                             [legend]="false"
@@ -46,6 +48,8 @@ export class AllocationCardComponent implements OnInit, CardContainer<AssetAlloc
   chartSegments!: any[];
 
   allocatedByOptions = Object.keys(AllocatedByOption).map(by => ({value: by}));
+
+  colorScheme = lightColor;
 
   constructor() {
   }

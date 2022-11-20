@@ -11,3 +11,8 @@
   flex: 1;
   justify-content: flex-end;
 }
+
+router-outlet + * {
+  background-color: #f7f8fa;
+
+}
