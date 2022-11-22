@@ -1,5 +1,6 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
 import { DashboardCardStore } from '../../cards/services/dashboard-card.store';
+import { RxStompService } from '../../../../core/services/rx-stomp.service';
 
 @Component({
   selector: 'app-portfolio-view',
@@ -12,11 +13,16 @@ import { DashboardCardStore } from '../../cards/services/dashboard-card.store';
     DashboardCardStore
   ]
 })
-export class PortfolioViewComponent implements OnInit {
+export class PortfolioViewComponent implements OnInit, OnDestroy {
 
-  constructor() { }
+  constructor(private rxStomp: RxStompService) { }
 
   ngOnInit(): void {
+    this.rxStomp.activate();
+  }
+
+  async ngOnDestroy(): Promise<void> {
+    await this.rxStomp.deactivate();
   }
 
 }

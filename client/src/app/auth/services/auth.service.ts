@@ -5,7 +5,6 @@ import { UserCredentials } from '../types/user-credentials';
 import { catchError, map, Observable, of, switchMap, tap } from 'rxjs';
 import { User } from '../types/user';
 import { MatDialog } from '@angular/material/dialog';
-import { NotificationService } from '../../core/services/notification.service';
 import { CreateUserDto } from '../types/create-user.dto';
 
 @Injectable({
@@ -19,8 +18,7 @@ export class AuthService {
 
   constructor(private router: Router,
               private http: HttpClient,
-              private dialog: MatDialog,
-              private notificationService: NotificationService) {
+              private dialog: MatDialog) {
   }
 
   login(userCredentials: UserCredentials) {

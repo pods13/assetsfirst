@@ -36,6 +36,5 @@ export const rxStompConfig: RxStompConfig = {
 export function rxStompServiceFactory(tokenExtractor: HttpXsrfTokenExtractor) {
   const rxStomp = new RxStompService(tokenExtractor);
   rxStomp.configure(rxStompConfig);
-  rxStomp.activate();
   return rxStomp;
 }
