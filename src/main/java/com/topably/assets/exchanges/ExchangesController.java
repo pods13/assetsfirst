@@ -21,13 +21,15 @@ public class ExchangesController {
     private final ExchangeService exchangeService;
 
     @GetMapping("/tickers")
-    public Page<Ticker> getTickers(Pageable pageable, @RequestParam(required = false) Set<String> instrumentTypes) {
-        return exchangeService.getSymbols(pageable, instrumentTypes);
+    public Page<Ticker> getTickers(Pageable pageable, @RequestParam(required = false) Set<String> instrumentTypes,
+                                   @RequestParam(required = false) boolean inAnyPortfolio) {
+        return exchangeService.getSymbols(pageable, instrumentTypes, inAnyPortfolio);
     }
 
     @GetMapping("/{exchange}/tickers")
     public Page<Ticker> getTickersByExchange(@PathVariable String exchange, Pageable pageable,
-                                             @RequestParam(required = false) Set<String> instrumentTypes) {
-        return exchangeService.getSymbolsByExchange(exchange, pageable, instrumentTypes);
+                                             @RequestParam(required = false) Set<String> instrumentTypes,
+                                             @RequestParam(required = false) boolean inAnyPortfolio) {
+        return exchangeService.getSymbolsByExchange(exchange, pageable, instrumentTypes, inAnyPortfolio);
     }
 }

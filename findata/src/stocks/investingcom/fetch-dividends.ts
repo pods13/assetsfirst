@@ -40,7 +40,7 @@ export async function fetchAllDividends() {
 }
 
 async function getTickers(client: AxiosInstance, page: number) {
-    const res = await client.get<Page<any>>(`/exchanges/tickers?size=10&page=${page}&instrumentTypes=STOCK`);
+    const res = await client.get<Page<any>>(`/exchanges/tickers?size=10&page=${page}&instrumentTypes=STOCK&inAnyPortfolio=true`);
     return res.data;
 }
 

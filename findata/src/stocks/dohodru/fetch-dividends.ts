@@ -18,7 +18,7 @@ export async function fetchDividends() {
 }
 
 async function getTickersByExchange(client: AxiosInstance, exchange: string, page: number) {
-    const securitiesRes = await client.get<Page<any>>(`/exchanges/${exchange}/tickers?size=10&page=${page}&instrumentTypes=STOCK`);
+    const securitiesRes = await client.get<Page<any>>(`/exchanges/${exchange}/tickers?size=10&page=${page}&instrumentTypes=STOCK&inAnyPortfolio=true`);
     return securitiesRes.data;
 }
 
