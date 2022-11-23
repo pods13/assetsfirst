@@ -13,7 +13,7 @@ jobs:
       run:
         working-directory: ./findata
     permissions:
-      contents: read
+      contents: write
       packages: write
     if: "!startsWith(github.event.head_commit.message, '[RELEASE]')"
     steps:
