@@ -27,9 +27,8 @@ jobs:
       - run: git config --global user.name 'AssetsFirst'
       - run: |
           ver=$(npm version patch) \
-          git add package.json package-lock.json \
-          echo "new_version=$ver" >> $GITHUB_ENV
-      - run: git commit -m '[RELEASE] ${{ env.new_version }}'
+          git add package.json package-lock.json
+      - run: git commit -m '[RELEASE] $ver'
       - run: git push
       - run: npm publish
         env:
