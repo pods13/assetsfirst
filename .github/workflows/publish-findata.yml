@@ -25,7 +25,11 @@ jobs:
           always-auth: true
       - run: npm ci
       - run: git config --global user.name 'AssetsFirst'
-      - run: npm version patch -m "[RELEASE] %s"
+      - run: |
+          ver=$(npm version patch) \
+          git add package.json package-lock.json \
+          echo "new_version=$ver" >> $GITHUB_ENV
+      - run: git commit -m '[RELEASE] ${{ env.new_version }}'
       - run: git push
       - run: npm publish
         env:
