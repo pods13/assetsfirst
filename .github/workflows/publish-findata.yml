@@ -15,6 +15,7 @@ jobs:
     permissions:
       contents: read
       packages: write
+    if: "!startsWith(github.event.head_commit.message, '[RELEASE]')"
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -23,6 +24,9 @@ jobs:
           registry-url: https://npm.pkg.github.com/
           always-auth: true
       - run: npm ci
+      - run: git config --global user.name 'AssetsFirst'
+      - run: npm version patch -m "[RELEASE] %s"
+      - run: git push
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
