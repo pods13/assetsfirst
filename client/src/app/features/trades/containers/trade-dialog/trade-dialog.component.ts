@@ -14,7 +14,7 @@ import { BrokerService } from '../../services/broker.service';
     <h1 mat-dialog-title>{{data?.title}}</h1>
     <div mat-dialog-content>
       <form [formGroup]="form">
-        <mat-form-field>
+        <mat-form-field appearance="fill">
           <mat-select [formControlName]="'instrument'" placeholder="Ticker or company name"
                       [compareWith]="compareFunction">
             <mat-option>

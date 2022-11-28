@@ -1,4 +1,5 @@
 @use "@angular/material" as mat;
+@use 'sass:map';
 
 @include mat.core();
 
@@ -111,8 +112,18 @@ $my-app-theme: mat.define-light-theme(
         primary: $app-primary,
         accent: $app-accent,
         warn: $app-warn,
-      ),
+      )
     )
 );
 
-@include mat.all-component-themes($my-app-theme);
+$material-theme-overrides: (
+  'color': (
+    'primary': (
+      'text': #000000
+    )
+  ),
+);
+
+$theme: map.deep-merge($my-app-theme, $material-theme-overrides);
+
+@include mat.all-component-themes($theme);
