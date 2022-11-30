@@ -6,14 +6,13 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
-import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.web.cors.CorsConfiguration;
@@ -28,31 +27,33 @@ import java.util.List;
 
 @Configuration
 @EnableWebSecurity
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+public class WebSecurityConfig {
 
     private static final String X_REQUESTED_WITH_HEADER = "X-Requested-With";
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.cors().configurationSource(corsConfigurationSource())
-                .and()
-                .authorizeRequests()
-                .antMatchers("/auth/signup").permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .formLogin()
-                .loginProcessingUrl("/auth/login")
-                .failureHandler(new CustomAuthenticationFailureHandler())
-                .successHandler(new CustomAuthenticationSuccessHandler())
-                .and()
-                .logout()
-                .logoutUrl("/auth/logout")
-                .logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler(HttpStatus.OK))
-                .and()
-                .httpBasic()
-                .and().csrf()
-                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
-        ;
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        return http.cors().configurationSource(corsConfigurationSource())
+            .and()
+            .authorizeRequests()
+            .antMatchers("/actuator/**").permitAll()
+            .antMatchers("/auth/signup").permitAll()
+            .anyRequest().authenticated()
+            .and()
+            .formLogin()
+            .loginProcessingUrl("/auth/login")
+            .failureHandler(new CustomAuthenticationFailureHandler())
+            .successHandler(new CustomAuthenticationSuccessHandler())
+            .and()
+            .logout()
+            .logoutUrl("/auth/logout")
+            .logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler(HttpStatus.OK))
+            .and()
+            .httpBasic()
+            .and().csrf()
+            .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+            .and()
+            .build();
     }
 
     @Bean

@@ -5,22 +5,22 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.6.2</version>
+		<version>2.7.6</version>
 		<relativePath/>
 	</parent>
 	<groupId>com.topably</groupId>
 	<artifactId>assets</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>1.0.1-SNAPSHOT</version>
 	<name>assets</name>
 	<description>Track your assets</description>
 	<properties>
 		<java.version>17</java.version>
 		<yahoofin.version>3.15.0</yahoofin.version>
-		<hibernate-types.version>2.16.1</hibernate-types.version>
+		<hibernate-types.version>2.20.0</hibernate-types.version>
 		<commons-collections.version>4.4</commons-collections.version>
-		<testcontainers.version>1.17.3</testcontainers.version>
-		<specificationArgResolver.version>2.6.3</specificationArgResolver.version>
-		<springdoc.version>1.6.9</springdoc.version>
+		<testcontainers.version>1.17.6</testcontainers.version>
+		<specificationArgResolver.version>2.10.0</specificationArgResolver.version>
+		<springdoc.version>1.6.13</springdoc.version>
 	</properties>
 	<repositories>
 		<repository>
