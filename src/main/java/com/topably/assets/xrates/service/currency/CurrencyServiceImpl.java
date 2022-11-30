@@ -16,7 +16,7 @@ public class CurrencyServiceImpl implements CurrencyService {
     @Override
     public Collection<Currency> getAvailableCurrencies() {
         return Set.of(Currency.getInstance("RUB"), Currency.getInstance("USD"), Currency.getInstance("EUR"),
-                Currency.getInstance("GBP"), Currency.getInstance("CNY"), Currency.getInstance("HKD"));
+            Currency.getInstance("GBP"), Currency.getInstance("CNY"), Currency.getInstance("HKD"));
     }
 
     @Override

@@ -25,7 +25,7 @@ import javax.persistence.UniqueConstraint;
 @Builder
 @Entity
 @Table(name = "industry", uniqueConstraints = {
-        @UniqueConstraint(name = "uq_industry_name", columnNames = {"name"}),
+    @UniqueConstraint(name = "uq_industry_name", columnNames = {"name"}),
 })
 public class Industry {
 

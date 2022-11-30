@@ -15,7 +15,6 @@ import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -38,7 +37,7 @@ public class UpsertRepositoryImpl<T, ID extends Serializable> implements UpsertR
             clazz = clazz.getSuperclass();
         }
         return fields.stream().filter(field -> field.isAnnotationPresent(Column.class) || field.isAnnotationPresent(JoinColumn.class)
-                || field.isAnnotationPresent(EmbeddedId.class)).collect(Collectors.toList());
+            || field.isAnnotationPresent(EmbeddedId.class)).collect(Collectors.toList());
     }
 
     private String populateTableColumns(List<Field> columnFields) {
@@ -61,11 +60,11 @@ public class UpsertRepositoryImpl<T, ID extends Serializable> implements UpsertR
 
     private String formInitialQuery(List<Field> columnFields, String tableName) {
         return "INSERT IGNORE INTO " +
-                tableName +
-                OPEN_BRACKET +
-                populateTableColumns(columnFields) +
-                CLOSE_BRACKET +
-                " VALUES ";
+            tableName +
+            OPEN_BRACKET +
+            populateTableColumns(columnFields) +
+            CLOSE_BRACKET +
+            " VALUES ";
     }
 
     private String populateColumnParams(List<Field> columnFields, int index) {
@@ -106,7 +105,7 @@ public class UpsertRepositoryImpl<T, ID extends Serializable> implements UpsertR
         Assert.notNull(entity, "Entity must not be null.");
         final List<Field> columnFields = getColumnFields(entity.getClass());
         final String query = formInitialQuery(columnFields, entity.getClass().getAnnotation(Table.class).name()) + OPEN_BRACKET +
-                populateColumnParams(columnFields, 0) + CLOSE_BRACKET;
+            populateColumnParams(columnFields, 0) + CLOSE_BRACKET;
         final Query nativeQuery = entityManager.createNativeQuery(query, entity.getClass());
         populateColumnValues(columnFields, entity, nativeQuery, 0);
         nativeQuery.executeUpdate();
@@ -132,7 +131,7 @@ public class UpsertRepositoryImpl<T, ID extends Serializable> implements UpsertR
             queryBuilder.append(formInitialQuery(columnFields, sampleEntity.getClass().getAnnotation(Table.class).name()));
             AtomicInteger index = new AtomicInteger(0);
             partitionedEntities.forEach(entity -> queryBuilder.append(OPEN_BRACKET).append(populateColumnParams(columnFields, index.getAndIncrement()))
-                    .append(CLOSE_BRACKET).append(COMMA));
+                .append(CLOSE_BRACKET).append(COMMA));
             queryBuilder.deleteCharAt(queryBuilder.lastIndexOf(COMMA));
             final Query nativeQuery = entityManager.createNativeQuery(queryBuilder.toString(), sampleEntity.getClass());
             index.set(0);

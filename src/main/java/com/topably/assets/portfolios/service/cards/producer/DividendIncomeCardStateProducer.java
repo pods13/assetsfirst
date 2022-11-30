@@ -27,7 +27,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Set;
 import java.util.TreeMap;
 
 import static java.util.stream.Collectors.groupingBy;
@@ -48,8 +47,8 @@ public class DividendIncomeCardStateProducer implements CardStateProducer<Divide
         var trades = tradeService.findDividendPayingTrades(portfolio.getId(), dividendYears);
 
         var details = dividendService.aggregateDividends(trades, dividendYears).stream()
-                .map(d -> new DividendDetails(d.getTicker().getSymbol(), d.getPayDate(), d.isForecasted(), d.getTotal(), d.getCurrency()))
-                .toList();
+            .map(d -> new DividendDetails(d.getTicker().getSymbol(), d.getPayDate(), d.isForecasted(), d.getTotal(), d.getCurrency()))
+            .toList();
         return produceDividendsGroupedByTimeFrame(details, card.getTimeFrame());
     }
 
@@ -63,66 +62,66 @@ public class DividendIncomeCardStateProducer implements CardStateProducer<Divide
             }
             default -> {
                 var dividendsByYear = details.stream()
-                        .collect(groupingBy(d -> d.getPayDate().getYear()));
+                    .collect(groupingBy(d -> d.getPayDate().getYear()));
                 var dividends = new TimeFrameDividend("Annual", composeDividendSummary(dividendsByYear));
 
                 return DividendIncomeCardData.builder()
-                        .dividends(List.of(dividends))
-                        .build();
+                    .dividends(List.of(dividends))
+                    .build();
             }
         }
     }
 
     private CardData produceDividendsGroupedByMonth(List<DividendDetails> details, TimeFrameOption timeFrame) {
         var dividendsByYearMonth = details.stream()
-                .collect(groupingBy(d -> d.getPayDate().getMonthValue(), TreeMap::new,
-                        groupingBy(d -> d.getPayDate().getYear(), TreeMap::new, toList())));
+            .collect(groupingBy(d -> d.getPayDate().getMonthValue(), TreeMap::new,
+                groupingBy(d -> d.getPayDate().getYear(), TreeMap::new, toList())));
         var dividends = dividendsByYearMonth.entrySet().stream()
-                .map(divsByMonth -> {
-                    var divsByYear = enrichWithMissingYears(dividendsByYearMonth.values(), divsByMonth.getValue());
-                    var monthDisplayName = Month.of(divsByMonth.getKey()).getDisplayName(TextStyle.SHORT_STANDALONE, Locale.ENGLISH);
-                    return new TimeFrameDividend(monthDisplayName, composeDividendSummary(divsByYear));
-                })
-                .toList();
+            .map(divsByMonth -> {
+                var divsByYear = enrichWithMissingYears(dividendsByYearMonth.values(), divsByMonth.getValue());
+                var monthDisplayName = Month.of(divsByMonth.getKey()).getDisplayName(TextStyle.SHORT_STANDALONE, Locale.ENGLISH);
+                return new TimeFrameDividend(monthDisplayName, composeDividendSummary(divsByYear));
+            })
+            .toList();
         return DividendIncomeCardData.builder()
-                .dividends(dividends)
-                .build();
+            .dividends(dividends)
+            .build();
     }
 
     private CardData produceDividendsGroupedByQuarter(List<DividendDetails> details, TimeFrameOption timeFrame) {
         var dividendsByYearQuarter = details.stream()
-                .collect(groupingBy(d -> d.getPayDate().get(IsoFields.QUARTER_OF_YEAR), TreeMap::new,
-                        groupingBy(d -> d.getPayDate().getYear(), TreeMap::new, toList())));
+            .collect(groupingBy(d -> d.getPayDate().get(IsoFields.QUARTER_OF_YEAR), TreeMap::new,
+                groupingBy(d -> d.getPayDate().getYear(), TreeMap::new, toList())));
         var dividends = dividendsByYearQuarter.entrySet().stream()
-                .map(divsByQuarter -> {
-                    var divsByYear = enrichWithMissingYears(dividendsByYearQuarter.values(), divsByQuarter.getValue());
-                    return new TimeFrameDividend("Q" + divsByQuarter.getKey(),
-                            composeDividendSummary(divsByYear));
-                })
-                .toList();
+            .map(divsByQuarter -> {
+                var divsByYear = enrichWithMissingYears(dividendsByYearQuarter.values(), divsByQuarter.getValue());
+                return new TimeFrameDividend("Q" + divsByQuarter.getKey(),
+                    composeDividendSummary(divsByYear));
+            })
+            .toList();
         return DividendIncomeCardData.builder()
-                .dividends(dividends)
-                .build();
+            .dividends(dividends)
+            .build();
     }
 
     private Collection<DividendSummary> composeDividendSummary(Map<Integer, List<DividendDetails>> groupedDividends) {
         return groupedDividends.entrySet().stream()
-                .map(divsByTimeFrame -> {
-                    var totalValue = divsByTimeFrame.getValue().stream()
-                            .map(div -> currencyConverterService.convert(div.getTotal(), div.getCurrency()))
-                            .reduce(BigDecimal.ZERO, BigDecimal::add)
-                            .setScale(2, RoundingMode.HALF_UP);
-                    return new DividendSummary(String.valueOf(divsByTimeFrame.getKey()), totalValue, divsByTimeFrame.getValue());
-                }).collect(toList());
+            .map(divsByTimeFrame -> {
+                var totalValue = divsByTimeFrame.getValue().stream()
+                    .map(div -> currencyConverterService.convert(div.getTotal(), div.getCurrency()))
+                    .reduce(BigDecimal.ZERO, BigDecimal::add)
+                    .setScale(2, RoundingMode.HALF_UP);
+                return new DividendSummary(String.valueOf(divsByTimeFrame.getKey()), totalValue, divsByTimeFrame.getValue());
+            }).collect(toList());
     }
 
     private Map<Integer, List<DividendDetails>> enrichWithMissingYears(Collection<TreeMap<Integer, List<DividendDetails>>> dividendsByYearForAllTimeFrames,
                                                                        Map<Integer, List<DividendDetails>> dividendsByYear) {
         var res = new TreeMap<>(dividendsByYear);
         dividendsByYearForAllTimeFrames.stream()
-                .map(TreeMap::keySet)
-                .flatMap(Collection::stream)
-                .forEach(year -> res.putIfAbsent(year, Collections.emptyList()));
+            .map(TreeMap::keySet)
+            .flatMap(Collection::stream)
+            .forEach(year -> res.putIfAbsent(year, Collections.emptyList()));
         return res;
     }
 }

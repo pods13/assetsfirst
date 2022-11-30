@@ -40,61 +40,61 @@ public class SectoralDistributionCardStateProducer implements CardStateProducer<
     @Override
     public CardData produce(Portfolio portfolio, SectoralDistributionCard card) {
         var holdingDtos = portfolioHoldingService.findPortfolioHoldings(portfolio.getId())
-                .stream().filter(dto -> InstrumentType.STOCK.name().equals(dto.getInstrumentType()))
-                .toList();
+            .stream().filter(dto -> InstrumentType.STOCK.name().equals(dto.getInstrumentType()))
+            .toList();
         var stockIdByHolding = holdingDtos.stream()
-                .collect(toMap(PortfolioHoldingDto::getInstrumentId, Function.identity()));
+            .collect(toMap(PortfolioHoldingDto::getInstrumentId, Function.identity()));
 
         return SectoralDistributionCardData.builder()
-                .items(composeDataItems(stockIdByHolding))
-                .build();
+            .items(composeDataItems(stockIdByHolding))
+            .build();
     }
 
     private Collection<SectoralDistributionDataItem> composeDataItems(Map<Long, PortfolioHoldingDto> stockIdByHolding) {
         var stocks = stockService.findAllById(stockIdByHolding.keySet());
         var companyNameByStockIds = stocks.stream()
-                .collect(groupingBy(s -> s.getCompany().getName(), mapping(Instrument::getId, toSet())));
+            .collect(groupingBy(s -> s.getCompany().getName(), mapping(Instrument::getId, toSet())));
         var companyGroupings = stocks.stream()
-                .filter(s -> s.getCompany().getIndustry() != null)
-                .collect(groupingBy(stock -> stock.getCompany().getIndustry().getSector().getName(),
-                        groupingBy(s -> s.getCompany().getIndustry().getName(), mapping(s -> s.getCompany().getName(), toSet()))));
+            .filter(s -> s.getCompany().getIndustry() != null)
+            .collect(groupingBy(stock -> stock.getCompany().getIndustry().getSector().getName(),
+                groupingBy(s -> s.getCompany().getIndustry().getName(), mapping(s -> s.getCompany().getName(), toSet()))));
 
         var items = new TreeSet<SectoralDistributionDataItem>();
         companyGroupings.forEach((group, rest) -> {
             var groupBuilder = SectoralDistributionDataItem.builder()
-                    .name(group);
+                .name(group);
             var groupChildren = new TreeSet<SectoralDistributionDataItem>();
             rest.forEach((industry, names) -> {
                 var children = names.stream()
-                        .map(name -> {
-                            BigDecimal total = companyNameByStockIds.get(name).stream()
-                                    .map(stockIdByHolding::get)
-                                    .map(trade -> currencyConverterService.convert(trade.getTotal(), trade.getCurrency()))
-                                    .reduce(BigDecimal.ZERO, BigDecimal::add);
-                            return composeLeafItem(name, total);
-                        })
-                        .collect(Collectors.toCollection(TreeSet::new));
+                    .map(name -> {
+                        BigDecimal total = companyNameByStockIds.get(name).stream()
+                            .map(stockIdByHolding::get)
+                            .map(trade -> currencyConverterService.convert(trade.getTotal(), trade.getCurrency()))
+                            .reduce(BigDecimal.ZERO, BigDecimal::add);
+                        return composeLeafItem(name, total);
+                    })
+                    .collect(Collectors.toCollection(TreeSet::new));
                 var value = children.stream().map(SectoralDistributionDataItem::getValue)
-                        .reduce(BigDecimal.ZERO, BigDecimal::add);
+                    .reduce(BigDecimal.ZERO, BigDecimal::add);
                 groupChildren.add(SectoralDistributionDataItem.builder()
-                        .name(industry)
-                        .value(value)
-                        .children(children)
-                        .build());
+                    .name(industry)
+                    .value(value)
+                    .children(children)
+                    .build());
             });
             var value = groupChildren.stream().map(SectoralDistributionDataItem::getValue)
-                    .reduce(BigDecimal.ZERO, BigDecimal::add);
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
             items.add(groupBuilder.value(value)
-                    .children(groupChildren)
-                    .build());
+                .children(groupChildren)
+                .build());
         });
         return items;
     }
 
     private SectoralDistributionDataItem composeLeafItem(String name, BigDecimal total) {
         return SectoralDistributionDataItem.builder()
-                .name(name)
-                .value(total)
-                .build();
+            .name(name)
+            .value(total)
+            .build();
     }
 }

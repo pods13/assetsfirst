@@ -10,7 +10,6 @@ import com.topably.assets.companies.repository.CompanyRepository;
 import com.topably.assets.companies.repository.IndustryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
@@ -36,14 +35,14 @@ public class CompanyServiceImpl implements CompanyService {
         var industryDto = addIndustry(dto);
         var industry = Optional.ofNullable(industryDto).map(i -> industryRepository.getById(i.getId())).orElse(null);
         Company company = companyRepository.save(Company.builder().name(dto.getName())
-                .industry(industry)
-                .build());
+            .industry(industry)
+            .build());
         return convertToDto(company);
     }
 
     private IndustryDto addIndustry(CompanyDataDto dto) {
         var taxonomyDto = IndustryTaxonomyDto.builder()
-                .sectorName(dto.getSector()).industryName(dto.getIndustry()).build();
+            .sectorName(dto.getSector()).industryName(dto.getIndustry()).build();
         return industryService.addIndustry(taxonomyDto);
     }
 
@@ -55,10 +54,10 @@ public class CompanyServiceImpl implements CompanyService {
         });
         company.setName(dto.getName());
         Industry industry = industryRepository.findBySector_NameAndName(dto.getSector(), dto.getIndustry())
-                .orElseGet(() -> {
-                    var industryDto = addIndustry(dto);
-                    return industryRepository.getById(industryDto.getId());
-                });
+            .orElseGet(() -> {
+                var industryDto = addIndustry(dto);
+                return industryRepository.getById(industryDto.getId());
+            });
         company.setIndustry(industry);
         Company updateCompany = companyRepository.save(company);
         return convertToDto(updateCompany);
@@ -66,9 +65,9 @@ public class CompanyServiceImpl implements CompanyService {
 
     private CompanyDto convertToDto(Company company) {
         return CompanyDto.builder()
-                .id(company.getId())
-                .name(company.getName())
-                .industryId(Optional.ofNullable(company.getIndustry()).map(Industry::getId).orElse(null))
-                .build();
+            .id(company.getId())
+            .name(company.getName())
+            .industryId(Optional.ofNullable(company.getIndustry()).map(Industry::getId).orElse(null))
+            .build();
     }
 }

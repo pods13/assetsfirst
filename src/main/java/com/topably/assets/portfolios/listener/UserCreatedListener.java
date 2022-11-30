@@ -1,7 +1,6 @@
 package com.topably.assets.portfolios.listener;
 
 import com.topably.assets.auth.event.UserCreatedEvent;
-import com.topably.assets.portfolios.service.PortfolioDashboardService;
 import com.topably.assets.portfolios.service.PortfolioService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

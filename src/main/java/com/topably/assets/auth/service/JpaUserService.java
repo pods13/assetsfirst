@@ -6,7 +6,6 @@ import com.topably.assets.auth.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -29,7 +28,7 @@ public class JpaUserService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
         var user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("Username: " + username + " not found"));
+            .orElseThrow(() -> new UsernameNotFoundException("Username: " + username + " not found"));
 
         return new CurrentUser(user, convertToSpringAuthorities(user.getAuthorities()));
     }
@@ -37,9 +36,9 @@ public class JpaUserService implements UserDetailsService {
     private Collection<? extends GrantedAuthority> convertToSpringAuthorities(Set<Authority> authorities) {
         if (authorities != null && authorities.size() > 0) {
             return authorities.stream()
-                    .map(Authority::getRole)
-                    .map(SimpleGrantedAuthority::new)
-                    .collect(Collectors.toSet());
+                .map(Authority::getRole)
+                .map(SimpleGrantedAuthority::new)
+                .collect(Collectors.toSet());
         }
         return Collections.emptySet();
     }

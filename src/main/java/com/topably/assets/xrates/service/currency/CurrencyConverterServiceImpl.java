@@ -32,8 +32,8 @@ public class CurrencyConverterServiceImpl implements CurrencyConverterService {
         }
         Optional<ExchangeRate> exchangeRate = exchangeRateService.findExchangeRate(from, to, time);
         return exchangeRate
-                .map(ExchangeRate::getConversionRate)
-                .map(amount::multiply)
-                .orElseThrow();
+            .map(ExchangeRate::getConversionRate)
+            .map(amount::multiply)
+            .orElseThrow();
     }
 }

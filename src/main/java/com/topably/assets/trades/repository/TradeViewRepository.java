@@ -1,6 +1,5 @@
 package com.topably.assets.trades.repository;
 
-import com.topably.assets.portfolios.domain.Portfolio;
 import com.topably.assets.trades.domain.TradeView;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

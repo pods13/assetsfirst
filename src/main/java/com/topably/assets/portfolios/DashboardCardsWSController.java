@@ -23,7 +23,7 @@ public class DashboardCardsWSController {
     @MessageMapping("/cards")
     public void broadcastCardData(@AuthenticationPrincipal CurrentUser user, @Payload DashboardCard card) {
         this.simpMessagingTemplate.convertAndSendToUser(user.getUsername(), "/topic/cards/" + card.getId(),
-                dashboardCardService.produceCardData(user.getUserId(), card));
+            dashboardCardService.produceCardData(user.getUserId(), card));
     }
 
     @MessageMapping("/{dashboardId}/cards/add")

@@ -22,7 +22,7 @@ import javax.persistence.UniqueConstraint;
 @Builder
 @Entity
 @Table(name = "sector", uniqueConstraints = {
-        @UniqueConstraint(name = "uq_sector_name", columnNames = {"name"}),
+    @UniqueConstraint(name = "uq_sector_name", columnNames = {"name"}),
 })
 public class Sector {
 

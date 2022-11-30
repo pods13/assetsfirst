@@ -46,18 +46,18 @@ public class AllocationCardStateProducer implements CardStateProducer<Allocation
     public CardData produce(Portfolio portfolio, AllocationCard card) {
         var tradesByType = collectAggregatedTrades(portfolio, card);
         var segments = tradesByType.entrySet().stream()
-                .map(byType -> {
-                    var childSegments = convertToSegments(byType.getValue());
-                    return AllocationSegment.builder().name(byType.getKey())
-                            .value(calculateSegmentsTotalValue(childSegments))
-                            .children(childSegments)
-                            .build();
-                }).toList();
+            .map(byType -> {
+                var childSegments = convertToSegments(byType.getValue());
+                return AllocationSegment.builder().name(byType.getKey())
+                    .value(calculateSegmentsTotalValue(childSegments))
+                    .children(childSegments)
+                    .build();
+            }).toList();
         List<AllocationAggregatedTrade> aggregatedTrades = tradesByType.values().stream().flatMap(Collection::stream).toList();
         return AllocationCardData.builder()
-                .segments(segments)
-                .currentTotalValue(calculateSegmentsTotalValue(segments))
-                .build();
+            .segments(segments)
+            .currentTotalValue(calculateSegmentsTotalValue(segments))
+            .build();
     }
 
     private Map<String, List<AllocationAggregatedTrade>> collectAggregatedTrades(Portfolio portfolio, AllocationCard card) {
@@ -65,35 +65,35 @@ public class AllocationCardStateProducer implements CardStateProducer<Allocation
         if (AllocatedByOption.BROKER.equals(allocatedBy)) {
             Long userId = portfolio.getUser().getId();
             return tradeService.findTradesByUserId(userId).stream()
-                    .collect(groupingBy(t -> t.getBroker().getName(), collectingAndThen(toList(),
-                            trades -> trades.stream().map(t -> {
-                                PortfolioHolding holding = t.getPortfolioHolding();
-                                var identifier = holding.getInstrument().toTicker();
-                                var price = exchangeService.findSymbolRecentPrice(identifier).orElse(t.getPrice());
-                                return AllocationAggregatedTrade.builder()
-                                        .identifier(identifier)
-                                        .instrumentId(holding.getInstrument().getId())
-                                        .instrumentType(holding.getInstrument().getInstrumentType())
-                                        .price(price)
-                                        .quantity(TradeOperation.SELL.equals(t.getOperation()) ? t.getQuantity().negate() : t.getQuantity())
-                                        .currency(holding.getInstrument().getExchange().getCurrency())
-                                        .build();
-                            }).collect(new AllocationAggregatedTradeCollector()))));
+                .collect(groupingBy(t -> t.getBroker().getName(), collectingAndThen(toList(),
+                    trades -> trades.stream().map(t -> {
+                        PortfolioHolding holding = t.getPortfolioHolding();
+                        var identifier = holding.getInstrument().toTicker();
+                        var price = exchangeService.findSymbolRecentPrice(identifier).orElse(t.getPrice());
+                        return AllocationAggregatedTrade.builder()
+                            .identifier(identifier)
+                            .instrumentId(holding.getInstrument().getId())
+                            .instrumentType(holding.getInstrument().getInstrumentType())
+                            .price(price)
+                            .quantity(TradeOperation.SELL.equals(t.getOperation()) ? t.getQuantity().negate() : t.getQuantity())
+                            .currency(holding.getInstrument().getExchange().getCurrency())
+                            .build();
+                    }).collect(new AllocationAggregatedTradeCollector()))));
         }
         return portfolioHoldingService.findPortfolioHoldings(portfolio.getId()).stream()
-                .map(holding -> {
-                    var price = exchangeService.findSymbolRecentPrice(holding.getIdentifier())
-                            .orElse(holding.getPrice());
-                    return AllocationAggregatedTrade.builder()
-                            .identifier(holding.getIdentifier())
-                            .instrumentId(holding.getInstrumentId())
-                            .instrumentType(holding.getInstrumentType())
-                            .price(price)
-                            .quantity(holding.getQuantity())
-                            .currency(holding.getCurrency())
-                            .build();
-                })
-                .collect(groupingBy(getAllocatedByClassifier(allocatedBy)));
+            .map(holding -> {
+                var price = exchangeService.findSymbolRecentPrice(holding.getIdentifier())
+                    .orElse(holding.getPrice());
+                return AllocationAggregatedTrade.builder()
+                    .identifier(holding.getIdentifier())
+                    .instrumentId(holding.getInstrumentId())
+                    .instrumentType(holding.getInstrumentType())
+                    .price(price)
+                    .quantity(holding.getQuantity())
+                    .currency(holding.getCurrency())
+                    .build();
+            })
+            .collect(groupingBy(getAllocatedByClassifier(allocatedBy)));
     }
 
     private Function<AllocationAggregatedTrade, String> getAllocatedByClassifier(AllocatedByOption allocatedBy) {
@@ -107,23 +107,23 @@ public class AllocationCardStateProducer implements CardStateProducer<Allocation
 
     private List<AllocationSegment> convertToSegments(Collection<AllocationAggregatedTrade> trades) {
         return trades.stream()
-                .map(this::convertToSegment)
-                .sorted(Comparator.comparing(AllocationSegment::getValue).reversed())
-                .collect(toList());
+            .map(this::convertToSegment)
+            .sorted(Comparator.comparing(AllocationSegment::getValue).reversed())
+            .collect(toList());
     }
 
     private AllocationSegment convertToSegment(AllocationAggregatedTrade trade) {
         var name = trade.getIdentifier().toString();
         var price = currencyConverterService.convert(trade.getTotal(), trade.getCurrency());
         return AllocationSegment.builder()
-                .name(name)
-                .value(price)
-                .build();
+            .name(name)
+            .value(price)
+            .build();
     }
 
     private BigDecimal calculateSegmentsTotalValue(List<AllocationSegment> segments) {
         return segments.stream()
-                .map(AllocationSegment::getValue)
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
+            .map(AllocationSegment::getValue)
+            .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 }

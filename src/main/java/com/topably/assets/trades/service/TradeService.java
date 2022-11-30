@@ -32,7 +32,6 @@ import java.util.AbstractMap;
 import java.util.Collection;
 import java.util.Currency;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -52,40 +51,40 @@ public class TradeService {
 
     public TradeDto addTrade(AddTradeDto dto, Instrument tradedInstrument) {
         PortfolioHolding holding = portfolioHoldingService.findByUserIdAndInstrumentId(dto.getUserId(), dto.getInstrumentId())
-                .orElseGet(() -> portfolioHoldingService.createHolding(dto, tradedInstrument));
+            .orElseGet(() -> portfolioHoldingService.createHolding(dto, tradedInstrument));
         var trade = Trade.builder()
-                .portfolioHolding(holding)
-                .operation(dto.getOperation())
-                .price(dto.getPrice())
-                .quantity(dto.getQuantity())
-                .date(dto.getDate())
-                .broker(brokerRepository.getById(dto.getBrokerId()))
-                .build();
+            .portfolioHolding(holding)
+            .operation(dto.getOperation())
+            .price(dto.getPrice())
+            .quantity(dto.getQuantity())
+            .date(dto.getDate())
+            .broker(brokerRepository.getById(dto.getBrokerId()))
+            .build();
         var savedTrade = tradeRepository.save(trade);
         Long holdingId = holding.getId();
         AggregatedTradeDto aggregateTrade = aggregateTrades(tradedInstrument,
-                tradeRepository.findAllByPortfolioHolding_IdOrderByDate(holdingId));
+            tradeRepository.findAllByPortfolioHolding_IdOrderByDate(holdingId));
         portfolioHoldingService.updatePortfolioHolding(holdingId, aggregateTrade);
         return TradeDto.builder()
-                .id(savedTrade.getId())
-                .build();
+            .id(savedTrade.getId())
+            .build();
     }
 
     private AggregatedTradeDto aggregateTrades(Instrument tradedInstrument, Collection<Trade> tradesOrderedByDate) {
         var tradeResult = calculateInterimTradeResult(tradesOrderedByDate);
         var sharesByAvgPrice = tradeResult.buyTradesData().stream().collect(Collectors.teeing(
-                Collectors.reducing(BigInteger.ZERO, TradeData::shares, BigInteger::add),
-                Collectors.reducing(BigDecimal.ZERO, t -> t.price().multiply(new BigDecimal(t.shares())), BigDecimal::add),
-                (qty, total) -> new AbstractMap.SimpleEntry<>(qty, BigInteger.ZERO.equals(qty) ? BigDecimal.ZERO :
-                        total.divide(new BigDecimal(qty), 4, RoundingMode.HALF_UP))
+            Collectors.reducing(BigInteger.ZERO, TradeData::shares, BigInteger::add),
+            Collectors.reducing(BigDecimal.ZERO, t -> t.price().multiply(new BigDecimal(t.shares())), BigDecimal::add),
+            (qty, total) -> new AbstractMap.SimpleEntry<>(qty, BigInteger.ZERO.equals(qty) ? BigDecimal.ZERO :
+                total.divide(new BigDecimal(qty), 4, RoundingMode.HALF_UP))
         ));
 
         return AggregatedTradeDto.builder()
-                .identifier(tradedInstrument.toTicker())
-                .quantity(sharesByAvgPrice.getKey())
-                .price(sharesByAvgPrice.getValue())
-                .currency(tradedInstrument.getExchange().getCurrency())
-                .build();
+            .identifier(tradedInstrument.toTicker())
+            .quantity(sharesByAvgPrice.getKey())
+            .price(sharesByAvgPrice.getValue())
+            .currency(tradedInstrument.getExchange().getCurrency())
+            .build();
     }
 
     private record TradeData(BigInteger shares, BigDecimal price, LocalDate tradeTime) {
@@ -106,7 +105,7 @@ public class TradeService {
             if (TradeOperation.SELL.equals(operation)) {
                 var tradeData = buyTradesData.poll();
                 closedPnl = closedPnl.add(calculatePnl(tradeData.shares(), tradeData.price(),
-                        trade.getQuantity(), trade.getPrice()));
+                    trade.getQuantity(), trade.getPrice()));
                 if (trade.getQuantity().compareTo(tradeData.shares()) > 0) {
                     var remainingSharesToSell = trade.getQuantity().subtract(tradeData.shares());
                     while (remainingSharesToSell.compareTo(BigInteger.ZERO) > 0) {
@@ -115,16 +114,16 @@ public class TradeService {
                             throw new RuntimeException("Short selling is not supported");
                         }
                         closedPnl = closedPnl.add(calculatePnl(nextTradeData.shares(), nextTradeData.price(),
-                                remainingSharesToSell, trade.getPrice()));
+                            remainingSharesToSell, trade.getPrice()));
                         remainingSharesToSell = remainingSharesToSell.subtract(nextTradeData.shares());
                         if (remainingSharesToSell.compareTo(BigInteger.ZERO) < 0) {
                             buyTradesData.add(new TradeData(remainingSharesToSell.negate(),
-                                    nextTradeData.price(), nextTradeData.tradeTime()));
+                                nextTradeData.price(), nextTradeData.tradeTime()));
                         }
                     }
                 } else if (trade.getQuantity().compareTo(tradeData.shares()) < 0) {
                     buyTradesData.add(new TradeData(tradeData.shares().subtract(trade.getQuantity()),
-                            tradeData.price(), trade.getDate()));
+                        tradeData.price(), trade.getDate()));
                 }
             } else {
                 throw new RuntimeException(String.format("Operation %s is not supported", operation.name()));
@@ -161,23 +160,23 @@ public class TradeService {
         var updatedTrade = tradeRepository.save(trade);
         Long holdingId = trade.getPortfolioHolding().getId();
         AggregatedTradeDto aggregatedTrade = aggregateTrades(tradedInstrument,
-                tradeRepository.findAllByPortfolioHolding_IdOrderByDate(holdingId));
+            tradeRepository.findAllByPortfolioHolding_IdOrderByDate(holdingId));
         portfolioHoldingService.updatePortfolioHolding(holdingId, aggregatedTrade);
         return TradeDto.builder()
-                .id(updatedTrade.getId())
-                .build();
+            .id(updatedTrade.getId())
+            .build();
     }
 
     public BigDecimal calculateInvestedAmountByHoldingId(Long holdingId, Currency holdingCurrency, Currency portfolioCurrency) {
         var trades = tradeRepository.findAllByPortfolioHolding_IdOrderByDate(holdingId);
         var tradeResult = calculateInterimTradeResult(trades);
         return tradeResult.buyTradesData().stream()
-                .map(t -> {
-                    BigDecimal total = t.price().multiply(new BigDecimal(t.shares()));
-                    return currencyConverterService.convert(total, holdingCurrency, portfolioCurrency,
-                            t.tradeTime().atStartOfDay().toInstant(ZoneOffset.UTC));
-                })
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
+            .map(t -> {
+                BigDecimal total = t.price().multiply(new BigDecimal(t.shares()));
+                return currencyConverterService.convert(total, holdingCurrency, portfolioCurrency,
+                    t.tradeTime().atStartOfDay().toInstant(ZoneOffset.UTC));
+            })
+            .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
     public void deleteTrade(DeleteTradeDto dto, Instrument tradedInstrument) {
@@ -185,7 +184,7 @@ public class TradeService {
         Long holdingId = trade.getPortfolioHolding().getId();
         tradeRepository.delete(trade);
         AggregatedTradeDto aggregatedTrade = aggregateTrades(tradedInstrument,
-                tradeRepository.findAllByPortfolioHolding_IdOrderByDate(holdingId));
+            tradeRepository.findAllByPortfolioHolding_IdOrderByDate(holdingId));
         if (BigInteger.ZERO.equals(aggregatedTrade.getQuantity())) {
             portfolioHoldingService.deletePortfolioHolding(holdingId);
         } else {

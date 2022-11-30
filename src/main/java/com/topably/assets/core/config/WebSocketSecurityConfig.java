@@ -5,14 +5,14 @@ import org.springframework.security.config.annotation.web.messaging.MessageSecur
 import org.springframework.security.config.annotation.web.socket.AbstractSecurityWebSocketMessageBrokerConfigurer;
 
 @Configuration
-public class WebSocketSecurityConfig  extends AbstractSecurityWebSocketMessageBrokerConfigurer {
+public class WebSocketSecurityConfig extends AbstractSecurityWebSocketMessageBrokerConfigurer {
 
     @Override
     protected void configureInbound(MessageSecurityMetadataSourceRegistry messages) {
         messages
-                .nullDestMatcher().authenticated()
-                .simpDestMatchers("/app/**").authenticated()
-                .simpSubscribeDestMatchers("/user/**", "/topic/**").authenticated()
-                .anyMessage().denyAll();
+            .nullDestMatcher().authenticated()
+            .simpDestMatchers("/app/**").authenticated()
+            .simpSubscribeDestMatchers("/user/**", "/topic/**").authenticated()
+            .anyMessage().denyAll();
     }
 }

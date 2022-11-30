@@ -57,27 +57,27 @@ public class PortfolioHoldingService {
     public PortfolioHolding createHolding(AddTradeDto dto, Instrument instrument) {
         Portfolio portfolio = portfolioRepository.findByUserId(dto.getUserId());
         return portfolioHoldingRepository.saveAndFlush(PortfolioHolding.builder()
-                .portfolio(portfolio)
-                .instrument(instrument)
-                .quantity(dto.getQuantity())
-                .averagePrice(dto.getPrice())
-                .build());
+            .portfolio(portfolio)
+            .instrument(instrument)
+            .quantity(dto.getQuantity())
+            .averagePrice(dto.getPrice())
+            .build());
     }
 
     public Collection<PortfolioHoldingDto> findPortfolioHoldings(Long portfolioId) {
         return portfolioHoldingRepository.findAllByPortfolioId(portfolioId).stream()
-                .map(holding -> {
-                    Instrument instrument = holding.getInstrument();
-                    return PortfolioHoldingDto.builder()
-                            .id(holding.getId())
-                            .instrumentId(instrument.getId())
-                            .instrumentType(instrument.getInstrumentType())
-                            .identifier(instrument.toTicker())
-                            .currency(instrument.getExchange().getCurrency())
-                            .quantity(holding.getQuantity())
-                            .price(holding.getAveragePrice())
-                            .build();
-                }).toList();
+            .map(holding -> {
+                Instrument instrument = holding.getInstrument();
+                return PortfolioHoldingDto.builder()
+                    .id(holding.getId())
+                    .instrumentId(instrument.getId())
+                    .instrumentType(instrument.getInstrumentType())
+                    .identifier(instrument.toTicker())
+                    .currency(instrument.getExchange().getCurrency())
+                    .quantity(holding.getQuantity())
+                    .price(holding.getAveragePrice())
+                    .build();
+            }).toList();
     }
 
     @Transactional
@@ -92,61 +92,61 @@ public class PortfolioHoldingService {
         var holdings = portfolioHoldingRepository.findAllByPortfolioId(portfolio.getId());
         var tickerByFinData = collectHoldingFinancialData(holdings);
         var portfolioMarketValue = tickerByFinData.values().stream()
-                .map(PortfolioHoldingFinancialData::convertedMarketValue)
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
+            .map(PortfolioHoldingFinancialData::convertedMarketValue)
+            .reduce(BigDecimal.ZERO, BigDecimal::add);
         AtomicReference<BigDecimal> pctTotal = new AtomicReference<>(BigDecimal.ZERO);
         return IntStream.range(0, holdings.size())
-                .mapToObj(i -> {
-                    PortfolioHolding holding = holdings.get(i);
-                    Instrument instrument = holding.getInstrument();
-                    Ticker ticker = instrument.toTicker();
-                    var finData = tickerByFinData.get(ticker);
-                    BigDecimal pctOfPortfolio;
-                    if (i == holdings.size() - 1) {
-                        pctOfPortfolio = BigDecimal.valueOf(100).subtract(pctTotal.get());
-                    } else {
-                        pctOfPortfolio = BigDecimal.valueOf(100).multiply(finData.convertedMarketValue())
-                                .divide(portfolioMarketValue, 2, RoundingMode.HALF_EVEN);
-                    }
-                    pctTotal.getAndAccumulate(pctOfPortfolio, BigDecimal::add);
-                    return PortfolioHoldingView.builder()
-                            .id(holding.getId())
-                            .instrumentId(instrument.getId())
-                            .instrumentType(instrument.getInstrumentType())
-                            .identifier(ticker)
-                            .currencySymbol(instrument.getExchange().getCurrency().getSymbol())
-                            .quantity(holding.getQuantity())
-                            .price(holding.getAveragePrice())
-                            .pctOfPortfolio(pctOfPortfolio)
-                            .marketValue(finData.marketValue())
-                            .yieldOnCost(finData.yieldOnCost)
-                            .build();
-                }).collect(Collectors.toList());
+            .mapToObj(i -> {
+                PortfolioHolding holding = holdings.get(i);
+                Instrument instrument = holding.getInstrument();
+                Ticker ticker = instrument.toTicker();
+                var finData = tickerByFinData.get(ticker);
+                BigDecimal pctOfPortfolio;
+                if (i == holdings.size() - 1) {
+                    pctOfPortfolio = BigDecimal.valueOf(100).subtract(pctTotal.get());
+                } else {
+                    pctOfPortfolio = BigDecimal.valueOf(100).multiply(finData.convertedMarketValue())
+                        .divide(portfolioMarketValue, 2, RoundingMode.HALF_EVEN);
+                }
+                pctTotal.getAndAccumulate(pctOfPortfolio, BigDecimal::add);
+                return PortfolioHoldingView.builder()
+                    .id(holding.getId())
+                    .instrumentId(instrument.getId())
+                    .instrumentType(instrument.getInstrumentType())
+                    .identifier(ticker)
+                    .currencySymbol(instrument.getExchange().getCurrency().getSymbol())
+                    .quantity(holding.getQuantity())
+                    .price(holding.getAveragePrice())
+                    .pctOfPortfolio(pctOfPortfolio)
+                    .marketValue(finData.marketValue())
+                    .yieldOnCost(finData.yieldOnCost)
+                    .build();
+            }).collect(Collectors.toList());
     }
 
     private Map<Ticker, PortfolioHoldingFinancialData> collectHoldingFinancialData(List<PortfolioHolding> holdings) {
         return holdings.stream()
-                .map(holding -> {
-                    Instrument instrument = holding.getInstrument();
-                    Currency currency = instrument.getExchange().getCurrency();
-                    Ticker ticker = instrument.toTicker();
-                    var marketValue = exchangeService.findSymbolRecentPrice(ticker)
-                            .map(value -> value.multiply(new BigDecimal(holding.getQuantity())))
-                            .orElse(holding.getTotal());
-                    var convertedMarketValue = currencyConverterService.convert(marketValue, currency);
+            .map(holding -> {
+                Instrument instrument = holding.getInstrument();
+                Currency currency = instrument.getExchange().getCurrency();
+                Ticker ticker = instrument.toTicker();
+                var marketValue = exchangeService.findSymbolRecentPrice(ticker)
+                    .map(value -> value.multiply(new BigDecimal(holding.getQuantity())))
+                    .orElse(holding.getTotal());
+                var convertedMarketValue = currencyConverterService.convert(marketValue, currency);
 
-                    return new PortfolioHoldingFinancialData(ticker, marketValue, convertedMarketValue,
-                            calculateYieldOnCost(holding));
-                })
-                .collect(Collectors.toMap(PortfolioHoldingFinancialData::ticker, Function.identity()));
+                return new PortfolioHoldingFinancialData(ticker, marketValue, convertedMarketValue,
+                    calculateYieldOnCost(holding));
+            })
+            .collect(Collectors.toMap(PortfolioHoldingFinancialData::ticker, Function.identity()));
     }
 
     private BigDecimal calculateYieldOnCost(PortfolioHolding holding) {
         var annualDividend = dividendService.calculateAnnualDividend(holding.getInstrument().toTicker(), Year.now());
         return Optional.ofNullable(holding.getAveragePrice())
-                .filter(price -> price.compareTo(BigDecimal.ZERO) > 0)
-                .map(price -> BigDecimal.valueOf(100).multiply(annualDividend).divide(price, RoundingMode.HALF_EVEN))
-                .orElse(BigDecimal.ZERO);
+            .filter(price -> price.compareTo(BigDecimal.ZERO) > 0)
+            .map(price -> BigDecimal.valueOf(100).multiply(annualDividend).divide(price, RoundingMode.HALF_EVEN))
+            .orElse(BigDecimal.ZERO);
     }
 
     private record PortfolioHoldingFinancialData(Ticker ticker, BigDecimal marketValue,

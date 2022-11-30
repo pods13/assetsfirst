@@ -30,7 +30,7 @@ public class StockServiceImpl implements StockService {
     @Override
     public Page<StockDto> findAll(Pageable pageable) {
         return stockRepository.findAll(pageable)
-                .map(this::convertToDto);
+            .map(this::convertToDto);
     }
 
     @Override
@@ -45,10 +45,10 @@ public class StockServiceImpl implements StockService {
             return companyService.addCompany(dto.getCompany());
         });
         Stock stock = stockRepository.save(Stock.builder()
-                .company(companyRepository.getById(companyDto.getId()))
-                .ticker(dto.getIdentifier().getSymbol())
-                .exchange(exchangeRepository.findByCode(dto.getIdentifier().getExchange()))
-                .build());
+            .company(companyRepository.getById(companyDto.getId()))
+            .ticker(dto.getIdentifier().getSymbol())
+            .exchange(exchangeRepository.findByCode(dto.getIdentifier().getExchange()))
+            .build());
         return convertToDto(stock);
     }
 
@@ -56,8 +56,8 @@ public class StockServiceImpl implements StockService {
     @Transactional
     public StockDto importStock(StockDataDto dto) {
         return stockRepository.findByTickerAndExchange_Code(dto.getIdentifier().getSymbol(), dto.getIdentifier().getExchange())
-                .map(stock -> updateStock(stock, dto))
-                .orElseGet(() -> addStock(dto));
+            .map(stock -> updateStock(stock, dto))
+            .orElseGet(() -> addStock(dto));
     }
 
     private StockDto updateStock(Stock stock, StockDataDto dto) {
@@ -67,9 +67,9 @@ public class StockServiceImpl implements StockService {
 
     private StockDto convertToDto(Stock stock) {
         return StockDto.builder()
-                .id(stock.getId())
-                .identifier(new Ticker(stock.getTicker(), stock.getExchange().getCode()))
-                .companyId(stock.getCompany().getId())
-                .build();
+            .id(stock.getId())
+            .identifier(new Ticker(stock.getTicker(), stock.getExchange().getCode()))
+            .companyId(stock.getCompany().getId())
+            .build();
     }
 }

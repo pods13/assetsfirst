@@ -1,7 +1,6 @@
 package com.topably.assets.core.bootstrap;
 
 import com.topably.assets.exchanges.domain.Exchange;
-import com.topably.assets.exchanges.domain.USExchange;
 import com.topably.assets.exchanges.repository.ExchangeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
@@ -13,7 +12,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.Currency;
 
-import static com.topably.assets.exchanges.domain.USExchange.*;
+import static com.topably.assets.exchanges.domain.USExchange.NASDAQ;
+import static com.topably.assets.exchanges.domain.USExchange.NYSE;
+import static com.topably.assets.exchanges.domain.USExchange.NYSEARCA;
 
 @RequiredArgsConstructor
 @Component
@@ -28,41 +29,41 @@ public class ExchangeDataLoader implements CommandLineRunner {
     public void run(String... args) throws Exception {
         var exchanges = new ArrayList<Exchange>();
         exchanges.add(Exchange.builder()
-                .name("New York Stock Exchange")
-                .code(NYSE.name())
-                .countryCode("US")
-                .currency(Currency.getInstance("USD"))
-                .build());
+            .name("New York Stock Exchange")
+            .code(NYSE.name())
+            .countryCode("US")
+            .currency(Currency.getInstance("USD"))
+            .build());
         exchanges.add(Exchange.builder()
-                .name("Nasdaq Stock Market")
-                .code(NASDAQ.name())
-                .countryCode("US")
-                .currency(Currency.getInstance("USD"))
-                .build());
+            .name("Nasdaq Stock Market")
+            .code(NASDAQ.name())
+            .countryCode("US")
+            .currency(Currency.getInstance("USD"))
+            .build());
         exchanges.add(Exchange.builder()
-                .name("NYSE Arca")
-                .code(NYSEARCA.name())
-                .countryCode("US")
-                .currency(Currency.getInstance("USD"))
-                .build());
+            .name("NYSE Arca")
+            .code(NYSEARCA.name())
+            .countryCode("US")
+            .currency(Currency.getInstance("USD"))
+            .build());
         exchanges.add(Exchange.builder()
-                .name("Moscow Exchange")
-                .code("MCX")
-                .countryCode("RU")
-                .currency(Currency.getInstance("RUB"))
-                .build());
+            .name("Moscow Exchange")
+            .code("MCX")
+            .countryCode("RU")
+            .currency(Currency.getInstance("RUB"))
+            .build());
         exchanges.add(Exchange.builder()
-                .name("Deutsche Börse")
-                .code("XETRA")
-                .countryCode("DE")
-                .currency(Currency.getInstance("EUR"))
-                .build());
+            .name("Deutsche Börse")
+            .code("XETRA")
+            .countryCode("DE")
+            .currency(Currency.getInstance("EUR"))
+            .build());
         exchanges.add(Exchange.builder()
-                .name("The Stock Exchange of Hong Kong Limited")
-                .code("HK")
-                .countryCode("HK")
-                .currency(Currency.getInstance("HKD"))
-                .build());
+            .name("The Stock Exchange of Hong Kong Limited")
+            .code("HK")
+            .countryCode("HK")
+            .currency(Currency.getInstance("HKD"))
+            .build());
         exchangeRepository.saveAll(exchanges);
     }
 }

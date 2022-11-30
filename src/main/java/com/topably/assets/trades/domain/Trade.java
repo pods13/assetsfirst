@@ -22,7 +22,6 @@ import javax.persistence.ManyToOne;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Setter
 @Getter
@@ -39,7 +38,7 @@ public class Trade {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "portfolio_holding_id", referencedColumnName = "ID",
-            foreignKey = @ForeignKey(name = "fk__trade__portfolio_holding_id__portfolio_holding"))
+        foreignKey = @ForeignKey(name = "fk__trade__portfolio_holding_id__portfolio_holding"))
     private PortfolioHolding portfolioHolding;
 
     private LocalDate date;
@@ -55,6 +54,6 @@ public class Trade {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "BROKER_ID", referencedColumnName = "ID",
-            foreignKey = @ForeignKey(name = "fk__trade__broker_id__broker"))
+        foreignKey = @ForeignKey(name = "fk__trade__broker_id__broker"))
     private Broker broker;
 }

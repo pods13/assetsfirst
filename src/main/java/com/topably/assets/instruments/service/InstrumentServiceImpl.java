@@ -15,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Collection;
 
 import static java.util.stream.Collectors.toList;
-import static java.util.stream.Collectors.toSet;
 
 @Service
 @Transactional
@@ -29,29 +28,29 @@ public class InstrumentServiceImpl implements InstrumentService {
         return instruments.stream().map(instrument -> {
             if (instrument instanceof Stock) {
                 return InstrumentDto.builder()
-                        .id(instrument.getId())
-                        .ticker(instrument.getTicker())
-                        .name(((Stock) instrument).getCompany().getName())
-                        .instrumentType(InstrumentType.STOCK)
-                        .build();
-            } else if (instrument instanceof ETF) {
-                return InstrumentDto.builder()
-                        .id(instrument.getId())
-                        .ticker(instrument.getTicker())
-                        .name(((ETF) instrument).getName())
-                        .instrumentType(InstrumentType.ETF)
-                        .build();
-            } else if (instrument instanceof FX) {
-                return InstrumentDto.builder()
-                        .id(instrument.getId())
-                        .ticker(instrument.getTicker())
-                        .instrumentType(InstrumentType.FX)
-                        .build();
-            }
-            return InstrumentDto.builder()
                     .id(instrument.getId())
                     .ticker(instrument.getTicker())
+                    .name(((Stock) instrument).getCompany().getName())
+                    .instrumentType(InstrumentType.STOCK)
                     .build();
+            } else if (instrument instanceof ETF) {
+                return InstrumentDto.builder()
+                    .id(instrument.getId())
+                    .ticker(instrument.getTicker())
+                    .name(((ETF) instrument).getName())
+                    .instrumentType(InstrumentType.ETF)
+                    .build();
+            } else if (instrument instanceof FX) {
+                return InstrumentDto.builder()
+                    .id(instrument.getId())
+                    .ticker(instrument.getTicker())
+                    .instrumentType(InstrumentType.FX)
+                    .build();
+            }
+            return InstrumentDto.builder()
+                .id(instrument.getId())
+                .ticker(instrument.getTicker())
+                .build();
         }).collect(toList());
     }
 

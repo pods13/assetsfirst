@@ -1,8 +1,6 @@
 package com.topably.assets.auth.event;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import org.springframework.context.ApplicationEvent;
 
 @Getter

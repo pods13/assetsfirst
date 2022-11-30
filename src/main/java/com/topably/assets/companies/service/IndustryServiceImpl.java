@@ -8,7 +8,6 @@ import com.topably.assets.companies.repository.IndustryRepository;
 import com.topably.assets.companies.repository.SectorRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
@@ -25,8 +24,8 @@ public class IndustryServiceImpl implements IndustryService {
     @Override
     public Collection<IndustryDto> findAll() {
         return industryRepository.findAll().stream()
-                .map(this::convertToDto)
-                .collect(toList());
+            .map(this::convertToDto)
+            .collect(toList());
     }
 
     @Override
@@ -36,18 +35,18 @@ public class IndustryServiceImpl implements IndustryService {
             return null;
         }
         var sector = sectorRepository.findByName(dto.getSectorName())
-                .orElseGet(() -> sectorRepository.save(Sector.builder().name(dto.getSectorName()).build()));
+            .orElseGet(() -> sectorRepository.save(Sector.builder().name(dto.getSectorName()).build()));
         Industry industry = industryRepository.findBySector_IdAndName(sector.getId(), dto.getIndustryName())
-                .orElseGet(() -> industryRepository.save(Industry.builder().name(dto.getIndustryName()).sector(sector).build()));
+            .orElseGet(() -> industryRepository.save(Industry.builder().name(dto.getIndustryName()).sector(sector).build()));
 
         return convertToDto(industry);
     }
 
     private IndustryDto convertToDto(Industry industry) {
         return IndustryDto.builder()
-                .id(industry.getId())
-                .name(industry.getName())
-                .sectorId(industry.getSector().getId())
-                .build();
+            .id(industry.getId())
+            .name(industry.getName())
+            .sectorId(industry.getSector().getId())
+            .build();
     }
 }

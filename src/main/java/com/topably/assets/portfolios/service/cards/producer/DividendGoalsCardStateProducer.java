@@ -1,16 +1,16 @@
 package com.topably.assets.portfolios.service.cards.producer;
 
-import com.topably.assets.dividends.service.DividendService;
 import com.topably.assets.core.domain.Ticker;
+import com.topably.assets.dividends.service.DividendService;
 import com.topably.assets.portfolios.domain.Portfolio;
 import com.topably.assets.portfolios.domain.cards.CardContainerType;
 import com.topably.assets.portfolios.domain.cards.CardData;
 import com.topably.assets.portfolios.domain.cards.input.DividendGoalsCard;
 import com.topably.assets.portfolios.domain.cards.output.dividend.goal.DividendGoalsCardData;
 import com.topably.assets.portfolios.domain.cards.output.dividend.goal.PositionItem;
+import com.topably.assets.portfolios.domain.dto.PortfolioHoldingDto;
 import com.topably.assets.portfolios.service.PortfolioHoldingService;
 import com.topably.assets.portfolios.service.cards.CardStateProducer;
-import com.topably.assets.portfolios.domain.dto.PortfolioHoldingDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -34,13 +34,13 @@ public class DividendGoalsCardStateProducer implements CardStateProducer<Dividen
     public CardData produce(Portfolio portfolio, DividendGoalsCard card) {
         var holdingDtos = portfolioHoldingService.findPortfolioHoldings(portfolio.getId());
         var items = holdingDtos.stream()
-                .filter(h -> h.getQuantity().compareTo(BigInteger.ZERO) > 0)
-                .map(h -> this.convertToPositionItems(h, card))
-                .filter(p -> p.getCurrentYield().compareTo(BigDecimal.ZERO) > 0)
-                .collect(toList());
+            .filter(h -> h.getQuantity().compareTo(BigInteger.ZERO) > 0)
+            .map(h -> this.convertToPositionItems(h, card))
+            .filter(p -> p.getCurrentYield().compareTo(BigDecimal.ZERO) > 0)
+            .collect(toList());
         return DividendGoalsCardData.builder()
-                .items(items)
-                .build();
+            .items(items)
+            .build();
     }
 
     private PositionItem convertToPositionItems(PortfolioHoldingDto holding, DividendGoalsCard card) {
@@ -52,12 +52,12 @@ public class DividendGoalsCardStateProducer implements CardStateProducer<Dividen
         var desiredYield = card.getDesiredYieldByIssuer().getOrDefault(ticker.toString(), currentYield);
         var targets = new TreeSet<>(Arrays.asList(averagePrice, calculateDesiredPrice(annualDividend, desiredYield)));
         return PositionItem.builder()
-                .name(ticker.toString())
-                .averagePrice(averagePrice)
-                .annualDividend(annualDividend)
-                .currentYield(currentYield)
-                .targets(targets)
-                .build();
+            .name(ticker.toString())
+            .averagePrice(averagePrice)
+            .annualDividend(annualDividend)
+            .currentYield(currentYield)
+            .targets(targets)
+            .build();
     }
 
     private BigDecimal calculateDesiredPrice(BigDecimal annualDividend, BigDecimal desiredYield) {

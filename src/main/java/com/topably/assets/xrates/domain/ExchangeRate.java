@@ -25,7 +25,7 @@ import java.util.Currency;
 @Builder
 @Entity
 @Table(name = "exchange_rate", uniqueConstraints = {
-        @UniqueConstraint(name="uq_exchange_rate", columnNames = {"source_currency", "destination_currency", "date"}),
+    @UniqueConstraint(name = "uq_exchange_rate", columnNames = {"source_currency", "destination_currency", "date"}),
 })
 public class ExchangeRate {
 

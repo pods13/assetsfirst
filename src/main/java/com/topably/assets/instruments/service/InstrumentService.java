@@ -1,7 +1,6 @@
 package com.topably.assets.instruments.service;
 
 import com.topably.assets.instruments.domain.Instrument;
-import com.topably.assets.instruments.domain.InstrumentType;
 import com.topably.assets.instruments.domain.dto.InstrumentDto;
 import org.springframework.data.jpa.domain.Specification;
 

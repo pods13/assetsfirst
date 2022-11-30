@@ -54,28 +54,28 @@ public class CBRExchangeProvider implements ExchangeProvider {
         log.info("Trying to get exchange rates from cbr endpoint, url='{}'", url);
         var data = getExchangeRateData(createHttpClient(), url);
         List<CBRCurrencyData> currencies = ofNullable(data)
-                .map(CBRExchangeRateData::getCurrencies)
-                .orElse(emptyList());
+            .map(CBRExchangeRateData::getCurrencies)
+            .orElse(emptyList());
         return currencies.stream()
-                .filter(currency -> sourceCurrenciesToObtain.contains(Currency.getInstance(currency.getCharCode())))
-                .map(currency -> {
-                    var source = Currency.getInstance(currency.getCharCode());
-                    BigDecimal conversionRate = currency.getValue()
-                            .divide(BigDecimal.valueOf(currency.getNominal()), RoundingMode.HALF_UP);
-                    return ExchangeRate.builder()
-                            .sourceCurrency(source)
-                            .destinationCurrency(destinationCurrency)
-                            .conversionRate(conversionRate)
-                            .date(date)
-                            .build();
-                }).collect(toList());
+            .filter(currency -> sourceCurrenciesToObtain.contains(Currency.getInstance(currency.getCharCode())))
+            .map(currency -> {
+                var source = Currency.getInstance(currency.getCharCode());
+                BigDecimal conversionRate = currency.getValue()
+                    .divide(BigDecimal.valueOf(currency.getNominal()), RoundingMode.HALF_UP);
+                return ExchangeRate.builder()
+                    .sourceCurrency(source)
+                    .destinationCurrency(destinationCurrency)
+                    .conversionRate(conversionRate)
+                    .date(date)
+                    .build();
+            }).collect(toList());
     }
 
     private CBRExchangeRateData getExchangeRateData(HttpClient httpClient, String url) {
         try {
             HttpRequest request = HttpRequest.newBuilder(new URI(url))
-                    .GET()
-                    .build();
+                .GET()
+                .build();
             HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
             if (response.statusCode() == 200) {
                 return mapper.readValue(response.body(), CBRExchangeRateData.class);
@@ -92,8 +92,8 @@ public class CBRExchangeProvider implements ExchangeProvider {
 
     private HttpClient createHttpClient() {
         return HttpClient.newBuilder()
-                .version(HttpClient.Version.HTTP_2)
-                .connectTimeout(Duration.ofSeconds(10))
-                .build();
+            .version(HttpClient.Version.HTTP_2)
+            .connectTimeout(Duration.ofSeconds(10))
+            .build();
     }
 }

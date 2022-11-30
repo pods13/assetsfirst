@@ -18,7 +18,7 @@ import java.util.Collection;
 @RequiredArgsConstructor
 public class IndustryController {
 
-    private final IndustryService industryService;              
+    private final IndustryService industryService;
 
     @GetMapping
     public Collection<IndustryDto> findAll() {

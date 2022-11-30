@@ -2,7 +2,6 @@ package com.topably.assets.dividends.domain;
 
 import com.topably.assets.instruments.domain.Instrument;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -30,7 +29,7 @@ import java.time.LocalDate;
 @Accessors(chain = true)
 @Entity
 @Table(name = "dividend", uniqueConstraints = {
-        @UniqueConstraint(name = "uq_dividend_instrument_id_record_date", columnNames = {"instrument_id", "record_date"}),
+    @UniqueConstraint(name = "uq_dividend_instrument_id_record_date", columnNames = {"instrument_id", "record_date"}),
 })
 public class Dividend {
 
@@ -41,7 +40,7 @@ public class Dividend {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "instrument_id", referencedColumnName = "id",
-            foreignKey = @ForeignKey(name = "fk__dividend__instrument_id__instrument"))
+        foreignKey = @ForeignKey(name = "fk__dividend__instrument_id__instrument"))
     private Instrument instrument;
 
     @Column(name = "declare_date")

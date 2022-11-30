@@ -18,8 +18,8 @@ public class CacheConfig {
     @Primary
     public CacheManager cacheManager() {
         Caffeine<Object, Object> caffeineCacheBuilder = Caffeine.newBuilder()
-                .maximumSize(500)
-                .expireAfterWrite(15, TimeUnit.MINUTES);
+            .maximumSize(500)
+            .expireAfterWrite(15, TimeUnit.MINUTES);
         CaffeineCacheManager cacheManager = new CaffeineCacheManager("exchanges");
         cacheManager.setCaffeine(caffeineCacheBuilder);
         return cacheManager;
@@ -28,8 +28,8 @@ public class CacheConfig {
     @Bean
     public CacheManager longLivedCacheManager() {
         Caffeine<Object, Object> caffeineCacheBuilder = Caffeine.newBuilder()
-                .maximumSize(500)
-                .expireAfterWrite(1, TimeUnit.HOURS);
+            .maximumSize(500)
+            .expireAfterWrite(1, TimeUnit.HOURS);
         CaffeineCacheManager cacheManager = new CaffeineCacheManager("exchange-rates");
         cacheManager.setCaffeine(caffeineCacheBuilder);
         return cacheManager;

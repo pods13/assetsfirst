@@ -59,180 +59,180 @@ public class InstrumentDataLoader implements CommandLineRunner {
         var etfs = new ArrayList<ETF>();
 
         etfs.add(ETF.builder()
-                .attribute(ETF.NAME_ATTRIBUTE, "KraneShares Global Carbon Strategy ETF")
-                .exchange(nysearca)
-                .ticker("KRBN")
-                .build());
+            .attribute(ETF.NAME_ATTRIBUTE, "KraneShares Global Carbon Strategy ETF")
+            .exchange(nysearca)
+            .ticker("KRBN")
+            .build());
 
         etfs.add(ETF.builder()
-                .attribute(ETF.NAME_ATTRIBUTE, "FinEx China UCITS ETF")
-                .exchange(mcx)
-                .ticker("FXCN")
-                .build());
+            .attribute(ETF.NAME_ATTRIBUTE, "FinEx China UCITS ETF")
+            .exchange(mcx)
+            .ticker("FXCN")
+            .build());
 
         etfRepository.saveAll(etfs);
     }
 
     private void addStockInstruments() {
         stockService.addStock(StockDataDto.builder()
-                .company(CompanyDataDto.builder().name("Newmont Goldcorp Corp").build())
-                .identifier(new Ticker("NEM", NYSE.name()))
-                .build());
+            .company(CompanyDataDto.builder().name("Newmont Goldcorp Corp").build())
+            .identifier(new Ticker("NEM", NYSE.name()))
+            .build());
 
         Exchange nyse = exchangeRepository.findByCode(NYSE.name());
         Exchange mcx = exchangeRepository.findByCode("MCX");
         Exchange hkex = exchangeRepository.findByCode("HK");
 
         stockService.addStock(StockDataDto.builder()
-                .company(CompanyDataDto.builder().name("Bayer AG NA").build())
-                .identifier(new Ticker("BAYN", "XETRA"))
-                .build());
+            .company(CompanyDataDto.builder().name("Bayer AG NA").build())
+            .identifier(new Ticker("BAYN", "XETRA"))
+            .build());
 
         stockService.addStock(StockDataDto.builder()
-                .company(CompanyDataDto.builder().name("Altria Group").build())
-                .identifier(new Ticker("MO", NYSE.name()))
-                .build());
+            .company(CompanyDataDto.builder().name("Altria Group").build())
+            .identifier(new Ticker("MO", NYSE.name()))
+            .build());
 
         Company omega = companyRepository.save(Company.builder()
-                .name("Omega Healthcare Investors, Inc")
-                .build());
+            .name("Omega Healthcare Investors, Inc")
+            .build());
         Stock ohiStock = stockRepository.save(Stock.builder()
-                .company(omega)
-                .exchange(nyse)
-                .ticker("OHI")
-                .build());
+            .company(omega)
+            .exchange(nyse)
+            .ticker("OHI")
+            .build());
 
         Company coke = companyRepository.save(Company.builder()
-                .name("The Coca-Cola Company")
-                .build());
+            .name("The Coca-Cola Company")
+            .build());
         Stock koStock = stockRepository.save(Stock.builder()
-                .company(coke)
-                .exchange(nyse)
-                .ticker("KO")
-                .build());
+            .company(coke)
+            .exchange(nyse)
+            .ticker("KO")
+            .build());
 
         Company total = companyRepository.save(Company.builder()
-                .name("TotalEnergies SE")
-                .build());
+            .name("TotalEnergies SE")
+            .build());
         Stock totalStock = stockRepository.save(Stock.builder()
-                .company(total)
-                .exchange(nyse)
-                .ticker("TTE")
-                .build());
+            .company(total)
+            .exchange(nyse)
+            .ticker("TTE")
+            .build());
 
         Company rosneft = companyRepository.save(Company.builder()
-                .name("PJSC Rosneft Oil Company")
-                .build());
+            .name("PJSC Rosneft Oil Company")
+            .build());
         Stock rosnStock = stockRepository.save(Stock.builder()
-                .company(rosneft)
-                .exchange(mcx)
-                .ticker("ROSN")
-                .build());
+            .company(rosneft)
+            .exchange(mcx)
+            .ticker("ROSN")
+            .build());
 
         Company gazprom = companyRepository.save(Company.builder()
-                .name("PJSC Gazprom")
-                .build());
+            .name("PJSC Gazprom")
+            .build());
         Stock gazpromStock = stockRepository.save(Stock.builder()
-                .company(gazprom)
-                .exchange(mcx)
-                .ticker("GAZP")
-                .build());
+            .company(gazprom)
+            .exchange(mcx)
+            .ticker("GAZP")
+            .build());
 
         Company rosAgro = companyRepository.save(Company.builder()
-                .name("Ros Agro PLC")
-                .build());
+            .name("Ros Agro PLC")
+            .build());
         Stock rosAgroStock = stockRepository.save(Stock.builder()
-                .company(rosAgro)
-                .exchange(mcx)
-                .ticker("AGRO")
-                .build());
+            .company(rosAgro)
+            .exchange(mcx)
+            .ticker("AGRO")
+            .build());
 
         Company polyus = companyRepository.save(Company.builder()
-                .name("PJSC Polyus")
-                .build());
+            .name("PJSC Polyus")
+            .build());
         Stock polyusStock = stockRepository.save(Stock.builder()
-                .company(polyus)
-                .exchange(mcx)
-                .ticker("PLZL")
-                .build());
+            .company(polyus)
+            .exchange(mcx)
+            .ticker("PLZL")
+            .build());
 
         Company phos = companyRepository.save(Company.builder()
-                .name("PhosAgro")
-                .build());
+            .name("PhosAgro")
+            .build());
         Stock phosStock = stockRepository.save(Stock.builder()
-                .company(phos)
-                .exchange(mcx)
-                .ticker("PHOR")
-                .build());
+            .company(phos)
+            .exchange(mcx)
+            .ticker("PHOR")
+            .build());
 
         Company irao = companyRepository.save(Company.builder()
-                .name("Public Joint Stock Company Inter RAO UES")
-                .build());
+            .name("Public Joint Stock Company Inter RAO UES")
+            .build());
         Stock iraoStock = stockRepository.save(Stock.builder()
-                .company(irao)
-                .exchange(mcx)
-                .ticker("IRAO")
-                .build());
+            .company(irao)
+            .exchange(mcx)
+            .ticker("IRAO")
+            .build());
 
         Company mts = companyRepository.save(Company.builder()
-                .name("Mobile TeleSystems Public Joint Stock Company")
-                .build());
+            .name("Mobile TeleSystems Public Joint Stock Company")
+            .build());
         Stock mtsStock = stockRepository.save(Stock.builder()
-                .company(mts)
-                .exchange(mcx)
-                .ticker("MTSS")
-                .build());
+            .company(mts)
+            .exchange(mcx)
+            .ticker("MTSS")
+            .build());
 
         Company magnit = companyRepository.save(Company.builder()
-                .name("Public Joint Stock Company Magnit")
-                .build());
+            .name("Public Joint Stock Company Magnit")
+            .build());
         Stock magnitStock = stockRepository.save(Stock.builder()
-                .company(magnit)
-                .exchange(mcx)
-                .ticker("MGNT")
-                .build());
+            .company(magnit)
+            .exchange(mcx)
+            .ticker("MGNT")
+            .build());
 
         Company moex = companyRepository.save(Company.builder()
-                .name("Public Joint-Stock Company Moscow Exchange MICEX-RTS")
-                .build());
+            .name("Public Joint-Stock Company Moscow Exchange MICEX-RTS")
+            .build());
         Stock moexStock = stockRepository.save(Stock.builder()
-                .company(moex)
-                .exchange(mcx)
-                .ticker("MOEX")
-                .build());
+            .company(moex)
+            .exchange(mcx)
+            .ticker("MOEX")
+            .build());
 
         Company cnooc = companyRepository.save(Company.builder()
-                .name("China National Offshore Oil Corporation")
-                .build());
+            .name("China National Offshore Oil Corporation")
+            .build());
         Stock cnoocStock = stockRepository.save(Stock.builder()
-                .company(cnooc)
-                .exchange(hkex)
-                .ticker("0883")
-                .build());
+            .company(cnooc)
+            .exchange(hkex)
+            .ticker("0883")
+            .build());
     }
 
     private void addFXInstruments() {
         Exchange mcx = exchangeRepository.findByCode("MCX");
         var usdrub_tom = FX.builder()
-                .exchange(mcx)
-                .ticker("USDRUB_TOM")
-                .build();
+            .exchange(mcx)
+            .ticker("USDRUB_TOM")
+            .build();
         var eurrub_tom = FX.builder()
-                .exchange(mcx)
-                .ticker("EURRUB_TOM")
-                .build();
+            .exchange(mcx)
+            .ticker("EURRUB_TOM")
+            .build();
         var cnyrub_tom = FX.builder()
-                .exchange(mcx)
-                .ticker("CNYRUB_TOM")
-                .build();
+            .exchange(mcx)
+            .ticker("CNYRUB_TOM")
+            .build();
         var hkdrub_tom = FX.builder()
-                .exchange(mcx)
-                .ticker("HKDRUB_TOM")
-                .build();
+            .exchange(mcx)
+            .ticker("HKDRUB_TOM")
+            .build();
         var gldrub_tom = FX.builder()
-                .exchange(mcx)
-                .ticker("GLDRUB_TOM")
-                .build();
+            .exchange(mcx)
+            .ticker("GLDRUB_TOM")
+            .build();
         fxRepository.saveAll(List.of(usdrub_tom, eurrub_tom, cnyrub_tom, hkdrub_tom, gldrub_tom));
     }
 }

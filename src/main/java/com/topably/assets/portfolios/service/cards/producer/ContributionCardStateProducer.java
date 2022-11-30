@@ -42,41 +42,41 @@ public class ContributionCardStateProducer implements CardStateProducer<Contribu
     public CardData produce(Portfolio portfolio, ContributionCard card) {
         var currentYearTrades = tradeService.getUserTradesForCurrentYear(portfolio);
         var tradesByMonthValue = currentYearTrades.stream()
-                .collect(Collectors.groupingBy(t -> t.getDate().getMonthValue(), TreeMap::new, Collectors.toList()));
+            .collect(Collectors.groupingBy(t -> t.getDate().getMonthValue(), TreeMap::new, Collectors.toList()));
         var dividendYears = Set.of(LocalDate.now().getYear());
         var trades = tradeService.findDividendPayingTrades(portfolio.getId(), dividendYears);
         var dividendsByMonthValue = dividendService.aggregateDividends(trades, dividendYears).stream()
-                .collect(Collectors.groupingBy(d -> d.getPayDate().getMonthValue(), TreeMap::new, Collectors.toList()));
+            .collect(Collectors.groupingBy(d -> d.getPayDate().getMonthValue(), TreeMap::new, Collectors.toList()));
         var contributions = EnumSet.allOf(Month.class).stream()
-                .map(month -> {
-                    var monthValue = month.getValue();
-                    var monthlyDividend = calculateTotalMontlyDividend(dividendsByMonthValue, monthValue);
-                    var dividendContribution = new ContributionCardData.ContributionDetails(DIVIDEND_CONTRIBUTION_NAME,
-                            monthlyDividend.setScale(2, RoundingMode.HALF_UP));
+            .map(month -> {
+                var monthValue = month.getValue();
+                var monthlyDividend = calculateTotalMontlyDividend(dividendsByMonthValue, monthValue);
+                var dividendContribution = new ContributionCardData.ContributionDetails(DIVIDEND_CONTRIBUTION_NAME,
+                    monthlyDividend.setScale(2, RoundingMode.HALF_UP));
 
-                    var monthTrades = tradesByMonthValue.getOrDefault(monthValue, Collections.emptyList());
-                    var depositContribution = new ContributionCardData.ContributionDetails(DEPOSIT_CONTRIBUTION_NAME,
-                            calculateMonthlyContribution(monthTrades, monthlyDividend));
-                    var monthDisplayName = Month.of(monthValue).getDisplayName(TextStyle.SHORT_STANDALONE, Locale.ENGLISH);
-                    return new ContributionCardData.Contribution(monthDisplayName, List.of(dividendContribution, depositContribution));
-                })
-                .toList();
+                var monthTrades = tradesByMonthValue.getOrDefault(monthValue, Collections.emptyList());
+                var depositContribution = new ContributionCardData.ContributionDetails(DEPOSIT_CONTRIBUTION_NAME,
+                    calculateMonthlyContribution(monthTrades, monthlyDividend));
+                var monthDisplayName = Month.of(monthValue).getDisplayName(TextStyle.SHORT_STANDALONE, Locale.ENGLISH);
+                return new ContributionCardData.Contribution(monthDisplayName, List.of(dividendContribution, depositContribution));
+            })
+            .toList();
 
         return new ContributionCardData()
-                .setContributions(contributions);
+            .setContributions(contributions);
     }
 
     private BigDecimal calculateMonthlyContribution(List<TradeView> monthTrades, BigDecimal monthlyDividend) {
         return monthTrades.stream()
-                .filter(t -> TradeOperation.BUY.equals(t.getOperation()))
-                .map(t -> currencyConverterService.convert(t.getPrice().multiply(new BigDecimal(t.getQuantity())), t.getCurrency()))
-                .reduce(BigDecimal.ZERO, BigDecimal::add).subtract(monthlyDividend)
-                .setScale(2, RoundingMode.HALF_UP);
+            .filter(t -> TradeOperation.BUY.equals(t.getOperation()))
+            .map(t -> currencyConverterService.convert(t.getPrice().multiply(new BigDecimal(t.getQuantity())), t.getCurrency()))
+            .reduce(BigDecimal.ZERO, BigDecimal::add).subtract(monthlyDividend)
+            .setScale(2, RoundingMode.HALF_UP);
     }
 
     private BigDecimal calculateTotalMontlyDividend(TreeMap<Integer, List<AggregatedDividendDto>> dividendsByMonthValue, int monthValue) {
         return dividendsByMonthValue.getOrDefault(monthValue, Collections.emptyList()).stream()
-                .map(d -> currencyConverterService.convert(d.getTotal(), d.getCurrency()))
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
+            .map(d -> currencyConverterService.convert(d.getTotal(), d.getCurrency()))
+            .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 }

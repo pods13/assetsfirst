@@ -42,12 +42,12 @@ public class ExchangeRateServiceImpl implements ExchangeRateService {
     public Optional<ExchangeRate> findExchangeRate(Currency from, Currency to, Instant time) {
         LocalDate date = time.atZone(ZoneId.systemDefault()).toLocalDate();
         return Optional.ofNullable(exchangeRateRepository.findBySourceCurrencyAndDestinationCurrencyAndDate(from, to, date)
-                .orElseGet(() -> {
-                    var fetchedExchangeRates = fetchExchangeRates(time);
-                    Collection<ExchangeRate> exchangeRates = addExchangeRates(fetchedExchangeRates);
-                    return fetchedExchangeRates.stream()
-                            .filter(rate -> from.equals(rate.getSourceCurrency())).findFirst().orElse(null);
-                }));
+            .orElseGet(() -> {
+                var fetchedExchangeRates = fetchExchangeRates(time);
+                Collection<ExchangeRate> exchangeRates = addExchangeRates(fetchedExchangeRates);
+                return fetchedExchangeRates.stream()
+                    .filter(rate -> from.equals(rate.getSourceCurrency())).findFirst().orElse(null);
+            }));
     }
 
     @Override

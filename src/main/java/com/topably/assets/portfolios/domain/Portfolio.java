@@ -27,8 +27,8 @@ import javax.persistence.UniqueConstraint;
 @Builder
 @Entity
 @Table(name = "portfolio", uniqueConstraints = {
-        @UniqueConstraint(name="uq_portfolio_user_id", columnNames = {"user_id"}),
-        @UniqueConstraint(name="uq_portfolio_dashboard_id", columnNames = {"dashboard_id"}),
+    @UniqueConstraint(name = "uq_portfolio_user_id", columnNames = {"user_id"}),
+    @UniqueConstraint(name = "uq_portfolio_dashboard_id", columnNames = {"dashboard_id"}),
 })
 public class Portfolio {
 
@@ -43,6 +43,6 @@ public class Portfolio {
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false)
     @JoinColumn(name = "dashboard_id", referencedColumnName = "id",
-            foreignKey = @ForeignKey(name = "fk__portfolio__dashboard_id__portfolio_dashboard"))
+        foreignKey = @ForeignKey(name = "fk__portfolio__dashboard_id__portfolio_dashboard"))
     private PortfolioDashboard dashboard;
 }

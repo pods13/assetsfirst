@@ -1,8 +1,8 @@
 package com.topably.assets.instruments.domain;
 
 
-import com.topably.assets.exchanges.domain.Exchange;
 import com.topably.assets.core.domain.Ticker;
+import com.topably.assets.exchanges.domain.Exchange;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -35,7 +35,7 @@ import java.util.Map;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "INSTRUMENT_TYPE")
 @Table(name = "instrument", uniqueConstraints = {
-        @UniqueConstraint(name = "instrument_ticker_exchange_id_key", columnNames = {"TICKER", "EXCHANGE_ID"}),
+    @UniqueConstraint(name = "instrument_ticker_exchange_id_key", columnNames = {"TICKER", "EXCHANGE_ID"}),
 })
 public abstract class Instrument {
 
@@ -49,7 +49,7 @@ public abstract class Instrument {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "EXCHANGE_ID", referencedColumnName = "ID",
-            foreignKey = @ForeignKey(name = "fk__instrument__exchange_id__exchange"))
+        foreignKey = @ForeignKey(name = "fk__instrument__exchange_id__exchange"))
     private Exchange exchange;
 
     @Column(name = "TICKER")

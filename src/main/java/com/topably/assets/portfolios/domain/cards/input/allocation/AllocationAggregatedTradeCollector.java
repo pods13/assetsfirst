@@ -17,7 +17,7 @@ import java.util.function.Supplier;
 import java.util.stream.Collector;
 
 public class AllocationAggregatedTradeCollector implements Collector<AllocationAggregatedTrade,
-        Map<Ticker, AllocationAggregatedTrade>, List<AllocationAggregatedTrade>> {
+    Map<Ticker, AllocationAggregatedTrade>, List<AllocationAggregatedTrade>> {
 
     @Override
     public Supplier<Map<Ticker, AllocationAggregatedTrade>> supplier() {
@@ -32,7 +32,7 @@ public class AllocationAggregatedTradeCollector implements Collector<AllocationA
                 AllocationAggregatedTrade prevTrade = map.get(key);
                 var totalQuantity = prevTrade.getQuantity().add(trade.getQuantity());
                 BigDecimal averagePrice = BigInteger.ZERO.equals(totalQuantity) ? BigDecimal.ZERO : prevTrade.getTotal().add(trade.getTotal())
-                        .divide(new BigDecimal(totalQuantity), 4, RoundingMode.HALF_UP);
+                    .divide(new BigDecimal(totalQuantity), 4, RoundingMode.HALF_UP);
                 prevTrade.setQuantity(totalQuantity);
                 prevTrade.setPrice(averagePrice);
             } else {

@@ -39,10 +39,10 @@ public class User {
     @Singular
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinTable(name = "user_authority",
-            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "ID")},
-            foreignKey = @ForeignKey(name = "fk__user__user_id__authority"),
-            inverseJoinColumns = {@JoinColumn(name = "authority_id", referencedColumnName = "ID")},
-            inverseForeignKey = @ForeignKey(name = "fk__user__authority_id__authority"))
+        joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "ID")},
+        foreignKey = @ForeignKey(name = "fk__user__user_id__authority"),
+        inverseJoinColumns = {@JoinColumn(name = "authority_id", referencedColumnName = "ID")},
+        inverseForeignKey = @ForeignKey(name = "fk__user__authority_id__authority"))
     private Set<Authority> authorities;
 
     @Builder.Default

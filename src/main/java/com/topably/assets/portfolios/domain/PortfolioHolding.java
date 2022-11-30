@@ -19,7 +19,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.math.RoundingMode;
 
 @Setter
 @Getter
@@ -36,12 +35,12 @@ public class PortfolioHolding {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "portfolio_id", referencedColumnName = "ID",
-            foreignKey = @ForeignKey(name = "fk__portfolio_holding__portfolio_id__portfolio"))
+        foreignKey = @ForeignKey(name = "fk__portfolio_holding__portfolio_id__portfolio"))
     private Portfolio portfolio;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "instrument_id", referencedColumnName = "ID",
-            foreignKey = @ForeignKey(name = "fk__portfolio_holding__instrument_id__instrument"))
+        foreignKey = @ForeignKey(name = "fk__portfolio_holding__instrument_id__instrument"))
     private Instrument instrument;
 
     @Column(name = "quantity", precision = 12, scale = 0)

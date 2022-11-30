@@ -18,8 +18,8 @@ public class PortfolioDashboardServiceImpl implements PortfolioDashboardService 
     public PortfolioDashboardDto findPortfolioDashboardByUserId(Long userId) {
         Portfolio portfolio = portfolioRepository.findByUserId(userId);
         return PortfolioDashboardDto.builder()
-                .id(portfolio.getDashboard().getId())
-                .cards(portfolio.getDashboard().getCards())
-                .build();
+            .id(portfolio.getDashboard().getId())
+            .cards(portfolio.getDashboard().getCards())
+            .build();
     }
 }

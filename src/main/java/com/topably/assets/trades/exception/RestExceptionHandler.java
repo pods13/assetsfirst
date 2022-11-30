@@ -15,12 +15,12 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(value = {MultipartException.class, MaxUploadSizeExceededException.class})
     public ResponseEntity<UploadResponseMessage> handleMaxFileSizeException() {
         return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED)
-                .body(new UploadResponseMessage("Unable to upload. File is too large!"));
+            .body(new UploadResponseMessage("Unable to upload. File is too large!"));
     }
 
     @ExceptionHandler(FileUploadException.class)
     public ResponseEntity<UploadResponseMessage> handleMaxSizeException(FileUploadException e) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(new UploadResponseMessage(e.getMessage()));
+            .body(new UploadResponseMessage(e.getMessage()));
     }
 }

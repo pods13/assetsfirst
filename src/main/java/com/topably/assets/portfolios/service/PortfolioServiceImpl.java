@@ -24,12 +24,12 @@ public class PortfolioServiceImpl implements PortfolioService {
     @Transactional
     public Portfolio createDefaultUserPortfolio(Long userId) {
         var dashboard = PortfolioDashboard.builder()
-                .cards(new HashSet<>())
-                .build();
+            .cards(new HashSet<>())
+            .build();
         Portfolio portfolio = Portfolio.builder()
-                .user(userService.getById(userId))
-                .dashboard(dashboard)
-                .build();
+            .user(userService.getById(userId))
+            .dashboard(dashboard)
+            .build();
         return portfolioRepository.save(portfolio);
     }
 

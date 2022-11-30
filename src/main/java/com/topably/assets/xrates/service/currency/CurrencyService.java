@@ -1,6 +1,5 @@
 package com.topably.assets.xrates.service.currency;
 
-import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Currency;
 

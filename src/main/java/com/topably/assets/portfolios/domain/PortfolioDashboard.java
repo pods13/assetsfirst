@@ -1,6 +1,5 @@
 package com.topably.assets.portfolios.domain;
 
-import com.topably.assets.auth.domain.User;
 import com.topably.assets.portfolios.domain.cards.DashboardCard;
 import com.vladmihalcea.hibernate.type.json.JsonType;
 import lombok.AllArgsConstructor;
@@ -16,14 +15,9 @@ import org.hibernate.annotations.TypeDefs;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.MapsId;
-import javax.persistence.OneToOne;
 import java.util.Set;
 
 @Setter
@@ -32,7 +26,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Builder
 @TypeDefs({
-        @TypeDef(name = "json", typeClass = JsonType.class)
+    @TypeDef(name = "json", typeClass = JsonType.class)
 })
 @Entity
 public class PortfolioDashboard {

@@ -3,7 +3,6 @@ package com.topably.assets.xrates.service;
 import com.topably.assets.xrates.domain.ExchangeRate;
 
 import java.time.Instant;
-import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Currency;
 import java.util.List;

@@ -15,7 +15,7 @@ public class CurrentUser extends org.springframework.security.core.userdetails.U
 
     public CurrentUser(User user, Collection<? extends GrantedAuthority> authorities) {
         this(user.getUsername(), user.getPassword(), user.getEnabled(), user.getAccountNonExpired(),
-                user.getCredentialsNonExpired(), user.getAccountNonLocked(), authorities);
+            user.getCredentialsNonExpired(), user.getAccountNonLocked(), authorities);
         this.userId = user.getId();
     }
 

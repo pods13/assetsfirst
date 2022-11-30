@@ -1,7 +1,6 @@
 package com.topably.assets.xrates.domain.cbr;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.topably.assets.xrates.service.provider.adapter.CommaBigDecimalDeserializer;
 import lombok.Data;
