@@ -8,6 +8,7 @@ on:
 jobs:
   pull-mcx-prices:
     runs-on: self-hosted
+    timeout-minutes: 10
     defaults:
       run:
         working-directory: findata
