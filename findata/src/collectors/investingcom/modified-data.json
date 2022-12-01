@@ -160,5 +160,8 @@
   },
   "BAYGn.XETRA": {
     "symbol": "BAYN"
+  },
+  "PBRa.NYSE": {
+    "symbol": "PBR-A"
   }
 }
