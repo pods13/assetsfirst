@@ -3,12 +3,11 @@ name: Pull Data
 on:
   workflow_dispatch:
   schedule:
-    - cron: "50 23 * * *"
+    - cron: "50 20 * * *"
 
 jobs:
   pull-mcx-prices:
     runs-on: self-hosted
-    timeout-minutes: 10
     defaults:
       run:
         working-directory: findata
@@ -31,5 +30,7 @@ jobs:
           timezoneMacos: "Europe/Moscow"
           timezoneWindows: "Russian Standard Time"
       - run: npm i @pods13/findata
-      - run: npx -p @pods13/findata prices-ru
+      - name: pull new ru prices
+        timeout-minutes: 10
+        run: npx -p @pods13/findata prices-ru
 
