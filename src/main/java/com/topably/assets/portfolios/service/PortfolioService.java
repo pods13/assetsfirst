@@ -1,16 +1,16 @@
 package com.topably.assets.portfolios.service;
 
 import com.topably.assets.auth.service.UserService;
+import com.topably.assets.exchanges.service.ExchangeService;
 import com.topably.assets.portfolios.domain.Portfolio;
 import com.topably.assets.portfolios.domain.PortfolioDashboard;
-import com.topably.assets.portfolios.domain.dto.PortfolioHoldingDto;
 import com.topably.assets.portfolios.repository.PortfolioRepository;
+import com.topably.assets.xrates.service.currency.CurrencyConverterService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-import java.util.Collection;
 import java.util.Currency;
 import java.util.HashSet;
 
@@ -22,6 +22,9 @@ public class PortfolioService {
     private final PortfolioRepository portfolioRepository;
 
     private final UserService userService;
+    private final ExchangeService exchangeService;
+    private final CurrencyConverterService currencyConverterService;
+    private final PortfolioHoldingService portfolioHoldingService;
 
     public Portfolio createDefaultUserPortfolio(Long userId) {
         var dashboard = PortfolioDashboard.builder()
@@ -36,5 +39,26 @@ public class PortfolioService {
 
     public Portfolio findByUserId(Long userId) {
         return portfolioRepository.findByUserId(userId);
+    }
+
+    public BigDecimal calculateCurrentAmount(Portfolio portfolio) {
+        var holdings = portfolioHoldingService.findPortfolioHoldings(portfolio.getId());
+        return holdings.stream()
+            .map(h -> {
+                var marketValue = exchangeService.findSymbolRecentPrice(h.getIdentifier())
+                    .map(value -> value.multiply(new BigDecimal(h.getQuantity())))
+                    .orElse(h.getTotal());
+                return currencyConverterService.convert(marketValue, h.getCurrency());
+            })
+            .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
+    public BigDecimal calculateInvestedAmount(Portfolio portfolio) {
+        var holdings = portfolioHoldingService.findPortfolioHoldings(portfolio.getId());
+        Currency portfolioCurrency = Currency.getInstance("RUB");
+        return holdings.stream()
+            //TODO optimize it, calculate not by each holding but rather by all of them
+            .map(h -> portfolioHoldingService.calculateInvestedAmountByHoldingId(h.getId(), h.getCurrency(), portfolioCurrency))
+            .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 }
