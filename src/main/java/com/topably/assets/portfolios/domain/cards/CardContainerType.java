@@ -9,4 +9,5 @@ public class CardContainerType {
     public static final String BALANCE = "BALANCE";
 
     public static final String CONTRIBUTION = "CONTRIBUTION";
+    public static final String INVESTMENT_YIELD = "INVESTMENT_YIELD";
 }
