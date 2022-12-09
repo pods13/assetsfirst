@@ -23,24 +23,12 @@ public class BrokerDataLoader implements CommandLineRunner {
     @Transactional
     public void run(String... args) throws Exception {
         var brokers = new ArrayList<Broker>();
-        brokers.add(Broker.builder()
-            .name("Interactive Brokers LLC")
-            .build());
-        brokers.add(Broker.builder()
-            .name("Tinkoff Investments")
-            .build());
-        brokers.add(Broker.builder()
-            .name("VTB Investments")
-            .build());
-        brokers.add(Broker.builder()
-            .name("Finam")
-            .build());
-        brokers.add(Broker.builder()
-            .name("Alfa Direct")
-            .build());
-        brokers.add(Broker.builder()
-            .name("BCS Investments")
-            .build());
+        brokers.add(new Broker().setName("Interactive Brokers LLC"));
+        brokers.add(new Broker().setName("Tinkoff Investments"));
+        brokers.add(new Broker().setName("VTB Investments"));
+        brokers.add(new Broker().setName("Finam"));
+        brokers.add(new Broker().setName("Alfa Direct"));
+        brokers.add(new Broker().setName("BCS Investments"));
         brokerRepository.saveAll(brokers);
     }
 }

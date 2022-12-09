@@ -2,20 +2,40 @@ package com.topably.assets.trades.service;
 
 import com.topably.assets.trades.domain.Trade;
 import com.topably.assets.trades.domain.TradeOperation;
+import com.topably.assets.trades.domain.dto.AggregatedTradeDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.time.LocalDate;
+import java.math.RoundingMode;
+import java.util.AbstractMap;
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.stream.Collectors;
+
+import static com.topably.assets.trades.domain.dto.AggregatedTradeDto.InterimTradeResult;
+import static com.topably.assets.trades.domain.dto.AggregatedTradeDto.TradeData;
 
 @Service
 @RequiredArgsConstructor
-public class InterimTradeService {
+public class TradeAggregatorService {
 
-    public InterimTradeResult calculate(Collection<Trade> tradesOrderedByDate) {
+    public AggregatedTradeDto aggregateTrades(Collection<Trade> tradesOrderedByDate) {
+        var tradeResult = calculateInterimResult(tradesOrderedByDate);
+        var sharesByAvgPrice = tradeResult.buyTradesData().stream().collect(Collectors.teeing(
+            Collectors.reducing(BigInteger.ZERO, TradeData::shares, BigInteger::add),
+            Collectors.reducing(BigDecimal.ZERO, t -> t.price().multiply(new BigDecimal(t.shares())), BigDecimal::add),
+            (qty, total) -> new AbstractMap.SimpleEntry<>(qty, BigInteger.ZERO.equals(qty) ? BigDecimal.ZERO :
+                total.divide(new BigDecimal(qty), 4, RoundingMode.HALF_UP))
+        ));
+
+        return new AggregatedTradeDto()
+            .setQuantity(sharesByAvgPrice.getKey())
+            .setPrice(sharesByAvgPrice.getValue());
+    }
+
+    private InterimTradeResult calculateInterimResult(Collection<Trade> tradesOrderedByDate) {
         var buyTradesData = new LinkedList<TradeData>();
         var closedPnl = BigDecimal.ZERO;
         for (Trade trade : tradesOrderedByDate) {
@@ -63,11 +83,5 @@ public class InterimTradeService {
         var pnlShares = new BigDecimal(sharesDelta.compareTo(BigInteger.ZERO) >= 0 ? sellSideShares : buySideShares);
         BigDecimal nextTotal = buyPrice.multiply(pnlShares);
         return sellPrice.multiply(pnlShares).subtract(nextTotal);
-    }
-
-    public record InterimTradeResult(Collection<TradeData> buyTradesData, BigDecimal closedPnl) {
-    }
-
-    public record TradeData(BigInteger shares, BigDecimal price, LocalDate tradeTime) {
     }
 }

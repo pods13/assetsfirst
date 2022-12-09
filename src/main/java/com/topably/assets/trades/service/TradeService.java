@@ -5,7 +5,6 @@ import com.topably.assets.portfolios.domain.Portfolio;
 import com.topably.assets.portfolios.domain.PortfolioHolding;
 import com.topably.assets.portfolios.service.PortfolioHoldingService;
 import com.topably.assets.trades.domain.Trade;
-import com.topably.assets.trades.domain.TradeOperation;
 import com.topably.assets.trades.domain.TradeView;
 import com.topably.assets.trades.domain.dto.AggregatedTradeDto;
 import com.topably.assets.trades.domain.dto.DeleteTradeDto;
@@ -15,7 +14,6 @@ import com.topably.assets.trades.domain.dto.add.AddTradeDto;
 import com.topably.assets.trades.repository.TradeRepository;
 import com.topably.assets.trades.repository.TradeViewRepository;
 import com.topably.assets.trades.repository.broker.BrokerRepository;
-import com.topably.assets.xrates.service.currency.CurrencyConverterService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -26,15 +24,12 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.time.LocalDate;
-import java.time.ZoneOffset;
 import java.time.temporal.TemporalAdjusters;
 import java.util.AbstractMap;
 import java.util.Collection;
-import java.util.Currency;
-import java.util.LinkedList;
 import java.util.stream.Collectors;
 
-import static com.topably.assets.trades.service.InterimTradeService.*;
+import static com.topably.assets.trades.service.TradeAggregatorService.*;
 
 @Service
 @RequiredArgsConstructor
@@ -45,7 +40,7 @@ public class TradeService {
     private final BrokerRepository brokerRepository;
 
     private final PortfolioHoldingService portfolioHoldingService;
-    private final InterimTradeService interimTradeService;
+    private final TradeAggregatorService tradeAggregatorService;
 
     public Collection<Trade> findDividendPayingTrades(Long portfolioId, Collection<Integer> dividendYears) {
         return tradeRepository.findDividendPayingTradesOrderByTradeDate(portfolioId, dividendYears);
@@ -54,38 +49,20 @@ public class TradeService {
     public TradeDto addTrade(AddTradeDto dto, Instrument tradedInstrument) {
         PortfolioHolding holding = portfolioHoldingService.findByUserIdAndInstrumentId(dto.getUserId(), dto.getInstrumentId())
             .orElseGet(() -> portfolioHoldingService.createHolding(dto, tradedInstrument));
-        var trade = Trade.builder()
-            .portfolioHolding(holding)
-            .operation(dto.getOperation())
-            .price(dto.getPrice())
-            .quantity(dto.getQuantity())
-            .date(dto.getDate())
-            .broker(brokerRepository.getById(dto.getBrokerId()))
-            .build();
+        var trade = new Trade()
+            .setPortfolioHolding(holding)
+            .setOperation(dto.getOperation())
+            .setPrice(dto.getPrice())
+            .setQuantity(dto.getQuantity())
+            .setDate(dto.getDate())
+            .setBroker(brokerRepository.getReferenceById(dto.getBrokerId()));
         var savedTrade = tradeRepository.save(trade);
         Long holdingId = holding.getId();
-        AggregatedTradeDto aggregateTrade = aggregateTrades(tradedInstrument,
-            tradeRepository.findAllByPortfolioHolding_IdOrderByDate(holdingId));
+        var trades = tradeRepository.findAllByPortfolioHolding_IdOrderByDate(holdingId);
+        var aggregateTrade = tradeAggregatorService.aggregateTrades(trades);
         portfolioHoldingService.updatePortfolioHolding(holdingId, aggregateTrade);
         return TradeDto.builder()
             .id(savedTrade.getId())
-            .build();
-    }
-
-    private AggregatedTradeDto aggregateTrades(Instrument tradedInstrument, Collection<Trade> tradesOrderedByDate) {
-        var tradeResult = interimTradeService.calculate(tradesOrderedByDate);
-        var sharesByAvgPrice = tradeResult.buyTradesData().stream().collect(Collectors.teeing(
-            Collectors.reducing(BigInteger.ZERO, TradeData::shares, BigInteger::add),
-            Collectors.reducing(BigDecimal.ZERO, t -> t.price().multiply(new BigDecimal(t.shares())), BigDecimal::add),
-            (qty, total) -> new AbstractMap.SimpleEntry<>(qty, BigInteger.ZERO.equals(qty) ? BigDecimal.ZERO :
-                total.divide(new BigDecimal(qty), 4, RoundingMode.HALF_UP))
-        ));
-
-        return AggregatedTradeDto.builder()
-            .identifier(tradedInstrument.toTicker())
-            .quantity(sharesByAvgPrice.getKey())
-            .price(sharesByAvgPrice.getValue())
-            .currency(tradedInstrument.getExchange().getCurrency())
             .build();
     }
 
@@ -105,8 +82,8 @@ public class TradeService {
         trade.setBroker(trade.getBroker().getId().equals(dto.getBrokerId()) ? trade.getBroker() : brokerRepository.getById(dto.getBrokerId()));
         var updatedTrade = tradeRepository.save(trade);
         Long holdingId = trade.getPortfolioHolding().getId();
-        AggregatedTradeDto aggregatedTrade = aggregateTrades(tradedInstrument,
-            tradeRepository.findAllByPortfolioHolding_IdOrderByDate(holdingId));
+        var trades = tradeRepository.findAllByPortfolioHolding_IdOrderByDate(holdingId);
+        var aggregatedTrade = tradeAggregatorService.aggregateTrades(trades);
         portfolioHoldingService.updatePortfolioHolding(holdingId, aggregatedTrade);
         return TradeDto.builder()
             .id(updatedTrade.getId())
@@ -117,8 +94,8 @@ public class TradeService {
         Trade trade = tradeRepository.getById(dto.getTradeId());
         Long holdingId = trade.getPortfolioHolding().getId();
         tradeRepository.delete(trade);
-        AggregatedTradeDto aggregatedTrade = aggregateTrades(tradedInstrument,
-            tradeRepository.findAllByPortfolioHolding_IdOrderByDate(holdingId));
+        var trades = tradeRepository.findAllByPortfolioHolding_IdOrderByDate(holdingId);
+        AggregatedTradeDto aggregatedTrade = tradeAggregatorService.aggregateTrades(trades);
         if (BigInteger.ZERO.equals(aggregatedTrade.getQuantity())) {
             portfolioHoldingService.deletePortfolioHolding(holdingId);
         } else {

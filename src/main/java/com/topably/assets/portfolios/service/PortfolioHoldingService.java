@@ -13,7 +13,7 @@ import com.topably.assets.portfolios.repository.PortfolioRepository;
 import com.topably.assets.trades.domain.dto.AggregatedTradeDto;
 import com.topably.assets.trades.domain.dto.add.AddTradeDto;
 import com.topably.assets.trades.repository.TradeRepository;
-import com.topably.assets.trades.service.InterimTradeService;
+import com.topably.assets.trades.service.TradeAggregatorService;
 import com.topably.assets.xrates.service.currency.CurrencyConverterService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -46,7 +46,7 @@ public class PortfolioHoldingService {
     private final ExchangeService exchangeService;
     private final CurrencyConverterService currencyConverterService;
     private final DividendService dividendService;
-    private final InterimTradeService interimTradeService;
+    private final TradeAggregatorService tradeAggregatorService;
 
     public Optional<PortfolioHolding> findByUserIdAndInstrumentId(Long userId, Long instrumentId) {
         return portfolioHoldingRepository.findByPortfolio_User_IdAndInstrument_Id(userId, instrumentId);
@@ -166,8 +166,8 @@ public class PortfolioHoldingService {
 
     public BigDecimal calculateInvestedAmountByHoldingId(Long holdingId, Currency holdingCurrency, Currency portfolioCurrency) {
         var trades = tradeRepository.findAllByPortfolioHolding_IdOrderByDate(holdingId);
-        var tradeResult = interimTradeService.calculate(trades);
-        return tradeResult.buyTradesData().stream()
+        var tradesResult = tradeAggregatorService.aggregateTrades(trades);
+        return tradesResult.getInterimTradeResult().buyTradesData().stream()
             .map(t -> {
                 BigDecimal total = t.price().multiply(new BigDecimal(t.shares()));
                 return currencyConverterService.convert(total, holdingCurrency, portfolioCurrency,
