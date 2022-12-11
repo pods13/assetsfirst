@@ -104,4 +104,49 @@ class TradeAggregatorServiceTest {
         assertThat(res.getPrice()).isEqualByComparingTo(expectedPrice);
     }
 
+    @Test
+    public void givenTradesHistoryOnDifferentBrokers_whenAggregationTradeCalculated_thenFIFOMethodIsUsedWithBrokerConsideration() {
+        var broker = new Broker().setId(1L).setName("Tinkoff");
+        var broker2 = new Broker().setId(2L).setName("Finam");
+        var buyTrade = new Trade()
+            .setBroker(broker2)
+            .setQuantity(new BigInteger("440"))
+            .setPrice(new BigDecimal("1029.8"))
+            .setDate(LocalDate.now().minusDays(30))
+            .setOperation(TradeOperation.BUY);
+        var buyTrade2 = new Trade()
+            .setBroker(broker)
+            .setQuantity(new BigInteger("30"))
+            .setPrice(new BigDecimal("750"))
+            .setDate(LocalDate.now().minusDays(15))
+            .setOperation(TradeOperation.BUY);
+        var buyTrade3 = new Trade()
+            .setBroker(broker)
+            .setQuantity(new BigInteger("30"))
+            .setPrice(new BigDecimal("699"))
+            .setDate(LocalDate.now().minusDays(5))
+            .setOperation(TradeOperation.BUY);
+        var buyTrade4 = new Trade()
+            .setBroker(broker)
+            .setQuantity(new BigInteger("30"))
+            .setPrice(new BigDecimal("692"))
+            .setDate(LocalDate.now().minusDays(3))
+            .setOperation(TradeOperation.BUY);
+        var sellTrade = new Trade()
+            .setBroker(broker)
+            .setQuantity(new BigInteger("90"))
+            .setPrice(new BigDecimal("688"))
+            .setDate(LocalDate.now())
+            .setOperation(TradeOperation.SELL);
+        var expectedShares = new BigInteger("440");
+        var expectedPrice = new BigDecimal("1029.8");
+        var expectedPnl = new BigDecimal("-2310");
+
+        var res = service.aggregateTrades(List.of(buyTrade, buyTrade2, buyTrade3, buyTrade4, sellTrade));
+
+        assertThat(res.getQuantity()).isEqualByComparingTo(expectedShares);
+        assertThat(res.getPrice()).isEqualByComparingTo(expectedPrice);
+        assertThat(res.getInterimTradeResult().closedPnl()).isEqualByComparingTo(expectedPnl);
+    }
+
 }
