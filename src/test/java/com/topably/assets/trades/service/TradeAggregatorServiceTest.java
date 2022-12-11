@@ -41,14 +41,15 @@ class TradeAggregatorServiceTest {
 
     @Test
     public void givenBuyTradeAndSellTrade_whenAggregationTradeCalculated_thenReturnAvgPrice() {
+        var broker = new Broker().setId(1L).setName("Tinkoff");
         var buyTrade = new Trade()
-            .setBroker(new Broker().setId(1L).setName("Tinkoff"))
+            .setBroker(broker)
             .setQuantity(new BigInteger("100"))
             .setPrice(new BigDecimal("300"))
             .setDate(LocalDate.now().minusDays(30))
             .setOperation(TradeOperation.BUY);
         var sellTrade = new Trade()
-            .setBroker(new Broker().setId(2L).setName("Tinkoff"))
+            .setBroker(broker)
             .setQuantity(new BigInteger("50"))
             .setPrice(new BigDecimal("200"))
             .setDate(LocalDate.now())
