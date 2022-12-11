@@ -22,7 +22,7 @@
     "@angular/router": "~13.1.0",
     "@ngneat/until-destroy": "^9.2.2",
     "@stomp/rx-stomp": "^1.2.0",
-    "@swimlane/ngx-charts": "^20.1.0",
+    "@swimlane/ngx-charts": "^20.1.2",
     "@swimlane/ngx-datatable": "^20.1.0",
     "angular-gridster2": "^13.1.1",
     "ngx-mat-select-search": "^5.0.0",
