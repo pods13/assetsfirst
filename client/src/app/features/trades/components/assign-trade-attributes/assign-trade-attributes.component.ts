@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { ControlContainer, FormBuilder, FormGroup, FormGroupDirective, Validators } from '@angular/forms';
 import { TradeOperation } from '../../types/trade-operation';
-import { TradeDto } from '../../types/trade.dto';
+import { TradeViewDto } from '../../types/trade-view.dto';
 
 @Component({
   selector: 'app-assign-trade-attributes',
@@ -47,7 +47,7 @@ import { TradeDto } from '../../types/trade.dto';
 export class AssignTradeAttributesComponent implements OnInit {
 
   @Input()
-  trade?: TradeDto;
+  trade?: TradeViewDto;
 
   form!: FormGroup;
 

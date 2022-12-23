@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { catchError, debounceTime, distinctUntilChanged, filter, of, ReplaySubject, switchMap, tap } from 'rxjs';
 import { TradingInstrumentService } from '../../services/trading-instrument.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { TradeDto } from '../../types/trade.dto';
+import { TradeViewDto } from '../../types/trade-view.dto';
 import { EditTradeDto } from '../../types/edit-trade.dto';
 import { AddTradeDto } from '../../types/add-trade.dto';
 import { BrokerService } from '../../services/broker.service';
@@ -62,7 +62,7 @@ export class TradeDialogComponent implements OnInit {
               private tradingInstrumentService: TradingInstrumentService,
               private brokerService: BrokerService,
               public dialogRef: MatDialogRef<TradeDialogComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: { title: string; trade?: TradeDto; }) {
+              @Inject(MAT_DIALOG_DATA) public data: { title: string; trade?: TradeViewDto; }) {
     const trade = data?.trade;
     const instrument = trade ? this.composeInstrument(trade) : null;
     if (instrument) {
@@ -78,8 +78,8 @@ export class TradeDialogComponent implements OnInit {
     });
   }
 
-  private composeInstrument(trade: TradeDto) {
-    return {id: trade.instrumentId, instrumentType: trade.instrumentType, ticker: trade.ticker, name: trade.name};
+  private composeInstrument(trade: TradeViewDto) {
+    return {id: trade.instrumentId, instrumentType: trade.instrumentType, ticker: trade.symbol, name: trade.name};
   }
 
   ngOnInit(): void {

@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@
 import { ColumnMode, SelectionType } from '@swimlane/ngx-datatable';
 import { TradeService } from '../../services/trade.service';
 import { AddTradeDto } from '../../types/add-trade.dto';
-import { TradeDto } from '../../types/trade.dto';
+import { TradeViewDto } from '../../types/trade-view.dto';
 import { EditTradeDto } from '../../types/edit-trade.dto';
 import { DeleteTradeDto } from '../../types/delete-trade.dto';
 import { PageSort } from '../../../../core/types/page-sort';
@@ -65,14 +65,14 @@ export class TradesContainerComponent implements OnInit {
   SelectionType = SelectionType;
 
   columns = [
-    {prop: 'ticker'}, {prop: 'name'},
+    {prop: 'symbol'}, {prop: 'name'},
     {prop: 'operation'}, {prop: 'date'},
     {prop: 'quantity'}, {prop: 'price'},
     {prop: 'brokerName'}
   ];
 
-  rows: TradeDto[] = [];
-  selectedRows: TradeDto[] = [];
+  rows: TradeViewDto[] = [];
+  selectedRows: TradeViewDto[] = [];
 
   constructor(private tradeService: TradeService,
               private cd: ChangeDetectorRef) {

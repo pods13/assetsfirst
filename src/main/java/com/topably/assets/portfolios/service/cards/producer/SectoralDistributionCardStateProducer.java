@@ -69,7 +69,7 @@ public class SectoralDistributionCardStateProducer implements CardStateProducer<
                     .map(name -> {
                         BigDecimal total = companyNameByStockIds.get(name).stream()
                             .map(stockIdByHolding::get)
-                            .map(trade -> currencyConverterService.convert(trade.getTotal(), trade.getCurrency()))
+                            .map(holding -> currencyConverterService.convert(holding.getTotal(), holding.getCurrency()))
                             .reduce(BigDecimal.ZERO, BigDecimal::add);
                         return composeLeafItem(name, total);
                     })

@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { TradeDialogComponent } from '../../containers/trade-dialog/trade-dialog.component';
 import { filter } from 'rxjs';
 import { AddTradeDto } from '../../types/add-trade.dto';
-import { TradeDto } from '../../types/trade.dto';
+import { TradeViewDto } from '../../types/trade-view.dto';
 import { EditTradeDto } from '../../types/edit-trade.dto';
 import { DeleteTradeDto } from '../../types/delete-trade.dto';
 
@@ -31,7 +31,7 @@ import { DeleteTradeDto } from '../../types/delete-trade.dto';
 export class DatatableActionsBarComponent implements OnInit {
 
   @Input()
-  selectedRows!: TradeDto[];
+  selectedRows!: TradeViewDto[];
 
   @Output()
   addTrade = new EventEmitter<AddTradeDto>();
@@ -60,7 +60,7 @@ export class DatatableActionsBarComponent implements OnInit {
       });
   }
 
-  openEditTradeDialog(trade: TradeDto) {
+  openEditTradeDialog(trade: TradeViewDto) {
     const dialogRef = this.dialog.open<TradeDialogComponent, any, EditTradeDto>(TradeDialogComponent, {
       data: {
         title: 'Edit Trade',
@@ -75,7 +75,7 @@ export class DatatableActionsBarComponent implements OnInit {
       });
   }
 
-  handleDeleteTrade(trade: TradeDto): void {
+  handleDeleteTrade(trade: TradeViewDto): void {
     const tradeToDelete = {
       tradeId: trade.id,
       instrumentId: trade.instrumentId,

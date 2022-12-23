@@ -66,6 +66,7 @@ public class TradeService {
             .build();
     }
 
+    @Transactional(readOnly = true)
     public Page<TradeView> getUserTrades(Long userId, Pageable pageable) {
         return tradeViewRepository.findByUserId(userId, pageable);
     }

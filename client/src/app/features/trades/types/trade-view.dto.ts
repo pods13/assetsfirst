@@ -1,11 +1,12 @@
 import { TradeOperation } from './trade-operation';
 import { InstrumentType } from './instrument-type';
 
-export interface TradeDto {
+export interface TradeViewDto {
   id: number;
   instrumentId: number;
   instrumentType: InstrumentType;
-  ticker: string;
+  symbol: string;
+  exchange: string;
   name: string;
   date: Date;
   operation: TradeOperation;

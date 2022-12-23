@@ -24,7 +24,8 @@ import java.util.Currency;
            s2.id as instrument_id,
            s2.instrument_type,
            p.user_id,
-           s2.ticker,
+           s2.ticker as symbol,
+           exch.code as exchange,
            CASE
                WHEN s2.instrument_type = 'ETF' THEN s2.attributes ->> "$.name"
                WHEN s2.instrument_type = 'STOCK' THEN c2.name
@@ -55,7 +56,8 @@ public class TradeView {
     @JsonIgnore
     private Long userId;
 
-    private String ticker;
+    private String symbol;
+    private String exchange;
 
     private String name;
 
