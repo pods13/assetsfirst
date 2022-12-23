@@ -2,6 +2,7 @@ package com.topably.assets.trades.service;
 
 import com.topably.assets.trades.domain.Trade;
 import com.topably.assets.trades.domain.TradeOperation;
+import com.topably.assets.trades.domain.TradeView;
 import com.topably.assets.trades.domain.broker.Broker;
 import org.junit.jupiter.api.Test;
 
@@ -18,14 +19,16 @@ class TradeAggregatorServiceTest {
 
     @Test
     public void givenTwoBuyTrades_whenAggregationTradeCalculated_thenReturnAvgPrice() {
-        var buyTrade = new Trade()
-            .setBroker(new Broker().setId(1L).setName("Tinkoff"))
+        var buyTrade = new TradeView()
+            .setBrokerId(1L)
+            .setBrokerName("Tinkoff")
             .setQuantity(new BigInteger("100"))
             .setPrice(new BigDecimal("300"))
             .setDate(LocalDate.now().minusDays(30))
             .setOperation(TradeOperation.BUY);
-        var buyTrade2 = new Trade()
-            .setBroker(new Broker().setId(2L).setName("Tinkoff"))
+        var buyTrade2 = new TradeView()
+            .setBrokerId(1L)
+            .setBrokerName("Tinkoff")
             .setQuantity(new BigInteger("100"))
             .setPrice(new BigDecimal("200"))
             .setDate(LocalDate.now())
@@ -41,15 +44,16 @@ class TradeAggregatorServiceTest {
 
     @Test
     public void givenBuyTradeAndSellTrade_whenAggregationTradeCalculated_thenReturnAvgPrice() {
-        var broker = new Broker().setId(1L).setName("Tinkoff");
-        var buyTrade = new Trade()
-            .setBroker(broker)
+        var buyTrade = new TradeView()
+            .setBrokerId(1L)
+            .setBrokerName("Tinkoff")
             .setQuantity(new BigInteger("100"))
             .setPrice(new BigDecimal("300"))
             .setDate(LocalDate.now().minusDays(30))
             .setOperation(TradeOperation.BUY);
-        var sellTrade = new Trade()
-            .setBroker(broker)
+        var sellTrade = new TradeView()
+            .setBrokerId(1L)
+            .setBrokerName("Tinkoff")
             .setQuantity(new BigInteger("50"))
             .setPrice(new BigDecimal("200"))
             .setDate(LocalDate.now())
@@ -65,33 +69,37 @@ class TradeAggregatorServiceTest {
 
     @Test
     public void givenTradesHistory_whenAggregationTradeCalculated_thenFIFOMethodIsUsed() {
-        var broker = new Broker().setId(1L).setName("Tinkoff");
-        var buyTrade = new Trade()
-            .setBroker(broker)
+        var buyTrade = new TradeView()
+            .setBrokerId(1L)
+            .setBrokerName("Tinkoff")
             .setQuantity(new BigInteger("100"))
             .setPrice(new BigDecimal("300"))
             .setDate(LocalDate.now().minusDays(30))
             .setOperation(TradeOperation.BUY);
-        var buyTrade2 = new Trade()
-            .setBroker(broker)
+        var buyTrade2 = new TradeView()
+            .setBrokerId(1L)
+            .setBrokerName("Tinkoff")
             .setQuantity(new BigInteger("100"))
             .setPrice(new BigDecimal("200"))
             .setDate(LocalDate.now().minusDays(15))
             .setOperation(TradeOperation.BUY);
-        var buyTrade3 = new Trade()
-            .setBroker(broker)
+        var buyTrade3 = new TradeView()
+            .setBrokerId(1L)
+            .setBrokerName("Tinkoff")
             .setQuantity(new BigInteger("100"))
             .setPrice(new BigDecimal("200"))
             .setDate(LocalDate.now().minusDays(5))
             .setOperation(TradeOperation.BUY);
-        var sellTrade = new Trade()
-            .setBroker(broker)
+        var sellTrade = new TradeView()
+            .setBrokerId(1L)
+            .setBrokerName("Tinkoff")
             .setQuantity(new BigInteger("150"))
             .setPrice(new BigDecimal("200"))
             .setDate(LocalDate.now())
             .setOperation(TradeOperation.SELL);
-        var sellTrade2 = new Trade()
-            .setBroker(broker)
+        var sellTrade2 = new TradeView()
+            .setBrokerId(1L)
+            .setBrokerName("Tinkoff")
             .setQuantity(new BigInteger("100"))
             .setPrice(new BigDecimal("200"))
             .setDate(LocalDate.now())
@@ -107,34 +115,37 @@ class TradeAggregatorServiceTest {
 
     @Test
     public void givenTradesHistoryOnDifferentBrokers_whenAggregationTradeCalculated_thenFIFOMethodIsUsedWithBrokerConsideration() {
-        var broker = new Broker().setId(1L).setName("Tinkoff");
-        var broker2 = new Broker().setId(2L).setName("Finam");
-        var buyTrade = new Trade()
-            .setBroker(broker2)
+        var buyTrade = new TradeView()
+            .setBrokerId(2L)
+            .setBrokerName("Finam")
             .setQuantity(new BigInteger("440"))
             .setPrice(new BigDecimal("1029.8"))
             .setDate(LocalDate.now().minusDays(30))
             .setOperation(TradeOperation.BUY);
-        var buyTrade2 = new Trade()
-            .setBroker(broker)
+        var buyTrade2 = new TradeView()
+            .setBrokerId(1L)
+            .setBrokerName("Tinkoff")
             .setQuantity(new BigInteger("30"))
             .setPrice(new BigDecimal("750"))
             .setDate(LocalDate.now().minusDays(15))
             .setOperation(TradeOperation.BUY);
-        var buyTrade3 = new Trade()
-            .setBroker(broker)
+        var buyTrade3 = new TradeView()
+            .setBrokerId(1L)
+            .setBrokerName("Tinkoff")
             .setQuantity(new BigInteger("30"))
             .setPrice(new BigDecimal("699"))
             .setDate(LocalDate.now().minusDays(5))
             .setOperation(TradeOperation.BUY);
-        var buyTrade4 = new Trade()
-            .setBroker(broker)
+        var buyTrade4 = new TradeView()
+            .setBrokerId(1L)
+            .setBrokerName("Tinkoff")
             .setQuantity(new BigInteger("30"))
             .setPrice(new BigDecimal("692"))
             .setDate(LocalDate.now().minusDays(3))
             .setOperation(TradeOperation.BUY);
-        var sellTrade = new Trade()
-            .setBroker(broker)
+        var sellTrade = new TradeView()
+            .setBrokerId(1L)
+            .setBrokerName("Tinkoff")
             .setQuantity(new BigInteger("90"))
             .setPrice(new BigDecimal("688"))
             .setDate(LocalDate.now())
@@ -147,7 +158,7 @@ class TradeAggregatorServiceTest {
 
         assertThat(res.getQuantity()).isEqualByComparingTo(expectedShares);
         assertThat(res.getPrice()).isEqualByComparingTo(expectedPrice);
-        assertThat(res.getInterimTradeResult().closedPnl()).isEqualByComparingTo(expectedPnl);
+        assertThat(res.getClosedPnl()).isEqualByComparingTo(expectedPnl);
     }
 
 }

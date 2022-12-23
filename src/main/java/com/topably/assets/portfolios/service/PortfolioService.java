@@ -63,7 +63,7 @@ public class PortfolioService {
         Currency portfolioCurrency = Currency.getInstance("RUB");
         return holdings.stream()
             //TODO optimize it, calculate not by each holding but rather by all of them
-            .map(h -> portfolioHoldingService.calculateInvestedAmountByHoldingId(h.getId(), h.getCurrency(), portfolioCurrency))
+            .map(h -> portfolioHoldingService.calculateInvestedAmountByHoldingId(h.getId(), portfolioCurrency))
             .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 

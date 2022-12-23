@@ -13,4 +13,6 @@ public interface TradeViewRepository extends JpaRepository<TradeView, Long> {
     Page<TradeView> findByUserId(Long userId, Pageable pageable);
 
     List<TradeView> findAllByUserIdAndDateGreaterThanEqualOrderByDate(Long userId, LocalDate date);
+
+    List<TradeView> findAllByHoldingIdOrderByDate(Long holdingId);
 }

@@ -58,7 +58,7 @@ public class TradeService {
             .setBroker(brokerRepository.getReferenceById(dto.getBrokerId()));
         var savedTrade = tradeRepository.save(trade);
         Long holdingId = holding.getId();
-        var trades = tradeRepository.findAllByPortfolioHolding_IdOrderByDate(holdingId);
+        var trades = tradeViewRepository.findAllByHoldingIdOrderByDate(holdingId);
         var aggregateTrade = tradeAggregatorService.aggregateTrades(trades);
         portfolioHoldingService.updatePortfolioHolding(holdingId, aggregateTrade);
         return TradeDto.builder()
@@ -83,7 +83,7 @@ public class TradeService {
         trade.setBroker(trade.getBroker().getId().equals(dto.getBrokerId()) ? trade.getBroker() : brokerRepository.getById(dto.getBrokerId()));
         var updatedTrade = tradeRepository.save(trade);
         Long holdingId = trade.getPortfolioHolding().getId();
-        var trades = tradeRepository.findAllByPortfolioHolding_IdOrderByDate(holdingId);
+        var trades = tradeViewRepository.findAllByHoldingIdOrderByDate(holdingId);
         var aggregatedTrade = tradeAggregatorService.aggregateTrades(trades);
         portfolioHoldingService.updatePortfolioHolding(holdingId, aggregatedTrade);
         return TradeDto.builder()
@@ -95,7 +95,7 @@ public class TradeService {
         Trade trade = tradeRepository.getById(dto.getTradeId());
         Long holdingId = trade.getPortfolioHolding().getId();
         tradeRepository.delete(trade);
-        var trades = tradeRepository.findAllByPortfolioHolding_IdOrderByDate(holdingId);
+        var trades = tradeViewRepository.findAllByHoldingIdOrderByDate(holdingId);
         AggregatedTradeDto aggregatedTrade = tradeAggregatorService.aggregateTrades(trades);
         if (BigInteger.ZERO.equals(aggregatedTrade.getQuantity())) {
             portfolioHoldingService.deletePortfolioHolding(holdingId);

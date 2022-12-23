@@ -3,6 +3,7 @@ package com.topably.assets.trades.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 import org.hibernate.annotations.Immutable;
 import org.hibernate.annotations.Subselect;
 
@@ -17,10 +18,12 @@ import java.util.Currency;
 
 @Setter
 @Getter
+@Accessors(chain = true)
 @Entity
 @Immutable
 @Subselect("""
     select trade.id,
+           trade.portfolio_holding_id as holding_id,
            s2.id as instrument_id,
            s2.instrument_type,
            p.user_id,
@@ -49,6 +52,8 @@ public class TradeView {
 
     @Id
     private Long id;
+    @JsonIgnore
+    private Long holdingId;
 
     private Long instrumentId;
     private String instrumentType;

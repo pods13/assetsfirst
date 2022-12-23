@@ -13,6 +13,7 @@ import com.topably.assets.portfolios.repository.PortfolioRepository;
 import com.topably.assets.trades.domain.dto.AggregatedTradeDto;
 import com.topably.assets.trades.domain.dto.add.AddTradeDto;
 import com.topably.assets.trades.repository.TradeRepository;
+import com.topably.assets.trades.repository.TradeViewRepository;
 import com.topably.assets.trades.service.TradeAggregatorService;
 import com.topably.assets.xrates.service.currency.CurrencyConverterService;
 import lombok.RequiredArgsConstructor;
@@ -41,7 +42,7 @@ public class PortfolioHoldingService {
 
     private final PortfolioHoldingRepository portfolioHoldingRepository;
     private final PortfolioRepository portfolioRepository;
-    private final TradeRepository tradeRepository;
+    private final TradeViewRepository tradeViewRepository;
 
     private final ExchangeService exchangeService;
     private final CurrencyConverterService currencyConverterService;
@@ -164,14 +165,15 @@ public class PortfolioHoldingService {
         portfolioHoldingRepository.deleteById(holdingId);
     }
 
-    public BigDecimal calculateInvestedAmountByHoldingId(Long holdingId, Currency holdingCurrency, Currency portfolioCurrency) {
-        var trades = tradeRepository.findAllByPortfolioHolding_IdOrderByDate(holdingId);
+    public BigDecimal calculateInvestedAmountByHoldingId(Long holdingId, Currency portfolioCurrency) {
+        var trades = tradeViewRepository.findAllByHoldingIdOrderByDate(holdingId);
         var tradesResult = tradeAggregatorService.aggregateTrades(trades);
-        return tradesResult.getInterimTradeResult().buyTradesData().stream()
+        return tradesResult.getBuyTradesData().values().stream()
+            .flatMap(Collection::stream)
             .map(t -> {
-                BigDecimal total = t.price().multiply(new BigDecimal(t.shares()));
-                return currencyConverterService.convert(total, holdingCurrency, portfolioCurrency,
-                    t.tradeTime().atStartOfDay().toInstant(ZoneOffset.UTC));
+                BigDecimal total = t.getPrice().multiply(new BigDecimal(t.getShares()));
+                return currencyConverterService.convert(total, t.getCurrency(), portfolioCurrency,
+                    t.getTradeTime().atStartOfDay().toInstant(ZoneOffset.UTC));
             })
             .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
