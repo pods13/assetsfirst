@@ -30,7 +30,7 @@ export class DashboardCardStore extends Store<DashboardCardStoreState> {
 
   updateCard(cardToUpdate: DashboardCard) {
     const {dashboardId} = this.state;
-    const cardsNewState = [...this.state.cards.filter(card => card.id !== cardToUpdate.id), {...cardToUpdate}];
+    const cardsNewState = this.state.cards.map(c => c.id === cardToUpdate.id ? cardToUpdate : c);
     this.cardService.updateCards(dashboardId, cardsNewState);
     this.setState({
       ...this.state,
