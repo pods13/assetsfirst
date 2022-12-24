@@ -4,6 +4,7 @@ import com.topably.assets.trades.domain.Trade;
 import com.topably.assets.trades.domain.TradeOperation;
 import com.topably.assets.trades.domain.TradeView;
 import com.topably.assets.trades.domain.broker.Broker;
+import com.topably.assets.trades.repository.TradeViewRepository;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
@@ -12,10 +13,11 @@ import java.time.LocalDate;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.*;
 
 class TradeAggregatorServiceTest {
 
-    private final TradeAggregatorService service = new TradeAggregatorService();
+    private final TradeAggregatorService service = new TradeAggregatorService(mock(TradeViewRepository.class));
 
     @Test
     public void givenTwoBuyTrades_whenAggregationTradeCalculated_thenReturnAvgPrice() {

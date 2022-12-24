@@ -1,5 +1,6 @@
 package com.topably.assets.trades.domain.dto;
 
+import com.topably.assets.core.domain.Ticker;
 import com.topably.assets.trades.domain.TradeView;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,9 +28,9 @@ public class AggregatedTradeDto {
     private BigInteger quantity;
     private BigDecimal price;
     private BigDecimal closedPnl;
-    private Map<BrokerData, LinkedList<TradeData>> buyTradesData;
+    private Collection<TradeData> buyTradesData;
 
-    public record InterimTradeResult(Map<BrokerData, LinkedList<TradeData>> buyTradesData, BigDecimal closedPnl) {
+    public record InterimTradeResult(Collection<TradeData> buyTradesData, BigDecimal closedPnl) {
     }
 
     @Data
@@ -39,15 +40,20 @@ public class AggregatedTradeDto {
         private BigDecimal price;
         private LocalDate tradeTime;
         private Currency currency;
+        private String brokerName;
+        private Long instrumentId;
+        private String instrumentType;
+        private Ticker ticker;
 
         public TradeData(BigInteger shares, BigDecimal price, LocalDate tradeTime, TradeView trade) {
             this.shares = shares;
             this.price = price;
             this.tradeTime = tradeTime;
             this.currency = trade.getCurrency();
+            this.brokerName = trade.getBrokerName();
+            this.instrumentId = trade.getInstrumentId();
+            this.instrumentType = trade.getInstrumentType();
+            this.ticker = new Ticker(trade.getSymbol(), trade.getExchange());
         }
-    }
-
-    public record BrokerData(Long brokerId, String brokerName) {
     }
 }

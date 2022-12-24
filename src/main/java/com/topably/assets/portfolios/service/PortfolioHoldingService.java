@@ -42,7 +42,6 @@ public class PortfolioHoldingService {
 
     private final PortfolioHoldingRepository portfolioHoldingRepository;
     private final PortfolioRepository portfolioRepository;
-    private final TradeViewRepository tradeViewRepository;
 
     private final ExchangeService exchangeService;
     private final CurrencyConverterService currencyConverterService;
@@ -84,6 +83,10 @@ public class PortfolioHoldingService {
                     .price(holding.getAveragePrice())
                     .build();
             }).toList();
+    }
+
+    public Collection<Long> findAllHoldingIdsByPortfolioId(Long portfolioId) {
+        return portfolioHoldingRepository.findAllHoldingIdsByPortfolioId(portfolioId);
     }
 
     @Transactional
@@ -166,10 +169,8 @@ public class PortfolioHoldingService {
     }
 
     public BigDecimal calculateInvestedAmountByHoldingId(Long holdingId, Currency portfolioCurrency) {
-        var trades = tradeViewRepository.findAllByHoldingIdOrderByDate(holdingId);
-        var tradesResult = tradeAggregatorService.aggregateTrades(trades);
-        return tradesResult.getBuyTradesData().values().stream()
-            .flatMap(Collection::stream)
+        var tradesResult = tradeAggregatorService.aggregateTradesByHoldingId(holdingId);
+        return tradesResult.getBuyTradesData().stream()
             .map(t -> {
                 BigDecimal total = t.getPrice().multiply(new BigDecimal(t.getShares()));
                 return currencyConverterService.convert(total, t.getCurrency(), portfolioCurrency,
