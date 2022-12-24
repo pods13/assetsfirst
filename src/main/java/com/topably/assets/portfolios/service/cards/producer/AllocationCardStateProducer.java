@@ -6,6 +6,7 @@ import com.topably.assets.portfolios.domain.cards.CardContainerType;
 import com.topably.assets.portfolios.domain.cards.CardData;
 import com.topably.assets.portfolios.domain.cards.input.allocation.AllocatedByOption;
 import com.topably.assets.portfolios.domain.cards.input.allocation.AllocationAggregatedTrade;
+import com.topably.assets.portfolios.domain.cards.input.allocation.AllocationAggregatedTradeCollector;
 import com.topably.assets.portfolios.domain.cards.input.allocation.AllocationCard;
 import com.topably.assets.portfolios.domain.cards.output.AllocationCardData;
 import com.topably.assets.portfolios.domain.cards.output.AllocationSegment;
@@ -96,7 +97,7 @@ public class AllocationCardStateProducer implements CardStateProducer<Allocation
                         .quantity(t.getShares())
                         .currency(t.getCurrency())
                         .build();
-                }).collect(toList()))));
+                }).collect(new AllocationAggregatedTradeCollector()))));
     }
 
     private Function<AllocationAggregatedTrade, String> getAllocatedByClassifier(AllocatedByOption allocatedBy) {
