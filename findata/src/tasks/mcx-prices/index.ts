@@ -2,26 +2,36 @@
 
 import MoexAPI from 'moex-api';
 import connection from '../../common/connection';
-import { getStocksByCountry } from '../../common/instrument.service';
+import { getInstruments, getStocksByCountry } from '../../common/instrument.service';
 
 const moexApi = new MoexAPI();
 
 async function main() {
-    const securities = await getStocksByCountry('Russia');
+    const instruments = await getInstruments(connection, ['MCX']);
 
-    const whenSecuritiesInserted = securities.map(s => {
-        return moexApi.securityMarketData(s.symbol)
+    const whenSecuritiesInserted = instruments.map(instrument => {
+        return moexApi.securityMarketData(instrument.symbol)
             .then(data => {
                 const {SECID, LAST} = data;
+                if (!LAST) {
+                    console.warn(`Got empty price for ${instrument.symbol}`);
+                    return null;
+                }
                 return {
-                    symbol: `${SECID}.MCX`,
+                    instrument_id: instrument.id,
                     datetime: new Date(),
-                    value: LAST,
-                    currency: 'RUB'
+                    value: LAST
                 };
             })
-            .then(price => connection('instrument_price').insert(price))
-            .then(() => console.log(`${s.symbol} inserted`));
+            .then(res => {
+                if (res) {
+                    return connection('instrument_price').insert(res)
+                        .catch(e => console.error(e))
+                        .then(() => console.log(`${instrument.symbol} inserted`));
+                } else {
+                    return Promise.resolve();
+                }
+            });
     });
 
 

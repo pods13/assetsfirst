@@ -14,10 +14,12 @@
     "import:stocks": "node dist/data-imports",
     "dividends:all": "node dist/stocks/investingcom/fetch-dividends.js",
     "dividends:ru": "node dist/stocks/dohodru/fetch-dividends.js",
-    "prices:ru": "node dist/tasks/mcx-prices/index.js"
+    "prices:ru": "node dist/tasks/mcx-prices/index.js",
+    "prices:global": "node dist/tasks/global-prices/index.js"
   },
   "bin": {
-    "prices-ru": "dist/tasks/mcx-prices/index.js"
+    "prices-ru": "dist/tasks/mcx-prices/index.js",
+    "prices-global": "dist/tasks/global-prices/index.js"
   },
   "keywords": [],
   "author": "",
@@ -42,6 +44,7 @@
     "moex-api": "^1.1.1",
     "mysql2": "^2.3.3",
     "playwright-chromium": "^1.22.2",
-    "tough-cookie": "^4.0.0"
+    "tough-cookie": "^4.0.0",
+    "yahoo-finance2": "^2.3.10"
   }
 }

@@ -1,5 +1,6 @@
 package com.topably.assets.exchanges.domain;
 
+import com.topably.assets.instruments.domain.Instrument;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -9,9 +10,13 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Currency;
@@ -29,12 +34,12 @@ public class InstrumentPrice {
     @GenericGenerator(name = "native", strategy = "native")
     private Long id;
 
-    private String symbol;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "instrument_id", referencedColumnName = "id",
+        foreignKey = @ForeignKey(name = "fk__instrument_price__instrument_id__instrument"))
+    private Instrument instrument;
 
     private LocalDateTime datetime;
 
     private BigDecimal value;
-
-    @Column(columnDefinition = "char")
-    private Currency currency;
 }

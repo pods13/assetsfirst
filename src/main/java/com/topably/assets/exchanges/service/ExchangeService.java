@@ -58,13 +58,9 @@ public class ExchangeService {
     @Cacheable(sync = true)
     @Transactional(propagation = Propagation.REQUIRES_NEW, readOnly = true)
     public Optional<BigDecimal> findSymbolRecentPrice(Ticker ticker) {
-        //TODO refactoring needed as soon as all prices from all exchanges become available in price table
-        if ("MCX".equals(ticker.getExchange())) {
-            return priceRepository.findTopBySymbolOrderByDatetimeDesc(ticker.toString())
-                .map(InstrumentPrice::getValue)
-                .or(() -> findSymbolRecentPriceOnYahoo(ticker));
-        }
-        return findSymbolRecentPriceOnYahoo(ticker);
+        return priceRepository.findTopByTickerOrderByDatetimeDesc(ticker.getSymbol(), ticker.getExchange())
+            .map(InstrumentPrice::getValue)
+            .or(() -> findSymbolRecentPriceOnYahoo(ticker));
     }
 
     private Optional<BigDecimal> findSymbolRecentPriceOnYahoo(Ticker ticker) {
