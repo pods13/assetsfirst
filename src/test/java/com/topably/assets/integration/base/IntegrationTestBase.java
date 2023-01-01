@@ -7,7 +7,8 @@ import org.testcontainers.containers.MySQLContainer;
 
 public abstract class IntegrationTestBase {
 
-    private static final MySQLContainer<?> container = new MySQLContainer<>("mysql:5.7.21");
+    private static final MySQLContainer<?> container = new MySQLContainer<>("mysql:5.7.21")
+        .withCommand("--character-set-server=utf8 --collation-server=utf8_general_ci");
 
     @BeforeAll
     static void run() {
