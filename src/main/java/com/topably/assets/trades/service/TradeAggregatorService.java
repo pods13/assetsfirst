@@ -1,5 +1,6 @@
 package com.topably.assets.trades.service;
 
+import com.topably.assets.instruments.domain.InstrumentType;
 import com.topably.assets.trades.domain.TradeOperation;
 import com.topably.assets.trades.domain.TradeView;
 import com.topably.assets.trades.domain.dto.AggregatedTradeDto;

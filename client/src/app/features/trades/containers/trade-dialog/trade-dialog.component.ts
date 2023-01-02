@@ -1,13 +1,26 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { catchError, debounceTime, distinctUntilChanged, filter, of, ReplaySubject, switchMap, tap } from 'rxjs';
+import {
+  BehaviorSubject,
+  catchError,
+  debounceTime,
+  distinctUntilChanged,
+  filter,
+  map,
+  of,
+  ReplaySubject,
+  switchMap,
+  tap
+} from 'rxjs';
 import { TradingInstrumentService } from '../../services/trading-instrument.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { TradeViewDto } from '../../types/trade-view.dto';
 import { EditTradeDto } from '../../types/edit-trade.dto';
 import { AddTradeDto } from '../../types/add-trade.dto';
 import { BrokerService } from '../../services/broker.service';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
+@UntilDestroy()
 @Component({
   selector: 'app-trade-dialog',
   template: `
@@ -40,6 +53,7 @@ import { BrokerService } from '../../services/broker.service';
         </mat-form-field>
         <app-assign-trade-attributes [trade]="data?.trade"></app-assign-trade-attributes>
       </form>
+      <div class="total">Total: {{total$ | async}}</div>
     </div>
     <div mat-dialog-actions>
       <button mat-button [disabled]="form.invalid" (click)="saveTrade()">Save</button>
@@ -57,6 +71,7 @@ export class TradeDialogComponent implements OnInit {
   filteredInstruments: ReplaySubject<any[]> = new ReplaySubject<any[]>(1);
 
   brokers$ = this.brokerService.getBrokers();
+  total$ = new BehaviorSubject(0.0);
 
   constructor(private fb: FormBuilder,
               private tradingInstrumentService: TradingInstrumentService,
@@ -76,6 +91,11 @@ export class TradeDialogComponent implements OnInit {
       instrumentFilter: this.fb.control(''),
       brokerId: this.fb.control(trade?.brokerId, Validators.compose([Validators.required])),
     });
+    this.form.valueChanges.pipe(untilDestroyed(this),
+      map(({specifics}) => {
+        return specifics.price * specifics.quantity;
+      }))
+      .subscribe(this.total$);
   }
 
   private composeInstrument(trade: TradeViewDto) {
