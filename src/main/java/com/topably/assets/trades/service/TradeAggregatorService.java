@@ -27,8 +27,8 @@ public class TradeAggregatorService {
 
     private final TradeViewRepository tradeViewRepository;
 
-    public AggregatedTradeDto aggregateTradesByHoldingId(Long holdingId) {
-        var trades = tradeViewRepository.findAllByHoldingIdOrderByDate(holdingId);
+    public AggregatedTradeDto aggregateTradesByPositionId(Long positionId) {
+        var trades = tradeViewRepository.findAllByHoldingIdOrderByDate(positionId);
         return aggregateTrades(trades);
     }
 

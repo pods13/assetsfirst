@@ -28,7 +28,7 @@ public class PortfolioService {
     private final UserService userService;
     private final ExchangeService exchangeService;
     private final CurrencyConverterService currencyConverterService;
-    private final PortfolioHoldingService portfolioHoldingService;
+    private final PortfolioPositionService portfolioPositionService;
     private final DividendService dividendService;
 
     public Portfolio createDefaultUserPortfolio(Long userId) {
@@ -47,8 +47,8 @@ public class PortfolioService {
     }
 
     public BigDecimal calculateCurrentAmount(Portfolio portfolio) {
-        var holdings = portfolioHoldingService.findPortfolioHoldings(portfolio.getId());
-        return holdings.stream()
+        var positions = portfolioPositionService.findPortfolioPositions(portfolio.getId());
+        return positions.stream()
             .map(h -> {
                 var marketValue = exchangeService.findSymbolRecentPrice(h.getIdentifier())
                     .map(value -> value.multiply(new BigDecimal(h.getQuantity())))
@@ -59,17 +59,17 @@ public class PortfolioService {
     }
 
     public BigDecimal calculateInvestedAmount(Portfolio portfolio) {
-        var holdings = portfolioHoldingService.findPortfolioHoldings(portfolio.getId());
+        var positions = portfolioPositionService.findPortfolioPositions(portfolio.getId());
         Currency portfolioCurrency = Currency.getInstance("RUB");
-        return holdings.stream()
-            //TODO optimize it, calculate not by each holding but rather by all of them
-            .map(h -> portfolioHoldingService.calculateInvestedAmountByHoldingId(h.getId(), portfolioCurrency))
+        return positions.stream()
+            //TODO optimize it, calculate not by each position but rather by all of them
+            .map(p -> portfolioPositionService.calculateInvestedAmountByPositionId(p.getId(), portfolioCurrency))
             .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
     public BigDecimal calculateAnnualDividend(Portfolio portfolio, Year year) {
-        var holdings = portfolioHoldingService.findPortfolioHoldings(portfolio.getId());
-        return holdings.stream()
+        var positions = portfolioPositionService.findPortfolioPositions(portfolio.getId());
+        return positions.stream()
             .map(h -> {
                 var dividendPerShare = dividendService.calculateAnnualDividend(h.getIdentifier(), year);
                 return currencyConverterService.convert(dividendPerShare.multiply(new BigDecimal(h.getQuantity())), h.getCurrency());

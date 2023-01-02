@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ColumnMode } from '@swimlane/ngx-datatable';
-import { PortfolioHoldingService } from '../../services/portfolio-holding.service';
+import { PortfolioPositionService } from '../../services/portfolio-position.service';
 
 @Component({
-  selector: 'app-holdings-container',
+  selector: 'app-positions-container',
   template: `
-    <ngx-datatable class="material" [rows]="holdings$ | async"
+    <ngx-datatable class="material" [rows]="positions$ | async"
                    [columnMode]="ColumnMode.force"
                    [headerHeight]="headerHeight"
                    [rowHeight]="rowHeight"
@@ -48,10 +48,10 @@ import { PortfolioHoldingService } from '../../services/portfolio-holding.servic
       <ngx-datatable-column [prop]="'realizedPnl'" [name]="'Realized P&L'"></ngx-datatable-column>
     </ngx-datatable>
   `,
-  styleUrls: ['./holdings-container.component.scss'],
+  styleUrls: ['./positions-container.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class HoldingsContainerComponent implements OnInit {
+export class PositionsContainerComponent implements OnInit {
 
   readonly headerHeight = 50;
   readonly footerHeight = 50;
@@ -60,9 +60,9 @@ export class HoldingsContainerComponent implements OnInit {
 
   ColumnMode = ColumnMode;
 
-  holdings$ = this.portfolioHoldingService.getPortfolioHoldingsView();
+  positions$ = this.portfolioPositionService.getPortfolioPositionsView();
 
-  constructor(private portfolioHoldingService: PortfolioHoldingService) {
+  constructor(private portfolioPositionService: PortfolioPositionService) {
   }
 
   ngOnInit(): void {

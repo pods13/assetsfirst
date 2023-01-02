@@ -1,6 +1,6 @@
 import { Ticker } from '../../../core/types/ticker';
 
-export interface PortfolioHoldingView {
+export interface PortfolioPositionView {
   id: number;
   instrumentId: number;
   instrumentType: any;

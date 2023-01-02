@@ -6,14 +6,12 @@ import com.topably.assets.exchanges.service.ExchangeService;
 import com.topably.assets.instruments.domain.Instrument;
 import com.topably.assets.portfolios.domain.Portfolio;
 import com.topably.assets.portfolios.domain.PortfolioHolding;
-import com.topably.assets.portfolios.domain.PortfolioHoldingView;
-import com.topably.assets.portfolios.domain.dto.PortfolioHoldingDto;
-import com.topably.assets.portfolios.repository.PortfolioHoldingRepository;
+import com.topably.assets.portfolios.domain.PortfolioPositionView;
+import com.topably.assets.portfolios.domain.dto.PortfolioPositionDto;
+import com.topably.assets.portfolios.repository.PortfolioPositionRepository;
 import com.topably.assets.portfolios.repository.PortfolioRepository;
 import com.topably.assets.trades.domain.dto.AggregatedTradeDto;
 import com.topably.assets.trades.domain.dto.add.AddTradeDto;
-import com.topably.assets.trades.repository.TradeRepository;
-import com.topably.assets.trades.repository.TradeViewRepository;
 import com.topably.assets.trades.service.TradeAggregatorService;
 import com.topably.assets.xrates.service.currency.CurrencyConverterService;
 import lombok.RequiredArgsConstructor;
@@ -38,9 +36,9 @@ import java.util.stream.IntStream;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class PortfolioHoldingService {
+public class PortfolioPositionService {
 
-    private final PortfolioHoldingRepository portfolioHoldingRepository;
+    private final PortfolioPositionRepository portfolioPositionRepository;
     private final PortfolioRepository portfolioRepository;
 
     private final ExchangeService exchangeService;
@@ -49,19 +47,19 @@ public class PortfolioHoldingService {
     private final TradeAggregatorService tradeAggregatorService;
 
     public Optional<PortfolioHolding> findByUserIdAndInstrumentId(Long userId, Long instrumentId) {
-        return portfolioHoldingRepository.findByPortfolio_User_IdAndInstrument_Id(userId, instrumentId);
+        return portfolioPositionRepository.findByPortfolio_User_IdAndInstrument_Id(userId, instrumentId);
     }
 
-    public PortfolioHolding updatePortfolioHolding(Long holdingId, AggregatedTradeDto dto) {
-        PortfolioHolding holding = portfolioHoldingRepository.getById(holdingId);
-        holding.setQuantity(dto.getQuantity());
-        holding.setAveragePrice(dto.getPrice());
-        return portfolioHoldingRepository.save(holding);
+    public PortfolioHolding updatePortfolioPosition(Long positionId, AggregatedTradeDto dto) {
+        var position = portfolioPositionRepository.getById(positionId);
+        position.setQuantity(dto.getQuantity());
+        position.setAveragePrice(dto.getPrice());
+        return portfolioPositionRepository.save(position);
     }
 
-    public PortfolioHolding createHolding(AddTradeDto dto, Instrument instrument) {
+    public PortfolioHolding createPosition(AddTradeDto dto, Instrument instrument) {
         Portfolio portfolio = portfolioRepository.findByUserId(dto.getUserId());
-        return portfolioHoldingRepository.saveAndFlush(PortfolioHolding.builder()
+        return portfolioPositionRepository.saveAndFlush(PortfolioHolding.builder()
             .portfolio(portfolio)
             .instrument(instrument)
             .quantity(dto.getQuantity())
@@ -69,63 +67,63 @@ public class PortfolioHoldingService {
             .build());
     }
 
-    public Collection<PortfolioHoldingDto> findPortfolioHoldings(Long portfolioId) {
-        return portfolioHoldingRepository.findAllByPortfolioId(portfolioId).stream()
-            .map(holding -> {
-                Instrument instrument = holding.getInstrument();
-                return PortfolioHoldingDto.builder()
-                    .id(holding.getId())
+    public Collection<PortfolioPositionDto> findPortfolioPositions(Long portfolioId) {
+        return portfolioPositionRepository.findAllByPortfolioId(portfolioId).stream()
+            .map(position -> {
+                Instrument instrument = position.getInstrument();
+                return PortfolioPositionDto.builder()
+                    .id(position.getId())
                     .instrumentId(instrument.getId())
                     .instrumentType(instrument.getInstrumentType())
                     .identifier(instrument.toTicker())
                     .currency(instrument.getExchange().getCurrency())
-                    .quantity(holding.getQuantity())
-                    .price(holding.getAveragePrice())
+                    .quantity(position.getQuantity())
+                    .price(position.getAveragePrice())
                     .build();
             }).toList();
     }
 
-    public Collection<Long> findAllHoldingIdsByPortfolioId(Long portfolioId) {
-        return portfolioHoldingRepository.findAllHoldingIdsByPortfolioId(portfolioId);
+    public Collection<Long> findAllPositionIdsByPortfolioId(Long portfolioId) {
+        return portfolioPositionRepository.findAllPositionIdsByPortfolioId(portfolioId);
     }
 
     @Transactional
-    public Collection<PortfolioHoldingDto> findPortfolioHoldingsByUserId(Long userId) {
+    public Collection<PortfolioPositionDto> findPortfolioPositionsByUserId(Long userId) {
         var portfolio = portfolioRepository.findByUserId(userId);
-        return findPortfolioHoldings(portfolio.getId());
+        return findPortfolioPositions(portfolio.getId());
     }
 
     @Transactional
-    public Collection<PortfolioHoldingView> findPortfolioHoldingsView(Long userId) {
+    public Collection<PortfolioPositionView> findPortfolioPositionsView(Long userId) {
         var portfolio = portfolioRepository.findByUserId(userId);
-        var holdings = portfolioHoldingRepository.findAllByPortfolioId(portfolio.getId());
-        var tickerByFinData = collectHoldingFinancialData(holdings);
+        var positions = portfolioPositionRepository.findAllByPortfolioId(portfolio.getId());
+        var tickerByFinData = collectPositionFinancialData(positions);
         var portfolioMarketValue = tickerByFinData.values().stream()
-            .map(PortfolioHoldingFinancialData::convertedMarketValue)
+            .map(PortfolioPositionFinancialData::convertedMarketValue)
             .reduce(BigDecimal.ZERO, BigDecimal::add);
         AtomicReference<BigDecimal> pctTotal = new AtomicReference<>(BigDecimal.ZERO);
-        return IntStream.range(0, holdings.size())
+        return IntStream.range(0, positions.size())
             .mapToObj(i -> {
-                PortfolioHolding holding = holdings.get(i);
-                Instrument instrument = holding.getInstrument();
+                var position = positions.get(i);
+                Instrument instrument = position.getInstrument();
                 Ticker ticker = instrument.toTicker();
                 var finData = tickerByFinData.get(ticker);
                 BigDecimal pctOfPortfolio;
-                if (i == holdings.size() - 1) {
+                if (i == positions.size() - 1) {
                     pctOfPortfolio = BigDecimal.valueOf(100).subtract(pctTotal.get());
                 } else {
                     pctOfPortfolio = BigDecimal.valueOf(100).multiply(finData.convertedMarketValue())
                         .divide(portfolioMarketValue, 2, RoundingMode.HALF_EVEN);
                 }
                 pctTotal.getAndAccumulate(pctOfPortfolio, BigDecimal::add);
-                return PortfolioHoldingView.builder()
-                    .id(holding.getId())
+                return PortfolioPositionView.builder()
+                    .id(position.getId())
                     .instrumentId(instrument.getId())
                     .instrumentType(instrument.getInstrumentType())
                     .identifier(ticker)
                     .currencySymbol(instrument.getExchange().getCurrency().getSymbol())
-                    .quantity(holding.getQuantity())
-                    .price(holding.getAveragePrice())
+                    .quantity(position.getQuantity())
+                    .price(position.getAveragePrice())
                     .pctOfPortfolio(pctOfPortfolio)
                     .marketValue(finData.marketValue())
                     .yieldOnCost(finData.yieldOnCost)
@@ -133,43 +131,43 @@ public class PortfolioHoldingService {
             }).collect(Collectors.toList());
     }
 
-    private Map<Ticker, PortfolioHoldingFinancialData> collectHoldingFinancialData(List<PortfolioHolding> holdings) {
-        return holdings.stream()
-            .map(holding -> {
-                Instrument instrument = holding.getInstrument();
+    private Map<Ticker, PortfolioPositionFinancialData> collectPositionFinancialData(List<PortfolioHolding> positions) {
+        return positions.stream()
+            .map(position -> {
+                Instrument instrument = position.getInstrument();
                 Currency currency = instrument.getExchange().getCurrency();
                 Ticker ticker = instrument.toTicker();
                 var marketValue = exchangeService.findSymbolRecentPrice(ticker)
-                    .map(value -> value.multiply(new BigDecimal(holding.getQuantity())))
-                    .orElse(holding.getTotal());
+                    .map(value -> value.multiply(new BigDecimal(position.getQuantity())))
+                    .orElse(position.getTotal());
                 var convertedMarketValue = currencyConverterService.convert(marketValue, currency);
 
-                return new PortfolioHoldingFinancialData(ticker, marketValue, convertedMarketValue,
-                    calculateYieldOnCost(holding));
+                return new PortfolioPositionFinancialData(ticker, marketValue, convertedMarketValue,
+                    calculateYieldOnCost(position));
             })
-            .collect(Collectors.toMap(PortfolioHoldingFinancialData::ticker, Function.identity()));
+            .collect(Collectors.toMap(PortfolioPositionFinancialData::ticker, Function.identity()));
     }
 
-    private BigDecimal calculateYieldOnCost(PortfolioHolding holding) {
-        var annualDividend = dividendService.calculateAnnualDividend(holding.getInstrument().toTicker(), Year.now());
-        return Optional.ofNullable(holding.getAveragePrice())
+    private BigDecimal calculateYieldOnCost(PortfolioHolding position) {
+        var annualDividend = dividendService.calculateAnnualDividend(position.getInstrument().toTicker(), Year.now());
+        return Optional.ofNullable(position.getAveragePrice())
             .filter(price -> price.compareTo(BigDecimal.ZERO) > 0)
             .map(price -> BigDecimal.valueOf(100).multiply(annualDividend).divide(price, RoundingMode.HALF_EVEN))
             .orElse(BigDecimal.ZERO);
     }
 
-    private record PortfolioHoldingFinancialData(Ticker ticker, BigDecimal marketValue,
-                                                 BigDecimal convertedMarketValue,
-                                                 BigDecimal yieldOnCost) {
+    private record PortfolioPositionFinancialData(Ticker ticker, BigDecimal marketValue,
+                                                  BigDecimal convertedMarketValue,
+                                                  BigDecimal yieldOnCost) {
 
     }
 
-    public void deletePortfolioHolding(Long holdingId) {
-        portfolioHoldingRepository.deleteById(holdingId);
+    public void deletePortfolioPosition(Long positionId) {
+        portfolioPositionRepository.deleteById(positionId);
     }
 
-    public BigDecimal calculateInvestedAmountByHoldingId(Long holdingId, Currency portfolioCurrency) {
-        var tradesResult = tradeAggregatorService.aggregateTradesByHoldingId(holdingId);
+    public BigDecimal calculateInvestedAmountByPositionId(Long positionId, Currency portfolioCurrency) {
+        var tradesResult = tradeAggregatorService.aggregateTradesByPositionId(positionId);
         return tradesResult.getBuyTradesData().stream()
             .map(t -> {
                 BigDecimal total = t.getPrice().multiply(new BigDecimal(t.getShares()));

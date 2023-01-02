@@ -23,8 +23,8 @@ const routes: Routes = [
         loadChildren: () => import('./features/portfolios/portfolios.module').then(m => m.PortfoliosModule)
       },
       {
-        path: 'holdings',
-        loadChildren: () => import('./features/holdings/portfolio-holdings.module').then(m => m.PortfolioHoldingsModule)
+        path: 'positions',
+        loadChildren: () => import('./features/positions/portfolio-positions.module').then(m => m.PortfolioPositionsModule)
       }
     ]
   }

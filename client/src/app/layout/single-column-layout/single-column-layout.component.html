@@ -6,7 +6,7 @@
     <mat-toolbar>Menu</mat-toolbar>
     <mat-nav-list>
       <a mat-list-item routerLink="/app/portfolio" (click)="sidenav.close()">Portfolio</a>
-      <a mat-list-item routerLink="/app/holdings" (click)="sidenav.close()">Holdings</a>
+      <a mat-list-item routerLink="/app/positions" (click)="sidenav.close()">Positions</a>
       <a mat-list-item routerLink="/app/trades" (click)="sidenav.close()">Trades</a>
       <a mat-list-item (click)="logout()">Logout</a>
     </mat-nav-list>
@@ -21,7 +21,7 @@
       <span class="fill-space"></span>
       <div *ngIf="!(isHandset$ | async)" class="top-nav">
         <a routerLink="/app/portfolio" mat-button>Portfolio</a>
-        <a routerLink="/app/holdings" mat-button>Holdings</a>
+        <a routerLink="/app/positions" mat-button>Positions</a>
         <a routerLink="/app/trades" mat-button>Trades</a>
         <a (click)="logout()" mat-button>Logout</a>
       </div>

@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 import java.util.Optional;
 
-public interface PortfolioHoldingRepository extends JpaRepository<PortfolioHolding, Long> {
+public interface PortfolioPositionRepository extends JpaRepository<PortfolioHolding, Long> {
 
     Optional<PortfolioHolding> findByPortfolio_User_IdAndInstrument_Id(Long userId, Long instrumentId);
 
@@ -16,5 +16,5 @@ public interface PortfolioHoldingRepository extends JpaRepository<PortfolioHoldi
     List<PortfolioHolding> findAllByPortfolioId(Long portfolioId);
 
     @Query("select h.id from PortfolioHolding h")
-    List<Long> findAllHoldingIdsByPortfolioId(Long portfolioId);
+    List<Long> findAllPositionIdsByPortfolioId(Long portfolioId);
 }

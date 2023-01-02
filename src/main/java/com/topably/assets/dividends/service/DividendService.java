@@ -135,7 +135,7 @@ public class DividendService {
     public Collection<AggregatedDividendDto> aggregateDividends(Collection<Trade> trades, Collection<Integer> dividendYears) {
         var groupedTrades = trades.stream()
             .collect(groupingBy(trade -> {
-                Instrument instrument = trade.getPortfolioHolding().getInstrument();
+                var instrument = trade.getPortfolioHolding().getInstrument();
                 return new Ticker(instrument.getTicker(), instrument.getExchange().getCode());
             }));
 

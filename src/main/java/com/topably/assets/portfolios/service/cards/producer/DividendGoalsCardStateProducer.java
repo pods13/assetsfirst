@@ -8,8 +8,8 @@ import com.topably.assets.portfolios.domain.cards.CardData;
 import com.topably.assets.portfolios.domain.cards.input.DividendGoalsCard;
 import com.topably.assets.portfolios.domain.cards.output.dividend.goal.DividendGoalsCardData;
 import com.topably.assets.portfolios.domain.cards.output.dividend.goal.PositionItem;
-import com.topably.assets.portfolios.domain.dto.PortfolioHoldingDto;
-import com.topably.assets.portfolios.service.PortfolioHoldingService;
+import com.topably.assets.portfolios.domain.dto.PortfolioPositionDto;
+import com.topably.assets.portfolios.service.PortfolioPositionService;
 import com.topably.assets.portfolios.service.cards.CardStateProducer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -28,12 +28,12 @@ import static java.util.stream.Collectors.toList;
 public class DividendGoalsCardStateProducer implements CardStateProducer<DividendGoalsCard> {
 
     private final DividendService dividendService;
-    private final PortfolioHoldingService portfolioHoldingService;
+    private final PortfolioPositionService portfolioPositionService;
 
     @Override
     public CardData produce(Portfolio portfolio, DividendGoalsCard card) {
-        var holdingDtos = portfolioHoldingService.findPortfolioHoldings(portfolio.getId());
-        var items = holdingDtos.stream()
+        var positionDtos = portfolioPositionService.findPortfolioPositions(portfolio.getId());
+        var items = positionDtos.stream()
             .filter(h -> h.getQuantity().compareTo(BigInteger.ZERO) > 0)
             .map(h -> this.convertToPositionItems(h, card))
             .filter(p -> p.getCurrentYield().compareTo(BigDecimal.ZERO) > 0)
@@ -43,9 +43,9 @@ public class DividendGoalsCardStateProducer implements CardStateProducer<Dividen
             .build();
     }
 
-    private PositionItem convertToPositionItems(PortfolioHoldingDto holding, DividendGoalsCard card) {
-        var averagePrice = holding.getPrice();
-        Ticker ticker = holding.getIdentifier();
+    private PositionItem convertToPositionItems(PortfolioPositionDto position, DividendGoalsCard card) {
+        var averagePrice = position.getPrice();
+        Ticker ticker = position.getIdentifier();
         var annualDividend = dividendService.calculateAnnualDividend(ticker, Year.now());
         var currentYield = annualDividend.multiply(BigDecimal.valueOf(100)).divide(averagePrice, 2, RoundingMode.HALF_EVEN);
 

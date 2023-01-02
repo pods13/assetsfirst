@@ -55,7 +55,7 @@ public class ExchangeService {
             useDefaultInstrumentTypesIfNull(instrumentTypes), inAnyPortfolio);
     }
 
-    @Cacheable(sync = true)
+    @Cacheable
     @Transactional(propagation = Propagation.REQUIRES_NEW, readOnly = true)
     public Optional<BigDecimal> findSymbolRecentPrice(Ticker ticker) {
         return priceRepository.findTopByTickerOrderByDatetimeDesc(ticker.getSymbol(), ticker.getExchange())

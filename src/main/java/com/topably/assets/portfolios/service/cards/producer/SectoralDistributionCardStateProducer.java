@@ -9,8 +9,8 @@ import com.topably.assets.portfolios.domain.cards.CardData;
 import com.topably.assets.portfolios.domain.cards.input.SectoralDistributionCard;
 import com.topably.assets.portfolios.domain.cards.output.SectoralDistributionCardData;
 import com.topably.assets.portfolios.domain.cards.output.SectoralDistributionDataItem;
-import com.topably.assets.portfolios.domain.dto.PortfolioHoldingDto;
-import com.topably.assets.portfolios.service.PortfolioHoldingService;
+import com.topably.assets.portfolios.domain.dto.PortfolioPositionDto;
+import com.topably.assets.portfolios.service.PortfolioPositionService;
 import com.topably.assets.portfolios.service.cards.CardStateProducer;
 import com.topably.assets.xrates.service.currency.CurrencyConverterService;
 import lombok.RequiredArgsConstructor;
@@ -35,23 +35,23 @@ public class SectoralDistributionCardStateProducer implements CardStateProducer<
     private final StockService stockService;
     private final CurrencyConverterService currencyConverterService;
 
-    private final PortfolioHoldingService portfolioHoldingService;
+    private final PortfolioPositionService portfolioPositionService;
 
     @Override
     public CardData produce(Portfolio portfolio, SectoralDistributionCard card) {
-        var holdingDtos = portfolioHoldingService.findPortfolioHoldings(portfolio.getId())
+        var positionDtos = portfolioPositionService.findPortfolioPositions(portfolio.getId())
             .stream().filter(dto -> InstrumentType.STOCK.name().equals(dto.getInstrumentType()))
             .toList();
-        var stockIdByHolding = holdingDtos.stream()
-            .collect(toMap(PortfolioHoldingDto::getInstrumentId, Function.identity()));
+        var stockIdByPosition = positionDtos.stream()
+            .collect(toMap(PortfolioPositionDto::getInstrumentId, Function.identity()));
 
         return SectoralDistributionCardData.builder()
-            .items(composeDataItems(stockIdByHolding))
+            .items(composeDataItems(stockIdByPosition))
             .build();
     }
 
-    private Collection<SectoralDistributionDataItem> composeDataItems(Map<Long, PortfolioHoldingDto> stockIdByHolding) {
-        var stocks = stockService.findAllById(stockIdByHolding.keySet());
+    private Collection<SectoralDistributionDataItem> composeDataItems(Map<Long, PortfolioPositionDto> stockIdByPosition) {
+        var stocks = stockService.findAllById(stockIdByPosition.keySet());
         var companyNameByStockIds = stocks.stream()
             .collect(groupingBy(s -> s.getCompany().getName(), mapping(Instrument::getId, toSet())));
         var companyGroupings = stocks.stream()
@@ -68,8 +68,8 @@ public class SectoralDistributionCardStateProducer implements CardStateProducer<
                 var children = names.stream()
                     .map(name -> {
                         BigDecimal total = companyNameByStockIds.get(name).stream()
-                            .map(stockIdByHolding::get)
-                            .map(holding -> currencyConverterService.convert(holding.getTotal(), holding.getCurrency()))
+                            .map(stockIdByPosition::get)
+                            .map(position -> currencyConverterService.convert(position.getTotal(), position.getCurrency()))
                             .reduce(BigDecimal.ZERO, BigDecimal::add);
                         return composeLeafItem(name, total);
                     })
