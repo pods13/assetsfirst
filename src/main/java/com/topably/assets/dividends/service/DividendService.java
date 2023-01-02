@@ -135,7 +135,7 @@ public class DividendService {
     public Collection<AggregatedDividendDto> aggregateDividends(Collection<Trade> trades, Collection<Integer> dividendYears) {
         var groupedTrades = trades.stream()
             .collect(groupingBy(trade -> {
-                var instrument = trade.getPortfolioHolding().getInstrument();
+                var instrument = trade.getPortfolioPosition().getInstrument();
                 return new Ticker(instrument.getTicker(), instrument.getExchange().getCode());
             }));
 
@@ -152,7 +152,7 @@ public class DividendService {
         var quantity = BigInteger.ZERO;
         var aggregatedDividends = new ArrayList<AggregatedDividendDto>();
         var trades = tradesByTicker.getValue();
-        var currency = trades.iterator().hasNext() ? trades.iterator().next().getPortfolioHolding().getInstrument().getExchange().getCurrency() : null;
+        var currency = trades.iterator().hasNext() ? trades.iterator().next().getPortfolioPosition().getInstrument().getExchange().getCurrency() : null;
         int index = 0;
         for (Dividend dividend : dividendRepository.findDividendsByYears(ticker, dividendYears)) {
             for (; index < trades.size(); index++) {

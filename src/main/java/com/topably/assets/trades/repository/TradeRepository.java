@@ -11,9 +11,9 @@ public interface TradeRepository extends JpaRepository<Trade, Long> {
     @Query(value = """
         select t.*, i.*, e.*
         from trade t
-                 join portfolio_holding ph on ph.id = t.portfolio_holding_id
-                 join portfolio p on p.id = ph.portfolio_id and p.id = :portfolioId
-                 join instrument i on i.id = ph.instrument_id
+                 join portfolio_position pos on pos.id = t.portfolio_position_id
+                 join portfolio p on p.id = pos.portfolio_id and p.id = :portfolioId
+                 join instrument i on i.id = pos.instrument_id
                  join exchange e on e.id = i.exchange_id
         where exists(select d.id
                      from dividend d
@@ -28,15 +28,13 @@ public interface TradeRepository extends JpaRepository<Trade, Long> {
 
     @Query(value = """
         select t from Trade t
-        join fetch t.portfolioHolding ph
-        join fetch ph.instrument i
+        join fetch t.portfolioPosition pos
+        join fetch pos.instrument i
         join fetch i.exchange exch
         join fetch t.broker br
-        join ph.portfolio p
+        join pos.portfolio p
         join p.user u
         where u.id = :userId
         """)
     Collection<Trade> findAllByUserId(Long userId);
-
-    Collection<Trade> findAllByPortfolioHolding_IdOrderByDate(Long holdingId);
 }

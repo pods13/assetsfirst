@@ -42,7 +42,7 @@ public class TradeService {
         var position = portfolioPositionService.findByUserIdAndInstrumentId(dto.getUserId(), dto.getInstrumentId())
             .orElseGet(() -> portfolioPositionService.createPosition(dto, tradedInstrument));
         var trade = new Trade()
-            .setPortfolioHolding(position)
+            .setPortfolioPosition(position)
             .setOperation(dto.getOperation())
             .setPrice(dto.getPrice())
             .setQuantity(dto.getQuantity())
@@ -73,7 +73,7 @@ public class TradeService {
         trade.setQuantity(trade.getQuantity().equals(dto.getQuantity()) ? trade.getQuantity() : dto.getQuantity());
         trade.setBroker(trade.getBroker().getId().equals(dto.getBrokerId()) ? trade.getBroker() : brokerRepository.getById(dto.getBrokerId()));
         var updatedTrade = tradeRepository.save(trade);
-        Long positionId = trade.getPortfolioHolding().getId();
+        Long positionId = trade.getPortfolioPosition().getId();
         var aggregatedTrade = tradeAggregatorService.aggregateTradesByPositionId(positionId);
         portfolioPositionService.updatePortfolioPosition(positionId, aggregatedTrade);
         return TradeDto.builder()
@@ -83,7 +83,7 @@ public class TradeService {
 
     public void deleteTrade(DeleteTradeDto dto, Instrument tradedInstrument) {
         Trade trade = tradeRepository.getById(dto.getTradeId());
-        Long positionId = trade.getPortfolioHolding().getId();
+        Long positionId = trade.getPortfolioPosition().getId();
         tradeRepository.delete(trade);
         var aggregatedTrade = tradeAggregatorService.aggregateTradesByPositionId(positionId);
         if (BigInteger.ZERO.equals(aggregatedTrade.getQuantity())) {

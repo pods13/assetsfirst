@@ -1,9 +1,8 @@
 package com.topably.assets.trades.domain;
 
-import com.topably.assets.portfolios.domain.PortfolioHolding;
+import com.topably.assets.portfolios.domain.PortfolioPosition;
 import com.topably.assets.trades.domain.broker.Broker;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -38,9 +37,9 @@ public class Trade {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "portfolio_holding_id", referencedColumnName = "ID",
-        foreignKey = @ForeignKey(name = "fk__trade__portfolio_holding_id__portfolio_holding"))
-    private PortfolioHolding portfolioHolding;
+    @JoinColumn(name = "portfolio_position_id", referencedColumnName = "ID",
+        foreignKey = @ForeignKey(name = "fk__trade__portfolio_position_id__portfolio_position"))
+    private PortfolioPosition portfolioPosition;
 
     private LocalDate date;
 

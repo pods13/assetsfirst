@@ -5,7 +5,7 @@ import com.topably.assets.dividends.service.DividendService;
 import com.topably.assets.exchanges.service.ExchangeService;
 import com.topably.assets.instruments.domain.Instrument;
 import com.topably.assets.portfolios.domain.Portfolio;
-import com.topably.assets.portfolios.domain.PortfolioHolding;
+import com.topably.assets.portfolios.domain.PortfolioPosition;
 import com.topably.assets.portfolios.domain.PortfolioPositionView;
 import com.topably.assets.portfolios.domain.dto.PortfolioPositionDto;
 import com.topably.assets.portfolios.repository.PortfolioPositionRepository;
@@ -46,20 +46,20 @@ public class PortfolioPositionService {
     private final DividendService dividendService;
     private final TradeAggregatorService tradeAggregatorService;
 
-    public Optional<PortfolioHolding> findByUserIdAndInstrumentId(Long userId, Long instrumentId) {
+    public Optional<PortfolioPosition> findByUserIdAndInstrumentId(Long userId, Long instrumentId) {
         return portfolioPositionRepository.findByPortfolio_User_IdAndInstrument_Id(userId, instrumentId);
     }
 
-    public PortfolioHolding updatePortfolioPosition(Long positionId, AggregatedTradeDto dto) {
+    public PortfolioPosition updatePortfolioPosition(Long positionId, AggregatedTradeDto dto) {
         var position = portfolioPositionRepository.getById(positionId);
         position.setQuantity(dto.getQuantity());
         position.setAveragePrice(dto.getPrice());
         return portfolioPositionRepository.save(position);
     }
 
-    public PortfolioHolding createPosition(AddTradeDto dto, Instrument instrument) {
+    public PortfolioPosition createPosition(AddTradeDto dto, Instrument instrument) {
         Portfolio portfolio = portfolioRepository.findByUserId(dto.getUserId());
-        return portfolioPositionRepository.saveAndFlush(PortfolioHolding.builder()
+        return portfolioPositionRepository.saveAndFlush(PortfolioPosition.builder()
             .portfolio(portfolio)
             .instrument(instrument)
             .quantity(dto.getQuantity())
@@ -131,7 +131,7 @@ public class PortfolioPositionService {
             }).collect(Collectors.toList());
     }
 
-    private Map<Ticker, PortfolioPositionFinancialData> collectPositionFinancialData(List<PortfolioHolding> positions) {
+    private Map<Ticker, PortfolioPositionFinancialData> collectPositionFinancialData(List<PortfolioPosition> positions) {
         return positions.stream()
             .map(position -> {
                 Instrument instrument = position.getInstrument();
@@ -148,7 +148,7 @@ public class PortfolioPositionService {
             .collect(Collectors.toMap(PortfolioPositionFinancialData::ticker, Function.identity()));
     }
 
-    private BigDecimal calculateYieldOnCost(PortfolioHolding position) {
+    private BigDecimal calculateYieldOnCost(PortfolioPosition position) {
         var annualDividend = dividendService.calculateAnnualDividend(position.getInstrument().toTicker(), Year.now());
         return Optional.ofNullable(position.getAveragePrice())
             .filter(price -> price.compareTo(BigDecimal.ZERO) > 0)

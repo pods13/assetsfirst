@@ -26,7 +26,7 @@ import java.math.BigInteger;
 @AllArgsConstructor
 @Builder
 @Entity
-public class PortfolioHolding {
+public class PortfolioPosition {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
@@ -35,12 +35,12 @@ public class PortfolioHolding {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "portfolio_id", referencedColumnName = "ID",
-        foreignKey = @ForeignKey(name = "fk__portfolio_holding__portfolio_id__portfolio"))
+        foreignKey = @ForeignKey(name = "fk__portfolio_position__portfolio_id__portfolio"))
     private Portfolio portfolio;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "instrument_id", referencedColumnName = "ID",
-        foreignKey = @ForeignKey(name = "fk__portfolio_holding__instrument_id__instrument"))
+        foreignKey = @ForeignKey(name = "fk__portfolio_position__instrument_id__instrument"))
     private Instrument instrument;
 
     @Column(name = "quantity", precision = 12, scale = 0)
