@@ -64,6 +64,12 @@ public class ExchangeDataLoader implements CommandLineRunner {
             .countryCode("HK")
             .currency(Currency.getInstance("HKD"))
             .build());
+        exchanges.add(Exchange.builder()
+            .name("Forex IDC")
+            .code("FX_IDC")
+            .countryCode("GLOBE")
+            .currency(Currency.getInstance("USD"))
+            .build());
         exchangeRepository.saveAll(exchanges);
     }
 }

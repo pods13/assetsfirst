@@ -25,75 +25,20 @@ import java.util.Collection;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class TradeService {
 
     private final TradeRepository tradeRepository;
     private final TradeViewRepository tradeViewRepository;
-    private final BrokerRepository brokerRepository;
-
-    private final PortfolioPositionService portfolioPositionService;
-    private final TradeAggregatorService tradeAggregatorService;
 
     public Collection<Trade> findDividendPayingTrades(Long portfolioId, Collection<Integer> dividendYears) {
         return tradeRepository.findDividendPayingTradesOrderByTradeDate(portfolioId, dividendYears);
     }
 
-    public TradeDto addTrade(AddTradeDto dto, Instrument tradedInstrument) {
-        var position = portfolioPositionService.findByUserIdAndInstrumentId(dto.getUserId(), dto.getInstrumentId())
-            .orElseGet(() -> portfolioPositionService.createPosition(dto, tradedInstrument));
-        var trade = new Trade()
-            .setPortfolioPosition(position)
-            .setOperation(dto.getOperation())
-            .setPrice(dto.getPrice())
-            .setQuantity(dto.getQuantity())
-            .setDate(dto.getDate())
-            .setBroker(brokerRepository.getReferenceById(dto.getBrokerId()));
-        var savedTrade = tradeRepository.save(trade);
-        Long positionId = position.getId();
-        var aggregatedTrade = tradeAggregatorService.aggregateTradesByPositionId(positionId);
-        portfolioPositionService.updatePortfolioPosition(positionId, aggregatedTrade);
-        return TradeDto.builder()
-            .id(savedTrade.getId())
-            .build();
-    }
-
-    @Transactional(readOnly = true)
     public Page<TradeView> getUserTrades(Long userId, Pageable pageable) {
         return tradeViewRepository.findByUserId(userId, pageable);
     }
 
-    public Collection<Trade> findTradesByUserId(Long userId) {
-        return tradeRepository.findAllByUserId(userId);
-    }
-
-    public TradeDto editTrade(EditTradeDto dto, Instrument tradedInstrument) {
-        Trade trade = tradeRepository.getById(dto.getTradeId());
-        trade.setDate(trade.getDate().equals(dto.getDate()) ? trade.getDate() : dto.getDate());
-        trade.setPrice(trade.getPrice().equals(dto.getPrice()) ? trade.getPrice() : dto.getPrice());
-        trade.setQuantity(trade.getQuantity().equals(dto.getQuantity()) ? trade.getQuantity() : dto.getQuantity());
-        trade.setBroker(trade.getBroker().getId().equals(dto.getBrokerId()) ? trade.getBroker() : brokerRepository.getById(dto.getBrokerId()));
-        var updatedTrade = tradeRepository.save(trade);
-        Long positionId = trade.getPortfolioPosition().getId();
-        var aggregatedTrade = tradeAggregatorService.aggregateTradesByPositionId(positionId);
-        portfolioPositionService.updatePortfolioPosition(positionId, aggregatedTrade);
-        return TradeDto.builder()
-            .id(updatedTrade.getId())
-            .build();
-    }
-
-    public void deleteTrade(DeleteTradeDto dto, Instrument tradedInstrument) {
-        Trade trade = tradeRepository.getById(dto.getTradeId());
-        Long positionId = trade.getPortfolioPosition().getId();
-        tradeRepository.delete(trade);
-        var aggregatedTrade = tradeAggregatorService.aggregateTradesByPositionId(positionId);
-        if (BigInteger.ZERO.equals(aggregatedTrade.getQuantity())) {
-            portfolioPositionService.deletePortfolioPosition(positionId);
-        } else {
-            portfolioPositionService.updatePortfolioPosition(positionId, aggregatedTrade);
-        }
-    }
-
-    @Transactional(readOnly = true)
     public Collection<TradeView> getUserTradesForCurrentYear(Portfolio portfolio) {
         var firstDayOfCurrentYear = LocalDate.now().with(TemporalAdjusters.firstDayOfYear());
         return tradeViewRepository.findAllByUserIdAndDateGreaterThanEqualOrderByDate(portfolio.getUser().getId(), firstDayOfCurrentYear);

@@ -76,7 +76,7 @@ public class PortfolioPositionService {
                     .instrumentId(instrument.getId())
                     .instrumentType(instrument.getInstrumentType())
                     .identifier(instrument.toTicker())
-                    .currency(instrument.getExchange().getCurrency())
+                    .currency(instrument.getCurrency())
                     .quantity(position.getQuantity())
                     .price(position.getAveragePrice())
                     .build();
@@ -121,7 +121,7 @@ public class PortfolioPositionService {
                     .instrumentId(instrument.getId())
                     .instrumentType(instrument.getInstrumentType())
                     .identifier(ticker)
-                    .currencySymbol(instrument.getExchange().getCurrency().getSymbol())
+                    .currencySymbol(instrument.getCurrency().getSymbol())
                     .quantity(position.getQuantity())
                     .price(position.getAveragePrice())
                     .pctOfPortfolio(pctOfPortfolio)
@@ -134,8 +134,8 @@ public class PortfolioPositionService {
     private Map<Ticker, PortfolioPositionFinancialData> collectPositionFinancialData(List<PortfolioPosition> positions) {
         return positions.stream()
             .map(position -> {
-                Instrument instrument = position.getInstrument();
-                Currency currency = instrument.getExchange().getCurrency();
+                var instrument = position.getInstrument();
+                var currency = instrument.getCurrency();
                 Ticker ticker = instrument.toTicker();
                 var marketValue = exchangeService.findSymbolRecentPrice(ticker)
                     .map(value -> value.multiply(new BigDecimal(position.getQuantity())))

@@ -25,6 +25,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import java.util.Currency;
 import java.util.Map;
 
 @Setter
@@ -54,6 +55,9 @@ public abstract class Instrument {
 
     @Column(name = "TICKER")
     private String ticker;
+
+    @Column(columnDefinition = "char")
+    private Currency currency;
 
     @Singular
     @Column(name = "ATTRIBUTES", columnDefinition = "json")

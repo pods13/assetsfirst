@@ -5,34 +5,32 @@ import com.topably.assets.trades.domain.dto.DeleteTradeDto;
 import com.topably.assets.trades.domain.dto.EditTradeDto;
 import com.topably.assets.trades.domain.dto.TradeDto;
 import com.topably.assets.trades.domain.dto.add.AddTradeDto;
-import com.topably.assets.trades.service.TradeService;
+import com.topably.assets.trades.service.TradeManagementService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class FXTradeService implements InstrumentTradeService {
 
     private final FXRepository fxRepository;
-    private final TradeService tradeService;
+    private final TradeManagementService tradeManagementService;
 
     @Override
-    @Transactional
     public TradeDto addTrade(AddTradeDto dto) {
-        return tradeService.addTrade(dto, fxRepository.getById(dto.getInstrumentId()));
+        return tradeManagementService.addTrade(dto, fxRepository.getById(dto.getInstrumentId()));
     }
 
     @Override
-    @Transactional
     public TradeDto editTrade(EditTradeDto dto) {
-        return tradeService.editTrade(dto, fxRepository.getById(dto.getInstrumentId()));
+        return tradeManagementService.editTrade(dto, fxRepository.getById(dto.getInstrumentId()));
 
     }
 
     @Override
-    @Transactional
     public void deleteTrade(DeleteTradeDto dto) {
-        tradeService.deleteTrade(dto, fxRepository.getById(dto.getInstrumentId()));
+        tradeManagementService.deleteTrade(dto, fxRepository.getById(dto.getInstrumentId()));
     }
 }

@@ -4,6 +4,7 @@ import com.topably.assets.companies.domain.dto.CompanyDto;
 import com.topably.assets.companies.repository.CompanyRepository;
 import com.topably.assets.companies.service.CompanyService;
 import com.topably.assets.core.domain.Ticker;
+import com.topably.assets.exchanges.domain.Exchange;
 import com.topably.assets.exchanges.repository.ExchangeRepository;
 import com.topably.assets.instruments.domain.dto.StockDataDto;
 import com.topably.assets.instruments.domain.dto.StockDto;
@@ -44,10 +45,12 @@ public class StockServiceImpl implements StockService {
         CompanyDto companyDto = companyService.findCompanyByName(dto.getCompany().getName()).orElseGet(() -> {
             return companyService.addCompany(dto.getCompany());
         });
+        var exchange = exchangeRepository.findByCode(dto.getIdentifier().getExchange());
         Stock stock = stockRepository.save(Stock.builder()
             .company(companyRepository.getById(companyDto.getId()))
             .ticker(dto.getIdentifier().getSymbol())
-            .exchange(exchangeRepository.findByCode(dto.getIdentifier().getExchange()))
+            .exchange(exchange)
+            .currency(exchange.getCurrency())
             .build());
         return convertToDto(stock);
     }

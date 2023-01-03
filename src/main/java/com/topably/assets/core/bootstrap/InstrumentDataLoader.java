@@ -213,6 +213,7 @@ public class InstrumentDataLoader implements CommandLineRunner {
 
     private void addFXInstruments() {
         Exchange mcx = exchangeRepository.findByCode("MCX");
+        Exchange fxIDC = exchangeRepository.findByCode("FX_IDC");
         var usdrub_tom = FX.builder()
             .exchange(mcx)
             .ticker("USDRUB_TOM")
@@ -233,6 +234,10 @@ public class InstrumentDataLoader implements CommandLineRunner {
             .exchange(mcx)
             .ticker("GLDRUB_TOM")
             .build();
-        fxRepository.saveAll(List.of(usdrub_tom, eurrub_tom, cnyrub_tom, hkdrub_tom, gldrub_tom));
+        var rubUsd = FX.builder()
+            .exchange(fxIDC)
+            .ticker("RUB.USD")
+            .build();
+        fxRepository.saveAll(List.of(usdrub_tom, eurrub_tom, cnyrub_tom, hkdrub_tom, gldrub_tom, rubUsd));
     }
 }

@@ -152,7 +152,7 @@ public class DividendService {
         var quantity = BigInteger.ZERO;
         var aggregatedDividends = new ArrayList<AggregatedDividendDto>();
         var trades = tradesByTicker.getValue();
-        var currency = trades.iterator().hasNext() ? trades.iterator().next().getPortfolioPosition().getInstrument().getExchange().getCurrency() : null;
+        var currency = trades.iterator().hasNext() ? trades.iterator().next().getPortfolioPosition().getInstrument().getCurrency() : null;
         int index = 0;
         for (Dividend dividend : dividendRepository.findDividendsByYears(ticker, dividendYears)) {
             for (; index < trades.size(); index++) {
