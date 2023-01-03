@@ -125,6 +125,7 @@ public class DividendServiceTest extends IntegrationTestBase {
                 .company(company)
                 .exchange(exchange)
                 .ticker(ticker.getSymbol())
+                .currency(exchange.getCurrency())
                 .build());
     }
 
