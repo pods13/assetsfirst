@@ -1,13 +1,14 @@
 package com.topably.assets.portfolios.domain.cards.input.allocation;
 
 import com.topably.assets.portfolios.domain.cards.DashboardCard;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter
-@Setter
-@NoArgsConstructor
+@Data
+@EqualsAndHashCode(callSuper = true)
 public class AllocationCard extends DashboardCard {
 
     private AllocatedByOption allocatedBy;
