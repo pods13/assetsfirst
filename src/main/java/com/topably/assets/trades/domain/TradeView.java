@@ -37,7 +37,7 @@ import java.util.Currency;
            trade.date,
            trade.quantity,
            trade.price,
-           exch.currency,
+           s2.currency,
            b.id as broker_id,
            b.name as broker_name
     from trade

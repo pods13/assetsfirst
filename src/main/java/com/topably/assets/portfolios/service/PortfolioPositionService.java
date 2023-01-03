@@ -170,7 +170,7 @@ public class PortfolioPositionService {
         var tradesResult = tradeAggregatorService.aggregateTradesByPositionId(positionId);
         return tradesResult.getBuyTradesData().stream()
             .map(t -> {
-                BigDecimal total = t.getPrice().multiply(new BigDecimal(t.getShares()));
+                var total = t.getPrice().multiply(new BigDecimal(t.getShares()));
                 return currencyConverterService.convert(total, t.getCurrency(), portfolioCurrency,
                     t.getTradeTime().atStartOfDay().toInstant(ZoneOffset.UTC));
             })
