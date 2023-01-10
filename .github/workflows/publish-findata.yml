@@ -26,7 +26,7 @@ jobs:
       - run: npm ci
       - run: |
           git config --global user.name 'AssetsFirst' \
-          git config --global user.email "${GITHUB_ACTOR}"
+          git config --global user.email "release@assetsfirst.ru"
       - run: |
           ver=$(npm version patch) \
           git add package.json package-lock.json
