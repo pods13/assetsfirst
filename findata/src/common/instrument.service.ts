@@ -36,6 +36,6 @@ export async function getInstruments(connection: Knex, exchanges: string[], inAn
                            where e.code in (?)
                              and (? is false or
                                   i.id in
-                                  (select distinct ph.instrument_id from portfolio_holding ph))`, [exchanges, inAnyPortfolio])
+                                  (select distinct pos.instrument_id from portfolio_position pos))`, [exchanges, inAnyPortfolio])
         .then(res => res[0]);
 }
