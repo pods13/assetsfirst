@@ -22,7 +22,7 @@ public class InvestmentYieldCardStateProducer implements CardStateProducer<Inves
 
     @Override
     public CardData produce(Portfolio portfolio, InvestmentYieldCard card) {
-        var investedAmount = portfolioService.calculateInvestedAmount(portfolio);
+        var investedAmount = portfolioService.calculateInvestedAmountInYieldInstrument(portfolio);
         var annualDividend = portfolioService.calculateAnnualDividend(portfolio, Year.now());
         var ttmYieldOnCost = calculateTTMYieldOnCost(investedAmount, annualDividend);
         return new InvestmentYieldCardData()

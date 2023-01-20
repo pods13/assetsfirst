@@ -3,8 +3,10 @@ package com.topably.assets.portfolios.service;
 import com.topably.assets.auth.service.UserService;
 import com.topably.assets.dividends.service.DividendService;
 import com.topably.assets.exchanges.service.ExchangeService;
+import com.topably.assets.instruments.domain.InstrumentType;
 import com.topably.assets.portfolios.domain.Portfolio;
 import com.topably.assets.portfolios.domain.PortfolioDashboard;
+import com.topably.assets.portfolios.domain.dto.PortfolioPositionDto;
 import com.topably.assets.portfolios.repository.PortfolioRepository;
 import com.topably.assets.xrates.service.currency.CurrencyConverterService;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.Year;
+import java.util.Collection;
 import java.util.Currency;
 import java.util.HashSet;
 
@@ -49,23 +52,36 @@ public class PortfolioService {
     public BigDecimal calculateCurrentAmount(Portfolio portfolio) {
         var positions = portfolioPositionService.findPortfolioPositions(portfolio.getId());
         return positions.stream()
-            .map(h -> {
-                var marketValue = exchangeService.findSymbolRecentPrice(h.getIdentifier())
-                    .map(value -> value.multiply(new BigDecimal(h.getQuantity())))
-                    .orElse(h.getTotal());
-                return currencyConverterService.convert(marketValue, h.getCurrency());
+            .map(p -> {
+                var marketValue = exchangeService.findSymbolRecentPrice(p.getIdentifier())
+                    .map(value -> value.multiply(new BigDecimal(p.getQuantity())))
+                    .orElse(p.getTotal());
+                return currencyConverterService.convert(marketValue, p.getCurrency());
             })
             .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
     public BigDecimal calculateInvestedAmount(Portfolio portfolio) {
         var positions = portfolioPositionService.findPortfolioPositions(portfolio.getId());
+        return calculateInvestedAmount(portfolio, positions);
+    }
+
+    public BigDecimal calculateInvestedAmountInYieldInstrument(Portfolio portfolio) {
+        var positions = portfolioPositionService.findPortfolioPositions(portfolio.getId()).stream()
+            .filter(p -> !InstrumentType.FX.name().equals(p.getInstrumentType()))
+            .toList();
+        return calculateInvestedAmount(portfolio, positions);
+    }
+
+    public BigDecimal calculateInvestedAmount(Portfolio portfolio, Collection<PortfolioPositionDto> positions) {
         Currency portfolioCurrency = Currency.getInstance("RUB");
         return positions.stream()
             //TODO optimize it, calculate not by each position but rather by all of them
             .map(p -> portfolioPositionService.calculateInvestedAmountByPositionId(p.getId(), portfolioCurrency))
             .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
+
+
 
     public BigDecimal calculateAnnualDividend(Portfolio portfolio, Year year) {
         var positions = portfolioPositionService.findPortfolioPositions(portfolio.getId());
