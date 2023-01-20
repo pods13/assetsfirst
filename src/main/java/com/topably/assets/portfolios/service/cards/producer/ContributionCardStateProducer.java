@@ -2,6 +2,7 @@ package com.topably.assets.portfolios.service.cards.producer;
 
 import com.topably.assets.dividends.domain.dto.AggregatedDividendDto;
 import com.topably.assets.dividends.service.DividendService;
+import com.topably.assets.instruments.domain.InstrumentType;
 import com.topably.assets.portfolios.domain.Portfolio;
 import com.topably.assets.portfolios.domain.cards.CardContainerType;
 import com.topably.assets.portfolios.domain.cards.CardData;
@@ -13,6 +14,7 @@ import com.topably.assets.trades.domain.TradeView;
 import com.topably.assets.trades.service.TradeService;
 import com.topably.assets.xrates.service.currency.CurrencyConverterService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -40,7 +42,9 @@ public class ContributionCardStateProducer implements CardStateProducer<Contribu
 
     @Override
     public CardData produce(Portfolio portfolio, ContributionCard card) {
-        var currentYearTrades = tradeService.getUserTradesForCurrentYear(portfolio);
+        var currentYearTrades = tradeService.getUserTradesForCurrentYear(portfolio).stream()
+            .filter(t -> !InstrumentType.FX.name().equals(t.getInstrumentType()))
+            .toList();
         var tradesByMonthValue = currentYearTrades.stream()
             .collect(Collectors.groupingBy(t -> t.getDate().getMonthValue(), TreeMap::new, Collectors.toList()));
         var dividendYears = Set.of(LocalDate.now().getYear());
@@ -50,7 +54,7 @@ public class ContributionCardStateProducer implements CardStateProducer<Contribu
         var contributions = EnumSet.allOf(Month.class).stream()
             .map(month -> {
                 var monthValue = month.getValue();
-                var monthlyDividend = calculateTotalMontlyDividend(dividendsByMonthValue, monthValue);
+                var monthlyDividend = calculateTotalMonthlyDividend(dividendsByMonthValue, monthValue);
                 var dividendContribution = new ContributionCardData.ContributionDetails(DIVIDEND_CONTRIBUTION_NAME,
                     monthlyDividend.setScale(2, RoundingMode.HALF_UP));
 
@@ -67,14 +71,18 @@ public class ContributionCardStateProducer implements CardStateProducer<Contribu
     }
 
     private BigDecimal calculateMonthlyContribution(List<TradeView> monthTrades, BigDecimal monthlyDividend) {
-        return monthTrades.stream()
+        var monthlyPurchases = monthTrades.stream()
             .filter(t -> TradeOperation.BUY.equals(t.getOperation()))
             .map(t -> currencyConverterService.convert(t.getPrice().multiply(new BigDecimal(t.getQuantity())), t.getCurrency()))
-            .reduce(BigDecimal.ZERO, BigDecimal::add).subtract(monthlyDividend)
+            .reduce(BigDecimal.ZERO, BigDecimal::add);
+        if (monthlyPurchases.compareTo(BigDecimal.ZERO) == 0) {
+            return BigDecimal.ZERO;
+        }
+        return monthlyPurchases.subtract(monthlyDividend)
             .setScale(2, RoundingMode.HALF_UP);
     }
 
-    private BigDecimal calculateTotalMontlyDividend(TreeMap<Integer, List<AggregatedDividendDto>> dividendsByMonthValue, int monthValue) {
+    private BigDecimal calculateTotalMonthlyDividend(TreeMap<Integer, List<AggregatedDividendDto>> dividendsByMonthValue, int monthValue) {
         return dividendsByMonthValue.getOrDefault(monthValue, Collections.emptyList()).stream()
             .map(d -> currencyConverterService.convert(d.getTotal(), d.getCurrency()))
             .reduce(BigDecimal.ZERO, BigDecimal::add);
