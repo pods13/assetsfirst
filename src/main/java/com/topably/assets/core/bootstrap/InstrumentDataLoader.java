@@ -164,24 +164,24 @@ public class InstrumentDataLoader implements CommandLineRunner {
     private void addFXInstruments() {
         Exchange mcx = exchangeRepository.findByCode("MCX");
         Exchange fxIDC = exchangeRepository.findByCode("FX_IDC");
-        var usdrub_tom = FX.builder()
+        var usdrub = FX.builder()
             .exchange(mcx)
-            .ticker("USDRUB_TOM")
+            .ticker("USD.RUB")
             .currency(Currency.getInstance("USD"))
             .build();
-        var eurrub_tom = FX.builder()
-            .exchange(mcx)
-            .ticker("EURRUB_TOM")
+        var eurrub = FX.builder()
+            .exchange(fxIDC)
+            .ticker("EUR.RUB")
             .currency(Currency.getInstance("EUR"))
             .build();
-        var cnyrub_tom = FX.builder()
-            .exchange(mcx)
-            .ticker("CNYRUB_TOM")
+        var cnyrub = FX.builder()
+            .exchange(fxIDC)
+            .ticker("CNY.RUB")
             .currency(Currency.getInstance("CNY"))
             .build();
-        var hkdrub_tom = FX.builder()
-            .exchange(mcx)
-            .ticker("HKDRUB_TOM")
+        var hkdrub = FX.builder()
+            .exchange(fxIDC)
+            .ticker("HKD.RUB")
             .currency(Currency.getInstance("HKD"))
             .build();
         var gldrub_tom = FX.builder()
@@ -194,6 +194,6 @@ public class InstrumentDataLoader implements CommandLineRunner {
             .ticker("RUB.USD")
             .currency(Currency.getInstance("RUB"))
             .build();
-        fxRepository.saveAll(List.of(usdrub_tom, eurrub_tom, cnyrub_tom, hkdrub_tom, gldrub_tom, rubUsd));
+        fxRepository.saveAll(List.of(usdrub, eurrub, cnyrub, hkdrub, gldrub_tom, rubUsd));
     }
 }
