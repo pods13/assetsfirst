@@ -105,7 +105,7 @@ interface ParsedDividend {
 }
 
 function transformToDividendDtos(parsedDividends: ParsedDividend[]) {
-    return parsedDividends.map(d => {
+    return parsedDividends.filter(d => !!d.amount).map(d => {
         const oneDayInMs = 3600 * 1000 * 24;
         const recordDate = new Date(d.exDivDate + oneDayInMs);
 
