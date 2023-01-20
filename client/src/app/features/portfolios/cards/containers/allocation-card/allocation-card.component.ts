@@ -24,6 +24,14 @@ import { lightColor } from '../../helpers/chart-color-sets';
       </mat-form-field>
     </div>
     <ng-container *ngIf="data$ | async as data">
+      <div class="breadcrumbs" *ngIf="chartPath.length > 1">
+        <ng-container *ngFor="let item of chartPath; let last = last">
+          <button mat-button [class.active]="last" [disabled]="last" (click)="selectTopSegments(item)">
+            {{ item.name }}
+          </button>
+          <span *ngIf="!last"> / </span>
+        </ng-container>
+      </div>
       <ngx-charts-pie-chart class="pie-chart clearfix"
                             [scheme]="colorScheme"
                             [results]="chartSegments"
@@ -51,6 +59,8 @@ export class AllocationCardComponent implements OnInit, CardContainer<AssetAlloc
 
   colorScheme = lightColor;
 
+  chartPath!: any[];
+
   constructor() {
   }
 
@@ -58,6 +68,7 @@ export class AllocationCardComponent implements OnInit, CardContainer<AssetAlloc
     this.data$.pipe(untilDestroyed(this))
       .subscribe(data => {
         this.chartSegments = [...data.segments];
+        this.chartPath = [{name: 'All', values: [...this.chartSegments]}];
       });
   }
 
@@ -65,10 +76,17 @@ export class AllocationCardComponent implements OnInit, CardContainer<AssetAlloc
     const selectedSegment = this.chartSegments.find(s => s.name === segment.name);
     if (selectedSegment.children) {
       this.chartSegments = [...selectedSegment.children];
+      this.chartPath.push({name: segment.name, values: []});
     }
   }
 
   onAllocatedByOptionChanged(allocatedBy: AllocatedByOption) {
     this.cardChanges$.emit({...this.card, allocatedBy});
+  }
+
+  selectTopSegments(item: any) {
+    const idx = this.chartPath.indexOf(item);
+    this.chartPath.splice(idx + 1);
+    this.chartSegments = [...this.chartPath[idx].values];
   }
 }

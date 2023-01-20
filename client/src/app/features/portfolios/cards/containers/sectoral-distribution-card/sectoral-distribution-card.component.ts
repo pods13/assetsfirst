@@ -57,7 +57,6 @@ export class SectoralDistributionCardComponent implements CardContainer<Dashboar
   }
 
   treemapSelect(item: any) {
-    console.log(item)
     if (item.children) {
       const idx = this.treemapPath.indexOf(item);
       this.treemapPath.splice(idx + 1);
