@@ -1,6 +1,7 @@
 package com.topably.assets.exchanges.service;
 
 import com.topably.assets.core.domain.Ticker;
+import com.topably.assets.exchanges.domain.ExchangeEnum;
 import com.topably.assets.exchanges.domain.InstrumentPrice;
 import com.topably.assets.exchanges.domain.USExchange;
 import com.topably.assets.exchanges.repository.ExchangeRepository;
@@ -58,6 +59,9 @@ public class ExchangeService {
     @Cacheable
     @Transactional(propagation = Propagation.REQUIRES_NEW, readOnly = true)
     public Optional<BigDecimal> findSymbolRecentPrice(Ticker ticker) {
+        if (ExchangeEnum.FX_IDC.name().equals(ticker.getExchange())) {
+            return Optional.empty();
+        }
         return priceRepository.findTopByTickerOrderByDatetimeDesc(ticker.getSymbol(), ticker.getExchange())
             .map(InstrumentPrice::getValue)
             .or(() -> findSymbolRecentPriceOnYahoo(ticker));
@@ -75,9 +79,9 @@ public class ExchangeService {
     private String convertToYahooFinanceSymbol(Ticker ticker) {
         if (US_EXCHANGE_CODES.contains(ticker.getExchange())) {
             return ticker.getSymbol();
-        } else if ("XETRA".equals(ticker.getExchange())) {
+        } else if (ExchangeEnum.XETRA.name().equals(ticker.getExchange())) {
             return ticker.getSymbol() + ".DE";
-        } else if ("MCX".equals(ticker.getExchange())) {
+        } else if (ExchangeEnum.MCX.name().equals(ticker.getExchange())) {
             return ticker.getSymbol() + ".ME";
         }
         return ticker.toString();

@@ -1,6 +1,7 @@
 package com.topably.assets.core.bootstrap;
 
 import com.topably.assets.exchanges.domain.Exchange;
+import com.topably.assets.exchanges.domain.ExchangeEnum;
 import com.topably.assets.exchanges.repository.ExchangeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
@@ -48,13 +49,13 @@ public class ExchangeDataLoader implements CommandLineRunner {
             .build());
         exchanges.add(Exchange.builder()
             .name("Moscow Exchange")
-            .code("MCX")
+            .code(ExchangeEnum.MCX.name())
             .countryCode("RU")
             .currency(Currency.getInstance("RUB"))
             .build());
         exchanges.add(Exchange.builder()
             .name("Deutsche Börse")
-            .code("XETRA")
+            .code(ExchangeEnum.XETRA.name())
             .countryCode("DE")
             .currency(Currency.getInstance("EUR"))
             .build());
@@ -66,7 +67,7 @@ public class ExchangeDataLoader implements CommandLineRunner {
             .build());
         exchanges.add(Exchange.builder()
             .name("Forex IDC")
-            .code("FX_IDC")
+            .code(ExchangeEnum.FX_IDC.name())
             .countryCode("GLOBE")
             .currency(Currency.getInstance("USD"))
             .build());

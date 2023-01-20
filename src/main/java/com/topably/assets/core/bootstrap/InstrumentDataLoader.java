@@ -6,6 +6,7 @@ import com.topably.assets.companies.repository.CompanyRepository;
 import com.topably.assets.companies.repository.IndustryRepository;
 import com.topably.assets.core.domain.Ticker;
 import com.topably.assets.exchanges.domain.Exchange;
+import com.topably.assets.exchanges.domain.ExchangeEnum;
 import com.topably.assets.exchanges.repository.ExchangeRepository;
 import com.topably.assets.instruments.domain.dto.StockDataDto;
 import com.topably.assets.instruments.domain.instrument.ETF;
@@ -55,7 +56,7 @@ public class InstrumentDataLoader implements CommandLineRunner {
 
     private void addEtfInstruments() {
         Exchange nysearca = exchangeRepository.findByCode(NYSEARCA.name());
-        Exchange mcx = exchangeRepository.findByCode("MCX");
+        Exchange mcx = exchangeRepository.findByCode(ExchangeEnum.MCX.name());
 
         var etfs = new ArrayList<ETF>();
 
@@ -82,12 +83,12 @@ public class InstrumentDataLoader implements CommandLineRunner {
             .identifier(new Ticker("NEM", NYSE.name()))
             .build());
 
-        Exchange mcx = exchangeRepository.findByCode("MCX");
+        Exchange mcx = exchangeRepository.findByCode(ExchangeEnum.MCX.name());
         Exchange hkex = exchangeRepository.findByCode("HK");
 
         stockService.addStock(StockDataDto.builder()
             .company(CompanyDataDto.builder().name("Bayer AG NA").build())
-            .identifier(new Ticker("BAYN", "XETRA"))
+            .identifier(new Ticker("BAYN", ExchangeEnum.XETRA.name()))
             .build());
 
         stockService.addStock(StockDataDto.builder()
@@ -162,8 +163,8 @@ public class InstrumentDataLoader implements CommandLineRunner {
     }
 
     private void addFXInstruments() {
-        Exchange mcx = exchangeRepository.findByCode("MCX");
-        Exchange fxIDC = exchangeRepository.findByCode("FX_IDC");
+        Exchange mcx = exchangeRepository.findByCode(ExchangeEnum.MCX.name());
+        Exchange fxIDC = exchangeRepository.findByCode(ExchangeEnum.FX_IDC.name());
         var usdrub = FX.builder()
             .exchange(mcx)
             .ticker("USD.RUB")
