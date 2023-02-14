@@ -12,6 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.AbstractMap;
 import java.util.Collection;
 import java.util.LinkedHashMap;
@@ -29,7 +31,12 @@ public class TradeAggregatorService {
     private final TradeViewRepository tradeViewRepository;
 
     public AggregatedTradeDto aggregateTradesByPositionId(Long positionId) {
-        var trades = tradeViewRepository.findAllByPositionIdOrderByDate(positionId);
+        var nextDay = LocalDate.now().plus(1, ChronoUnit.DAYS);
+        return aggregateTradesByPositionId(positionId, nextDay);
+    }
+
+    public AggregatedTradeDto aggregateTradesByPositionId(Long positionId, LocalDate date) {
+        var trades = tradeViewRepository.findAllByPositionIdAndDateLessThanEqualOrderByDate(positionId, date);
         return aggregateTrades(trades);
     }
 

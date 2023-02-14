@@ -12,10 +12,10 @@ export class BalanceCardFactory extends CardFactory<BalanceCard> {
     return {
       ...this.originCard,
       title: 'Balance',
-      cols: 2,
-      rows: 1,
-      minItemCols: 2,
-      minItemRows: 1,
+      cols: 3,
+      rows: 2,
+      minItemCols: 3,
+      minItemRows: 2,
     };
   }
 }

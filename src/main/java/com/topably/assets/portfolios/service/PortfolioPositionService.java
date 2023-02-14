@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.LocalDate;
 import java.time.Year;
 import java.time.ZoneOffset;
 import java.util.Collection;
@@ -166,8 +167,8 @@ public class PortfolioPositionService {
         portfolioPositionRepository.deleteById(positionId);
     }
 
-    public BigDecimal calculateInvestedAmountByPositionId(Long positionId, Currency portfolioCurrency) {
-        var tradesResult = tradeAggregatorService.aggregateTradesByPositionId(positionId);
+    public BigDecimal calculateInvestedAmountByPositionId(Long positionId, Currency portfolioCurrency, LocalDate date) {
+        var tradesResult = tradeAggregatorService.aggregateTradesByPositionId(positionId, date);
         return tradesResult.getBuyTradesData().stream()
             .map(t -> {
                 var total = t.getPrice().multiply(new BigDecimal(t.getShares()));

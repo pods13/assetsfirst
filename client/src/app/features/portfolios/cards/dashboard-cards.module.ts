@@ -13,7 +13,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { CardService } from './services/card.service';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
-import { BarChartModule, PieChartModule, TreeMapModule } from '@swimlane/ngx-charts';
+import { AreaChartModule, BarChartModule, PieChartModule, TreeMapModule } from '@swimlane/ngx-charts';
 import { DividendIncomeCardComponent } from './containers/dividend-income-card/dividend-income-card.component';
 import { FitChartDirective } from './directives/fit-chart.directive';
 import { DividendGoalsCardComponent } from './containers/dividend-goals-card/dividend-goals-card.component';
@@ -53,7 +53,8 @@ import { InvestmentYieldCardComponent } from './containers/investment-yield-card
         MatListModule,
         MatInputModule,
         ReactiveFormsModule,
-        TreeMapModule
+        TreeMapModule,
+        AreaChartModule
     ],
   providers: [
     CardContentLoaderService,

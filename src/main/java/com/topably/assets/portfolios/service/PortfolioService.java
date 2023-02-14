@@ -11,11 +11,15 @@ import com.topably.assets.portfolios.repository.PortfolioRepository;
 import com.topably.assets.xrates.service.currency.CurrencyConverterService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.Year;
+import java.time.temporal.ChronoUnit;
 import java.util.Collection;
 import java.util.Currency;
 import java.util.HashSet;
@@ -23,6 +27,7 @@ import java.util.HashSet;
 @Service
 @RequiredArgsConstructor
 @Transactional
+@CacheConfig(cacheNames = "portfolios")
 @Slf4j
 public class PortfolioService {
 
@@ -62,22 +67,30 @@ public class PortfolioService {
     }
 
     public BigDecimal calculateInvestedAmount(Portfolio portfolio) {
+        var nextDay = LocalDate.now().plus(1, ChronoUnit.DAYS);
+        return calculateInvestedAmountByDate(portfolio, nextDay);
+    }
+
+    @Cacheable(key="{ #root.methodName, #portfolio.id, #date }")
+    public BigDecimal calculateInvestedAmountByDate(Portfolio portfolio, LocalDate date) {
+        //TODO add position.openDate to filter out positions opened after date
         var positions = portfolioPositionService.findPortfolioPositions(portfolio.getId());
-        return calculateInvestedAmount(portfolio, positions);
+        return calculateInvestedAmount(portfolio, positions, date);
     }
 
     public BigDecimal calculateInvestedAmountInYieldInstrument(Portfolio portfolio) {
         var positions = portfolioPositionService.findPortfolioPositions(portfolio.getId()).stream()
             .filter(p -> !InstrumentType.FX.name().equals(p.getInstrumentType()))
             .toList();
-        return calculateInvestedAmount(portfolio, positions);
+        var nextDay = LocalDate.now().plus(1, ChronoUnit.DAYS);
+        return calculateInvestedAmount(portfolio, positions, nextDay);
     }
 
-    public BigDecimal calculateInvestedAmount(Portfolio portfolio, Collection<PortfolioPositionDto> positions) {
+    public BigDecimal calculateInvestedAmount(Portfolio portfolio, Collection<PortfolioPositionDto> positions, LocalDate date) {
+        //TODO take portfolio.currency from portfolio instance
         Currency portfolioCurrency = Currency.getInstance("RUB");
         return positions.stream()
-            //TODO optimize it, calculate not by each position but rather by all of them
-            .map(p -> portfolioPositionService.calculateInvestedAmountByPositionId(p.getId(), portfolioCurrency))
+            .map(p -> portfolioPositionService.calculateInvestedAmountByPositionId(p.getId(), portfolioCurrency, date))
             .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 

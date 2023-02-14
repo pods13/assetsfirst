@@ -14,5 +14,5 @@ public interface TradeViewRepository extends JpaRepository<TradeView, Long> {
 
     List<TradeView> findAllByUserIdAndDateGreaterThanEqualOrderByDate(Long userId, LocalDate date);
 
-    List<TradeView> findAllByPositionIdOrderByDate(Long positionId);
+    List<TradeView> findAllByPositionIdAndDateLessThanEqualOrderByDate(Long positionId, LocalDate date);
 }

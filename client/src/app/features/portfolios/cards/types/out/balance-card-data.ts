@@ -4,4 +4,5 @@ export interface BalanceCardData extends CardData {
   currentAmount: number;
   investedAmount: number;
   currencySymbol: string;
+  investedAmountByDates: any;
 }

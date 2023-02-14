@@ -30,7 +30,7 @@ public class CacheConfig {
         Caffeine<Object, Object> caffeineCacheBuilder = Caffeine.newBuilder()
             .maximumSize(500)
             .expireAfterWrite(1, TimeUnit.HOURS);
-        CaffeineCacheManager cacheManager = new CaffeineCacheManager("exchange-rates");
+        CaffeineCacheManager cacheManager = new CaffeineCacheManager("exchange-rates", "portfolios");
         cacheManager.setCaffeine(caffeineCacheBuilder);
         return cacheManager;
     }
