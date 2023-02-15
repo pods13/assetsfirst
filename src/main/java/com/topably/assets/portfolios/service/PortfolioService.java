@@ -27,7 +27,7 @@ import java.util.HashSet;
 @Service
 @RequiredArgsConstructor
 @Transactional
-@CacheConfig(cacheNames = "portfolios")
+@CacheConfig(cacheNames = "portfolios", cacheManager = "longLivedCacheManager")
 @Slf4j
 public class PortfolioService {
 
