@@ -1,0 +1,18 @@
+package com.topably.assets.findata.xrates.service;
+
+import com.topably.assets.findata.xrates.domain.ExchangeRate;
+
+import java.time.Instant;
+import java.util.Collection;
+import java.util.Currency;
+import java.util.List;
+import java.util.Optional;
+
+public interface ExchangeRateService {
+
+    Collection<ExchangeRate> addExchangeRates(List<ExchangeRate> rates);
+
+    Optional<ExchangeRate> findExchangeRate(Currency from, Currency to, Instant time);
+
+    List<ExchangeRate> fetchExchangeRates(Instant exchangeRatesForTime);
+}

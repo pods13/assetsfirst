@@ -1,17 +1,15 @@
 package com.topably.assets.core.bootstrap;
 
-import com.topably.assets.companies.domain.Company;
 import com.topably.assets.companies.domain.dto.CompanyDataDto;
 import com.topably.assets.companies.repository.CompanyRepository;
 import com.topably.assets.companies.repository.IndustryRepository;
 import com.topably.assets.core.domain.Ticker;
-import com.topably.assets.exchanges.domain.Exchange;
-import com.topably.assets.exchanges.domain.ExchangeEnum;
-import com.topably.assets.exchanges.repository.ExchangeRepository;
+import com.topably.assets.findata.exchanges.domain.Exchange;
+import com.topably.assets.findata.exchanges.domain.ExchangeEnum;
+import com.topably.assets.findata.exchanges.repository.ExchangeRepository;
 import com.topably.assets.instruments.domain.dto.StockDataDto;
 import com.topably.assets.instruments.domain.instrument.ETF;
 import com.topably.assets.instruments.domain.instrument.FX;
-import com.topably.assets.instruments.domain.instrument.Stock;
 import com.topably.assets.instruments.repository.instrument.ETFRepository;
 import com.topably.assets.instruments.repository.instrument.FXRepository;
 import com.topably.assets.instruments.repository.instrument.StockRepository;
@@ -27,8 +25,8 @@ import java.util.ArrayList;
 import java.util.Currency;
 import java.util.List;
 
-import static com.topably.assets.exchanges.domain.USExchange.NYSE;
-import static com.topably.assets.exchanges.domain.USExchange.NYSEARCA;
+import static com.topably.assets.findata.exchanges.domain.USExchange.NYSE;
+import static com.topably.assets.findata.exchanges.domain.USExchange.NYSEARCA;
 
 @RequiredArgsConstructor
 @Component

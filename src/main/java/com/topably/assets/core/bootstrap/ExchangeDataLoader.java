@@ -1,8 +1,8 @@
 package com.topably.assets.core.bootstrap;
 
-import com.topably.assets.exchanges.domain.Exchange;
-import com.topably.assets.exchanges.domain.ExchangeEnum;
-import com.topably.assets.exchanges.repository.ExchangeRepository;
+import com.topably.assets.findata.exchanges.domain.Exchange;
+import com.topably.assets.findata.exchanges.domain.ExchangeEnum;
+import com.topably.assets.findata.exchanges.repository.ExchangeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -13,9 +13,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.Currency;
 
-import static com.topably.assets.exchanges.domain.USExchange.NASDAQ;
-import static com.topably.assets.exchanges.domain.USExchange.NYSE;
-import static com.topably.assets.exchanges.domain.USExchange.NYSEARCA;
+import static com.topably.assets.findata.exchanges.domain.USExchange.NASDAQ;
+import static com.topably.assets.findata.exchanges.domain.USExchange.NYSE;
+import static com.topably.assets.findata.exchanges.domain.USExchange.NYSEARCA;
 
 @RequiredArgsConstructor
 @Component

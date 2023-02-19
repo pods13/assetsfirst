@@ -1,14 +1,14 @@
 package com.topably.assets.portfolios.service;
 
 import com.topably.assets.auth.service.UserService;
-import com.topably.assets.dividends.service.DividendService;
-import com.topably.assets.exchanges.service.ExchangeService;
+import com.topably.assets.findata.dividends.service.DividendService;
+import com.topably.assets.findata.exchanges.service.ExchangeService;
 import com.topably.assets.instruments.domain.InstrumentType;
 import com.topably.assets.portfolios.domain.Portfolio;
 import com.topably.assets.portfolios.domain.PortfolioDashboard;
 import com.topably.assets.portfolios.domain.dto.PortfolioPositionDto;
 import com.topably.assets.portfolios.repository.PortfolioRepository;
-import com.topably.assets.xrates.service.currency.CurrencyConverterService;
+import com.topably.assets.findata.xrates.service.currency.CurrencyConverterService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheConfig;

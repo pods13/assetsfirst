@@ -1,0 +1,22 @@
+package com.topably.assets.findata.dividends.domain.dto;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
+
+@Data
+@AllArgsConstructor
+@Builder
+public class DividendData {
+
+    private LocalDate declareDate;
+
+    private LocalDate recordDate;
+
+    private LocalDate payDate;
+
+    private BigDecimal amount;
+}

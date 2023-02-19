@@ -1,8 +1,8 @@
 package com.topably.assets.portfolios.service;
 
 import com.topably.assets.core.domain.Ticker;
-import com.topably.assets.dividends.service.DividendService;
-import com.topably.assets.exchanges.service.ExchangeService;
+import com.topably.assets.findata.dividends.service.DividendService;
+import com.topably.assets.findata.exchanges.service.ExchangeService;
 import com.topably.assets.instruments.domain.Instrument;
 import com.topably.assets.portfolios.domain.Portfolio;
 import com.topably.assets.portfolios.domain.PortfolioPosition;
@@ -13,7 +13,7 @@ import com.topably.assets.portfolios.repository.PortfolioRepository;
 import com.topably.assets.trades.domain.dto.AggregatedTradeDto;
 import com.topably.assets.trades.domain.dto.add.AddTradeDto;
 import com.topably.assets.trades.service.TradeAggregatorService;
-import com.topably.assets.xrates.service.currency.CurrencyConverterService;
+import com.topably.assets.findata.xrates.service.currency.CurrencyConverterService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

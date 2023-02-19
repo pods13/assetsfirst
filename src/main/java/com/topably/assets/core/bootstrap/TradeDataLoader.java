@@ -2,8 +2,8 @@ package com.topably.assets.core.bootstrap;
 
 import com.topably.assets.auth.domain.User;
 import com.topably.assets.auth.repository.UserRepository;
-import com.topably.assets.exchanges.domain.ExchangeEnum;
-import com.topably.assets.exchanges.domain.USExchange;
+import com.topably.assets.findata.exchanges.domain.ExchangeEnum;
+import com.topably.assets.findata.exchanges.domain.USExchange;
 import com.topably.assets.instruments.service.InstrumentService;
 import com.topably.assets.trades.domain.TradeOperation;
 import com.topably.assets.trades.domain.broker.Broker;

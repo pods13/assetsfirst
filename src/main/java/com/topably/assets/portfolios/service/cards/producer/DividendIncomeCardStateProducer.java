@@ -1,6 +1,6 @@
 package com.topably.assets.portfolios.service.cards.producer;
 
-import com.topably.assets.dividends.service.DividendService;
+import com.topably.assets.findata.dividends.service.DividendService;
 import com.topably.assets.portfolios.domain.Portfolio;
 import com.topably.assets.portfolios.domain.cards.CardContainerType;
 import com.topably.assets.portfolios.domain.cards.CardData;
@@ -12,7 +12,7 @@ import com.topably.assets.portfolios.domain.cards.output.dividend.TimeFrameDivid
 import com.topably.assets.portfolios.domain.cards.output.dividend.TimeFrameOption;
 import com.topably.assets.portfolios.service.cards.CardStateProducer;
 import com.topably.assets.trades.service.TradeService;
-import com.topably.assets.xrates.service.currency.CurrencyConverterService;
+import com.topably.assets.findata.xrates.service.currency.CurrencyConverterService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

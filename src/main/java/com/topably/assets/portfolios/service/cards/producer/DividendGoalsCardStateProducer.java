@@ -1,7 +1,7 @@
 package com.topably.assets.portfolios.service.cards.producer;
 
 import com.topably.assets.core.domain.Ticker;
-import com.topably.assets.dividends.service.DividendService;
+import com.topably.assets.findata.dividends.service.DividendService;
 import com.topably.assets.portfolios.domain.Portfolio;
 import com.topably.assets.portfolios.domain.cards.CardContainerType;
 import com.topably.assets.portfolios.domain.cards.CardData;
