@@ -14,7 +14,13 @@ spring:
         one-indexed-parameters: 'true'
   main:
     banner-mode: 'off'
+
 app:
   bootstrap:
     with:
       data: 'false'
+
+springdoc:
+  swagger-ui:
+    csrf:
+      enabled: true

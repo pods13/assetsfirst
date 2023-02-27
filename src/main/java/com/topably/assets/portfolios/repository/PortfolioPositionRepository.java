@@ -1,6 +1,6 @@
 package com.topably.assets.portfolios.repository;
 
-import com.topably.assets.portfolios.domain.PortfolioPosition;
+import com.topably.assets.portfolios.domain.position.PortfolioPosition;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -12,7 +12,7 @@ public interface PortfolioPositionRepository extends JpaRepository<PortfolioPosi
 
     Optional<PortfolioPosition> findByPortfolio_User_IdAndInstrument_Id(Long userId, Long instrumentId);
 
-    @EntityGraph(attributePaths = {"instrument", "instrument.exchange"})
+    @EntityGraph(attributePaths = {"instrument", "instrument.exchange", "tags"})
     List<PortfolioPosition> findAllByPortfolioId(Long portfolioId);
 
     @Query("select p.id from PortfolioPosition p")

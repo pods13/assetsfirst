@@ -5,11 +5,15 @@ import com.topably.assets.findata.dividends.service.DividendService;
 import com.topably.assets.findata.exchanges.service.ExchangeService;
 import com.topably.assets.instruments.domain.Instrument;
 import com.topably.assets.portfolios.domain.Portfolio;
-import com.topably.assets.portfolios.domain.PortfolioPosition;
-import com.topably.assets.portfolios.domain.PortfolioPositionView;
+import com.topably.assets.portfolios.domain.position.PortfolioPosition;
+import com.topably.assets.portfolios.domain.position.PortfolioPositionView;
 import com.topably.assets.portfolios.domain.dto.PortfolioPositionDto;
+import com.topably.assets.portfolios.domain.tag.Tag;
+import com.topably.assets.portfolios.mapper.TagMapper;
 import com.topably.assets.portfolios.repository.PortfolioPositionRepository;
 import com.topably.assets.portfolios.repository.PortfolioRepository;
+import com.topably.assets.portfolios.repository.tag.TagRepository;
+import com.topably.assets.portfolios.service.tag.TagService;
 import com.topably.assets.trades.domain.dto.AggregatedTradeDto;
 import com.topably.assets.trades.domain.dto.add.AddTradeDto;
 import com.topably.assets.trades.service.TradeAggregatorService;
@@ -24,11 +28,13 @@ import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.Year;
 import java.time.ZoneOffset;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Currency;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -37,11 +43,13 @@ import java.util.stream.IntStream;
 @Service
 @RequiredArgsConstructor
 @Slf4j
+@Transactional
 public class PortfolioPositionService {
 
     private final PortfolioPositionRepository portfolioPositionRepository;
     private final PortfolioRepository portfolioRepository;
-
+    private final TagRepository tagRepository;
+    private final TagMapper tagMapper;
     private final ExchangeService exchangeService;
     private final CurrencyConverterService currencyConverterService;
     private final DividendService dividendService;
@@ -88,13 +96,11 @@ public class PortfolioPositionService {
         return portfolioPositionRepository.findAllPositionIdsByPortfolioId(portfolioId);
     }
 
-    @Transactional
     public Collection<PortfolioPositionDto> findPortfolioPositionsByUserId(Long userId) {
         var portfolio = portfolioRepository.findByUserId(userId);
         return findPortfolioPositions(portfolio.getId());
     }
 
-    @Transactional
     public Collection<PortfolioPositionView> findPortfolioPositionsView(Long userId) {
         var portfolio = portfolioRepository.findByUserId(userId);
         var positions = portfolioPositionRepository.findAllByPortfolioId(portfolio.getId());
@@ -128,6 +134,8 @@ public class PortfolioPositionService {
                     .pctOfPortfolio(pctOfPortfolio)
                     .marketValue(finData.marketValue())
                     .yieldOnCost(finData.yieldOnCost)
+                    //TODO check sql query for n+1 problem
+                    .tags(position.getTags().stream().map(tagMapper::modelToSelectedDto).toList())
                     .build();
             }).collect(Collectors.toList());
     }
@@ -176,5 +184,12 @@ public class PortfolioPositionService {
                     t.getTradeTime().atStartOfDay().toInstant(ZoneOffset.UTC));
             })
             .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
+    public void updatePositionTags(Long positionId, Collection<Long> tagIds) {
+        var position = portfolioPositionRepository.findById(positionId).orElseThrow();
+        position.getTags().clear();
+        var tags = tagRepository.findAllById(tagIds);
+        tags.forEach(t -> position.getTags().add(t));
     }
 }

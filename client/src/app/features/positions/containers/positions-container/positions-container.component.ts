@@ -1,6 +1,10 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ColumnMode } from '@swimlane/ngx-datatable';
 import { PortfolioPositionService } from '../../services/portfolio-position.service';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogData, PositionTagsDialogComponent } from '../../components/tags-dialog/position-tags-dialog.component';
+import { PortfolioPositionView } from '../../types/portfolio-position.view';
+import { SelectedTagDto } from '../../types/tag/selected-tag.dto';
 
 @Component({
   selector: 'app-positions-container',
@@ -17,7 +21,20 @@ import { PortfolioPositionService } from '../../services/portfolio-position.serv
           {{value.symbol}}
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column [prop]="'tags'" [name]="'Tags'"></ngx-datatable-column>
+      <ngx-datatable-column [prop]="'tags'" [name]="'Tags'">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <ng-container *ngIf="row.tags.length === 0; else tags">
+            <button mat-button (click)="openPositionTagsDialog($event, row)">
+              <mat-icon>add</mat-icon>
+            </button>
+          </ng-container>
+          <ng-template #tags>
+            <button mat-button (click)="openPositionTagsDialog($event, row)">
+              <mat-icon>add_link</mat-icon>
+            </button>
+          </ng-template>
+        </ng-template>
+      </ngx-datatable-column>
       <ngx-datatable-column [prop]="'quantity'" [name]="'Shares'"></ngx-datatable-column>
       <ngx-datatable-column [prop]="'price'" [name]="'Cost Per Share'">
         <ng-template let-row="row" ngx-datatable-cell-template>
@@ -62,9 +79,36 @@ export class PositionsContainerComponent implements OnInit {
 
   positions$ = this.portfolioPositionService.getPortfolioPositionsView();
 
-  constructor(private portfolioPositionService: PortfolioPositionService) {
+  constructor(private portfolioPositionService: PortfolioPositionService,
+              private matDialog: MatDialog) {
   }
 
   ngOnInit(): void {
+  }
+
+  openPositionTagsDialog(event: MouseEvent, position: PortfolioPositionView) {
+    const target = event.target as Element;
+    const targetAttr = target.getBoundingClientRect();
+    const dialogRef = this.matDialog.open<any, DialogData, SelectedTagDto[]>(PositionTagsDialogComponent, {
+      position: {
+        top: targetAttr.y + targetAttr.height + 10 + "px",
+        left: targetAttr.x - targetAttr.width + 10 + "px"
+      },
+      restoreFocus: false,
+      disableClose: false,
+      data: {
+        selectedTags: position.tags
+      }
+    });
+    dialogRef.afterClosed().subscribe(selectedTags => {
+      if (!selectedTags || JSON.stringify(selectedTags) === JSON.stringify(position.tags)) {
+        return;
+      }
+      const selectedTagIds = selectedTags.map(t => t.id);
+      this.portfolioPositionService.updatePositionTags(position.id, selectedTagIds)
+        .subscribe(() => {
+          this.positions$ = this.portfolioPositionService.getPortfolioPositionsView();
+        });
+    });
   }
 }

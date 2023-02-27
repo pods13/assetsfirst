@@ -1,6 +1,6 @@
 package com.topably.assets.trades.domain;
 
-import com.topably.assets.portfolios.domain.PortfolioPosition;
+import com.topably.assets.portfolios.domain.position.PortfolioPosition;
 import com.topably.assets.trades.domain.broker.Broker;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

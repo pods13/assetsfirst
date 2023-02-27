@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { PortfolioPositionDto } from '../types/portfolio-position,dto';
 import { PortfolioPositionView } from '../types/portfolio-position.view';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class PortfolioPositionService {
@@ -17,4 +18,7 @@ export class PortfolioPositionService {
     return this.http.get<PortfolioPositionView[]>(`/portfolio-positions/view`);
   }
 
+  updatePositionTags(positionId: number, selectedTagIds: number[]): Observable<void> {
+    return this.http.post<void>(`/portfolio-positions/${positionId}/tags`, selectedTagIds);
+  }
 }
