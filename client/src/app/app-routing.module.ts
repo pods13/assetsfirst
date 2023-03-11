@@ -3,10 +3,12 @@ import { RouterModule, Routes } from '@angular/router';
 import { SingleColumnLayoutComponent } from './layout/single-column-layout/single-column-layout.component';
 import { LayoutModule } from './layout/layout.module';
 import { AppGuard } from './auth/guards/app.guard';
+import { ViewsModule } from './views/views.module';
+import { HomePageComponent } from './views/home-page/home-page.component';
 
 const routes: Routes = [
   {
-    path: '', redirectTo: 'login', pathMatch: 'full'
+    path: '', component: HomePageComponent, pathMatch: 'full'
   },
   {
     path: 'app',
@@ -33,6 +35,7 @@ const routes: Routes = [
 @NgModule({
   imports: [
     LayoutModule,
+    ViewsModule,
     RouterModule.forRoot(routes)
   ],
   exports: [RouterModule]
