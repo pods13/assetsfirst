@@ -2,6 +2,7 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { map, shareReplay } from 'rxjs';
 import { AuthService } from '../../auth/services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home-page',
@@ -88,13 +89,19 @@ export class HomePageComponent implements OnInit {
     shareReplay()
   );
 
-  constructor(private breakpointObserver: BreakpointObserver) { }
+  constructor(private breakpointObserver: BreakpointObserver,
+              private authService: AuthService,
+              private router: Router) { }
 
   ngOnInit(): void {
   }
 
   onTryNowClick() {
-    //TODO check if user already login if not create new user with dummy portfolio
+    //TODO show loading screen
+    this.authService.signupAsAnonymousUser()
+      .subscribe(() => {
+        this.router.navigate([this.authService.INITIAL_PATH])
+      });
   }
 
 }

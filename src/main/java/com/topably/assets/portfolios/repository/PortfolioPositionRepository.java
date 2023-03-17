@@ -15,6 +15,10 @@ public interface PortfolioPositionRepository extends JpaRepository<PortfolioPosi
     @EntityGraph(attributePaths = {"instrument", "instrument.exchange", "tags"})
     List<PortfolioPosition> findAllByPortfolioId(Long portfolioId);
 
-    @Query("select p.id from PortfolioPosition p")
+    @Query("""
+        SELECT pos.id from PortfolioPosition pos
+        join pos.portfolio p
+        where p.id = :portfolioId
+        """)
     List<Long> findAllPositionIdsByPortfolioId(Long portfolioId);
 }

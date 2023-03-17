@@ -37,7 +37,7 @@ public class WebSecurityConfig {
             .and()
             .authorizeRequests()
             .antMatchers("/actuator/**").permitAll()
-            .antMatchers("/auth/signup").permitAll()
+            .antMatchers("/auth/signup", "/auth/user/generate").permitAll()
             .anyRequest().authenticated()
             .and()
             .formLogin()

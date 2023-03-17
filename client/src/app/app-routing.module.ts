@@ -5,10 +5,14 @@ import { LayoutModule } from './layout/layout.module';
 import { AppGuard } from './auth/guards/app.guard';
 import { ViewsModule } from './views/views.module';
 import { HomePageComponent } from './views/home-page/home-page.component';
+import { AuthGuard } from './auth/guards/auth.guard';
 
 const routes: Routes = [
   {
-    path: '', component: HomePageComponent, pathMatch: 'full'
+    path: '',
+    component: HomePageComponent,
+    pathMatch: 'full',
+    canActivate: [AuthGuard],
   },
   {
     path: 'app',

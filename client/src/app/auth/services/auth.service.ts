@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { UserCredentials } from '../types/user-credentials';
-import { catchError, map, Observable, of, switchMap, tap } from 'rxjs';
+import { catchError, concat, map, Observable, of, switchMap, tap, toArray } from 'rxjs';
 import { User } from '../types/user';
 import { MatDialog } from '@angular/material/dialog';
 import { CreateUserDto } from '../types/create-user.dto';
@@ -67,5 +67,17 @@ export class AuthService {
 
   signup(dto: CreateUserDto) {
     return this.http.post<User>(`/auth/signup`, dto);
+  }
+
+  signupAsAnonymousUser() {
+    return this.generateAnonymousUser().pipe(
+      switchMap((dto) => {
+        return concat(this.signup(dto), this.login({username: dto.username, password: dto.password})).pipe(toArray());
+      })
+    );
+  }
+
+  generateAnonymousUser() {
+    return this.http.get<CreateUserDto>('/auth/user/generate');
   }
 }

@@ -20,6 +20,6 @@ public class UserDataLoader implements CommandLineRunner {
     @Override
     @Transactional
     public void run(String... args) throws Exception {
-        userService.createNewUserAccount(CreateUserDto.builder().username("user").password("&}vU6Nw6").build());
+        userService.createNewUserAccount(new CreateUserDto().setUsername("user").setPassword("&}vU6Nw6"));
     }
 }

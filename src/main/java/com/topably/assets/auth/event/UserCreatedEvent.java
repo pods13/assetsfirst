@@ -7,9 +7,11 @@ import org.springframework.context.ApplicationEvent;
 public class UserCreatedEvent extends ApplicationEvent {
 
     private final Long userId;
+    private final boolean provideData;
 
-    public UserCreatedEvent(Object source, Long userId) {
+    public UserCreatedEvent(Object source, Long userId, boolean provideData) {
         super(source);
         this.userId = userId;
+        this.provideData = provideData;
     }
 }

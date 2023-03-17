@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { CardContainer } from '../../types/card-container';
 import { Observable } from 'rxjs';
 import { SectoralDistributionCardData } from '../../types/out/sectoral-distribution-card-data';
@@ -13,7 +13,7 @@ import { lightColor } from '../../helpers/chart-color-sets';
     <div class="card-header">
       <h2 class="title">{{ card?.title }}</h2>
     </div>
-    <ng-container *ngIf="data$ | async as data">
+    <ng-container *ngIf="treemap.length > 0">
       <div class="breadcrumbs" *ngIf="treemapPath.length > 1">
         <ng-container *ngFor="let item of treemapPath; let last = last">
           <button mat-button [class.active]="last" [disabled]="last" (click)="treemapSelect(item)">
@@ -40,12 +40,12 @@ export class SectoralDistributionCardComponent implements CardContainer<Dashboar
   card!: DashboardCard;
   data$!: Observable<SectoralDistributionCardData>;
 
-  treemap!: any[];
+  treemap: any[] = [];
   treemapPath: any[] = [];
 
   colorScheme = lightColor;
 
-  constructor() {
+  constructor(private cd: ChangeDetectorRef) {
   }
 
   ngOnInit(): void {
@@ -53,6 +53,7 @@ export class SectoralDistributionCardComponent implements CardContainer<Dashboar
       .subscribe(data => {
         this.treemap = [...data.items];
         this.treemapPath = [{name: 'All', children: [...this.treemap], value: -1}];
+        this.cd.detectChanges();
       });
   }
 

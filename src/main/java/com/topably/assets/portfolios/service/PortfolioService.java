@@ -39,7 +39,7 @@ public class PortfolioService {
     private final PortfolioPositionService portfolioPositionService;
     private final DividendService dividendService;
 
-    public Portfolio createDefaultUserPortfolio(Long userId) {
+    public void createDefaultUserPortfolio(Long userId) {
         var dashboard = PortfolioDashboard.builder()
             .cards(new HashSet<>())
             .build();
@@ -47,7 +47,7 @@ public class PortfolioService {
             .user(userService.getById(userId))
             .dashboard(dashboard)
             .build();
-        return portfolioRepository.save(portfolio);
+        portfolioRepository.save(portfolio);
     }
 
     public Portfolio findByUserId(Long userId) {
