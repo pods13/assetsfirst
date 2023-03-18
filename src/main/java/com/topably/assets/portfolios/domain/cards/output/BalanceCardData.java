@@ -21,11 +21,7 @@ public class BalanceCardData implements CardData {
     private String currencySymbol;
     private TimeFrameSummary investedAmountByDates;
 
-    public record TimeFrameSummary(String name, List<TimeFrameSeries> series) {
-
-    }
-
-    public record TimeFrameSeries(String name, BigDecimal value) {
+    public record TimeFrameSummary(List<String> xaxis, List<BigDecimal> values) {
 
     }
 }

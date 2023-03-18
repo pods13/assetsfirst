@@ -15,11 +15,11 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.Currency;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-import static com.topably.assets.portfolios.domain.cards.output.BalanceCardData.TimeFrameSeries;
 import static com.topably.assets.portfolios.domain.cards.output.BalanceCardData.TimeFrameSummary;
 
 @Service(CardContainerType.BALANCE)
@@ -42,10 +42,14 @@ public class BalanceCardStateProducer implements CardStateProducer<BalanceCard> 
     private TimeFrameSummary getInvestedAmountByDates(Portfolio portfolio) {
         var endDate = LocalDate.now().plusDays(1);
         var start = endDate.minusYears(1);
-        var series = getDatesBetween(start, endDate).stream()
-            .map(d -> new TimeFrameSeries(d.toString(), portfolioService.calculateInvestedAmountByDate(portfolio, d)))
+        var datesBetween = getDatesBetween(start, endDate);
+        var xAxis = datesBetween.stream()
+            .map(Objects::toString)
             .toList();
-        return new TimeFrameSummary("invested", series);
+        var values = datesBetween.stream()
+            .map(d -> portfolioService.calculateInvestedAmountByDate(portfolio, d))
+            .toList();
+        return new TimeFrameSummary(xAxis, values);
     }
 
     public List<LocalDate> getDatesBetween(LocalDate startDate, LocalDate endDate) {

@@ -76,8 +76,7 @@ export class CardWrapperComponent implements OnInit, AfterViewInit, OnChanges {
     if (!cardChanges || cardChanges.firstChange) {
       return;
     }
-    if (cardChanges.currentValue?.rows !== cardChanges.previousValue?.rows
-      || cardChanges.currentValue?.cols !== cardChanges.previousValue?.cols) {
+    if (Object.keys(defaultCardProps).some(key => cardChanges.currentValue[key] !== cardChanges.previousValue[key])) {
       this.cardContentLoaderService.loadContent(this.cardOutlet, this.card, this.cardData$, this.onCardChanges);
       this.cd.detectChanges();
       return;

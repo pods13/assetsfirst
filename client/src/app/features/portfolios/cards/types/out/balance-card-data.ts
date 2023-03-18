@@ -4,5 +4,10 @@ export interface BalanceCardData extends CardData {
   currentAmount: number;
   investedAmount: number;
   currencySymbol: string;
-  investedAmountByDates: any;
+  investedAmountByDates: TimeFrameSummary;
+}
+
+interface TimeFrameSummary {
+  xaxis: string[];
+  values: number[];
 }

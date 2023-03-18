@@ -1,10 +1,12 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { CardContainer } from '../../types/card-container';
 import { Observable } from 'rxjs';
 import { BalanceCard } from '../../types/in/balance-card';
 import { BalanceCardData } from '../../types/out/balance-card-data';
-import { lightColor } from '../../helpers/chart-color-sets';
+import { ECharts, EChartsOption } from 'echarts';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
+@UntilDestroy()
 @Component({
   selector: 'app-balance-card',
   template: `
@@ -17,36 +19,72 @@ import { lightColor } from '../../helpers/chart-color-sets';
         <span>{{data.investedAmount | currency: data.currencySymbol}}</span>
         <span>{{'invested'}}</span>
       </div>
-      <ngx-charts-area-chart [scheme]="colorScheme"
-                             [results]="[data.investedAmountByDates]"
-                             [view]="[card.cols * 100, card.rows * 100 - 5]"
-                             [xAxis]="true"
-                             [yAxis]="true"
-                             [showGridLines]="true"
-                             [showXAxisLabel]="true"
-                             [showYAxisLabel]="false"
-                             [autoScale]="true"
-                             [legend]="false">
-      </ngx-charts-area-chart>
     </ng-container>
+    <div echarts class="balance-chart" [options]="chartOption" [loading]="loading"
+         (chartInit)="onChartInit($event)">
+    </div>
   `,
   styleUrls: ['./balance-card.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class BalanceCardComponent implements OnInit, CardContainer<BalanceCard, BalanceCardData> {
+export class BalanceCardComponent implements OnInit, CardContainer<BalanceCard, BalanceCardData>, AfterViewInit {
 
   card!: BalanceCard;
   data$!: Observable<BalanceCardData>;
 
-  colorScheme = lightColor;
+  chartOption!: EChartsOption;
+  echartsInstance!: ECharts;
+  loading: boolean = false;
 
-  constructor() {
+  constructor(private cd: ChangeDetectorRef) {
   }
 
+
   ngOnInit(): void {
-    this.data$.subscribe(data => {
-      console.log(data.investedAmountByDates);
-    })
+  }
+
+  ngAfterViewInit(): void {
+    this.data$.pipe(untilDestroyed(this))
+      .subscribe(data => {
+        this.chartOption = this.constructChartOption(data);
+        this.loading = false;
+        this.cd.detectChanges();
+      });
+  }
+
+  constructChartOption(cardData: BalanceCardData): EChartsOption {
+    const {xaxis, values} = cardData.investedAmountByDates;
+    return {
+      tooltip: {
+        trigger: 'item'
+      },
+      xAxis: {
+        type: 'category',
+        boundaryGap: false,
+        data: xaxis,
+        show: this.card.cols > 3
+      },
+      yAxis: {
+        type: 'value',
+        show: this.card.cols >= 6 && this.card.rows >= 3
+      },
+      series: [
+        {
+          data: values,
+          type: 'line',
+          areaStyle: {},
+          triggerLineEvent: true
+        }
+      ]
+    };
+  }
+
+  onChartInit(ec: ECharts) {
+    this.echartsInstance = ec;
+    ec.resize({
+      width: this.card.cols * 110,
+      height: this.card.rows * 100
+    });
   }
 
 }

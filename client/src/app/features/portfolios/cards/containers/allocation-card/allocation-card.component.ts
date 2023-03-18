@@ -148,10 +148,9 @@ export class AllocationCardComponent implements OnInit, AfterViewInit, CardConta
 
   onAllocatedByOptionChanged(allocatedBy: AllocatedByOption) {
     this.loading = true;
+    this.cd.detectChanges();
     this.card = {...this.card, allocatedBy};
     this.cardChanges$.emit(this.card);
-    console.log(this.card)
-    this.cd.detectChanges();
   }
 
   selectTopSegments(item: any) {
