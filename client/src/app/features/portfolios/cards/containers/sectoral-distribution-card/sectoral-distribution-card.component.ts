@@ -1,10 +1,10 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { CardContainer } from '../../types/card-container';
 import { Observable } from 'rxjs';
 import { SectoralDistributionCardData } from '../../types/out/sectoral-distribution-card-data';
 import { DashboardCard } from '../../types/dashboard-card';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { lightColor } from '../../helpers/chart-color-sets';
+import { ECharts, EChartsOption } from 'echarts';
 
 @UntilDestroy()
 @Component({
@@ -13,62 +13,101 @@ import { lightColor } from '../../helpers/chart-color-sets';
     <div class="card-header">
       <h2 class="title">{{ card?.title }}</h2>
     </div>
-    <ng-container *ngIf="treemap.length > 0">
-      <div class="breadcrumbs" *ngIf="treemapPath.length > 1">
-        <ng-container *ngFor="let item of treemapPath; let last = last">
-          <button mat-button [class.active]="last" [disabled]="last" (click)="treemapSelect(item)">
-            {{ item.name }}
-          </button>
-          <span *ngIf="!last"> / </span>
-        </ng-container>
-      </div>
-      <ngx-charts-tree-map class="clearfix"
-                           [view]="[card.cols * 108 + 6.5 * (card.cols - (card.minItemCols || card.cols)),
-                             card.rows * 95 + 10 * (card.rows - (card.minItemRows || card.rows))]"
-                           [scheme]="colorScheme"
-                           [results]="treemap"
-                           [animations]="true"
-                           (select)="treemapSelect($event)">
-      </ngx-charts-tree-map>
-    </ng-container>
+    <div echarts class="distribution-chart" [options]="chartOption" [loading]="loading"
+         (chartInit)="onChartInit($event)">
+    </div>
   `,
   styleUrls: ['./sectoral-distribution-card.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SectoralDistributionCardComponent implements CardContainer<DashboardCard, SectoralDistributionCardData>, OnInit {
+export class SectoralDistributionCardComponent implements CardContainer<DashboardCard, SectoralDistributionCardData>, OnInit, AfterViewInit {
 
   card!: DashboardCard;
   data$!: Observable<SectoralDistributionCardData>;
 
-  treemap: any[] = [];
-  treemapPath: any[] = [];
-
-  colorScheme = lightColor;
+  chartOption!: EChartsOption;
+  echartsInstance!: ECharts;
+  loading: boolean = false;
 
   constructor(private cd: ChangeDetectorRef) {
   }
 
   ngOnInit(): void {
+  }
+
+  ngAfterViewInit(): void {
     this.data$.pipe(untilDestroyed(this))
       .subscribe(data => {
-        this.treemap = [...data.items];
-        this.treemapPath = [{name: 'All', children: [...this.treemap], value: -1}];
+        this.chartOption = this.constructChartOption(data);
+        this.loading = false;
         this.cd.detectChanges();
       });
   }
 
-  treemapSelect(item: any) {
-    if (item.children) {
-      const idx = this.treemapPath.indexOf(item);
-      this.treemapPath.splice(idx + 1);
-      this.treemap = this.treemapPath[idx].children;
-      return;
-    }
-    const node = this.treemap.find(d => d.name === item.name);
-    if (node.children) {
-      this.treemapPath.push(node);
-      this.treemap = node.children;
+  constructChartOption(cardData: SectoralDistributionCardData): EChartsOption {
+    return {
+      tooltip: {
+        trigger: 'item'
+      },
+      series: [
+        {
+          type: 'treemap',
+          visibleMin: 300,
+          label: {
+            show: true,
+            formatter: '{b}'
+          },
+          upperLabel: {
+            show: true,
+            height: 25,
+            color: 'white'
+          },
+          levels: this.getLevelOption(),
+          data: cardData.items
+        }]
     }
   }
 
+  getLevelOption() {
+    return [
+      {
+        itemStyle: {
+          borderColor: '#777',
+          borderWidth: 0,
+          gapWidth: 1
+        },
+        upperLabel: {
+          show: false
+        }
+      },
+      {
+        itemStyle: {
+          borderColor: '#555',
+          borderWidth: 5,
+          gapWidth: 1
+        },
+        emphasis: {
+          itemStyle: {
+            borderColor: '#ddd'
+          }
+        }
+      },
+      {
+        colorSaturation: [0.35, 0.5],
+        itemStyle: {
+          borderWidth: 2,
+          gapWidth: 1,
+          borderColorSaturation: 0.6
+        }
+      }
+    ];
+  }
+
+  onChartInit(ec: ECharts) {
+    this.echartsInstance = ec;
+    ec.resize({
+      width: this.card.cols * 110,
+      height: this.card.rows * 100
+    });
+  }
 }
