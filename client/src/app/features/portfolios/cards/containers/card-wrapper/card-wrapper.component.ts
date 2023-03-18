@@ -83,8 +83,6 @@ export class CardWrapperComponent implements OnInit, AfterViewInit, OnChanges {
       return;
     }
     if (Object.keys(defaultCardProps).every(key => cardChanges.currentValue[key] === cardChanges.previousValue[key])) {
-      this.cardContentLoaderService.loadContent(this.cardOutlet, this.card, this.cardData$, this.onCardChanges);
-      this.cd.detectChanges();
       this.publishCard(this.card);
     }
   }

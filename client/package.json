@@ -25,6 +25,8 @@
     "@swimlane/ngx-charts": "^20.1.2",
     "@swimlane/ngx-datatable": "^20.1.0",
     "angular-gridster2": "^13.1.1",
+    "echarts": "^5.4.1",
+    "ngx-echarts": "^8.0.1",
     "ngx-mat-select-search": "^5.0.0",
     "rxjs": "~7.4.0",
     "tslib": "^2.3.0",

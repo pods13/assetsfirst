@@ -19,10 +19,13 @@ import { FitChartDirective } from './directives/fit-chart.directive';
 import { DividendGoalsCardComponent } from './containers/dividend-goals-card/dividend-goals-card.component';
 import { MatListModule } from '@angular/material/list';
 import { MatInputModule } from '@angular/material/input';
-import { SectoralDistributionCardComponent } from './containers/sectoral-distribution-card/sectoral-distribution-card.component';
+import {
+  SectoralDistributionCardComponent
+} from './containers/sectoral-distribution-card/sectoral-distribution-card.component';
 import { BalanceCardComponent } from './containers/balance-card/balance-card.component';
 import { ContributionCardComponent } from './containers/contribution-card/contribution-card.component';
 import { InvestmentYieldCardComponent } from './containers/investment-yield-card/investment-yield-card.component';
+import { NgxEchartsModule } from 'ngx-echarts';
 
 
 @NgModule({
@@ -39,23 +42,26 @@ import { InvestmentYieldCardComponent } from './containers/investment-yield-card
     ContributionCardComponent,
     InvestmentYieldCardComponent,
   ],
-    imports: [
-        CommonModule,
-        MatDialogModule,
-        MatFormFieldModule,
-        MatSelectModule,
-        FormsModule,
-        MatButtonModule,
-        MatMenuModule,
-        MatIconModule,
-        PieChartModule,
-        BarChartModule,
-        MatListModule,
-        MatInputModule,
-        ReactiveFormsModule,
-        TreeMapModule,
-        AreaChartModule
-    ],
+  imports: [
+    CommonModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    FormsModule,
+    MatButtonModule,
+    MatMenuModule,
+    MatIconModule,
+    PieChartModule,
+    BarChartModule,
+    MatListModule,
+    MatInputModule,
+    ReactiveFormsModule,
+    TreeMapModule,
+    AreaChartModule,
+    NgxEchartsModule.forRoot({
+      echarts: () => import('echarts')
+    }),
+  ],
   providers: [
     CardContentLoaderService,
     CardService

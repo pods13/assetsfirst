@@ -6,4 +6,6 @@
 
 .breadcrumbs {
   max-height: 24px;
+  position: absolute;
+  z-index: 10;
 }
