@@ -11,12 +11,10 @@ import java.util.Collection;
 @Accessors(chain = true)
 public class ContributionCardData implements CardData {
 
+    private Collection<String> xaxis;
     private Collection<Contribution> contributions;
 
-    public record Contribution(String name, Collection<ContributionDetails> series) {
-    }
-
-    public record ContributionDetails(String name, BigDecimal value) {
+    public record Contribution(String name, Collection<BigDecimal> data) {
     }
 
 }

@@ -2,6 +2,7 @@ package com.topably.assets.portfolios.service.cards.producer;
 
 import com.topably.assets.findata.dividends.domain.dto.AggregatedDividendDto;
 import com.topably.assets.findata.dividends.service.DividendService;
+import com.topably.assets.findata.xrates.service.currency.CurrencyConverterService;
 import com.topably.assets.instruments.domain.InstrumentType;
 import com.topably.assets.portfolios.domain.Portfolio;
 import com.topably.assets.portfolios.domain.cards.CardContainerType;
@@ -12,7 +13,6 @@ import com.topably.assets.portfolios.service.cards.CardStateProducer;
 import com.topably.assets.trades.domain.TradeOperation;
 import com.topably.assets.trades.domain.TradeView;
 import com.topably.assets.trades.service.TradeService;
-import com.topably.assets.findata.xrates.service.currency.CurrencyConverterService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -21,10 +21,13 @@ import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.format.TextStyle;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
@@ -50,23 +53,35 @@ public class ContributionCardStateProducer implements CardStateProducer<Contribu
         var trades = tradeService.findDividendPayingTrades(portfolio.getId(), dividendYears);
         var dividendsByMonthValue = dividendService.aggregateDividends(trades, dividendYears).stream()
             .collect(Collectors.groupingBy(d -> d.getPayDate().getMonthValue(), TreeMap::new, Collectors.toList()));
-        var contributions = EnumSet.allOf(Month.class).stream()
-            .map(month -> {
-                var monthValue = month.getValue();
-                var monthlyDividend = calculateTotalMonthlyDividend(dividendsByMonthValue, monthValue);
-                var dividendContribution = new ContributionCardData.ContributionDetails(DIVIDEND_CONTRIBUTION_NAME,
-                    monthlyDividend.setScale(2, RoundingMode.HALF_UP));
 
-                var monthTrades = tradesByMonthValue.getOrDefault(monthValue, Collections.emptyList());
-                var depositContribution = new ContributionCardData.ContributionDetails(DEPOSIT_CONTRIBUTION_NAME,
-                    calculateMonthlyContribution(monthTrades, monthlyDividend));
-                var monthDisplayName = Month.of(monthValue).getDisplayName(TextStyle.SHORT_STANDALONE, Locale.ENGLISH);
-                return new ContributionCardData.Contribution(monthDisplayName, List.of(dividendContribution, depositContribution));
-            })
-            .toList();
-
+        var xAxis = composeXAxis();
         return new ContributionCardData()
-            .setContributions(contributions);
+            .setXaxis(xAxis)
+            .setContributions(composeContributions(tradesByMonthValue, dividendsByMonthValue));
+    }
+
+    private Collection<String> composeXAxis() {
+        return EnumSet.allOf(Month.class).stream()
+            .map(m -> Month.of(m.getValue()).getDisplayName(TextStyle.SHORT_STANDALONE, Locale.ENGLISH))
+            .toList();
+    }
+
+    private Collection<ContributionCardData.Contribution> composeContributions(TreeMap<Integer, List<TradeView>> tradesByMonthValue,
+                                                                               TreeMap<Integer, List<AggregatedDividendDto>> dividendsByMonthValue) {
+        var stacks = Map.of(DIVIDEND_CONTRIBUTION_NAME, new ArrayList<BigDecimal>(),
+            DEPOSIT_CONTRIBUTION_NAME, new ArrayList<BigDecimal>());
+        EnumSet.allOf(Month.class).forEach(month -> {
+            var monthValue = month.getValue();
+            var monthlyDividend = calculateTotalMonthlyDividend(dividendsByMonthValue, monthValue);
+            stacks.get(DIVIDEND_CONTRIBUTION_NAME).add(monthlyDividend.setScale(2, RoundingMode.HALF_UP));
+
+            var monthTrades = tradesByMonthValue.getOrDefault(monthValue, Collections.emptyList());
+            stacks.get(DEPOSIT_CONTRIBUTION_NAME).add(calculateMonthlyContribution(monthTrades, monthlyDividend));
+        });
+
+        return stacks.entrySet().stream()
+            .map(e -> new ContributionCardData.Contribution(e.getKey(), e.getValue()))
+            .toList();
     }
 
     private BigDecimal calculateMonthlyContribution(List<TradeView> monthTrades, BigDecimal monthlyDividend) {
