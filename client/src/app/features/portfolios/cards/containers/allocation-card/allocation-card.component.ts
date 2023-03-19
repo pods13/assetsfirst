@@ -12,7 +12,6 @@ import { Observable } from 'rxjs';
 import { AssetsAllocationCardData } from '../../types/out/assets-allocation-card-data';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { AllocatedByOption, AssetAllocationCard } from '../../types/in/asset-allocation-card';
-import { lightColor } from '../../helpers/chart-color-sets';
 import { ECharts, EChartsOption } from 'echarts';
 
 @UntilDestroy()

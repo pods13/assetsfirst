@@ -1,10 +1,20 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  OnInit,
+  ViewEncapsulation
+} from '@angular/core';
 import { CardContainer } from '../../types/card-container';
 import { Observable } from 'rxjs';
-import { DividendIncomeCardData } from '../../types/out/dividend-income-card-data';
+import { DividendIncomeCardData, TimeFrameDividend } from '../../types/out/dividend-income-card-data';
 import { DividendIncomeCard, TimeFrameOption } from '../../types/in/dividend-income-card';
-import { lightColor } from '../../helpers/chart-color-sets';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { ECharts, EChartsOption } from 'echarts';
 
+@UntilDestroy()
 @Component({
   selector: 'app-dividends-card',
   template: `
@@ -20,48 +30,109 @@ import { lightColor } from '../../helpers/chart-color-sets';
         </mat-select>
       </mat-form-field>
     </div>
-    <ngx-charts-bar-vertical-2d *ngIf="data$ | async as data" class="dividend-income-chart clearfix"
-                                [results]="data.dividends"
-                                [scheme]="colorScheme"
-                                [xAxis]="true"
-                                [yAxis]="true"
-                                [showYAxisLabel]="true" [yAxisLabel]="'Earned Dividends'"
-                                [showGridLines]="true"
-                                [roundDomains]="true"
-                                [noBarWhenZero]="false">
-      <ng-template #tooltipTemplate let-model="model">
-        <div class="tooltip">
-          <div class="tooltip-title">{{model.series + '·' + model.name + ': ' + model.value}}</div>
-          <div class="tooltip-details">
-          <span class="dividend-detail" *ngFor="let div of model.details">
-            {{div.name + ': ' + div.total}}
-          </span>
-          </div>
-        </div>
-      </ng-template>
-    </ngx-charts-bar-vertical-2d>
+    <div echarts class="dividend-income-chart" [options]="chartOption" [loading]="loading"
+         (chartInit)="onChartInit($event)">
+    </div>
   `,
   styleUrls: ['./dividend-income-card.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None
 })
-export class DividendIncomeCardComponent implements OnInit, CardContainer<DividendIncomeCard, DividendIncomeCardData> {
+export class DividendIncomeCardComponent implements OnInit, AfterViewInit, CardContainer<DividendIncomeCard, DividendIncomeCardData> {
 
   card!: DividendIncomeCard;
   data$!: Observable<DividendIncomeCardData>;
 
   cardChanges$ = new EventEmitter<DividendIncomeCard>();
 
-  colorScheme = lightColor;
-
   timeFrameOptions = Object.keys(TimeFrameOption).map(timeFrame => ({value: timeFrame}));
 
-  constructor() {
+  chartOption!: EChartsOption;
+  echartsInstance!: ECharts;
+  loading: boolean = false;
+
+  constructor(private cd: ChangeDetectorRef) {
   }
 
   ngOnInit(): void {
   }
 
+  ngAfterViewInit(): void {
+    this.data$.pipe(untilDestroyed(this))
+      .subscribe(data => {
+        this.chartOption = this.constructChartOption(data);
+        this.loading = false;
+        this.cd.detectChanges();
+      });
+  }
+
+  constructChartOption(cardData: DividendIncomeCardData): EChartsOption {
+    const dividendsData = cardData.dividends;
+    const xAxis = dividendsData.map(d => d.name);
+    return {
+      tooltip: {
+        trigger: 'item',
+        position: 'inside',
+        formatter: function (params: any) {
+          const timeFrameDividend = dividendsData.find(d => d.name === params.name);
+          if (!timeFrameDividend) {
+            return `<div class="tooltip-dividend">`
+              + `<div class="tooltip-dividend-title">${params.seriesName}: ${params.value}</div>`
+              + `</div>`;
+          }
+          const details = timeFrameDividend.series[params.seriesIndex].details;
+          const dividendDetails = details
+            .map(detail => `<span class="dividend-detail">${detail.name}: ${detail.total}</span>`).join("");
+          return `<div class="tooltip-dividend">`
+            + `<div class="tooltip-dividend-title">${params.seriesName}: ${params.value}</div>`
+            + `<div class="tooltip-dividend-details">${dividendDetails}</div>`
+            + `</div>`;
+        }
+      },
+      xAxis: {
+        type: 'category',
+        data: xAxis
+      },
+      yAxis: {
+        type: 'value'
+      },
+      series: this.composeBarSeries(dividendsData)
+    };
+  }
+
+  composeBarSeries(dividendsData: TimeFrameDividend[]) {
+    const series: any[] = [];
+    dividendsData.forEach((d, i) => {
+      if (i === 0) {
+        d.series.forEach(s => series.push({
+          name: s.name,
+          data: [s.value],
+          type: 'bar',
+          showBackground: true,
+          details: [s.details]
+        }))
+      } else {
+        d.series.forEach((s, j) => {
+          series[j].data.push(s.value)
+          series[j].details.push(s.details)
+        });
+      }
+    });
+    return series;
+  }
+
+  onChartInit(ec: ECharts) {
+    this.echartsInstance = ec;
+    ec.resize({
+      width: this.card.cols * 110,
+      height: this.card.rows * 100
+    });
+  }
+
+
   onTimeFrameOptionChanged(timeFrame: TimeFrameOption) {
+    this.loading = true;
+    this.cd.detectChanges();
     this.cardChanges$.emit({...this.card, timeFrame});
   }
 }

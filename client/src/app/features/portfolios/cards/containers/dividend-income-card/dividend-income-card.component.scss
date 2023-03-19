@@ -1,18 +1,25 @@
 @import "../common-card";
 
-.tooltip {
+.tooltip-dividend {
+  max-width: 400px;
   min-width: 150px;
-};
+}
 
-.tooltip-details {
+.tooltip-dividend-title {
+  text-align: center;
+}
+
+.tooltip-dividend-details {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  align-items: center;
   justify-content: center;
 
   & .dividend-detail {
-    width: 50%;
+    flex: 1 1 30%;
     display: flex;
     justify-content: space-evenly;
+    padding: 2px;
   }
 }

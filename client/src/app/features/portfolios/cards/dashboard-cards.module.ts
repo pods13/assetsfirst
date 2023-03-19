@@ -13,7 +13,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { CardService } from './services/card.service';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
-import { AreaChartModule, BarChartModule, PieChartModule, TreeMapModule } from '@swimlane/ngx-charts';
 import { DividendIncomeCardComponent } from './containers/dividend-income-card/dividend-income-card.component';
 import { FitChartDirective } from './directives/fit-chart.directive';
 import { DividendGoalsCardComponent } from './containers/dividend-goals-card/dividend-goals-card.component';
@@ -51,13 +50,9 @@ import { NgxEchartsModule } from 'ngx-echarts';
     MatButtonModule,
     MatMenuModule,
     MatIconModule,
-    PieChartModule,
-    BarChartModule,
     MatListModule,
     MatInputModule,
     ReactiveFormsModule,
-    TreeMapModule,
-    AreaChartModule,
     NgxEchartsModule.forRoot({
       echarts: () => import('echarts')
     }),
