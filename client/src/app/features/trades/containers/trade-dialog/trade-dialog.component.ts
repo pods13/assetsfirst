@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import {
   BehaviorSubject,
   catchError,
@@ -64,7 +64,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 })
 export class TradeDialogComponent implements OnInit {
 
-  form: FormGroup;
+  form: UntypedFormGroup;
 
   searching = false;
 
@@ -73,7 +73,7 @@ export class TradeDialogComponent implements OnInit {
   brokers$ = this.brokerService.getBrokers();
   total$ = new BehaviorSubject(0.0);
 
-  constructor(private fb: FormBuilder,
+  constructor(private fb: UntypedFormBuilder,
               private tradingInstrumentService: TradingInstrumentService,
               private brokerService: BrokerService,
               public dialogRef: MatDialogRef<TradeDialogComponent>,

@@ -1,7 +1,7 @@
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { CardContainer } from '../../types/card-container';
 import { debounceTime, first, Observable, skip, tap, withLatestFrom } from 'rxjs';
-import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormArray, UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { DividendGoalsCardData } from '../../types/out/dividend-goals-card-data';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { DividendGoalsCard } from '../../types/in/dividend-goals-card';
@@ -42,9 +42,9 @@ export class DividendGoalsCardComponent implements CardContainer<DividendGoalsCa
 
   setupFormBeforeData$!: Observable<DividendGoalsCardData>;
 
-  form: FormGroup;
+  form: UntypedFormGroup;
 
-  constructor(private fb: FormBuilder,
+  constructor(private fb: UntypedFormBuilder,
               private store: DashboardCardStore,
               private cd: ChangeDetectorRef) {
     this.form = fb.group({
@@ -52,8 +52,8 @@ export class DividendGoalsCardComponent implements CardContainer<DividendGoalsCa
     });
   }
 
-  get desiredYields(): FormArray {
-    return this.form.get('desiredYields') as FormArray;
+  get desiredYields(): UntypedFormArray {
+    return this.form.get('desiredYields') as UntypedFormArray;
   }
 
   ngOnInit(): void {

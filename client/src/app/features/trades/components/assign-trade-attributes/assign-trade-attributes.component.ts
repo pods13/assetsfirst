@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { ControlContainer, FormBuilder, FormGroup, FormGroupDirective, Validators } from '@angular/forms';
+import { ControlContainer, UntypedFormBuilder, UntypedFormGroup, FormGroupDirective, Validators } from '@angular/forms';
 import { TradeOperation } from '../../types/trade-operation';
 import { TradeViewDto } from '../../types/trade-view.dto';
 
@@ -49,12 +49,12 @@ export class AssignTradeAttributesComponent implements OnInit {
   @Input()
   trade?: TradeViewDto;
 
-  form!: FormGroup;
+  form!: UntypedFormGroup;
 
   tradeOperations = Object.keys(TradeOperation);
 
   constructor(public parentForm: FormGroupDirective,
-              private fb: FormBuilder) {
+              private fb: UntypedFormBuilder) {
   }
 
   ngOnInit(): void {
