@@ -24,7 +24,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 @Component({
   selector: 'app-trade-dialog',
   template: `
-    <h1 mat-dialog-title>{{data?.title}}</h1>
+    <h1 mat-dialog-title>{{data.title}}</h1>
     <div mat-dialog-content>
       <form [formGroup]="form">
         <mat-form-field appearance="fill">
@@ -51,7 +51,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
             </mat-option>
           </mat-select>
         </mat-form-field>
-        <app-assign-trade-attributes [trade]="data?.trade"></app-assign-trade-attributes>
+        <app-assign-trade-attributes [trade]="data.trade"></app-assign-trade-attributes>
       </form>
       <div class="total">Total: {{total$ | async}}</div>
     </div>

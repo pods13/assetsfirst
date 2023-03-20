@@ -19,7 +19,7 @@ import { ECharts, EChartsOption } from 'echarts';
   selector: 'app-dividends-card',
   template: `
     <div class="card-header">
-      <h2 class="title">{{ card?.title }}</h2>
+      <h2 class="title">{{ card.title }}</h2>
       <mat-form-field appearance="legacy">
         <div matPrefix>{{'By:'}}</div>
         <mat-select [value]="card.timeFrame" (valueChange)="onTimeFrameOptionChanged($event)">

@@ -11,7 +11,7 @@ import { BarSeriesOption, ECharts, EChartsOption } from 'echarts';
   selector: 'app-contribution-card',
   template: `
     <div class="card-header">
-      <h2 class="title">{{ card?.title }}</h2>
+      <h2 class="title">{{ card.title }}</h2>
     </div>
     <div echarts class="contribution-chart" [options]="chartOption" [loading]="loading"
          (chartInit)="onChartInit($event)">

@@ -11,7 +11,7 @@ import { ECharts, EChartsOption } from 'echarts';
   selector: 'app-sectoral-distribution-card',
   template: `
     <div class="card-header">
-      <h2 class="title">{{ card?.title }}</h2>
+      <h2 class="title">{{ card.title }}</h2>
     </div>
     <div echarts class="distribution-chart" [options]="chartOption" [loading]="loading"
          (chartInit)="onChartInit($event)">

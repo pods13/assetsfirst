@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
   selector: 'app-investment-yield-card',
   template: `
     <div class="card-header">
-      <h2 class="title">{{ card?.title }}</h2>
+      <h2 class="title">{{ card.title }}</h2>
     </div>
     <ng-container *ngIf="data$ | async as data">
       <div class="yield"><span>TTM yield on cost: </span>{{data.dividendYield + '%'}}</div>

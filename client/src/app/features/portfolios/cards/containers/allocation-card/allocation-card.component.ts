@@ -19,7 +19,7 @@ import { ECharts, EChartsOption } from 'echarts';
   selector: 'app-allocation-card',
   template: `
     <div class="card-header">
-      <h2 class="title">{{ card?.title }}</h2>
+      <h2 class="title">{{ card.title }}</h2>
       <mat-form-field appearance="legacy">
         <div matPrefix>{{'by:'}}</div>
         <mat-select [value]="card.allocatedBy" (valueChange)="onAllocatedByOptionChanged($event)">
