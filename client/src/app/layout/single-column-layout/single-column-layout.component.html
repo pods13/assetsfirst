@@ -23,7 +23,11 @@
         <a routerLink="/app/portfolio" mat-button>Portfolio</a>
         <a routerLink="/app/positions" mat-button>Positions</a>
         <a routerLink="/app/trades" mat-button>Trades</a>
-        <a (click)="logout()" mat-button>Logout</a>
+        <button mat-button [matMenuTriggerFor]="profileMenu">Profile</button>
+        <mat-menu #profileMenu="matMenu">
+          <button mat-menu-item routerLink="/app/profile">Edit</button>
+          <button mat-menu-item (click)="logout()">Logout</button>
+        </mat-menu>
       </div>
     </mat-toolbar>
     <router-outlet></router-outlet>

@@ -1,8 +1,10 @@
 package com.topably.assets.auth.service;
 
+import com.topably.assets.auth.domain.ChangePasswordDto;
 import com.topably.assets.auth.domain.CreateUserDto;
 import com.topably.assets.auth.domain.User;
 import com.topably.assets.auth.domain.UserDto;
+import com.topably.assets.auth.domain.security.CurrentUser;
 import com.topably.assets.auth.event.UserCreatedEvent;
 import com.topably.assets.auth.repository.AuthorityRepository;
 import com.topably.assets.auth.repository.UserRepository;
@@ -13,9 +15,10 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
 
-import java.util.Random;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -41,14 +44,19 @@ public class UserService {
             throw new RuntimeException();
         }
         var userRole = authorityRepository.findByRole("USER");
-        User user = User.builder()
-            .username(userDto.getUsername())
-            .password(passwordEncoder.encode(userDto.getPassword()))
-            .authority(userRole)
-            .build();
+        var firstLogin = true;
+        User user = new User()
+            .setUsername(userDto.getUsername())
+            .setPassword(passwordEncoder.encode(userDto.getPassword()))
+            .setAuthorities(Set.of(userRole))
+            .setAccountNonLocked(true)
+            .setAccountNonExpired(true)
+            .setCredentialsNonExpired(true)
+            .setEnabled(true)
+            .setFirstLogin(firstLogin);
         User newUser = userRepository.save(user);
         eventPublisher.publishEvent(new UserCreatedEvent(this, newUser.getId(), userDto.isProvideData()));
-        return new UserDto(user.getId(), user.getUsername());
+        return new UserDto(user.getId(), user.getUsername(), firstLogin);
     }
 
     public CreateUserDto generateAnonymousUser() {
@@ -69,5 +77,26 @@ public class UserService {
             .filteredBy(CharacterPredicates.LETTERS, CharacterPredicates.DIGITS)
             .build();
         return pwdGenerator.generate(8);
+    }
+
+    public UserDto changePassword(CurrentUser currentUser, ChangePasswordDto dto) {
+        var user = userRepository.findById(currentUser.getUserId()).orElseThrow();
+        var firstLogin = Boolean.TRUE.equals(user.getFirstLogin());
+        if (firstLogin || hasSameCurrentPassword(user, dto.currentPassword())) {
+            if (firstLogin) {
+                user.setFirstLogin(false);
+            }
+            if (!Objects.equals(dto.newPassword(), dto.confirmNewPassword())) {
+                throw new RuntimeException("New password and confirm password have to be the same");
+            }
+            user.setPassword(passwordEncoder.encode(dto.newPassword()));
+        } else {
+            throw new RuntimeException("Password is incorrect");
+        }
+        return new UserDto(user.getId(), user.getUsername(), user.getFirstLogin());
+    }
+
+    private boolean hasSameCurrentPassword(User user, String currentPassword) {
+        return currentPassword != null && passwordEncoder.matches(currentPassword, user.getPassword());
     }
 }

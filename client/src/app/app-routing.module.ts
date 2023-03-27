@@ -31,6 +31,10 @@ const routes: Routes = [
       {
         path: 'positions',
         loadChildren: () => import('./features/positions/portfolio-positions.module').then(m => m.PortfolioPositionsModule)
+      },
+      {
+        path: 'profile',
+        loadChildren: () => import('./features/profiles/profiles.module').then(m => m.ProfilesModule)
       }
     ]
   }

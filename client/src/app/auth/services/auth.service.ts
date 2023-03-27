@@ -16,6 +16,10 @@ export class AuthService {
 
   private loggedUser!: User | null;
 
+  setLoggedUser = (user: User | null) => {
+    this.loggedUser = user;
+  };
+
   constructor(private router: Router,
               private http: HttpClient,
               private dialog: MatDialog) {
@@ -26,13 +30,7 @@ export class AuthService {
     formData.append('username', userCredentials.username);
     formData.append('password', userCredentials.password);
     return this.http.post<User>(`/auth/login`, formData)
-      .pipe(tap((data) => {
-        this.doLoginUser(data)
-      }));
-  }
-
-  private doLoginUser(user: User): void {
-    this.loggedUser = user;
+      .pipe(tap(this.setLoggedUser));
   }
 
   getCurrentUser() {
@@ -40,7 +38,7 @@ export class AuthService {
       return of(this.loggedUser);
     }
     return this.http.get<User>('/auth/user')
-      .pipe(tap((user) => (this.loggedUser = user)));
+      .pipe(tap(this.setLoggedUser));
   }
 
   isLoggedIn$(): Observable<boolean> {
@@ -56,13 +54,9 @@ export class AuthService {
   }
 
   doLogoutAndRedirectToLogin() {
-    this.doLogout();
+    this.setLoggedUser(null);
     this.dialog.closeAll();
     return this.router.navigate(['login']);
-  }
-
-  private doLogout() {
-    this.loggedUser = null;
   }
 
   signup(dto: CreateUserDto) {

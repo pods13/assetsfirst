@@ -26,5 +26,4 @@ export class SingleColumnLayoutComponent implements OnInit {
   logout() {
     this.authService.logout().subscribe(() => console.debug('logout'));
   }
-
 }

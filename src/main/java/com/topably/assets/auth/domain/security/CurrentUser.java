@@ -12,11 +12,13 @@ import java.util.Collection;
 public class CurrentUser extends org.springframework.security.core.userdetails.User {
 
     private Long userId;
+    private Boolean firstLogin;
 
     public CurrentUser(User user, Collection<? extends GrantedAuthority> authorities) {
         this(user.getUsername(), user.getPassword(), user.getEnabled(), user.getAccountNonExpired(),
             user.getCredentialsNonExpired(), user.getAccountNonLocked(), authorities);
         this.userId = user.getId();
+        this.firstLogin = user.getFirstLogin();
     }
 
     private CurrentUser(String username, String password, boolean enabled, boolean accountNonExpired, boolean credentialsNonExpired,

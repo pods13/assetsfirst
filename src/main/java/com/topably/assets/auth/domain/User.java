@@ -1,11 +1,10 @@
 package com.topably.assets.auth.domain;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.Singular;
+import lombok.experimental.Accessors;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.CascadeType;
@@ -24,7 +23,7 @@ import java.util.Set;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@Accessors(chain = true)
 @Entity
 public class User {
 
@@ -36,7 +35,6 @@ public class User {
     private String username;
     private String password;
 
-    @Singular
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinTable(name = "user_authority",
         joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "ID")},
@@ -45,15 +43,14 @@ public class User {
         inverseForeignKey = @ForeignKey(name = "fk__user__authority_id__authority"))
     private Set<Authority> authorities;
 
-    @Builder.Default
-    private Boolean accountNonExpired = true;
+    private Boolean accountNonExpired;
 
-    @Builder.Default
-    private Boolean accountNonLocked = true;
+    private Boolean accountNonLocked;
 
-    @Builder.Default
-    private Boolean credentialsNonExpired = true;
+    private Boolean credentialsNonExpired;
 
-    @Builder.Default
-    private Boolean enabled = true;
+    private Boolean enabled;
+
+    private Boolean firstLogin;
+
 }
