@@ -24,7 +24,7 @@ import { Router } from '@angular/router';
                   (click)="sidenav.toggle()" *ngIf="isHandset$ | async">
             <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
           </button>
-          <span class="logo" routerLink="">Assets</span>
+          <span class="logo" routerLink="">AssetsFirst</span>
           <span class="fill-space"></span>
           <div *ngIf="!(isHandset$ | async)" class="top-nav">
             <a routerLink="login" mat-button>Log In</a>
