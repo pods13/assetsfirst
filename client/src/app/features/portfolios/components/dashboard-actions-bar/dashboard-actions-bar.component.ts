@@ -38,6 +38,6 @@ export class DashboardActionsBarComponent implements OnInit {
   }
 
   getAvailableToSelectCards() {
-    return Object.keys(CardContainerType);
+    return Object.keys(CardContainerType).filter(c => c !== 'DIVIDEND_GOALS');
   }
 }
