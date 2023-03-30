@@ -16,6 +16,7 @@ spring:
     banner-mode: 'off'
 
 app:
+  allowed-origins: http://localhost:4200
   bootstrap:
     with:
       data: 'false'

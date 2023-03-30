@@ -11,3 +11,5 @@ spring:
   jpa:
     hibernate:
       ddl-auto: validate
+app:
+  allowed-origins: https://assetsfirst.ru, https://api.assetsfirst.ru

@@ -1,5 +1,6 @@
 package com.topably.assets.core.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
@@ -31,6 +32,9 @@ public class WebSecurityConfig {
 
     private static final String X_REQUESTED_WITH_HEADER = "X-Requested-With";
 
+    @Value("${app.allowed-origins}")
+    private List<String> allowedOrigins;
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http.cors().configurationSource(corsConfigurationSource())
@@ -59,7 +63,7 @@ public class WebSecurityConfig {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("http://localhost:4200"));
+        configuration.setAllowedOrigins(allowedOrigins);
         configuration.setAllowedMethods(List.of("GET", "POST", "OPTIONS", "PATCH", "PUT", "DELETE"));
         configuration.setAllowedHeaders(List.of(X_REQUESTED_WITH_HEADER, HttpHeaders.CONTENT_TYPE, "x-xsrf-token"));
         configuration.setAllowCredentials(true);
