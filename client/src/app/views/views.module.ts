@@ -7,6 +7,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterModule } from '@angular/router';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 
 
@@ -14,14 +15,15 @@ import { RouterModule } from '@angular/router';
   declarations: [
     HomePageComponent
   ],
-  imports: [
-    CommonModule,
-    MatSidenavModule,
-    MatToolbarModule,
-    MatListModule,
-    MatIconModule,
-    MatButtonModule,
-    RouterModule,
-  ]
+    imports: [
+        CommonModule,
+        MatSidenavModule,
+        MatToolbarModule,
+        MatListModule,
+        MatIconModule,
+        MatButtonModule,
+        RouterModule,
+        MatProgressSpinnerModule,
+    ]
 })
 export class ViewsModule { }

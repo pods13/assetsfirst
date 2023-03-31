@@ -96,3 +96,10 @@
 .fill-space {
   flex-grow: 1;
 }
+
+.spinner-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
