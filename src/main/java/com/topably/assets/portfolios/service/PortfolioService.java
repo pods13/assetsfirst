@@ -3,12 +3,13 @@ package com.topably.assets.portfolios.service;
 import com.topably.assets.auth.service.UserService;
 import com.topably.assets.findata.dividends.service.DividendService;
 import com.topably.assets.findata.exchanges.service.ExchangeService;
+import com.topably.assets.findata.xrates.service.currency.CurrencyConverterService;
 import com.topably.assets.instruments.domain.InstrumentType;
 import com.topably.assets.portfolios.domain.Portfolio;
 import com.topably.assets.portfolios.domain.PortfolioDashboard;
 import com.topably.assets.portfolios.domain.dto.PortfolioPositionDto;
 import com.topably.assets.portfolios.repository.PortfolioRepository;
-import com.topably.assets.findata.xrates.service.currency.CurrencyConverterService;
+import com.topably.assets.portfolios.service.cards.DashboardCardTrialDataProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheConfig;
@@ -38,10 +39,11 @@ public class PortfolioService {
     private final CurrencyConverterService currencyConverterService;
     private final PortfolioPositionService portfolioPositionService;
     private final DividendService dividendService;
+    private final DashboardCardTrialDataProvider cardTrialDataProvider;
 
-    public void createDefaultUserPortfolio(Long userId) {
+    public void createDefaultUserPortfolio(Long userId, boolean provideData) {
         var dashboard = PortfolioDashboard.builder()
-            .cards(new HashSet<>())
+            .cards(provideData ? cardTrialDataProvider.provideCards() : new HashSet<>())
             .build();
         Portfolio portfolio = Portfolio.builder()
             .user(userService.getById(userId))
@@ -71,7 +73,7 @@ public class PortfolioService {
         return calculateInvestedAmountByDate(portfolio, nextDay);
     }
 
-    @Cacheable(key="{ #root.methodName, #portfolio.id, #date }")
+    @Cacheable(key = "{ #root.methodName, #portfolio.id, #date }")
     public BigDecimal calculateInvestedAmountByDate(Portfolio portfolio, LocalDate date) {
         //TODO add position.openDate to filter out positions opened after date
         var positions = portfolioPositionService.findPortfolioPositions(portfolio.getId());
@@ -93,7 +95,6 @@ public class PortfolioService {
             .map(p -> portfolioPositionService.calculateInvestedAmountByPositionId(p.getId(), portfolioCurrency, date))
             .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
-
 
 
     public BigDecimal calculateAnnualDividend(Portfolio portfolio, Year year) {

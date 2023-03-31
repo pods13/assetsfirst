@@ -12,6 +12,7 @@ import com.topably.assets.portfolios.domain.cards.input.SectoralDistributionCard
 import com.topably.assets.portfolios.domain.cards.input.allocation.AllocationCard;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 
@@ -30,6 +31,7 @@ import static com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NAME;
 })
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 @Data
+@Accessors(chain = true)
 @NoArgsConstructor
 public abstract class DashboardCard implements Serializable {
 

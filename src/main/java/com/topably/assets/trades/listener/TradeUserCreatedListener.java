@@ -1,7 +1,7 @@
-package com.topably.assets.portfolios.listener;
+package com.topably.assets.trades.listener;
 
 import com.topably.assets.auth.event.UserCreatedEvent;
-import com.topably.assets.portfolios.service.PortfolioService;
+import com.topably.assets.trades.service.TradeTrialDataProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.event.TransactionPhase;
@@ -9,12 +9,14 @@ import org.springframework.transaction.event.TransactionalEventListener;
 
 @Component
 @RequiredArgsConstructor
-public class UserCreatedListener {
+public class TradeUserCreatedListener {
 
-    private final PortfolioService portfolioService;
+    private final TradeTrialDataProvider dataProvider;
 
     @TransactionalEventListener(phase = TransactionPhase.BEFORE_COMMIT)
     public void onApplicationEvent(UserCreatedEvent event) {
-        portfolioService.createDefaultUserPortfolio(event.getUserId());
+        if (event.isProvideData()) {
+            dataProvider.provideData(event.getUserId());
+        }
     }
 }
