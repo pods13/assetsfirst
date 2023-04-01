@@ -44,7 +44,7 @@ const routes: Routes = [
   imports: [
     LayoutModule,
     ViewsModule,
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes, {useHash: true})
   ],
   exports: [RouterModule]
 })
