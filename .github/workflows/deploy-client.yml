@@ -21,3 +21,13 @@ jobs:
           always-auth: true
       - run: npm ci
       - run: npm run build:prod
+      - name: Pushes to hosting repo
+        uses: cpina/github-action-push-to-another-repository@main
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+        with:
+          source-directory: 'dist'
+          destination-github-username: 'assetsfirst'
+          destination-repository-name: 'assetsfirst'
+          user-email: alta0815@yandex.ru
+          target-branch: pages
