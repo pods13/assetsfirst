@@ -12,5 +12,5 @@ spring:
     hibernate:
       ddl-auto: validate
 app:
-  cookie-domain: https://assetsfirst.ru
+  cookie-domain: assetsfirst.ru
   allowed-origins: https://assetsfirst.ru, https://api.assetsfirst.ru
