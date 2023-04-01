@@ -1,6 +1,7 @@
-import { Injectable, isDevMode } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { RxStomp, RxStompConfig } from '@stomp/rx-stomp';
 import { HttpXsrfTokenExtractor } from '@angular/common/http';
+import { environment } from '@env';
 
 @Injectable()
 export class RxStompService extends RxStomp {
@@ -20,7 +21,7 @@ const debugFunc = (msg: string) => {
 }
 
 export const rxStompConfig: RxStompConfig = {
-  brokerURL: 'ws://localhost:8080/live',
+  brokerURL: environment.brokerUrl,
 
   heartbeatIncoming: 0,
   heartbeatOutgoing: 20000,
@@ -30,7 +31,7 @@ export const rxStompConfig: RxStompConfig = {
 
   beforeConnect: client => (client as RxStompService).setConnectHeaders(),
 
-  debug: isDevMode() ? debugFunc : undefined,
+  debug: undefined,
 };
 
 export function rxStompServiceFactory(tokenExtractor: HttpXsrfTokenExtractor) {
