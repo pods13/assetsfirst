@@ -32,11 +32,16 @@ public class WebSecurityConfig {
 
     private static final String X_REQUESTED_WITH_HEADER = "X-Requested-With";
 
+    @Value("${app.cookie-domain}")
+    private String cookieDomain;
+
     @Value("${app.allowed-origins}")
     private List<String> allowedOrigins;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        var tokenRepository = CookieCsrfTokenRepository.withHttpOnlyFalse();
+        tokenRepository.setCookieDomain(cookieDomain);
         return http.cors().configurationSource(corsConfigurationSource())
             .and()
             .authorizeRequests()
@@ -55,7 +60,7 @@ public class WebSecurityConfig {
             .and()
             .httpBasic()
             .and().csrf()
-            .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+            .csrfTokenRepository(tokenRepository)
             .and()
             .build();
     }
