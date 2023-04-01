@@ -30,8 +30,6 @@ export const rxStompConfig: RxStompConfig = {
   reconnectDelay: 3000,
 
   beforeConnect: client => (client as RxStompService).setConnectHeaders(),
-
-  debug: undefined,
 };
 
 export function rxStompServiceFactory(tokenExtractor: HttpXsrfTokenExtractor) {
