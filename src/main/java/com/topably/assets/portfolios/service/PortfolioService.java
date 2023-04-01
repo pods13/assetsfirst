@@ -10,6 +10,7 @@ import com.topably.assets.portfolios.domain.PortfolioDashboard;
 import com.topably.assets.portfolios.domain.dto.PortfolioPositionDto;
 import com.topably.assets.portfolios.repository.PortfolioRepository;
 import com.topably.assets.portfolios.service.cards.DashboardCardTrialDataProvider;
+import com.topably.assets.trades.service.TradeTrialDataProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheConfig;
@@ -40,6 +41,7 @@ public class PortfolioService {
     private final PortfolioPositionService portfolioPositionService;
     private final DividendService dividendService;
     private final DashboardCardTrialDataProvider cardTrialDataProvider;
+    private final TradeTrialDataProvider tradeTrialDataProvider;
 
     public void createDefaultUserPortfolio(Long userId, boolean provideData) {
         var dashboard = PortfolioDashboard.builder()
@@ -50,6 +52,9 @@ public class PortfolioService {
             .dashboard(dashboard)
             .build();
         portfolioRepository.save(portfolio);
+        if (provideData) {
+            tradeTrialDataProvider.provideData(userId);
+        }
     }
 
     public Portfolio findByUserId(Long userId) {
