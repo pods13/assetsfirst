@@ -32,7 +32,7 @@ public class WebSecurityConfig {
 
     private static final String X_REQUESTED_WITH_HEADER = "X-Requested-With";
 
-    @Value("${app.cookie-domain}")
+    @Value("${app.cookie-domain:}")
     private String cookieDomain;
 
     @Value("${app.allowed-origins}")
