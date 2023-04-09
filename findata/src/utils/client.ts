@@ -7,15 +7,15 @@ export async function getClient() {
     const jar = new CookieJar();
     const client = wrapper(axios.create({
         jar,
-        baseURL: 'http://localhost:8080',
+        baseURL: process.env.API_ASSETSFIRST_URL,
         withCredentials: true,
         headers: {'X-Requested-With': 'XMLHttpRequest'},
     }));
 
     const token = await getInitialCsrfToken(client);
     const authData = new FormData();
-    authData.append('username', 'user');
-    authData.append('password', '&}vU6Nw6');
+    authData.append('username', process.env.API_ASSETSFIRST_USERNAME);
+    authData.append('password', process.env.API_ASSETSFIRST_PASSWORD);
     try {
         const loginResponse = await client.post("/auth/login", authData, {
             headers: {

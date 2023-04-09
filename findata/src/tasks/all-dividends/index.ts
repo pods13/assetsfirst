@@ -1,54 +1,48 @@
-import { parse } from 'fast-csv';
-import fs from 'fs';
+import { getInstruments } from '../../common/instrument.service';
+import connection from '../../common/connection';
 import fsPromises from 'fs/promises';
 import path from 'path';
-import axios, { AxiosInstance } from 'axios';
+import fs from 'fs';
+import { parse } from 'fast-csv';
+import axios from 'axios';
 import { load } from 'cheerio';
 import { addMonths } from '../../utils/add-months';
 import { getClient } from '../../utils/client';
-import { Page } from '../../utils/page';
 
 const tickerBySlug: { [key: string]: string } = {};
 
-export async function fetchAllDividends() {
+async function main() {
     const resourceFolderPath = './resources/stocks';
     const filenames = await fsPromises.readdir(resourceFolderPath);
     const whenFilesRead = filenames
         .map(f => fillTickerCacheFromFile(path.join(resourceFolderPath, f)));
     await Promise.all(whenFilesRead);
-
+    const instruments = await getInstruments(connection, ['NYSE', 'NASDAQ', 'NYSEARCA', 'HK', 'XETRA']);
     const client = await getClient();
-    let page = 1;
-    let last = false;
-    do {
-        const paginatedTickers = await getTickers(client, page);
-        console.log(paginatedTickers.content)
-        const whenDividendsPushed = paginatedTickers.content.map((s: any) =>
-            pushDividends(client, {
-                symbol: s.symbol,
-                exchange: s.exchange,
-                slug: tickerBySlug[`${s.symbol}.${s.exchange}`]
-            }));
-        try {
-            await Promise.allSettled(whenDividendsPushed);
-        } catch (e) {
-            console.error(`Cannot push dividends`);
-        }
-        last = paginatedTickers.last;
-        page += 1;
-    } while (!last);
-}
 
-async function getTickers(client: AxiosInstance, page: number) {
-    const res = await client.get<Page<any>>(`/exchanges/tickers?size=10&page=${page}&instrumentTypes=STOCK&inAnyPortfolio=true`);
-    return res.data;
-}
+    const whenInstrumentDividendsInserted = instruments.map(instrument => {
+        const slug = tickerBySlug[`${instrument.symbol}.${instrument.exchange}`];
+        return parseRecentDividends(slug)
+            .catch(e => {
+                console.error(`Error during dividend data gathering for ${instrument.symbol + ':' + instrument.exchange}`);
+                throw e;
+            })
+            .then(dividends => {
+                return transformToDividendDtos(dividends);
+            })
+            .then(res => {
+                if (res) {
+                    return client.post(`/dividends?ticker=${instrument.symbol}&exchange=${instrument.exchange}`, res)
+                        .then(() => console.log(`Dividends were received for ${instrument.symbol + ':' + instrument.exchange}`));
+                } else {
+                    return Promise.resolve();
+                }
+            })
+    });
 
-async function pushDividends(client: AxiosInstance, el: any) {
-    const parsedDividends = await parseRecentDividends(el.slug);
-    const dividendsToSave = transformToDividendDtos(parsedDividends);
-    // console.log(dividendsToSave);
-    return await client.post(`/dividends?ticker=${el.symbol}&exchange=${el.exchange}`, dividendsToSave);
+    await Promise.allSettled(whenInstrumentDividendsInserted)
+        .catch(console.error)
+        .finally(() => connection.destroy());
 }
 
 async function fillTickerCacheFromFile(path: string) {
@@ -129,4 +123,4 @@ function transformToDividendDtos(parsedDividends: ParsedDividend[]) {
     })
 }
 
-fetchAllDividends();
+main();

@@ -12,12 +12,13 @@
     "collect:stocks:us": "node dist/collectors/investingcom \"United States\" \"NASDAQ,NYSE\"",
     "collect:stocks:hk": "node dist/collectors/investingcom \"Hong Kong\"",
     "import:stocks": "node dist/data-imports",
-    "dividends:all": "node dist/stocks/investingcom/fetch-dividends.js",
+    "dividends:all": "node dist/tasks/all-dividends/index.js",
     "dividends:ru": "node dist/stocks/dohodru/fetch-dividends.js",
     "prices:ru": "node dist/tasks/mcx-prices/index.js",
     "prices:global": "node dist/tasks/global-prices/index.js"
   },
   "bin": {
+    "dividends-all": "dist/tasks/all-dividends/index.js",
     "prices-ru": "dist/tasks/mcx-prices/index.js",
     "prices-global": "dist/tasks/global-prices/index.js"
   },
