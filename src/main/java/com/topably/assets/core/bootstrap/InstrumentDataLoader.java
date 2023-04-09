@@ -155,6 +155,11 @@ public class InstrumentDataLoader implements CommandLineRunner {
             .build());
 
         stockService.addStock(StockDataDto.builder()
+            .company(CompanyDataDto.builder().name("Sberbank of Russia").build())
+            .identifier(new Ticker("SBERP", mcx.getCode()))
+            .build());
+
+        stockService.addStock(StockDataDto.builder()
             .company(CompanyDataDto.builder().name("China National Offshore Oil Corporatio").build())
             .identifier(new Ticker("0883", hkex.getCode()))
             .build());
