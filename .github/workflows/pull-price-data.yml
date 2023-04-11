@@ -1,4 +1,4 @@
-name: Pull Data
+name: Pull Price Data
 
 on:
   workflow_dispatch:
