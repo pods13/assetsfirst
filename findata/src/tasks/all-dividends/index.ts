@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import { getInstruments } from '../../common/instrument.service';
 import connection from '../../common/connection';
 import fsPromises from 'fs/promises';
