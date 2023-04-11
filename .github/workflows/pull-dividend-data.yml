@@ -18,6 +18,7 @@ jobs:
       API_ASSETSFIRST_URL: ${{secrets.API_ASSETSFIRST_URL}}
       API_ASSETSFIRST_USERNAME: ${{secrets.API_ASSETSFIRST_USERNAME}}
       API_ASSETSFIRST_PASSWORD: ${{secrets.API_ASSETSFIRST_PASSWORD}}
+      DATABASE_URL: ${{secrets.DATABASE_URL}}
       NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
     steps:
       - uses: actions/checkout@v3
