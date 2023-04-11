@@ -1,6 +1,6 @@
 {
   "name": "@pods13/findata",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "",
   "scripts": {
     "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/main.js\"",
