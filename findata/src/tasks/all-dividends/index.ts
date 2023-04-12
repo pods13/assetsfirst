@@ -22,7 +22,7 @@ async function main() {
     const instruments = await getInstruments(connection, ['NYSE', 'NASDAQ', 'NYSEARCA', 'HK', 'XETRA']);
     const client = await getClient();
 
-    const whenInstrumentDividendsInserted = instruments.map(instrument => {
+    const whenDividendsSaved = instruments.map(instrument => {
         const slug = tickerBySlug[`${instrument.symbol}.${instrument.exchange}`];
         return parseRecentDividends(slug)
             .catch(e => {
@@ -42,7 +42,7 @@ async function main() {
             })
     });
 
-    await Promise.allSettled(whenInstrumentDividendsInserted)
+    await Promise.allSettled(whenDividendsSaved)
         .catch(console.error)
         .finally(() => connection.destroy());
 }
