@@ -64,6 +64,6 @@ jobs:
           timezoneMacos: "Europe/Moscow"
           timezoneWindows: "Russian Standard Time"
       - run: npm i @pods13/findata
-      - name: pull new global dividends
+      - name: pull new mcx dividends
         timeout-minutes: 10
         run: npx -p @pods13/findata dividends-ru
