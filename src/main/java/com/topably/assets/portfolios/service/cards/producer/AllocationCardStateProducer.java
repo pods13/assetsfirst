@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Comparator;
+import java.util.Currency;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -44,15 +45,19 @@ public class AllocationCardStateProducer implements CardStateProducer<Allocation
     @Override
     public CardData produce(Portfolio portfolio, AllocationCard card) {
         var tradesByType = collectAggregatedTrades(portfolio, card);
+        var portfolioCurrency = Currency.getInstance("RUB");
         var segments = tradesByType.entrySet().stream()
             .map(byType -> {
-                var childSegments = convertToSegments(byType.getValue());
+                var childSegments = convertToSegments(portfolioCurrency, byType.getValue());
                 return AllocationSegment.builder().name(byType.getKey())
                     .value(calculateSegmentsTotalValue(childSegments))
+                    //TODO use portfolio default currency instead
+                    .currencySymbol(portfolioCurrency.getSymbol())
                     .children(childSegments)
                     .build();
-            }).toList();
-        List<AllocationAggregatedTrade> aggregatedTrades = tradesByType.values().stream().flatMap(Collection::stream).toList();
+            })
+            .sorted(Comparator.comparing(AllocationSegment::getValue).reversed())
+            .toList();
         return AllocationCardData.builder()
             .segments(segments)
             .currentTotalValue(calculateSegmentsTotalValue(segments))
@@ -109,19 +114,20 @@ public class AllocationCardStateProducer implements CardStateProducer<Allocation
         throw new RuntimeException();
     }
 
-    private List<AllocationSegment> convertToSegments(Collection<AllocationAggregatedTrade> trades) {
+    private List<AllocationSegment> convertToSegments(Currency portfolioCurrency, Collection<AllocationAggregatedTrade> trades) {
         return trades.stream()
-            .map(this::convertToSegment)
+            .map(trade -> convertToSegment(portfolioCurrency, trade))
             .sorted(Comparator.comparing(AllocationSegment::getValue).reversed())
             .collect(toList());
     }
 
-    private AllocationSegment convertToSegment(AllocationAggregatedTrade trade) {
+    private AllocationSegment convertToSegment(Currency portfolioCurrency, AllocationAggregatedTrade trade) {
         var name = trade.getIdentifier().toString();
         var price = currencyConverterService.convert(trade.getTotal(), trade.getCurrency());
         return AllocationSegment.builder()
             .name(name)
             .value(price)
+            .currencySymbol(portfolioCurrency.getSymbol())
             .build();
     }
 
