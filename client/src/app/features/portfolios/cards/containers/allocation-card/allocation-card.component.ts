@@ -13,6 +13,7 @@ import { AssetsAllocationCardData } from '../../types/out/assets-allocation-card
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { AllocatedByOption, AssetAllocationCard } from '../../types/in/asset-allocation-card';
 import { ECharts, EChartsOption } from 'echarts';
+import { CurrencyPipe } from '@angular/common';
 
 @UntilDestroy()
 @Component({
@@ -63,7 +64,8 @@ export class AllocationCardComponent implements OnInit, AfterViewInit, CardConta
   echartsInstance!: ECharts;
   loading: boolean = false;
 
-  constructor(private cd: ChangeDetectorRef) {
+  constructor(private cd: ChangeDetectorRef,
+              private currencyPipe: CurrencyPipe) {
   }
 
   ngOnInit(): void {
@@ -83,12 +85,17 @@ export class AllocationCardComponent implements OnInit, AfterViewInit, CardConta
   constructChartOption(data: any[]): EChartsOption {
     return {
       tooltip: {
-        trigger: 'item'
+        trigger: 'item',
+        formatter: (params: any) => {
+          console.log(params)
+          const price = this.currencyPipe.transform(params.value, params.data.currencySymbol);
+          return `<b>${params.marker}${params.name} ${price} (${params.percent}%)</b>`;
+        }
       },
       legend: this.getChartLegend(),
       series: [
         {
-          name: 'Allocation',
+          name: '',
           type: 'pie',
           center: ['50%', '50%'],
           radius: ['40%', '70%'],

@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, CurrencyPipe } from '@angular/common';
 import { CardWrapperComponent } from './containers/card-wrapper/card-wrapper.component';
 import { PortfolioCardOutletDirective } from './directives/portfolio-card-outlet.directive';
 import { AllocationCardComponent } from './containers/allocation-card/allocation-card.component';
@@ -59,7 +59,8 @@ import { NgxEchartsModule } from 'ngx-echarts';
   ],
   providers: [
     CardContentLoaderService,
-    CardService
+    CardService,
+    CurrencyPipe
   ],
   exports: [
     CardWrapperComponent,
