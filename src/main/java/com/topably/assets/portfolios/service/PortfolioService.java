@@ -1,16 +1,12 @@
 package com.topably.assets.portfolios.service;
 
-import com.topably.assets.auth.service.UserService;
 import com.topably.assets.findata.dividends.service.DividendService;
 import com.topably.assets.findata.exchanges.service.ExchangeService;
 import com.topably.assets.findata.xrates.service.currency.CurrencyConverterService;
 import com.topably.assets.instruments.domain.InstrumentType;
 import com.topably.assets.portfolios.domain.Portfolio;
-import com.topably.assets.portfolios.domain.PortfolioDashboard;
 import com.topably.assets.portfolios.domain.dto.PortfolioPositionDto;
 import com.topably.assets.portfolios.repository.PortfolioRepository;
-import com.topably.assets.portfolios.service.cards.DashboardCardTrialDataProvider;
-import com.topably.assets.trades.service.TradeTrialDataProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheConfig;
@@ -24,7 +20,6 @@ import java.time.Year;
 import java.time.temporal.ChronoUnit;
 import java.util.Collection;
 import java.util.Currency;
-import java.util.HashSet;
 
 @Service
 @RequiredArgsConstructor
@@ -34,28 +29,10 @@ import java.util.HashSet;
 public class PortfolioService {
 
     private final PortfolioRepository portfolioRepository;
-
-    private final UserService userService;
     private final ExchangeService exchangeService;
     private final CurrencyConverterService currencyConverterService;
     private final PortfolioPositionService portfolioPositionService;
     private final DividendService dividendService;
-    private final DashboardCardTrialDataProvider cardTrialDataProvider;
-    private final TradeTrialDataProvider tradeTrialDataProvider;
-
-    public void createDefaultUserPortfolio(Long userId, boolean provideData) {
-        var dashboard = PortfolioDashboard.builder()
-            .cards(provideData ? cardTrialDataProvider.provideCards() : new HashSet<>())
-            .build();
-        Portfolio portfolio = Portfolio.builder()
-            .user(userService.getById(userId))
-            .dashboard(dashboard)
-            .build();
-        portfolioRepository.save(portfolio);
-        if (provideData) {
-            tradeTrialDataProvider.provideData(userId);
-        }
-    }
 
     public Portfolio findByUserId(Long userId) {
         return portfolioRepository.findByUserId(userId);
