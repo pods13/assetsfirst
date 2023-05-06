@@ -17,4 +17,12 @@ export class TagCategoryService {
   getTagsByCategory(categoryId: number): Observable<TagDto[]> {
     return this.http.get<TagDto[]>(`/tag-categories/${categoryId}/tags`);
   }
+
+  addTagToCategory(categoryId: number, tagName: string): Observable<TagDto> {
+    return this.http.post<TagDto>(`/tag-categories/${categoryId}/tags`, null, {params: {tag: tagName}});
+  }
+
+  deleteCategoryTag(categoryId: number, tagId: number): Observable<void> {
+    return this.http.delete<void>(`/tag-categories/${categoryId}/tags/${tagId}`);
+  }
 }

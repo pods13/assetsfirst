@@ -15,6 +15,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 
 @NgModule({
@@ -34,6 +35,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
         MatFormFieldModule,
         ReactiveFormsModule,
         MatTooltipModule,
+        MatProgressSpinnerModule,
     ],
   providers: [
     PortfolioPositionService,
