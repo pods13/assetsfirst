@@ -31,7 +31,7 @@ public class TagCategoryService {
     }
 
     public TagCategoryDto createTagCategory(Long userId, CreateTagCategoryDto dto) {
-        var tagCategory = tagCategoryRepository.save(new TagCategory()
+        var tagCategory = tagCategoryRepository.saveAndFlush(new TagCategory()
             .setName(dto.getName())
             .setColor(dto.getColor())
             .setUser(userService.getById(userId)));

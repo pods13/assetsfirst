@@ -9,11 +9,13 @@ import com.topably.assets.portfolios.service.tag.TagService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Collection;
@@ -40,5 +42,15 @@ public class TagCategoriesController {
     @GetMapping("/{categoryId}/tags")
     public Collection<TagDto> getTagsByCategory(@PathVariable Long categoryId) {
         return tagService.getTagsByCategory(categoryId);
+    }
+
+    @PostMapping("/{categoryId}/tags")
+    public TagDto addTagToCategory(@PathVariable Long categoryId, @RequestParam String tag) {
+        return tagService.addTagToCategory(categoryId, tag);
+    }
+
+    @DeleteMapping("/{categoryId}/tags/{tagId}")
+    public void deleteCategoryTag(@PathVariable Long categoryId, @PathVariable Long tagId) {
+        tagService.deleteCategoryTag(tagId);
     }
 }
