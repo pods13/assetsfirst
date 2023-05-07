@@ -1,9 +1,10 @@
 package com.topably.assets.findata.xrates.service;
 
+import com.topably.assets.core.config.cache.CacheNames;
+import com.topably.assets.findata.xrates.domain.ExchangeRate;
 import com.topably.assets.findata.xrates.repository.ExchangeRateRepository;
 import com.topably.assets.findata.xrates.service.currency.CurrencyService;
 import com.topably.assets.findata.xrates.service.provider.ExchangeProvider;
-import com.topably.assets.findata.xrates.domain.ExchangeRate;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheConfig;
@@ -22,7 +23,7 @@ import java.util.Optional;
 
 @Slf4j
 @Service
-@CacheConfig(cacheNames = "exchange-rates", cacheManager = "longLivedCacheManager")
+@CacheConfig(cacheNames = CacheNames.EXCHANGE_RATES_LL, cacheManager = "longLivedCacheManager")
 @RequiredArgsConstructor
 public class ExchangeRateServiceImpl implements ExchangeRateService {
 

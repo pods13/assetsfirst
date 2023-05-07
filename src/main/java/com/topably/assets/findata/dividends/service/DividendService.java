@@ -1,5 +1,6 @@
 package com.topably.assets.findata.dividends.service;
 
+import com.topably.assets.core.config.cache.CacheNames;
 import com.topably.assets.core.domain.Ticker;
 import com.topably.assets.findata.dividends.domain.Dividend;
 import com.topably.assets.findata.dividends.domain.dto.AggregatedDividendDto;
@@ -38,7 +39,7 @@ import static java.util.stream.Collectors.toList;
 @Service
 @RequiredArgsConstructor
 @Transactional
-@CacheConfig(cacheNames = "dividends", cacheManager = "longLivedCacheManager")
+@CacheConfig(cacheNames = CacheNames.DIVIDENDS_LL, cacheManager = "longLivedCacheManager")
 public class DividendService {
 
     private final DividendRepository dividendRepository;

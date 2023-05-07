@@ -1,5 +1,6 @@
 package com.topably.assets.findata.exchanges.service;
 
+import com.topably.assets.core.config.cache.CacheNames;
 import com.topably.assets.core.domain.Ticker;
 import com.topably.assets.findata.exchanges.domain.ExchangeEnum;
 import com.topably.assets.findata.exchanges.domain.InstrumentPrice;
@@ -27,7 +28,7 @@ import java.util.stream.Stream;
 import static java.util.stream.Collectors.toSet;
 
 @Service
-@CacheConfig(cacheNames = "exchanges")
+@CacheConfig(cacheNames = CacheNames.EXCHANGES)
 @RequiredArgsConstructor
 public class ExchangeService {
 

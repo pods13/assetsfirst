@@ -1,5 +1,6 @@
 package com.topably.assets.portfolios.service;
 
+import com.topably.assets.core.config.cache.CacheNames;
 import com.topably.assets.findata.dividends.service.DividendService;
 import com.topably.assets.findata.exchanges.service.ExchangeService;
 import com.topably.assets.findata.xrates.service.currency.CurrencyConverterService;
@@ -24,7 +25,7 @@ import java.util.Currency;
 @Service
 @RequiredArgsConstructor
 @Transactional
-@CacheConfig(cacheNames = "portfolios", cacheManager = "longLivedCacheManager")
+@CacheConfig(cacheNames = CacheNames.PORTFOLIOS_LL, cacheManager = "longLivedCacheManager")
 @Slf4j
 public class PortfolioService {
 

@@ -1,5 +1,6 @@
 package com.topably.assets.trades.service;
 
+import com.topably.assets.auth.event.UserCreatedEvent;
 import com.topably.assets.instruments.domain.Instrument;
 import com.topably.assets.portfolios.service.PortfolioPositionService;
 import com.topably.assets.trades.domain.Trade;
@@ -7,9 +8,11 @@ import com.topably.assets.trades.domain.dto.DeleteTradeDto;
 import com.topably.assets.trades.domain.dto.EditTradeDto;
 import com.topably.assets.trades.domain.dto.TradeDto;
 import com.topably.assets.trades.domain.dto.add.AddTradeDto;
+import com.topably.assets.trades.domain.event.TradeChangedEvent;
 import com.topably.assets.trades.repository.TradeRepository;
 import com.topably.assets.trades.repository.broker.BrokerRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +28,7 @@ public class TradeManagementService {
 
     private final PortfolioPositionService portfolioPositionService;
     private final TradeAggregatorService tradeAggregatorService;
+    private final ApplicationEventPublisher eventPublisher;
 
     public TradeDto addTrade(AddTradeDto dto, Instrument tradedInstrument) {
         var position = portfolioPositionService.findByUserIdAndInstrumentId(dto.getUserId(), dto.getInstrumentId())
@@ -40,6 +44,7 @@ public class TradeManagementService {
         Long positionId = position.getId();
         var aggregatedTrade = tradeAggregatorService.aggregateTradesByPositionId(positionId);
         portfolioPositionService.updatePortfolioPosition(positionId, aggregatedTrade);
+        eventPublisher.publishEvent(new TradeChangedEvent(this));
         return TradeDto.builder()
             .id(savedTrade.getId())
             .build();
@@ -55,6 +60,7 @@ public class TradeManagementService {
         Long positionId = trade.getPortfolioPosition().getId();
         var aggregatedTrade = tradeAggregatorService.aggregateTradesByPositionId(positionId);
         portfolioPositionService.updatePortfolioPosition(positionId, aggregatedTrade);
+        eventPublisher.publishEvent(new TradeChangedEvent(this));
         return TradeDto.builder()
             .id(updatedTrade.getId())
             .build();
@@ -71,5 +77,6 @@ public class TradeManagementService {
         } else {
             portfolioPositionService.updatePortfolioPosition(positionId, aggregatedTrade);
         }
+        eventPublisher.publishEvent(new TradeChangedEvent(this));
     }
 }
