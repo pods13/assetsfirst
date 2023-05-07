@@ -12,8 +12,6 @@ import java.util.Optional;
 
 public interface DividendRepository extends JpaRepository<Dividend, Long>, UpsertRepository<Dividend, Long> {
 
-    Collection<Dividend> findByInstrument_TickerAndInstrument_Exchange_CodeOrderByRecordDateAsc(String ticker, String exchange);
-
     @Query(value = """
         select * from dividend d
         join instrument i on i.id = d.instrument_id

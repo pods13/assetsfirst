@@ -6,10 +6,14 @@ import com.topably.assets.findata.dividends.domain.dto.AggregatedDividendDto;
 import com.topably.assets.findata.dividends.domain.dto.DividendData;
 import com.topably.assets.findata.dividends.repository.DividendRepository;
 import com.topably.assets.instruments.domain.Instrument;
+import com.topably.assets.instruments.domain.InstrumentType;
 import com.topably.assets.instruments.service.InstrumentService;
+import com.topably.assets.portfolios.domain.position.PortfolioPosition;
 import com.topably.assets.trades.domain.Trade;
 import com.topably.assets.trades.domain.TradeOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,15 +38,11 @@ import static java.util.stream.Collectors.toList;
 @Service
 @RequiredArgsConstructor
 @Transactional
+@CacheConfig(cacheNames = "dividends", cacheManager = "longLivedCacheManager")
 public class DividendService {
 
     private final DividendRepository dividendRepository;
     private final InstrumentService instrumentService;
-
-    @Transactional(readOnly = true)
-    public Collection<Dividend> findDividends(Ticker ticker, Collection<Integer> dividendYears) {
-        return dividendRepository.findByInstrument_TickerAndInstrument_Exchange_CodeOrderByRecordDateAsc(ticker.getSymbol(), ticker.getExchange());
-    }
 
     public void addDividends(String ticker, String exchange, Collection<DividendData> dividendData) {
         deleteForecastedDividends(ticker, exchange);
@@ -50,7 +50,13 @@ public class DividendService {
         dividendRepository.upsertAll(instrumentDividends);
     }
 
-    public BigDecimal calculateAnnualDividend(Ticker ticker, Year year) {
+    @Cacheable(key = "{ #root.methodName, #positionId, #instrument.toTicker(), #year }")
+    public BigDecimal calculateAnnualDividend(Long positionId, Instrument instrument, Year year) {
+        var instrumentType = instrument.getInstrumentType();
+        if (!InstrumentType.STOCK.name().equals(instrumentType) && !InstrumentType.ETF.name().equals(instrumentType)) {
+            return BigDecimal.ZERO;
+        }
+        var ticker = instrument.toTicker();
         var selectedYear = year.getValue();
         var latestDividendYear = getLatestDividendYear(selectedYear);
         var dividendYears = Optional.ofNullable(latestDividendYear)

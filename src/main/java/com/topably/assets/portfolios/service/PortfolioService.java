@@ -80,11 +80,11 @@ public class PortfolioService {
 
 
     public BigDecimal calculateAnnualDividend(Portfolio portfolio, Year year) {
-        var positions = portfolioPositionService.findPortfolioPositions(portfolio.getId());
+        var positions = portfolioPositionService.findPortfolioPositionsByPortfolioId(portfolio.getId());
         return positions.stream()
-            .map(h -> {
-                var dividendPerShare = dividendService.calculateAnnualDividend(h.getIdentifier(), year);
-                return currencyConverterService.convert(dividendPerShare.multiply(new BigDecimal(h.getQuantity())), h.getCurrency());
+            .map(p -> {
+                var dividendPerShare = dividendService.calculateAnnualDividend(p.getId(), p.getInstrument(), year);
+                return currencyConverterService.convert(dividendPerShare.multiply(new BigDecimal(p.getQuantity())), p.getInstrument().getCurrency());
             })
             .reduce(BigDecimal.ZERO, BigDecimal::add);
     }

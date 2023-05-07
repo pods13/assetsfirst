@@ -1,4 +1,4 @@
-package com.topably.assets.core.config;
+package com.topably.assets.core.config.web;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.messaging.MessageSecurityMetadataSourceRegistry;

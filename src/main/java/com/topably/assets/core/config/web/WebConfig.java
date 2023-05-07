@@ -1,4 +1,4 @@
-package com.topably.assets.core.config;
+package com.topably.assets.core.config.web;
 
 import net.kaczmarzyk.spring.data.jpa.web.SpecificationArgumentResolver;
 import org.springframework.context.annotation.Configuration;

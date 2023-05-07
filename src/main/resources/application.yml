@@ -25,3 +25,9 @@ springdoc:
   swagger-ui:
     csrf:
       enabled: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: info, health, metrics

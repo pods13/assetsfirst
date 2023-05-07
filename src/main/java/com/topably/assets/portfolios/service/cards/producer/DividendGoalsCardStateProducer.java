@@ -9,6 +9,7 @@ import com.topably.assets.portfolios.domain.cards.input.DividendGoalsCard;
 import com.topably.assets.portfolios.domain.cards.output.dividend.goal.DividendGoalsCardData;
 import com.topably.assets.portfolios.domain.cards.output.dividend.goal.PositionItem;
 import com.topably.assets.portfolios.domain.dto.PortfolioPositionDto;
+import com.topably.assets.portfolios.domain.position.PortfolioPosition;
 import com.topably.assets.portfolios.service.PortfolioPositionService;
 import com.topably.assets.portfolios.service.cards.CardStateProducer;
 import lombok.RequiredArgsConstructor;
@@ -32,10 +33,10 @@ public class DividendGoalsCardStateProducer implements CardStateProducer<Dividen
 
     @Override
     public CardData produce(Portfolio portfolio, DividendGoalsCard card) {
-        var positionDtos = portfolioPositionService.findPortfolioPositions(portfolio.getId());
+        var positionDtos = portfolioPositionService.findPortfolioPositionsByPortfolioId(portfolio.getId());
         var items = positionDtos.stream()
-            .filter(h -> h.getQuantity().compareTo(BigInteger.ZERO) > 0)
-            .map(h -> this.convertToPositionItems(h, card))
+            .filter(p -> p.getQuantity().compareTo(BigInteger.ZERO) > 0)
+            .map(p -> this.convertToPositionItems(p, card))
             .filter(p -> p.getCurrentYield().compareTo(BigDecimal.ZERO) > 0)
             .collect(toList());
         return DividendGoalsCardData.builder()
@@ -43,10 +44,10 @@ public class DividendGoalsCardStateProducer implements CardStateProducer<Dividen
             .build();
     }
 
-    private PositionItem convertToPositionItems(PortfolioPositionDto position, DividendGoalsCard card) {
-        var averagePrice = position.getPrice();
-        Ticker ticker = position.getIdentifier();
-        var annualDividend = dividendService.calculateAnnualDividend(ticker, Year.now());
+    private PositionItem convertToPositionItems(PortfolioPosition position, DividendGoalsCard card) {
+        var averagePrice = position.getAveragePrice();
+        Ticker ticker = position.getInstrument().toTicker();
+        var annualDividend = dividendService.calculateAnnualDividend(position.getId(), position.getInstrument(), Year.now());
         var currentYield = annualDividend.multiply(BigDecimal.valueOf(100)).divide(averagePrice, 2, RoundingMode.HALF_EVEN);
 
         var desiredYield = card.getDesiredYieldByIssuer().getOrDefault(ticker.toString(), currentYield);

@@ -8,12 +8,10 @@ import com.topably.assets.portfolios.domain.Portfolio;
 import com.topably.assets.portfolios.domain.position.PortfolioPosition;
 import com.topably.assets.portfolios.domain.position.PortfolioPositionView;
 import com.topably.assets.portfolios.domain.dto.PortfolioPositionDto;
-import com.topably.assets.portfolios.domain.tag.Tag;
 import com.topably.assets.portfolios.mapper.TagMapper;
 import com.topably.assets.portfolios.repository.PortfolioPositionRepository;
 import com.topably.assets.portfolios.repository.PortfolioRepository;
 import com.topably.assets.portfolios.repository.tag.TagRepository;
-import com.topably.assets.portfolios.service.tag.TagService;
 import com.topably.assets.trades.domain.dto.AggregatedTradeDto;
 import com.topably.assets.trades.domain.dto.add.AddTradeDto;
 import com.topably.assets.trades.service.TradeAggregatorService;
@@ -28,13 +26,11 @@ import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.Year;
 import java.time.ZoneOffset;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Currency;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -76,8 +72,12 @@ public class PortfolioPositionService {
             .build());
     }
 
+    public Collection<PortfolioPosition> findPortfolioPositionsByPortfolioId(Long portfolioId) {
+        return portfolioPositionRepository.findAllByPortfolioId(portfolioId);
+    }
+
     public Collection<PortfolioPositionDto> findPortfolioPositions(Long portfolioId) {
-        return portfolioPositionRepository.findAllByPortfolioId(portfolioId).stream()
+        return findPortfolioPositionsByPortfolioId(portfolioId).stream()
             .map(position -> {
                 Instrument instrument = position.getInstrument();
                 return PortfolioPositionDto.builder()
@@ -158,7 +158,7 @@ public class PortfolioPositionService {
     }
 
     private BigDecimal calculateYieldOnCost(PortfolioPosition position) {
-        var annualDividend = dividendService.calculateAnnualDividend(position.getInstrument().toTicker(), Year.now());
+        var annualDividend = dividendService.calculateAnnualDividend(position.getId(), position.getInstrument(), Year.now());
         return Optional.ofNullable(position.getAveragePrice())
             .filter(price -> price.compareTo(BigDecimal.ZERO) > 0)
             .map(price -> BigDecimal.valueOf(100).multiply(annualDividend).divide(price, RoundingMode.HALF_EVEN))

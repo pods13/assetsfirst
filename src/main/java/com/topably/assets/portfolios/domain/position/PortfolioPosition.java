@@ -9,6 +9,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.CascadeType;
@@ -33,6 +34,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Builder
 @Entity
+@Accessors(chain = true)
 public class PortfolioPosition {
 
     @Id
