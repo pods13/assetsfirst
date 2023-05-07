@@ -10,13 +10,13 @@ import com.topably.assets.findata.exchanges.domain.Exchange;
 import com.topably.assets.findata.exchanges.domain.ExchangeEnum;
 import com.topably.assets.findata.exchanges.repository.ExchangeRepository;
 import com.topably.assets.instruments.domain.Instrument;
+import com.topably.assets.instruments.domain.InstrumentType;
 import com.topably.assets.instruments.domain.instrument.FX;
 import com.topably.assets.instruments.domain.instrument.Stock;
 import com.topably.assets.instruments.repository.instrument.FXRepository;
 import com.topably.assets.instruments.repository.instrument.StockRepository;
 import com.topably.assets.integration.base.IT;
 import com.topably.assets.integration.base.IntegrationTestBase;
-import com.topably.assets.portfolios.domain.position.PortfolioPosition;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -81,7 +81,6 @@ public class DividendServiceTest extends IntegrationTestBase {
             .setInstrument(instrument
             ).setRecordDate(LocalDate.of(2021, 4, 23))));
 
-        var position = new PortfolioPosition().setInstrument(instrument);
         var actualAmount = dividendService.calculateAnnualDividend(1L, instrument, Year.of(2021));
 
         assertThat(actualAmount).isEqualByComparingTo(expectedAmount);
@@ -140,6 +139,7 @@ public class DividendServiceTest extends IntegrationTestBase {
             .name(ticker.getSymbol())
             .build());
         return stockRepository.save(Stock.builder()
+            .instrumentType(InstrumentType.STOCK.name())
             .company(company)
             .exchange(exchange)
             .ticker(ticker.getSymbol())
@@ -155,6 +155,7 @@ public class DividendServiceTest extends IntegrationTestBase {
             .currency(Currency.getInstance("RUB"))
             .build());
         return fxRepository.save(FX.builder()
+            .instrumentType(InstrumentType.FX.name())
             .exchange(exchange)
             .ticker(ticker.getSymbol())
             .currency(exchange.getCurrency())
