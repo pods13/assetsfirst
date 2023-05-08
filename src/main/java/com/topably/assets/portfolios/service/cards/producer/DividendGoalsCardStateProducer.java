@@ -1,14 +1,12 @@
 package com.topably.assets.portfolios.service.cards.producer;
 
 import com.topably.assets.core.domain.Ticker;
-import com.topably.assets.findata.dividends.service.DividendService;
 import com.topably.assets.portfolios.domain.Portfolio;
 import com.topably.assets.portfolios.domain.cards.CardContainerType;
 import com.topably.assets.portfolios.domain.cards.CardData;
 import com.topably.assets.portfolios.domain.cards.input.DividendGoalsCard;
 import com.topably.assets.portfolios.domain.cards.output.dividend.goal.DividendGoalsCardData;
 import com.topably.assets.portfolios.domain.cards.output.dividend.goal.PositionItem;
-import com.topably.assets.portfolios.domain.dto.PortfolioPositionDto;
 import com.topably.assets.portfolios.domain.position.PortfolioPosition;
 import com.topably.assets.portfolios.service.PortfolioPositionService;
 import com.topably.assets.portfolios.service.cards.CardStateProducer;
@@ -28,7 +26,6 @@ import static java.util.stream.Collectors.toList;
 @RequiredArgsConstructor
 public class DividendGoalsCardStateProducer implements CardStateProducer<DividendGoalsCard> {
 
-    private final DividendService dividendService;
     private final PortfolioPositionService portfolioPositionService;
 
     @Override
@@ -47,7 +44,7 @@ public class DividendGoalsCardStateProducer implements CardStateProducer<Dividen
     private PositionItem convertToPositionItems(PortfolioPosition position, DividendGoalsCard card) {
         var averagePrice = position.getAveragePrice();
         Ticker ticker = position.getInstrument().toTicker();
-        var annualDividend = dividendService.calculateAnnualDividend(position.getId(), position.getInstrument(), Year.now());
+        var annualDividend = portfolioPositionService.calculateAnnualDividend(position, Year.now());
         var currentYield = annualDividend.multiply(BigDecimal.valueOf(100)).divide(averagePrice, 2, RoundingMode.HALF_EVEN);
 
         var desiredYield = card.getDesiredYieldByIssuer().getOrDefault(ticker.toString(), currentYield);

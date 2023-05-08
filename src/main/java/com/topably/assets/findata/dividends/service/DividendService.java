@@ -51,13 +51,8 @@ public class DividendService {
         dividendRepository.upsertAll(instrumentDividends);
     }
 
-    @Cacheable(key = "{ #root.methodName, #positionId, #instrument.toTicker(), #year }")
-    public BigDecimal calculateAnnualDividend(Long positionId, Instrument instrument, Year year) {
-        var instrumentType = instrument.getInstrumentType();
-        if (!InstrumentType.STOCK.name().equals(instrumentType) && !InstrumentType.ETF.name().equals(instrumentType)) {
-            return BigDecimal.ZERO;
-        }
-        var ticker = instrument.toTicker();
+    @Cacheable(key = "{ #root.methodName, #ticker, #year }")
+    public BigDecimal calculateAnnualDividend(Ticker ticker, Year year) {
         var selectedYear = year.getValue();
         var latestDividendYear = getLatestDividendYear(selectedYear);
         var dividendYears = Optional.ofNullable(latestDividendYear)

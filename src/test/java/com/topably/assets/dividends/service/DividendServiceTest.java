@@ -7,13 +7,10 @@ import com.topably.assets.findata.dividends.domain.Dividend;
 import com.topably.assets.findata.dividends.repository.DividendRepository;
 import com.topably.assets.findata.dividends.service.DividendService;
 import com.topably.assets.findata.exchanges.domain.Exchange;
-import com.topably.assets.findata.exchanges.domain.ExchangeEnum;
 import com.topably.assets.findata.exchanges.repository.ExchangeRepository;
 import com.topably.assets.instruments.domain.Instrument;
 import com.topably.assets.instruments.domain.InstrumentType;
-import com.topably.assets.instruments.domain.instrument.FX;
 import com.topably.assets.instruments.domain.instrument.Stock;
-import com.topably.assets.instruments.repository.instrument.FXRepository;
 import com.topably.assets.instruments.repository.instrument.StockRepository;
 import com.topably.assets.integration.base.IT;
 import com.topably.assets.integration.base.IntegrationTestBase;
@@ -39,8 +36,6 @@ public class DividendServiceTest extends IntegrationTestBase {
     @Autowired
     private StockRepository stockRepository;
     @Autowired
-    private FXRepository fxRepository;
-    @Autowired
     private DividendRepository dividendRepository;
 
     @Autowired
@@ -51,7 +46,7 @@ public class DividendServiceTest extends IntegrationTestBase {
         var ticker = new Ticker("TSLA", "NYSE");
         var instrument = createStockInstrument(ticker);
 
-        var actualAmount = dividendService.calculateAnnualDividend(1L, instrument, Year.of(2022));
+        var actualAmount = dividendService.calculateAnnualDividend(ticker, Year.of(2022));
 
         assertThat(actualAmount).isZero();
     }
@@ -66,7 +61,7 @@ public class DividendServiceTest extends IntegrationTestBase {
             .setInstrument(instrument
             ).setRecordDate(LocalDate.of(2019, 5, 6))));
 
-        var actualAmount = dividendService.calculateAnnualDividend(1L, instrument, Year.of(2022));
+        var actualAmount = dividendService.calculateAnnualDividend(ticker, Year.of(2022));
 
         assertThat(actualAmount).isEqualByComparingTo(expectedAmount);
     }
@@ -81,7 +76,7 @@ public class DividendServiceTest extends IntegrationTestBase {
             .setInstrument(instrument
             ).setRecordDate(LocalDate.of(2021, 4, 23))));
 
-        var actualAmount = dividendService.calculateAnnualDividend(1L, instrument, Year.of(2021));
+        var actualAmount = dividendService.calculateAnnualDividend(ticker, Year.of(2021));
 
         assertThat(actualAmount).isEqualByComparingTo(expectedAmount);
     }
@@ -109,19 +104,9 @@ public class DividendServiceTest extends IntegrationTestBase {
                 .setInstrument(instrument)
                 .setRecordDate(LocalDate.of(2019, 4, 23))));
 
-        var actualAmount = dividendService.calculateAnnualDividend(1L, instrument, Year.of(2020));
+        var actualAmount = dividendService.calculateAnnualDividend(ticker, Year.of(2020));
 
         assertThat(actualAmount).isEqualByComparingTo(expectedAmount);
-    }
-
-    @Test
-    public void givenFXInstrument_whenDividendAmountCalculated_thenCalculationSkippedAndReturnedZeroAmount() {
-        var ticker = new Ticker("RUB.USD", ExchangeEnum.FX_IDC.name());
-        var instrument = createFXInstrument(ticker);
-
-        var actualAmount = dividendService.calculateAnnualDividend(1L, instrument, Year.of(2022));
-
-        assertThat(actualAmount).isZero();
     }
 
     private Collection<Dividend> addDividendData(Collection<Dividend> data) {
@@ -146,20 +131,4 @@ public class DividendServiceTest extends IntegrationTestBase {
             .currency(exchange.getCurrency())
             .build());
     }
-
-    private Instrument createFXInstrument(Ticker ticker) {
-        var exchange = exchangeRepository.save(Exchange.builder()
-            .name(ticker.getExchange())
-            .code(ticker.getExchange())
-            .countryCode("RU")
-            .currency(Currency.getInstance("RUB"))
-            .build());
-        return fxRepository.save(FX.builder()
-            .instrumentType(InstrumentType.FX.name())
-            .exchange(exchange)
-            .ticker(ticker.getSymbol())
-            .currency(exchange.getCurrency())
-            .build());
-    }
-
 }

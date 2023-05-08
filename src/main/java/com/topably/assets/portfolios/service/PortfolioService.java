@@ -1,7 +1,6 @@
 package com.topably.assets.portfolios.service;
 
 import com.topably.assets.core.config.cache.CacheNames;
-import com.topably.assets.findata.dividends.service.DividendService;
 import com.topably.assets.findata.exchanges.service.ExchangeService;
 import com.topably.assets.findata.xrates.service.currency.CurrencyConverterService;
 import com.topably.assets.instruments.domain.InstrumentType;
@@ -33,7 +32,6 @@ public class PortfolioService {
     private final ExchangeService exchangeService;
     private final CurrencyConverterService currencyConverterService;
     private final PortfolioPositionService portfolioPositionService;
-    private final DividendService dividendService;
 
     public Portfolio findByUserId(Long userId) {
         return portfolioRepository.findByUserId(userId);
@@ -84,7 +82,7 @@ public class PortfolioService {
         var positions = portfolioPositionService.findPortfolioPositionsByPortfolioId(portfolio.getId());
         return positions.stream()
             .map(p -> {
-                var dividendPerShare = dividendService.calculateAnnualDividend(p.getId(), p.getInstrument(), year);
+                var dividendPerShare = portfolioPositionService.calculateAnnualDividend(p, year);
                 return currencyConverterService.convert(dividendPerShare.multiply(new BigDecimal(p.getQuantity())), p.getInstrument().getCurrency());
             })
             .reduce(BigDecimal.ZERO, BigDecimal::add);

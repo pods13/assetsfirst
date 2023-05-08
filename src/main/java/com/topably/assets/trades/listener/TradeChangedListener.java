@@ -23,7 +23,6 @@ public class TradeChangedListener {
     @TransactionalEventListener
     public void onApplicationEvent(TradeChangedEvent event) {
         Objects.requireNonNull(longLivedCacheManager.getCache(CacheNames.PORTFOLIOS_LL)).invalidate();
-        Objects.requireNonNull(longLivedCacheManager.getCache(CacheNames.DIVIDENDS_LL)).invalidate();
         log.info("Caches were invalidated");
     }
 }

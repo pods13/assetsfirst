@@ -4,6 +4,7 @@ import com.topably.assets.core.domain.Ticker;
 import com.topably.assets.findata.dividends.service.DividendService;
 import com.topably.assets.findata.exchanges.service.ExchangeService;
 import com.topably.assets.instruments.domain.Instrument;
+import com.topably.assets.instruments.domain.InstrumentType;
 import com.topably.assets.portfolios.domain.Portfolio;
 import com.topably.assets.portfolios.domain.position.PortfolioPosition;
 import com.topably.assets.portfolios.domain.position.PortfolioPositionView;
@@ -158,7 +159,7 @@ public class PortfolioPositionService {
     }
 
     private BigDecimal calculateYieldOnCost(PortfolioPosition position) {
-        var annualDividend = dividendService.calculateAnnualDividend(position.getId(), position.getInstrument(), Year.now());
+        var annualDividend = calculateAnnualDividend(position, Year.now());
         return Optional.ofNullable(position.getAveragePrice())
             .filter(price -> price.compareTo(BigDecimal.ZERO) > 0)
             .map(price -> BigDecimal.valueOf(100).multiply(annualDividend).divide(price, RoundingMode.HALF_EVEN))
@@ -191,5 +192,14 @@ public class PortfolioPositionService {
         position.getTags().clear();
         var tags = tagRepository.findAllById(tagIds);
         tags.forEach(t -> position.getTags().add(t));
+    }
+
+    public BigDecimal calculateAnnualDividend(PortfolioPosition position, Year year) {
+        var instrument = position.getInstrument();
+        var instrumentType = instrument.getInstrumentType();
+        if (!InstrumentType.STOCK.name().equals(instrumentType) && !InstrumentType.ETF.name().equals(instrumentType)) {
+            return BigDecimal.ZERO;
+        }
+        return dividendService.calculateAnnualDividend(instrument.toTicker(), year);
     }
 }
