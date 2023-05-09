@@ -1,8 +1,7 @@
 package com.topably.assets.portfolios.domain.position;
 
 import com.topably.assets.core.domain.Ticker;
-import com.topably.assets.portfolios.domain.dto.tag.SelectedTagDto;
-import com.topably.assets.portfolios.domain.dto.tag.TagDto;
+import com.topably.assets.portfolios.domain.dto.tag.TagProjection;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -30,7 +29,7 @@ public class PortfolioPositionView {
     private BigDecimal pctOfPortfolio;
     private BigDecimal marketValue;
     private BigDecimal yieldOnCost;
-    private List<SelectedTagDto> tags;
+    private List<TagProjection> tags;
 
     public BigDecimal getTotal() {
         return getPrice().multiply(new BigDecimal(getQuantity()));

@@ -15,7 +15,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 @Setter
 @Getter
@@ -39,5 +43,6 @@ public class TagCategory {
     @Column(columnDefinition = "char")
     private String color;
 
-
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "category")
+    private Set<Tag> tags;
 }

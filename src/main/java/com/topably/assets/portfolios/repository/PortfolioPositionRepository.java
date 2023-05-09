@@ -12,7 +12,7 @@ public interface PortfolioPositionRepository extends JpaRepository<PortfolioPosi
 
     Optional<PortfolioPosition> findByPortfolio_User_IdAndInstrument_Id(Long userId, Long instrumentId);
 
-    @EntityGraph(attributePaths = {"instrument", "instrument.exchange", "tags"})
+    @EntityGraph(attributePaths = {"instrument", "instrument.exchange", "tags", "tags.category"})
     List<PortfolioPosition> findAllByPortfolioId(Long portfolioId);
 
     @Query("""

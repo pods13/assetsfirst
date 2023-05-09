@@ -136,7 +136,7 @@ public class PortfolioPositionService {
                     .marketValue(finData.marketValue())
                     .yieldOnCost(finData.yieldOnCost)
                     //TODO check sql query for n+1 problem
-                    .tags(position.getTags().stream().map(tagMapper::modelToSelectedDto).toList())
+                    .tags(position.getTags().stream().map(tagMapper::modelToProjection).toList())
                     .build();
             }).collect(Collectors.toList());
     }

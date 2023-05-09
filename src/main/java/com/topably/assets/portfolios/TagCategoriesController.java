@@ -2,11 +2,14 @@ package com.topably.assets.portfolios;
 
 import com.topably.assets.auth.domain.security.CurrentUser;
 import com.topably.assets.portfolios.domain.dto.tag.CreateTagCategoryDto;
+import com.topably.assets.portfolios.domain.dto.tag.TagProjection;
 import com.topably.assets.portfolios.domain.dto.tag.TagCategoryDto;
 import com.topably.assets.portfolios.domain.dto.tag.TagDto;
 import com.topably.assets.portfolios.service.tag.TagCategoryService;
 import com.topably.assets.portfolios.service.tag.TagService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -52,5 +55,12 @@ public class TagCategoriesController {
     @DeleteMapping("/{categoryId}/tags/{tagId}")
     public void deleteCategoryTag(@PathVariable Long categoryId, @PathVariable Long tagId) {
         tagService.deleteCategoryTag(tagId);
+    }
+
+    @GetMapping("/tags/search")
+    public Page<TagProjection> searchTags(@AuthenticationPrincipal CurrentUser user,
+                                          @RequestParam(name = "searchTerm", required = false, defaultValue = "") String searchTerm,
+                                          Pageable pageable) {
+        return tagService.searchTags(user, searchTerm, pageable);
     }
 }
