@@ -2,15 +2,20 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ColumnMode } from '@swimlane/ngx-datatable';
 import { PortfolioPositionService } from '../../services/portfolio-position.service';
 import { MatDialog } from '@angular/material/dialog';
-import { DialogData, PositionTagsDialogComponent } from '../../components/tags-dialog/position-tags-dialog.component';
+import {
+  PositionTagsDialogData,
+  PositionTagsDialogComponent,
+  PositionTagsDialogReturnType
+} from '../../components/tags-dialog/position-tags-dialog.component';
 import { PortfolioPositionView } from '../../types/portfolio-position.view';
 import { SelectedTagDto } from '../../types/tag/selected-tag.dto';
+import { stringifyTicker } from '../../../../core/types/ticker';
 
 @Component({
   selector: 'app-positions-container',
   template: `
     <ngx-datatable class="material" [rows]="positions$ | async"
-                   [columnMode]="ColumnMode.force"
+                   [columnMode]="ColumnMode.standard"
                    [headerHeight]="headerHeight"
                    [rowHeight]="rowHeight"
                    [limit]="pageLimit"
@@ -25,12 +30,13 @@ import { SelectedTagDto } from '../../types/tag/selected-tag.dto';
         <ng-template let-row="row" ngx-datatable-cell-template>
           <ng-container *ngIf="row.tags.length === 0; else tags">
             <button mat-button (click)="openPositionTagsDialog($event, row)">
-              <mat-icon>add</mat-icon>
+              <mat-icon>library_add</mat-icon>
             </button>
           </ng-container>
           <ng-template #tags>
             <button mat-button (click)="openPositionTagsDialog($event, row)">
-              <mat-icon>add_link</mat-icon>
+              <mat-icon [matBadge]="row.tags.length" matBadgeColor="warn">tag</mat-icon>
+              <span class="cdk-visually-hidden">{{row.tags.length + ' tags linked to this position'}}</span>
             </button>
           </ng-template>
         </ng-template>
@@ -87,20 +93,30 @@ export class PositionsContainerComponent implements OnInit {
   }
 
   openPositionTagsDialog(event: MouseEvent, position: PortfolioPositionView) {
-    const target = event.target as Element;
-    const targetAttr = target.getBoundingClientRect();
-    const dialogRef = this.matDialog.open<any, DialogData, SelectedTagDto[]>(PositionTagsDialogComponent, {
+    const dialogRef = this.matDialog.open<any, PositionTagsDialogData, PositionTagsDialogReturnType>(PositionTagsDialogComponent, {
+      height: '100vh',
+      width: '100vw',
+      maxWidth: '512px',
       position: {
-        top: targetAttr.y + targetAttr.height + 10 + "px",
-        left: targetAttr.x - targetAttr.width + 10 + "px"
+        top: '0',
+        right: '0'
       },
       restoreFocus: false,
       disableClose: false,
       data: {
+        title: `${stringifyTicker(position.identifier)} Position Tags`,
         selectedTags: position.tags
       }
     });
-    dialogRef.afterClosed().subscribe(selectedTags => {
+    dialogRef.afterClosed().subscribe((value) => {
+      if (!value) {
+        return;
+      }
+      if (value.openTagCategoriesDialog) {
+        console.log('Open another dialog');
+        return;
+      }
+      const selectedTags = value.selectedTags;
       if (!selectedTags || JSON.stringify(selectedTags) === JSON.stringify(position.tags)) {
         return;
       }

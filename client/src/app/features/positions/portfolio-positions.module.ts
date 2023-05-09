@@ -16,12 +16,17 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatBadgeModule } from '@angular/material/badge';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatCardModule } from '@angular/material/card';
+import { TagCategoriesDialogComponent } from './components/tag-categories-dialog/tag-categories-dialog.component';
 
 
 @NgModule({
   declarations: [
     PositionsContainerComponent,
-    PositionTagsDialogComponent
+    PositionTagsDialogComponent,
+    TagCategoriesDialogComponent
   ],
     imports: [
         CommonModule,
@@ -36,6 +41,9 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
         ReactiveFormsModule,
         MatTooltipModule,
         MatProgressSpinnerModule,
+        MatBadgeModule,
+        MatAutocompleteModule,
+        MatCardModule,
     ],
   providers: [
     PortfolioPositionService,

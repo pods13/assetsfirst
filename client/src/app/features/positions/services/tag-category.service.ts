@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { TagCategoryDto } from '../types/tag/tag-category.dto';
 import { Observable } from 'rxjs';
 import { TagDto } from '../types/tag/tag.dto';
+import { Page } from '../../../core/types/page';
+import { TagWithCategoryDto } from '../types/tag/tag.dto';
 
 @Injectable()
 export class TagCategoryService {
@@ -24,5 +26,9 @@ export class TagCategoryService {
 
   deleteCategoryTag(categoryId: number, tagId: number): Observable<void> {
     return this.http.delete<void>(`/tag-categories/${categoryId}/tags/${tagId}`);
+  }
+
+  findTags(tagNameSearchTerm: string) {
+    return this.http.get<Page<TagWithCategoryDto[]>>(`/tag-categories/tags/search?searchTerm=${tagNameSearchTerm}`);
   }
 }

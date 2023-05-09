@@ -1,53 +1,58 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  Inject,
+  OnInit,
+  ViewChild,
+  ViewEncapsulation
+} from '@angular/core';
 import { TagCategoryService } from '../../services/tag-category.service';
-import { delay, map, Observable } from 'rxjs';
-import { TagDto } from '../../types/tag/tag.dto';
-import { SelectedTagDto } from '../../types/tag/selected-tag.dto';
+import { filter, map, mergeMap, Observable, startWith } from 'rxjs';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatChipInputEvent } from '@angular/material/chips';
-import { TagCategoryDto } from '../../types/tag/tag-category.dto';
+import { FormControl, NonNullableFormBuilder } from '@angular/forms';
+import { TagWithCategoryDto } from '../../types/tag/tag.dto';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 
 @Component({
   selector: 'app-position-tags-dialog',
   template: `
+    <h2 mat-dialog-title>
+      {{ title }}<span>
+      <button mat-icon-button class="conf-categories-btn"
+              matTooltip="Configure Tag Categories" [mat-dialog-close]="{openTagCategoriesDialog: true}">
+        <mat-icon>settings_ethernet</mat-icon>
+      </button>
+    </span>
+    </h2>
     <mat-dialog-content>
-      <mat-chip-list>
-        <mat-chip *ngFor="let selectedTag of selectedTags" [value]="selectedTag.name">
-          {{selectedTag.name}}
-        </mat-chip>
-      </mat-chip-list>
-      <mat-tab-group (selectedTabChange)="onSelectedTabChanged($event)">
-        <mat-tab *ngFor="let category of categories; let i = index" [label]="category.name">
-          <ng-template matTabContent>
-            <mat-form-field appearance="fill" class="category-tags-list" *ngIf="!loading; else showSpinner">
-              <mat-chip-list #categoriesTags aria-label="Tag selection">
-                <mat-chip *ngFor="let tag of tags$ | async"
-                          (click)="onCategoryTagSelected(category.id, tag)"
-                          (removed)="removeTag(category.id, tag)">
-                  {{tag.name}}
-                  <button matChipRemove>
-                    <mat-icon>cancel</mat-icon>
-                  </button>
-                </mat-chip>
-                <input placeholder="New Tag..."
-                       [matChipInputFor]="categoriesTags"
-                       [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                       [matChipInputAddOnBlur]="true"
-                       (matChipInputTokenEnd)="addTag(category.id, $event)">
-              </mat-chip-list>
-            </mat-form-field>
-            <ng-template #showSpinner>
-              <div class="spinner-wrapper">
-                <mat-spinner [color]="'accent'"></mat-spinner>
-              </div>
-            </ng-template>
-          </ng-template>
-        </mat-tab>
-      </mat-tab-group>
+      <mat-form-field class="tag-chip-list" appearance="fill">
+        <mat-label>Position Tags</mat-label>
+        <mat-chip-list #chipList aria-label="Tag selection">
+          <mat-chip *ngFor="let tag of selectedTags" (removed)="remove(tag)">
+            {{tag.categoryName + '::' + tag.name}}
+            <button matChipRemove>
+              <mat-icon>cancel</mat-icon>
+            </button>
+          </mat-chip>
+          <input placeholder="New tag..." #tagInput [formControl]="tagCtrl"
+                 [matChipInputFor]="chipList"
+                 [matAutocomplete]="auto"
+                 [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                 (matChipInputTokenEnd)="add($event)">
+        </mat-chip-list>
+        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+          <mat-option *ngFor="let tag of filteredTags$ | async" [value]="tag">
+            {{tag.categoryName + '::' + tag.name}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
     </mat-dialog-content>
     <mat-dialog-actions>
-      <button mat-button [mat-dialog-close]="selectedTags">Okay</button>
+      <button mat-button [mat-dialog-close]="{selectedTags}">Okay</button>
     </mat-dialog-actions>
   `,
   styleUrls: ['./position-tags-dialog.component.scss'],
@@ -56,75 +61,67 @@ import { TagCategoryDto } from '../../types/tag/tag-category.dto';
 export class PositionTagsDialogComponent implements OnInit {
 
   readonly separatorKeysCodes = [ENTER, COMMA] as const;
-  loading = true;
 
-  categories!: TagCategoryDto[];
-  tags$!: Observable<TagDto[]>;
+  title!: string;
 
-  selectedTags: SelectedTagDto[] = [];
+  tagCtrl: FormControl<string>;
+  selectedTags: TagWithCategoryDto[] = [];
+  filteredTags$!: Observable<TagWithCategoryDto[]>;
 
+  @ViewChild('tagInput') tagInput!: ElementRef<HTMLInputElement>;
 
   constructor(public tagCategoryService: TagCategoryService,
-              @Inject(MAT_DIALOG_DATA) private data: DialogData,
-              private cd: ChangeDetectorRef) {
+              @Inject(MAT_DIALOG_DATA) private data: PositionTagsDialogData,
+              private cd: ChangeDetectorRef,
+              private fb: NonNullableFormBuilder) {
+    this.title = data.title;
     this.selectedTags = [...data.selectedTags];
+    this.tagCtrl = this.fb.control<string>('');
   }
 
   ngOnInit(): void {
-    this.tagCategoryService.getTagCategories()
-      .subscribe(categories => {
-        this.categories = categories;
-        this.cd.detectChanges();
-      });
+    this.filteredTags$ = this.tagCtrl.valueChanges.pipe(
+      startWith(''),
+      filter(value => typeof value === 'string'),
+      mergeMap((tagName: string) => this.tagCategoryService.findTags(tagName)
+        .pipe(map(page => page.content))
+      ),
+    )
   }
 
-  onCategoryTagSelected(categoryId: number, tag: TagDto) {
-    const selectedTagIds = new Set(this.selectedTags.map(t => t.id));
-    if (selectedTagIds.has(tag.id)) {
-      return;
-    }
-    this.selectedTags = [...this.selectedTags.filter(t => t.categoryId !== categoryId), {
-      id: tag.id,
-      categoryId,
-      name: tag.name
-    }];
-  }
-
-  removeTag(categoryId: number, tag: TagDto) {
-    this.loading = true;
-    this.tagCategoryService.deleteCategoryTag(categoryId, tag.id)
-      .pipe(delay(200))
-      .subscribe(() => {
-        this.tags$ = this.tagCategoryService.getTagsByCategory(categoryId);
-        this.loading = false;
-        this.cd.detectChanges();
-      });
-  }
-
-  addTag(categoryId: number, event: MatChipInputEvent): void {
-    this.loading = true;
+  add(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
 
     if (value) {
-      this.tagCategoryService.addTagToCategory(categoryId, value)
-        .pipe(delay(200))
-        .subscribe(() => {
-          event.chipInput!.clear();
-          this.tags$ = this.tagCategoryService.getTagsByCategory(categoryId);
-          this.loading = false;
-          this.cd.detectChanges();
-        });
+      //TODO implement auto creating inputed tags by adding them to tag category first
     }
 
+    // Clear the input value
+    event.chipInput!.clear();
+
+    this.tagCtrl.setValue('');
   }
 
-  onSelectedTabChanged(event: any) {
-    const categoryId = this.categories[event.index]?.id;
-    this.tags$ = this.tagCategoryService.getTagsByCategory(categoryId);
-    this.loading = false;
+  remove(tag: TagWithCategoryDto): void {
+    this.selectedTags = [...this.selectedTags.filter(t => t.id !== tag.id)];
+    this.cd.detectChanges();
+  }
+
+  selected(event: MatAutocompleteSelectedEvent): void {
+    this.tagInput.nativeElement.value = '';
+    this.tagCtrl.setValue('');
+    const selectedTag = event.option.value;
+    this.selectedTags = [...this.selectedTags, selectedTag];
+    this.cd.detectChanges();
   }
 }
 
-export interface DialogData {
-  selectedTags: SelectedTagDto[];
+export interface PositionTagsDialogData {
+  title: string;
+  selectedTags: TagWithCategoryDto[];
+}
+
+export interface PositionTagsDialogReturnType {
+  selectedTags?: TagWithCategoryDto[];
+  openTagCategoriesDialog?: boolean;
 }

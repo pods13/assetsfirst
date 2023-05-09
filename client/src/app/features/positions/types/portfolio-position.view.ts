@@ -1,5 +1,5 @@
 import { Ticker } from '../../../core/types/ticker';
-import { SelectedTagDto } from './tag/selected-tag.dto';
+import { TagWithCategoryDto } from './tag/tag.dto';
 
 export interface PortfolioPositionView {
   id: number;
@@ -12,5 +12,5 @@ export interface PortfolioPositionView {
   pctOfPortfolio: number;
   marketValue: number;
   yieldOnCost: number;
-  tags: SelectedTagDto[];
+  tags: TagWithCategoryDto[];
 }
