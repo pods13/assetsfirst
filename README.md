@@ -17,3 +17,10 @@ docker-compose down
 - [x] By opening 'Holdings' page, portfolio holdings can be looked on
 - [x] BALANCE widget depicts portfolio balance, which is calculated based on the securities recent price(~15m delay)
 </details>
+
+## Redeploy flow
+```
+docker-compose -f docker-compose.prod.yaml pull
+docker-compose -f docker-compose.prod.yaml up -d --build
+docker-compose -f docker-compose.prod.yaml down
+```
