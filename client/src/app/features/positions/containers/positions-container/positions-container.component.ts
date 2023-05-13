@@ -10,6 +10,7 @@ import {
 import { PortfolioPositionView } from '../../types/portfolio-position.view';
 import { SelectedTagDto } from '../../types/tag/selected-tag.dto';
 import { stringifyTicker } from '../../../../core/types/ticker';
+import { TagCategoriesDialogComponent } from '../../components/tag-categories-dialog/tag-categories-dialog.component';
 
 @Component({
   selector: 'app-positions-container',
@@ -113,7 +114,22 @@ export class PositionsContainerComponent implements OnInit {
         return;
       }
       if (value.openTagCategoriesDialog) {
-        console.log('Open another dialog');
+        const tagCategoriesDialog = this.matDialog.open(TagCategoriesDialogComponent, {
+          height: '100vh',
+          width: '100vw',
+          maxWidth: '512px',
+          position: {
+            top: '0',
+            right: '0'
+          },
+          restoreFocus: false,
+          disableClose: false,
+        });
+        tagCategoriesDialog.afterClosed().subscribe(value => {
+          if (value) {
+            this.positions$ = this.portfolioPositionService.getPortfolioPositionsView();
+          }
+        })
         return;
       }
       const selectedTags = value.selectedTags;
