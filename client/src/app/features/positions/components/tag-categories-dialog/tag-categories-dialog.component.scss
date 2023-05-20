@@ -7,3 +7,19 @@
 .category-tags-list {
   width: 100%;
 }
+
+.dialog-title {
+  display: inline-flex;
+
+  & h2 {
+    margin: 0;
+  }
+}
+
+.category-title {
+  display: inline-flex;
+
+  & h3 {
+    margin: 5px 0;
+  }
+}

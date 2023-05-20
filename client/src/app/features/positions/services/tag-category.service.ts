@@ -2,9 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { TagCategoryDto } from '../types/tag/tag-category.dto';
 import { Observable } from 'rxjs';
-import { TagDto } from '../types/tag/tag.dto';
+import { TagDto, TagWithCategoryDto } from '../types/tag/tag.dto';
 import { Page } from '../../../core/types/page';
-import { TagWithCategoryDto } from '../types/tag/tag.dto';
 
 @Injectable()
 export class TagCategoryService {
@@ -30,5 +29,17 @@ export class TagCategoryService {
 
   findTags(tagNameSearchTerm: string) {
     return this.http.get<Page<TagWithCategoryDto[]>>(`/tag-categories/tags/search?searchTerm=${tagNameSearchTerm}`);
+  }
+
+  createTagCategory(category: TagCategoryDto) {
+    return this.http.post<TagCategoryDto>(`/tag-categories`, category);
+  }
+
+  updateTagCategory(category: TagCategoryDto) {
+    return this.http.patch<TagCategoryDto>(`/tag-categories/${category.id}`, category);
+  }
+
+  deleteTagCategory(categoryId: number) {
+    return this.http.delete<void>(`/tag-categories/${categoryId}`);
   }
 }

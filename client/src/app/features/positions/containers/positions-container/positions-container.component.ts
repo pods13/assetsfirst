@@ -10,7 +10,13 @@ import {
 import { PortfolioPositionView } from '../../types/portfolio-position.view';
 import { SelectedTagDto } from '../../types/tag/selected-tag.dto';
 import { stringifyTicker } from '../../../../core/types/ticker';
-import { TagCategoriesDialogComponent } from '../../components/tag-categories-dialog/tag-categories-dialog.component';
+import {
+  TagCategoriesDialogComponent,
+  TagCategoriesDialogReturnType
+} from '../../components/tag-categories-dialog/tag-categories-dialog.component';
+import { TagCategoryDto } from '../../types/tag/tag-category.dto';
+import { TagCategoryService } from '../../services/tag-category.service';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-positions-container',
@@ -87,6 +93,7 @@ export class PositionsContainerComponent implements OnInit {
   positions$ = this.portfolioPositionService.getPortfolioPositionsView();
 
   constructor(private portfolioPositionService: PortfolioPositionService,
+              private tagCategoryService: TagCategoryService,
               private matDialog: MatDialog) {
   }
 
@@ -114,22 +121,14 @@ export class PositionsContainerComponent implements OnInit {
         return;
       }
       if (value.openTagCategoriesDialog) {
-        const tagCategoriesDialog = this.matDialog.open(TagCategoriesDialogComponent, {
-          height: '100vh',
-          width: '100vw',
-          maxWidth: '512px',
-          position: {
-            top: '0',
-            right: '0'
-          },
-          restoreFocus: false,
-          disableClose: false,
-        });
-        tagCategoriesDialog.afterClosed().subscribe(value => {
-          if (value) {
-            this.positions$ = this.portfolioPositionService.getPortfolioPositionsView();
+        const tagCategoriesDialog = this.matDialog.open<any, any, TagCategoriesDialogReturnType>(TagCategoriesDialogComponent,
+          this.getTagCategoriesDialogConfig());
+        tagCategoriesDialog.afterClosed().subscribe(res => {
+          console.log(res)
+          if (res && (res.add.length > 0 || res.update.length > 0 || res.delete.length > 0)) {
+            this.propagateTagCategoriesChanges(res);
           }
-        })
+        });
         return;
       }
       const selectedTags = value.selectedTags;
@@ -141,6 +140,29 @@ export class PositionsContainerComponent implements OnInit {
         .subscribe(() => {
           this.positions$ = this.portfolioPositionService.getPortfolioPositionsView();
         });
+    });
+  }
+
+  private getTagCategoriesDialogConfig() {
+    return {
+      height: '100vh',
+      width: '100vw',
+      maxWidth: '512px',
+      position: {
+        top: '0',
+        right: '0'
+      },
+      restoreFocus: false,
+      disableClose: false,
+    };
+  }
+
+  private propagateTagCategoriesChanges(res: TagCategoriesDialogReturnType) {
+    const whenCategoriesUpdated = res.update.map(c => this.tagCategoryService.updateTagCategory(c));
+    const whenNewCategoriesCreated = res.add.map(c => this.tagCategoryService.createTagCategory(c));
+    const whenCategoriesDeleted = res.delete.map(categoryId => this.tagCategoryService.deleteTagCategory(categoryId));
+    forkJoin([...whenCategoriesUpdated, ...whenNewCategoriesCreated, ...whenCategoriesDeleted]).subscribe(() => {
+      this.positions$ = this.portfolioPositionService.getPortfolioPositionsView();
     });
   }
 }
