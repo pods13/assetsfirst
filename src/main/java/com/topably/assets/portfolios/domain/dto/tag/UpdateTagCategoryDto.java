@@ -9,12 +9,10 @@ import java.util.List;
 
 @Data
 @Accessors(chain = true)
-public class CreateTagCategoryDto {
+public class UpdateTagCategoryDto {
 
     @NotBlank
     private String name;
-    @NotBlank
-    private String color;
     @NotNull
     private List<TagDto> tags;
 }
