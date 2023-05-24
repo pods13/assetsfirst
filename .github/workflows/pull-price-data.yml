@@ -3,7 +3,7 @@ name: Pull Price Data
 on:
   workflow_dispatch:
   schedule:
-    - cron: "50 10,20 * * *"
+    - cron: "28 10,12,15,17,19 * * *"
 
 jobs:
   pull-global-prices:
