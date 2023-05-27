@@ -3,24 +3,26 @@ import { ColumnMode } from '@swimlane/ngx-datatable';
 import { PortfolioPositionService } from '../../services/portfolio-position.service';
 import { MatDialog } from '@angular/material/dialog';
 import {
-  PositionTagsDialogData,
   PositionTagsDialogComponent,
+  PositionTagsDialogData,
   PositionTagsDialogReturnType
 } from '../../components/tags-dialog/position-tags-dialog.component';
 import { PortfolioPositionView } from '../../types/portfolio-position.view';
-import { SelectedTagDto } from '../../types/tag/selected-tag.dto';
 import { stringifyTicker } from '../../../../core/types/ticker';
 import {
   TagCategoriesDialogComponent,
   TagCategoriesDialogReturnType
 } from '../../components/tag-categories-dialog/tag-categories-dialog.component';
-import { TagCategoryDto } from '../../types/tag/tag-category.dto';
 import { TagCategoryService } from '../../services/tag-category.service';
 import { forkJoin } from 'rxjs';
+import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 
 @Component({
   selector: 'app-positions-container',
   template: `
+    <div class="positions-header">
+      <mat-slide-toggle [(ngModel)]="hideSoldPositions" (change)="onHideSoldToggled($event)">Hide Sold</mat-slide-toggle>
+    </div>
     <ngx-datatable class="material" [rows]="positions$ | async"
                    [columnMode]="ColumnMode.standard"
                    [headerHeight]="headerHeight"
@@ -90,7 +92,8 @@ export class PositionsContainerComponent implements OnInit {
 
   ColumnMode = ColumnMode;
 
-  positions$ = this.portfolioPositionService.getPortfolioPositionsView();
+  hideSoldPositions = true;
+  positions$ = this.getPortfolioPositions();
 
   constructor(private portfolioPositionService: PortfolioPositionService,
               private tagCategoryService: TagCategoryService,
@@ -138,7 +141,7 @@ export class PositionsContainerComponent implements OnInit {
       const selectedTagIds = selectedTags.map(t => t.id);
       this.portfolioPositionService.updatePositionTags(position.id, selectedTagIds)
         .subscribe(() => {
-          this.positions$ = this.portfolioPositionService.getPortfolioPositionsView();
+          this.positions$ = this.getPortfolioPositions();
         });
     });
   }
@@ -162,7 +165,15 @@ export class PositionsContainerComponent implements OnInit {
     const whenNewCategoriesCreated = res.add.map(c => this.tagCategoryService.createTagCategory(c));
     const whenCategoriesDeleted = res.delete.map(categoryId => this.tagCategoryService.deleteTagCategory(categoryId));
     forkJoin([...whenCategoriesUpdated, ...whenNewCategoriesCreated, ...whenCategoriesDeleted]).subscribe(() => {
-      this.positions$ = this.portfolioPositionService.getPortfolioPositionsView();
+      this.positions$ = this.getPortfolioPositions();
     });
+  }
+
+  getPortfolioPositions() {
+    return this.portfolioPositionService.getPortfolioPositionsView(this.hideSoldPositions);
+  }
+
+  onHideSoldToggled({checked}: MatSlideToggleChange) {
+    this.positions$ = this.getPortfolioPositions();
   }
 }

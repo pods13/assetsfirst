@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Collection;
@@ -29,8 +30,9 @@ public class PortfolioPositionsController {
     }
 
     @GetMapping("/view")
-    public Collection<PortfolioPositionView> getPortfolioPositionsView(@AuthenticationPrincipal CurrentUser user) {
-        return portfolioPositionService.findPortfolioPositionsView(user.getUserId());
+    public Collection<PortfolioPositionView> getPortfolioPositionsView(@AuthenticationPrincipal CurrentUser user,
+                                                                       @RequestParam(defaultValue = "true") boolean hideSold) {
+        return portfolioPositionService.findPortfolioPositionsView(user.getUserId(), hideSold);
     }
 
     @PostMapping("/{positionId}/tags")

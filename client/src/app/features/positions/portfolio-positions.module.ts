@@ -13,13 +13,14 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { TagCategoryService } from './services/tag-category.service';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatCardModule } from '@angular/material/card';
 import { TagCategoriesDialogComponent } from './components/tag-categories-dialog/tag-categories-dialog.component';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 
 @NgModule({
@@ -28,23 +29,25 @@ import { TagCategoriesDialogComponent } from './components/tag-categories-dialog
     PositionTagsDialogComponent,
     TagCategoriesDialogComponent
   ],
-    imports: [
-        CommonModule,
-        PortfolioPositionsRoutingModule,
-        NgxDatatableModule,
-        MatButtonModule,
-        MatIconModule,
-        MatDialogModule,
-        MatTabsModule,
-        MatChipsModule,
-        MatFormFieldModule,
-        ReactiveFormsModule,
-        MatTooltipModule,
-        MatProgressSpinnerModule,
-        MatBadgeModule,
-        MatAutocompleteModule,
-        MatCardModule,
-    ],
+  imports: [
+    CommonModule,
+    PortfolioPositionsRoutingModule,
+    NgxDatatableModule,
+    MatButtonModule,
+    MatIconModule,
+    MatDialogModule,
+    MatTabsModule,
+    MatChipsModule,
+    MatFormFieldModule,
+    ReactiveFormsModule,
+    MatTooltipModule,
+    MatProgressSpinnerModule,
+    MatBadgeModule,
+    MatAutocompleteModule,
+    MatCardModule,
+    MatSlideToggleModule,
+    FormsModule,
+  ],
   providers: [
     PortfolioPositionService,
     TagCategoryService

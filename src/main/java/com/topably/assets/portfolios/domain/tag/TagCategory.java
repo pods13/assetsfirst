@@ -16,6 +16,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import java.util.ArrayList;
@@ -34,14 +35,14 @@ public class TagCategory {
     @GenericGenerator(name = "native", strategy = "native")
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(foreignKey = @ForeignKey(name = "fk__tag_category__user_id__user"))
     private User user;
 
 
     private String name;
 
-    @Column(columnDefinition = "char")
+    @Column(columnDefinition = "char(7)")
     private String color;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)

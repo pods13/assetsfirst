@@ -56,7 +56,7 @@ public abstract class Instrument {
     @Column(name = "TICKER")
     private String ticker;
 
-    @Column(columnDefinition = "char", length = 3)
+    @Column(columnDefinition = "char(3)")
     private Currency currency;
 
     @Singular

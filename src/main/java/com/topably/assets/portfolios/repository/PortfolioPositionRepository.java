@@ -15,6 +15,13 @@ public interface PortfolioPositionRepository extends JpaRepository<PortfolioPosi
     @EntityGraph(attributePaths = {"instrument", "instrument.exchange", "tags", "tags.category"})
     List<PortfolioPosition> findAllByPortfolioId(Long portfolioId);
 
+    @EntityGraph(attributePaths = {"instrument", "instrument.exchange", "tags", "tags.category"})
+    @Query("""
+        select p from PortfolioPosition p
+        where p.portfolio.id = :portfolioId and p.quantity > 0
+        """)
+    List<PortfolioPosition> findAllNotSoldByPortfolioId(Long portfolioId);
+
     @Query("""
         SELECT pos.id from PortfolioPosition pos
         join pos.portfolio p

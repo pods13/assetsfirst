@@ -14,8 +14,8 @@ export class PortfolioPositionService {
     return this.http.get<PortfolioPositionDto[]>(`/portfolio-positions`);
   }
 
-  getPortfolioPositionsView() {
-    return this.http.get<PortfolioPositionView[]>(`/portfolio-positions/view`);
+  getPortfolioPositionsView(hideSold: boolean) {
+    return this.http.get<PortfolioPositionView[]>(`/portfolio-positions/view?hideSold=${hideSold}`);
   }
 
   updatePositionTags(positionId: number, selectedTagIds: number[]): Observable<void> {

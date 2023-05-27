@@ -102,9 +102,9 @@ public class PortfolioPositionService {
         return findPortfolioPositions(portfolio.getId());
     }
 
-    public Collection<PortfolioPositionView> findPortfolioPositionsView(Long userId) {
+    public Collection<PortfolioPositionView> findPortfolioPositionsView(Long userId, boolean hideSold) {
         var portfolio = portfolioRepository.findByUserId(userId);
-        var positions = portfolioPositionRepository.findAllByPortfolioId(portfolio.getId());
+        List<PortfolioPosition> positions = getPortfolioPositions(portfolio.getId(), hideSold);
         var tickerByFinData = collectPositionFinancialData(positions);
         var portfolioMarketValue = tickerByFinData.values().stream()
             .map(PortfolioPositionFinancialData::convertedMarketValue)
@@ -139,6 +139,13 @@ public class PortfolioPositionService {
                     .tags(position.getTags().stream().map(tagMapper::modelToProjection).toList())
                     .build();
             }).collect(Collectors.toList());
+    }
+
+    private List<PortfolioPosition> getPortfolioPositions(Long portfolioId, boolean hideSold) {
+        if (hideSold) {
+            return portfolioPositionRepository.findAllNotSoldByPortfolioId(portfolioId);
+        }
+        return portfolioPositionRepository.findAllByPortfolioId(portfolioId);
     }
 
     private Map<Ticker, PortfolioPositionFinancialData> collectPositionFinancialData(List<PortfolioPosition> positions) {
