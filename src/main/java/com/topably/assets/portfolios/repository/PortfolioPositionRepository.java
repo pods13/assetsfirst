@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,6 +15,9 @@ public interface PortfolioPositionRepository extends JpaRepository<PortfolioPosi
 
     @EntityGraph(attributePaths = {"instrument", "instrument.exchange", "tags", "tags.category"})
     List<PortfolioPosition> findAllByPortfolioId(Long portfolioId);
+
+    @EntityGraph(attributePaths = {"instrument", "instrument.exchange", "tags", "tags.category"})
+    List<PortfolioPosition> findAllByPortfolioIdAndOpenDateLessThanEqual(Long portfolioId, LocalDate date);
 
     @EntityGraph(attributePaths = {"instrument", "instrument.exchange", "tags", "tags.category"})
     @Query("""

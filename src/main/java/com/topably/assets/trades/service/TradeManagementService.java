@@ -51,6 +51,7 @@ public class TradeManagementService {
     }
 
     public TradeDto editTrade(EditTradeDto dto, Instrument tradedInstrument) {
+        //TODO if the first trade is updated we need to update position openDate as well
         Trade trade = tradeRepository.getById(dto.getTradeId());
         trade.setDate(trade.getDate().equals(dto.getDate()) ? trade.getDate() : dto.getDate());
         trade.setPrice(trade.getPrice().equals(dto.getPrice()) ? trade.getPrice() : dto.getPrice());

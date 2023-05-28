@@ -26,6 +26,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.time.LocalDate;
 import java.util.Set;
 
 @Setter
@@ -69,4 +70,6 @@ public class PortfolioPosition {
         inverseJoinColumns = {@JoinColumn(name = "tag_id", referencedColumnName = "id")},
         inverseForeignKey = @ForeignKey(name = "fk__portfolio_position__tag_id__tag"))
     private Set<Tag> tags;
+
+    private LocalDate openDate;
 }

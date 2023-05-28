@@ -3,12 +3,14 @@ package com.topably.assets.portfolios.service;
 import com.topably.assets.core.domain.Ticker;
 import com.topably.assets.findata.dividends.service.DividendService;
 import com.topably.assets.findata.exchanges.service.ExchangeService;
+import com.topably.assets.findata.xrates.service.currency.CurrencyConverterService;
 import com.topably.assets.instruments.domain.Instrument;
 import com.topably.assets.instruments.domain.InstrumentType;
 import com.topably.assets.portfolios.domain.Portfolio;
+import com.topably.assets.portfolios.domain.dto.PortfolioPositionDto;
 import com.topably.assets.portfolios.domain.position.PortfolioPosition;
 import com.topably.assets.portfolios.domain.position.PortfolioPositionView;
-import com.topably.assets.portfolios.domain.dto.PortfolioPositionDto;
+import com.topably.assets.portfolios.mapper.PortfolioPositionMapper;
 import com.topably.assets.portfolios.mapper.TagMapper;
 import com.topably.assets.portfolios.repository.PortfolioPositionRepository;
 import com.topably.assets.portfolios.repository.PortfolioRepository;
@@ -16,7 +18,6 @@ import com.topably.assets.portfolios.repository.tag.TagRepository;
 import com.topably.assets.trades.domain.dto.AggregatedTradeDto;
 import com.topably.assets.trades.domain.dto.add.AddTradeDto;
 import com.topably.assets.trades.service.TradeAggregatorService;
-import com.topably.assets.findata.xrates.service.currency.CurrencyConverterService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -47,6 +48,7 @@ public class PortfolioPositionService {
     private final PortfolioRepository portfolioRepository;
     private final TagRepository tagRepository;
     private final TagMapper tagMapper;
+    private final PortfolioPositionMapper portfolioPositionMapper;
     private final ExchangeService exchangeService;
     private final CurrencyConverterService currencyConverterService;
     private final DividendService dividendService;
@@ -70,6 +72,7 @@ public class PortfolioPositionService {
             .instrument(instrument)
             .quantity(dto.getQuantity())
             .averagePrice(dto.getPrice())
+            .openDate(dto.getDate())
             .build());
     }
 
@@ -79,18 +82,14 @@ public class PortfolioPositionService {
 
     public Collection<PortfolioPositionDto> findPortfolioPositions(Long portfolioId) {
         return findPortfolioPositionsByPortfolioId(portfolioId).stream()
-            .map(position -> {
-                Instrument instrument = position.getInstrument();
-                return PortfolioPositionDto.builder()
-                    .id(position.getId())
-                    .instrumentId(instrument.getId())
-                    .instrumentType(instrument.getInstrumentType())
-                    .identifier(instrument.toTicker())
-                    .currency(instrument.getCurrency())
-                    .quantity(position.getQuantity())
-                    .price(position.getAveragePrice())
-                    .build();
-            }).toList();
+            .map(portfolioPositionMapper::modelToDto)
+            .toList();
+    }
+
+    public Collection<PortfolioPositionDto> findPortfolioPositionsOpenedByDate(Long portfolioId, LocalDate date) {
+        return portfolioPositionRepository.findAllByPortfolioIdAndOpenDateLessThanEqual(portfolioId, date).stream()
+            .map(portfolioPositionMapper::modelToDto)
+            .toList();
     }
 
     public Collection<Long> findAllPositionIdsByPortfolioId(Long portfolioId) {
@@ -124,6 +123,7 @@ public class PortfolioPositionService {
                         .divide(portfolioMarketValue, 2, RoundingMode.HALF_EVEN);
                 }
                 pctTotal.getAndAccumulate(pctOfPortfolio, BigDecimal::add);
+                //TODO use portfolioPositionMapper instead
                 return PortfolioPositionView.builder()
                     .id(position.getId())
                     .instrumentId(instrument.getId())

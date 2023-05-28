@@ -56,8 +56,7 @@ public class PortfolioService {
 
     @Cacheable(key = "{ #root.methodName, #portfolio.id, #date }")
     public BigDecimal calculateInvestedAmountByDate(Portfolio portfolio, LocalDate date) {
-        //TODO add position.openDate to filter out positions opened after date
-        var positions = portfolioPositionService.findPortfolioPositions(portfolio.getId());
+        var positions = portfolioPositionService.findPortfolioPositionsOpenedByDate(portfolio.getId(), date);
         return calculateInvestedAmount(portfolio, positions, date);
     }
 
