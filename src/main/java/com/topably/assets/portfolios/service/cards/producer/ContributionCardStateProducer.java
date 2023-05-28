@@ -86,8 +86,10 @@ public class ContributionCardStateProducer implements CardStateProducer<Contribu
 
     private BigDecimal calculateMonthlyContribution(List<TradeView> monthTrades, BigDecimal monthlyDividend) {
         var monthlyPurchases = monthTrades.stream()
-            .filter(t -> TradeOperation.BUY.equals(t.getOperation()))
-            .map(t -> currencyConverterService.convert(t.getPrice().multiply(new BigDecimal(t.getQuantity())), t.getCurrency()))
+            .map(t -> {
+                var total = currencyConverterService.convert(t.getPrice().multiply(new BigDecimal(t.getQuantity())), t.getCurrency());
+                return TradeOperation.SELL.equals(t.getOperation()) ? total.multiply(BigDecimal.valueOf(-1L)) : total;
+            })
             .reduce(BigDecimal.ZERO, BigDecimal::add);
         if (monthlyPurchases.compareTo(BigDecimal.ZERO) == 0) {
             return BigDecimal.ZERO;
