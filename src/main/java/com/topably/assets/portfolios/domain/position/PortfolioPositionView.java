@@ -30,6 +30,7 @@ public class PortfolioPositionView {
     private BigDecimal marketValue;
     private BigDecimal yieldOnCost;
     private List<TagProjection> tags;
+    private BigDecimal accumulatedDividends;
 
     public BigDecimal getTotal() {
         return getPrice().multiply(new BigDecimal(getQuantity()));

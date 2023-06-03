@@ -24,9 +24,13 @@ async function main() {
 
     const whenDividendsSaved = instruments.map(instrument => {
         const slug = tickerBySlug[`${instrument.symbol}.${instrument.exchange}`];
+        if (!slug) {
+            console.error(`Cannot create slug for instrument  ${instrument.symbol + ':' + instrument.exchange}`);
+            return Promise.resolve();
+        }
         return parseRecentDividends(slug)
             .catch(e => {
-                console.error(`Error during dividend data gathering for ${instrument.symbol + ':' + instrument.exchange}`);
+                console.error(`Error during dividend data gathering for ${instrument.symbol + ':' + instrument.exchange}: ${e}`);
                 throw e;
             })
             .then(dividends => {
@@ -39,7 +43,7 @@ async function main() {
                 } else {
                     return Promise.resolve();
                 }
-            })
+            });
     });
 
     await Promise.allSettled(whenDividendsSaved)

@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 public interface DividendRepository extends JpaRepository<Dividend, Long>, UpsertRepository<Dividend, Long> {
@@ -37,4 +38,6 @@ public interface DividendRepository extends JpaRepository<Dividend, Long>, Upser
     Collection<Dividend> findAllByDeclareDateIsNullAndInstrument_TickerAndInstrument_Exchange_Code(String ticker, String exchange);
 
     Optional<Dividend> findTopByRecordDateBeforeOrderByRecordDateDesc(LocalDate date);
+
+    List<Dividend> findAllByInstrumentIdAndRecordDateGreaterThanEqual(Long instrumentId, LocalDate date);
 }

@@ -137,8 +137,14 @@ public class PortfolioPositionService {
                     .yieldOnCost(finData.yieldOnCost)
                     //TODO check sql query for n+1 problem
                     .tags(position.getTags().stream().map(tagMapper::modelToProjection).toList())
+                    .accumulatedDividends(calculateAccumulatedDividends(position))
                     .build();
             }).collect(Collectors.toList());
+    }
+
+    private BigDecimal calculateAccumulatedDividends(PortfolioPosition position) {
+        var tradesResult = tradeAggregatorService.aggregateTradesByPositionId(position.getId());
+        return dividendService.calculateAccumulatedDividends(position, tradesResult.getBuyTradesData());
     }
 
     private List<PortfolioPosition> getPortfolioPositions(Long portfolioId, boolean hideSold) {

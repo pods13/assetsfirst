@@ -26,7 +26,8 @@ export async function getClient() {
         const loggedCookie: any = loginResponse.headers['set-cookie'];
         client.defaults.headers.common['X-XSRF-TOKEN'] = getCsrfTokenFromCookie(loggedCookie[1]);
     } catch (e: any) {
-        console.log(e.config.data)
+        console.error(`Cannot setup connection to ${process.env.API_ASSETSFIRST_URL}, check credentials`);
+        throw e;
     }
     return client;
 }

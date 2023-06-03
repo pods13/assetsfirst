@@ -7,11 +7,11 @@ import com.topably.assets.findata.dividends.domain.dto.AggregatedDividendDto;
 import com.topably.assets.findata.dividends.domain.dto.DividendData;
 import com.topably.assets.findata.dividends.repository.DividendRepository;
 import com.topably.assets.instruments.domain.Instrument;
-import com.topably.assets.instruments.domain.InstrumentType;
 import com.topably.assets.instruments.service.InstrumentService;
 import com.topably.assets.portfolios.domain.position.PortfolioPosition;
 import com.topably.assets.trades.domain.Trade;
 import com.topably.assets.trades.domain.TradeOperation;
+import com.topably.assets.trades.domain.dto.AggregatedTradeDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
@@ -179,6 +179,28 @@ public class DividendService {
             );
         }
         return aggregatedDividends;
+    }
+
+    @Transactional(readOnly = true)
+    public BigDecimal calculateAccumulatedDividends(PortfolioPosition position, Collection<AggregatedTradeDto.TradeData> tradeData) {
+        var instrumentId = position.getInstrument().getId();
+        var dividendRecordDate = position.getOpenDate().plus(2, ChronoUnit.DAYS);
+        //TODO look for dividends in between dividendRecordDate and now to skip future divs
+        var dividends = dividendRepository.findAllByInstrumentIdAndRecordDateGreaterThanEqual(instrumentId, dividendRecordDate);
+        return dividends.stream()
+            .map(d -> {
+                var shares = countShares(tradeData, d);
+                return d.getAmount().multiply(shares);
+            })
+            .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
+    private BigDecimal countShares(Collection<AggregatedTradeDto.TradeData> tradeData, Dividend dividend) {
+        return tradeData.stream()
+            .filter(trade -> trade.getTradeTime().plus(2, ChronoUnit.DAYS).compareTo(dividend.getRecordDate()) <= 0)
+            .map(AggregatedTradeDto.TradeData::getShares)
+            .map(BigDecimal::new)
+            .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
 }
