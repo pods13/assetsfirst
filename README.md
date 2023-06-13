@@ -18,6 +18,21 @@ docker-compose down
 - [x] BALANCE widget depicts portfolio balance, which is calculated based on the securities recent price(~15m delay)
 </details>
 
+<details>
+  <summary>1.1.0 Features</summary>
+
+- [x] Show identifier with company name on position page(check out tradingview for inspiration)
+- [ ] Setup schedule job that recalculate position p&l and keep results in a separate db table, use these data in positionView  
+- [ ] Fill up Ex-dividend date column with relevant data
+- [ ] In Sectoral distribution use current value of positions instead of initial one
+- [ ] Show percentage in sectoral distribution widget
+- [ ] Allow user to change name of tag category
+- [ ] Introduce Portfolio currency, as a column in table 
+- [ ] Allow a user to change their portfolio currency  
+- [ ] Provide functionality to change a username
+- [ ] Company Page - show company name + ownership structure
+</details>
+
 ## Redeploy flow
 ```
 docker-compose -f docker-compose.prod.yaml pull

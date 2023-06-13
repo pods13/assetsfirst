@@ -20,6 +20,7 @@ import java.util.List;
 public class PortfolioPositionView {
 
     private Long id;
+    private String companyName;
     private Long instrumentId;
     private String instrumentType;
     private Ticker identifier;

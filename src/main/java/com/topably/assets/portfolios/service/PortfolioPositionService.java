@@ -1,11 +1,14 @@
 package com.topably.assets.portfolios.service;
 
+import com.topably.assets.companies.util.CompanyUtils;
 import com.topably.assets.core.domain.Ticker;
 import com.topably.assets.findata.dividends.service.DividendService;
 import com.topably.assets.findata.exchanges.service.ExchangeService;
 import com.topably.assets.findata.xrates.service.currency.CurrencyConverterService;
 import com.topably.assets.instruments.domain.Instrument;
 import com.topably.assets.instruments.domain.InstrumentType;
+import com.topably.assets.instruments.domain.instrument.ETF;
+import com.topably.assets.instruments.domain.instrument.Stock;
 import com.topably.assets.portfolios.domain.Portfolio;
 import com.topably.assets.portfolios.domain.dto.PortfolioPositionDto;
 import com.topably.assets.portfolios.domain.position.PortfolioPosition;
@@ -126,6 +129,7 @@ public class PortfolioPositionService {
                 //TODO use portfolioPositionMapper instead
                 return PortfolioPositionView.builder()
                     .id(position.getId())
+                    .companyName(CompanyUtils.resolveCompanyName(instrument))
                     .instrumentId(instrument.getId())
                     .instrumentType(instrument.getInstrumentType())
                     .identifier(ticker)
