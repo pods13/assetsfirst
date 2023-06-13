@@ -31,8 +31,11 @@ import { MatSlideToggleChange } from '@angular/material/slide-toggle';
                    [footerHeight]="footerHeight"
                    [sorts]="[{ prop: 'pctOfPortfolio', dir: 'desc' }]">
       <ngx-datatable-column [prop]="'identifier'">
-        <ng-template let-value="value" ngx-datatable-cell-template>
-          {{value.symbol}}
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <div class="identifier">
+            <div class="identifier-symbol">{{row.identifier.symbol}}</div>
+            <div class="identifier-company">{{row.companyName}}</div>
+          </div>
         </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-column [prop]="'tags'" [name]="'Tags'">
@@ -92,7 +95,7 @@ export class PositionsContainerComponent implements OnInit {
 
   readonly headerHeight = 50;
   readonly footerHeight = 50;
-  readonly rowHeight = 50;
+  readonly rowHeight = 60;
   readonly pageLimit = 30;
 
   ColumnMode = ColumnMode;
