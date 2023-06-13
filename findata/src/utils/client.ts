@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import axios, { AxiosInstance } from "axios";
 import FormData from "form-data";
 import { wrapper } from 'axios-cookiejar-support';
