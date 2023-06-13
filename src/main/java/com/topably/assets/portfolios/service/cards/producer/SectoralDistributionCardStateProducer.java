@@ -1,7 +1,10 @@
 package com.topably.assets.portfolios.service.cards.producer;
 
+import com.topably.assets.companies.util.CompanyUtils;
+import com.topably.assets.findata.exchanges.service.ExchangeService;
 import com.topably.assets.instruments.domain.Instrument;
 import com.topably.assets.instruments.domain.InstrumentType;
+import com.topably.assets.instruments.domain.instrument.Stock;
 import com.topably.assets.instruments.service.StockService;
 import com.topably.assets.portfolios.domain.Portfolio;
 import com.topably.assets.portfolios.domain.cards.CardContainerType;
@@ -19,6 +22,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeSet;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -34,8 +38,8 @@ public class SectoralDistributionCardStateProducer implements CardStateProducer<
 
     private final StockService stockService;
     private final CurrencyConverterService currencyConverterService;
-
     private final PortfolioPositionService portfolioPositionService;
+    private final ExchangeService exchangeService;
 
     @Override
     public CardData produce(Portfolio portfolio, SectoralDistributionCard card) {
@@ -53,24 +57,17 @@ public class SectoralDistributionCardStateProducer implements CardStateProducer<
     private Collection<SectoralDistributionDataItem> composeDataItems(Map<Long, PortfolioPositionDto> stockIdByPosition) {
         var stocks = stockService.findAllById(stockIdByPosition.keySet());
         var companyNameByStockIds = stocks.stream()
-            .collect(groupingBy(s -> s.getCompany().getName(), mapping(Instrument::getId, toSet())));
-        var companyGroupings = stocks.stream()
-            .filter(s -> s.getCompany().getIndustry() != null)
-            .collect(groupingBy(stock -> stock.getCompany().getIndustry().getSector().getName(),
-                groupingBy(s -> s.getCompany().getIndustry().getName(), mapping(s -> s.getCompany().getName(), toSet()))));
+            .collect(groupingBy(CompanyUtils::resolveCompanyName, mapping(Instrument::getId, toSet())));
 
         var items = new TreeSet<SectoralDistributionDataItem>();
-        companyGroupings.forEach((group, rest) -> {
+        buildDistributionTree(stocks).forEach((group, rest) -> {
             var groupBuilder = SectoralDistributionDataItem.builder()
                 .name(group);
             var groupChildren = new TreeSet<SectoralDistributionDataItem>();
             rest.forEach((industry, names) -> {
                 var children = names.stream()
                     .map(name -> {
-                        BigDecimal total = companyNameByStockIds.get(name).stream()
-                            .map(stockIdByPosition::get)
-                            .map(position -> currencyConverterService.convert(position.getTotal(), position.getCurrency()))
-                            .reduce(BigDecimal.ZERO, BigDecimal::add);
+                        var total = calculateTotalPerCompany(companyNameByStockIds.get(name), stockIdByPosition);
                         return composeLeafItem(name, total);
                     })
                     .collect(Collectors.toCollection(TreeSet::new));
@@ -82,13 +79,33 @@ public class SectoralDistributionCardStateProducer implements CardStateProducer<
                     .children(children)
                     .build());
             });
-            var value = groupChildren.stream().map(SectoralDistributionDataItem::getValue)
+            var value = groupChildren.stream()
+                .map(SectoralDistributionDataItem::getValue)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
             items.add(groupBuilder.value(value)
                 .children(groupChildren)
                 .build());
         });
         return items;
+    }
+
+    private static Map<String, Map<String, Set<String>>> buildDistributionTree(Collection<Stock> stocks) {
+        return stocks.stream()
+            .filter(s -> s.getCompany().getIndustry() != null)
+            .collect(groupingBy(stock -> stock.getCompany().getIndustry().getSector().getName(),
+                groupingBy(s -> s.getCompany().getIndustry().getName(), mapping(s -> s.getCompany().getName(), toSet()))));
+    }
+
+    private BigDecimal calculateTotalPerCompany(Set<Long> stockIds, Map<Long, PortfolioPositionDto> stockIdByPosition) {
+        return stockIds.stream()
+            .map(stockIdByPosition::get)
+            .map(position -> {
+                var price = exchangeService.findSymbolRecentPrice(position.getIdentifier())
+                    .orElse(position.getPrice());
+                var positionTotal = price.multiply(new BigDecimal(position.getQuantity()));
+                return currencyConverterService.convert(positionTotal, position.getCurrency());
+            })
+            .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
     private SectoralDistributionDataItem composeLeafItem(String name, BigDecimal total) {
