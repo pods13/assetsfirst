@@ -203,4 +203,9 @@ public class DividendService {
             .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
+    @Transactional(readOnly = true)
+    @Cacheable
+    public Optional<Dividend> findUpcomingDividend(Ticker ticker) {
+        return dividendRepository.findUpcomingDividend(ticker.getSymbol(), ticker.getExchange());
+    }
 }

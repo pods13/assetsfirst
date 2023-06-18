@@ -2,13 +2,12 @@ package com.topably.assets.portfolios.service;
 
 import com.topably.assets.companies.util.CompanyUtils;
 import com.topably.assets.core.domain.Ticker;
+import com.topably.assets.findata.dividends.domain.Dividend;
 import com.topably.assets.findata.dividends.service.DividendService;
 import com.topably.assets.findata.exchanges.service.ExchangeService;
 import com.topably.assets.findata.xrates.service.currency.CurrencyConverterService;
 import com.topably.assets.instruments.domain.Instrument;
 import com.topably.assets.instruments.domain.InstrumentType;
-import com.topably.assets.instruments.domain.instrument.ETF;
-import com.topably.assets.instruments.domain.instrument.Stock;
 import com.topably.assets.portfolios.domain.Portfolio;
 import com.topably.assets.portfolios.domain.dto.PortfolioPositionDto;
 import com.topably.assets.portfolios.domain.position.PortfolioPosition;
@@ -139,9 +138,9 @@ public class PortfolioPositionService {
                     .pctOfPortfolio(pctOfPortfolio)
                     .marketValue(finData.marketValue())
                     .yieldOnCost(finData.yieldOnCost)
-                    //TODO check sql query for n+1 problem
                     .tags(position.getTags().stream().map(tagMapper::modelToProjection).toList())
                     .accumulatedDividends(calculateAccumulatedDividends(position))
+                    .upcomingDividendDate(findUpcomingDividendDate(ticker))
                     .build();
             }).collect(Collectors.toList());
     }
@@ -149,6 +148,11 @@ public class PortfolioPositionService {
     private BigDecimal calculateAccumulatedDividends(PortfolioPosition position) {
         var tradesResult = tradeAggregatorService.aggregateTradesByPositionId(position.getId());
         return dividendService.calculateAccumulatedDividends(position, tradesResult.getBuyTradesData());
+    }
+
+    private LocalDate findUpcomingDividendDate(Ticker ticker) {
+        var upcomingDividend = dividendService.findUpcomingDividend(ticker);
+        return upcomingDividend.map(Dividend::getRecordDate).orElse(null);
     }
 
     private List<PortfolioPosition> getPortfolioPositions(Long portfolioId, boolean hideSold) {

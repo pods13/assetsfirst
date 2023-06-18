@@ -84,7 +84,7 @@ import { MatSlideToggleChange } from '@angular/material/slide-toggle';
           {{row.accumulatedDividends | currency: row.currencySymbol}}
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column [prop]="'exDividendDate'" [name]="'Ex-dividend Date'"></ngx-datatable-column>
+      <ngx-datatable-column [prop]="'upcomingDividendDate'" [name]="'Upcoming Dividend Date'"></ngx-datatable-column>
       <ngx-datatable-column [prop]="'realizedPnl'" [name]="'Realized P&L'"></ngx-datatable-column>
     </ngx-datatable>
   `,

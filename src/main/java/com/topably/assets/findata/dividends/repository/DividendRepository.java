@@ -24,20 +24,35 @@ public interface DividendRepository extends JpaRepository<Dividend, Long>, Upser
         """, nativeQuery = true)
     Collection<Dividend> findDividendsByYears(Ticker ticker, Iterable<Integer> dividendYears);
 
-    @Query(nativeQuery = true, value = "select d.*\n" +
-        "from dividend d\n" +
-        "         join instrument i on i.id = d.instrument_id\n" +
-        "         join exchange e on e.id = i.exchange_id\n" +
-        "where d.declare_date is not null\n" +
-        "  and i.ticker = :ticker\n" +
-        "  and e.code = :exchange\n" +
-        "order by d.declare_date desc\n" +
-        "limit 1")
-    Dividend findLastDeclaredDividend(String ticker, String exchange);
+    @Query(nativeQuery = true, value = """
+        select d.*
+        from dividend d
+                 join instrument i on i.id = d.instrument_id
+                 join exchange e on e.id = i.exchange_id
+        where d.declare_date is not null
+          and i.ticker = :symbol
+          and e.code = :exchange
+        order by d.declare_date desc
+        limit 1
+        """)
+    Dividend findLastDeclaredDividend(String symbol, String exchange);
 
     Collection<Dividend> findAllByDeclareDateIsNullAndInstrument_TickerAndInstrument_Exchange_Code(String ticker, String exchange);
 
     Optional<Dividend> findTopByRecordDateBeforeOrderByRecordDateDesc(LocalDate date);
 
     List<Dividend> findAllByInstrumentIdAndRecordDateGreaterThanEqual(Long instrumentId, LocalDate date);
+
+    @Query(nativeQuery = true, value = """
+        select d.*
+        from dividend d
+                 join instrument i on i.id = d.instrument_id
+                 join exchange e on e.id = i.exchange_id
+        where i.ticker = :symbol
+          and e.code = :exchange
+          and d.record_date >= now()
+        order by d.record_date
+        limit 1
+        """)
+    Optional<Dividend> findUpcomingDividend(String symbol, String exchange);
 }
