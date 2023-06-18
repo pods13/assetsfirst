@@ -15,6 +15,10 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
+    path: 'symbols',
+    loadChildren: () => import('./features/instruments/instruments.module').then(m => m.InstrumentsModule)
+  },
+  {
     path: 'app',
     component: SingleColumnLayoutComponent,
     canActivate: [AppGuard],

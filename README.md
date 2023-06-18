@@ -1,4 +1,4 @@
-# Assets
+# AssetsFirst
 [SwaggerUI](http://localhost:8080/swagger-ui/index.html)
 [OpenAPI](http://localhost:8080/v3/api-docs)
 
@@ -23,7 +23,7 @@ docker-compose down
 
 - [x] Show identifier with company name on position page(check out tradingview for inspiration)
 - [ ] Setup schedule job that recalculate position p&l and keep results in a separate db table, use these data in positionView  
-- [ ] Fill up Ex-dividend date column with relevant data
+- [ ] Fill up Upcoming dividend date column with relevant data
 - [x] In Sectoral distribution use current value of positions instead of initial one
 - [ ] Show percentage in sectoral distribution widget
 - [ ] Allow user to change name of tag category

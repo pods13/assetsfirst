@@ -10,6 +10,7 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.time.LocalDate;
 import java.util.List;
 
 @Setter
@@ -32,6 +33,7 @@ public class PortfolioPositionView {
     private BigDecimal yieldOnCost;
     private List<TagProjection> tags;
     private BigDecimal accumulatedDividends;
+    private LocalDate upcomingDividendDate;
 
     public BigDecimal getTotal() {
         return getPrice().multiply(new BigDecimal(getQuantity()));

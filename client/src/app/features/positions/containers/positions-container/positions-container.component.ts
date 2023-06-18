@@ -33,7 +33,7 @@ import { MatSlideToggleChange } from '@angular/material/slide-toggle';
       <ngx-datatable-column [prop]="'identifier'">
         <ng-template let-row="row" ngx-datatable-cell-template>
           <div class="identifier">
-            <div class="identifier-symbol">{{row.identifier.symbol}}</div>
+            <a class="identifier-symbol" [routerLink]="'/symbols/' + row.identifier.exchange + '-' + row.identifier.symbol">{{row.identifier.symbol}}</a>
             <div class="identifier-company">{{row.companyName}}</div>
           </div>
         </ng-template>
