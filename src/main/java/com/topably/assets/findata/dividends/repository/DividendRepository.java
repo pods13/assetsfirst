@@ -51,6 +51,7 @@ public interface DividendRepository extends JpaRepository<Dividend, Long>, Upser
         where i.ticker = :symbol
           and e.code = :exchange
           and d.record_date >= now()
+          and d.amount > 0
         order by d.record_date
         limit 1
         """)
