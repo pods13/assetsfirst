@@ -20,16 +20,19 @@ import { Router } from '@angular/router';
           </mat-nav-list>
         </mat-sidenav>
         <mat-sidenav-content>
-          <mat-toolbar [color]="'primary'">
+          <mat-toolbar [color]="'primary'" class="container">
             <button type="button" aria-label="Toggle sidenav" mat-icon-button
                     (click)="sidenav.toggle()" *ngIf="isHandset$ | async">
               <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
             </button>
-            <span class="logo" routerLink="">AssetsFirst</span>
-            <span class="fill-space"></span>
+            <div class="logo" routerLink=""><span class="assets">assets</span>first</div>
+            <div></div>
             <div *ngIf="!(isHandset$ | async)" class="top-nav">
-              <a routerLink="login" mat-button>Log In</a>
-              <a routerLink="signup" mat-button>Sign Up</a>
+              <a routerLink="login" mat-button>Sign In
+                <svg style="margin-left: 4px;" width="7" height="11" viewBox="0 0 7 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M0.75 10L5.25 5.5L0.75 1" stroke="#1D1D1F" stroke-width="2"></path>
+                </svg>
+              </a>
             </div>
           </mat-toolbar>
           <div class="wrapper">

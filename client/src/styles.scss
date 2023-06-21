@@ -22,3 +22,13 @@ body {
   clear: both;
   display: table;
 }
+
+.logo {
+  text-decoration-color: #1d1d1f;
+  font-size: 1.6rem;
+  font-family: GT Walsheim Pro, sans-serif;
+
+  & .assets {
+    font-weight: bold;
+  }
+}
