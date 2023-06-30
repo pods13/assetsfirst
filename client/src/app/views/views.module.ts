@@ -8,6 +8,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterModule } from '@angular/router';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { NgxEchartsModule } from 'ngx-echarts';
+import { MatCardModule } from '@angular/material/card';
 
 
 
@@ -24,6 +26,10 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
         MatButtonModule,
         RouterModule,
         MatProgressSpinnerModule,
+        NgxEchartsModule.forRoot({
+            echarts: () => import('echarts')
+        }),
+        MatCardModule,
     ]
 })
 export class ViewsModule { }

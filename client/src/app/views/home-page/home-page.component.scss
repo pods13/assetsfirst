@@ -1,102 +1,3 @@
-@import "./styles/breakpoints";
-@import "./styles/section";
-@import "./styles/separator";
-
-.align-items-center {
-  align-items: center !important;
-}
-
-.justify-content-center {
-  justify-content: center !important;
-}
-
-.row {
-  display: flex;
-  flex-wrap: wrap;
-  margin-right: -15px;
-  margin-left: -15px;
-}
-
-.text-center {
-  text-align: center !important;
-}
-
-@include media-breakpoint-down(lg) {
-  .col-lg-6 {
-    flex: 0 0 50%;
-    max-width: 50%;
-  }
-}
-
-.col-lg-6 {
-  position: relative;
-  width: 100%;
-  padding-right: 15px;
-  padding-left: 15px;
-}
-
-.lead {
-  font-size: 1.25rem;
-  margin-top: 1.5rem;
-}
-
-.lead, p {
-  font-weight: 300;
-  line-height: 1.7;
-}
-.text-white {
-  color: #fff!important;
-}
-
-.lead+.btn-wrapper {
-  margin-top: 3rem;
-}
-
-.mt-5, .my-5 {
-  margin-top: 3rem!important;
-}
-
-.btn-white:not(:disabled):not(.disabled).active, .btn-white:not(:disabled):not(.disabled):active, .show>.btn-white.dropdown-toggle {
-  color: #212529;
-  background-color: #e6e6e6;
-  border-color: #dfdfdf;
-}
-
-.btn:not(:disabled):not(.disabled).active, .btn:not(:disabled):not(.disabled):active {
-  box-shadow: none;
-}
-.btn:not(:last-child) {
-  margin-right: 0.5rem;
-}
-
-.btn-try {
-  color: #fff;
-  background-color: #222;
-  border-color: #222;
-}
-
-.btn {
-  position: relative;
-  text-transform: uppercase;
-  will-change: transform;
-  letter-spacing: .025em;
-  font-size: .875rem;
-  padding: 0.875rem 1rem;
-  line-height: 1.5;
-  border-radius: 0.3rem;
-}
-
-.img-fluid {
-  max-width: 100%;
-  height: auto;
-  vertical-align: middle;
-  border-style: none;
-}
-
-.fill-space {
-  flex-grow: 1;
-}
-
 .spinner-wrapper {
   display: flex;
   align-items: center;
@@ -105,5 +6,99 @@
 }
 
 .mat-sidenav-content .container {
-  justify-content: space-around;
+  justify-content: space-between;
+}
+
+.wrapper {
+  background-color: #f7f8fa;
+}
+
+.container {
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+@media (min-width: 576px) {
+  .container, .container-sm {
+    max-width: 540px
+  }
+}
+
+@media (min-width: 768px) {
+  .container, .container-md, .container-sm {
+    max-width: 720px;
+  }
+}
+
+@media (min-width: 992px) {
+  .container, .container-lg, .container-md, .container-sm {
+    max-width: 960px;
+  }
+}
+
+
+@media (min-width: 1200px) {
+  .container, .container-lg, .container-md, .container-sm, .container-xl {
+    max-width: 1200px;
+  }
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: -15px;
+  margin-left: -15px;
+
+  & .col {
+    flex-basis: 0;
+    flex-grow: 1;
+    max-width: 100%;
+  }
+
+  & .col-12 {
+    flex: 0 0 100%;
+    max-width: 100%;
+    position: relative;
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+  }
+
+  @media (min-width: 992px) {
+    & .col-lg-5 {
+      flex: 0 0 41.6666666667%;
+      max-width: 41.6666666667%;
+    }
+  }
+}
+
+.intro {
+  height: 90vh;
+}
+
+.description {
+  display: flex;
+  align-items: center;
+}
+
+.portfolio-chart {
+  top: 15%;
+  right: 0;
+
+  & > :first-child {
+    background-color: white;
+  }
+}
+
+.portfolio {
+  position: relative;
+}
+
+.portfolio-dividends {
+  position: absolute;
+  top: 0;
+  right: 0;
 }
