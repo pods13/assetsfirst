@@ -5,6 +5,7 @@ import com.topably.assets.findata.exchanges.service.ExchangeService;
 import com.topably.assets.findata.xrates.service.currency.CurrencyConverterService;
 import com.topably.assets.instruments.domain.InstrumentType;
 import com.topably.assets.portfolios.domain.Portfolio;
+import com.topably.assets.portfolios.domain.dto.PortfolioDto;
 import com.topably.assets.portfolios.domain.dto.PortfolioPositionDto;
 import com.topably.assets.portfolios.domain.dto.PortfolioValuesByDates;
 import com.topably.assets.portfolios.repository.PortfolioRepository;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.Year;
 import java.time.temporal.ChronoUnit;
@@ -43,6 +45,7 @@ public class PortfolioService {
     }
 
     public BigDecimal calculateCurrentAmount(Portfolio portfolio) {
+        //TODO calculate portfolio value by some date in the past
         var positions = portfolioPositionService.findPortfolioPositions(portfolio.getId());
         return positions.stream()
             .map(p -> {
@@ -90,12 +93,13 @@ public class PortfolioService {
                 return currencyConverterService.convert(dividendPerShare.multiply(new BigDecimal(p.getQuantity())), p.getInstrument().getCurrency());
             })
             .reduce(BigDecimal.ZERO, BigDecimal::add);
+
     }
 
-    public PortfolioValuesByDates getInvestedAmountByDates(Portfolio portfolio) {
+    public PortfolioValuesByDates getInvestedAmountByDates(Portfolio portfolio, int numOfDatesBetween) {
         var endDate = LocalDate.now().plusDays(1);
         var start = endDate.minusYears(1);
-        var datesBetween = getDatesBetween(start, endDate);
+        var datesBetween = getDatesBetween(start, endDate, numOfDatesBetween);
         var dates = datesBetween.stream()
             .map(Objects::toString)
             .toList();
@@ -105,12 +109,28 @@ public class PortfolioService {
         return new PortfolioValuesByDates(dates, values);
     }
 
-    public List<LocalDate> getDatesBetween(LocalDate startDate, LocalDate endDate) {
+    public List<LocalDate> getDatesBetween(LocalDate startDate, LocalDate endDate, int numOfDatesBetween) {
         long numOfDaysBetween = ChronoUnit.DAYS.between(startDate, endDate);
-        var limit = 5;
-        var datesBeforeEndStream = IntStream.iterate(0, i -> (numOfDaysBetween - 1) <= limit ? i + 1 : i + (int) Math.ceil((double) numOfDaysBetween / limit))
-            .limit(limit)
+        var datesBeforeEndStream = IntStream.iterate(0, i -> (numOfDaysBetween - 1) <= numOfDatesBetween ? i + 1 : i + (int) Math.ceil((double) numOfDaysBetween / numOfDatesBetween))
+            .limit(numOfDatesBetween)
             .mapToObj(startDate::plusDays);
         return Stream.concat(datesBeforeEndStream, Stream.of(endDate)).toList();
+    }
+
+    @Transactional(readOnly = true)
+    public PortfolioDto getPortfolioInfo(String identifier) {
+        //TODO Get rid of hardcoded value
+        var portfolio = portfolioRepository.getReferenceById(1L);
+        return new PortfolioDto()
+            .setValueIncreasePct(calculatePortfolioValueIncreasePct(portfolio))
+            //TODO use portfolio currency instead
+            .setCurrencySymbol(Currency.getInstance("RUB").getSymbol())
+            .setInvestedAmountByDates(getInvestedAmountByDates(portfolio, 15));
+    }
+
+    private BigDecimal calculatePortfolioValueIncreasePct(Portfolio portfolio) {
+        var invested = calculateInvestedAmount(portfolio);
+        var current = calculateCurrentAmount(portfolio);
+        return current.subtract(invested).divide(invested, RoundingMode.HALF_UP).multiply(BigDecimal.valueOf(100L));
     }
 }
