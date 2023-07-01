@@ -99,6 +99,24 @@
 
 .portfolio-dividends {
   position: absolute;
-  top: 0;
-  right: 0;
+  top: 10%;
+  left: 60%;
+}
+
+.company-name {
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 500;
+  margin-bottom: 5px;
+}
+
+.div-ps {
+  font-weight: 500;
+  margin-bottom: 5px;
+}
+
+.pay-date, .div-total {
+  font-size: 12px;
+  margin-bottom: 0;
+  margin-right: 5px;
 }

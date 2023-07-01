@@ -1,10 +1,12 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { map, shareReplay } from 'rxjs';
+import { forkJoin, map, shareReplay } from 'rxjs';
 import { AuthService } from '../../auth/services/auth.service';
 import { Router } from '@angular/router';
 import { ECharts, EChartsOption } from 'echarts';
 import { shortNumber } from '../../core/helpers/number.helpers';
+import { HttpClient } from '@angular/common/http';
+import { PortfolioDto } from '../../core/types/portfolio.dto';
 
 @Component({
   selector: 'app-home-page',
@@ -62,6 +64,20 @@ import { shortNumber } from '../../core/helpers/number.helpers';
                 <div class="col portfolio">
                   <div echarts class="portfolio-chart" [options]="chartOption" (chartInit)="onChartInit($event)">
                   </div>
+                  <mat-card class="portfolio-dividends">
+                    <mat-card-content class="container">
+                      <div class="row" *ngFor="let div of dividends">
+                        <div class="col">
+                          <h3 class="company-name">{{div.companyName}}</h3>
+                          <p class="pay-date">{{div.payDate | date: 'mediumDate'}}</p>
+                        </div>
+                        <div class="col">
+                          <p class="div-ps">{{div.dividendsPerShare | currency: div.currency}} dps</p>
+                          <p class="div-total">+{{div.totalDividends | currency: div.currency}}</p>
+                        </div>
+                      </div>
+                    </mat-card-content>
+                  </mat-card>
                 </div>
               </section>
             </div>
@@ -89,13 +105,33 @@ export class HomePageComponent implements OnInit {
     shareReplay()
   );
 
+  dividends = [
+    {companyName: 'Rosneft', payDate: new Date(), dividendsPerShare: 3.42, totalDividends: 124.5, currency: 'USD'},
+    {companyName: 'Gazprom', payDate: new Date(), dividendsPerShare: 1.42, totalDividends: 12400.5, currency: 'RUB'},
+    {companyName: 'Rosneft', payDate: new Date(), dividendsPerShare: 3.42, totalDividends: 124.5, currency: 'USD'},
+    {companyName: 'Gazprom', payDate: new Date(), dividendsPerShare: 1.42, totalDividends: 12400.5, currency: 'RUB'},
+    {companyName: 'Rosneft', payDate: new Date(), dividendsPerShare: 3.42, totalDividends: 124.5, currency: 'USD'},
+    {companyName: 'Gazprom', payDate: new Date(), dividendsPerShare: 1.42, totalDividends: 12400.5, currency: 'RUB'},
+    {companyName: 'Rosneft', payDate: new Date(), dividendsPerShare: 3.42, totalDividends: 124.5, currency: 'USD'},
+  ];
+
   constructor(private breakpointObserver: BreakpointObserver,
               private authService: AuthService,
-              private router: Router) {
+              private router: Router,
+              private http: HttpClient,
+              private cd: ChangeDetectorRef) {
   }
 
   ngOnInit(): void {
-    this.chartOption = this.constructChartOption();
+    forkJoin([this.getPortfolioInfo()])
+      .subscribe(([portfolioInfo]) => {
+        this.chartOption = this.constructChartOption(portfolioInfo);
+        this.cd.detectChanges();
+      });
+  }
+
+  getPortfolioInfo() {
+    return this.http.get<PortfolioDto>('/portfolios/demo');
   }
 
   onStartNowClick() {
@@ -107,11 +143,13 @@ export class HomePageComponent implements OnInit {
       });
   }
 
-  constructChartOption(): EChartsOption {
+  constructChartOption(dto: PortfolioDto): EChartsOption {
+    const investedAmountByDates = dto.investedAmountByDates;
+    const latestValue = investedAmountByDates.values[investedAmountByDates.values.length - 1];
     return {
       title: {
         text: 'Portfolio',
-        subtext: '879376$ (+10.49%)',
+        subtext: `${latestValue} (${dto.valueIncreasePct}%)`,
         left: '10%',
         top: '10%'
       },
@@ -122,7 +160,7 @@ export class HomePageComponent implements OnInit {
       xAxis: {
         type: 'category',
         boundaryGap: false,
-        data: ["2022-06-24", "2022-09-05", "2022-11-17", "2023-01-29", "2023-04-12", "2023-06-24"],
+        data: investedAmountByDates.dates,
         show: true,
         axisLine: {
           show: false,
@@ -141,12 +179,14 @@ export class HomePageComponent implements OnInit {
           show: false
         },
         axisLabel: {
-          formatter: shortNumber
+          formatter: function(value: any) {
+            return shortNumber(value);
+          }
         }
       },
       series: [
         {
-          data: [342987, 380066.684064, 473211.729064, 639344.529064, 706919.129064, 779376.729064],
+          data: investedAmountByDates.values,
           type: 'line',
           areaStyle: {
             opacity: 0.1

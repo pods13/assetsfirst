@@ -32,6 +32,7 @@ docker-compose down
 - [ ] Provide functionality to change a username
 - [x] Company Page - show company name
 - [x] Company Page - ownership structure
+- [ ] Redesign home page
 </details>
 
 ## Redeploy flow
