@@ -6,6 +6,7 @@ import com.topably.assets.findata.xrates.service.currency.CurrencyConverterServi
 import com.topably.assets.instruments.domain.InstrumentType;
 import com.topably.assets.portfolios.domain.Portfolio;
 import com.topably.assets.portfolios.domain.dto.PortfolioPositionDto;
+import com.topably.assets.portfolios.domain.dto.PortfolioValuesByDates;
 import com.topably.assets.portfolios.repository.PortfolioRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +21,10 @@ import java.time.Year;
 import java.time.temporal.ChronoUnit;
 import java.util.Collection;
 import java.util.Currency;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -85,5 +90,27 @@ public class PortfolioService {
                 return currencyConverterService.convert(dividendPerShare.multiply(new BigDecimal(p.getQuantity())), p.getInstrument().getCurrency());
             })
             .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
+    public PortfolioValuesByDates getInvestedAmountByDates(Portfolio portfolio) {
+        var endDate = LocalDate.now().plusDays(1);
+        var start = endDate.minusYears(1);
+        var datesBetween = getDatesBetween(start, endDate);
+        var dates = datesBetween.stream()
+            .map(Objects::toString)
+            .toList();
+        var values = datesBetween.stream()
+            .map(d -> calculateInvestedAmountByDate(portfolio, d))
+            .toList();
+        return new PortfolioValuesByDates(dates, values);
+    }
+
+    public List<LocalDate> getDatesBetween(LocalDate startDate, LocalDate endDate) {
+        long numOfDaysBetween = ChronoUnit.DAYS.between(startDate, endDate);
+        var limit = 5;
+        var datesBeforeEndStream = IntStream.iterate(0, i -> (numOfDaysBetween - 1) <= limit ? i + 1 : i + (int) Math.ceil((double) numOfDaysBetween / limit))
+            .limit(limit)
+            .mapToObj(startDate::plusDays);
+        return Stream.concat(datesBeforeEndStream, Stream.of(endDate)).toList();
     }
 }
