@@ -1,12 +1,15 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { forkJoin, map, shareReplay } from 'rxjs';
+import { map, shareReplay } from 'rxjs';
 import { AuthService } from '../../auth/services/auth.service';
 import { Router } from '@angular/router';
 import { ECharts, EChartsOption } from 'echarts';
-import { shortNumber } from '../../core/helpers/number.helpers';
+import { shortNumber } from '@core/helpers/number.helpers';
 import { HttpClient } from '@angular/common/http';
-import { PortfolioDto } from '../../core/types/portfolio.dto';
+import { PortfolioDto } from '@core/types/portfolio.dto';
+import { PortfolioDividendDto } from '@core/types/portfolio-dividend.dto';
+import { Page } from '@core/types/page';
+import { CurrencyPipe } from '@angular/common';
 
 @Component({
   selector: 'app-home-page',
@@ -66,14 +69,14 @@ import { PortfolioDto } from '../../core/types/portfolio.dto';
                   </div>
                   <mat-card class="portfolio-dividends">
                     <mat-card-content class="container">
-                      <div class="row" *ngFor="let div of dividends">
+                      <div class="row" *ngFor="let div of dividends$ | async">
                         <div class="col">
-                          <h3 class="company-name">{{div.companyName}}</h3>
-                          <p class="pay-date">{{div.payDate | date: 'mediumDate'}}</p>
+                          <h3 class="company-name">{{div.name}}</h3>
+                          <p class="pay-date">{{div.recordDate | date: 'mediumDate'}}</p>
                         </div>
                         <div class="col">
-                          <p class="div-ps">{{div.dividendsPerShare | currency: div.currency}} dps</p>
-                          <p class="div-total">+{{div.totalDividends | currency: div.currency}}</p>
+                          <p class="div-ps">{{div.perShare | currency: div.currency}} dps</p>
+                          <p class="div-total">+{{div.total | currency: div.currency}}</p>
                         </div>
                       </div>
                     </mat-card-content>
@@ -105,33 +108,31 @@ export class HomePageComponent implements OnInit {
     shareReplay()
   );
 
-  dividends = [
-    {companyName: 'Rosneft', payDate: new Date(), dividendsPerShare: 3.42, totalDividends: 124.5, currency: 'USD'},
-    {companyName: 'Gazprom', payDate: new Date(), dividendsPerShare: 1.42, totalDividends: 12400.5, currency: 'RUB'},
-    {companyName: 'Rosneft', payDate: new Date(), dividendsPerShare: 3.42, totalDividends: 124.5, currency: 'USD'},
-    {companyName: 'Gazprom', payDate: new Date(), dividendsPerShare: 1.42, totalDividends: 12400.5, currency: 'RUB'},
-    {companyName: 'Rosneft', payDate: new Date(), dividendsPerShare: 3.42, totalDividends: 124.5, currency: 'USD'},
-    {companyName: 'Gazprom', payDate: new Date(), dividendsPerShare: 1.42, totalDividends: 12400.5, currency: 'RUB'},
-    {companyName: 'Rosneft', payDate: new Date(), dividendsPerShare: 3.42, totalDividends: 124.5, currency: 'USD'},
-  ];
+  dividends$ = this.getPortfolioUpcomingDividends();
 
   constructor(private breakpointObserver: BreakpointObserver,
               private authService: AuthService,
               private router: Router,
               private http: HttpClient,
-              private cd: ChangeDetectorRef) {
+              private cd: ChangeDetectorRef,
+              private currencyPipe: CurrencyPipe) {
   }
 
   ngOnInit(): void {
-    forkJoin([this.getPortfolioInfo()])
-      .subscribe(([portfolioInfo]) => {
+    this.getPortfolioInfo()
+      .subscribe((portfolioInfo) => {
         this.chartOption = this.constructChartOption(portfolioInfo);
         this.cd.detectChanges();
       });
   }
 
   getPortfolioInfo() {
-    return this.http.get<PortfolioDto>('/portfolios/demo');
+    return this.http.get<PortfolioDto>('/public/portfolios/demo');
+  }
+
+  getPortfolioUpcomingDividends() {
+    return this.http.get<Page<PortfolioDividendDto[]>>('/public/portfolios/demo/dividends?page=0&size=8&sort=recordDate')
+      .pipe(map(page => page.content));
   }
 
   onStartNowClick() {
@@ -146,10 +147,11 @@ export class HomePageComponent implements OnInit {
   constructChartOption(dto: PortfolioDto): EChartsOption {
     const investedAmountByDates = dto.investedAmountByDates;
     const latestValue = investedAmountByDates.values[investedAmountByDates.values.length - 1];
+    const formattedLatestValue = this.currencyPipe.transform(latestValue, dto.currencySymbol);
     return {
       title: {
         text: 'Portfolio',
-        subtext: `${latestValue} (${dto.valueIncreasePct}%)`,
+        subtext: `${formattedLatestValue} (${dto.valueIncreasePct}%)`,
         left: '10%',
         top: '10%'
       },
@@ -179,7 +181,7 @@ export class HomePageComponent implements OnInit {
           show: false
         },
         axisLabel: {
-          formatter: function(value: any) {
+          formatter: function (value: any) {
             return shortNumber(value);
           }
         }
