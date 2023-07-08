@@ -3,6 +3,9 @@ package com.topably.assets.findata.dividends.repository;
 import com.topably.assets.core.domain.Ticker;
 import com.topably.assets.core.repository.UpsertRepository;
 import com.topably.assets.findata.dividends.domain.Dividend;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -56,4 +59,16 @@ public interface DividendRepository extends JpaRepository<Dividend, Long>, Upser
         limit 1
         """)
     Optional<Dividend> findUpcomingDividend(String symbol, String exchange);
+
+    @EntityGraph(attributePaths = {"instrument"})
+    @Query(value = """
+        select d from Dividend d
+            join d.instrument as i
+            join i.exchange
+            where concat(i.ticker, '.', i.exchange.code) in (:tickers)
+              and d.recordDate >= current_date
+              and d.amount > 0
+            group by d.id
+        """)
+    Page<Dividend> findUpcomingDividends(List<String> tickers, Pageable pageable);
 }

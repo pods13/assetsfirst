@@ -15,6 +15,8 @@ import com.topably.assets.trades.domain.dto.AggregatedTradeDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -207,5 +209,10 @@ public class DividendService {
     @Cacheable
     public Optional<Dividend> findUpcomingDividend(Ticker ticker) {
         return dividendRepository.findUpcomingDividend(ticker.getSymbol(), ticker.getExchange());
+    }
+
+    @Transactional(readOnly = true)
+    public Page<Dividend> findUpcomingDividends(Collection<Ticker> tickers, Pageable pageable) {
+        return dividendRepository.findUpcomingDividends(tickers.stream().map(Ticker::toString).toList(), pageable);
     }
 }

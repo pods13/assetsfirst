@@ -131,6 +131,7 @@ public class PortfolioService {
     private BigDecimal calculatePortfolioValueIncreasePct(Portfolio portfolio) {
         var invested = calculateInvestedAmount(portfolio);
         var current = calculateCurrentAmount(portfolio);
-        return current.subtract(invested).divide(invested, RoundingMode.HALF_UP).multiply(BigDecimal.valueOf(100L));
+        return current.subtract(invested).divide(invested, RoundingMode.HALF_UP).multiply(BigDecimal.valueOf(100L))
+            .setScale(2, RoundingMode.HALF_UP);
     }
 }
