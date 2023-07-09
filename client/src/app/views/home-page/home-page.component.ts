@@ -75,7 +75,7 @@ import { CurrencyPipe } from '@angular/common';
                           <p class="pay-date">{{div.recordDate | date: 'mediumDate'}}</p>
                         </div>
                         <div class="col">
-                          <p class="div-ps">{{div.perShare | currency: div.currency}} dps</p>
+                          <p class="div-ps">{{div.perShare | currency: div.currency}}</p>
                           <p class="div-total">+{{div.total | currency: div.currency}}</p>
                         </div>
                       </div>
