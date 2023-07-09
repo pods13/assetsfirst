@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigInteger;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -28,6 +29,7 @@ public class PortfolioDividendService {
         var positions = positionService.findPortfolioPositionsByPortfolioId(1L);
         var instrumentWithDividends = Set.of(InstrumentType.STOCK.name(), InstrumentType.ETF.name());
         var tickerByQuantity = positions.stream()
+            .filter(p -> p.getQuantity().compareTo(BigInteger.ZERO) > 0)
             .filter(p -> instrumentWithDividends.contains(p.getInstrument().getInstrumentType()))
             .collect(Collectors.toMap(p -> p.getInstrument().toTicker(), PortfolioPosition::getQuantity));
 
