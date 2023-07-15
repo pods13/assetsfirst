@@ -4,10 +4,19 @@ import com.topably.assets.portfolios.domain.position.PortfolioPosition;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.QueryHints;
 
+import javax.persistence.QueryHint;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
+
+import static org.hibernate.jpa.QueryHints.HINT_CACHEABLE;
+import static org.hibernate.jpa.QueryHints.HINT_FETCH_SIZE;
+import static org.hibernate.jpa.QueryHints.HINT_READONLY;
 
 public interface PortfolioPositionRepository extends JpaRepository<PortfolioPosition, Long> {
 
@@ -32,4 +41,6 @@ public interface PortfolioPositionRepository extends JpaRepository<PortfolioPosi
         where p.id = :portfolioId
         """)
     List<Long> findAllPositionIdsByPortfolioId(Long portfolioId);
+
+    List<PortfolioPosition> findAllByQuantityIsAndRealizedPnlIsNull(BigInteger quantity);
 }

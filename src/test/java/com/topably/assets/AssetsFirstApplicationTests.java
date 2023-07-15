@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 
 @Slf4j
 @IT
-class AssetsApplicationTests extends IntegrationTestBase {
+class AssetsFirstApplicationTests extends IntegrationTestBase {
 
     @Test
     void contextLoads() {

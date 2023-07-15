@@ -22,17 +22,17 @@ docker-compose down
   <summary>1.1.0 Features</summary>
 
 - [x] Show identifier with company name on position page(check out tradingview for inspiration)
-- [ ] Setup schedule job that recalculate position p&l and keep results in a separate db table, use these data in positionView  
 - [x] Fill up Upcoming dividend date column with relevant data
 - [x] In Sectoral distribution use current value of positions instead of initial one
-- [ ] Show percentage in sectoral distribution widget
-- [ ] Allow user to change name of tag category
-- [ ] Introduce Portfolio currency, as a column in db table 
-- [ ] Allow a user to change their portfolio currency  
-- [ ] Provide functionality to change a username
 - [x] Company Page - show company name
 - [x] Company Page - ownership structure
-- [ ] Redesign home page
+- [x] Redesign home page
+- [x] Setup schedule job that recalculate position p&l and keep results in a separate db table, use these data in positionView
+- [ ] Allow user to change name of tag category
+- [ ] Provide functionality to change a username
+- [ ] Show percentage in sectoral distribution widget
+- [ ] Introduce Portfolio currency, as a column in db table 
+- [ ] Allow a user to change their portfolio currency
 </details>
 
 ## Redeploy flow

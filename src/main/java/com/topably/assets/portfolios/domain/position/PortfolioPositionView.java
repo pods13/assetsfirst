@@ -34,6 +34,7 @@ public class PortfolioPositionView {
     private List<TagProjection> tags;
     private BigDecimal accumulatedDividends;
     private LocalDate upcomingDividendDate;
+    private BigDecimal realizedPnl;
 
     public BigDecimal getTotal() {
         return getPrice().multiply(new BigDecimal(getQuantity()));

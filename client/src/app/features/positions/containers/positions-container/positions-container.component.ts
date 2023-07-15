@@ -85,7 +85,11 @@ import { MatSlideToggleChange } from '@angular/material/slide-toggle';
         </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-column [prop]="'upcomingDividendDate'" [name]="'Upcoming Dividend Date'"></ngx-datatable-column>
-      <ngx-datatable-column [prop]="'realizedPnl'" [name]="'Realized P&L'"></ngx-datatable-column>
+      <ngx-datatable-column [prop]="'realizedPnl'" [name]="'Realized P&L'" *ngIf="!hideSoldPositions">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          {{row.realizedPnl | currency: row.currencySymbol}}
+        </ng-template>
+      </ngx-datatable-column>
     </ngx-datatable>
   `,
   styleUrls: ['./positions-container.component.scss'],

@@ -15,4 +15,5 @@ export interface PortfolioPositionView {
   yieldOnCost: number;
   tags: TagWithCategoryDto[];
   accumulatedDividends: number;
+  realizedPnl: number;
 }

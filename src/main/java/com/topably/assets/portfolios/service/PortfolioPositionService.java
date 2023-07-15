@@ -8,7 +8,6 @@ import com.topably.assets.findata.exchanges.service.ExchangeService;
 import com.topably.assets.findata.xrates.service.currency.CurrencyConverterService;
 import com.topably.assets.instruments.domain.Instrument;
 import com.topably.assets.instruments.domain.InstrumentType;
-import com.topably.assets.portfolios.domain.Portfolio;
 import com.topably.assets.portfolios.domain.dto.PortfolioPositionDto;
 import com.topably.assets.portfolios.domain.position.PortfolioPosition;
 import com.topably.assets.portfolios.domain.position.PortfolioPositionView;
@@ -17,8 +16,6 @@ import com.topably.assets.portfolios.mapper.TagMapper;
 import com.topably.assets.portfolios.repository.PortfolioPositionRepository;
 import com.topably.assets.portfolios.repository.PortfolioRepository;
 import com.topably.assets.portfolios.repository.tag.TagRepository;
-import com.topably.assets.trades.domain.dto.AggregatedTradeDto;
-import com.topably.assets.trades.domain.dto.add.AddTradeDto;
 import com.topably.assets.trades.service.TradeAggregatorService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +23,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.Year;
@@ -35,6 +33,7 @@ import java.util.Currency;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -55,28 +54,6 @@ public class PortfolioPositionService {
     private final CurrencyConverterService currencyConverterService;
     private final DividendService dividendService;
     private final TradeAggregatorService tradeAggregatorService;
-
-    public Optional<PortfolioPosition> findByUserIdAndInstrumentId(Long userId, Long instrumentId) {
-        return portfolioPositionRepository.findByPortfolio_User_IdAndInstrument_Id(userId, instrumentId);
-    }
-
-    public PortfolioPosition updatePortfolioPosition(Long positionId, AggregatedTradeDto dto) {
-        var position = portfolioPositionRepository.getById(positionId);
-        position.setQuantity(dto.getQuantity());
-        position.setAveragePrice(dto.getPrice());
-        return portfolioPositionRepository.save(position);
-    }
-
-    public PortfolioPosition createPosition(AddTradeDto dto, Instrument instrument) {
-        Portfolio portfolio = portfolioRepository.findByUserId(dto.getUserId());
-        return portfolioPositionRepository.saveAndFlush(PortfolioPosition.builder()
-            .portfolio(portfolio)
-            .instrument(instrument)
-            .quantity(dto.getQuantity())
-            .averagePrice(dto.getPrice())
-            .openDate(dto.getDate())
-            .build());
-    }
 
     public Collection<PortfolioPosition> findPortfolioPositionsByPortfolioId(Long portfolioId) {
         return portfolioPositionRepository.findAllByPortfolioId(portfolioId);
@@ -141,6 +118,7 @@ public class PortfolioPositionService {
                     .tags(position.getTags().stream().map(tagMapper::modelToProjection).toList())
                     .accumulatedDividends(calculateAccumulatedDividends(position))
                     .upcomingDividendDate(findUpcomingDividendDate(ticker))
+                    .realizedPnl(position.getRealizedPnl())
                     .build();
             }).collect(Collectors.toList());
     }
@@ -193,10 +171,6 @@ public class PortfolioPositionService {
 
     }
 
-    public void deletePortfolioPosition(Long positionId) {
-        portfolioPositionRepository.deleteById(positionId);
-    }
-
     public BigDecimal calculateInvestedAmountByPositionId(Long positionId, Currency portfolioCurrency, LocalDate date) {
         var tradesResult = tradeAggregatorService.aggregateTradesByPositionId(positionId, date);
         return tradesResult.getBuyTradesData().stream()
@@ -222,5 +196,16 @@ public class PortfolioPositionService {
             return BigDecimal.ZERO;
         }
         return dividendService.calculateAnnualDividend(instrument.toTicker(), year);
+    }
+
+    public void updatePnlOnClosedPositions() {
+        var i = new AtomicInteger(0);
+        portfolioPositionRepository.findAllByQuantityIsAndRealizedPnlIsNull(BigInteger.ZERO)
+            .forEach(p -> {
+                var aggregatedTradeDto = tradeAggregatorService.aggregateTradesByPositionId(p.getId());
+                p.setRealizedPnl(aggregatedTradeDto.getPnl());
+                i.incrementAndGet();
+            });
+        log.info("Calculated closedPnl for {} positions", i);
     }
 }

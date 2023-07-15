@@ -1,6 +1,5 @@
 package com.topably.assets.trades.service;
 
-import com.topably.assets.instruments.domain.InstrumentType;
 import com.topably.assets.trades.domain.TradeOperation;
 import com.topably.assets.trades.domain.TradeView;
 import com.topably.assets.trades.domain.dto.AggregatedTradeDto;
@@ -53,7 +52,7 @@ public class TradeAggregatorService {
         return new AggregatedTradeDto()
             .setQuantity(sharesByAvgPrice.getKey())
             .setPrice(sharesByAvgPrice.getValue())
-            .setClosedPnl(tradeResult.closedPnl())
+            .setPnl(tradeResult.closedPnl())
             .setBuyTradesData(tradeResult.buyTradesData());
     }
 

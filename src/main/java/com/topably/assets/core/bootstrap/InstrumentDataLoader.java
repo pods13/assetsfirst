@@ -62,7 +62,7 @@ public class InstrumentDataLoader implements CommandLineRunner {
             .attribute(ETF.NAME_ATTRIBUTE, "KraneShares Global Carbon Strategy ETF")
             .exchange(nysearca)
             .ticker("KRBN")
-            .currency(mcx.getCurrency())
+            .currency(nysearca.getCurrency())
             .build());
 
         etfs.add(ETF.builder()

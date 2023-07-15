@@ -14,9 +14,6 @@ import java.math.BigInteger;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Currency;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.Map;
 
 @Setter
 @Getter
@@ -27,7 +24,7 @@ public class AggregatedTradeDto {
 
     private BigInteger quantity;
     private BigDecimal price;
-    private BigDecimal closedPnl;
+    private BigDecimal pnl;
     private Collection<TradeData> buyTradesData;
 
     public record InterimTradeResult(Collection<TradeData> buyTradesData, BigDecimal closedPnl) {

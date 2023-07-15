@@ -1,9 +1,7 @@
 package com.topably.assets.trades.service;
 
-import com.topably.assets.trades.domain.Trade;
 import com.topably.assets.trades.domain.TradeOperation;
 import com.topably.assets.trades.domain.TradeView;
-import com.topably.assets.trades.domain.broker.Broker;
 import com.topably.assets.trades.repository.TradeViewRepository;
 import org.junit.jupiter.api.Test;
 
@@ -42,6 +40,7 @@ class TradeAggregatorServiceTest {
 
         assertThat(res.getQuantity()).isEqualByComparingTo(expectedShares);
         assertThat(res.getPrice()).isEqualByComparingTo(expectedPrice);
+        assertThat(res.getPnl()).isEqualByComparingTo(BigDecimal.ZERO);
     }
 
     @Test
@@ -160,7 +159,34 @@ class TradeAggregatorServiceTest {
 
         assertThat(res.getQuantity()).isEqualByComparingTo(expectedShares);
         assertThat(res.getPrice()).isEqualByComparingTo(expectedPrice);
-        assertThat(res.getClosedPnl()).isEqualByComparingTo(expectedPnl);
+        assertThat(res.getPnl()).isEqualByComparingTo(expectedPnl);
+    }
+
+    @Test
+    public void givenBuyTradeAndSellTrade_whenAggregationTradeCalculated_thenClosedPnlIsCalculated() {
+        var buyTrade = new TradeView()
+            .setBrokerId(1L)
+            .setBrokerName("Tinkoff")
+            .setQuantity(new BigInteger("100"))
+            .setPrice(new BigDecimal("300"))
+            .setDate(LocalDate.now().minusDays(30))
+            .setOperation(TradeOperation.BUY);
+        var sellTrade = new TradeView()
+            .setBrokerId(1L)
+            .setBrokerName("Tinkoff")
+            .setQuantity(new BigInteger("100"))
+            .setPrice(new BigDecimal("400"))
+            .setDate(LocalDate.now())
+            .setOperation(TradeOperation.SELL);
+        var expectedShares = new BigInteger("0");
+        var expectedPrice = new BigDecimal("0");
+        var expectedRealizedPnl = new BigDecimal("10000");
+
+        var res = service.aggregateTrades(List.of(buyTrade, sellTrade));
+
+        assertThat(res.getQuantity()).isEqualByComparingTo(expectedShares);
+        assertThat(res.getPrice()).isEqualByComparingTo(expectedPrice);
+        assertThat(res.getPnl()).isEqualByComparingTo(expectedRealizedPnl);
     }
 
 }

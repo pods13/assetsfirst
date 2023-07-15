@@ -3,6 +3,7 @@ package com.topably.assets.trades.service;
 import com.topably.assets.auth.event.UserCreatedEvent;
 import com.topably.assets.instruments.domain.Instrument;
 import com.topably.assets.portfolios.service.PortfolioPositionService;
+import com.topably.assets.portfolios.service.PositionManagementService;
 import com.topably.assets.trades.domain.Trade;
 import com.topably.assets.trades.domain.dto.DeleteTradeDto;
 import com.topably.assets.trades.domain.dto.EditTradeDto;
@@ -25,14 +26,13 @@ public class TradeManagementService {
 
     private final TradeRepository tradeRepository;
     private final BrokerRepository brokerRepository;
-
-    private final PortfolioPositionService portfolioPositionService;
     private final TradeAggregatorService tradeAggregatorService;
+    private final PositionManagementService positionManagementService;
     private final ApplicationEventPublisher eventPublisher;
 
     public TradeDto addTrade(AddTradeDto dto, Instrument tradedInstrument) {
-        var position = portfolioPositionService.findByUserIdAndInstrumentId(dto.getUserId(), dto.getInstrumentId())
-            .orElseGet(() -> portfolioPositionService.createPosition(dto, tradedInstrument));
+        var position = positionManagementService.findByUserIdAndInstrumentId(dto.getUserId(), dto.getInstrumentId())
+            .orElseGet(() -> positionManagementService.createPosition(dto, tradedInstrument));
         var trade = new Trade()
             .setPortfolioPosition(position)
             .setOperation(dto.getOperation())
@@ -43,7 +43,7 @@ public class TradeManagementService {
         var savedTrade = tradeRepository.saveAndFlush(trade);
         Long positionId = position.getId();
         var aggregatedTrade = tradeAggregatorService.aggregateTradesByPositionId(positionId);
-        portfolioPositionService.updatePortfolioPosition(positionId, aggregatedTrade);
+        positionManagementService.updatePortfolioPosition(positionId, aggregatedTrade);
         eventPublisher.publishEvent(new TradeChangedEvent(this));
         return TradeDto.builder()
             .id(savedTrade.getId())
@@ -52,7 +52,7 @@ public class TradeManagementService {
 
     public TradeDto editTrade(EditTradeDto dto, Instrument tradedInstrument) {
         //TODO if the first trade is updated we need to update position openDate as well
-        Trade trade = tradeRepository.getById(dto.getTradeId());
+        Trade trade = tradeRepository.getReferenceById(dto.getTradeId());
         trade.setDate(trade.getDate().equals(dto.getDate()) ? trade.getDate() : dto.getDate());
         trade.setPrice(trade.getPrice().equals(dto.getPrice()) ? trade.getPrice() : dto.getPrice());
         trade.setQuantity(trade.getQuantity().equals(dto.getQuantity()) ? trade.getQuantity() : dto.getQuantity());
@@ -60,7 +60,7 @@ public class TradeManagementService {
         var updatedTrade = tradeRepository.saveAndFlush(trade);
         Long positionId = trade.getPortfolioPosition().getId();
         var aggregatedTrade = tradeAggregatorService.aggregateTradesByPositionId(positionId);
-        portfolioPositionService.updatePortfolioPosition(positionId, aggregatedTrade);
+        positionManagementService.updatePortfolioPosition(positionId, aggregatedTrade);
         eventPublisher.publishEvent(new TradeChangedEvent(this));
         return TradeDto.builder()
             .id(updatedTrade.getId())
@@ -74,9 +74,9 @@ public class TradeManagementService {
         tradeRepository.flush();
         var aggregatedTrade = tradeAggregatorService.aggregateTradesByPositionId(positionId);
         if (BigInteger.ZERO.equals(aggregatedTrade.getQuantity())) {
-            portfolioPositionService.deletePortfolioPosition(positionId);
+            positionManagementService.deletePortfolioPosition(positionId);
         } else {
-            portfolioPositionService.updatePortfolioPosition(positionId, aggregatedTrade);
+            positionManagementService.updatePortfolioPosition(positionId, aggregatedTrade);
         }
         eventPublisher.publishEvent(new TradeChangedEvent(this));
     }

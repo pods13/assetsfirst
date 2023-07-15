@@ -1,11 +1,8 @@
 package com.topably.assets.portfolios.domain.position;
 
-import com.topably.assets.auth.domain.Authority;
 import com.topably.assets.instruments.domain.Instrument;
 import com.topably.assets.portfolios.domain.Portfolio;
 import com.topably.assets.portfolios.domain.tag.Tag;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -32,8 +29,6 @@ import java.util.Set;
 @Setter
 @Getter
 @NoArgsConstructor
-@AllArgsConstructor
-@Builder
 @Entity
 @Accessors(chain = true)
 public class PortfolioPosition {
@@ -72,4 +67,6 @@ public class PortfolioPosition {
     private Set<Tag> tags;
 
     private LocalDate openDate;
+
+    private BigDecimal realizedPnl;
 }
