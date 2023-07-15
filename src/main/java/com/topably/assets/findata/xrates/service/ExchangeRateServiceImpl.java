@@ -39,7 +39,7 @@ public class ExchangeRateServiceImpl implements ExchangeRateService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    @Cacheable
+    @Cacheable(unless = "#result.isPresent()")
     public Optional<ExchangeRate> findExchangeRate(Currency from, Currency to, Instant time) {
         LocalDate date = time.atZone(ZoneId.systemDefault()).toLocalDate();
         return Optional.ofNullable(exchangeRateRepository.findBySourceCurrencyAndDestinationCurrencyAndDate(from, to, date)

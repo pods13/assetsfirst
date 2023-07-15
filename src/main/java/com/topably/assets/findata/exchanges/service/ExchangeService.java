@@ -57,7 +57,7 @@ public class ExchangeService {
             useDefaultInstrumentTypesIfNull(instrumentTypes), inAnyPortfolio);
     }
 
-    @Cacheable
+    @Cacheable(unless = "#result.isPresent()")
     @Transactional(propagation = Propagation.REQUIRES_NEW, readOnly = true)
     public Optional<BigDecimal> findSymbolRecentPrice(Ticker ticker) {
         if (ExchangeEnum.FX_IDC.name().equals(ticker.getExchange())) {
