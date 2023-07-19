@@ -16,7 +16,14 @@ const routes: Routes = [
   },
   {
     path: 'symbols',
-    loadChildren: () => import('./features/instruments/instruments.module').then(m => m.InstrumentsModule)
+    component: SingleColumnLayoutComponent,
+    children: [
+      {
+        path: '',
+        loadChildren: () => import('./features/instruments/instruments.module').then(m => m.InstrumentsModule),
+      }
+    ]
+
   },
   {
     path: 'app',

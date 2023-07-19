@@ -8,7 +8,8 @@ import { InstrumentDto } from '../../types/instrument.dto';
   selector: 'app-symbol-container',
   template: `
     <div *ngIf="instrument$ | async as symbol">
-      {{symbol.name}}
+      <h1>{{symbol.name}}</h1>
+      <p>symbol price</p>
     </div>
   `,
   styleUrls: ['./instrument-container.component.scss'],

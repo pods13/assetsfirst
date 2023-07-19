@@ -28,6 +28,10 @@ docker-compose down
 - [x] Company Page - ownership structure
 - [x] Redesign home page
 - [x] Setup schedule job that recalculate position p&l and keep results in a separate db table, use these data in positionView
+- [ ] Migrate Angular from v14 to v16
+- [ ] Switch from @swimlane/ngx-datatable to mat-table
+- [ ] Keep showing accumulated dividends for closed positions
+- [ ] On balance and contributions plots on x axis use short number form
 - [ ] Allow user to change name of tag category
 - [ ] Provide functionality to change a username
 - [ ] Show percentage in sectoral distribution widget
