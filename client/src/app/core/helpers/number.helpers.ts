@@ -1,5 +1,5 @@
 export function shortNumber(value: any) {
-  if (!value) {
+  if (typeof value === 'undefined' || value === null) {
    throw new Error('Value to short has to be provided');
   }
   if (value === 0) return "0";

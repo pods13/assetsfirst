@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { ContributionCard } from '../../types/in/contribution-card';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { BarSeriesOption, ECharts, EChartsOption } from 'echarts';
+import { shortNumber } from '@core/helpers/number.helpers';
 
 @UntilDestroy()
 @Component({
@@ -67,7 +68,14 @@ export class ContributionCardComponent implements CardContainer<ContributionCard
         splitLine: {show: true},
         splitArea: {show: true}
       },
-      yAxis: {},
+      yAxis: {
+        axisLabel: {
+          formatter: function (value: any) {
+            console.log(value)
+            return shortNumber(value);
+          }
+        }
+      },
       series
     };
   }

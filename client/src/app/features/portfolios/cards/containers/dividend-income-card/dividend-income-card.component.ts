@@ -13,6 +13,7 @@ import { DividendIncomeCardData, TimeFrameDividend } from '../../types/out/divid
 import { DividendIncomeCard, TimeFrameOption } from '../../types/in/dividend-income-card';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { ECharts, EChartsOption } from 'echarts';
+import { shortNumber } from '@core/helpers/number.helpers';
 
 @UntilDestroy()
 @Component({
@@ -94,7 +95,13 @@ export class DividendIncomeCardComponent implements OnInit, AfterViewInit, CardC
         data: xAxis
       },
       yAxis: {
-        type: 'value'
+        type: 'value',
+        axisLabel: {
+          formatter: function (value: any) {
+            console.log(value)
+            return shortNumber(value);
+          }
+        }
       },
       series: this.composeBarSeries(dividendsData)
     };

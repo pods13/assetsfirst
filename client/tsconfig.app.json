@@ -4,10 +4,10 @@
   "compilerOptions": {
     "outDir": "./out-tsc/app",
     "types": [],
-    "baseUrl": "src",
+    "baseUrl": "./src",
     "paths": {
       "@env": ["environments/environment"],
-      "@core/*": ["app/core/*"]
+      "@core/*": ["./app/core/*"]
     }
   },
   "files": [
@@ -15,6 +15,7 @@
     "src/polyfills.ts"
   ],
   "include": [
-    "src/**/*.d.ts"
+    "src/**/*.d.ts",
+    "src/**/*.ts"
   ]
 }

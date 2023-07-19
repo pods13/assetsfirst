@@ -5,6 +5,7 @@ import { BalanceCard } from '../../types/in/balance-card';
 import { BalanceCardData } from '../../types/out/balance-card-data';
 import { ECharts, EChartsOption } from 'echarts';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { shortNumber } from '../../../../../core/helpers/number.helpers';
 
 @UntilDestroy()
 @Component({
@@ -66,7 +67,13 @@ export class BalanceCardComponent implements OnInit, CardContainer<BalanceCard, 
       },
       yAxis: {
         type: 'value',
-        show: this.card.cols >= 6 && this.card.rows >= 3
+        show: this.card.cols >= 6 && this.card.rows >= 3,
+        axisLabel: {
+          formatter: function (value: any) {
+            console.log(value)
+            return shortNumber(value);
+          }
+        }
       },
       series: [
         {
