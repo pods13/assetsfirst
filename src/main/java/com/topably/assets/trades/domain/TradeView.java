@@ -75,7 +75,12 @@ public class TradeView {
     private BigInteger quantity;
     private BigDecimal price;
 
+    @JsonIgnore
     private Currency currency;
+
+    public String getCurrencyCode() {
+        return currency.getCurrencyCode();
+    }
 
     private Long brokerId;
 

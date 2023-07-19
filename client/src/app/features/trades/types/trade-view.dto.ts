@@ -14,4 +14,5 @@ export interface TradeViewDto {
   quantity: number;
   brokerId: number;
   brokerName: string;
+  currencyCode: string;
 }

@@ -23,11 +23,14 @@ public interface InstrumentMapper {
     InstrumentDto modelToDto(Instrument instrument);
 
     @Mapping(target = "name", source = "company.name")
+    @Mapping(target = "currencyCode", source = "currency.currencyCode")
     InstrumentDto stockToDto(Stock stock);
 
+    @Mapping(target = "currencyCode", source = "currency.currencyCode")
     InstrumentDto etfToDto(ETF etf);
 
     @Mapping(target = "name", expression = "java(\"Currency\")")
+    @Mapping(target = "currencyCode", source = "currency.currencyCode")
     InstrumentDto fxToDto(FX fx);
 
 }

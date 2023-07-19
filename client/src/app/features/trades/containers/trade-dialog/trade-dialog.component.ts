@@ -53,7 +53,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
         </mat-form-field>
         <app-assign-trade-attributes [trade]="data.trade"></app-assign-trade-attributes>
       </form>
-      <div class="total">Total: {{total$ | async}}</div>
+      <div class="total" *ngIf="total$ | async as total">Total: {{total}}</div>
     </div>
     <div mat-dialog-actions>
       <button mat-button [disabled]="form.invalid" (click)="saveTrade()">Save</button>
@@ -71,7 +71,7 @@ export class TradeDialogComponent implements OnInit {
   filteredInstruments: ReplaySubject<any[]> = new ReplaySubject<any[]>(1);
 
   brokers$ = this.brokerService.getBrokers();
-  total$ = new BehaviorSubject(0.0);
+  total$ = new ReplaySubject<number>();
 
   constructor(private fb: UntypedFormBuilder,
               private tradingInstrumentService: TradingInstrumentService,
@@ -95,7 +95,7 @@ export class TradeDialogComponent implements OnInit {
       map(({specifics}) => {
         return specifics.price * specifics.quantity;
       }))
-      .subscribe(this.total$);
+      .subscribe(value => this.total$.next(value));
   }
 
   private composeInstrument(trade: TradeViewDto) {

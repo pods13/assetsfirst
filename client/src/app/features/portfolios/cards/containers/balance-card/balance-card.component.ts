@@ -5,7 +5,7 @@ import { BalanceCard } from '../../types/in/balance-card';
 import { BalanceCardData } from '../../types/out/balance-card-data';
 import { ECharts, EChartsOption } from 'echarts';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { shortNumber } from '../../../../../core/helpers/number.helpers';
+import { shortNumber } from '@core/helpers/number.helpers';
 
 @UntilDestroy()
 @Component({
