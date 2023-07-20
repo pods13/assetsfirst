@@ -71,7 +71,6 @@ export class ContributionCardComponent implements CardContainer<ContributionCard
       yAxis: {
         axisLabel: {
           formatter: function (value: any) {
-            console.log(value)
             return shortNumber(value);
           }
         }

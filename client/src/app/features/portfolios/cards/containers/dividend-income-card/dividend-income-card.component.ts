@@ -98,7 +98,6 @@ export class DividendIncomeCardComponent implements OnInit, AfterViewInit, CardC
         type: 'value',
         axisLabel: {
           formatter: function (value: any) {
-            console.log(value)
             return shortNumber(value);
           }
         }

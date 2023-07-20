@@ -58,7 +58,6 @@ export class DividendGoalsCardComponent implements CardContainer<DividendGoalsCa
 
   ngOnInit(): void {
     this.setupFormBeforeData$ = this.data$.pipe(tapOnce(data => {
-      console.log(this.card.desiredYieldByIssuer)
       data.items.forEach((item) =>
         this.desiredYields.push(this.fb.control(this.card.desiredYieldByIssuer?.[item.name] ?? item.currentYield)));
     }));

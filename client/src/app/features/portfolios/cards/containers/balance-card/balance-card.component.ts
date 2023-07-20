@@ -70,7 +70,6 @@ export class BalanceCardComponent implements OnInit, CardContainer<BalanceCard, 
         show: this.card.cols >= 6 && this.card.rows >= 3,
         axisLabel: {
           formatter: function (value: any) {
-            console.log(value)
             return shortNumber(value);
           }
         }

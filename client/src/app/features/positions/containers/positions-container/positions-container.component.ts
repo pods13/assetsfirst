@@ -139,7 +139,6 @@ export class PositionsContainerComponent implements OnInit {
         const tagCategoriesDialog = this.matDialog.open<any, any, TagCategoriesDialogReturnType>(TagCategoriesDialogComponent,
           this.getTagCategoriesDialogConfig());
         tagCategoriesDialog.afterClosed().subscribe(res => {
-          console.log(res)
           if (res && (res.add.length > 0 || res.update.length > 0 || res.delete.length > 0)) {
             this.propagateTagCategoriesChanges(res);
           }
