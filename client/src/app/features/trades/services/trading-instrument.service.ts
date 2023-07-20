@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { InstrumentDto } from '../types/instrument.dto';
 
 @Injectable()
 export class TradingInstrumentService {
@@ -8,7 +9,7 @@ export class TradingInstrumentService {
   }
 
   searchInstrumentsByNameOrTicker(searchTerm: string) {
-    return this.http.get<any[]>(`/instruments?search=${searchTerm}`);
+    return this.http.get<InstrumentDto[]>(`/instruments?search=${searchTerm}`);
   }
 
 }

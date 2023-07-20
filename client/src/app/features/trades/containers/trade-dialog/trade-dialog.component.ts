@@ -1,17 +1,6 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import {
-  BehaviorSubject,
-  catchError,
-  debounceTime,
-  distinctUntilChanged,
-  filter,
-  map,
-  of,
-  ReplaySubject,
-  switchMap,
-  tap
-} from 'rxjs';
+import { catchError, debounceTime, distinctUntilChanged, filter, map, of, ReplaySubject, switchMap, tap } from 'rxjs';
 import { TradingInstrumentService } from '../../services/trading-instrument.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { TradeViewDto } from '../../types/trade-view.dto';
@@ -19,6 +8,7 @@ import { EditTradeDto } from '../../types/edit-trade.dto';
 import { AddTradeDto } from '../../types/add-trade.dto';
 import { BrokerService } from '../../services/broker.service';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { InstrumentDto } from '../../types/instrument.dto';
 
 @UntilDestroy()
 @Component({
@@ -38,7 +28,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
               </ngx-mat-select-search>
             </mat-option>
             <mat-option *ngFor="let instrument of filteredInstruments | async"
-                        [value]="{id: instrument.id, instrumentType: instrument.instrumentType}">
+                        [value]="instrument">
               {{instrument.ticker + (instrument.name ? ' (' + instrument.name + ')' : '')}}
             </mat-option>
           </mat-select>
@@ -53,7 +43,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
         </mat-form-field>
         <app-assign-trade-attributes [trade]="data.trade"></app-assign-trade-attributes>
       </form>
-      <div class="total" *ngIf="total$ | async as total">Total: {{total}}</div>
+      <div class="total" *ngIf="total$ | async as total">Total: {{total | currency: form.get('instrument')?.value?.currencyCode}}</div>
     </div>
     <div mat-dialog-actions>
       <button mat-button [disabled]="form.invalid" (click)="saveTrade()">Save</button>
@@ -98,8 +88,14 @@ export class TradeDialogComponent implements OnInit {
       .subscribe(value => this.total$.next(value));
   }
 
-  private composeInstrument(trade: TradeViewDto) {
-    return {id: trade.instrumentId, instrumentType: trade.instrumentType, ticker: trade.symbol, name: trade.name};
+  private composeInstrument(trade: TradeViewDto): InstrumentDto {
+    return {
+      id: trade.instrumentId,
+      instrumentType: trade.instrumentType,
+      ticker: trade.symbol,
+      name: trade.name,
+      currencyCode: trade.currencyCode
+    };
   }
 
   ngOnInit(): void {
