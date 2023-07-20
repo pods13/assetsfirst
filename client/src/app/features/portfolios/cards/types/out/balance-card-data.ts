@@ -4,6 +4,6 @@ import { PortfolioValuesByDates } from '@core/types/portfolio-values-by-dates';
 export interface BalanceCardData extends CardData {
   currentAmount: number;
   investedAmount: number;
-  currencySymbol: string;
+  currencyCode: string;
   investedAmountByDates: PortfolioValuesByDates;
 }

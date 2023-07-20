@@ -124,7 +124,7 @@ public class PortfolioService {
         return new PortfolioDto()
             .setValueIncreasePct(calculatePortfolioValueIncreasePct(portfolio))
             //TODO use portfolio currency instead
-            .setCurrencySymbol(Currency.getInstance("RUB").getSymbol())
+            .setCurrencyCode(Currency.getInstance("RUB").getCurrencyCode())
             .setInvestedAmountByDates(getInvestedAmountByDates(portfolio, 15));
     }
 

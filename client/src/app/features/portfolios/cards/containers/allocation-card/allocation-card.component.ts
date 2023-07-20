@@ -87,7 +87,7 @@ export class AllocationCardComponent implements OnInit, AfterViewInit, CardConta
       tooltip: {
         trigger: 'item',
         formatter: (params: any) => {
-          const price = this.currencyPipe.transform(params.value, params.data.currencySymbol);
+          const price = this.currencyPipe.transform(params.value, params.data.currencyCode);
           return `<b>${params.marker}${params.name} ${price} (${params.percent}%)</b>`;
         }
       },

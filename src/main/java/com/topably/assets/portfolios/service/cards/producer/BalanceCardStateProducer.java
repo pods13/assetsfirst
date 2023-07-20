@@ -26,7 +26,7 @@ public class BalanceCardStateProducer implements CardStateProducer<BalanceCard> 
             .setInvestedAmount(portfolioService.calculateInvestedAmount(portfolio))
             .setCurrentAmount(portfolioService.calculateCurrentAmount(portfolio))
             //TODO use portfolio currency instead
-            .setCurrencySymbol(Currency.getInstance("RUB").getSymbol())
+            .setCurrencyCode(Currency.getInstance("RUB").getCurrencyCode())
             .setInvestedAmountByDates(portfolioService.getInvestedAmountByDates(portfolio, 5));
     }
 }

@@ -8,7 +8,7 @@ import {
   PositionTagsDialogReturnType
 } from '../../components/tags-dialog/position-tags-dialog.component';
 import { PortfolioPositionView } from '../../types/portfolio-position.view';
-import { stringifyTicker } from '../../../../core/types/ticker';
+import { stringifyTicker } from '@core/types/ticker';
 import {
   TagCategoriesDialogComponent,
   TagCategoriesDialogReturnType
@@ -56,7 +56,7 @@ import { MatSlideToggleChange } from '@angular/material/slide-toggle';
       <ngx-datatable-column [prop]="'quantity'" [name]="'Shares'"></ngx-datatable-column>
       <ngx-datatable-column [prop]="'price'" [name]="'Cost Per Share'">
         <ng-template let-row="row" ngx-datatable-cell-template>
-          {{row.price | currency: row.currencySymbol}}
+          {{row.price | currency: row.currencyCode}}
         </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-column [prop]="'pctOfPortfolio'" [name]="'% of Portfolio'">
@@ -66,12 +66,12 @@ import { MatSlideToggleChange } from '@angular/material/slide-toggle';
       </ngx-datatable-column>
       <ngx-datatable-column [prop]="'total'" [name]="'Total Cost'">
         <ng-template let-row="row" ngx-datatable-cell-template>
-          {{row.total | currency: row.currencySymbol}}
+          {{row.total | currency: row.currencyCode}}
         </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-column [prop]="'marketValue'" [name]="'Market Value'">
         <ng-template let-row="row" ngx-datatable-cell-template>
-          {{row.marketValue | currency: row.currencySymbol}}
+          {{row.marketValue | currency: row.currencyCode}}
         </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-column [prop]="'yieldOnCost'" [name]="'Yield On Cost'">
@@ -81,13 +81,13 @@ import { MatSlideToggleChange } from '@angular/material/slide-toggle';
       </ngx-datatable-column>
       <ngx-datatable-column [prop]="'accumulatedDividends'" [name]="'Accumulated Dividends'">
         <ng-template let-row="row" ngx-datatable-cell-template>
-          {{row.accumulatedDividends | currency: row.currencySymbol}}
+          {{row.accumulatedDividends | currency: row.currencyCode}}
         </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-column [prop]="'upcomingDividendDate'" [name]="'Upcoming Dividend Date'"></ngx-datatable-column>
       <ngx-datatable-column [prop]="'realizedPnl'" [name]="'Realized P&L'" *ngIf="!hideSoldPositions">
         <ng-template let-row="row" ngx-datatable-cell-template>
-          {{row.realizedPnl | currency: row.currencySymbol}}
+          {{row.realizedPnl | currency: row.currencyCode}}
         </ng-template>
       </ngx-datatable-column>
     </ngx-datatable>

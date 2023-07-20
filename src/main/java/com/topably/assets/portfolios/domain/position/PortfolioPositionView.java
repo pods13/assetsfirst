@@ -27,7 +27,7 @@ public class PortfolioPositionView {
     private Ticker identifier;
     private BigInteger quantity;
     private BigDecimal price;
-    private String currencySymbol;
+    private String currencyCode;
     private BigDecimal pctOfPortfolio;
     private BigDecimal marketValue;
     private BigDecimal yieldOnCost;

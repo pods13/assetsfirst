@@ -10,6 +10,6 @@ import java.math.BigDecimal;
 public class PortfolioDto {
 
     private BigDecimal valueIncreasePct;
-    private String currencySymbol;
+    private String currencyCode;
     private PortfolioValuesByDates investedAmountByDates;
 }

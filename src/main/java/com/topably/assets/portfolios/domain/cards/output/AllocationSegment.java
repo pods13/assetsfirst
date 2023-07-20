@@ -18,6 +18,6 @@ public class AllocationSegment {
 
     private String name;
     private BigDecimal value;
-    private String currencySymbol;
+    private String currencyCode;
     private Collection<AllocationSegment> children;
 }

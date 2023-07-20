@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 @Data
 @Accessors(chain = true)
@@ -14,6 +13,6 @@ public class BalanceCardData implements CardData {
 
     private BigDecimal currentAmount;
     private BigDecimal investedAmount;
-    private String currencySymbol;
+    private String currencyCode;
     private PortfolioValuesByDates investedAmountByDates;
 }

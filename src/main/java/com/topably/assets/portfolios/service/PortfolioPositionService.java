@@ -109,7 +109,7 @@ public class PortfolioPositionService {
                     .instrumentId(instrument.getId())
                     .instrumentType(instrument.getInstrumentType())
                     .identifier(ticker)
-                    .currencySymbol(instrument.getCurrency().getSymbol())
+                    .currencyCode(instrument.getCurrency().getCurrencyCode())
                     .quantity(position.getQuantity())
                     .price(position.getAveragePrice())
                     .pctOfPortfolio(pctOfPortfolio)

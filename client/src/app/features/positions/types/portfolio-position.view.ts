@@ -1,4 +1,4 @@
-import { Ticker } from '../../../core/types/ticker';
+import { Ticker } from '@core/types/ticker';
 import { TagWithCategoryDto } from './tag/tag.dto';
 
 export interface PortfolioPositionView {
@@ -9,7 +9,7 @@ export interface PortfolioPositionView {
   identifier: Ticker;
   quantity: number;
   price: number;
-  currencySymbol: string;
+  currencyCode: string;
   pctOfPortfolio: number;
   marketValue: number;
   yieldOnCost: number;

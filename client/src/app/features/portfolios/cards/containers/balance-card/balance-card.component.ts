@@ -11,19 +11,19 @@ import { shortNumber } from '@core/helpers/number.helpers';
 @Component({
   selector: 'app-balance-card',
   template: `
-    <div class="card-header">
-      <h2 class="title">{{ card.title }}</h2>
-    </div>
-    <ng-container *ngIf="data$ | async as data">
-      <div class="current-amount">{{data.currentAmount | currency: data.currencySymbol}}</div>
-      <div class="invested-amount">
-        <span>{{data.investedAmount | currency: data.currencySymbol}}</span>
-        <span>{{'invested'}}</span>
+      <div class="card-header">
+          <h2 class="title">{{ card.title }}</h2>
       </div>
-    </ng-container>
-    <div echarts class="balance-chart" [options]="chartOption" [loading]="loading"
-         (chartInit)="onChartInit($event)">
-    </div>
+      <ng-container *ngIf="data$ | async as data">
+          <div class="current-amount">{{data.currentAmount | currency: data.currencyCode}}</div>
+          <div class="invested-amount">
+              <span>{{data.investedAmount | currency: data.currencyCode}}</span>
+              <span>{{'invested'}}</span>
+          </div>
+      </ng-container>
+      <div echarts class="balance-chart" [options]="chartOption" [loading]="loading"
+           (chartInit)="onChartInit($event)">
+      </div>
   `,
   styleUrls: ['./balance-card.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

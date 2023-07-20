@@ -147,7 +147,7 @@ export class HomePageComponent implements OnInit {
   constructChartOption(dto: PortfolioDto): EChartsOption {
     const investedAmountByDates = dto.investedAmountByDates;
     const latestValue = investedAmountByDates.values[investedAmountByDates.values.length - 1];
-    const formattedLatestValue = this.currencyPipe.transform(latestValue, dto.currencySymbol);
+    const formattedLatestValue = this.currencyPipe.transform(latestValue, dto.currencyCode);
     return {
       title: {
         text: 'Portfolio',

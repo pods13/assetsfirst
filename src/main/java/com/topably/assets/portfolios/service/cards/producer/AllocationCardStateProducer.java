@@ -52,7 +52,7 @@ public class AllocationCardStateProducer implements CardStateProducer<Allocation
                 return AllocationSegment.builder().name(byType.getKey())
                     .value(calculateSegmentsTotalValue(childSegments))
                     //TODO use portfolio default currency instead
-                    .currencySymbol(portfolioCurrency.getSymbol())
+                    .currencyCode(portfolioCurrency.getCurrencyCode())
                     .children(childSegments)
                     .build();
             })
@@ -127,7 +127,7 @@ public class AllocationCardStateProducer implements CardStateProducer<Allocation
         return AllocationSegment.builder()
             .name(name)
             .value(price)
-            .currencySymbol(portfolioCurrency.getSymbol())
+            .currencyCode(portfolioCurrency.getCurrencyCode())
             .build();
     }
 
