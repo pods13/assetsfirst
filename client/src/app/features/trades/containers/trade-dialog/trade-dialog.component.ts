@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { NonNullableFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { catchError, debounceTime, distinctUntilChanged, filter, map, of, ReplaySubject, switchMap, tap } from 'rxjs';
 import { TradingInstrumentService } from '../../services/trading-instrument.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
@@ -63,7 +63,7 @@ export class TradeDialogComponent implements OnInit {
   brokers$ = this.brokerService.getBrokers();
   total$ = new ReplaySubject<number>();
 
-  constructor(private fb: UntypedFormBuilder,
+  constructor(private fb: NonNullableFormBuilder,
               private tradingInstrumentService: TradingInstrumentService,
               private brokerService: BrokerService,
               public dialogRef: MatDialogRef<TradeDialogComponent>,
@@ -74,12 +74,12 @@ export class TradeDialogComponent implements OnInit {
       this.filteredInstruments.next([instrument]);
     }
     this.form = this.fb.group({
-      instrument: this.fb.control({
+      instrument: [{
         value: instrument,
         disabled: trade ?? false
-      }, Validators.compose([Validators.required])),
-      instrumentFilter: this.fb.control(''),
-      brokerId: this.fb.control(trade?.brokerId, Validators.compose([Validators.required])),
+      }, Validators.required],
+      instrumentFilter: [''],
+      brokerId: [trade?.brokerId, Validators.required],
     });
     this.form.valueChanges.pipe(untilDestroyed(this),
       map(({specifics}) => {

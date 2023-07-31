@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 
@@ -10,22 +10,21 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
 
-  loginForm!: UntypedFormGroup;
+  loginForm = this.fb.group({
+    username: ['', Validators.required],
+    password: ['', Validators.required],
+  });
 
-  constructor(private fb: UntypedFormBuilder,
+  constructor(private fb: NonNullableFormBuilder,
               private authService: AuthService,
               private router: Router) {
   }
 
   ngOnInit(): void {
-    this.loginForm = this.fb.group({
-      username: this.fb.control('', Validators.compose([Validators.required])),
-      password: this.fb.control('', Validators.required),
-    });
   }
 
   login() {
-    const loginRequest = this.loginForm?.value;
+    const loginRequest = this.loginForm?.getRawValue();
 
     this.authService.login(loginRequest)
       .subscribe((user) => {

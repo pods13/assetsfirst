@@ -1,5 +1,11 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { ControlContainer, UntypedFormBuilder, UntypedFormGroup, FormGroupDirective, Validators } from '@angular/forms';
+import {
+  ControlContainer,
+  FormGroupDirective,
+  NonNullableFormBuilder,
+  UntypedFormGroup,
+  Validators
+} from '@angular/forms';
 import { TradeOperation } from '../../types/trade-operation';
 import { TradeViewDto } from '../../types/trade-view.dto';
 
@@ -54,17 +60,17 @@ export class AssignTradeAttributesComponent implements OnInit {
   tradeOperations = Object.keys(TradeOperation);
 
   constructor(public parentForm: FormGroupDirective,
-              private fb: UntypedFormBuilder) {
+              private fb: NonNullableFormBuilder) {
   }
 
   ngOnInit(): void {
     this.form = this.fb.group({
-      operation: this.fb.control({
+      operation: [{
         value: this.trade?.operation ?? TradeOperation.BUY, disabled: this.trade ?? false
-      }, Validators.compose([Validators.required])),
-      date: this.fb.control(this.trade?.date ?? new Date(), Validators.compose([Validators.required])),
-      price: this.fb.control(this.trade?.price ?? '', Validators.compose([Validators.required])),
-      quantity: this.fb.control(this.trade?.quantity ?? '', Validators.compose([Validators.required])),
+      }, Validators.required],
+      date: [this.trade?.date ?? new Date(), Validators.required],
+      price: [this.trade?.price ?? '', Validators.required],
+      quantity: [this.trade?.quantity ?? '', Validators.required],
     });
     this.parentForm.form.addControl('specifics', this.form);
   }

@@ -1,5 +1,5 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 
@@ -21,7 +21,8 @@ import { Router } from '@angular/router';
       </mat-form-field>
 
       <div class="actions">
-        <button mat-flat-button color="primary" type="submit" (click)="signup()" [disabled]="!signupForm.valid">Create Account
+        <button mat-flat-button color="primary" type="submit" (click)="signup()" [disabled]="!signupForm.valid">Create
+          Account
         </button>
         <div class="separator">
           <span>OR</span>
@@ -36,22 +37,21 @@ import { Router } from '@angular/router';
 })
 export class SignupComponent implements OnInit {
 
-  signupForm!: UntypedFormGroup;
+  signupForm = this.fb.group({
+    username: ['', Validators.required],
+    password: ['', Validators.required]
+  });
 
-  constructor(private fb: UntypedFormBuilder,
+  constructor(private fb: NonNullableFormBuilder,
               private authService: AuthService,
               private router: Router) {
   }
 
   ngOnInit(): void {
-    this.signupForm = this.fb.group({
-      username: this.fb.control('', Validators.compose([Validators.required])),
-      password: this.fb.control('', Validators.required),
-    });
   }
 
   signup() {
-    const signupRequest = this.signupForm?.value;
+    const signupRequest = this.signupForm?.getRawValue();
     this.authService.signup(signupRequest)
       .subscribe((user) => {
         this.router.navigate([this.authService.INITIAL_PATH])
