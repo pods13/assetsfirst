@@ -117,13 +117,6 @@ export class PositionsContainerComponent implements OnInit {
 
   openPositionTagsDialog(event: MouseEvent, position: PortfolioPositionView) {
     const dialogRef = this.matDialog.open<any, PositionTagsDialogData, PositionTagsDialogReturnType>(PositionTagsDialogComponent, {
-      height: '100vh',
-      width: '100vw',
-      maxWidth: '512px',
-      position: {
-        top: '0',
-        right: '0'
-      },
       restoreFocus: false,
       disableClose: false,
       data: {
@@ -159,13 +152,6 @@ export class PositionsContainerComponent implements OnInit {
 
   private getTagCategoriesDialogConfig() {
     return {
-      height: '100vh',
-      width: '100vw',
-      maxWidth: '512px',
-      position: {
-        top: '0',
-        right: '0'
-      },
       restoreFocus: false,
       disableClose: false,
     };

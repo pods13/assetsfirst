@@ -37,13 +37,6 @@ export class ProfileContainerComponent implements OnInit {
 
   openChangePasswordDialog(currentUser: User) {
     const dialogRef = this.dialog.open<ChangePasswordDialogComponent, ChangePasswordDialogData, ChangePasswordDto>(ChangePasswordDialogComponent, {
-      height: '100vh',
-      width: '100vw',
-      maxWidth: '512px',
-      position: {
-        top: '0',
-        right: '0'
-      },
       disableClose: true,
       data: {
         username: currentUser.username,

@@ -9,6 +9,8 @@ import { AuthModule } from './auth/auth.module';
 import { registerLocaleData } from '@angular/common';
 import localeRu from '@angular/common/locales/ru';
 import localeRuExtra from '@angular/common/locales/extra/ru';
+import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
+
 registerLocaleData(localeRu, 'ru-RU', localeRuExtra);
 
 @NgModule({
@@ -23,7 +25,20 @@ registerLocaleData(localeRu, 'ru-RU', localeRuExtra);
     AuthModule,
     AppRoutingModule
   ],
-  providers: [{provide: LOCALE_ID, useValue: 'ru-RU'}],
+  providers: [
+    {provide: LOCALE_ID, useValue: 'ru-RU'},
+    {
+      provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {
+        height: '100vh',
+        width: '100vw',
+        maxWidth: '512px',
+        position: {
+          top: '0',
+          right: '0'
+        },
+      }
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
