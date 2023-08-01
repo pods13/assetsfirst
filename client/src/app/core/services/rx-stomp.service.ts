@@ -11,7 +11,6 @@ export class RxStompService extends RxStomp {
   }
 
   setConnectHeaders(): void {
-    console.log('run setConnectHeaders')
     this.stompClient.connectHeaders = {'X-XSRF-TOKEN': `${this.tokenExtractor.getToken()}`};
   }
 }

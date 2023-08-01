@@ -25,7 +25,7 @@
         <a routerLink="/app/trades" mat-button>Trades</a>
         <button mat-button [matMenuTriggerFor]="profileMenu">Profile</button>
         <mat-menu #profileMenu="matMenu">
-          <button mat-menu-item routerLink="/app/profile">Edit</button>
+          <p mat-menu-item *ngIf="this.user$ | async as user" routerLink="/app/profile"><b>{{user?.username}}</b></p>
           <button mat-menu-item (click)="logout()">Logout</button>
         </mat-menu>
       </div>
