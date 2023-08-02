@@ -20,16 +20,16 @@ public class ETFTradeService implements InstrumentTradeService {
 
     @Override
     public TradeDto addTrade(AddTradeDto dto) {
-        return tradeManagementService.addTrade(dto, etfRepository.getById(dto.getInstrumentId()));
+        return tradeManagementService.addTrade(dto, etfRepository.getReferenceById(dto.getInstrumentId()));
     }
 
     @Override
     public TradeDto editTrade(EditTradeDto dto) {
-        return tradeManagementService.editTrade(dto, etfRepository.getById(dto.getInstrumentId()));
+        return tradeManagementService.editTrade(dto, etfRepository.getReferenceById(dto.getInstrumentId()));
     }
 
     @Override
     public void deleteTrade(DeleteTradeDto dto) {
-        tradeManagementService.deleteTrade(dto, etfRepository.getById(dto.getInstrumentId()));
+        tradeManagementService.deleteTrade(dto, etfRepository.getReferenceById(dto.getInstrumentId()));
     }
 }

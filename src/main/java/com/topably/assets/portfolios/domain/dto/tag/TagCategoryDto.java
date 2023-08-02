@@ -3,7 +3,7 @@ package com.topably.assets.portfolios.domain.dto.tag;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
-import javax.persistence.Column;
+import jakarta.persistence.Column;
 import java.util.List;
 
 @Data

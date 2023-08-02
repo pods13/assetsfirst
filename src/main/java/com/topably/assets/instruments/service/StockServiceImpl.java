@@ -46,7 +46,7 @@ public class StockServiceImpl implements StockService {
         });
         var exchange = exchangeRepository.findByCode(dto.getIdentifier().getExchange());
         Stock stock = stockRepository.save(Stock.builder()
-            .company(companyRepository.getById(companyDto.getId()))
+            .company(companyRepository.getReferenceById(companyDto.getId()))
             .ticker(dto.getIdentifier().getSymbol())
             .exchange(exchange)
             .currency(exchange.getCurrency())

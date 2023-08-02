@@ -20,16 +20,16 @@ public class StockTradeService implements InstrumentTradeService {
 
     @Override
     public TradeDto addTrade(AddTradeDto dto) {
-        return tradeManagementService.addTrade(dto, stockRepository.getById(dto.getInstrumentId()));
+        return tradeManagementService.addTrade(dto, stockRepository.getReferenceById(dto.getInstrumentId()));
     }
 
     @Override
     public TradeDto editTrade(EditTradeDto dto) {
-        return tradeManagementService.editTrade(dto, stockRepository.getById(dto.getInstrumentId()));
+        return tradeManagementService.editTrade(dto, stockRepository.getReferenceById(dto.getInstrumentId()));
     }
 
     @Override
     public void deleteTrade(DeleteTradeDto dto) {
-        tradeManagementService.deleteTrade(dto, stockRepository.getById(dto.getInstrumentId()));
+        tradeManagementService.deleteTrade(dto, stockRepository.getReferenceById(dto.getInstrumentId()));
     }
 }

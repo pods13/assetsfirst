@@ -25,19 +25,19 @@ public class DashboardCardService {
     private final PortfolioService portfolioService;
 
     public void addCard(Long dashboardId, DashboardCard card) {
-        PortfolioDashboard dashboard = portfolioDashboardRepository.getById(dashboardId);
+        PortfolioDashboard dashboard = portfolioDashboardRepository.getReferenceById(dashboardId);
         dashboard.getCards().add(card);
         portfolioDashboardRepository.save(dashboard);
     }
 
     public void updateCards(Long dashboardId, Collection<DashboardCard> cardsNewState) {
-        var dashboard = portfolioDashboardRepository.getById(dashboardId);
+        var dashboard = portfolioDashboardRepository.getReferenceById(dashboardId);
         dashboard.getCards().clear();
         dashboard.getCards().addAll(cardsNewState);
     }
 
     public void deleteCard(Long dashboardId, DashboardCard cardToDelete) {
-        PortfolioDashboard dashboard = portfolioDashboardRepository.getById(dashboardId);
+        PortfolioDashboard dashboard = portfolioDashboardRepository.getReferenceById(dashboardId);
         Set<DashboardCard> cards = dashboard.getCards().stream()
             .filter(card -> !card.getId().equals(cardToDelete.getId())).collect(Collectors.toSet());
         dashboard.setCards(cards);

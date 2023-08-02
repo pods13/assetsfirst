@@ -1,7 +1,7 @@
 package com.topably.assets.portfolios.domain;
 
 import com.topably.assets.portfolios.domain.cards.DashboardCard;
-import com.vladmihalcea.hibernate.type.json.JsonType;
+import io.hypersistence.utils.hibernate.type.json.JsonType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -9,15 +9,16 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.Singular;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.Type;
-import org.hibernate.annotations.TypeDef;
-import org.hibernate.annotations.TypeDefs;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import org.hibernate.type.SqlTypes;
+
 import java.util.Set;
 
 @Setter
@@ -25,9 +26,6 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@TypeDefs({
-    @TypeDef(name = "json", typeClass = JsonType.class)
-})
 @Entity
 public class PortfolioDashboard {
 
@@ -38,6 +36,6 @@ public class PortfolioDashboard {
 
     @Singular
     @Column(name = "CARDS", columnDefinition = "json")
-    @Type(type = "json")
+    @JdbcTypeCode(SqlTypes.JSON)
     private Set<DashboardCard> cards;
 }

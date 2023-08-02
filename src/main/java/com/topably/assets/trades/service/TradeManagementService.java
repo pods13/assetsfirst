@@ -56,7 +56,7 @@ public class TradeManagementService {
         trade.setDate(trade.getDate().equals(dto.getDate()) ? trade.getDate() : dto.getDate());
         trade.setPrice(trade.getPrice().equals(dto.getPrice()) ? trade.getPrice() : dto.getPrice());
         trade.setQuantity(trade.getQuantity().equals(dto.getQuantity()) ? trade.getQuantity() : dto.getQuantity());
-        trade.setBroker(trade.getBroker().getId().equals(dto.getBrokerId()) ? trade.getBroker() : brokerRepository.getById(dto.getBrokerId()));
+        trade.setBroker(trade.getBroker().getId().equals(dto.getBrokerId()) ? trade.getBroker() : brokerRepository.getReferenceById(dto.getBrokerId()));
         var updatedTrade = tradeRepository.saveAndFlush(trade);
         Long positionId = trade.getPortfolioPosition().getId();
         var aggregatedTrade = tradeAggregatorService.aggregateTradesByPositionId(positionId);

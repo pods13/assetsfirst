@@ -20,17 +20,17 @@ public class FXTradeService implements InstrumentTradeService {
 
     @Override
     public TradeDto addTrade(AddTradeDto dto) {
-        return tradeManagementService.addTrade(dto, fxRepository.getById(dto.getInstrumentId()));
+        return tradeManagementService.addTrade(dto, fxRepository.getReferenceById(dto.getInstrumentId()));
     }
 
     @Override
     public TradeDto editTrade(EditTradeDto dto) {
-        return tradeManagementService.editTrade(dto, fxRepository.getById(dto.getInstrumentId()));
+        return tradeManagementService.editTrade(dto, fxRepository.getReferenceById(dto.getInstrumentId()));
 
     }
 
     @Override
     public void deleteTrade(DeleteTradeDto dto) {
-        tradeManagementService.deleteTrade(dto, fxRepository.getById(dto.getInstrumentId()));
+        tradeManagementService.deleteTrade(dto, fxRepository.getReferenceById(dto.getInstrumentId()));
     }
 }

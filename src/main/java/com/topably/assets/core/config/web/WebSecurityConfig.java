@@ -1,11 +1,15 @@
 package com.topably.assets.core.config.web;
 
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.Authentication;
@@ -21,9 +25,6 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
@@ -42,28 +43,21 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         var tokenRepository = CookieCsrfTokenRepository.withHttpOnlyFalse();
-        tokenRepository.setCookieDomain(cookieDomain);
-        return http.cors().configurationSource(corsConfigurationSource())
-            .and()
-            .authorizeRequests()
-            .antMatchers("/actuator/**").permitAll()
-            .antMatchers("/auth/signup", "/auth/user/generate").permitAll()
-            .antMatchers(HttpMethod.GET, "/public/**").permitAll()
-            .anyRequest().authenticated()
-            .and()
-            .formLogin()
-            .loginProcessingUrl("/auth/login")
-            .failureHandler(new CustomAuthenticationFailureHandler())
-            .successHandler(new CustomAuthenticationSuccessHandler())
-            .and()
-            .logout()
-            .logoutUrl("/auth/logout")
-            .logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler(HttpStatus.OK))
-            .and()
-            .httpBasic()
-            .and().csrf()
-            .csrfTokenRepository(tokenRepository)
-            .and()
+        tokenRepository.setCookieCustomizer(c -> c.domain(cookieDomain));
+        return http.cors(c -> c.configurationSource(corsConfigurationSource()))
+            .authorizeHttpRequests(auth -> auth
+                .requestMatchers("/actuator/**").permitAll()
+                .requestMatchers("/auth/signup", "/auth/user/generate").permitAll()
+                .requestMatchers(HttpMethod.GET, "/public/**").permitAll()
+                .anyRequest().authenticated()
+            )
+            .formLogin(f -> f.loginProcessingUrl("/auth/login")
+                .failureHandler(new CustomAuthenticationFailureHandler())
+                .successHandler(new CustomAuthenticationSuccessHandler()))
+            .logout(l -> l.logoutUrl("/auth/logout")
+                .logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler(HttpStatus.OK)))
+            .httpBasic(Customizer.withDefaults())
+            .csrf(c -> c.csrfTokenRepository(tokenRepository))
             .build();
     }
 

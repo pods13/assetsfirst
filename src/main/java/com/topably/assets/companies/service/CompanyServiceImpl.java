@@ -12,7 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityNotFoundException;
+import jakarta.persistence.EntityNotFoundException;
 import java.util.Optional;
 
 @Service
@@ -33,7 +33,7 @@ public class CompanyServiceImpl implements CompanyService {
     @Transactional
     public CompanyDto addCompany(CompanyDataDto dto) {
         var industryDto = addIndustry(dto);
-        var industry = Optional.ofNullable(industryDto).map(i -> industryRepository.getById(i.getId())).orElse(null);
+        var industry = Optional.ofNullable(industryDto).map(i -> industryRepository.getReferenceById(i.getId())).orElse(null);
         Company company = companyRepository.save(Company.builder().name(dto.getName())
             .industry(industry)
             .build());
@@ -56,7 +56,7 @@ public class CompanyServiceImpl implements CompanyService {
         Industry industry = industryRepository.findBySector_NameAndName(dto.getSector(), dto.getIndustry())
             .orElseGet(() -> {
                 var industryDto = addIndustry(dto);
-                return industryRepository.getById(industryDto.getId());
+                return industryRepository.getReferenceById(industryDto.getId());
             });
         company.setIndustry(industry);
         Company updateCompany = companyRepository.save(company);
