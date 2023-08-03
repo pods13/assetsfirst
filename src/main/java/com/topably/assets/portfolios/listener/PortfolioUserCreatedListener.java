@@ -30,7 +30,7 @@ public class PortfolioUserCreatedListener {
         createDefaultUserPortfolio(event.getUserId(), event.isProvideData());
     }
 
-    public void createDefaultUserPortfolio(Long userId, boolean provideData) {
+    private void createDefaultUserPortfolio(Long userId, boolean provideData) {
         var dashboard = PortfolioDashboard.builder()
             .cards(provideData ? cardTrialDataProvider.provideCards() : new HashSet<>())
             .build();

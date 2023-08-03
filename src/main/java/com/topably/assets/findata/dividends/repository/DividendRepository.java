@@ -17,7 +17,7 @@ import java.util.Optional;
 public interface DividendRepository extends JpaRepository<Dividend, Long>, UpsertRepository<Dividend, Long> {
 
     @Query(value = """
-        select * from dividend d
+        select d.* from dividend d
         join instrument i on i.id = d.instrument_id
         join exchange e on e.id = i.exchange_id
         where ((d.pay_date is not null and year(d.pay_date) in :dividendYears)
