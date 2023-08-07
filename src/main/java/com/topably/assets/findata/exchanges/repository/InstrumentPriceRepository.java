@@ -10,9 +10,9 @@ import java.util.Optional;
 public interface InstrumentPriceRepository extends JpaRepository<InstrumentPrice, Long> {
 
     @Query(value = """
-        select *
-        from instrument_price
-                 join instrument i on i.id = instrument_price.instrument_id
+        select ip.*
+        from instrument_price ip
+                 join instrument i on i.id = ip.instrument_id
                  join exchange e on e.id = i.exchange_id
         where i.ticker = :symbol
           and e.code = :exchange
@@ -23,9 +23,9 @@ public interface InstrumentPriceRepository extends JpaRepository<InstrumentPrice
 
 
     @Query(value = """
-        select *
-        from instrument_price
-                 join instrument i on i.id = instrument_price.instrument_id
+        select ip.*
+        from instrument_price ip
+                 join instrument i on i.id = ip.instrument_id
                  join exchange e on e.id = i.exchange_id
         where i.ticker = :symbol
           and e.code = :exchange
