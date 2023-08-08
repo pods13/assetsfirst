@@ -21,6 +21,7 @@ import org.springframework.security.web.authentication.SavedRequestAwareAuthenti
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -42,8 +43,9 @@ public class WebSecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        var tokenRepository = CookieCsrfTokenRepository.withHttpOnlyFalse();
-        tokenRepository.setCookieCustomizer(c -> c.domain(cookieDomain));
+        var requestHandler = new CsrfTokenRequestAttributeHandler();
+        // set the name of the attribute the CsrfToken will be populated on
+        requestHandler.setCsrfRequestAttributeName(null);
         return http.cors(c -> c.configurationSource(corsConfigurationSource()))
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/actuator/**").permitAll()
@@ -57,8 +59,15 @@ public class WebSecurityConfig {
             .logout(l -> l.logoutUrl("/auth/logout")
                 .logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler(HttpStatus.OK)))
             .httpBasic(Customizer.withDefaults())
-            .csrf(c -> c.csrfTokenRepository(tokenRepository))
+            .csrf(c -> c.csrfTokenRepository(getCookieCsrfTokenRepository())
+                .csrfTokenRequestHandler(requestHandler))
             .build();
+    }
+
+    private CookieCsrfTokenRepository getCookieCsrfTokenRepository() {
+        CookieCsrfTokenRepository result = new CookieCsrfTokenRepository();
+        result.setCookieCustomizer((cookie) -> cookie.httpOnly(false).domain(cookieDomain));
+        return result;
     }
 
     @Bean
