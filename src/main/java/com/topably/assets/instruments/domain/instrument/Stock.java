@@ -3,6 +3,7 @@ package com.topably.assets.instruments.domain.instrument;
 import com.topably.assets.companies.domain.Company;
 import com.topably.assets.instruments.domain.Instrument;
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -22,6 +23,7 @@ import jakarta.persistence.ManyToOne;
 @SuperBuilder
 @Entity
 @DiscriminatorValue("STOCK")
+@EqualsAndHashCode(callSuper = true)
 public class Stock extends Instrument {
 
     @ManyToOne(fetch = FetchType.LAZY)

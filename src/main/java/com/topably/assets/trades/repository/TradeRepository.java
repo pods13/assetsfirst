@@ -9,7 +9,7 @@ import java.util.Collection;
 public interface TradeRepository extends JpaRepository<Trade, Long> {
 
     @Query(value = """
-        select t.*, i.*, e.*
+        select t.*
         from trade t
                  join portfolio_position pos on pos.id = t.portfolio_position_id
                  join portfolio p on p.id = pos.portfolio_id and p.id = :portfolioId

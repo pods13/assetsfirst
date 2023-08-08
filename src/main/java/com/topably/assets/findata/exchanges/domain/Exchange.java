@@ -2,6 +2,7 @@ package com.topably.assets.findata.exchanges.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -19,6 +20,7 @@ import java.util.Currency;
 @AllArgsConstructor
 @Builder
 @Entity
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Exchange {
 
     @Id
@@ -28,6 +30,7 @@ public class Exchange {
 
     private String name;
 
+    @EqualsAndHashCode.Include
     private String code;
 
     private String countryCode;

@@ -3,6 +3,7 @@ package com.topably.assets.instruments.domain;
 
 import com.topably.assets.core.domain.Ticker;
 import com.topably.assets.findata.exchanges.domain.Exchange;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -41,6 +42,7 @@ import java.util.Map;
 @Table(name = "instrument", uniqueConstraints = {
     @UniqueConstraint(name = "instrument_ticker_exchange_id_key", columnNames = {"TICKER", "EXCHANGE_ID"}),
 })
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public abstract class Instrument {
 
     @Id
@@ -49,14 +51,17 @@ public abstract class Instrument {
     private Long id;
 
     @Column(name = "INSTRUMENT_TYPE", insertable = false, updatable = false)
+    @EqualsAndHashCode.Include
     private String instrumentType;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "EXCHANGE_ID", referencedColumnName = "ID",
         foreignKey = @ForeignKey(name = "fk__instrument__exchange_id__exchange"))
+    @EqualsAndHashCode.Include
     private Exchange exchange;
 
     @Column(name = "TICKER")
+    @EqualsAndHashCode.Include
     private String ticker;
 
     @Column(columnDefinition = "char(3)")

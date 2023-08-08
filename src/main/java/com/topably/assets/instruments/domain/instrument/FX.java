@@ -1,6 +1,7 @@
 package com.topably.assets.instruments.domain.instrument;
 
 import com.topably.assets.instruments.domain.Instrument;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,5 +16,6 @@ import jakarta.persistence.Entity;
 @SuperBuilder
 @Entity
 @DiscriminatorValue("FX")
+@EqualsAndHashCode(callSuper = true)
 public class FX extends Instrument {
 }
