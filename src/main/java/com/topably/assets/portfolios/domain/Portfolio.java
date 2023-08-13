@@ -34,7 +34,7 @@ public class Portfolio {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
-    @GenericGenerator(name = "native", strategy = "native")
+    @GenericGenerator(name = "native")
     private Long id;
 
     @OneToOne(fetch = FetchType.LAZY, optional = false)

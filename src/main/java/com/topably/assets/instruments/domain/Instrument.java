@@ -47,7 +47,7 @@ public abstract class Instrument {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
-    @GenericGenerator(name = "native", strategy = "native")
+    @GenericGenerator(name = "native")
     private Long id;
 
     @Column(name = "INSTRUMENT_TYPE", insertable = false, updatable = false)

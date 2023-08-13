@@ -31,7 +31,7 @@ public class InstrumentPrice {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
-    @GenericGenerator(name = "native", strategy = "native")
+    @GenericGenerator(name = "native")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
