@@ -28,6 +28,7 @@ import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.Year;
 import java.time.ZoneOffset;
+import java.time.temporal.ChronoUnit;
 import java.util.Collection;
 import java.util.Currency;
 import java.util.List;
@@ -158,7 +159,7 @@ public class PortfolioPositionService {
     }
 
     private BigDecimal calculateYieldOnCost(PortfolioPosition position) {
-        var annualDividend = calculateAnnualDividend(position, Year.now());
+        var annualDividend = calculateAnnualDividend(position, Year.now().plusYears(1));
         return Optional.ofNullable(position.getAveragePrice())
             .filter(price -> price.compareTo(BigDecimal.ZERO) > 0)
             .map(price -> BigDecimal.valueOf(100).multiply(annualDividend).divide(price, RoundingMode.HALF_EVEN))

@@ -64,7 +64,7 @@ public class DividendService {
         var dividendsByYear = groupDividendsByRecordDate(dividends);
         var selectedYearDividends = dividendsByYear.get(selectedYear);
         if (selectedYearDividends == null || selectedYearDividends.isEmpty()) {
-            if (latestDividendYear == null) {
+            if (latestDividendYear == null || selectedYear < Year.now().getValue()) {
                 return BigDecimal.ZERO;
             }
             return Optional.ofNullable(dividendsByYear.get(latestDividendYear))
