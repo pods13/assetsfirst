@@ -9,7 +9,7 @@ WORKDIR /opt/assets
 COPY --from=builder app/dependencies/ ./
 COPY --from=builder app/spring-boot-loader/ ./
 COPY --from=builder app/snapshot-dependencies/ ./
-COPY --from=builder app/application ./
+COPY --from=builder app/application/ ./
 EXPOSE 8080
 
-CMD ["java", "-Dfile.encoding=UTF-8", "-Djava.security.egd=file:/dev/urandom", "-Dspring.profiles.active=prod", "org.springframework.boot.loader.JarLauncher"]
+CMD ["java", "-Dfile.encoding=UTF-8", "-Djava.security.egd=file:/dev/urandom", "-Dspring.profiles.active=stage", "org.springframework.boot.loader.JarLauncher"]
