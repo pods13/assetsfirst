@@ -1,6 +1,7 @@
 package com.topably.assets.core.repository;
 
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.ListUtils;
 import org.springframework.util.Assert;
 
@@ -20,6 +21,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
+@Slf4j
 public class UpsertRepositoryImpl<T, ID extends Serializable> implements UpsertRepository<T, ID> {
 
     private static final String COMMA = ",";
@@ -90,6 +92,9 @@ public class UpsertRepositoryImpl<T, ID extends Serializable> implements UpsertR
                 if (field.isAnnotationPresent(EmbeddedId.class)) {
                     var primaryKey = (ID) entityManager.getEntityManagerFactory().getPersistenceUnitUtil().getIdentifier(entity);
                     populateColumnValues(getColumnFields(field.getType()), primaryKey, nativeQuery, index);
+                } else if(field.isAnnotationPresent(JoinColumn.class)) {
+                    var foreignKey = (ID) entityManager.getEntityManagerFactory().getPersistenceUnitUtil().getIdentifier(field.get(entity));
+                    nativeQuery.setParameter(field.getName() + index, foreignKey);
                 } else {
                     nativeQuery.setParameter(field.getName() + index, field.get(entity));
                 }
