@@ -11,7 +11,8 @@ import { Observable } from 'rxjs';
       <h2 class="title">{{ card.title }}</h2>
     </div>
     <ng-container *ngIf="data$ | async as data">
-      <div class="yield"><span>TTM yield on cost: </span>{{data.dividendYield + '%'}}</div>
+      <div class="yield"><span>TTM yield on cost: </span>{{data.yieldOnCost + '%'}}</div>
+      <div class="yield"><span>TTM dividend yield: </span>{{data.dividendYield + '%'}}</div>
     </ng-container>
   `,
   styleUrls: ['./investment-yield-card.component.scss'],

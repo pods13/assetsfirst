@@ -22,16 +22,25 @@ public class InvestmentYieldCardStateProducer implements CardStateProducer<Inves
 
     @Override
     public CardData produce(Portfolio portfolio, InvestmentYieldCard card) {
-        var investedAmount = portfolioService.calculateInvestedAmountInYieldInstrument(portfolio);
         var annualDividend = portfolioService.calculateAnnualDividend(portfolio, Year.now());
-        var ttmYieldOnCost = calculateTTMYieldOnCost(investedAmount, annualDividend);
         return new InvestmentYieldCardData()
-            .setDividendYield(ttmYieldOnCost);
+            .setYieldOnCost(calculateYieldOnCost(portfolio, annualDividend))
+            .setDividendYield(calculateDividendYield(portfolio, annualDividend));
     }
 
-    private BigDecimal calculateTTMYieldOnCost(BigDecimal investedAmount, BigDecimal annualDividend) {
-        if (investedAmount.compareTo(BigDecimal.ZERO) > 0) {
-            return annualDividend.multiply(BigDecimal.valueOf(100)).divide(investedAmount, 2, RoundingMode.HALF_EVEN);
+    private BigDecimal calculateYieldOnCost(Portfolio portfolio, BigDecimal annualDividend) {
+        var investedAmount = portfolioService.calculateInvestedAmountInYieldInstrument(portfolio);
+        return calculateYield(investedAmount, annualDividend);
+    }
+
+    private BigDecimal calculateDividendYield(Portfolio portfolio, BigDecimal annualDividend) {
+        var currentAmount = portfolioService.calculateCurrentAmountInYieldInstrument(portfolio);
+        return calculateYield(currentAmount, annualDividend);
+    }
+
+    private BigDecimal calculateYield(BigDecimal totalAmount, BigDecimal annualDividend) {
+        if (totalAmount.compareTo(BigDecimal.ZERO) > 0) {
+            return annualDividend.multiply(BigDecimal.valueOf(100)).divide(totalAmount, 2, RoundingMode.HALF_EVEN);
         }
         return BigDecimal.ZERO;
     }

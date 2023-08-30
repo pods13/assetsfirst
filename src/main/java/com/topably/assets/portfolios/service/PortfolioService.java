@@ -47,6 +47,17 @@ public class PortfolioService {
     public BigDecimal calculateCurrentAmount(Portfolio portfolio) {
         //TODO calculate portfolio value by some date in the past
         var positions = portfolioPositionService.findPortfolioPositions(portfolio.getId());
+        return calculateCurrentAmount(positions);
+    }
+
+    public BigDecimal calculateCurrentAmountInYieldInstrument(Portfolio portfolio) {
+        var positions = portfolioPositionService.findPortfolioPositions(portfolio.getId()).stream()
+            .filter(p -> !InstrumentType.FX.name().equals(p.getInstrumentType()))
+            .toList();
+        return calculateCurrentAmount(positions);
+    }
+
+    private BigDecimal calculateCurrentAmount(Collection<PortfolioPositionDto> positions) {
         return positions.stream()
             .map(p -> {
                 var marketValue = exchangeService.findSymbolRecentPrice(p.getIdentifier())

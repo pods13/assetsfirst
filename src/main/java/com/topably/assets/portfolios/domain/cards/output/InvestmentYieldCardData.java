@@ -10,5 +10,6 @@ import java.math.BigDecimal;
 @Accessors(chain = true)
 public class InvestmentYieldCardData implements CardData {
 
+    private BigDecimal yieldOnCost;
     private BigDecimal dividendYield;
 }
