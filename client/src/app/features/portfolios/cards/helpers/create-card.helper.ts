@@ -7,6 +7,7 @@ import { SectoralDistributionCardFactory } from './factory/sectoral-distribution
 import { BalanceCardFactory } from './factory/balance-card.factory';
 import { ContributionCardFactory } from './factory/contribution-card.factory';
 import { InvestmentYieldCardFactory } from './factory/investment-yield-card.factory';
+import { EquityRiskPremiumCardFactory } from './factory/equity-risk-premium-card.factory';
 
 
 export function createCard(containerType: CardContainerType): DashboardCard {
@@ -25,4 +26,5 @@ const cardContainerTypeByFactory = {
   [CardContainerType.BALANCE]: BalanceCardFactory,
   [CardContainerType.CONTRIBUTION]: ContributionCardFactory,
   [CardContainerType.INVESTMENT_YIELD]: InvestmentYieldCardFactory,
+  [CardContainerType.EQUITY_RISK_PREMIUM]: EquityRiskPremiumCardFactory,
 };

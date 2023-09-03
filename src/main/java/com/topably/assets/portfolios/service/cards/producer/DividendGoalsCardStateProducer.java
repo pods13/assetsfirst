@@ -1,6 +1,7 @@
 package com.topably.assets.portfolios.service.cards.producer;
 
 import com.topably.assets.core.domain.Ticker;
+import com.topably.assets.core.util.NumberUtils;
 import com.topably.assets.portfolios.domain.Portfolio;
 import com.topably.assets.portfolios.domain.cards.CardContainerType;
 import com.topably.assets.portfolios.domain.cards.CardData;
@@ -45,7 +46,7 @@ public class DividendGoalsCardStateProducer implements CardStateProducer<Dividen
         var averagePrice = position.getAveragePrice();
         Ticker ticker = position.getInstrument().toTicker();
         var annualDividend = portfolioPositionService.calculateAnnualDividend(position, Year.now());
-        var currentYield = annualDividend.multiply(BigDecimal.valueOf(100)).divide(averagePrice, 2, RoundingMode.HALF_EVEN);
+        var currentYield = NumberUtils.calculatePercentage(averagePrice, annualDividend);
 
         var desiredYield = card.getDesiredYieldByIssuer().getOrDefault(ticker.toString(), currentYield);
         var targets = new TreeSet<>(Arrays.asList(averagePrice, calculateDesiredPrice(annualDividend, desiredYield)));

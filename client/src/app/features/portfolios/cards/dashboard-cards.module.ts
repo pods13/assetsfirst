@@ -25,6 +25,9 @@ import { BalanceCardComponent } from './containers/balance-card/balance-card.com
 import { ContributionCardComponent } from './containers/contribution-card/contribution-card.component';
 import { InvestmentYieldCardComponent } from './containers/investment-yield-card/investment-yield-card.component';
 import { NgxEchartsModule } from 'ngx-echarts';
+import { EquityRiskPremiumComponent } from './containers/equity-risk-premium/equity-risk-premium.component';
+import { MatTableModule } from '@angular/material/table';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 
 @NgModule({
@@ -40,6 +43,7 @@ import { NgxEchartsModule } from 'ngx-echarts';
     BalanceCardComponent,
     ContributionCardComponent,
     InvestmentYieldCardComponent,
+    EquityRiskPremiumComponent,
   ],
   imports: [
     CommonModule,
@@ -56,6 +60,8 @@ import { NgxEchartsModule } from 'ngx-echarts';
     NgxEchartsModule.forRoot({
       echarts: () => import('echarts')
     }),
+    MatTableModule,
+    DragDropModule,
   ],
   providers: [
     CardContentLoaderService,

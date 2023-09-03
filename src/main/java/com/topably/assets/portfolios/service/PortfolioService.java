@@ -1,6 +1,7 @@
 package com.topably.assets.portfolios.service;
 
 import com.topably.assets.core.config.cache.CacheNames;
+import com.topably.assets.core.util.NumberUtils;
 import com.topably.assets.findata.exchanges.service.ExchangeService;
 import com.topably.assets.findata.xrates.service.currency.CurrencyConverterService;
 import com.topably.assets.instruments.domain.InstrumentType;
@@ -142,7 +143,6 @@ public class PortfolioService {
     private BigDecimal calculatePortfolioValueIncreasePct(Portfolio portfolio) {
         var invested = calculateInvestedAmount(portfolio);
         var current = calculateCurrentAmount(portfolio);
-        return current.subtract(invested).divide(invested, RoundingMode.HALF_UP).multiply(BigDecimal.valueOf(100L))
-            .setScale(2, RoundingMode.HALF_UP);
+        return NumberUtils.calculatePercentage(invested, current.subtract(invested));
     }
 }

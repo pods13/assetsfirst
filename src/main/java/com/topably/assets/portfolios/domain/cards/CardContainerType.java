@@ -10,4 +10,6 @@ public class CardContainerType {
 
     public static final String CONTRIBUTION = "CONTRIBUTION";
     public static final String INVESTMENT_YIELD = "INVESTMENT_YIELD";
+
+    public static final String EQUITY_RISK_PREMIUM = "EQUITY_RISK_PREMIUM";
 }

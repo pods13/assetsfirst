@@ -1,5 +1,6 @@
 package com.topably.assets.portfolios.service.cards.producer;
 
+import com.topably.assets.core.util.NumberUtils;
 import com.topably.assets.portfolios.domain.Portfolio;
 import com.topably.assets.portfolios.domain.cards.CardContainerType;
 import com.topably.assets.portfolios.domain.cards.CardData;
@@ -30,18 +31,11 @@ public class InvestmentYieldCardStateProducer implements CardStateProducer<Inves
 
     private BigDecimal calculateYieldOnCost(Portfolio portfolio, BigDecimal annualDividend) {
         var investedAmount = portfolioService.calculateInvestedAmountInYieldInstrument(portfolio);
-        return calculateYield(investedAmount, annualDividend);
+        return NumberUtils.calculatePercentage(investedAmount, annualDividend);
     }
 
     private BigDecimal calculateDividendYield(Portfolio portfolio, BigDecimal annualDividend) {
         var currentAmount = portfolioService.calculateCurrentAmountInYieldInstrument(portfolio);
-        return calculateYield(currentAmount, annualDividend);
-    }
-
-    private BigDecimal calculateYield(BigDecimal totalAmount, BigDecimal annualDividend) {
-        if (totalAmount.compareTo(BigDecimal.ZERO) > 0) {
-            return annualDividend.multiply(BigDecimal.valueOf(100)).divide(totalAmount, 2, RoundingMode.HALF_EVEN);
-        }
-        return BigDecimal.ZERO;
+        return NumberUtils.calculatePercentage(currentAmount, annualDividend);
     }
 }
