@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -68,8 +69,9 @@ public class ContributionCardStateProducer implements CardStateProducer<Contribu
 
     private Collection<ContributionCardData.Contribution> composeContributions(TreeMap<Integer, List<TradeView>> tradesByMonthValue,
                                                                                TreeMap<Integer, List<AggregatedDividendDto>> dividendsByMonthValue) {
-        var stacks = Map.of(DIVIDEND_CONTRIBUTION_NAME, new ArrayList<BigDecimal>(),
-            DEPOSIT_CONTRIBUTION_NAME, new ArrayList<BigDecimal>());
+        var stacks = new LinkedHashMap<String, List<BigDecimal>>();
+        stacks.put(DIVIDEND_CONTRIBUTION_NAME, new ArrayList<>());
+        stacks.put(DEPOSIT_CONTRIBUTION_NAME, new ArrayList<>());
         EnumSet.allOf(Month.class).forEach(month -> {
             var monthValue = month.getValue();
             var monthlyDividend = calculateTotalMonthlyDividend(dividendsByMonthValue, monthValue);
