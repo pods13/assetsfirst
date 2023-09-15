@@ -29,14 +29,29 @@ docker-compose down
 - [x] Redesign home page
 - [x] Setup schedule job that recalculate position p&l and keep results in a separate db table, use these data in positionView
 - [x] On balance and contributions plots on yAxis use short number form
+- [x] Migrate to spring boot 3
+</details>
+
+<details>
+  <summary>1.2.0 Features</summary>
+
 - [ ] Migrate Angular from v14 to v16
 - [ ] Switch from @swimlane/ngx-datatable to mat-table
 - [ ] Keep showing accumulated dividends for closed positions
 - [ ] Allow user to change name of tag category
 - [ ] Provide functionality to change a username
+- [ ] Show formatted price in sectoral distribution widget
 - [ ] Show percentage in sectoral distribution widget
-- [ ] Introduce Portfolio currency, as a column in db table 
+- [ ] Introduce Portfolio currency, as a column in db table
 - [ ] Allow a user to change their portfolio currency
+- [ ] Add includeForecastedDividends option as edit option of Dividend income card 
+- [ ] On Contribution card show total contribution vs previous year contributions 
+- [ ] Ability to select specific timelapse(year) and render all cards with info only about it
+- [ ] Balance card - keep precalculated portfolio value in db in order to show more points on a plot
+- [ ] Balance card - show portfolio current value on a plot as well 
+- [ ] New position widget
+- [ ] New trades widget
+- [ ] Ability to group positions
 </details>
 
 ## Redeploy flow
