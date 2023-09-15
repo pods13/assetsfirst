@@ -69,21 +69,19 @@ public class ContributionCardStateProducer implements CardStateProducer<Contribu
 
     private Collection<ContributionCardData.Contribution> composeContributions(TreeMap<Integer, List<TradeView>> tradesByMonthValue,
                                                                                TreeMap<Integer, List<AggregatedDividendDto>> dividendsByMonthValue) {
-        var stacks = new LinkedHashMap<String, List<BigDecimal>>();
-        stacks.put(DIVIDEND_CONTRIBUTION_NAME, new ArrayList<>());
-        stacks.put(DEPOSIT_CONTRIBUTION_NAME, new ArrayList<>());
+        var dividendContributions = new ArrayList<BigDecimal>();
+        var depositContributions = new ArrayList<BigDecimal>();
         EnumSet.allOf(Month.class).forEach(month -> {
             var monthValue = month.getValue();
             var monthlyDividend = calculateTotalMonthlyDividend(dividendsByMonthValue, monthValue);
-            stacks.get(DIVIDEND_CONTRIBUTION_NAME).add(monthlyDividend.setScale(2, RoundingMode.HALF_UP));
+            dividendContributions.add(monthlyDividend.setScale(2, RoundingMode.HALF_UP));
 
             var monthTrades = tradesByMonthValue.getOrDefault(monthValue, Collections.emptyList());
-            stacks.get(DEPOSIT_CONTRIBUTION_NAME).add(calculateMonthlyContribution(monthTrades, monthlyDividend));
+            depositContributions.add(calculateMonthlyContribution(monthTrades, monthlyDividend));
         });
 
-        return stacks.entrySet().stream()
-            .map(e -> new ContributionCardData.Contribution(e.getKey(), e.getValue()))
-            .toList();
+        return List.of(new ContributionCardData.Contribution(DIVIDEND_CONTRIBUTION_NAME, dividendContributions),
+            new ContributionCardData.Contribution(DEPOSIT_CONTRIBUTION_NAME, depositContributions));
     }
 
     private BigDecimal calculateMonthlyContribution(List<TradeView> monthTrades, BigDecimal monthlyDividend) {
