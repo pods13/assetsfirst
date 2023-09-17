@@ -20,12 +20,10 @@ docker-compose down
 
 <details>
   <summary>1.1.0 Features</summary>
-
 - [x] Show identifier with company name on position page(check out tradingview for inspiration)
 - [x] Fill up Upcoming dividend date column with relevant data
 - [x] In Sectoral distribution use current value of positions instead of initial one
 - [x] Company Page - show company name
-- [x] Company Page - ownership structure
 - [x] Redesign home page
 - [x] Setup schedule job that recalculate position p&l and keep results in a separate db table, use these data in positionView
 - [x] On balance and contributions plots on yAxis use short number form
@@ -35,7 +33,7 @@ docker-compose down
 
 <details>
   <summary>1.2.0 Features</summary>
-
+- [ ] Company Page - ownership structure
 - [ ] Migrate Angular from v14 to v16
 - [ ] Switch from @swimlane/ngx-datatable to mat-table
 - [ ] Keep showing accumulated dividends for closed positions
