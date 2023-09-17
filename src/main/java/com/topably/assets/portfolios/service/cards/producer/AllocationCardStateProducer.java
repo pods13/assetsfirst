@@ -116,6 +116,7 @@ public class AllocationCardStateProducer implements CardStateProducer<Allocation
 
     private List<AllocationSegment> convertToSegments(Currency portfolioCurrency, Collection<AllocationAggregatedTrade> trades) {
         return trades.stream()
+            .filter(trade -> trade.getTotal().compareTo(BigDecimal.ZERO) > 0)
             .map(trade -> convertToSegment(portfolioCurrency, trade))
             .sorted(Comparator.comparing(AllocationSegment::getValue).reversed())
             .collect(toList());
