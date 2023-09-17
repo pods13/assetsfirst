@@ -13,10 +13,11 @@ import { DashboardCard } from '../../types/dashboard-card';
 import { PortfolioCardOutletDirective } from '../../directives/portfolio-card-outlet.directive';
 import { CardContentLoaderService } from '../../services/card-content-loader.service';
 import { RxStompService } from '../../../../../core/services/rx-stomp.service';
-import { map, Observable, shareReplay } from 'rxjs';
+import { filter, map, Observable, shareReplay } from 'rxjs';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { defaultCardProps } from '../../helpers/card-factory';
 import { DashboardCardStore } from '../../services/dashboard-card.store';
+import { MatDialog } from '@angular/material/dialog';
 
 @UntilDestroy()
 @Component({
@@ -26,7 +27,7 @@ import { DashboardCardStore } from '../../services/dashboard-card.store';
       <mat-icon>more_vert</mat-icon>
     </button>
     <mat-menu #menu="matMenu">
-      <button mat-menu-item>Edit</button>
+      <button mat-menu-item (click)="editCard()">Edit</button>
       <button mat-menu-item (click)="deleteCard()">Delete</button>
     </mat-menu>
     <ng-template appPortfolioCardOutlet>
@@ -47,7 +48,8 @@ export class CardWrapperComponent implements OnInit, AfterViewInit, OnChanges {
   constructor(private cardContentLoaderService: CardContentLoaderService,
               private rxStompService: RxStompService,
               private cardStore: DashboardCardStore,
-              private cd: ChangeDetectorRef) {
+              private cd: ChangeDetectorRef,
+              private dialog: MatDialog) {
   }
 
   ngOnInit(): void {
@@ -94,6 +96,20 @@ export class CardWrapperComponent implements OnInit, AfterViewInit, OnChanges {
         shareReplay(1)
       );
   };
+
+  editCard(): void {
+    // const dialogRef = this.dialog.open<any, any, any>(this, {
+    //   data: {
+    //     title: 'Edit Card'
+    //   }
+    // });
+    //
+    // dialogRef.afterClosed()
+    //   .pipe(filter(res => !!res))
+    //   .subscribe(result => {
+    //     console.log(result)
+    //   });
+  }
 
   deleteCard(): void {
     this.cardStore.deleteCard(this.card);

@@ -57,6 +57,7 @@ public class TagCategoryService {
         var remainedTags = tagCategory.getTags().stream().filter(t -> remainedTagIds.contains(t.getId())).toList();
         tagCategory.getTags().clear();
         tagCategory.getTags().addAll(Stream.concat(remainedTags.stream(), newTags.stream()).toList());
+        tagCategory.setName(dto.getName());
         return tagCategoryMapper.modelToDto(tagCategory, tagCategory.getTags());
     }
 

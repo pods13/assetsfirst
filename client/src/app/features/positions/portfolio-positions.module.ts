@@ -21,13 +21,17 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatCardModule } from '@angular/material/card';
 import { TagCategoriesDialogComponent } from './components/tag-categories-dialog/tag-categories-dialog.component';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { TagCategoryControlComponent } from './components/category-control/tag-category-control.component';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatInputModule } from '@angular/material/input';
 
 
 @NgModule({
   declarations: [
     PositionsContainerComponent,
     PositionTagsDialogComponent,
-    TagCategoriesDialogComponent
+    TagCategoriesDialogComponent,
+    TagCategoryControlComponent
   ],
   imports: [
     CommonModule,
@@ -47,6 +51,8 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     MatCardModule,
     MatSlideToggleModule,
     FormsModule,
+    MatExpansionModule,
+    MatInputModule,
   ],
   providers: [
     PortfolioPositionService,

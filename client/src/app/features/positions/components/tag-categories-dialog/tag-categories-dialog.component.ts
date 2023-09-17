@@ -6,45 +6,28 @@ import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { TagCategoryService } from '../../services/tag-category.service';
 import { TagCategoryDto } from '../../types/tag/tag-category.dto';
 import { MatDialogRef } from '@angular/material/dialog';
+import { CategoryChangedEvent } from '../category-control/tag-category-control.component';
 
 @Component({
   selector: 'app-tag-categories-dialog',
   template: `
     <div mat-dialog-title class="dialog-title">
-      <h2>
-        Tag Categories
-      </h2>
+      <h2>{{'Tag Categories'}}</h2>
       <button mat-button class="add-category-btn" (click)="addCategory()">
         <mat-icon>add</mat-icon>
       </button>
     </div>
-
     <mat-dialog-content>
-      <mat-card *ngFor="let category of categories; let i = index">
-        <mat-card-title class="category-title">
-          <h3>{{category.name}}</h3>
-          <button mat-button class="delete-category-btn" (click)="deleteCategory(category)">
-            <mat-icon>cancel</mat-icon>
-          </button>
-        </mat-card-title>
-
-        <mat-form-field appearance="fill" class="category-tags-list">
-          <mat-chip-list #categoriesTags aria-label="Tag selection">
-            <mat-chip *ngFor="let tag of category.tags"
-                      (removed)="removeTag(category, tag)">
-              {{tag.name}}
-              <button matChipRemove>
-                <mat-icon>cancel</mat-icon>
-              </button>
-            </mat-chip>
-            <input placeholder="New Tag..."
-                   [matChipInputFor]="categoriesTags"
-                   [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                   [matChipInputAddOnBlur]="true"
-                   (matChipInputTokenEnd)="addTag(category, $event)">
-          </mat-chip-list>
-        </mat-form-field>
-      </mat-card>
+      <mat-accordion>
+        <app-tag-category-control *ngFor="let category of newCategories; let i = index" [category]="category"
+                              (categoryChanged)="handleCategoryChanged($event)"
+                              (categoryDeleted)="handleCategoryDeleted($event)">
+        </app-tag-category-control>
+        <app-tag-category-control *ngFor="let category of persistedCategories; let i = index" [category]="category"
+                              (categoryChanged)="handleCategoryChanged($event)"
+                              (categoryDeleted)="handleCategoryDeleted($event)">
+        </app-tag-category-control>
+      </mat-accordion>
     </mat-dialog-content>
     <mat-dialog-actions>
       <button mat-button (click)="onOkayClick()">Okay</button>
@@ -57,8 +40,9 @@ export class TagCategoriesDialogComponent implements OnInit {
   readonly separatorKeysCodes = [ENTER, COMMA] as const;
   readonly newCategoryName = 'New Tag Category' as const;
 
-  initialTagCategories!: any[];
-  categories!: TagCategoryDto[];
+  persistedCategories!: any[];
+  newCategories!: any[];
+  categoriesState!: TagCategoryDto[];
 
   categoriesToDelete: number[] = [];
 
@@ -69,41 +53,30 @@ export class TagCategoriesDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.tagCategoryService.getTagCategories().subscribe(categories => {
-      this.initialTagCategories = categories;
-      this.categories = JSON.parse(JSON.stringify(this.initialTagCategories));
+      this.persistedCategories = categories;
+      this.newCategories = [];
+      this.categoriesState = JSON.parse(JSON.stringify(this.persistedCategories));
       this.cd.detectChanges();
     });
   }
 
-  removeTag(category: TagCategoryDto, tag: TagDto) {
-    category.tags = [...category.tags.filter(t => t.id !== tag.id)];
-    this.cd.detectChanges();
-  }
-
-  addTag(category: TagCategoryDto, event: MatChipInputEvent): void {
-    const value = (event.value || '').trim();
-    if (value) {
-      category.tags = [...category.tags, {name: value} as TagDto];
-      event.chipInput!.clear();
-      this.cd.detectChanges();
-    }
-  }
-
   onOkayClick() {
-    const newCategories = this.categories.filter(category => !category.id);
-    const initialCategoryStateById = this.initialTagCategories.reduce((obj, item) => ({...obj, [item.id]: item}), {});
-    const categoriesToUpdate = this.categories
-      .filter(category => !!category.id && JSON.stringify(category.tags) !== JSON.stringify(initialCategoryStateById[category.id].tags));
+    const newCategories = this.categoriesState.filter(category => !category.id);
+    const initialCategoryStateById = this.persistedCategories.reduce((obj, item) => ({...obj, [item.id]: item}), {});
+    const categoriesToUpdate = this.categoriesState
+      .filter(category => !!category.id && JSON.stringify(category) !== JSON.stringify(initialCategoryStateById[category.id]));
     this.dialogRef.close({add: newCategories, update: categoriesToUpdate, delete: this.categoriesToDelete});
   }
 
   addCategory() {
-    this.categories = [{id: null, name: this.generateNewCategoryName(), color: '#999', tags: []}, ...this.categories];
+    const newCategory = {id: null, name: this.generateNewCategoryName(), color: '#999', tags: []};
+    this.newCategories = [newCategory, ...this.newCategories];
+    this.categoriesState = [newCategory, ...this.categoriesState];
     this.cd.detectChanges();
   }
 
   generateNewCategoryName(): string {
-    const latestNewCategory = this.categories.find(c => c.name.startsWith(this.newCategoryName));
+    const latestNewCategory = this.categoriesState.find(c => c.name.startsWith(this.newCategoryName));
     if (!latestNewCategory) {
       return this.newCategoryName;
     }
@@ -116,11 +89,22 @@ export class TagCategoriesDialogComponent implements OnInit {
     return this.newCategoryName + extraNameSuffix;
   }
 
-  deleteCategory(category: TagCategoryDto) {
+  handleCategoryChanged({name, category}: CategoryChangedEvent) {
+    this.categoriesState = this.categoriesState.map(c => {
+      if (c.name === name) {
+        return category;
+      }
+      return c;
+    });
+  }
+
+  handleCategoryDeleted(category: TagCategoryDto) {
     if (category.id) {
       this.categoriesToDelete = [...this.categoriesToDelete, category.id];
     }
-    this.categories = [...this.categories.filter(c => c.name !== category.name)];
+    this.newCategories = [...this.newCategories.filter(c => c.name !== category.name)];
+    this.persistedCategories = [...this.persistedCategories.filter(c => c.name !== category.name)];
+    this.categoriesState = [...this.categoriesState.filter(c => c.name !== category.name)];
     this.cd.detectChanges();
   }
 }

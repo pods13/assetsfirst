@@ -30,6 +30,7 @@ docker-compose down
 - [x] Setup schedule job that recalculate position p&l and keep results in a separate db table, use these data in positionView
 - [x] On balance and contributions plots on yAxis use short number form
 - [x] Migrate to spring boot 3
+- [x] Allow user to change name of tag category
 </details>
 
 <details>
@@ -38,7 +39,6 @@ docker-compose down
 - [ ] Migrate Angular from v14 to v16
 - [ ] Switch from @swimlane/ngx-datatable to mat-table
 - [ ] Keep showing accumulated dividends for closed positions
-- [ ] Allow user to change name of tag category
 - [ ] Provide functionality to change a username
 - [ ] Show formatted price in sectoral distribution widget
 - [ ] Show percentage in sectoral distribution widget
