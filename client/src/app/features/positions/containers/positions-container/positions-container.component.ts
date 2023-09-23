@@ -13,7 +13,7 @@ import {
   TagCategoriesDialogComponent,
   TagCategoriesDialogReturnType
 } from '../../components/tag-categories-dialog/tag-categories-dialog.component';
-import { TagCategoryService } from '../../services/tag-category.service';
+import { TagCategoryService } from '@core/services/tag-category.service';
 import { forkJoin } from 'rxjs';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 

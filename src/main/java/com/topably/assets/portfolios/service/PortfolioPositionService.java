@@ -8,6 +8,7 @@ import com.topably.assets.findata.exchanges.service.ExchangeService;
 import com.topably.assets.findata.xrates.service.currency.CurrencyConverterService;
 import com.topably.assets.instruments.domain.Instrument;
 import com.topably.assets.instruments.domain.InstrumentType;
+import com.topably.assets.portfolios.domain.cards.input.allocation.CustomSegment;
 import com.topably.assets.portfolios.domain.dto.PortfolioPositionDto;
 import com.topably.assets.portfolios.domain.position.PortfolioPosition;
 import com.topably.assets.portfolios.domain.position.PortfolioPositionView;
@@ -58,6 +59,12 @@ public class PortfolioPositionService {
 
     public Collection<PortfolioPosition> findPortfolioPositionsByPortfolioId(Long portfolioId) {
         return portfolioPositionRepository.findAllByPortfolioId(portfolioId);
+    }
+
+    public Collection<PortfolioPositionDto> findPortfolioPositionsByPortfolioIdAndTags(Long portfolioId, Collection<Long> tagIds) {
+        return portfolioPositionRepository.findAllByPortfolioIdAndTagsIn(portfolioId, tagIds).stream()
+            .map(portfolioPositionMapper::modelToDto)
+            .toList();
     }
 
     public Collection<PortfolioPositionDto> findPortfolioPositions(Long portfolioId) {

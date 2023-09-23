@@ -8,13 +8,13 @@ import {
   ViewChild,
   ViewEncapsulation
 } from '@angular/core';
-import { TagCategoryService } from '../../services/tag-category.service';
+import { TagCategoryService } from '@core/services/tag-category.service';
 import { filter, map, mergeMap, Observable, startWith } from 'rxjs';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { FormControl, NonNullableFormBuilder } from '@angular/forms';
-import { TagWithCategoryDto } from '../../types/tag/tag.dto';
+import { TagWithCategoryDto } from '../../../../core/types/tag/tag.dto';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 
 @Component({

@@ -1,12 +1,9 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { TagDto } from '../../types/tag/tag.dto';
-import { delay, Observable } from 'rxjs';
-import { MatChipInputEvent } from '@angular/material/chips';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { TagCategoryService } from '../../services/tag-category.service';
-import { TagCategoryDto } from '../../types/tag/tag-category.dto';
+import { TagCategoryService } from '@core/services/tag-category.service';
+import { TagCategoryDto } from '@core/types/tag/tag-category.dto';
 import { MatDialogRef } from '@angular/material/dialog';
-import { CategoryChangedEvent } from '../category-control/tag-category-control.component';
+import { CategoryChangedEvent } from '../tag-category-control/tag-category-control.component';
 
 @Component({
   selector: 'app-tag-categories-dialog',
@@ -20,12 +17,12 @@ import { CategoryChangedEvent } from '../category-control/tag-category-control.c
     <mat-dialog-content>
       <mat-accordion>
         <app-tag-category-control *ngFor="let category of newCategories; let i = index" [category]="category"
-                              (categoryChanged)="handleCategoryChanged($event)"
-                              (categoryDeleted)="handleCategoryDeleted($event)">
+                                  (categoryChanged)="handleCategoryChanged($event)"
+                                  (categoryDeleted)="handleCategoryDeleted($event)">
         </app-tag-category-control>
         <app-tag-category-control *ngFor="let category of persistedCategories; let i = index" [category]="category"
-                              (categoryChanged)="handleCategoryChanged($event)"
-                              (categoryDeleted)="handleCategoryDeleted($event)">
+                                  (categoryChanged)="handleCategoryChanged($event)"
+                                  (categoryDeleted)="handleCategoryDeleted($event)">
         </app-tag-category-control>
       </mat-accordion>
     </mat-dialog-content>

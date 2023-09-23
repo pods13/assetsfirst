@@ -1,5 +1,5 @@
 import { Ticker } from '@core/types/ticker';
-import { TagWithCategoryDto } from './tag/tag.dto';
+import { TagWithCategoryDto } from '../../../core/types/tag/tag.dto';
 
 export interface PortfolioPositionView {
   id: number;

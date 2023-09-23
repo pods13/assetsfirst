@@ -28,6 +28,12 @@ import { NgxEchartsModule } from 'ngx-echarts';
 import { EquityRiskPremiumComponent } from './containers/equity-risk-premium/equity-risk-premium.component';
 import { MatTableModule } from '@angular/material/table';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { EditAllocationCardComponent } from './components/edit-allocation-card/edit-allocation-card.component';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { CoreModule } from '@core/core.module';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { SegmentControlComponent } from './components/segment-control/segment-control.component';
 
 
 @NgModule({
@@ -44,6 +50,8 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     ContributionCardComponent,
     InvestmentYieldCardComponent,
     EquityRiskPremiumComponent,
+    EditAllocationCardComponent,
+    SegmentControlComponent,
   ],
   imports: [
     CommonModule,
@@ -62,6 +70,10 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     }),
     MatTableModule,
     DragDropModule,
+    MatExpansionModule,
+    CoreModule,
+    MatChipsModule,
+    MatAutocompleteModule,
   ],
   providers: [
     CardContentLoaderService,

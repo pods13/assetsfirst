@@ -36,6 +36,6 @@ public class PortfolioDashboard {
 
     @Singular
     @Column(name = "CARDS", columnDefinition = "json")
-    @JdbcTypeCode(SqlTypes.JSON)
+    @Type(JsonType.class)
     private Set<DashboardCard> cards;
 }

@@ -18,6 +18,8 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { defaultCardProps } from '../../helpers/card-factory';
 import { DashboardCardStore } from '../../services/dashboard-card.store';
 import { MatDialog } from '@angular/material/dialog';
+import { editCardDialogByContainerType } from '../../helpers/edit-card.helper';
+import { CardContainerType } from '../../types/card-container-type';
 
 @UntilDestroy()
 @Component({
@@ -98,17 +100,23 @@ export class CardWrapperComponent implements OnInit, AfterViewInit, OnChanges {
   };
 
   editCard(): void {
-    // const dialogRef = this.dialog.open<any, any, any>(this, {
-    //   data: {
-    //     title: 'Edit Card'
-    //   }
-    // });
-    //
-    // dialogRef.afterClosed()
-    //   .pipe(filter(res => !!res))
-    //   .subscribe(result => {
-    //     console.log(result)
-    //   });
+    if (this.card.containerType !== CardContainerType.ALLOCATION) {
+      //TODO remove when all edit card dialogs will be implemented
+      return;
+    }
+    const editCardDialog = editCardDialogByContainerType[this.card.containerType];
+    const dialogRef = this.dialog.open<any, any, any>(editCardDialog, {
+      data: {
+        title: 'Edit Card',
+        card: this.card
+      }
+    });
+
+    dialogRef.afterClosed()
+      .pipe(filter(res => !!res))
+      .subscribe(result => {
+        this.onCardChanges({...this.card, ...result});
+      });
   }
 
   deleteCard(): void {

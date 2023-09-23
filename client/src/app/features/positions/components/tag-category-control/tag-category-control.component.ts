@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { TagCategoryDto } from '../../types/tag/tag-category.dto';
+import { TagCategoryDto } from '@core/types/tag/tag-category.dto';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
-import { TagDto } from '../../types/tag/tag.dto';
+import { TagDto } from '@core/types/tag/tag.dto';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { pairwise, startWith } from 'rxjs';
 

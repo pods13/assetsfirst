@@ -10,7 +10,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { PositionTagsDialogComponent } from './components/tags-dialog/position-tags-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatTabsModule } from '@angular/material/tabs';
-import { TagCategoryService } from './services/tag-category.service';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -21,9 +20,10 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatCardModule } from '@angular/material/card';
 import { TagCategoriesDialogComponent } from './components/tag-categories-dialog/tag-categories-dialog.component';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { TagCategoryControlComponent } from './components/category-control/tag-category-control.component';
+import { TagCategoryControlComponent } from './components/tag-category-control/tag-category-control.component';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatInputModule } from '@angular/material/input';
+import { CoreModule } from '@core/core.module';
 
 
 @NgModule({
@@ -53,10 +53,10 @@ import { MatInputModule } from '@angular/material/input';
     FormsModule,
     MatExpansionModule,
     MatInputModule,
+    CoreModule,
   ],
   providers: [
     PortfolioPositionService,
-    TagCategoryService
   ]
 })
 export class PortfolioPositionsModule {

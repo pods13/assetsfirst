@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.math.BigInteger;
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,4 +36,7 @@ public interface PortfolioPositionRepository extends JpaRepository<PortfolioPosi
     List<Long> findAllPositionIdsByPortfolioId(Long portfolioId);
 
     List<PortfolioPosition> findAllByQuantityIsAndRealizedPnlIsNull(BigInteger quantity);
+
+    Collection<PortfolioPosition> findAllByPortfolioIdAndTagsIn(Long portfolioId, Collection<Long> tagIds);
+
 }

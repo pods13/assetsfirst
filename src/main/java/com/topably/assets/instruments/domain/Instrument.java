@@ -3,6 +3,7 @@ package com.topably.assets.instruments.domain;
 
 import com.topably.assets.core.domain.Ticker;
 import com.topably.assets.findata.exchanges.domain.Exchange;
+import io.hypersistence.utils.hibernate.type.json.JsonType;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -69,7 +70,7 @@ public abstract class Instrument {
 
     @Singular
     @Column(name = "ATTRIBUTES", columnDefinition = "json")
-    @JdbcTypeCode(SqlTypes.JSON)
+    @Type(JsonType.class)
     private Map<String, String> attributes;
 
     public Ticker toTicker() {

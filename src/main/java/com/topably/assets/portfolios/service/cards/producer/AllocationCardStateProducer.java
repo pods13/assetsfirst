@@ -1,6 +1,7 @@
 package com.topably.assets.portfolios.service.cards.producer;
 
 import com.topably.assets.findata.exchanges.service.ExchangeService;
+import com.topably.assets.findata.xrates.service.currency.CurrencyConverterService;
 import com.topably.assets.portfolios.domain.Portfolio;
 import com.topably.assets.portfolios.domain.cards.CardContainerType;
 import com.topably.assets.portfolios.domain.cards.CardData;
@@ -8,13 +9,16 @@ import com.topably.assets.portfolios.domain.cards.input.allocation.AllocatedByOp
 import com.topably.assets.portfolios.domain.cards.input.allocation.AllocationAggregatedTrade;
 import com.topably.assets.portfolios.domain.cards.input.allocation.AllocationAggregatedTradeCollector;
 import com.topably.assets.portfolios.domain.cards.input.allocation.AllocationCard;
+import com.topably.assets.portfolios.domain.cards.input.allocation.CustomSegment;
+import com.topably.assets.portfolios.domain.cards.input.allocation.TagWithCategoryDto;
 import com.topably.assets.portfolios.domain.cards.output.AllocationCardData;
 import com.topably.assets.portfolios.domain.cards.output.AllocationSegment;
+import com.topably.assets.portfolios.domain.dto.PortfolioPositionDto;
+import com.topably.assets.portfolios.domain.position.PortfolioPosition;
 import com.topably.assets.portfolios.service.PortfolioPositionService;
 import com.topably.assets.portfolios.service.cards.CardStateProducer;
 import com.topably.assets.trades.domain.dto.AggregatedTradeDto;
 import com.topably.assets.trades.service.TradeAggregatorService;
-import com.topably.assets.findata.xrates.service.currency.CurrencyConverterService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -26,6 +30,7 @@ import java.util.Currency;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.collectingAndThen;
 import static java.util.stream.Collectors.groupingBy;
@@ -68,21 +73,31 @@ public class AllocationCardStateProducer implements CardStateProducer<Allocation
         var allocatedBy = card.getAllocatedBy();
         if (AllocatedByOption.BROKER.equals(allocatedBy)) {
             return aggregateTradesByBroker(portfolio);
+        } else if (AllocatedByOption.CUSTOM.equals(allocatedBy)) {
+            return card.getCustomSegments().stream()
+                .collect(Collectors.toMap(CustomSegment::getName, s -> {
+                    var tagIds = s.getTags().stream().map(TagWithCategoryDto::id).collect(Collectors.toSet());
+                    return portfolioPositionService.findPortfolioPositionsByPortfolioIdAndTags(portfolio.getId(), tagIds).stream()
+                        .map(this::mapPositionToAllocationAggregatedTrade)
+                        .toList();
+                }));
         }
         return portfolioPositionService.findPortfolioPositions(portfolio.getId()).stream()
-            .map(position -> {
-                var price = exchangeService.findSymbolRecentPrice(position.getIdentifier())
-                    .orElse(position.getPrice());
-                return AllocationAggregatedTrade.builder()
-                    .identifier(position.getIdentifier())
-                    .instrumentId(position.getInstrumentId())
-                    .instrumentType(position.getInstrumentType())
-                    .price(price)
-                    .quantity(position.getQuantity())
-                    .currency(position.getCurrency())
-                    .build();
-            })
+            .map(this::mapPositionToAllocationAggregatedTrade)
             .collect(groupingBy(getAllocatedByClassifier(allocatedBy)));
+    }
+
+    private AllocationAggregatedTrade mapPositionToAllocationAggregatedTrade(PortfolioPositionDto position) {
+        var price = exchangeService.findSymbolRecentPrice(position.getIdentifier())
+            .orElse(position.getPrice());
+        return AllocationAggregatedTrade.builder()
+            .identifier(position.getIdentifier())
+            .instrumentId(position.getInstrumentId())
+            .instrumentType(position.getInstrumentType())
+            .price(price)
+            .quantity(position.getQuantity())
+            .currency(position.getCurrency())
+            .build();
     }
 
     private Map<String, List<AllocationAggregatedTrade>> aggregateTradesByBroker(Portfolio portfolio) {

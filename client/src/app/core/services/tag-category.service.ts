@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { TagCategoryDto } from '../types/tag/tag-category.dto';
 import { Observable } from 'rxjs';
 import { TagDto, TagWithCategoryDto } from '../types/tag/tag.dto';
-import { Page } from '../../../core/types/page';
+import { Page } from '../types/page';
 
 @Injectable()
 export class TagCategoryService {
