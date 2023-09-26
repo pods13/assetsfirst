@@ -20,5 +20,5 @@ public interface StockRepository extends JpaRepository<Stock, Long> {
     List<Stock> findAllById(Iterable<Long> ids);
 
     @EntityGraph(attributePaths = {"exchange"})
-    Optional<Stock> findByTickerAndExchange_Code(String ticker, String exchangeCode);
+    Optional<Stock> findBySymbolAndExchange_Code(String symbol, String exchangeCode);
 }

@@ -47,9 +47,9 @@ public class DividendService {
     private final DividendRepository dividendRepository;
     private final InstrumentService instrumentService;
 
-    public void addDividends(String ticker, String exchange, Collection<DividendData> dividendData) {
-        deleteForecastedDividends(ticker, exchange);
-        var instrumentDividends = collectDividendsToPersist(ticker, exchange, dividendData);
+    public void addDividends(String symbol, String exchange, Collection<DividendData> dividendData) {
+        deleteForecastedDividends(symbol, exchange);
+        var instrumentDividends = collectDividendsToPersist(symbol, exchange, dividendData);
         dividendRepository.upsertAll(instrumentDividends);
     }
 
@@ -103,12 +103,12 @@ public class DividendService {
                 divs -> divs.stream().sorted(Comparator.comparing(Dividend::getRecordDate)).toList())));
     }
 
-    private List<Dividend> collectDividendsToPersist(String ticker, String exchange,
+    private List<Dividend> collectDividendsToPersist(String symbol, String exchange,
                                                      Collection<DividendData> dividendData) {
-        Dividend lastDeclaredDividend = dividendRepository.findLastDeclaredDividend(ticker, exchange);
+        Dividend lastDeclaredDividend = dividendRepository.findLastDeclaredDividend(symbol, exchange);
         var instrument = Optional.ofNullable(lastDeclaredDividend)
             .map(Dividend::getInstrument)
-            .orElseGet(() -> instrumentService.findInstrument(ticker, exchange));
+            .orElseGet(() -> instrumentService.findInstrument(symbol, exchange));
         return dividendData.stream()
             .filter(data -> lastDeclaredDividend == null || afterLastDeclaredDividend(lastDeclaredDividend, data.getDeclareDate()))
             .map(data -> convertToDividend(data, instrument))
@@ -131,8 +131,8 @@ public class DividendService {
             .setPayDate(data.getPayDate());
     }
 
-    private void deleteForecastedDividends(String ticker, String exchange) {
-        Collection<Dividend> forecastedDividends = dividendRepository.findAllByDeclareDateIsNullAndInstrument_TickerAndInstrument_Exchange_Code(ticker, exchange);
+    private void deleteForecastedDividends(String symbol, String exchange) {
+        Collection<Dividend> forecastedDividends = dividendRepository.findAllByDeclareDateIsNullAndInstrument_SymbolAndInstrument_Exchange_Code(symbol, exchange);
         dividendRepository.deleteAll(forecastedDividends);
     }
 
@@ -140,7 +140,7 @@ public class DividendService {
         var groupedTrades = trades.stream()
             .collect(groupingBy(trade -> {
                 var instrument = trade.getPortfolioPosition().getInstrument();
-                return new Ticker(instrument.getTicker(), instrument.getExchange().getCode());
+                return instrument.toTicker();
             }));
 
         return groupedTrades.entrySet().stream()

@@ -178,14 +178,14 @@ public class DividendServiceTest extends IntegrationTestBase {
             .countryCode("RU")
             .currency(Currency.getInstance("RUB"))
             .build());
-        Company company = companyRepository.save(Company.builder()
+        var company = companyRepository.save(Company.builder()
             .name(ticker.getSymbol())
             .build());
         return stockRepository.save(Stock.builder()
             .instrumentType(InstrumentType.STOCK.name())
             .company(company)
             .exchange(exchange)
-            .ticker(ticker.getSymbol())
+            .symbol(ticker.getSymbol())
             .currency(exchange.getCurrency())
             .build());
     }

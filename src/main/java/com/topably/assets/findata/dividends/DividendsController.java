@@ -20,8 +20,8 @@ public class DividendsController {
     private final DividendService dividendService;
 
     @PostMapping
-    public void addDividends(@RequestParam String ticker, @RequestParam String exchange,
+    public void addDividends(@RequestParam String symbol, @RequestParam String exchange,
                              @Validated @RequestBody Collection<DividendData> dividendData) {
-        dividendService.addDividends(ticker, exchange, dividendData);
+        dividendService.addDividends(symbol, exchange, dividendData);
     }
 }

@@ -61,14 +61,14 @@ public class InstrumentDataLoader implements CommandLineRunner {
         etfs.add(ETF.builder()
             .attribute(ETF.NAME_ATTRIBUTE, "KraneShares Global Carbon Strategy ETF")
             .exchange(nysearca)
-            .ticker("KRBN")
+            .symbol("KRBN")
             .currency(nysearca.getCurrency())
             .build());
 
         etfs.add(ETF.builder()
             .attribute(ETF.NAME_ATTRIBUTE, "FinEx China UCITS ETF")
             .exchange(mcx)
-            .ticker("FXCN")
+            .symbol("FXCN")
             .currency(mcx.getCurrency())
             .build());
 
@@ -170,32 +170,32 @@ public class InstrumentDataLoader implements CommandLineRunner {
         Exchange fxIDC = exchangeRepository.findByCode(ExchangeEnum.FX_IDC.name());
         var usdrub = FX.builder()
             .exchange(mcx)
-            .ticker("USD.RUB")
+            .symbol("USD.RUB")
             .currency(Currency.getInstance("USD"))
             .build();
         var eurrub = FX.builder()
             .exchange(fxIDC)
-            .ticker("EUR.RUB")
+            .symbol("EUR.RUB")
             .currency(Currency.getInstance("EUR"))
             .build();
         var cnyrub = FX.builder()
             .exchange(fxIDC)
-            .ticker("CNY.RUB")
+            .symbol("CNY.RUB")
             .currency(Currency.getInstance("CNY"))
             .build();
         var hkdrub = FX.builder()
             .exchange(fxIDC)
-            .ticker("HKD.RUB")
+            .symbol("HKD.RUB")
             .currency(Currency.getInstance("HKD"))
             .build();
         var gldrub_tom = FX.builder()
             .exchange(mcx)
-            .ticker("GLDRUB_TOM")
+            .symbol("GLDRUB_TOM")
             .currency(mcx.getCurrency())
             .build();
         var rubUsd = FX.builder()
             .exchange(fxIDC)
-            .ticker("RUB.USD")
+            .symbol("RUB.USD")
             .currency(Currency.getInstance("RUB"))
             .build();
         fxRepository.saveAll(List.of(usdrub, eurrub, cnyrub, hkdrub, gldrub_tom, rubUsd));

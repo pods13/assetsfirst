@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 public interface InstrumentRepository extends JpaRepository<Instrument, Long>, JpaSpecificationExecutor<Instrument> {
 
-    Instrument findByTickerAndExchange_Code(String ticker, String exchange);
+    Instrument findBySymbolAndExchange_Code(String symbol, String exchange);
 
 }

@@ -29,7 +29,7 @@ import { InstrumentDto } from '../../types/instrument.dto';
             </mat-option>
             <mat-option *ngFor="let instrument of filteredInstruments | async"
                         [value]="instrument">
-              {{instrument.ticker + (instrument.name ? ' (' + instrument.name + ')' : '')}}
+              {{instrument.symbol + (instrument.name ? ' (' + instrument.name + ')' : '')}}
             </mat-option>
           </mat-select>
         </mat-form-field>
@@ -92,7 +92,7 @@ export class TradeDialogComponent implements OnInit {
     return {
       id: trade.instrumentId,
       instrumentType: trade.instrumentType,
-      ticker: trade.symbol,
+      symbol: trade.symbol,
       name: trade.name,
       currencyCode: trade.currencyCode
     };

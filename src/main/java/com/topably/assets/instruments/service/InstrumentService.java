@@ -29,13 +29,13 @@ public class InstrumentService {
         return instruments.stream().map(instrumentMapper::modelToDto).collect(toList());
     }
 
-    public Instrument findInstrument(String ticker, String exchange) {
-        return instrumentRepository.findByTickerAndExchange_Code(ticker, exchange);
+    public Instrument findInstrument(String symbol, String exchange) {
+        return instrumentRepository.findBySymbolAndExchange_Code(symbol, exchange);
     }
 
     public InstrumentDto findInstrumentByIdentifier(String identifier) {
         var ticker = transformToTicker(identifier);
-        var instrument = instrumentRepository.findByTickerAndExchange_Code(ticker.getSymbol(), ticker.getExchange());
+        var instrument = instrumentRepository.findBySymbolAndExchange_Code(ticker.getSymbol(), ticker.getExchange());
         return instrumentMapper.modelToDto(instrument);
     }
 

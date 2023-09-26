@@ -11,7 +11,6 @@ import lombok.Setter;
 import lombok.Singular;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.Type;
 
 import jakarta.persistence.Column;
@@ -28,7 +27,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
-import org.hibernate.type.SqlTypes;
 
 import java.util.Currency;
 import java.util.Map;
@@ -41,7 +39,7 @@ import java.util.Map;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "INSTRUMENT_TYPE")
 @Table(name = "instrument", uniqueConstraints = {
-    @UniqueConstraint(name = "instrument_ticker_exchange_id_key", columnNames = {"TICKER", "EXCHANGE_ID"}),
+    @UniqueConstraint(name = "instrument_symbol_exchange_id_key", columnNames = {"SYMBOL", "EXCHANGE_ID"}),
 })
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public abstract class Instrument {
@@ -61,9 +59,9 @@ public abstract class Instrument {
     @EqualsAndHashCode.Include
     private Exchange exchange;
 
-    @Column(name = "TICKER")
+    @Column(name = "SYMBOL")
     @EqualsAndHashCode.Include
-    private String ticker;
+    private String symbol;
 
     @Column(columnDefinition = "char(3)")
     private Currency currency;
@@ -74,6 +72,6 @@ public abstract class Instrument {
     private Map<String, String> attributes;
 
     public Ticker toTicker() {
-        return new Ticker(ticker, exchange.getCode());
+        return new Ticker(symbol, exchange.getCode());
     }
 }

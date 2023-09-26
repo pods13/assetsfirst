@@ -8,7 +8,7 @@ import net.kaczmarzyk.spring.data.jpa.web.annotation.Spec;
 import org.springframework.data.jpa.domain.Specification;
 
 @Or({
-    @Spec(path = "ticker", params = "search", spec = LikeIgnoreCase.class),
+    @Spec(path = "symbol", params = "search", spec = LikeIgnoreCase.class),
     @Spec(path = "instrumentType", params = "instrumentTypes", paramSeparator = ',', spec = In.class)
 })
 public interface InstrumentSpecification extends Specification<Instrument> {

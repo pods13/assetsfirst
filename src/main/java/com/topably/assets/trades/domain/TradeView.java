@@ -27,7 +27,7 @@ import java.util.Currency;
            s2.id as instrument_id,
            s2.instrument_type,
            p.user_id,
-           s2.ticker as symbol,
+           s2.symbol as symbol,
            exch.code as exchange,
            CASE
                WHEN s2.instrument_type = 'ETF' THEN s2.attributes ->> "$.name"

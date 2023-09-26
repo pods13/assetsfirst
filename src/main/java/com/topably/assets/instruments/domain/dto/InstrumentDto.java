@@ -15,7 +15,7 @@ import lombok.experimental.Accessors;
 public class InstrumentDto {
 
     private Long id;
-    private String ticker;
+    private String symbol;
     private String name;
     private InstrumentType instrumentType;
     private String currencyCode;

@@ -33,6 +33,8 @@ docker-compose down
 
 <details>
   <summary>1.2.0 Features</summary>
+- [x] Allocation card - custom type to group by tags
+- [x] Switch to flyway is impossible due to usage of mysql 5.7(too old)
 - [ ] Company Page - ownership structure
 - [ ] Migrate Angular from v14 to v16
 - [ ] Switch from @swimlane/ngx-datatable to mat-table
@@ -50,6 +52,7 @@ docker-compose down
 - [ ] New position widget
 - [ ] New trades widget
 - [ ] Ability to group positions
+- [ ] Show total contributions this year
 </details>
 
 ## Redeploy flow

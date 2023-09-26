@@ -22,7 +22,7 @@ public interface DividendRepository extends JpaRepository<Dividend, Long>, Upser
         join exchange e on e.id = i.exchange_id
         where ((d.pay_date is not null and year(d.pay_date) in :dividendYears)
             or (d.pay_date is null and year(adddate(d.record_date, interval 1 month)) in :dividendYears))
-          and i.ticker = :#{#ticker.symbol}
+          and i.symbol = :#{#ticker.symbol}
           and e.code = :#{#ticker.exchange}
         """, nativeQuery = true)
     Collection<Dividend> findDividendsByYears(Ticker ticker, Iterable<Integer> dividendYears);
@@ -33,14 +33,14 @@ public interface DividendRepository extends JpaRepository<Dividend, Long>, Upser
                  join instrument i on i.id = d.instrument_id
                  join exchange e on e.id = i.exchange_id
         where d.declare_date is not null
-          and i.ticker = :symbol
+          and i.symbol = :symbol
           and e.code = :exchange
         order by d.declare_date desc
         limit 1
         """)
     Dividend findLastDeclaredDividend(String symbol, String exchange);
 
-    Collection<Dividend> findAllByDeclareDateIsNullAndInstrument_TickerAndInstrument_Exchange_Code(String ticker, String exchange);
+    Collection<Dividend> findAllByDeclareDateIsNullAndInstrument_SymbolAndInstrument_Exchange_Code(String symbol, String exchange);
 
     Optional<Dividend> findTopByRecordDateBeforeOrderByRecordDateDesc(LocalDate date);
 
@@ -51,7 +51,7 @@ public interface DividendRepository extends JpaRepository<Dividend, Long>, Upser
         from dividend d
                  join instrument i on i.id = d.instrument_id
                  join exchange e on e.id = i.exchange_id
-        where i.ticker = :symbol
+        where i.symbol = :symbol
           and e.code = :exchange
           and d.record_date >= now()
           and d.amount > 0
@@ -65,7 +65,7 @@ public interface DividendRepository extends JpaRepository<Dividend, Long>, Upser
         select d from Dividend d
             join d.instrument as i
             join i.exchange
-            where concat(i.ticker, '.', i.exchange.code) in (:tickers)
+            where concat(i.symbol, '.', i.exchange.code) in (:tickers)
               and d.recordDate >= current_date
               and d.amount > 0
             group by d.id

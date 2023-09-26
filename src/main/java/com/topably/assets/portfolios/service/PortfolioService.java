@@ -89,8 +89,7 @@ public class PortfolioService {
     }
 
     public BigDecimal calculateInvestedAmount(Portfolio portfolio, Collection<PortfolioPositionDto> positions, LocalDate date) {
-        //TODO take portfolio.currency from portfolio instance
-        Currency portfolioCurrency = Currency.getInstance("RUB");
+        Currency portfolioCurrency = portfolio.getCurrency();
         return positions.stream()
             .map(p -> portfolioPositionService.calculateInvestedAmountByPositionId(p.getId(), portfolioCurrency, date))
             .reduce(BigDecimal.ZERO, BigDecimal::add);
@@ -135,8 +134,7 @@ public class PortfolioService {
         var portfolio = portfolioRepository.getReferenceById(1L);
         return new PortfolioDto()
             .setValueIncreasePct(calculatePortfolioValueIncreasePct(portfolio))
-            //TODO use portfolio currency instead
-            .setCurrencyCode(Currency.getInstance("RUB").getCurrencyCode())
+            .setCurrencyCode(portfolio.getCurrency().getCurrencyCode())
             .setInvestedAmountByDates(getInvestedAmountByDates(portfolio, 15));
     }
 

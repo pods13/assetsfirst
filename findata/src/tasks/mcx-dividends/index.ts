@@ -32,7 +32,7 @@ async function main() {
             })
             .then(res => {
                 if (res) {
-                    return client.post(`/dividends?ticker=${instrument.symbol}&exchange=${instrument.exchange}`, res)
+                    return client.post(`/dividends?symbol=${instrument.symbol}&exchange=${instrument.exchange}`, res)
                         .then(() => console.log(`Dividends were received for ${instrument.symbol + ':' + instrument.exchange}`));
                 } else {
                     return Promise.resolve();

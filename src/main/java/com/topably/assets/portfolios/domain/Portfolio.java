@@ -1,6 +1,7 @@
 package com.topably.assets.portfolios.domain;
 
 import com.topably.assets.auth.domain.User;
+import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,6 +20,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
+
+import java.util.Currency;
 
 @Setter
 @Getter
@@ -45,4 +48,7 @@ public class Portfolio {
     @JoinColumn(name = "dashboard_id", referencedColumnName = "id",
         foreignKey = @ForeignKey(name = "fk__portfolio__dashboard_id__portfolio_dashboard"))
     private PortfolioDashboard dashboard;
+
+    @Column(columnDefinition = "char(3)")
+    private Currency currency;
 }

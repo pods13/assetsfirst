@@ -3,7 +3,6 @@ package com.topably.assets.instruments.service;
 import com.topably.assets.companies.domain.dto.CompanyDto;
 import com.topably.assets.companies.repository.CompanyRepository;
 import com.topably.assets.companies.service.CompanyService;
-import com.topably.assets.core.domain.Ticker;
 import com.topably.assets.findata.exchanges.repository.ExchangeRepository;
 import com.topably.assets.instruments.domain.dto.StockDataDto;
 import com.topably.assets.instruments.domain.dto.StockDto;
@@ -47,7 +46,7 @@ public class StockServiceImpl implements StockService {
         var exchange = exchangeRepository.findByCode(dto.getIdentifier().getExchange());
         Stock stock = stockRepository.save(Stock.builder()
             .company(companyRepository.getReferenceById(companyDto.getId()))
-            .ticker(dto.getIdentifier().getSymbol())
+            .symbol(dto.getIdentifier().getSymbol())
             .exchange(exchange)
             .currency(exchange.getCurrency())
             .build());
@@ -57,7 +56,7 @@ public class StockServiceImpl implements StockService {
     @Override
     @Transactional
     public StockDto importStock(StockDataDto dto) {
-        return stockRepository.findByTickerAndExchange_Code(dto.getIdentifier().getSymbol(), dto.getIdentifier().getExchange())
+        return stockRepository.findBySymbolAndExchange_Code(dto.getIdentifier().getSymbol(), dto.getIdentifier().getExchange())
             .map(stock -> updateStock(stock, dto))
             .orElseGet(() -> addStock(dto));
     }
@@ -70,7 +69,7 @@ public class StockServiceImpl implements StockService {
     private StockDto convertToDto(Stock stock) {
         return StockDto.builder()
             .id(stock.getId())
-            .identifier(new Ticker(stock.getTicker(), stock.getExchange().getCode()))
+            .identifier(stock.toTicker())
             .companyId(stock.getCompany().getId())
             .build();
     }
