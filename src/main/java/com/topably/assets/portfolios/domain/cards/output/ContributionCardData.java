@@ -13,6 +13,8 @@ public class ContributionCardData implements CardData {
 
     private Collection<String> xaxis;
     private Collection<Contribution> contributions;
+    private BigDecimal totalContributed;
+    private String currencyCode;
 
     public record Contribution(String name, Collection<BigDecimal> data) {
     }

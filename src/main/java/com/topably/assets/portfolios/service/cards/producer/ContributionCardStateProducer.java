@@ -25,12 +25,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumSet;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service(CardContainerType.CONTRIBUTION)
@@ -56,9 +55,12 @@ public class ContributionCardStateProducer implements CardStateProducer<Contribu
             .collect(Collectors.groupingBy(d -> d.getPayDate().getMonthValue(), TreeMap::new, Collectors.toList()));
 
         var xAxis = composeXAxis();
+        var contributions = composeContributions(tradesByMonthValue, dividendsByMonthValue);
         return new ContributionCardData()
             .setXaxis(xAxis)
-            .setContributions(composeContributions(tradesByMonthValue, dividendsByMonthValue));
+            .setContributions(contributions)
+            .setTotalContributed(calculateTotalContributed(contributions))
+            .setCurrencyCode(portfolio.getCurrency().getCurrencyCode());
     }
 
     private Collection<String> composeXAxis() {
@@ -101,6 +103,13 @@ public class ContributionCardStateProducer implements CardStateProducer<Contribu
     private BigDecimal calculateTotalMonthlyDividend(TreeMap<Integer, List<AggregatedDividendDto>> dividendsByMonthValue, int monthValue) {
         return dividendsByMonthValue.getOrDefault(monthValue, Collections.emptyList()).stream()
             .map(d -> currencyConverterService.convert(d.getTotal(), d.getCurrency()))
+            .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
+    private BigDecimal calculateTotalContributed(Collection<ContributionCardData.Contribution> contributions) {
+        return contributions.stream()
+            .map(ContributionCardData.Contribution::data)
+            .flatMap(Collection::stream)
             .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 }

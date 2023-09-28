@@ -36,6 +36,7 @@ docker-compose down
 - [x] Allocation card - custom type to group by tags
 - [x] Switch to flyway is impossible due to usage of mysql 5.7(too old)
 - [x] Introduce Portfolio currency, as a column in db table
+- [x] Show total contributions this year
 - [ ] Add usd exchange provider to support usd currency for the whole portfolio
 - [ ] Company Page - ownership structure
 - [ ] Migrate Angular from v14 to v16
@@ -53,7 +54,6 @@ docker-compose down
 - [ ] New position widget
 - [ ] New trades widget
 - [ ] Ability to group positions
-- [ ] Show total contributions this year
 </details>
 
 ## Redeploy flow

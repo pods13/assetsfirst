@@ -14,6 +14,12 @@ import { shortNumber } from '@core/helpers/number.helpers';
     <div class="card-header">
       <h2 class="title">{{ card.title }}</h2>
     </div>
+    <ng-container *ngIf="data$ | async as data">
+      <div class="contributed-amount">
+        <span>{{data.totalContributed | currency: data.currencyCode}}</span>
+        <span>{{'contributed this year'}}</span>
+      </div>
+    </ng-container>
     <div echarts class="contribution-chart" [options]="chartOption" [loading]="loading"
          (chartInit)="onChartInit($event)">
     </div>

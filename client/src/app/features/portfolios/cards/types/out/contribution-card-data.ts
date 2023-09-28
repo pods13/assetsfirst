@@ -3,6 +3,8 @@ import { CardData } from '../card-data';
 export interface ContributionCardData extends CardData{
   xaxis: string[];
   contributions: Contribution[];
+  totalContributed: number;
+  currencyCode: string;
 }
 
 export interface Contribution {
