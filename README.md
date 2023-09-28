@@ -35,6 +35,8 @@ docker-compose down
   <summary>1.2.0 Features</summary>
 - [x] Allocation card - custom type to group by tags
 - [x] Switch to flyway is impossible due to usage of mysql 5.7(too old)
+- [x] Introduce Portfolio currency, as a column in db table
+- [ ] Add usd exchange provider to support usd currency for the whole portfolio
 - [ ] Company Page - ownership structure
 - [ ] Migrate Angular from v14 to v16
 - [ ] Switch from @swimlane/ngx-datatable to mat-table
@@ -42,7 +44,6 @@ docker-compose down
 - [ ] Provide functionality to change a username
 - [ ] Show formatted price in sectoral distribution widget
 - [ ] Show percentage in sectoral distribution widget
-- [ ] Introduce Portfolio currency, as a column in db table
 - [ ] Allow a user to change their portfolio currency
 - [ ] Add includeForecastedDividends option as edit option of Dividend income card 
 - [ ] On Contribution card show total contribution vs previous year contributions 
