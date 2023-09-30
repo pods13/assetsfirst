@@ -24,6 +24,10 @@ public class CurrencyConverterService {
         return convert(amount, from, DESTINATION_CURRENCY, LocalDate.now().atStartOfDay().toInstant(ZoneOffset.UTC));
     }
 
+    public BigDecimal convert(BigDecimal amount, Currency from, Currency to) {
+        return convert(amount, from, to, LocalDate.now().atStartOfDay().toInstant(ZoneOffset.UTC));
+    }
+
     public BigDecimal convert(BigDecimal amount, Currency from, Currency to, Instant time) {
         if (from.equals(to)) {
             return amount;

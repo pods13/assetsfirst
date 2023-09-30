@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 import org.hibernate.annotations.GenericGenerator;
 
 import jakarta.persistence.Column;
@@ -22,7 +23,7 @@ import java.util.Currency;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@Accessors(chain = true)
 @Entity
 @Table(name = "exchange_rate", uniqueConstraints = {
     @UniqueConstraint(name = "uq_exchange_rate", columnNames = {"source_currency", "destination_currency", "date"}),

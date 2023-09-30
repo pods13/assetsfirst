@@ -20,6 +20,7 @@ docker-compose down
 
 <details>
   <summary>1.1.0 Features</summary>
+
 - [x] Show identifier with company name on position page(check out tradingview for inspiration)
 - [x] Fill up Upcoming dividend date column with relevant data
 - [x] In Sectoral distribution use current value of positions instead of initial one
@@ -33,6 +34,7 @@ docker-compose down
 
 <details>
   <summary>1.2.0 Features</summary>
+
 - [x] Allocation card - custom type to group by tags
 - [x] Switch to flyway is impossible due to usage of mysql 5.7(too old)
 - [x] Introduce Portfolio currency, as a column in db table

@@ -26,7 +26,6 @@ import java.util.List;
 
 import static java.util.Collections.emptyList;
 import static java.util.Optional.ofNullable;
-import static java.util.stream.Collectors.toList;
 
 @Slf4j
 @Service
@@ -62,13 +61,19 @@ public class CBRExchangeProvider implements ExchangeProvider {
                 var source = Currency.getInstance(currency.getCharCode());
                 BigDecimal conversionRate = currency.getValue()
                     .divide(BigDecimal.valueOf(currency.getNominal()), RoundingMode.HALF_UP);
-                return ExchangeRate.builder()
-                    .sourceCurrency(source)
-                    .destinationCurrency(destinationCurrency)
-                    .conversionRate(conversionRate)
-                    .date(date)
-                    .build();
-            }).collect(toList());
+                return List.of(new ExchangeRate()
+                        .setSourceCurrency(source)
+                        .setDestinationCurrency(destinationCurrency)
+                        .setConversionRate(conversionRate)
+                        .setDate(date),
+                    new ExchangeRate()
+                        .setSourceCurrency(destinationCurrency)
+                        .setDestinationCurrency(source)
+                        .setConversionRate(BigDecimal.ONE.divide(conversionRate, RoundingMode.HALF_UP))
+                        .setDate(date));
+            })
+            .flatMap(Collection::stream)
+            .toList();
     }
 
     private CBRExchangeRateData getExchangeRateData(HttpClient httpClient, String url) {

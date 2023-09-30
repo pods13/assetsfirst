@@ -13,6 +13,4 @@ public interface ExchangeRateService {
     Collection<ExchangeRate> addExchangeRates(List<ExchangeRate> rates);
 
     Optional<ExchangeRate> findExchangeRate(Currency from, Currency to, Instant time);
-
-    List<ExchangeRate> fetchExchangeRates(Instant exchangeRatesForTime);
 }
