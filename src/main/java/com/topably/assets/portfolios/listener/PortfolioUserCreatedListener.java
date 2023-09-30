@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.event.TransactionPhase;
 import org.springframework.transaction.event.TransactionalEventListener;
 
+import java.util.Currency;
 import java.util.HashSet;
 
 @Component
@@ -37,6 +38,7 @@ public class PortfolioUserCreatedListener {
         Portfolio portfolio = Portfolio.builder()
             .user(userService.getById(userId))
             .dashboard(dashboard)
+            .currency(Currency.getInstance("RUB"))
             .build();
         portfolioRepository.save(portfolio);
         if (provideData) {
