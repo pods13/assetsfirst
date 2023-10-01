@@ -8,7 +8,7 @@ import com.topably.assets.findata.exchanges.service.ExchangeService;
 import com.topably.assets.findata.xrates.service.currency.CurrencyConverterService;
 import com.topably.assets.instruments.domain.Instrument;
 import com.topably.assets.instruments.domain.InstrumentType;
-import com.topably.assets.portfolios.domain.cards.input.allocation.CustomSegment;
+import com.topably.assets.portfolios.domain.Portfolio;
 import com.topably.assets.portfolios.domain.dto.PortfolioPositionDto;
 import com.topably.assets.portfolios.domain.position.PortfolioPosition;
 import com.topably.assets.portfolios.domain.position.PortfolioPositionView;
@@ -29,7 +29,6 @@ import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.Year;
 import java.time.ZoneOffset;
-import java.time.temporal.ChronoUnit;
 import java.util.Collection;
 import java.util.Currency;
 import java.util.List;
@@ -91,7 +90,7 @@ public class PortfolioPositionService {
     public Collection<PortfolioPositionView> findPortfolioPositionsView(Long userId, boolean hideSold) {
         var portfolio = portfolioRepository.findByUserId(userId);
         List<PortfolioPosition> positions = getPortfolioPositions(portfolio.getId(), hideSold);
-        var tickerByFinData = collectPositionFinancialData(positions);
+        var tickerByFinData = collectPositionFinancialData(portfolio, positions);
         var portfolioMarketValue = tickerByFinData.values().stream()
             .map(PortfolioPositionFinancialData::convertedMarketValue)
             .reduce(BigDecimal.ZERO, BigDecimal::add);
@@ -148,7 +147,8 @@ public class PortfolioPositionService {
         return portfolioPositionRepository.findAllByPortfolioId(portfolioId);
     }
 
-    private Map<Ticker, PortfolioPositionFinancialData> collectPositionFinancialData(List<PortfolioPosition> positions) {
+    private Map<Ticker, PortfolioPositionFinancialData> collectPositionFinancialData(Portfolio portfolio,
+                                                                                     List<PortfolioPosition> positions) {
         return positions.stream()
             .map(position -> {
                 var instrument = position.getInstrument();
@@ -157,7 +157,7 @@ public class PortfolioPositionService {
                 var marketValue = exchangeService.findSymbolRecentPrice(ticker)
                     .map(value -> value.multiply(new BigDecimal(position.getQuantity())))
                     .orElse(position.getTotal());
-                var convertedMarketValue = currencyConverterService.convert(marketValue, currency);
+                var convertedMarketValue = currencyConverterService.convert(marketValue, currency, portfolio.getCurrency());
 
                 return new PortfolioPositionFinancialData(ticker, marketValue, convertedMarketValue,
                     calculateYieldOnCost(position));

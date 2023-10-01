@@ -50,13 +50,12 @@ public class AllocationCardStateProducer implements CardStateProducer<Allocation
     @Override
     public CardData produce(Portfolio portfolio, AllocationCard card) {
         var tradesByType = collectAggregatedTrades(portfolio, card);
-        var portfolioCurrency = Currency.getInstance("RUB");
+        var portfolioCurrency = portfolio.getCurrency();
         var segments = tradesByType.entrySet().stream()
             .map(byType -> {
                 var childSegments = convertToSegments(portfolioCurrency, byType.getValue());
                 return AllocationSegment.builder().name(byType.getKey())
                     .value(calculateSegmentsTotalValue(childSegments))
-                    //TODO use portfolio default currency instead
                     .currencyCode(portfolioCurrency.getCurrencyCode())
                     .children(childSegments)
                     .build();
@@ -139,7 +138,7 @@ public class AllocationCardStateProducer implements CardStateProducer<Allocation
 
     private AllocationSegment convertToSegment(Currency portfolioCurrency, AllocationAggregatedTrade trade) {
         var name = trade.getIdentifier().toString();
-        var price = currencyConverterService.convert(trade.getTotal(), trade.getCurrency());
+        var price = currencyConverterService.convert(trade.getTotal(), trade.getCurrency(), portfolioCurrency);
         return AllocationSegment.builder()
             .name(name)
             .value(price)

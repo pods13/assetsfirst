@@ -20,6 +20,7 @@ public class CurrencyConverterService {
 
     private final ExchangeRateService exchangeRateService;
 
+    @Deprecated
     public BigDecimal convert(BigDecimal amount, Currency from) {
         return convert(amount, from, DESTINATION_CURRENCY, LocalDate.now().atStartOfDay().toInstant(ZoneOffset.UTC));
     }

@@ -69,7 +69,7 @@ public class CBRExchangeProvider implements ExchangeProvider {
                     new ExchangeRate()
                         .setSourceCurrency(destinationCurrency)
                         .setDestinationCurrency(source)
-                        .setConversionRate(BigDecimal.ONE.divide(conversionRate, RoundingMode.HALF_UP))
+                        .setConversionRate(BigDecimal.ONE.divide(conversionRate, 2, RoundingMode.HALF_UP))
                         .setDate(date));
             })
             .flatMap(Collection::stream)

@@ -48,23 +48,23 @@ public class PortfolioService {
     public BigDecimal calculateCurrentAmount(Portfolio portfolio) {
         //TODO calculate portfolio value by some date in the past
         var positions = portfolioPositionService.findPortfolioPositions(portfolio.getId());
-        return calculateCurrentAmount(positions);
+        return calculateCurrentAmount(portfolio, positions);
     }
 
     public BigDecimal calculateCurrentAmountInYieldInstrument(Portfolio portfolio) {
         var positions = portfolioPositionService.findPortfolioPositions(portfolio.getId()).stream()
             .filter(p -> !InstrumentType.FX.name().equals(p.getInstrumentType()))
             .toList();
-        return calculateCurrentAmount(positions);
+        return calculateCurrentAmount(portfolio, positions);
     }
 
-    private BigDecimal calculateCurrentAmount(Collection<PortfolioPositionDto> positions) {
+    private BigDecimal calculateCurrentAmount(Portfolio portfolio, Collection<PortfolioPositionDto> positions) {
         return positions.stream()
             .map(p -> {
                 var marketValue = exchangeService.findSymbolRecentPrice(p.getIdentifier())
                     .map(value -> value.multiply(new BigDecimal(p.getQuantity())))
                     .orElse(p.getTotal());
-                return currencyConverterService.convert(marketValue, p.getCurrency());
+                return currencyConverterService.convert(marketValue, p.getCurrency(), portfolio.getCurrency());
             })
             .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
@@ -101,7 +101,7 @@ public class PortfolioService {
         return positions.stream()
             .map(p -> {
                 var dividendPerShare = portfolioPositionService.calculateAnnualDividend(p, year);
-                return currencyConverterService.convert(dividendPerShare.multiply(new BigDecimal(p.getQuantity())), p.getInstrument().getCurrency());
+                return currencyConverterService.convert(dividendPerShare.multiply(new BigDecimal(p.getQuantity())), p.getInstrument().getCurrency(), portfolio.getCurrency());
             })
             .reduce(BigDecimal.ZERO, BigDecimal::add);
 
