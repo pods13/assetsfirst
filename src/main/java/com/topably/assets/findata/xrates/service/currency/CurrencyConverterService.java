@@ -15,15 +15,8 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class CurrencyConverterService {
-    //TODO use currency selected for user portfolio instead
-    private static final Currency DESTINATION_CURRENCY = Currency.getInstance("RUB");
 
     private final ExchangeRateService exchangeRateService;
-
-    @Deprecated
-    public BigDecimal convert(BigDecimal amount, Currency from) {
-        return convert(amount, from, DESTINATION_CURRENCY, LocalDate.now().atStartOfDay().toInstant(ZoneOffset.UTC));
-    }
 
     public BigDecimal convert(BigDecimal amount, Currency from, Currency to) {
         return convert(amount, from, to, LocalDate.now().atStartOfDay().toInstant(ZoneOffset.UTC));

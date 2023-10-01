@@ -29,7 +29,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 import java.util.TreeMap;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service(CardContainerType.CONTRIBUTION)
@@ -55,7 +54,7 @@ public class ContributionCardStateProducer implements CardStateProducer<Contribu
             .collect(Collectors.groupingBy(d -> d.getPayDate().getMonthValue(), TreeMap::new, Collectors.toList()));
 
         var xAxis = composeXAxis();
-        var contributions = composeContributions(tradesByMonthValue, dividendsByMonthValue);
+        var contributions = composeContributions(portfolio, tradesByMonthValue, dividendsByMonthValue);
         return new ContributionCardData()
             .setXaxis(xAxis)
             .setContributions(contributions)
@@ -69,27 +68,29 @@ public class ContributionCardStateProducer implements CardStateProducer<Contribu
             .toList();
     }
 
-    private Collection<ContributionCardData.Contribution> composeContributions(TreeMap<Integer, List<TradeView>> tradesByMonthValue,
+    private Collection<ContributionCardData.Contribution> composeContributions(Portfolio portfolio,
+                                                                               TreeMap<Integer, List<TradeView>> tradesByMonthValue,
                                                                                TreeMap<Integer, List<AggregatedDividendDto>> dividendsByMonthValue) {
         var dividendContributions = new ArrayList<BigDecimal>();
         var depositContributions = new ArrayList<BigDecimal>();
         EnumSet.allOf(Month.class).forEach(month -> {
             var monthValue = month.getValue();
-            var monthlyDividend = calculateTotalMonthlyDividend(dividendsByMonthValue, monthValue);
+            var monthlyDividend = calculateTotalMonthlyDividend(portfolio, dividendsByMonthValue, monthValue);
             dividendContributions.add(monthlyDividend.setScale(2, RoundingMode.HALF_UP));
 
             var monthTrades = tradesByMonthValue.getOrDefault(monthValue, Collections.emptyList());
-            depositContributions.add(calculateMonthlyContribution(monthTrades, monthlyDividend));
+            depositContributions.add(calculateMonthlyContribution(portfolio, monthTrades, monthlyDividend));
         });
 
         return List.of(new ContributionCardData.Contribution(DIVIDEND_CONTRIBUTION_NAME, dividendContributions),
             new ContributionCardData.Contribution(DEPOSIT_CONTRIBUTION_NAME, depositContributions));
     }
 
-    private BigDecimal calculateMonthlyContribution(List<TradeView> monthTrades, BigDecimal monthlyDividend) {
+    private BigDecimal calculateMonthlyContribution(Portfolio portfolio, List<TradeView> monthTrades, BigDecimal monthlyDividend) {
         var monthlyPurchases = monthTrades.stream()
             .map(t -> {
-                var total = currencyConverterService.convert(t.getPrice().multiply(new BigDecimal(t.getQuantity())), t.getCurrency());
+                var total = currencyConverterService.convert(t.getPrice().multiply(new BigDecimal(t.getQuantity())),
+                    t.getCurrency(), portfolio.getCurrency());
                 return TradeOperation.SELL.equals(t.getOperation()) ? total.multiply(BigDecimal.valueOf(-1L)) : total;
             })
             .reduce(BigDecimal.ZERO, BigDecimal::add);
@@ -100,9 +101,11 @@ public class ContributionCardStateProducer implements CardStateProducer<Contribu
             .setScale(2, RoundingMode.HALF_UP);
     }
 
-    private BigDecimal calculateTotalMonthlyDividend(TreeMap<Integer, List<AggregatedDividendDto>> dividendsByMonthValue, int monthValue) {
+    private BigDecimal calculateTotalMonthlyDividend(Portfolio portfolio,
+                                                     TreeMap<Integer, List<AggregatedDividendDto>> dividendsByMonthValue,
+                                                     int monthValue) {
         return dividendsByMonthValue.getOrDefault(monthValue, Collections.emptyList()).stream()
-            .map(d -> currencyConverterService.convert(d.getTotal(), d.getCurrency()))
+            .map(d -> currencyConverterService.convert(d.getTotal(), d.getCurrency(), portfolio.getCurrency()))
             .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 

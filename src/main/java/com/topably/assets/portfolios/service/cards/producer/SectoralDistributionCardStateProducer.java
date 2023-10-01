@@ -50,11 +50,11 @@ public class SectoralDistributionCardStateProducer implements CardStateProducer<
             .collect(toMap(PortfolioPositionDto::getInstrumentId, Function.identity()));
 
         return SectoralDistributionCardData.builder()
-            .items(composeDataItems(stockIdByPosition))
+            .items(composeDataItems(portfolio, stockIdByPosition))
             .build();
     }
 
-    private Collection<SectoralDistributionDataItem> composeDataItems(Map<Long, PortfolioPositionDto> stockIdByPosition) {
+    private Collection<SectoralDistributionDataItem> composeDataItems(Portfolio portfolio, Map<Long, PortfolioPositionDto> stockIdByPosition) {
         var stocks = stockService.findAllById(stockIdByPosition.keySet());
         var companyNameByStockIds = stocks.stream()
             .collect(groupingBy(CompanyUtils::resolveCompanyName, mapping(Instrument::getId, toSet())));
@@ -67,7 +67,7 @@ public class SectoralDistributionCardStateProducer implements CardStateProducer<
             rest.forEach((industry, names) -> {
                 var children = names.stream()
                     .map(name -> {
-                        var total = calculateTotalPerCompany(companyNameByStockIds.get(name), stockIdByPosition);
+                        var total = calculateTotalPerCompany(portfolio, companyNameByStockIds.get(name), stockIdByPosition);
                         return composeLeafItem(name, total);
                     })
                     .collect(Collectors.toCollection(TreeSet::new));
@@ -96,14 +96,14 @@ public class SectoralDistributionCardStateProducer implements CardStateProducer<
                 groupingBy(s -> s.getCompany().getIndustry().getName(), mapping(s -> s.getCompany().getName(), toSet()))));
     }
 
-    private BigDecimal calculateTotalPerCompany(Set<Long> stockIds, Map<Long, PortfolioPositionDto> stockIdByPosition) {
+    private BigDecimal calculateTotalPerCompany(Portfolio portfolio, Set<Long> stockIds, Map<Long, PortfolioPositionDto> stockIdByPosition) {
         return stockIds.stream()
             .map(stockIdByPosition::get)
             .map(position -> {
                 var price = exchangeService.findSymbolRecentPrice(position.getIdentifier())
                     .orElse(position.getPrice());
                 var positionTotal = price.multiply(new BigDecimal(position.getQuantity()));
-                return currencyConverterService.convert(positionTotal, position.getCurrency());
+                return currencyConverterService.convert(positionTotal, position.getCurrency(), portfolio.getCurrency());
             })
             .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
