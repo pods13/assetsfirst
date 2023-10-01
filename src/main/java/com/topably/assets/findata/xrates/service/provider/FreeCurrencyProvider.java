@@ -18,6 +18,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Currency;
 import java.util.List;
 import java.util.Map;
@@ -74,7 +75,8 @@ public class FreeCurrencyProvider implements ExchangeProvider {
         } catch (WebClientResponseException e) {
             if (e.getStatusCode().is4xxClientError() && HttpStatusCode.valueOf(429).equals(e.getStatusCode())) {
                 log.error("We reached limits for free currency api", e);
-                //TODO replace api key with new one
+                //TODO replace api key with new one and reinvoke api
+                return Collections.emptyMap();
             }
             throw e;
         }
