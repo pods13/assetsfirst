@@ -28,7 +28,7 @@ import static java.util.Collections.emptyList;
 import static java.util.Optional.ofNullable;
 
 @Slf4j
-@Service
+@Deprecated
 public class CBRExchangeProvider implements ExchangeProvider {
 
     private static final String DEFAULT_ENDPOINT = "https://www.cbr.ru/scripts/XML_daily.asp";
@@ -61,18 +61,12 @@ public class CBRExchangeProvider implements ExchangeProvider {
                 var source = Currency.getInstance(currency.getCharCode());
                 BigDecimal conversionRate = currency.getValue()
                     .divide(BigDecimal.valueOf(currency.getNominal()), RoundingMode.HALF_UP);
-                return List.of(new ExchangeRate()
+                return new ExchangeRate()
                         .setSourceCurrency(source)
                         .setDestinationCurrency(destinationCurrency)
                         .setConversionRate(conversionRate)
-                        .setDate(date),
-                    new ExchangeRate()
-                        .setSourceCurrency(destinationCurrency)
-                        .setDestinationCurrency(source)
-                        .setConversionRate(BigDecimal.ONE.divide(conversionRate, 2, RoundingMode.HALF_UP))
-                        .setDate(date));
+                        .setDate(date);
             })
-            .flatMap(Collection::stream)
             .toList();
     }
 

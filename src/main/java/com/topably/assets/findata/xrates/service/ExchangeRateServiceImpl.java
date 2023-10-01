@@ -3,9 +3,7 @@ package com.topably.assets.findata.xrates.service;
 import com.topably.assets.core.config.cache.CacheNames;
 import com.topably.assets.findata.xrates.domain.ExchangeRate;
 import com.topably.assets.findata.xrates.repository.ExchangeRateRepository;
-import com.topably.assets.findata.xrates.service.currency.CurrencyService;
-import com.topably.assets.findata.xrates.service.provider.CBRExchangeProvider;
-import com.topably.assets.findata.xrates.service.provider.YFExchangeProvider;
+import com.topably.assets.findata.xrates.service.provider.ExchangeProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheConfig;
@@ -28,13 +26,9 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ExchangeRateServiceImpl implements ExchangeRateService {
 
-    private static final String RUB_CURRENCY_CODE = "RUB";
-
     private final ExchangeRateRepository exchangeRateRepository;
 
-    private final CBRExchangeProvider cbrExchangeProvider;
-    private final YFExchangeProvider yfExchangeProvider;
-    private final CurrencyService currencyService;
+    private final ExchangeProvider freeCurrencyProvider;
 
     @Override
     public Collection<ExchangeRate> addExchangeRates(List<ExchangeRate> rates) {
@@ -48,19 +42,10 @@ public class ExchangeRateServiceImpl implements ExchangeRateService {
         LocalDate date = time.atZone(ZoneId.systemDefault()).toLocalDate();
         return Optional.ofNullable(exchangeRateRepository.findBySourceCurrencyAndDestinationCurrencyAndDate(from, to, date)
             .orElseGet(() -> {
-                var fetchedExchangeRates = fetchExchangeRates(from, to, time);
+                var fetchedExchangeRates = freeCurrencyProvider.getExchangeRates(time, List.of(from));
                 Collection<ExchangeRate> exchangeRates = addExchangeRates(fetchedExchangeRates);
                 return fetchedExchangeRates.stream()
-                    .filter(rate -> from.equals(rate.getSourceCurrency())).findFirst().orElse(null);
+                    .filter(rate -> from.equals(rate.getSourceCurrency()) && to.equals(rate.getDestinationCurrency())).findFirst().orElse(null);
             }));
-    }
-
-    private List<ExchangeRate> fetchExchangeRates(Currency from, Currency to, Instant exchangeRatesForTime) {
-        var availableCurrencies = currencyService.getAvailableCurrencies();
-        if (RUB_CURRENCY_CODE.equals(from.getCurrencyCode()) || RUB_CURRENCY_CODE.equals(to.getCurrencyCode())) {
-            return cbrExchangeProvider.getExchangeRates(exchangeRatesForTime, availableCurrencies);
-        } else {
-            return yfExchangeProvider.getExchangeRates(exchangeRatesForTime, availableCurrencies);
-        }
     }
 }

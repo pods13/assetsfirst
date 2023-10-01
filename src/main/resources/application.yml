@@ -26,6 +26,9 @@ app:
     realized-pnl:
       enabled: false
       cron: "0 */10 * * * ?"
+  integration:
+    free-currency:
+      key: ${APP_INTEGRATION_FREE_CURRENCY_KEY:}
 
 springdoc:
   swagger-ui:
