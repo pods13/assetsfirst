@@ -39,7 +39,8 @@ docker-compose down
 - [x] Switch to flyway is impossible due to usage of mysql 5.7(too old)
 - [x] Introduce Portfolio currency, as a column in db table
 - [x] Show total contributions this year
-- [ ] Add usd exchange provider to support usd currency for the whole portfolio
+- [x] Add usd exchange provider to support usd currency for the whole portfolio
+- [ ] Tax widget
 - [ ] Company Page - ownership structure
 - [ ] Migrate Angular from v14 to v16
 - [ ] Switch from @swimlane/ngx-datatable to mat-table
@@ -56,6 +57,10 @@ docker-compose down
 - [ ] New position widget
 - [ ] New trades widget
 - [ ] Ability to group positions
+- [ ] Dividend income card - sum up payments from the same ticker
+- [ ] On home page show demo portfolio values
+- [ ] Asset allocation widget option to show invested money instead of current evaluation
+- [ ] Rework the positions table - use mat-table(should support at least ordering by % of portfolio column)
 </details>
 
 ## Redeploy flow
