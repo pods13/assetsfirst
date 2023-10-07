@@ -15,4 +15,5 @@ public class DividendSummary {
     private String name;
     private BigDecimal value;
     private Collection<DividendDetails> details;
+    private String currencyCode;
 }

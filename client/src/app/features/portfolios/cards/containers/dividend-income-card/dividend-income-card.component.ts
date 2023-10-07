@@ -14,6 +14,7 @@ import { DividendIncomeCard, TimeFrameOption } from '../../types/in/dividend-inc
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { ECharts, EChartsOption } from 'echarts';
 import { shortNumber } from '@core/helpers/number.helpers';
+import { CurrencyPipe } from '@angular/common';
 
 @UntilDestroy()
 @Component({
@@ -52,7 +53,8 @@ export class DividendIncomeCardComponent implements OnInit, AfterViewInit, CardC
   echartsInstance!: ECharts;
   loading: boolean = false;
 
-  constructor(private cd: ChangeDetectorRef) {
+  constructor(private cd: ChangeDetectorRef,
+              private currencyPipe: CurrencyPipe) {
   }
 
   ngOnInit(): void {
@@ -74,7 +76,7 @@ export class DividendIncomeCardComponent implements OnInit, AfterViewInit, CardC
       tooltip: {
         trigger: 'item',
         position: 'inside',
-        formatter: function (params: any) {
+        formatter: (params: any) => {
           const timeFrameDividend = dividendsData.find(d => d.name === params.name);
           if (!timeFrameDividend) {
             return `<div class="tooltip-dividend">`
@@ -82,10 +84,16 @@ export class DividendIncomeCardComponent implements OnInit, AfterViewInit, CardC
               + `</div>`;
           }
           const details = timeFrameDividend.series[params.seriesIndex].details;
-          const dividendDetails = details
-            .map(detail => `<span class="dividend-detail">${detail.name}: ${detail.total}</span>`).join("");
+          const mergedDetails = Array.from(details.reduce(
+            (acc, item) => (item.name && acc.set(item.name, (acc.get(item.name) || 0) + item.total), acc),
+            new Map()
+          ), ([name, total]) => ({name, total}));
+          const detailsByCurrencies = details.reduce((acc, item) => (item.name && acc.set(item.name, item.currency), acc), new Map());
+          const dividendDetails = mergedDetails
+            .map(detail => `<span class="dividend-detail">${detail.name}: ${this.currencyPipe.transform(detail.total, detailsByCurrencies.get(detail.name))}</span>`).join("");
+          const portfolioCurrency = timeFrameDividend.series[params.seriesIndex].currencyCode;
           return `<div class="tooltip-dividend">`
-            + `<div class="tooltip-dividend-title">${params.seriesName}: ${params.value}</div>`
+            + `<div class="tooltip-dividend-title">${params.seriesName}: ${this.currencyPipe.transform(params.value, portfolioCurrency)}</div>`
             + `<div class="tooltip-dividend-details">${dividendDetails}</div>`
             + `</div>`;
         }

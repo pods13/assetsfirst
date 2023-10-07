@@ -18,8 +18,10 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.Month;
+import java.time.ZoneOffset;
 import java.time.format.TextStyle;
 import java.time.temporal.IsoFields;
 import java.util.Collection;
@@ -108,10 +110,14 @@ public class DividendIncomeCardStateProducer implements CardStateProducer<Divide
         return groupedDividends.entrySet().stream()
             .map(divsByTimeFrame -> {
                 var totalValue = divsByTimeFrame.getValue().stream()
-                    .map(div -> currencyConverterService.convert(div.getTotal(), div.getCurrency(), portfolio.getCurrency()))
+                    .map(div -> {
+                        var time = div.getPayDate().atStartOfDay().toInstant(ZoneOffset.UTC);
+                        return currencyConverterService.convert(div.getTotal(), div.getCurrency(), portfolio.getCurrency(), time);
+                    })
                     .reduce(BigDecimal.ZERO, BigDecimal::add)
                     .setScale(2, RoundingMode.HALF_UP);
-                return new DividendSummary(String.valueOf(divsByTimeFrame.getKey()), totalValue, divsByTimeFrame.getValue());
+                return new DividendSummary(String.valueOf(divsByTimeFrame.getKey()), totalValue, divsByTimeFrame.getValue(),
+                    portfolio.getCurrency().getCurrencyCode());
             }).collect(toList());
     }
 

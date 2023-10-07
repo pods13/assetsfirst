@@ -13,6 +13,7 @@ export interface DividendSummary {
   name: string;
   value: number;
   details: DividendDetails[];
+  currencyCode: string;
 }
 
 export interface DividendDetails {
