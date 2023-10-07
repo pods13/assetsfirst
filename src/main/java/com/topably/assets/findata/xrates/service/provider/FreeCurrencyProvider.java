@@ -65,7 +65,7 @@ public class FreeCurrencyProvider implements ExchangeProvider {
     private Map<String, BigDecimal> fetchExchangeRates(LocalDate date, Currency baseCurrency) {
         var currencyCode = baseCurrency.getCurrencyCode();
         try {
-            if (date.equals(LocalDate.now())) {
+            if (date.compareTo(LocalDate.now()) >= 0) {
                 return client.getLatest(apiKey, currencyCode).data();
             } else {
                 var historicalDate = date.format(DATE_TIME_FORMATTER);
