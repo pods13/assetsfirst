@@ -5,12 +5,13 @@ import com.topably.assets.findata.xrates.service.currency.CurrencyConverterServi
 import com.topably.assets.portfolios.domain.Portfolio;
 import com.topably.assets.portfolios.domain.cards.CardContainerType;
 import com.topably.assets.portfolios.domain.cards.CardData;
-import com.topably.assets.portfolios.domain.cards.input.DividendIncomeCard;
+import com.topably.assets.portfolios.domain.cards.input.dividend.AnnualDividendProjection;
+import com.topably.assets.portfolios.domain.cards.input.dividend.DividendIncomeCard;
 import com.topably.assets.portfolios.domain.cards.output.dividend.DividendDetails;
 import com.topably.assets.portfolios.domain.cards.output.dividend.DividendIncomeCardData;
 import com.topably.assets.portfolios.domain.cards.output.dividend.DividendSummary;
 import com.topably.assets.portfolios.domain.cards.output.dividend.TimeFrameDividend;
-import com.topably.assets.portfolios.domain.cards.output.dividend.TimeFrameOption;
+import com.topably.assets.portfolios.service.PortfolioPositionService;
 import com.topably.assets.portfolios.service.cards.CardStateProducer;
 import com.topably.assets.trades.service.TradeService;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +19,6 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.time.Instant;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.ZoneOffset;
@@ -30,6 +30,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.toList;
@@ -41,6 +44,7 @@ public class DividendIncomeCardStateProducer implements CardStateProducer<Divide
     private final TradeService tradeService;
     private final DividendService dividendService;
     private final CurrencyConverterService currencyConverterService;
+    private final PortfolioPositionService portfolioPositionService;
 
     @Override
     public CardData produce(Portfolio portfolio, DividendIncomeCard card) {
@@ -51,11 +55,11 @@ public class DividendIncomeCardStateProducer implements CardStateProducer<Divide
         var details = dividendService.aggregateDividends(trades, dividendYears).stream()
             .map(d -> new DividendDetails(d.getTicker().getSymbol(), d.getPayDate(), d.isForecasted(), d.getTotal(), d.getCurrency()))
             .toList();
-        return produceDividendsGroupedByTimeFrame(portfolio, details, card.getTimeFrame());
+        return produceDividendsGroupedByTimeFrame(portfolio, details, card);
     }
 
-    private CardData produceDividendsGroupedByTimeFrame(Portfolio portfolio, List<DividendDetails> details, TimeFrameOption timeFrame) {
-        switch (timeFrame) {
+    private CardData produceDividendsGroupedByTimeFrame(Portfolio portfolio, List<DividendDetails> details, DividendIncomeCard card) {
+        switch (card.getTimeFrame()) {
             case MONTH -> {
                 return produceDividendsGroupedByMonth(portfolio, details);
             }
@@ -65,13 +69,40 @@ public class DividendIncomeCardStateProducer implements CardStateProducer<Divide
             default -> {
                 var dividendsByYear = details.stream()
                     .collect(groupingBy(d -> d.getPayDate().getYear()));
-                var dividends = new TimeFrameDividend("Annual", composeDividendSummary(portfolio, dividendsByYear));
 
-                return DividendIncomeCardData.builder()
-                    .dividends(List.of(dividends))
-                    .build();
+                var dividends = new TimeFrameDividend("Annual", composeAnnualDividendSummary(portfolio, card, dividendsByYear));
+                return new DividendIncomeCardData()
+                    .setDividends(List.of(dividends));
             }
         }
+    }
+
+    private Collection<DividendSummary> composeAnnualDividendSummary(Portfolio portfolio, DividendIncomeCard card,
+                                                                     Map<Integer, List<DividendDetails>> dividendsByYear) {
+        var dividendSummaries = composeDividendSummary(portfolio, dividendsByYear);
+        if (Boolean.TRUE.equals(card.getUseCustomDividendProjections())) {
+            var tickerByAnnualDividendProjection = card.getAnnualDividendProjections().stream()
+                .collect(Collectors.toMap(AnnualDividendProjection::ticker, Function.identity()));
+            var totalForecasted = portfolioPositionService.findPortfolioPositions(portfolio.getId()).stream()
+                .filter(p -> tickerByAnnualDividendProjection.containsKey(p.getIdentifier().toString()))
+                .map(p -> {
+                    var projection = tickerByAnnualDividendProjection.get(p.getIdentifier().toString());
+                    var projectedDividendAmount = new BigDecimal(p.getQuantity()).multiply(projection.dividend());
+                    return currencyConverterService.convert(projectedDividendAmount, projection.currency(), p.getCurrency());
+                })
+                .reduce(BigDecimal.ZERO, BigDecimal::add)
+                .setScale(2, RoundingMode.HALF_UP);
+            var name = String.valueOf(Collections.max(dividendsByYear.keySet()));
+            var forecastedSummary = new DividendSummary()
+                .setName(name)
+                .setStack(name)
+                .setDetails(List.of())
+                .setValue(totalForecasted)
+                .setCurrencyCode(portfolio.getCurrency().getCurrencyCode());
+            return Stream.concat(dividendSummaries.stream(), Stream.of(forecastedSummary))
+                .toList();
+        }
+        return dividendSummaries;
     }
 
     private CardData produceDividendsGroupedByMonth(Portfolio portfolio, List<DividendDetails> details) {
@@ -85,9 +116,8 @@ public class DividendIncomeCardStateProducer implements CardStateProducer<Divide
                 return new TimeFrameDividend(monthDisplayName, composeDividendSummary(portfolio, divsByYear));
             })
             .toList();
-        return DividendIncomeCardData.builder()
-            .dividends(dividends)
-            .build();
+        return new DividendIncomeCardData()
+            .setDividends(dividends);
     }
 
     private CardData produceDividendsGroupedByQuarter(Portfolio portfolio, List<DividendDetails> details) {
@@ -101,9 +131,8 @@ public class DividendIncomeCardStateProducer implements CardStateProducer<Divide
                     composeDividendSummary(portfolio, divsByYear));
             })
             .toList();
-        return DividendIncomeCardData.builder()
-            .dividends(dividends)
-            .build();
+        return new DividendIncomeCardData()
+            .setDividends(dividends);
     }
 
     private Collection<DividendSummary> composeDividendSummary(Portfolio portfolio, Map<Integer, List<DividendDetails>> groupedDividends) {
@@ -116,8 +145,13 @@ public class DividendIncomeCardStateProducer implements CardStateProducer<Divide
                     })
                     .reduce(BigDecimal.ZERO, BigDecimal::add)
                     .setScale(2, RoundingMode.HALF_UP);
-                return new DividendSummary(String.valueOf(divsByTimeFrame.getKey()), totalValue, divsByTimeFrame.getValue(),
-                    portfolio.getCurrency().getCurrencyCode());
+                var name = String.valueOf(divsByTimeFrame.getKey());
+                return new DividendSummary()
+                    .setName(name)
+                    .setStack(name)
+                    .setValue(totalValue)
+                    .setDetails(divsByTimeFrame.getValue())
+                    .setCurrencyCode(portfolio.getCurrency().getCurrencyCode());
             }).collect(toList());
     }
 

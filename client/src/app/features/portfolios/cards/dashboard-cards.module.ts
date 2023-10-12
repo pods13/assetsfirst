@@ -34,6 +34,8 @@ import { CoreModule } from '@core/core.module';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { SegmentControlComponent } from './components/segment-control/segment-control.component';
+import { EditDividendIncomeCardComponent } from './components/edit-dividend-income-card/edit-dividend-income-card.component';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 
 @NgModule({
@@ -52,29 +54,31 @@ import { SegmentControlComponent } from './components/segment-control/segment-co
     EquityRiskPremiumComponent,
     EditAllocationCardComponent,
     SegmentControlComponent,
+    EditDividendIncomeCardComponent,
   ],
-  imports: [
-    CommonModule,
-    MatDialogModule,
-    MatFormFieldModule,
-    MatSelectModule,
-    FormsModule,
-    MatButtonModule,
-    MatMenuModule,
-    MatIconModule,
-    MatListModule,
-    MatInputModule,
-    ReactiveFormsModule,
-    NgxEchartsModule.forRoot({
-      echarts: () => import('echarts')
-    }),
-    MatTableModule,
-    DragDropModule,
-    MatExpansionModule,
-    CoreModule,
-    MatChipsModule,
-    MatAutocompleteModule,
-  ],
+    imports: [
+        CommonModule,
+        MatDialogModule,
+        MatFormFieldModule,
+        MatSelectModule,
+        FormsModule,
+        MatButtonModule,
+        MatMenuModule,
+        MatIconModule,
+        MatListModule,
+        MatInputModule,
+        ReactiveFormsModule,
+        NgxEchartsModule.forRoot({
+            echarts: () => import('echarts')
+        }),
+        MatTableModule,
+        DragDropModule,
+        MatExpansionModule,
+        CoreModule,
+        MatChipsModule,
+        MatAutocompleteModule,
+        MatCheckboxModule,
+    ],
   providers: [
     CardContentLoaderService,
     CardService,

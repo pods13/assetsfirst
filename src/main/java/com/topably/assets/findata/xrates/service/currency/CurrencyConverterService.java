@@ -30,6 +30,6 @@ public class CurrencyConverterService {
         return exchangeRate
             .map(ExchangeRate::getConversionRate)
             .map(amount::multiply)
-            .orElseThrow();
+            .orElseThrow(() -> new RuntimeException("Cannot find exchange rate " + from + "->" + to + " on date " + time));
     }
 }

@@ -120,6 +120,7 @@ export class DividendIncomeCardComponent implements OnInit, AfterViewInit, CardC
       if (i === 0) {
         d.series.forEach(s => series.push({
           name: s.name,
+          stack: s.stack,
           data: [s.value],
           type: 'bar',
           showBackground: true,

@@ -2,7 +2,7 @@ package com.topably.assets.portfolios.service.cards;
 
 import com.topably.assets.portfolios.domain.cards.DashboardCard;
 import com.topably.assets.portfolios.domain.cards.input.BalanceCard;
-import com.topably.assets.portfolios.domain.cards.input.DividendIncomeCard;
+import com.topably.assets.portfolios.domain.cards.input.dividend.DividendIncomeCard;
 import com.topably.assets.portfolios.domain.cards.input.InvestmentYieldCard;
 import com.topably.assets.portfolios.domain.cards.input.SectoralDistributionCard;
 import com.topably.assets.portfolios.domain.cards.input.allocation.AllocatedByOption;
@@ -10,7 +10,6 @@ import com.topably.assets.portfolios.domain.cards.input.allocation.AllocationCar
 import com.topably.assets.portfolios.domain.cards.output.dividend.TimeFrameOption;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 import java.util.Set;

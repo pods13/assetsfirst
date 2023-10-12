@@ -100,7 +100,8 @@ export class CardWrapperComponent implements OnInit, AfterViewInit, OnChanges {
   };
 
   editCard(): void {
-    if (this.card.containerType !== CardContainerType.ALLOCATION) {
+    if (this.card.containerType !== CardContainerType.ALLOCATION
+      && this.card.containerType !== CardContainerType.DIVIDEND_INCOME) {
       //TODO remove when all edit card dialogs will be implemented
       return;
     }

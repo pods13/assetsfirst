@@ -11,6 +11,7 @@ export interface TimeFrameDividend {
 
 export interface DividendSummary {
   name: string;
+  stack: string;
   value: number;
   details: DividendDetails[];
   currencyCode: string;

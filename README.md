@@ -41,6 +41,11 @@ docker-compose down
 - [x] Show total contributions this year
 - [x] Add usd exchange provider to support usd currency for the whole portfolio
 - [x] Dividend income card - sum up payments from the same ticker
+- [x] Add useCustomDividendProjections option as edit option of Dividend income card
+- [ ] Custom dividend projection - clear projection when checkbox is unselected + fix ui of projection row
+- [ ] Custom dividend projection - use mat-select for selection of ticker based on open positions
+- [ ] Custom dividend projection - use mat-select for currency
+- [ ] Custom dividend projection - Show added projections(use details field) on the plot
 - [ ] Tax widget
 - [ ] Company Page - ownership structure
 - [ ] Migrate Angular from v14 to v16
@@ -50,7 +55,6 @@ docker-compose down
 - [ ] Show formatted price in sectoral distribution widget
 - [ ] Show percentage in sectoral distribution widget
 - [ ] Allow a user to change their portfolio currency
-- [ ] Add includeForecastedDividends option as edit option of Dividend income card 
 - [ ] On Contribution card show total contribution vs previous year contributions 
 - [ ] Ability to select specific timelapse(year) and render all cards with info only about it
 - [ ] Balance card - keep precalculated portfolio value in db in order to show more points on a plot
