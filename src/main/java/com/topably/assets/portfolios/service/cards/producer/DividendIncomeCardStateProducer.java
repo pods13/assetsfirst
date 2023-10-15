@@ -83,12 +83,13 @@ public class DividendIncomeCardStateProducer implements CardStateProducer<Divide
         if (Boolean.TRUE.equals(card.getUseCustomDividendProjections())) {
             var tickerByAnnualDividendProjection = card.getAnnualDividendProjections().stream()
                 .collect(Collectors.toMap(AnnualDividendProjection::ticker, Function.identity()));
+            var portfolioCurrency = portfolio.getCurrency();
             var totalForecasted = portfolioPositionService.findPortfolioPositions(portfolio.getId()).stream()
                 .filter(p -> tickerByAnnualDividendProjection.containsKey(p.getIdentifier().toString()))
                 .map(p -> {
                     var projection = tickerByAnnualDividendProjection.get(p.getIdentifier().toString());
                     var projectedDividendAmount = new BigDecimal(p.getQuantity()).multiply(projection.dividend());
-                    return currencyConverterService.convert(projectedDividendAmount, projection.currency(), p.getCurrency());
+                    return currencyConverterService.convert(projectedDividendAmount, projection.currency(), portfolioCurrency);
                 })
                 .reduce(BigDecimal.ZERO, BigDecimal::add)
                 .setScale(2, RoundingMode.HALF_UP);
@@ -98,7 +99,7 @@ public class DividendIncomeCardStateProducer implements CardStateProducer<Divide
                 .setStack(name)
                 .setDetails(List.of())
                 .setValue(totalForecasted)
-                .setCurrencyCode(portfolio.getCurrency().getCurrencyCode());
+                .setCurrencyCode(portfolioCurrency.getCurrencyCode());
             return Stream.concat(dividendSummaries.stream(), Stream.of(forecastedSummary))
                 .toList();
         }
