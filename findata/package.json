@@ -47,6 +47,6 @@
     "mysql2": "^2.3.3",
     "playwright-chromium": "^1.22.2",
     "tough-cookie": "^4.0.0",
-    "yahoo-finance2": "^2.3.10"
+    "yahoo-finance2": "^2.8.0"
   }
 }
