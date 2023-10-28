@@ -9,6 +9,7 @@ import com.topably.assets.findata.exchanges.repository.ExchangeRepository;
 import com.topably.assets.findata.exchanges.repository.InstrumentPriceRepository;
 import com.topably.assets.instruments.domain.InstrumentType;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
@@ -30,6 +31,7 @@ import static java.util.stream.Collectors.toSet;
 @Service
 @CacheConfig(cacheNames = CacheNames.EXCHANGES)
 @RequiredArgsConstructor
+@Slf4j
 public class ExchangeService {
 
     private static final Set<String> US_EXCHANGE_CODES = Arrays.stream(USExchange.values())
@@ -73,6 +75,7 @@ public class ExchangeService {
             var stock = YahooFinance.get(convertToYahooFinanceSymbol(ticker));
             return Optional.ofNullable(stock).map(s -> s.getQuote().getPrice());
         } catch (IOException e) {
+            log.warn("Cannot receive recent prices for {} from yahooFinance", ticker);
             return Optional.empty();
         }
     }

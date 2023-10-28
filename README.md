@@ -65,6 +65,7 @@ docker-compose down
 - [ ] On home page show demo portfolio values
 - [ ] Asset allocation widget option to show invested money instead of current evaluation
 - [ ] Rework the positions table - use mat-table(should support at least ordering by % of portfolio column)
+- [ ] Contribution widget - provide detailed info on which instrument paid dividends and in what instrument money was invested
 </details>
 
 ## Redeploy flow
