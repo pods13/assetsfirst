@@ -47,7 +47,7 @@ import { MatSlideToggleChange } from '@angular/material/slide-toggle';
           </ng-container>
           <ng-template #tags>
             <button mat-button (click)="openPositionTagsDialog($event, row)">
-              <mat-icon [matBadge]="row.tags.length" matBadgeColor="warn">tag</mat-icon>
+              <mat-icon [matBadge]="row.tags.length" matBadgeColor="accent">tag</mat-icon>
               <span class="cdk-visually-hidden">{{row.tags.length + ' tags linked to this position'}}</span>
             </button>
           </ng-template>
