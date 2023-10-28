@@ -42,10 +42,10 @@ docker-compose down
 - [x] Add usd exchange provider to support usd currency for the whole portfolio
 - [x] Dividend income card - sum up payments from the same ticker
 - [x] Add useCustomDividendProjections option as edit option of Dividend income card
+- [x] Custom dividend projection - Show added projections(use details field) on the plot
 - [ ] Custom dividend projection - clear projection when checkbox is unselected + fix ui of projection row
 - [ ] Custom dividend projection - use mat-select for selection of ticker based on open positions
 - [ ] Custom dividend projection - use mat-select for currency
-- [ ] Custom dividend projection - Show added projections(use details field) on the plot
 - [ ] Tax widget
 - [ ] Company Page - ownership structure
 - [ ] Migrate Angular from v14 to v16

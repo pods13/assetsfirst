@@ -84,26 +84,32 @@ public class DividendIncomeCardStateProducer implements CardStateProducer<Divide
             var tickerByAnnualDividendProjection = card.getAnnualDividendProjections().stream()
                 .collect(Collectors.toMap(AnnualDividendProjection::ticker, Function.identity()));
             var portfolioCurrency = portfolio.getCurrency();
-            var totalForecasted = portfolioPositionService.findPortfolioPositions(portfolio.getId()).stream()
-                .filter(p -> tickerByAnnualDividendProjection.containsKey(p.getIdentifier().toString()))
-                .map(p -> {
-                    var projection = tickerByAnnualDividendProjection.get(p.getIdentifier().toString());
-                    var projectedDividendAmount = new BigDecimal(p.getQuantity()).multiply(projection.dividend());
-                    return currencyConverterService.convert(projectedDividendAmount, projection.currency(), portfolioCurrency);
-                })
+            var dividendDetails = getDividendDetails(portfolio, tickerByAnnualDividendProjection);
+            var totalForecasted = dividendDetails.stream()
+                .map(d -> currencyConverterService.convert(d.getTotal(), d.getCurrency(), portfolioCurrency))
                 .reduce(BigDecimal.ZERO, BigDecimal::add)
                 .setScale(2, RoundingMode.HALF_UP);
-            var name = String.valueOf(Collections.max(dividendsByYear.keySet()));
+            var projectedYear = String.valueOf(Collections.max(dividendsByYear.keySet()));
             var forecastedSummary = new DividendSummary()
-                .setName(name)
-                .setStack(name)
-                .setDetails(List.of())
+                .setName("%s Projections".formatted(projectedYear))
+                .setStack(projectedYear)
+                .setDetails(dividendDetails)
                 .setValue(totalForecasted)
                 .setCurrencyCode(portfolioCurrency.getCurrencyCode());
             return Stream.concat(dividendSummaries.stream(), Stream.of(forecastedSummary))
                 .toList();
         }
         return dividendSummaries;
+    }
+
+    private List<DividendDetails> getDividendDetails(Portfolio portfolio, Map<String, AnnualDividendProjection> tickerByAnnualDividendProjection) {
+        return portfolioPositionService.findPortfolioPositions(portfolio.getId()).stream()
+            .filter(p -> tickerByAnnualDividendProjection.containsKey(p.getIdentifier().toString()))
+            .map(p -> {
+                var projection = tickerByAnnualDividendProjection.get(p.getIdentifier().toString());
+                var projectedDividendAmount = new BigDecimal(p.getQuantity()).multiply(projection.dividend());
+                return new DividendDetails(p.getIdentifier().toString(), null, true, projectedDividendAmount, projection.currency());
+            }).toList();
     }
 
     private CardData produceDividendsGroupedByMonth(Portfolio portfolio, List<DividendDetails> details) {
