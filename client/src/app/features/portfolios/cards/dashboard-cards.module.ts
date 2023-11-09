@@ -36,6 +36,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { SegmentControlComponent } from './components/segment-control/segment-control.component';
 import { EditDividendIncomeCardComponent } from './components/edit-dividend-income-card/edit-dividend-income-card.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { AssetDisposalCardComponent } from './containers/asset-disposal-card/asset-disposal-card.component';
 
 
 @NgModule({
@@ -55,6 +56,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     EditAllocationCardComponent,
     SegmentControlComponent,
     EditDividendIncomeCardComponent,
+    AssetDisposalCardComponent,
   ],
     imports: [
         CommonModule,

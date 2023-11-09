@@ -46,7 +46,7 @@ docker-compose down
 - [ ] Custom dividend projection - clear projection when checkbox is unselected + fix ui of projection row
 - [ ] Custom dividend projection - use mat-select for selection of ticker based on open positions
 - [ ] Custom dividend projection - use mat-select for currency
-- [ ] Tax widget
+- [ ] Asset disposal widget
 - [ ] Company Page - ownership structure
 - [ ] Migrate Angular from v14 to v16
 - [ ] Switch from @swimlane/ngx-datatable to mat-table
@@ -66,6 +66,8 @@ docker-compose down
 - [ ] Asset allocation widget option to show invested money instead of current evaluation
 - [ ] Rework the positions table - use mat-table(should support at least ordering by % of portfolio column)
 - [ ] Contribution widget - provide detailed info on which instrument paid dividends and in what instrument money was invested
+- [ ] Target allocation widget - show current allocation vs target allocation for specific groups of instruments
+- [ ] Portfolio highlights widget - different highlights regarding the portfolio
 </details>
 
 ## Redeploy flow

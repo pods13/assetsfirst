@@ -3,6 +3,7 @@ package com.topably.assets.portfolios.domain.cards;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.topably.assets.portfolios.domain.cards.input.AssetDisposalCard;
 import com.topably.assets.portfolios.domain.cards.input.BalanceCard;
 import com.topably.assets.portfolios.domain.cards.input.ContributionCard;
 import com.topably.assets.portfolios.domain.cards.input.DividendGoalsCard;
@@ -30,6 +31,7 @@ import static com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NAME;
     @JsonSubTypes.Type(name = CardContainerType.CONTRIBUTION, value = ContributionCard.class),
     @JsonSubTypes.Type(name = CardContainerType.INVESTMENT_YIELD, value = InvestmentYieldCard.class),
     @JsonSubTypes.Type(name = CardContainerType.EQUITY_RISK_PREMIUM, value = EquityRiskPremiumCard.class),
+    @JsonSubTypes.Type(name = CardContainerType.ASSET_DISPOSAL, value = AssetDisposalCard.class),
 })
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 @Data

@@ -9,6 +9,7 @@ import { BalanceCardComponent } from '../containers/balance-card/balance-card.co
 import { ContributionCardComponent } from '../containers/contribution-card/contribution-card.component';
 import { InvestmentYieldCardComponent } from '../containers/investment-yield-card/investment-yield-card.component';
 import { EquityRiskPremiumComponent } from '../containers/equity-risk-premium/equity-risk-premium.component';
+import { AssetDisposalCardComponent } from '../containers/asset-disposal-card/asset-disposal-card.component';
 
 export const cardContainerTemplateMapper = {
   [CardContainerType.ALLOCATION]: AllocationCardComponent,
@@ -19,4 +20,5 @@ export const cardContainerTemplateMapper = {
   [CardContainerType.CONTRIBUTION]: ContributionCardComponent,
   [CardContainerType.INVESTMENT_YIELD]: InvestmentYieldCardComponent,
   [CardContainerType.EQUITY_RISK_PREMIUM]: EquityRiskPremiumComponent,
+  [CardContainerType.ASSET_DISPOSAL]: AssetDisposalCardComponent,
 };
