@@ -73,7 +73,7 @@ public class TradeManagementService {
         tradeRepository.delete(trade);
         tradeRepository.flush();
         var aggregatedTrade = tradeAggregatorService.aggregateTradesByPositionId(positionId);
-        if (BigInteger.ZERO.equals(aggregatedTrade.getQuantity())) {
+        if (aggregatedTrade.getBuyTradesData().isEmpty()) {
             positionManagementService.deletePortfolioPosition(positionId);
         } else {
             positionManagementService.updatePortfolioPosition(positionId, aggregatedTrade);
