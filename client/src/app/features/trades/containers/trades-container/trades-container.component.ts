@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { ColumnMode, SelectionType } from '@swimlane/ngx-datatable';
 import { TradeService } from '../../services/trade.service';
 import { AddTradeDto } from '../../types/add-trade.dto';
@@ -6,6 +6,10 @@ import { TradeViewDto } from '../../types/trade-view.dto';
 import { EditTradeDto } from '../../types/edit-trade.dto';
 import { DeleteTradeDto } from '../../types/delete-trade.dto';
 import { PageSort } from '../../../../core/types/page-sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { MatSort, Sort } from '@angular/material/sort';
+import { SelectionModel } from '@angular/cdk/collections';
 
 @Component({
   selector: 'app-trades-container',
@@ -15,35 +19,66 @@ import { PageSort } from '../../../../core/types/page-sort';
                                (editTrade)="onEditTrade($event)"
                                (deleteTrade)="onDeleteTrade($event)">
     </app-datatable-actions-bar>
-    <ngx-datatable class="material"
-                   [rows]="rows"
-                   [columnMode]="ColumnMode.force"
-                   [headerHeight]="headerHeight"
-                   [rowHeight]="rowHeight"
-                   [limit]="pageSize"
-                   [footerHeight]="50"
-                   [sorts]="pageSorts"
-                   [selectionType]="SelectionType.checkbox"
-                   [selectAllRowsOnPage]="true"
-                   [selected]="selectedRows"
-                   (select)="onSelect($event)"
-                   [externalPaging]="true"
-                   [externalSorting]="true"
-                   [count]="totalElements"
-                   [offset]="pageNumber"
-                   (page)="setPage($event)"
-                   (sort)="onSort($event)">
-      <ngx-datatable-column
-        [width]="30"
-        [sortable]="false"
-        [canAutoResize]="false"
-        [draggable]="false"
-        [resizeable]="false"
-        [headerCheckboxable]="true"
-        [checkboxable]="true">
-      </ngx-datatable-column>
-      <ngx-datatable-column *ngFor="let col of columns" [prop]="col.prop"></ngx-datatable-column>
-    </ngx-datatable>
+    <div class="mat-elevation-z8">
+      <table mat-table [dataSource]="rows" matSort (matSortChange)="announceSortChange($event)"
+             matSortActive="date" matSortDirection="desc">
+        <ng-container matColumnDef="select">
+          <th mat-header-cell *matHeaderCellDef>
+          </th>
+          <td mat-cell *matCellDef="let row">
+            <mat-checkbox (click)="$event.stopPropagation()"
+                          (change)="$event ? selection.toggle(row) : null"
+                          [checked]="selection.isSelected(row)">
+            </mat-checkbox>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="symbol">
+          <th mat-header-cell *matHeaderCellDef> Symbol</th>
+          <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Name</th>
+          <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="operation">
+          <th mat-header-cell *matHeaderCellDef>Operation</th>
+          <td mat-cell *matCellDef="let element"> {{element.operation}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="date">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Date</th>
+          <td mat-cell *matCellDef="let element"> {{element.date}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="quantity">
+          <th mat-header-cell *matHeaderCellDef>Quantity</th>
+          <td mat-cell *matCellDef="let element"> {{element.quantity}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="price">
+          <th mat-header-cell *matHeaderCellDef>Price</th>
+          <td mat-cell *matCellDef="let element"> {{element.price}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="brokerName">
+          <th mat-header-cell *matHeaderCellDef>Broker Name</th>
+          <td mat-cell *matCellDef="let element"> {{element.brokerName}} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selection.toggle(row)"></tr>
+      </table>
+
+      <mat-paginator #paginator showFirstLastButtons
+                     aria-label="Select page of trades"
+                     [length]="totalElements"
+                     [pageIndex]="pageNumber"
+                     [pageSize]="pageSize"
+                     (page)="onPageChanged($event)">
+      </mat-paginator>
+    </div>
   `,
   styleUrls: ['./trades-container.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -61,15 +96,11 @@ export class TradesContainerComponent implements OnInit {
 
   pageSorts = [{prop: 'date', dir: 'desc'}];
 
-  ColumnMode = ColumnMode;
-  SelectionType = SelectionType;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
 
-  columns = [
-    {prop: 'symbol'}, {prop: 'name'},
-    {prop: 'operation'}, {prop: 'date'},
-    {prop: 'quantity'}, {prop: 'price'},
-    {prop: 'brokerName'}
-  ];
+  displayedColumns = ['select', 'symbol', 'name', 'operation', 'date', 'quantity', 'price', 'brokerName'];
+  selection = new SelectionModel<TradeViewDto>(false, []);
 
   rows: TradeViewDto[] = [];
   selectedRows: TradeViewDto[] = [];
@@ -80,6 +111,11 @@ export class TradesContainerComponent implements OnInit {
 
   ngOnInit(): void {
     this.setPage({pageSize: this.pageSize, offset: this.pageNumber});
+    this.selection.changed.subscribe(selectionChange => {
+      if (selectionChange) {
+        this.selectedRows = [...selectionChange.added];
+      }
+    });
   }
 
   setPage(pageInfo: { pageSize: number; offset: number; sorts?: PageSort[] }) {
@@ -103,10 +139,6 @@ export class TradesContainerComponent implements OnInit {
       });
   }
 
-  onSelect($event: any) {
-    this.selectedRows = [...$event.selected];
-  }
-
   onEditTrade(dto: EditTradeDto) {
     this.tradeService.editTrade(dto)
       .subscribe(res => {
@@ -123,7 +155,15 @@ export class TradesContainerComponent implements OnInit {
       });
   }
 
-  onSort({sorts}: { sorts: PageSort[] }) {
-    this.setPage({pageSize: this.pageSize, offset: this.firstPageNumber, sorts})
+  onPageChanged(event: PageEvent) {
+    this.setPage({pageSize: event.pageSize, offset: event.pageIndex});
+  }
+
+  announceSortChange(event: Sort) {
+    this.setPage({
+      pageSize: this.pageSize,
+      offset: this.firstPageNumber,
+      sorts: [{prop: event.active, dir: event.direction}]
+    });
   }
 }

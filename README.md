@@ -43,6 +43,7 @@ docker-compose down
 - [x] Dividend income card - sum up payments from the same ticker
 - [x] Add useCustomDividendProjections option as edit option of Dividend income card
 - [x] Custom dividend projection - Show added projections(use details field) on the plot
+- [x] Rework the trade table - use mat-table
 - [ ] Custom dividend projection - clear projection when checkbox is unselected + fix ui of projection row
 - [ ] Custom dividend projection - use mat-select for selection of ticker based on open positions
 - [ ] Custom dividend projection - use mat-select for currency
@@ -64,7 +65,9 @@ docker-compose down
 - [ ] Ability to group positions
 - [ ] On home page show demo portfolio values
 - [ ] Asset allocation widget option to show invested money instead of current evaluation
-- [ ] Rework the positions table - use mat-table(should support at least ordering by % of portfolio column)
+- [ ] Rework the position table
+- [ ] Ability to close position in one click
+- [ ] Ability to precalculate PL(a separate button) when user tries to add sell trade
 - [ ] Contribution widget - provide detailed info on which instrument paid dividends and in what instrument money was invested
 - [ ] Target allocation widget - show current allocation vs target allocation for specific groups of instruments
 - [ ] Portfolio highlights widget - different highlights regarding the portfolio

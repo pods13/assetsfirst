@@ -5,7 +5,6 @@ import { TradesRoutingModule } from './trades-routing.module';
 import { UploadExportedTradesComponent } from './components/upload-exported-trades/upload-exported-trades.component';
 import { UploadFileService } from './services/upload-file.service';
 import { MatButtonModule } from '@angular/material/button';
-import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { TradesContainerComponent } from './containers/trades-container/trades-container.component';
 import { TradeService } from './services/trade.service';
 import { DatatableActionsBarComponent } from './components/datatable-actions-bar/datatable-actions-bar.component';
@@ -23,6 +22,10 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { AssignTradeAttributesComponent } from './components/assign-trade-attributes/assign-trade-attributes.component';
 import { CurrencyService } from './services/currency.service';
 import { BrokerService } from './services/broker.service';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 
 @NgModule({
@@ -37,7 +40,6 @@ import { BrokerService } from './services/broker.service';
     CommonModule,
     TradesRoutingModule,
     MatButtonModule,
-    NgxDatatableModule,
     MatIconModule,
     MatDialogModule,
     ReactiveFormsModule,
@@ -46,7 +48,11 @@ import { BrokerService } from './services/broker.service';
     MatSelectModule,
     NgxMatSelectSearchModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatCheckboxModule
   ],
   providers: [
     UploadFileService,
