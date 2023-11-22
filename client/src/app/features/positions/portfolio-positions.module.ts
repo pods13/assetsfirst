@@ -24,6 +24,9 @@ import { TagCategoryControlComponent } from './components/tag-category-control/t
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatInputModule } from '@angular/material/input';
 import { CoreModule } from '@core/core.module';
+import { PositionsContainerV2Component } from './containers/positions-container-v2/positions-container-v2.component';
+import { PositionStore } from './services/position.store';
+import { MatSortModule } from '@angular/material/sort';
 
 
 @NgModule({
@@ -31,7 +34,8 @@ import { CoreModule } from '@core/core.module';
     PositionsContainerComponent,
     PositionTagsDialogComponent,
     TagCategoriesDialogComponent,
-    TagCategoryControlComponent
+    TagCategoryControlComponent,
+    PositionsContainerV2Component
   ],
   imports: [
     CommonModule,
@@ -54,9 +58,11 @@ import { CoreModule } from '@core/core.module';
     MatExpansionModule,
     MatInputModule,
     CoreModule,
+    MatSortModule,
   ],
   providers: [
     PortfolioPositionService,
+    PositionStore
   ]
 })
 export class PortfolioPositionsModule {

@@ -1,0 +1,80 @@
+.positions-list {
+  max-width: 100%;
+  border: solid 1px #ccc;
+  min-height: 60px;
+  display: block;
+  background: white;
+  border-radius: 4px;
+  overflow: hidden;
+  margin: 0 5%;
+}
+
+.position-header-box {
+  color: rgba(0, 0, 0, 0.6);
+  align-items: center;
+  box-sizing: border-box;
+  background: white;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 20px 0 0 10px;
+  text-transform: uppercase;
+}
+
+.position-box {
+  border-bottom: solid 1px #ccc;
+  color: rgba(0, 0, 0, 0.97);
+  align-items: center;
+  box-sizing: border-box;
+  //cursor: move;
+  background: white;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 20px 10px;
+}
+
+.identifier-company {
+  font-size: small;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  width: 100%;
+
+  & .column:first-child {
+    align-items: flex-start;
+  }
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  align-items: center;
+}
+
+.cdk-drag-preview {
+  box-sizing: border-box;
+  border-radius: 4px;
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+  0 8px 10px 1px rgba(0, 0, 0, 0.14),
+  0 3px 14px 2px rgba(0, 0, 0, 0.12);
+}
+
+.cdk-drag-placeholder {
+  opacity: 0;
+}
+
+.cdk-drag-animating {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.position-box:last-child {
+  border: none;
+}
+
+.positions-list.cdk-drop-list-dragging .position-box:not(.cdk-drag-placeholder) {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
