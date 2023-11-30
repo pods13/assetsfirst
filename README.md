@@ -71,6 +71,7 @@ docker-compose down
 - [ ] Contribution widget - provide detailed info on which instrument paid dividends and in what instrument money was invested
 - [ ] Target allocation widget - show current allocation vs target allocation for specific groups of instruments
 - [ ] Portfolio highlights widget - different highlights regarding the portfolio
+- [ ] Run job to get russian assets prices on beget
 </details>
 
 ## Redeploy flow

@@ -14,6 +14,8 @@ import java.math.BigInteger;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Currency;
+import java.util.List;
+
 
 @Setter
 @Getter
@@ -24,10 +26,11 @@ public class AggregatedTradeDto {
 
     private BigInteger quantity;
     private BigDecimal price;
+    private List<TradePnl> tradePnls;
     private BigDecimal pnl;
     private Collection<TradeData> buyTradesData;
 
-    public record InterimTradeResult(Collection<TradeData> buyTradesData, BigDecimal closedPnl) {
+    public record InterimTradeResult(Collection<TradeData> buyTradesData, List<TradePnl> tradePnls) {
     }
 
     @Data
@@ -52,5 +55,8 @@ public class AggregatedTradeDto {
             this.instrumentType = trade.getInstrumentType();
             this.ticker = new Ticker(trade.getSymbol(), trade.getExchange());
         }
+    }
+
+    public record TradePnl(LocalDate tradeDate, BigDecimal total, Currency currency) {
     }
 }

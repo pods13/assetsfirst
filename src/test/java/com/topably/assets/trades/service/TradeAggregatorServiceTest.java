@@ -1,17 +1,20 @@
 package com.topably.assets.trades.service;
 
-import com.topably.assets.trades.domain.TradeOperation;
-import com.topably.assets.trades.domain.TradeView;
-import com.topably.assets.trades.repository.TradeViewRepository;
-import org.junit.jupiter.api.Test;
-
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.time.LocalDate;
+import java.util.Currency;
 import java.util.List;
 
+import com.topably.assets.trades.domain.TradeOperation;
+import com.topably.assets.trades.domain.TradeView;
+import com.topably.assets.trades.domain.dto.AggregatedTradeDto;
+import com.topably.assets.trades.repository.TradeViewRepository;
+import org.junit.jupiter.api.Test;
+
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+
 
 class TradeAggregatorServiceTest {
 
@@ -41,6 +44,7 @@ class TradeAggregatorServiceTest {
         assertThat(res.getQuantity()).isEqualByComparingTo(expectedShares);
         assertThat(res.getPrice()).isEqualByComparingTo(expectedPrice);
         assertThat(res.getPnl()).isEqualByComparingTo(BigDecimal.ZERO);
+        assertThat(res.getTradePnls()).hasSize(0);
     }
 
     @Test
@@ -66,6 +70,10 @@ class TradeAggregatorServiceTest {
 
         assertThat(res.getQuantity()).isEqualByComparingTo(expectedShares);
         assertThat(res.getPrice()).isEqualByComparingTo(expectedPrice);
+        assertThat(res.getTradePnls())
+            .containsExactly(new AggregatedTradeDto.TradePnl(sellTrade.getDate(),
+                BigDecimal.valueOf(5000).negate(),
+                sellTrade.getCurrency()));
     }
 
     @Test
@@ -116,19 +124,22 @@ class TradeAggregatorServiceTest {
 
     @Test
     public void givenTradesHistoryOnDifferentBrokers_whenAggregationTradeCalculated_thenFIFOMethodIsUsedWithBrokerConsideration() {
+        var currency = Currency.getInstance("RUB");
         var buyTrade = new TradeView()
             .setBrokerId(2L)
             .setBrokerName("Finam")
             .setQuantity(new BigInteger("440"))
             .setPrice(new BigDecimal("1029.8"))
             .setDate(LocalDate.now().minusDays(30))
-            .setOperation(TradeOperation.BUY);
+            .setOperation(TradeOperation.BUY)
+            .setCurrency(currency);
         var buyTrade2 = new TradeView()
             .setBrokerId(1L)
             .setBrokerName("Tinkoff")
             .setQuantity(new BigInteger("30"))
             .setPrice(new BigDecimal("750"))
             .setDate(LocalDate.now().minusDays(15))
+            .setCurrency(currency)
             .setOperation(TradeOperation.BUY);
         var buyTrade3 = new TradeView()
             .setBrokerId(1L)
@@ -136,6 +147,7 @@ class TradeAggregatorServiceTest {
             .setQuantity(new BigInteger("30"))
             .setPrice(new BigDecimal("699"))
             .setDate(LocalDate.now().minusDays(5))
+            .setCurrency(currency)
             .setOperation(TradeOperation.BUY);
         var buyTrade4 = new TradeView()
             .setBrokerId(1L)
@@ -143,6 +155,7 @@ class TradeAggregatorServiceTest {
             .setQuantity(new BigInteger("30"))
             .setPrice(new BigDecimal("692"))
             .setDate(LocalDate.now().minusDays(3))
+            .setCurrency(currency)
             .setOperation(TradeOperation.BUY);
         var sellTrade = new TradeView()
             .setBrokerId(1L)
@@ -150,6 +163,7 @@ class TradeAggregatorServiceTest {
             .setQuantity(new BigInteger("90"))
             .setPrice(new BigDecimal("688"))
             .setDate(LocalDate.now())
+            .setCurrency(currency)
             .setOperation(TradeOperation.SELL);
         var expectedShares = new BigInteger("440");
         var expectedPrice = new BigDecimal("1029.8");
@@ -160,6 +174,10 @@ class TradeAggregatorServiceTest {
         assertThat(res.getQuantity()).isEqualByComparingTo(expectedShares);
         assertThat(res.getPrice()).isEqualByComparingTo(expectedPrice);
         assertThat(res.getPnl()).isEqualByComparingTo(expectedPnl);
+        assertThat(res.getTradePnls())
+            .containsExactly(
+                new AggregatedTradeDto.TradePnl(sellTrade.getDate(), expectedPnl, sellTrade.getCurrency())
+            );
     }
 
     @Test
@@ -187,6 +205,8 @@ class TradeAggregatorServiceTest {
         assertThat(res.getQuantity()).isEqualByComparingTo(expectedShares);
         assertThat(res.getPrice()).isEqualByComparingTo(expectedPrice);
         assertThat(res.getPnl()).isEqualByComparingTo(expectedRealizedPnl);
+        assertThat(res.getTradePnls())
+            .containsExactly(new AggregatedTradeDto.TradePnl(sellTrade.getDate(), expectedRealizedPnl, sellTrade.getCurrency()));
     }
 
 }

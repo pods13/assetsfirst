@@ -42,8 +42,12 @@ import static java.util.stream.Collectors.toList;
 @Slf4j
 public class AssetDisposalCardStateProducer implements CardStateProducer<AssetDisposalCard> {
 
+    private final PortfolioPositionService portfolioPositionService;
+    private final TradeAggregatorService tradeAggregatorService;
+
     @Override
     public CardData produce(Portfolio portfolio, AssetDisposalCard card) {
+
         /**
          * TODO
          * find positions that has at least one sell trade at a specific year(use this year only for now)

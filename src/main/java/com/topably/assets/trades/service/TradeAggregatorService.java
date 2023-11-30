@@ -1,26 +1,31 @@
 package com.topably.assets.trades.service;
 
-import com.topably.assets.trades.domain.TradeOperation;
-import com.topably.assets.trades.domain.TradeView;
-import com.topably.assets.trades.domain.dto.AggregatedTradeDto;
-import com.topably.assets.trades.repository.TradeViewRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.AbstractMap;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.function.Function;
 import java.util.stream.Collectors;
+
+import com.topably.assets.trades.domain.TradeOperation;
+import com.topably.assets.trades.domain.TradeView;
+import com.topably.assets.trades.domain.dto.AggregatedTradeDto;
+import com.topably.assets.trades.domain.dto.AggregatedTradeDto.TradePnl;
+import com.topably.assets.trades.repository.TradeViewRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import static com.topably.assets.trades.domain.dto.AggregatedTradeDto.InterimTradeResult;
 import static com.topably.assets.trades.domain.dto.AggregatedTradeDto.TradeData;
+
 
 @Service
 @RequiredArgsConstructor
@@ -52,13 +57,21 @@ public class TradeAggregatorService {
         return new AggregatedTradeDto()
             .setQuantity(sharesByAvgPrice.getKey())
             .setPrice(sharesByAvgPrice.getValue())
-            .setPnl(tradeResult.closedPnl())
+            .setTradePnls(collapseBySameSellDate(tradeResult.tradePnls()))
+            .setPnl(tradeResult.tradePnls().stream().map(TradePnl::total).reduce(BigDecimal.ZERO, BigDecimal::add))
             .setBuyTradesData(tradeResult.buyTradesData());
+    }
+
+    private List<TradePnl> collapseBySameSellDate(List<TradePnl> tradePnls) {
+        var dateBySummedTrade = tradePnls.stream()
+            .collect(Collectors.toMap(TradePnl::tradeDate, Function.identity(),
+                (tradePnl, tradePnl2) -> new TradePnl(tradePnl.tradeDate(), tradePnl.total().add(tradePnl2.total()), tradePnl.currency())));
+        return new ArrayList<>(dateBySummedTrade.values());
     }
 
     private InterimTradeResult calculateInterimResult(Collection<TradeView> tradesOrderedByDate) {
         var buyTradesData = new LinkedHashMap<Long, LinkedList<TradeData>>();
-        var closedPnl = BigDecimal.ZERO;
+        var tradePnls = new ArrayList<TradePnl>();
         for (var trade : tradesOrderedByDate) {
             var brokerId = trade.getBrokerId();
             var operation = trade.getOperation();
@@ -74,8 +87,7 @@ public class TradeAggregatorService {
             }
             if (TradeOperation.SELL.equals(operation) && buyTradesData.containsKey(brokerId) && !buyTradesData.get(brokerId).isEmpty()) {
                 var tradeData = buyTradesData.get(brokerId).poll();
-                closedPnl = closedPnl.add(calculatePnl(tradeData.getShares(), tradeData.getPrice(),
-                    trade.getQuantity(), trade.getPrice()));
+                tradePnls.add(calculatePnl(tradeData.getShares(), tradeData.getPrice(), trade.getQuantity(), trade));
                 if (trade.getQuantity().compareTo(tradeData.getShares()) > 0) {
                     var remainingSharesToSell = trade.getQuantity().subtract(tradeData.getShares());
                     while (remainingSharesToSell.compareTo(BigInteger.ZERO) > 0) {
@@ -83,8 +95,8 @@ public class TradeAggregatorService {
                         if (nextTradeData == null) {
                             throw new RuntimeException("Short selling is not supported");
                         }
-                        closedPnl = closedPnl.add(calculatePnl(nextTradeData.getShares(), nextTradeData.getPrice(),
-                            remainingSharesToSell, trade.getPrice()));
+                        tradePnls.add(calculatePnl(nextTradeData.getShares(), nextTradeData.getPrice(),
+                            remainingSharesToSell, trade));
                         remainingSharesToSell = remainingSharesToSell.subtract(nextTradeData.getShares());
                         if (remainingSharesToSell.compareTo(BigInteger.ZERO) < 0) {
                             buyTradesData.get(brokerId).add(new TradeData(remainingSharesToSell.negate(),
@@ -104,14 +116,17 @@ public class TradeAggregatorService {
             .map(buyTradesData::get)
             .flatMap(Collection::stream)
             .collect(Collectors.toCollection(LinkedList::new));
-        return new InterimTradeResult(buyTrades, closedPnl);
+        return new InterimTradeResult(buyTrades, tradePnls);
     }
 
-    private BigDecimal calculatePnl(BigInteger buySideShares, BigDecimal buyPrice,
-                                    BigInteger sellSideShares, BigDecimal sellPrice) {
+    private TradePnl calculatePnl(
+        BigInteger buySideShares, BigDecimal buyPrice,
+        BigInteger sellSideShares, TradeView sellTrade
+    ) {
         BigInteger sharesDelta = buySideShares.subtract(sellSideShares);
         var pnlShares = new BigDecimal(sharesDelta.compareTo(BigInteger.ZERO) >= 0 ? sellSideShares : buySideShares);
         BigDecimal nextTotal = buyPrice.multiply(pnlShares);
-        return sellPrice.multiply(pnlShares).subtract(nextTotal);
+        return new TradePnl(sellTrade.getDate(), sellTrade.getPrice().multiply(pnlShares).subtract(nextTotal), sellTrade.getCurrency());
     }
+
 }
