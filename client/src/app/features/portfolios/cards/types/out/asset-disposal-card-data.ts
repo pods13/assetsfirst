@@ -1,9 +1,10 @@
-import { CardData } from '../card-data';
+import {CardData} from '../card-data';
 
 export interface AssetDisposalCardData extends CardData {
 
-  losses: number[];
-  profits: number[];
-  taxableIncome: number[];
-  trackedYears: number[];
+    losses: number[];
+    profits: number[];
+    taxableIncome: number[];
+    trackedYears: number[];
+    currencyCode: string;
 }

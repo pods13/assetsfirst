@@ -1,15 +1,17 @@
 package com.topably.assets.portfolios.repository;
 
+import java.math.BigInteger;
+import java.time.LocalDate;
+import java.time.Year;
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
+
 import com.topably.assets.portfolios.domain.position.PortfolioPosition;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import java.math.BigInteger;
-import java.time.LocalDate;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
 
 public interface PortfolioPositionRepository extends JpaRepository<PortfolioPosition, Long> {
 
@@ -22,21 +24,35 @@ public interface PortfolioPositionRepository extends JpaRepository<PortfolioPosi
     List<PortfolioPosition> findAllByPortfolioIdAndOpenDateLessThanEqual(Long portfolioId, LocalDate date);
 
     @EntityGraph(attributePaths = {"instrument", "instrument.exchange", "tags", "tags.category"})
-    @Query("""
+    @Query(
+        """
         select p from PortfolioPosition p
         where p.portfolio.id = :portfolioId and p.quantity > 0
-        """)
+        """
+    )
     List<PortfolioPosition> findAllNotSoldByPortfolioId(Long portfolioId);
 
-    @Query("""
+    @Query(
+        """
         SELECT pos.id from PortfolioPosition pos
         join pos.portfolio p
         where p.id = :portfolioId
-        """)
+        """
+    )
     List<Long> findAllPositionIdsByPortfolioId(Long portfolioId);
 
     List<PortfolioPosition> findAllByQuantityIsAndRealizedPnlIsNull(BigInteger quantity);
 
     Collection<PortfolioPosition> findAllByPortfolioIdAndTagsIn(Long portfolioId, Collection<Long> tagIds);
+
+    @Query(
+        """
+            select pos from PortfolioPosition pos
+                  join pos.portfolio p
+                  join Trade t on t.portfolioPosition.id = pos.id
+            where p.id = :portfolioId and year(t.date) = :year and t.operation = com.topably.assets.trades.domain.TradeOperation.SELL
+        """
+    )
+    Collection<PortfolioPosition> findPositionsWithSellTradesByYear(Long portfolioId, int year);
 
 }

@@ -216,4 +216,8 @@ public class PortfolioPositionService {
             });
         log.info("Calculated closedPnl for {} positions", i);
     }
+
+    public Collection<PortfolioPosition> findPositionsWithSellTradesByYear(Long portfolioId, Year year) {
+        return portfolioPositionRepository.findPositionsWithSellTradesByYear(portfolioId, year.getValue());
+    }
 }

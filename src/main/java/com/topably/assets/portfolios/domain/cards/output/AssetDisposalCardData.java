@@ -16,4 +16,5 @@ public class AssetDisposalCardData implements CardData {
     private Collection<BigDecimal> profits;
     private Collection<BigDecimal> taxableIncome;
     private Collection<Year> trackedYears;
+    private String currencyCode;
 }
