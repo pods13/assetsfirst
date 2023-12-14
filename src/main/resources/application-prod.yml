@@ -14,3 +14,8 @@ spring:
 app:
   cookie-domain: assetsfirst.ru
   allowed-origins: https://assetsfirst.ru, https://api.assetsfirst.ru
+
+management:
+  httpexchanges:
+    recording:
+      enabled: false
