@@ -75,6 +75,10 @@ public class TradeView {
     private BigInteger quantity;
     private BigDecimal price;
 
+    public BigDecimal getTotal() {
+        return price.multiply(new BigDecimal(quantity));
+    }
+
     @JsonIgnore
     private Currency currency;
 

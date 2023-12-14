@@ -44,7 +44,7 @@ class TradeAggregatorServiceTest {
         assertThat(res.getQuantity()).isEqualByComparingTo(expectedShares);
         assertThat(res.getPrice()).isEqualByComparingTo(expectedPrice);
         assertThat(res.getPnl()).isEqualByComparingTo(BigDecimal.ZERO);
-        assertThat(res.getTradePnls()).hasSize(0);
+        assertThat(res.getDeltaPnls()).hasSize(0);
     }
 
     @Test
@@ -55,14 +55,16 @@ class TradeAggregatorServiceTest {
             .setQuantity(new BigInteger("100"))
             .setPrice(new BigDecimal("300"))
             .setDate(LocalDate.now().minusDays(30))
-            .setOperation(TradeOperation.BUY);
+            .setOperation(TradeOperation.BUY)
+            .setCurrency(Currency.getInstance("RUB"));
         var sellTrade = new TradeView()
             .setBrokerId(1L)
             .setBrokerName("Tinkoff")
             .setQuantity(new BigInteger("50"))
             .setPrice(new BigDecimal("200"))
             .setDate(LocalDate.now())
-            .setOperation(TradeOperation.SELL);
+            .setOperation(TradeOperation.SELL)
+            .setCurrency(Currency.getInstance("RUB"));
         var expectedShares = new BigInteger("50");
         var expectedPrice = new BigDecimal("300");
 
@@ -70,10 +72,13 @@ class TradeAggregatorServiceTest {
 
         assertThat(res.getQuantity()).isEqualByComparingTo(expectedShares);
         assertThat(res.getPrice()).isEqualByComparingTo(expectedPrice);
-        assertThat(res.getTradePnls())
-            .containsExactly(new AggregatedTradeDto.TradePnl(sellTrade.getDate(),
-                BigDecimal.valueOf(5000).negate(),
-                sellTrade.getCurrency()));
+        assertThat(res.getDeltaPnls()).containsExactly(
+            new AggregatedTradeDto.DeltaPnl(buyTrade.getDate(),
+                sellTrade.getDate(),
+                buyTrade.getPrice().multiply(new BigDecimal(sellTrade.getQuantity())),
+                sellTrade.getPrice().multiply(new BigDecimal(sellTrade.getQuantity())),
+                sellTrade.getCurrency())
+        );
     }
 
     @Test
@@ -174,10 +179,23 @@ class TradeAggregatorServiceTest {
         assertThat(res.getQuantity()).isEqualByComparingTo(expectedShares);
         assertThat(res.getPrice()).isEqualByComparingTo(expectedPrice);
         assertThat(res.getPnl()).isEqualByComparingTo(expectedPnl);
-        assertThat(res.getTradePnls())
-            .containsExactly(
-                new AggregatedTradeDto.TradePnl(sellTrade.getDate(), expectedPnl, sellTrade.getCurrency())
-            );
+        assertThat(res.getDeltaPnls()).containsExactlyInAnyOrder(
+            new AggregatedTradeDto.DeltaPnl(buyTrade2.getDate(),
+                sellTrade.getDate(),
+                buyTrade2.getTotal(),
+                sellTrade.getPrice().multiply(new BigDecimal(buyTrade2.getQuantity())),
+                sellTrade.getCurrency()),
+            new AggregatedTradeDto.DeltaPnl(buyTrade3.getDate(),
+                sellTrade.getDate(),
+                buyTrade3.getTotal(),
+                sellTrade.getPrice().multiply(new BigDecimal(buyTrade3.getQuantity())),
+                sellTrade.getCurrency()),
+            new AggregatedTradeDto.DeltaPnl(buyTrade4.getDate(),
+                sellTrade.getDate(),
+                buyTrade4.getTotal(),
+                sellTrade.getPrice().multiply(new BigDecimal(buyTrade4.getQuantity())),
+                sellTrade.getCurrency())
+        );
     }
 
     @Test
@@ -205,8 +223,13 @@ class TradeAggregatorServiceTest {
         assertThat(res.getQuantity()).isEqualByComparingTo(expectedShares);
         assertThat(res.getPrice()).isEqualByComparingTo(expectedPrice);
         assertThat(res.getPnl()).isEqualByComparingTo(expectedRealizedPnl);
-        assertThat(res.getTradePnls())
-            .containsExactly(new AggregatedTradeDto.TradePnl(sellTrade.getDate(), expectedRealizedPnl, sellTrade.getCurrency()));
+        assertThat(res.getDeltaPnls()).containsExactlyInAnyOrder(
+            new AggregatedTradeDto.DeltaPnl(buyTrade.getDate(),
+                sellTrade.getDate(),
+                buyTrade.getTotal(),
+                sellTrade.getTotal(),
+                sellTrade.getCurrency())
+        );
     }
 
 }

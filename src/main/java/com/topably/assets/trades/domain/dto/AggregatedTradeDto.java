@@ -26,11 +26,11 @@ public class AggregatedTradeDto {
 
     private BigInteger quantity;
     private BigDecimal price;
-    private List<TradePnl> tradePnls;
+    private List<DeltaPnl> deltaPnls;
     private BigDecimal pnl;
     private Collection<TradeData> buyTradesData;
 
-    public record InterimTradeResult(Collection<TradeData> buyTradesData, List<TradePnl> tradePnls) {
+    public record InterimTradeResult(Collection<TradeData> buyTradesData, List<DeltaPnl> deltaPnls) {
     }
 
     @Data
@@ -57,6 +57,6 @@ public class AggregatedTradeDto {
         }
     }
 
-    public record TradePnl(LocalDate tradeDate, BigDecimal total, Currency currency) {
+    public record DeltaPnl(LocalDate buyDate, LocalDate sellDate, BigDecimal totalBuy, BigDecimal totalSell, Currency currency) {
     }
 }

@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.Year;
+import java.time.ZoneOffset;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Currency;
@@ -43,12 +44,18 @@ public class AssetDisposalCardStateProducer implements CardStateProducer<AssetDi
         var tickerByTradePnls = positions.stream()
             .collect(Collectors.toMap(p -> p.getInstrument().toTicker(), p -> {
                 var aggregatedTrade = tradeAggregatorService.aggregateTradesByPositionId(p.getId(), now);
-                return aggregatedTrade.getTradePnls();
+                return aggregatedTrade.getDeltaPnls();
             }));
+        var portfolioCurrency = portfolio.getCurrency();
         var profitsByLosses = tickerByTradePnls.values().stream()
             .flatMap(Collection::stream)
-            .collect(Collectors.partitioningBy(p -> p.total().compareTo(BigDecimal.ZERO) > 0));
-        var portfolioCurrency = portfolio.getCurrency();
+            .collect(Collectors.partitioningBy(deltaPnl -> {
+                var totalBuy = currencyConverterService.convert(deltaPnl.totalBuy(), deltaPnl.currency(), portfolioCurrency,
+                    deltaPnl.buyDate().atStartOfDay().toInstant(ZoneOffset.UTC));
+                var totalSell = currencyConverterService.convert(deltaPnl.totalSell(), deltaPnl.currency(), portfolioCurrency,
+                    deltaPnl.sellDate().atStartOfDay().toInstant(ZoneOffset.UTC));
+                return totalSell.subtract(totalBuy).compareTo(BigDecimal.ZERO) > 0;
+            }));
         var profits = calculateSumTotal(portfolioCurrency, profitsByLosses.get(Boolean.TRUE));
         var loses = calculateSumTotal(portfolioCurrency, profitsByLosses.get(Boolean.FALSE));
         var taxableIncome = loses.add(profits);
@@ -60,9 +67,15 @@ public class AssetDisposalCardStateProducer implements CardStateProducer<AssetDi
             .setCurrencyCode(portfolioCurrency.getCurrencyCode());
     }
 
-    private BigDecimal calculateSumTotal(Currency portfolioCurrency, List<AggregatedTradeDto.TradePnl> tradePnls) {
-        return tradePnls.stream()
-            .map(tradePnl -> currencyConverterService.convert(tradePnl.total(), tradePnl.currency(), portfolioCurrency))
+    private BigDecimal calculateSumTotal(Currency portfolioCurrency, List<AggregatedTradeDto.DeltaPnl> deltaPnls) {
+        return deltaPnls.stream()
+            .map(deltaPnl -> {
+                var totalBuy = currencyConverterService.convert(deltaPnl.totalBuy(), deltaPnl.currency(), portfolioCurrency,
+                    deltaPnl.buyDate().atStartOfDay().toInstant(ZoneOffset.UTC));
+                var totalSell = currencyConverterService.convert(deltaPnl.totalSell(), deltaPnl.currency(), portfolioCurrency,
+                    deltaPnl.sellDate().atStartOfDay().toInstant(ZoneOffset.UTC));
+                return totalSell.subtract(totalBuy);
+            })
             .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 }
