@@ -1,7 +1,7 @@
 package com.topably.assets.portfolios.service.cards.producer;
 
 import com.topably.assets.findata.exchanges.service.ExchangeService;
-import com.topably.assets.findata.xrates.service.currency.CurrencyConverterService;
+import com.topably.assets.findata.xrates.service.currency.CurrencyConverter;
 import com.topably.assets.portfolios.domain.Portfolio;
 import com.topably.assets.portfolios.domain.cards.CardContainerType;
 import com.topably.assets.portfolios.domain.cards.CardData;
@@ -14,7 +14,6 @@ import com.topably.assets.portfolios.domain.cards.input.allocation.TagWithCatego
 import com.topably.assets.portfolios.domain.cards.output.AllocationCardData;
 import com.topably.assets.portfolios.domain.cards.output.AllocationSegment;
 import com.topably.assets.portfolios.domain.dto.PortfolioPositionDto;
-import com.topably.assets.portfolios.domain.position.PortfolioPosition;
 import com.topably.assets.portfolios.service.PortfolioPositionService;
 import com.topably.assets.portfolios.service.cards.CardStateProducer;
 import com.topably.assets.trades.domain.dto.AggregatedTradeDto;
@@ -42,7 +41,7 @@ import static java.util.stream.Collectors.toList;
 public class AllocationCardStateProducer implements CardStateProducer<AllocationCard> {
 
     private final ExchangeService exchangeService;
-    private final CurrencyConverterService currencyConverterService;
+    private final CurrencyConverter currencyConverter;
 
     private final PortfolioPositionService portfolioPositionService;
     private final TradeAggregatorService tradeAggregatorService;
@@ -138,7 +137,7 @@ public class AllocationCardStateProducer implements CardStateProducer<Allocation
 
     private AllocationSegment convertToSegment(Currency portfolioCurrency, AllocationAggregatedTrade trade) {
         var name = trade.getIdentifier().toString();
-        var price = currencyConverterService.convert(trade.getTotal(), trade.getCurrency(), portfolioCurrency);
+        var price = currencyConverter.convert(trade.getTotal(), trade.getCurrency(), portfolioCurrency);
         return AllocationSegment.builder()
             .name(name)
             .value(price)

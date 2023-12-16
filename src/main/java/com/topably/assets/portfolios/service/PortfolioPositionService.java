@@ -5,7 +5,7 @@ import com.topably.assets.core.domain.Ticker;
 import com.topably.assets.findata.dividends.domain.Dividend;
 import com.topably.assets.findata.dividends.service.DividendService;
 import com.topably.assets.findata.exchanges.service.ExchangeService;
-import com.topably.assets.findata.xrates.service.currency.CurrencyConverterService;
+import com.topably.assets.findata.xrates.service.currency.CurrencyConverter;
 import com.topably.assets.instruments.domain.Instrument;
 import com.topably.assets.instruments.domain.InstrumentType;
 import com.topably.assets.portfolios.domain.Portfolio;
@@ -52,7 +52,7 @@ public class PortfolioPositionService {
     private final TagMapper tagMapper;
     private final PortfolioPositionMapper portfolioPositionMapper;
     private final ExchangeService exchangeService;
-    private final CurrencyConverterService currencyConverterService;
+    private final CurrencyConverter currencyConverter;
     private final DividendService dividendService;
     private final TradeAggregatorService tradeAggregatorService;
 
@@ -157,7 +157,7 @@ public class PortfolioPositionService {
                 var marketValue = exchangeService.findSymbolRecentPrice(ticker)
                     .map(value -> value.multiply(new BigDecimal(position.getQuantity())))
                     .orElse(position.getTotal());
-                var convertedMarketValue = currencyConverterService.convert(marketValue, currency, portfolio.getCurrency());
+                var convertedMarketValue = currencyConverter.convert(marketValue, currency, portfolio.getCurrency());
 
                 return new PortfolioPositionFinancialData(ticker, marketValue, convertedMarketValue,
                     calculateYieldOnCost(position));
@@ -184,7 +184,7 @@ public class PortfolioPositionService {
         return tradesResult.getBuyTradesData().stream()
             .map(t -> {
                 var total = t.getPrice().multiply(new BigDecimal(t.getShares()));
-                return currencyConverterService.convert(total, t.getCurrency(), portfolioCurrency,
+                return currencyConverter.convert(total, t.getCurrency(), portfolioCurrency,
                     t.getTradeTime().atStartOfDay().toInstant(ZoneOffset.UTC));
             })
             .reduce(BigDecimal.ZERO, BigDecimal::add);

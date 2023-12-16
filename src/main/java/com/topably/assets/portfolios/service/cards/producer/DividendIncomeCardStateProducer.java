@@ -1,7 +1,7 @@
 package com.topably.assets.portfolios.service.cards.producer;
 
 import com.topably.assets.findata.dividends.service.DividendService;
-import com.topably.assets.findata.xrates.service.currency.CurrencyConverterService;
+import com.topably.assets.findata.xrates.service.currency.CurrencyConverter;
 import com.topably.assets.portfolios.domain.Portfolio;
 import com.topably.assets.portfolios.domain.cards.CardContainerType;
 import com.topably.assets.portfolios.domain.cards.CardData;
@@ -43,7 +43,7 @@ public class DividendIncomeCardStateProducer implements CardStateProducer<Divide
 
     private final TradeService tradeService;
     private final DividendService dividendService;
-    private final CurrencyConverterService currencyConverterService;
+    private final CurrencyConverter currencyConverter;
     private final PortfolioPositionService portfolioPositionService;
 
     @Override
@@ -86,7 +86,7 @@ public class DividendIncomeCardStateProducer implements CardStateProducer<Divide
             var portfolioCurrency = portfolio.getCurrency();
             var dividendDetails = getDividendDetails(portfolio, tickerByAnnualDividendProjection);
             var totalForecasted = dividendDetails.stream()
-                .map(d -> currencyConverterService.convert(d.getTotal(), d.getCurrency(), portfolioCurrency))
+                .map(d -> currencyConverter.convert(d.getTotal(), d.getCurrency(), portfolioCurrency))
                 .reduce(BigDecimal.ZERO, BigDecimal::add)
                 .setScale(2, RoundingMode.HALF_UP);
             var projectedYear = String.valueOf(Collections.max(dividendsByYear.keySet()));
@@ -148,7 +148,7 @@ public class DividendIncomeCardStateProducer implements CardStateProducer<Divide
                 var totalValue = divsByTimeFrame.getValue().stream()
                     .map(div -> {
                         var time = div.getPayDate().atStartOfDay().toInstant(ZoneOffset.UTC);
-                        return currencyConverterService.convert(div.getTotal(), div.getCurrency(), portfolio.getCurrency(), time);
+                        return currencyConverter.convert(div.getTotal(), div.getCurrency(), portfolio.getCurrency(), time);
                     })
                     .reduce(BigDecimal.ZERO, BigDecimal::add)
                     .setScale(2, RoundingMode.HALF_UP);

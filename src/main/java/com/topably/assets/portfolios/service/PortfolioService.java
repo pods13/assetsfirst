@@ -3,7 +3,7 @@ package com.topably.assets.portfolios.service;
 import com.topably.assets.core.config.cache.CacheNames;
 import com.topably.assets.core.util.NumberUtils;
 import com.topably.assets.findata.exchanges.service.ExchangeService;
-import com.topably.assets.findata.xrates.service.currency.CurrencyConverterService;
+import com.topably.assets.findata.xrates.service.currency.CurrencyConverter;
 import com.topably.assets.instruments.domain.InstrumentType;
 import com.topably.assets.portfolios.domain.Portfolio;
 import com.topably.assets.portfolios.domain.dto.PortfolioDto;
@@ -18,7 +18,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.Year;
 import java.time.temporal.ChronoUnit;
@@ -38,7 +37,7 @@ public class PortfolioService {
 
     private final PortfolioRepository portfolioRepository;
     private final ExchangeService exchangeService;
-    private final CurrencyConverterService currencyConverterService;
+    private final CurrencyConverter currencyConverter;
     private final PortfolioPositionService portfolioPositionService;
 
     public Portfolio findByUserId(Long userId) {
@@ -64,7 +63,7 @@ public class PortfolioService {
                 var marketValue = exchangeService.findSymbolRecentPrice(p.getIdentifier())
                     .map(value -> value.multiply(new BigDecimal(p.getQuantity())))
                     .orElse(p.getTotal());
-                return currencyConverterService.convert(marketValue, p.getCurrency(), portfolio.getCurrency());
+                return currencyConverter.convert(marketValue, p.getCurrency(), portfolio.getCurrency());
             })
             .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
@@ -101,7 +100,7 @@ public class PortfolioService {
         return positions.stream()
             .map(p -> {
                 var dividendPerShare = portfolioPositionService.calculateAnnualDividend(p, year);
-                return currencyConverterService.convert(dividendPerShare.multiply(new BigDecimal(p.getQuantity())), p.getInstrument().getCurrency(), portfolio.getCurrency());
+                return currencyConverter.convert(dividendPerShare.multiply(new BigDecimal(p.getQuantity())), p.getInstrument().getCurrency(), portfolio.getCurrency());
             })
             .reduce(BigDecimal.ZERO, BigDecimal::add);
 

@@ -2,7 +2,7 @@ package com.topably.assets.portfolios.service.cards.producer;
 
 import com.topably.assets.findata.dividends.domain.dto.AggregatedDividendDto;
 import com.topably.assets.findata.dividends.service.DividendService;
-import com.topably.assets.findata.xrates.service.currency.CurrencyConverterService;
+import com.topably.assets.findata.xrates.service.currency.CurrencyConverter;
 import com.topably.assets.instruments.domain.InstrumentType;
 import com.topably.assets.portfolios.domain.Portfolio;
 import com.topably.assets.portfolios.domain.cards.CardContainerType;
@@ -38,7 +38,7 @@ public class ContributionCardStateProducer implements CardStateProducer<Contribu
     private static final String DIVIDEND_CONTRIBUTION_NAME = "Dividend";
     private static final String DEPOSIT_CONTRIBUTION_NAME = "Deposit";
     private final TradeService tradeService;
-    private final CurrencyConverterService currencyConverterService;
+    private final CurrencyConverter currencyConverter;
     private final DividendService dividendService;
 
     @Override
@@ -89,7 +89,7 @@ public class ContributionCardStateProducer implements CardStateProducer<Contribu
     private BigDecimal calculateMonthlyContribution(Portfolio portfolio, List<TradeView> monthTrades, BigDecimal monthlyDividend) {
         var monthlyPurchases = monthTrades.stream()
             .map(t -> {
-                var total = currencyConverterService.convert(t.getTotal(), t.getCurrency(), portfolio.getCurrency());
+                var total = currencyConverter.convert(t.getTotal(), t.getCurrency(), portfolio.getCurrency());
                 return TradeOperation.SELL.equals(t.getOperation()) ? total.multiply(BigDecimal.valueOf(-1L)) : total;
             })
             .reduce(BigDecimal.ZERO, BigDecimal::add);
@@ -104,7 +104,7 @@ public class ContributionCardStateProducer implements CardStateProducer<Contribu
                                                      TreeMap<Integer, List<AggregatedDividendDto>> dividendsByMonthValue,
                                                      int monthValue) {
         return dividendsByMonthValue.getOrDefault(monthValue, Collections.emptyList()).stream()
-            .map(d -> currencyConverterService.convert(d.getTotal(), d.getCurrency(), portfolio.getCurrency()))
+            .map(d -> currencyConverter.convert(d.getTotal(), d.getCurrency(), portfolio.getCurrency()))
             .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 

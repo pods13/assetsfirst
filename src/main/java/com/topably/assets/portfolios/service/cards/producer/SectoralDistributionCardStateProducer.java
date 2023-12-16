@@ -15,7 +15,7 @@ import com.topably.assets.portfolios.domain.cards.output.SectoralDistributionDat
 import com.topably.assets.portfolios.domain.dto.PortfolioPositionDto;
 import com.topably.assets.portfolios.service.PortfolioPositionService;
 import com.topably.assets.portfolios.service.cards.CardStateProducer;
-import com.topably.assets.findata.xrates.service.currency.CurrencyConverterService;
+import com.topably.assets.findata.xrates.service.currency.CurrencyConverter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -37,7 +37,7 @@ import static java.util.stream.Collectors.toSet;
 public class SectoralDistributionCardStateProducer implements CardStateProducer<SectoralDistributionCard> {
 
     private final StockService stockService;
-    private final CurrencyConverterService currencyConverterService;
+    private final CurrencyConverter currencyConverter;
     private final PortfolioPositionService portfolioPositionService;
     private final ExchangeService exchangeService;
 
@@ -103,7 +103,7 @@ public class SectoralDistributionCardStateProducer implements CardStateProducer<
                 var price = exchangeService.findSymbolRecentPrice(position.getIdentifier())
                     .orElse(position.getPrice());
                 var positionTotal = price.multiply(new BigDecimal(position.getQuantity()));
-                return currencyConverterService.convert(positionTotal, position.getCurrency(), portfolio.getCurrency());
+                return currencyConverter.convert(positionTotal, position.getCurrency(), portfolio.getCurrency());
             })
             .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
