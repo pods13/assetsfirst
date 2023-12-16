@@ -45,13 +45,13 @@ docker-compose down
 - [x] Custom dividend projection - Show added projections(use details field) on the plot
 - [x] Rework the trade table - use mat-table
 - [x] Asset disposal widget
+- [x] Switch from @swimlane/ngx-datatable to mat-table
 - [ ] Asset disposal widget - show details when hovered over
 - [ ] Custom dividend projection - clear projection when checkbox is unselected + fix ui of projection row
 - [ ] Custom dividend projection - use mat-select for selection of ticker based on open positions
 - [ ] Custom dividend projection - use mat-select for currency
 - [ ] Company Page - ownership structure
 - [ ] Migrate Angular from v14 to v16
-- [ ] Switch from @swimlane/ngx-datatable to mat-table
 - [ ] Keep showing accumulated dividends for closed positions
 - [ ] Provide functionality to change a username
 - [ ] Show formatted price in sectoral distribution widget

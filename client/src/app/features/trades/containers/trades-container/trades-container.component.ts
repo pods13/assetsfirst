@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
-import { ColumnMode, SelectionType } from '@swimlane/ngx-datatable';
 import { TradeService } from '../../services/trade.service';
 import { AddTradeDto } from '../../types/add-trade.dto';
 import { TradeViewDto } from '../../types/trade-view.dto';

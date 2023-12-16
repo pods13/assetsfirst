@@ -42,10 +42,7 @@
             ],
             "styles": [
               "src/theme.scss",
-              "src/styles.scss",
-              "./node_modules/@swimlane/ngx-datatable/index.scss",
-              "./node_modules/@swimlane/ngx-datatable/themes/material.scss",
-              "./node_modules/@swimlane/ngx-datatable/assets/icons.css"
+              "src/styles.scss"
             ],
             "scripts": []
           },
