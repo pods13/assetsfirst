@@ -46,6 +46,7 @@ docker-compose down
 - [x] Rework the trade table - use mat-table
 - [x] Asset disposal widget
 - [x] Switch from @swimlane/ngx-datatable to mat-table
+- [x] Rework the position table
 - [ ] Asset disposal widget - show details when hovered over
 - [ ] Custom dividend projection - clear projection when checkbox is unselected + fix ui of projection row
 - [ ] Custom dividend projection - use mat-select for selection of ticker based on open positions
@@ -66,7 +67,6 @@ docker-compose down
 - [ ] Ability to group positions
 - [ ] On home page show demo portfolio values
 - [ ] Asset allocation widget option to show invested money instead of current evaluation
-- [ ] Rework the position table
 - [ ] Ability to close position in one click
 - [ ] Ability to precalculate PL(a separate button) when user tries to add sell trade
 - [ ] Contribution widget - provide detailed info on which instrument paid dividends and in what instrument money was invested

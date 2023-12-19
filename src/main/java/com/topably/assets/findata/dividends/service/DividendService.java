@@ -187,8 +187,7 @@ public class DividendService {
     public BigDecimal calculateAccumulatedDividends(PortfolioPosition position, Collection<AggregatedTradeDto.TradeData> tradeData) {
         var instrumentId = position.getInstrument().getId();
         var dividendRecordDate = position.getOpenDate().plus(2, ChronoUnit.DAYS);
-        //TODO look for dividends in between dividendRecordDate and now to skip future divs
-        var dividends = dividendRepository.findAllByInstrumentIdAndRecordDateGreaterThanEqual(instrumentId, dividendRecordDate);
+        var dividends = dividendRepository.findAllPaidDividendsByInstrumentId(instrumentId, dividendRecordDate, LocalDate.now());
         return dividends.stream()
             .map(d -> {
                 var shares = countShares(tradeData, d);

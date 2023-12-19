@@ -44,7 +44,14 @@ public interface DividendRepository extends JpaRepository<Dividend, Long>, Upser
 
     Optional<Dividend> findTopByRecordDateBeforeOrderByRecordDateDesc(LocalDate date);
 
-    List<Dividend> findAllByInstrumentIdAndRecordDateGreaterThanEqual(Long instrumentId, LocalDate date);
+    @Query(value = """
+        select d.* from dividend d
+        join instrument i on i.id = d.instrument_id
+        where ((d.pay_date is not null and d.pay_date between :startDate and :endDate)
+            or (d.pay_date is null and adddate(d.record_date, interval 1 month) between :startDate and :endDate))
+          and i.id = :instrumentId
+        """, nativeQuery = true)
+    List<Dividend> findAllPaidDividendsByInstrumentId(Long instrumentId, LocalDate startDate, LocalDate endDate);
 
     @Query(nativeQuery = true, value = """
         select d.*
