@@ -19,6 +19,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -56,14 +57,14 @@ public class DividendService {
     @Cacheable(key = "{ #root.methodName, #ticker, #year }")
     public BigDecimal calculateAnnualDividend(Ticker ticker, Year year) {
         var selectedYear = year.getValue();
-        var latestDividendYear = getLatestDividendYear(selectedYear);
+        var latestDividendYear = getLatestDividendYear(ticker, selectedYear);
         var dividendYears = Optional.ofNullable(latestDividendYear)
             .map(dividendYear -> Set.of(selectedYear, dividendYear, dividendYear - 1))
             .orElseGet(() -> Set.of(selectedYear));
         var dividends = dividendRepository.findDividendsByYears(ticker, dividendYears);
         var dividendsByYear = groupDividendsByRecordDate(dividends);
         var selectedYearDividends = dividendsByYear.get(selectedYear);
-        if (selectedYearDividends == null || selectedYearDividends.isEmpty()) {
+        if (CollectionUtils.isEmpty(selectedYearDividends)) {
             if (latestDividendYear == null || selectedYear < Year.now().getValue()) {
                 return BigDecimal.ZERO;
             }
@@ -90,8 +91,8 @@ public class DividendService {
         return recordedDividendAmount.add(projectedDividendsByPrevYearsData);
     }
 
-    private Integer getLatestDividendYear(int selectedYear) {
-        return dividendRepository.findTopByRecordDateBeforeOrderByRecordDateDesc(LocalDate.ofYearDay(selectedYear, 1))
+    private Integer getLatestDividendYear(Ticker ticker, int selectedYear) {
+        return dividendRepository.findTopByRecordDateBeforeOrderByRecordDateDesc(ticker, LocalDate.ofYearDay(selectedYear, 1))
             .map(Dividend::getRecordDate)
             .map(LocalDate::getYear)
             .orElse(null);

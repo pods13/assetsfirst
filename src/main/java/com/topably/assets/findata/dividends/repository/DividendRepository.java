@@ -21,7 +21,7 @@ public interface DividendRepository extends JpaRepository<Dividend, Long>, Upser
         join instrument i on i.id = d.instrument_id
         join exchange e on e.id = i.exchange_id
         where ((d.pay_date is not null and year(d.pay_date) in :dividendYears)
-            or (d.pay_date is null and year(adddate(d.record_date, interval 1 month)) in :dividendYears))
+            or (d.pay_date is null and year(d.record_date) in :dividendYears))
           and i.symbol = :#{#ticker.symbol}
           and e.code = :#{#ticker.exchange}
         """, nativeQuery = true)
@@ -42,7 +42,17 @@ public interface DividendRepository extends JpaRepository<Dividend, Long>, Upser
 
     Collection<Dividend> findAllByDeclareDateIsNullAndInstrument_SymbolAndInstrument_Exchange_Code(String symbol, String exchange);
 
-    Optional<Dividend> findTopByRecordDateBeforeOrderByRecordDateDesc(LocalDate date);
+    @Query(value = """
+        select d.* from dividend d
+        join instrument i on i.id = d.instrument_id
+        join exchange e on e.id = i.exchange_id
+        where i.symbol = :#{#ticker.symbol}
+          and e.code = :#{#ticker.exchange}
+          and d.record_date < :date
+          order by d.record_date desc
+          limit 1
+        """, nativeQuery = true)
+    Optional<Dividend> findTopByRecordDateBeforeOrderByRecordDateDesc(Ticker ticker, LocalDate date);
 
     @Query(value = """
         select d.* from dividend d

@@ -1,5 +1,12 @@
 package com.topably.assets.dividends.service;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.Year;
+import java.util.Collection;
+import java.util.Currency;
+import java.util.List;
+
 import com.topably.assets.companies.domain.Company;
 import com.topably.assets.companies.repository.CompanyRepository;
 import com.topably.assets.core.domain.Ticker;
@@ -17,14 +24,8 @@ import com.topably.assets.integration.base.IntegrationTestBase;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.Year;
-import java.util.Collection;
-import java.util.Currency;
-import java.util.List;
-
 import static org.assertj.core.api.Assertions.assertThat;
+
 
 @IT
 public class DividendServiceTest extends IntegrationTestBase {
@@ -59,11 +60,40 @@ public class DividendServiceTest extends IntegrationTestBase {
         addDividendData(List.of(new Dividend()
             .setAmount(expectedAmount)
             .setInstrument(instrument
-            ).setRecordDate(LocalDate.of(2019, 5, 6))));
+            ).setRecordDate(LocalDate.of(2019, 12, 6))));
 
         var actualAmount = dividendService.calculateAnnualDividend(ticker, Year.now().plusYears(1));
 
         assertThat(actualAmount).isEqualByComparingTo(expectedAmount);
+    }
+
+    @Test
+    public void givenDividendsForDifferentStocks_whenDividendAmountCalculatedForFutureYear_thenReturnExistedYearAmountForSpecificStock() {
+        var ticker = new Ticker("NEM", "NYCE");
+        var instrument = createStockInstrument(ticker);
+        var firstDivAmount = BigDecimal.TEN;
+        var secondDivAmount = BigDecimal.TEN;
+
+        addDividendData(List.of(new Dividend()
+                .setAmount(firstDivAmount)
+                .setInstrument(instrument)
+                .setRecordDate(LocalDate.of(2023, 9, 7))
+                .setPayDate(LocalDate.of(2023, 9, 21)),
+            new Dividend()
+                .setAmount(secondDivAmount)
+                .setInstrument(instrument)
+                .setRecordDate(LocalDate.of(2023, 10, 30))
+                .setPayDate(LocalDate.of(2023, 12, 22)),
+            new Dividend()
+                .setAmount(BigDecimal.ONE)
+                .setInstrument(createStockInstrument(new Ticker("ROSN", "MCX")))
+                .setRecordDate(LocalDate.of(2024, 9, 6)
+                ))
+        );
+
+        var actualAmount = dividendService.calculateAnnualDividend(ticker, Year.of(2024).plusYears(1));
+
+        assertThat(actualAmount).isEqualByComparingTo(firstDivAmount.add(secondDivAmount));
     }
 
     @Test
@@ -189,4 +219,5 @@ public class DividendServiceTest extends IntegrationTestBase {
             .currency(exchange.getCurrency())
             .build());
     }
+
 }

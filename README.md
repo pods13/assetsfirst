@@ -73,6 +73,8 @@ docker-compose down
 - [ ] Target allocation widget - show current allocation vs target allocation for specific groups of instruments
 - [ ] Portfolio highlights widget - different highlights regarding the portfolio
 - [ ] Run job to get russian assets prices on beget
+- [ ] Create endpoint to clear caches
+- [ ] Store dividend type for dividend data + use it in overall dividend prediction calculation process
 </details>
 
 ## Redeploy flow
