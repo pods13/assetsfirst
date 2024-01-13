@@ -66,7 +66,7 @@ public class TradeAggregatorService {
         var dateBySummedTrade = deltaPnls.stream()
             .collect(Collectors.toMap(d -> d.sellDate().toString() + d.buyDate().toString(), Function.identity(),
                 (deltaPnl, deltaPnl2) -> new DeltaPnl(deltaPnl.buyDate(), deltaPnl.sellDate(), deltaPnl.totalBuy().add(deltaPnl2.totalBuy()),
-                    deltaPnl.totalSell().add(deltaPnl2.totalSell()), deltaPnl.currency())));
+                    deltaPnl.totalSell().add(deltaPnl2.totalSell()), deltaPnl.sharesSold().add(deltaPnl2.sharesSold()), deltaPnl.currency())));
         return new ArrayList<>(dateBySummedTrade.values());
     }
 
@@ -127,7 +127,7 @@ public class TradeAggregatorService {
         BigInteger sharesDelta = buySideShares.subtract(sellSideShares);
         var pnlShares = new BigDecimal(sharesDelta.compareTo(BigInteger.ZERO) >= 0 ? sellSideShares : buySideShares);
         BigDecimal nextTotal = buyPrice.multiply(pnlShares);
-        return new DeltaPnl(buyDate, sellTrade.getDate(), nextTotal, sellTrade.getPrice().multiply(pnlShares), sellTrade.getCurrency());
+        return new DeltaPnl(buyDate, sellTrade.getDate(), nextTotal, sellTrade.getPrice().multiply(pnlShares), pnlShares.toBigInteger(), sellTrade.getCurrency());
     }
 
 }

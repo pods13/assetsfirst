@@ -5,6 +5,8 @@ spring:
   datasource:
     username: test
     password: test
+  main:
+    lazy-initialization: true
 app:
   bootstrap:
     with:

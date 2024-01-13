@@ -62,7 +62,7 @@ public class AggregatedTradeDto {
 
     }
 
-    public record DeltaPnl(LocalDate buyDate, LocalDate sellDate, BigDecimal totalBuy, BigDecimal totalSell, Currency currency) {
+    public record DeltaPnl(LocalDate buyDate, LocalDate sellDate, BigDecimal totalBuy, BigDecimal totalSell, BigInteger sharesSold, Currency currency) {
 
         public BigDecimal calculatePnl(
             Function<CurrencyConverter.Request, BigDecimal> converter,

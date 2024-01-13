@@ -1,9 +1,11 @@
 package com.topably.assets.dividends.service;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.time.LocalDate;
 import java.time.Year;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Currency;
 import java.util.List;
 
@@ -21,6 +23,12 @@ import com.topably.assets.instruments.domain.instrument.Stock;
 import com.topably.assets.instruments.repository.instrument.StockRepository;
 import com.topably.assets.integration.base.IT;
 import com.topably.assets.integration.base.IntegrationTestBase;
+import com.topably.assets.portfolios.domain.position.PortfolioPosition;
+import com.topably.assets.trades.domain.TradeView;
+import com.topably.assets.trades.domain.dto.AggregatedTradeDto;
+import com.topably.assets.trades.domain.dto.AggregatedTradeDto.DeltaPnl;
+import com.topably.assets.trades.domain.dto.AggregatedTradeDto.TradeData;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -42,159 +50,228 @@ public class DividendServiceTest extends IntegrationTestBase {
     @Autowired
     private DividendService dividendService;
 
-    @Test
-    public void givenStockThatNeverPaidDividends_whenDividendAmountCalculated_thenReturnZeroAmount() {
-        var ticker = new Ticker("TSLA", "NYSE");
-        var instrument = createStockInstrument(ticker);
+    @Nested
+    class CalculateAnnualDividend {
 
-        var actualAmount = dividendService.calculateAnnualDividend(ticker, Year.of(2022));
+        @Test
+        public void givenStockThatNeverPaidDividends_whenDividendAmountCalculated_thenReturnZeroAmount() {
+            var ticker = new Ticker("TSLA", "NYSE");
+            var instrument = createStockInstrument(ticker);
 
-        assertThat(actualAmount).isZero();
+            var actualAmount = dividendService.calculateAnnualDividend(ticker, Year.of(2022));
+
+            assertThat(actualAmount).isZero();
+        }
+
+        @Test
+        public void givenOnlyOneYearDividends_whenDividendAmountCalculatedForFutureYear_thenReturnExistedYearAmount() {
+            var ticker = new Ticker("ROSN", "MCX");
+            var instrument = createStockInstrument(ticker);
+            var expectedAmount = BigDecimal.TEN;
+            addDividendData(List.of(new Dividend()
+                .setAmount(expectedAmount)
+                .setInstrument(instrument
+                ).setRecordDate(LocalDate.of(2019, 12, 6))));
+
+            var actualAmount = dividendService.calculateAnnualDividend(ticker, Year.now().plusYears(1));
+
+            assertThat(actualAmount).isEqualByComparingTo(expectedAmount);
+        }
+
+        @Test
+        public void givenDividendsForDifferentStocks_whenDividendAmountCalculatedForFutureYear_thenReturnExistedYearAmountForSpecificStock() {
+            var ticker = new Ticker("NEM", "NYCE");
+            var instrument = createStockInstrument(ticker);
+            var firstDivAmount = BigDecimal.TEN;
+            var secondDivAmount = BigDecimal.TEN;
+
+            addDividendData(List.of(new Dividend()
+                    .setAmount(firstDivAmount)
+                    .setInstrument(instrument)
+                    .setRecordDate(LocalDate.of(2023, 9, 7))
+                    .setPayDate(LocalDate.of(2023, 9, 21)),
+                new Dividend()
+                    .setAmount(secondDivAmount)
+                    .setInstrument(instrument)
+                    .setRecordDate(LocalDate.of(2023, 10, 30))
+                    .setPayDate(LocalDate.of(2023, 12, 22)),
+                new Dividend()
+                    .setAmount(BigDecimal.ONE)
+                    .setInstrument(createStockInstrument(new Ticker("ROSN", "MCX")))
+                    .setRecordDate(LocalDate.of(2024, 9, 6)
+                    ))
+            );
+
+            var actualAmount = dividendService.calculateAnnualDividend(ticker, Year.of(2024).plusYears(1));
+
+            assertThat(actualAmount).isEqualByComparingTo(firstDivAmount.add(secondDivAmount));
+        }
+
+        @Test
+        public void givenFirstTimeDividends_whenDividendAmountCalculatedForSameYear_thenReturnCorrectAmount() {
+            var ticker = new Ticker("ROSN", "MCX");
+            var instrument = createStockInstrument(ticker);
+            var expectedAmount = BigDecimal.TEN;
+            addDividendData(List.of(new Dividend()
+                .setAmount(expectedAmount)
+                .setInstrument(instrument
+                ).setRecordDate(LocalDate.of(2021, 4, 23))));
+
+            var actualAmount = dividendService.calculateAnnualDividend(ticker, Year.of(2021));
+
+            assertThat(actualAmount).isEqualByComparingTo(expectedAmount);
+        }
+
+
+        @Test
+        public void givenThisYearDividendsNotFullyPaidAndDataForPrevYearPresented_whenDividendAmountCalculatedForSameYear_thenReturnCorrectAmount() {
+            var ticker = new Ticker("ROSN", "MCX");
+            var instrument = createStockInstrument(ticker);
+            var expectedAmount = BigDecimal.valueOf(30L);
+            addDividendData(List.of(new Dividend()
+                    .setAmount(BigDecimal.TEN)
+                    .setInstrument(instrument)
+                    .setRecordDate(LocalDate.of(2020, 4, 23)),
+                new Dividend()
+                    .setAmount(BigDecimal.TEN)
+                    .setInstrument(instrument)
+                    .setRecordDate(LocalDate.of(2020, 2, 23)),
+                new Dividend()
+                    .setAmount(BigDecimal.TEN)
+                    .setInstrument(instrument)
+                    .setRecordDate(LocalDate.of(2019, 8, 21)),
+                new Dividend()
+                    .setAmount(BigDecimal.TEN)
+                    .setInstrument(instrument)
+                    .setRecordDate(LocalDate.of(2019, 4, 23))));
+
+            var actualAmount = dividendService.calculateAnnualDividend(ticker, Year.of(2020));
+
+            assertThat(actualAmount).isEqualByComparingTo(expectedAmount);
+        }
+
+        @Test
+        public void givenNextYearDividendsPredicted_whenDividendAmountCalculated_thenReturnedTTMAmount() {
+            var ticker = new Ticker("PLZL", "MCX");
+            var instrument = createStockInstrument(ticker);
+            var first = BigDecimal.valueOf(207.31);
+            var second = BigDecimal.valueOf(414.61);
+            var expectedAmount = first.add(second);
+            addDividendData(List.of(new Dividend()
+                    .setAmount(second)
+                    .setInstrument(instrument)
+                    .setRecordDate(LocalDate.of(2024, 6, 16)),
+                new Dividend()
+                    .setAmount(first)
+                    .setInstrument(instrument)
+                    .setRecordDate(LocalDate.of(2023, 10, 7)),
+                new Dividend()
+                    .setAmount(BigDecimal.valueOf(267.48))
+                    .setInstrument(instrument)
+                    .setRecordDate(LocalDate.of(2021, 10, 11)),
+                new Dividend()
+                    .setAmount(BigDecimal.valueOf(387.15))
+                    .setInstrument(instrument)
+                    .setRecordDate(LocalDate.of(2021, 6, 7))));
+
+            var actualAmount = dividendService.calculateAnnualDividend(ticker, Year.of(2024));
+
+            assertThat(actualAmount).isEqualByComparingTo(expectedAmount);
+        }
+
+        @Test
+        public void givenDividends_whenDividendAmountCalculatedForPassedYearWithoutDividends_thenReturnedZero() {
+            var ticker = new Ticker("PLZL", "MCX");
+            var instrument = createStockInstrument(ticker);
+            var first = BigDecimal.valueOf(207.31);
+            var second = BigDecimal.valueOf(414.61);
+            var expectedAmount = first.add(second);
+            addDividendData(List.of(new Dividend()
+                    .setAmount(second)
+                    .setInstrument(instrument)
+                    .setRecordDate(LocalDate.of(2024, 6, 16)),
+                new Dividend()
+                    .setAmount(first)
+                    .setInstrument(instrument)
+                    .setRecordDate(LocalDate.of(2023, 10, 7)),
+                new Dividend()
+                    .setAmount(BigDecimal.valueOf(267.48))
+                    .setInstrument(instrument)
+                    .setRecordDate(LocalDate.of(2021, 10, 11)),
+                new Dividend()
+                    .setAmount(BigDecimal.valueOf(387.15))
+                    .setInstrument(instrument)
+                    .setRecordDate(LocalDate.of(2021, 6, 7))));
+
+            var actualAmount = dividendService.calculateAnnualDividend(ticker, Year.of(2022));
+
+            assertThat(actualAmount).isZero();
+        }
+
     }
 
-    @Test
-    public void givenOnlyOneYearDividends_whenDividendAmountCalculatedForFutureYear_thenReturnExistedYearAmount() {
-        var ticker = new Ticker("ROSN", "MCX");
-        var instrument = createStockInstrument(ticker);
-        var expectedAmount = BigDecimal.TEN;
-        addDividendData(List.of(new Dividend()
-            .setAmount(expectedAmount)
-            .setInstrument(instrument
-            ).setRecordDate(LocalDate.of(2019, 12, 6))));
+    @Nested
+    class CalculateAccumulatedDividends {
 
-        var actualAmount = dividendService.calculateAnnualDividend(ticker, Year.now().plusYears(1));
+        @Test
+        public void givenOnlyBuyTrades_whenAccumulatedDividendsCalculated_thenReturnCorrectAmount() {
+            var ticker = new Ticker("ROSN", "MCX");
+            var instrument = createStockInstrument(ticker);
+            var dividendAmount = BigDecimal.TEN;
+            addDividendData(List.of(new Dividend()
+                .setAmount(dividendAmount)
+                .setInstrument(instrument
+                ).setRecordDate(LocalDate.of(2023, 12, 6))));
 
-        assertThat(actualAmount).isEqualByComparingTo(expectedAmount);
-    }
-
-    @Test
-    public void givenDividendsForDifferentStocks_whenDividendAmountCalculatedForFutureYear_thenReturnExistedYearAmountForSpecificStock() {
-        var ticker = new Ticker("NEM", "NYCE");
-        var instrument = createStockInstrument(ticker);
-        var firstDivAmount = BigDecimal.TEN;
-        var secondDivAmount = BigDecimal.TEN;
-
-        addDividendData(List.of(new Dividend()
-                .setAmount(firstDivAmount)
+            var position = new PortfolioPosition()
                 .setInstrument(instrument)
-                .setRecordDate(LocalDate.of(2023, 9, 7))
-                .setPayDate(LocalDate.of(2023, 9, 21)),
-            new Dividend()
-                .setAmount(secondDivAmount)
+                .setOpenDate(LocalDate.of(2022, 9, 15));
+            var ownedShares = BigInteger.valueOf(100L);
+            var aggregatedTradeDto = new AggregatedTradeDto()
+                .setBuyTradesData(List.of(
+                    new TradeData(ownedShares,
+                        BigDecimal.TEN,
+                        LocalDate.of(2022, 9, 15),
+                        new TradeView()))
+                ).setDeltaPnls(Collections.emptyList());
+            var actualAccumulated = dividendService.calculateAccumulatedDividends(position, aggregatedTradeDto);
+
+            assertThat(actualAccumulated).isEqualByComparingTo(dividendAmount.multiply(new BigDecimal(ownedShares)));
+        }
+
+        @Test
+        public void givenTrades_whenAccumulatedDividendsCalculated_thenSoldSharesAlsoIncluded() {
+            var ticker = new Ticker("ROSN", "MCX");
+            var instrument = createStockInstrument(ticker);
+            var dividendAmount = BigDecimal.TEN;
+            addDividendData(List.of(new Dividend()
+                .setAmount(dividendAmount)
+                .setInstrument(instrument
+                ).setRecordDate(LocalDate.of(2023, 12, 6))));
+
+            var openDate = LocalDate.of(2022, 9, 15);
+            var position = new PortfolioPosition()
                 .setInstrument(instrument)
-                .setRecordDate(LocalDate.of(2023, 10, 30))
-                .setPayDate(LocalDate.of(2023, 12, 22)),
-            new Dividend()
-                .setAmount(BigDecimal.ONE)
-                .setInstrument(createStockInstrument(new Ticker("ROSN", "MCX")))
-                .setRecordDate(LocalDate.of(2024, 9, 6)
-                ))
-        );
+                .setOpenDate(openDate);
+            var aggregatedTradeDto = new AggregatedTradeDto()
+                .setBuyTradesData(List.of(
+                    new TradeData(BigInteger.valueOf(100L),
+                        BigDecimal.TEN,
+                        openDate,
+                        new TradeView()))
+                ).setDeltaPnls(List.of(
+                    new DeltaPnl(openDate,
+                        LocalDate.of(2024, 6, 5),
+                        new BigDecimal(20000L),
+                        new BigDecimal(60000L),
+                        BigInteger.valueOf(100L),
+                        Currency.getInstance("RUB"))
+                ));
+            var actualAccumulated = dividendService.calculateAccumulatedDividends(position, aggregatedTradeDto);
 
-        var actualAmount = dividendService.calculateAnnualDividend(ticker, Year.of(2024).plusYears(1));
+            assertThat(actualAccumulated).isEqualByComparingTo(dividendAmount.multiply(new BigDecimal(200L)));
+        }
 
-        assertThat(actualAmount).isEqualByComparingTo(firstDivAmount.add(secondDivAmount));
-    }
-
-    @Test
-    public void givenFirstTimeDividends_whenDividendAmountCalculatedForSameYear_thenReturnCorrectAmount() {
-        var ticker = new Ticker("ROSN", "MCX");
-        var instrument = createStockInstrument(ticker);
-        var expectedAmount = BigDecimal.TEN;
-        addDividendData(List.of(new Dividend()
-            .setAmount(expectedAmount)
-            .setInstrument(instrument
-            ).setRecordDate(LocalDate.of(2021, 4, 23))));
-
-        var actualAmount = dividendService.calculateAnnualDividend(ticker, Year.of(2021));
-
-        assertThat(actualAmount).isEqualByComparingTo(expectedAmount);
-    }
-
-
-    @Test
-    public void givenThisYearDividendsNotFullyPaidAndDataForPrevYearPresented_whenDividendAmountCalculatedForSameYear_thenReturnCorrectAmount() {
-        var ticker = new Ticker("ROSN", "MCX");
-        var instrument = createStockInstrument(ticker);
-        var expectedAmount = BigDecimal.valueOf(30L);
-        addDividendData(List.of(new Dividend()
-                .setAmount(BigDecimal.TEN)
-                .setInstrument(instrument)
-                .setRecordDate(LocalDate.of(2020, 4, 23)),
-            new Dividend()
-                .setAmount(BigDecimal.TEN)
-                .setInstrument(instrument)
-                .setRecordDate(LocalDate.of(2020, 2, 23)),
-            new Dividend()
-                .setAmount(BigDecimal.TEN)
-                .setInstrument(instrument)
-                .setRecordDate(LocalDate.of(2019, 8, 21)),
-            new Dividend()
-                .setAmount(BigDecimal.TEN)
-                .setInstrument(instrument)
-                .setRecordDate(LocalDate.of(2019, 4, 23))));
-
-        var actualAmount = dividendService.calculateAnnualDividend(ticker, Year.of(2020));
-
-        assertThat(actualAmount).isEqualByComparingTo(expectedAmount);
-    }
-
-    @Test
-    public void givenNextYearDividendsPredicted_whenDividendAmountCalculated_thenReturnedTTMAmount() {
-        var ticker = new Ticker("PLZL", "MCX");
-        var instrument = createStockInstrument(ticker);
-        var first = BigDecimal.valueOf(207.31);
-        var second = BigDecimal.valueOf(414.61);
-        var expectedAmount = first.add(second);
-        addDividendData(List.of(new Dividend()
-                .setAmount(second)
-                .setInstrument(instrument)
-                .setRecordDate(LocalDate.of(2024, 6, 16)),
-            new Dividend()
-                .setAmount(first)
-                .setInstrument(instrument)
-                .setRecordDate(LocalDate.of(2023, 10, 7)),
-            new Dividend()
-                .setAmount(BigDecimal.valueOf(267.48))
-                .setInstrument(instrument)
-                .setRecordDate(LocalDate.of(2021, 10, 11)),
-            new Dividend()
-                .setAmount(BigDecimal.valueOf(387.15))
-                .setInstrument(instrument)
-                .setRecordDate(LocalDate.of(2021, 6, 7))));
-
-        var actualAmount = dividendService.calculateAnnualDividend(ticker, Year.of(2024));
-
-        assertThat(actualAmount).isEqualByComparingTo(expectedAmount);
-    }
-
-    @Test
-    public void givenDividends_whenDividendAmountCalculatedForPassedYearWithoutDividends_thenReturnedZero() {
-        var ticker = new Ticker("PLZL", "MCX");
-        var instrument = createStockInstrument(ticker);
-        var first = BigDecimal.valueOf(207.31);
-        var second = BigDecimal.valueOf(414.61);
-        var expectedAmount = first.add(second);
-        addDividendData(List.of(new Dividend()
-                .setAmount(second)
-                .setInstrument(instrument)
-                .setRecordDate(LocalDate.of(2024, 6, 16)),
-            new Dividend()
-                .setAmount(first)
-                .setInstrument(instrument)
-                .setRecordDate(LocalDate.of(2023, 10, 7)),
-            new Dividend()
-                .setAmount(BigDecimal.valueOf(267.48))
-                .setInstrument(instrument)
-                .setRecordDate(LocalDate.of(2021, 10, 11)),
-            new Dividend()
-                .setAmount(BigDecimal.valueOf(387.15))
-                .setInstrument(instrument)
-                .setRecordDate(LocalDate.of(2021, 6, 7))));
-
-        var actualAmount = dividendService.calculateAnnualDividend(ticker, Year.of(2022));
-
-        assertThat(actualAmount).isZero();
     }
 
     private Collection<Dividend> addDividendData(Collection<Dividend> data) {

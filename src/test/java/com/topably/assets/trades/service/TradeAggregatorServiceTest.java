@@ -77,6 +77,7 @@ class TradeAggregatorServiceTest {
                 sellTrade.getDate(),
                 buyTrade.getPrice().multiply(new BigDecimal(sellTrade.getQuantity())),
                 sellTrade.getPrice().multiply(new BigDecimal(sellTrade.getQuantity())),
+                sellTrade.getQuantity(),
                 sellTrade.getCurrency())
         );
     }
@@ -184,16 +185,19 @@ class TradeAggregatorServiceTest {
                 sellTrade.getDate(),
                 buyTrade2.getTotal(),
                 sellTrade.getPrice().multiply(new BigDecimal(buyTrade2.getQuantity())),
+                buyTrade2.getQuantity(),
                 sellTrade.getCurrency()),
             new AggregatedTradeDto.DeltaPnl(buyTrade3.getDate(),
                 sellTrade.getDate(),
                 buyTrade3.getTotal(),
                 sellTrade.getPrice().multiply(new BigDecimal(buyTrade3.getQuantity())),
+                buyTrade3.getQuantity(),
                 sellTrade.getCurrency()),
             new AggregatedTradeDto.DeltaPnl(buyTrade4.getDate(),
                 sellTrade.getDate(),
                 buyTrade4.getTotal(),
                 sellTrade.getPrice().multiply(new BigDecimal(buyTrade4.getQuantity())),
+                buyTrade4.getQuantity(),
                 sellTrade.getCurrency())
         );
     }
@@ -228,6 +232,7 @@ class TradeAggregatorServiceTest {
                 sellTrade.getDate(),
                 buyTrade.getTotal(),
                 sellTrade.getTotal(),
+                sellTrade.getQuantity(),
                 sellTrade.getCurrency())
         );
     }

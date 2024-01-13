@@ -132,7 +132,7 @@ public class PortfolioPositionService {
 
     private BigDecimal calculateAccumulatedDividends(PortfolioPosition position) {
         var tradesResult = tradeAggregatorService.aggregateTradesByPositionId(position.getId());
-        return dividendService.calculateAccumulatedDividends(position, tradesResult.getBuyTradesData());
+        return dividendService.calculateAccumulatedDividends(position, tradesResult);
     }
 
     private LocalDate findUpcomingDividendDate(Ticker ticker) {

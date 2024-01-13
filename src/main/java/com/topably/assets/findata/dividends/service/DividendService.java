@@ -185,13 +185,14 @@ public class DividendService {
     }
 
     @Transactional(readOnly = true)
-    public BigDecimal calculateAccumulatedDividends(PortfolioPosition position, Collection<AggregatedTradeDto.TradeData> tradeData) {
+    public BigDecimal calculateAccumulatedDividends(PortfolioPosition position, AggregatedTradeDto aggregatedTradeDto) {
         var instrumentId = position.getInstrument().getId();
         var dividendRecordDate = position.getOpenDate().plus(2, ChronoUnit.DAYS);
         var dividends = dividendRepository.findAllPaidDividendsByInstrumentId(instrumentId, dividendRecordDate, LocalDate.now());
         return dividends.stream()
             .map(d -> {
-                var shares = countShares(tradeData, d);
+                var shares = countShares(aggregatedTradeDto.getBuyTradesData(), d)
+                    .add(countSoldShares(aggregatedTradeDto.getDeltaPnls(), d));
                 return d.getAmount().multiply(shares);
             })
             .reduce(BigDecimal.ZERO, BigDecimal::add);
@@ -201,6 +202,15 @@ public class DividendService {
         return tradeData.stream()
             .filter(trade -> trade.getTradeTime().plus(2, ChronoUnit.DAYS).compareTo(dividend.getRecordDate()) <= 0)
             .map(AggregatedTradeDto.TradeData::getShares)
+            .map(BigDecimal::new)
+            .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
+    private BigDecimal countSoldShares(List<AggregatedTradeDto.DeltaPnl> deltaPnls, Dividend dividend) {
+        return deltaPnls.stream()
+            .filter(pnl -> pnl.buyDate().plus(2, ChronoUnit.DAYS).compareTo(dividend.getRecordDate()) <= 0
+                && pnl.sellDate().isAfter(dividend.getRecordDate()))
+            .map(AggregatedTradeDto.DeltaPnl::sharesSold)
             .map(BigDecimal::new)
             .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
