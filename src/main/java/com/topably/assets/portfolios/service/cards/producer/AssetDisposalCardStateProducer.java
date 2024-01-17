@@ -6,15 +6,20 @@ import java.time.Year;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Currency;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import com.topably.assets.core.domain.Ticker;
 import com.topably.assets.findata.xrates.service.currency.CurrencyConverter;
 import com.topably.assets.portfolios.domain.Portfolio;
 import com.topably.assets.portfolios.domain.cards.CardContainerType;
 import com.topably.assets.portfolios.domain.cards.CardData;
 import com.topably.assets.portfolios.domain.cards.input.AssetDisposalCard;
-import com.topably.assets.portfolios.domain.cards.output.AssetDisposalCardData;
+import com.topably.assets.portfolios.domain.cards.output.disposal.AssetDisposalCardData;
+import com.topably.assets.portfolios.domain.cards.output.disposal.AssetDisposalDetails;
 import com.topably.assets.portfolios.service.PortfolioPositionService;
 import com.topably.assets.portfolios.service.cards.CardStateProducer;
 import com.topably.assets.trades.domain.dto.AggregatedTradeDto;
@@ -44,24 +49,36 @@ public class AssetDisposalCardStateProducer implements CardStateProducer<AssetDi
                 return aggregatedTrade.getDeltaPnls();
             }));
         var portfolioCurrency = portfolio.getCurrency();
-        var profitsByLosses = tickerByTradePnls.values().stream()
+        var profitsByLosses = tickerByTradePnls.entrySet().stream()
+            .map(tickerByPnl -> tickerByPnl.getValue().stream()
+                .map(pnl -> new AssetDisposalDetails(tickerByPnl.getKey(), pnl.calculatePnl(currencyConverter::convert, portfolioCurrency)))
+                .toList()
+            )
             .flatMap(Collection::stream)
-            .collect(Collectors.partitioningBy(deltaPnl ->
-                deltaPnl.calculatePnl(currencyConverter::convert, portfolioCurrency).compareTo(BigDecimal.ZERO) > 0));
-        var profits = calculateSumTotal(portfolioCurrency, profitsByLosses.get(Boolean.TRUE));
-        var loses = calculateSumTotal(portfolioCurrency, profitsByLosses.get(Boolean.FALSE));
+            .collect(Collectors.partitioningBy(details -> details.total().compareTo(BigDecimal.ZERO) > 0,
+                Collectors.toMap(AssetDisposalDetails::ticker,
+                    Function.identity(),
+                    (d1, d2) -> new AssetDisposalDetails(d1.ticker(), d1.total().add(d2.total())))));
+        var profitDetails = profitsByLosses.get(Boolean.TRUE);
+        var profits = calculateSumTotal(portfolioCurrency, profitDetails);
+        var lossDetails = profitsByLosses.get(Boolean.FALSE);
+        var loses = calculateSumTotal(portfolioCurrency, lossDetails);
         var taxableIncome = loses.add(profits);
+
         return new AssetDisposalCardData()
-            .setProfits(Collections.singletonList(profits))
-            .setLosses(Collections.singletonList(loses))
-            .setTaxableIncome(Collections.singletonList(taxableIncome))
+            .setProfits(profits)
+            .setProfitDetails(profitDetails.values())
+            .setLosses(loses)
+            .setLossDetails(lossDetails.values())
+            .setTaxableIncome(taxableIncome)
             .setTrackedYears(Collections.singletonList(trackedYear))
             .setCurrencyCode(portfolioCurrency.getCurrencyCode());
     }
 
-    private BigDecimal calculateSumTotal(Currency portfolioCurrency, List<AggregatedTradeDto.DeltaPnl> deltaPnls) {
-        return deltaPnls.stream()
-            .map(deltaPnl -> deltaPnl.calculatePnl(currencyConverter::convert, portfolioCurrency))
+    private BigDecimal calculateSumTotal(Currency portfolioCurrency, Map<Ticker, AssetDisposalDetails> detailsByTicker) {
+        return detailsByTicker.values()
+            .stream()
+            .map(AssetDisposalDetails::total)
             .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 

@@ -47,7 +47,7 @@ docker-compose down
 - [x] Asset disposal widget
 - [x] Switch from @swimlane/ngx-datatable to mat-table
 - [x] Rework the position table
-- [ ] Asset disposal widget - show details when hovered over
+- [x] Asset disposal widget - show details when hovered over
 - [ ] Custom dividend projection - clear projection when checkbox is unselected + fix ui of projection row
 - [ ] Custom dividend projection - use mat-select for selection of ticker based on open positions
 - [ ] Custom dividend projection - use mat-select for currency

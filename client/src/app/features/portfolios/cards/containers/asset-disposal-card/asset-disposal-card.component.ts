@@ -2,11 +2,12 @@ import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit} from '@an
 import {CardContainer} from '../../types/card-container';
 import {Observable} from 'rxjs';
 import {AssetDisposalCard} from '../../types/in/asset-disposal-card';
-import {AssetDisposalCardData} from '../../types/out/asset-disposal-card-data';
+import {AssetDisposalCardData, AssetDisposalDetails} from '../../types/out/asset-disposal-card-data';
 import {ECharts, EChartsOption} from 'echarts';
 import {UntilDestroy, untilDestroyed} from '@ngneat/until-destroy';
 import {shortNumber} from "@core/helpers/number.helpers";
 import {CurrencyPipe} from "@angular/common";
+import {stringifyTicker} from "@core/types/ticker";
 
 @UntilDestroy()
 @Component({
@@ -48,9 +49,16 @@ export class AssetDisposalCardComponent implements OnInit, CardContainer<AssetDi
     }
 
     constructChartOption(cardData: AssetDisposalCardData): EChartsOption {
+        const tooltipFormatter = (details: AssetDisposalDetails[]) => {
+            const disposalDetails = details
+                .map(detail => `<span class="detail">${stringifyTicker(detail.ticker)}: ${this.currencyPipe.transform(detail.total, cardData.currencyCode)}</span>`).join("");
+            return `<div>${disposalDetails}</div>`;
+        }
         return {
             tooltip: {
-                trigger: 'item'
+                trigger: 'item',
+                position: 'inside',
+
             },
             xAxis: [
                 {
@@ -73,10 +81,18 @@ export class AssetDisposalCardComponent implements OnInit, CardContainer<AssetDi
             ],
             series: [
                 {
+                    tooltip: {
+                        valueFormatter: (value) => {
+                            if (Array.isArray(value)) {
+                                return '' as string;
+                            }
+                            return this.currencyPipe.transform(value as number, cardData.currencyCode) as string;
+                        }
+                    },
                     name: 'Taxable Income',
                     type: 'bar',
                     label: {
-                        show: true,
+                        show: cardData.taxableIncome > 0,
                         position: 'inside',
                         formatter: (params: any) => {
                             return this.currencyPipe.transform(params.value, cardData.currencyCode) as any;
@@ -85,14 +101,19 @@ export class AssetDisposalCardComponent implements OnInit, CardContainer<AssetDi
                     emphasis: {
                         focus: 'series'
                     },
-                    data: cardData.taxableIncome
+                    data: [cardData.taxableIncome]
                 },
                 {
+                    tooltip: {
+                        formatter: (params: any) => {
+                            return tooltipFormatter(cardData.profitDetails);
+                        }
+                    },
                     name: 'Profit',
                     type: 'bar',
                     stack: 'Total',
                     label: {
-                        show: true,
+                        show: cardData.profits > 0,
                         formatter: (params: any) => {
                             return this.currencyPipe.transform(params.value, cardData.currencyCode) as any;
                         }
@@ -100,14 +121,19 @@ export class AssetDisposalCardComponent implements OnInit, CardContainer<AssetDi
                     emphasis: {
                         focus: 'series'
                     },
-                    data: cardData.profits
+                    data: [cardData.profits]
                 },
                 {
+                    tooltip: {
+                        formatter: (params: any) => {
+                            return tooltipFormatter(cardData.lossDetails);
+                        }
+                    },
                     name: 'Loss',
                     type: 'bar',
                     stack: 'Total',
                     label: {
-                        show: true,
+                        show: cardData.losses > 0,
                         position: 'inside',
                         formatter: (params: any) => {
                             return this.currencyPipe.transform(params.value, cardData.currencyCode) as any;
@@ -116,7 +142,7 @@ export class AssetDisposalCardComponent implements OnInit, CardContainer<AssetDi
                     emphasis: {
                         focus: 'series'
                     },
-                    data: cardData.losses
+                    data: [cardData.losses]
                 }]
         };
     }
