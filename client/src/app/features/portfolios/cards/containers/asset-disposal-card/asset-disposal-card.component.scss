@@ -1,1 +1,21 @@
 @import "../common-card";
+
+.tooltip-disposal {
+  max-width: 400px;
+  min-width: 150px;
+}
+
+.tooltip-disposal-details {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+
+  & .disposal-detail {
+    flex: 1 1 30%;
+    display: flex;
+    justify-content: space-evenly;
+    padding: 2px;
+  }
+}

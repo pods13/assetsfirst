@@ -51,8 +51,10 @@ export class AssetDisposalCardComponent implements OnInit, CardContainer<AssetDi
     constructChartOption(cardData: AssetDisposalCardData): EChartsOption {
         const tooltipFormatter = (details: AssetDisposalDetails[]) => {
             const disposalDetails = details
-                .map(detail => `<span class="detail">${stringifyTicker(detail.ticker)}: ${this.currencyPipe.transform(detail.total, cardData.currencyCode)}</span>`).join("");
-            return `<div>${disposalDetails}</div>`;
+                .map(detail => `<span class="disposal-detail">${stringifyTicker(detail.ticker)}: ${this.currencyPipe.transform(detail.total, cardData.currencyCode)}</span>`).join("");
+            return `<div class="tooltip-disposal">
+                       <div class="tooltip-disposal-details">${disposalDetails}</div>
+                    </div>`;
         }
         return {
             tooltip: {
@@ -133,7 +135,7 @@ export class AssetDisposalCardComponent implements OnInit, CardContainer<AssetDi
                     type: 'bar',
                     stack: 'Total',
                     label: {
-                        show: cardData.losses > 0,
+                        show: cardData.losses < 0,
                         position: 'inside',
                         formatter: (params: any) => {
                             return this.currencyPipe.transform(params.value, cardData.currencyCode) as any;
