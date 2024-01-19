@@ -48,9 +48,11 @@ docker-compose down
 - [x] Switch from @swimlane/ngx-datatable to mat-table
 - [x] Rework the position table
 - [x] Asset disposal widget - show details when hovered over
+- [ ] Asset disposal widget - user can select year to show
 - [ ] Custom dividend projection - clear projection when checkbox is unselected + fix ui of projection row
 - [ ] Custom dividend projection - use mat-select for selection of ticker based on open positions
 - [ ] Custom dividend projection - use mat-select for currency
+- [ ] Custom dividend projection - select year for which project dividends
 - [ ] Company Page - ownership structure
 - [ ] Migrate Angular from v14 to v16
 - [ ] Keep showing accumulated dividends for closed positions

@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {CardContainer} from '../../types/card-container';
 import {Observable} from 'rxjs';
 import {AssetDisposalCard} from '../../types/in/asset-disposal-card';
@@ -21,7 +21,8 @@ import {stringifyTicker} from "@core/types/ticker";
         </div>
     `,
     styleUrls: ['./asset-disposal-card.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    encapsulation: ViewEncapsulation.None
 })
 export class AssetDisposalCardComponent implements OnInit, CardContainer<AssetDisposalCard, AssetDisposalCardData> {
 
