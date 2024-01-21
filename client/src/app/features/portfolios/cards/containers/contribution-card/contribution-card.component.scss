@@ -1,5 +1,5 @@
 @import "../common-card";
 
-.contributed-amount span + span {
+.contributed-amount span + span, .contributed-amount-details span + span {
   margin-left: 5px;
 }

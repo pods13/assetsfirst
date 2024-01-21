@@ -59,7 +59,19 @@ public class ContributionCardStateProducer implements CardStateProducer<Contribu
             .setXaxis(xAxis)
             .setContributions(contributions)
             .setTotalContributed(calculateTotalContributed(contributions))
+            .setReinvestedDividends(calculateContributionTotal(DIVIDEND_CONTRIBUTION_NAME, contributions))
+            .setDeposited(calculateContributionTotal(DEPOSIT_CONTRIBUTION_NAME, contributions))
             .setCurrencyCode(portfolio.getCurrency().getCurrencyCode());
+    }
+
+    private BigDecimal calculateContributionTotal(String contributionName, Collection<ContributionCardData.Contribution> contributions) {
+        return contributions.stream()
+            .filter(c -> contributionName.equals(c.name()))
+            .findFirst()
+            .stream()
+            .map(ContributionCardData.Contribution::data)
+            .flatMap(Collection::stream)
+            .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
     private Collection<String> composeXAxis() {

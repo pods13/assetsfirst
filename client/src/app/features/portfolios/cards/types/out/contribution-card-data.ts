@@ -1,13 +1,15 @@
-import { CardData } from '../card-data';
+import {CardData} from '../card-data';
 
-export interface ContributionCardData extends CardData{
-  xaxis: string[];
-  contributions: Contribution[];
-  totalContributed: number;
-  currencyCode: string;
+export interface ContributionCardData extends CardData {
+    xaxis: string[];
+    contributions: Contribution[];
+    totalContributed: number;
+    reinvestedDividends: number;
+    deposited: number;
+    currencyCode: string;
 }
 
 export interface Contribution {
-  name: string;
-  data: number[];
+    name: string;
+    data: number[];
 }
