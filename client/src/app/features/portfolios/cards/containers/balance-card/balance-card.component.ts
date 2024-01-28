@@ -54,7 +54,7 @@ export class BalanceCardComponent implements OnInit, CardContainer<BalanceCard, 
   }
 
   constructChartOption(cardData: BalanceCardData): EChartsOption {
-    const {dates, values} = cardData.investedAmountByDates;
+    const {dates, values} = cardData.investedValueByDates;
     return {
       tooltip: {
         trigger: 'item'

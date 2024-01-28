@@ -1,5 +1,18 @@
 package com.topably.assets.portfolios.service;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.Year;
+import java.time.ZoneOffset;
+import java.time.temporal.ChronoUnit;
+import java.util.Collection;
+import java.util.Currency;
+import java.util.List;
+import java.util.Objects;
+import java.util.function.BiFunction;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
+
 import com.topably.assets.auth.domain.security.CurrentUser;
 import com.topably.assets.core.config.cache.CacheNames;
 import com.topably.assets.core.config.demo.DemoDataConfig;
@@ -19,16 +32,6 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.Year;
-import java.time.temporal.ChronoUnit;
-import java.util.Collection;
-import java.util.Currency;
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -47,26 +50,27 @@ public class PortfolioService {
         return portfolioRepository.findByUserId(userId);
     }
 
-    public BigDecimal calculateCurrentAmount(Portfolio portfolio) {
-        //TODO calculate portfolio value by some date in the past
-        var positions = portfolioPositionService.findPortfolioPositions(portfolio.getId());
-        return calculateCurrentAmount(portfolio, positions);
+    @Cacheable(key = "{ #root.methodName, #portfolio.id, #date }")
+    public BigDecimal calculateMarketValueByDate(Portfolio portfolio, LocalDate date) {
+        var positions = portfolioPositionService.findPortfolioPositionsOpenedByDate(portfolio.getId(), date);
+        return calculateMarketValueByPositions(portfolio, positions, date);
     }
 
-    public BigDecimal calculateCurrentAmountInYieldInstrument(Portfolio portfolio) {
+    public BigDecimal calculateMarketValueInYieldInstruments(Portfolio portfolio, LocalDate date) {
         var positions = portfolioPositionService.findPortfolioPositions(portfolio.getId()).stream()
             .filter(p -> !InstrumentType.FX.name().equals(p.getInstrumentType()))
             .toList();
-        return calculateCurrentAmount(portfolio, positions);
+        return calculateMarketValueByPositions(portfolio, positions, date);
     }
 
-    private BigDecimal calculateCurrentAmount(Portfolio portfolio, Collection<PortfolioPositionDto> positions) {
+    private BigDecimal calculateMarketValueByPositions(Portfolio portfolio, Collection<PortfolioPositionDto> positions, LocalDate date) {
         return positions.stream()
             .map(p -> {
-                var marketValue = exchangeService.findSymbolRecentPrice(p.getIdentifier())
+                var marketValue = exchangeService.findSymbolPriceByDate(p.getIdentifier(), date)
                     .map(value -> value.multiply(new BigDecimal(p.getQuantity())))
                     .orElse(p.getTotal());
-                return currencyConverter.convert(marketValue, p.getCurrency(), portfolio.getCurrency());
+                return currencyConverter.convert(marketValue, p.getCurrency(), portfolio.getCurrency(), date.atStartOfDay().toInstant(
+                    ZoneOffset.UTC));
             })
             .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
@@ -103,13 +107,27 @@ public class PortfolioService {
         return positions.stream()
             .map(p -> {
                 var dividendPerShare = portfolioPositionService.calculateAnnualDividend(p, year);
-                return currencyConverter.convert(dividendPerShare.multiply(new BigDecimal(p.getQuantity())), p.getInstrument().getCurrency(), portfolio.getCurrency());
+                return currencyConverter.convert(dividendPerShare.multiply(new BigDecimal(p.getQuantity())),
+                    p.getInstrument().getCurrency(),
+                    portfolio.getCurrency());
             })
             .reduce(BigDecimal.ZERO, BigDecimal::add);
 
     }
 
-    public PortfolioValuesByDates getInvestedAmountByDates(Portfolio portfolio, int numOfDatesBetween) {
+    public PortfolioValuesByDates getMarketValueByDates(Portfolio portfolio, int numOfDatesBetween) {
+        return calculatePortfolioValueByDates(portfolio, numOfDatesBetween, this::calculateMarketValueByDate);
+    }
+
+    public PortfolioValuesByDates getInvestedValueByDates(Portfolio portfolio, int numOfDatesBetween) {
+        return calculatePortfolioValueByDates(portfolio, numOfDatesBetween, this::calculateInvestedAmountByDate);
+    }
+
+    public PortfolioValuesByDates calculatePortfolioValueByDates(
+        Portfolio portfolio,
+        int numOfDatesBetween,
+        BiFunction<Portfolio, LocalDate, BigDecimal> calcFunc
+    ) {
         var endDate = LocalDate.now().plusDays(1);
         var start = endDate.minusYears(1);
         var datesBetween = getDatesBetween(start, endDate, numOfDatesBetween);
@@ -117,14 +135,16 @@ public class PortfolioService {
             .map(Objects::toString)
             .toList();
         var values = datesBetween.stream()
-            .map(d -> calculateInvestedAmountByDate(portfolio, d))
+            .map(d -> calcFunc.apply(portfolio, d))
             .toList();
         return new PortfolioValuesByDates(dates, values);
     }
 
     public List<LocalDate> getDatesBetween(LocalDate startDate, LocalDate endDate, int numOfDatesBetween) {
         long numOfDaysBetween = ChronoUnit.DAYS.between(startDate, endDate);
-        var datesBeforeEndStream = IntStream.iterate(0, i -> (numOfDaysBetween - 1) <= numOfDatesBetween ? i + 1 : i + (int) Math.ceil((double) numOfDaysBetween / numOfDatesBetween))
+        var datesBeforeEndStream = IntStream.iterate(0,
+                i -> (numOfDaysBetween - 1) <= numOfDatesBetween ? i + 1 :
+                    i + (int) Math.ceil((double) numOfDaysBetween / numOfDatesBetween))
             .limit(numOfDatesBetween)
             .mapToObj(startDate::plusDays);
         return Stream.concat(datesBeforeEndStream, Stream.of(endDate)).toList();
@@ -136,12 +156,14 @@ public class PortfolioService {
         return new PortfolioDto()
             .setValueIncreasePct(calculatePortfolioValueIncreasePct(portfolio))
             .setCurrencyCode(portfolio.getCurrency().getCurrencyCode())
-            .setInvestedAmountByDates(getInvestedAmountByDates(portfolio, 15));
+            //TODO start persisting calculated invested and market values into database
+            .setInvestedValueByDates(getInvestedValueByDates(portfolio, 3))
+            .setMarketValueByDates(getMarketValueByDates(portfolio, 15));
     }
 
     private BigDecimal calculatePortfolioValueIncreasePct(Portfolio portfolio) {
         var invested = calculateInvestedAmount(portfolio);
-        var current = calculateCurrentAmount(portfolio);
+        var current = calculateMarketValueByDate(portfolio, LocalDate.now());
         return NumberUtils.calculatePercentage(invested, current.subtract(invested));
     }
 
@@ -154,4 +176,5 @@ public class PortfolioService {
             throw new UnsupportedOperationException();
         }
     }
+
 }

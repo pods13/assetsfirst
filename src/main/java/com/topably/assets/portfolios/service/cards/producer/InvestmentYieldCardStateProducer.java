@@ -12,7 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
+import java.time.LocalDate;
 import java.time.Year;
 
 @Service(CardContainerType.INVESTMENT_YIELD)
@@ -35,7 +35,7 @@ public class InvestmentYieldCardStateProducer implements CardStateProducer<Inves
     }
 
     private BigDecimal calculateDividendYield(Portfolio portfolio, BigDecimal annualDividend) {
-        var currentAmount = portfolioService.calculateCurrentAmountInYieldInstrument(portfolio);
+        var currentAmount = portfolioService.calculateMarketValueInYieldInstruments(portfolio, LocalDate.now());
         return NumberUtils.calculatePercentage(currentAmount, annualDividend);
     }
 }

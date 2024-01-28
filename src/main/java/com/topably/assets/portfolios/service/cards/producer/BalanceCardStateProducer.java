@@ -11,7 +11,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.Currency;
+import java.time.LocalDate;
+
 
 @Service(CardContainerType.BALANCE)
 @RequiredArgsConstructor
@@ -24,8 +25,8 @@ public class BalanceCardStateProducer implements CardStateProducer<BalanceCard> 
     public CardData produce(Portfolio portfolio, BalanceCard card) {
         return new BalanceCardData()
             .setInvestedAmount(portfolioService.calculateInvestedAmount(portfolio))
-            .setCurrentAmount(portfolioService.calculateCurrentAmount(portfolio))
+            .setCurrentAmount(portfolioService.calculateMarketValueByDate(portfolio, LocalDate.now()))
             .setCurrencyCode(portfolio.getCurrency().getCurrencyCode())
-            .setInvestedAmountByDates(portfolioService.getInvestedAmountByDates(portfolio, 5));
+            .setInvestedValueByDates(portfolioService.getInvestedValueByDates(portfolio, 5));
     }
 }

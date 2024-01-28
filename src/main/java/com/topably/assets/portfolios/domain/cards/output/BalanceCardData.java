@@ -14,5 +14,5 @@ public class BalanceCardData implements CardData {
     private BigDecimal currentAmount;
     private BigDecimal investedAmount;
     private String currencyCode;
-    private PortfolioValuesByDates investedAmountByDates;
+    private PortfolioValuesByDates investedValueByDates;
 }

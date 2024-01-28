@@ -145,8 +145,8 @@ export class HomePageComponent implements OnInit {
   }
 
   constructChartOption(dto: PortfolioDto): EChartsOption {
-    const investedAmountByDates = dto.investedAmountByDates;
-    const latestValue = investedAmountByDates.values[investedAmountByDates.values.length - 1];
+    const marketValueByDates = dto.marketValueByDates;
+    const latestValue = marketValueByDates.values[marketValueByDates.values.length - 1];
     const formattedLatestValue = this.currencyPipe.transform(latestValue, dto.currencyCode);
     return {
       title: {
@@ -162,7 +162,7 @@ export class HomePageComponent implements OnInit {
       xAxis: {
         type: 'category',
         boundaryGap: false,
-        data: investedAmountByDates.dates,
+        data: marketValueByDates.dates,
         show: true,
         axisLine: {
           show: false,
@@ -188,7 +188,7 @@ export class HomePageComponent implements OnInit {
       },
       series: [
         {
-          data: investedAmountByDates.values,
+          data: marketValueByDates.values,
           type: 'line',
           areaStyle: {
             opacity: 0.1

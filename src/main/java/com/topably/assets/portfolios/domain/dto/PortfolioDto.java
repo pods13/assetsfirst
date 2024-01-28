@@ -11,5 +11,6 @@ public class PortfolioDto {
 
     private BigDecimal valueIncreasePct;
     private String currencyCode;
-    private PortfolioValuesByDates investedAmountByDates;
+    private PortfolioValuesByDates investedValueByDates;
+    private PortfolioValuesByDates marketValueByDates;
 }

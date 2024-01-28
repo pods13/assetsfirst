@@ -21,6 +21,7 @@ import yahoofinance.YahooFinance;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Optional;
 import java.util.Set;
@@ -57,6 +58,13 @@ public class ExchangeService {
         var exchangeCodes = "US".equals(exchange) ? US_EXCHANGE_CODES : Set.of(exchange);
         return exchangeRepository.findInstrumentsOfCertainTypesByExchangeCodes(pageable, exchangeCodes,
             useDefaultInstrumentTypesIfNull(instrumentTypes), inAnyPortfolio);
+    }
+
+    @Transactional(readOnly = true)
+    public Optional<BigDecimal> findSymbolPriceByDate(Ticker ticker, LocalDate date) {
+        //TODO fill up table with historical data in order to just get the actual price
+        return priceRepository.findTopByTickerAndLessThenOrEqualDateOrderByDatetimeDesc(ticker.getSymbol(), ticker.getExchange(), date)
+            .map(InstrumentPrice::getValue);
     }
 
     @Cacheable(unless = "#result != null")

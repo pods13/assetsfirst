@@ -21,7 +21,6 @@ public interface InstrumentPriceRepository extends JpaRepository<InstrumentPrice
         """, nativeQuery = true)
     Optional<InstrumentPrice> findTopByTickerOrderByDatetimeDesc(String symbol, String exchange);
 
-
     @Query(value = """
         select ip.*
         from instrument_price ip
@@ -29,9 +28,9 @@ public interface InstrumentPriceRepository extends JpaRepository<InstrumentPrice
                  join exchange e on e.id = i.exchange_id
         where i.symbol = :symbol
           and e.code = :exchange
-          and cast(datetime as date) = :date
+          and cast(datetime as date) <= :date
         order by datetime desc
         limit 1
         """, nativeQuery = true)
-    Optional<InstrumentPrice> findTopByTickerAndDateOrderByDatetimeDesc(String symbol, String exchange, LocalDate date);
+    Optional<InstrumentPrice> findTopByTickerAndLessThenOrEqualDateOrderByDatetimeDesc(String symbol, String exchange, LocalDate date);
 }
