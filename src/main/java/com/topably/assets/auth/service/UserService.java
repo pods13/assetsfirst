@@ -35,8 +35,8 @@ public class UserService {
         return userRepository.getReferenceById(id);
     }
 
-    public User findByUsername(String username) {
-        return userRepository.findByUsername(username).orElse(null);
+    public Optional<User> findByUsername(String username) {
+        return userRepository.findByUsername(username);
     }
 
     public UserDto createNewUserAccount(CreateUserDto userDto) {

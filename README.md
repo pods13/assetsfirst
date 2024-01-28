@@ -48,6 +48,7 @@ docker-compose down
 - [x] Switch from @swimlane/ngx-datatable to mat-table
 - [x] Rework the position table
 - [x] Asset disposal widget - show details when hovered over
+- [X] On home page show demo portfolio values
 - [ ] Asset disposal widget - user can select year to show
 - [ ] Custom dividend projection - clear projection when checkbox is unselected + fix ui of projection row
 - [ ] Custom dividend projection - use mat-select for selection of ticker based on open positions
@@ -67,7 +68,6 @@ docker-compose down
 - [ ] New position widget
 - [ ] New trades widget
 - [ ] Ability to group positions
-- [ ] On home page show demo portfolio values
 - [ ] Asset allocation widget option to show invested money instead of current evaluation
 - [ ] Ability to close position in one click
 - [ ] Ability to precalculate PL(a separate button) when user tries to add sell trade
@@ -77,6 +77,8 @@ docker-compose down
 - [ ] Run job to get russian assets prices on beget
 - [ ] Create endpoint to clear caches
 - [ ] Store dividend type for dividend data + use it in overall dividend prediction calculation process
+- [ ] Allow to ignore some positions during calculation % of portfolio, i.e. skip cash position
+- [ ] When user logged in on home page show their portfolio data
 </details>
 
 ## Redeploy flow

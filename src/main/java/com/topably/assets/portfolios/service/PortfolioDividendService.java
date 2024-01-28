@@ -1,5 +1,6 @@
 package com.topably.assets.portfolios.service;
 
+import com.topably.assets.auth.domain.security.CurrentUser;
 import com.topably.assets.findata.dividends.service.DividendService;
 import com.topably.assets.instruments.domain.InstrumentType;
 import com.topably.assets.portfolios.domain.dto.PortfolioDividendDto;
@@ -23,10 +24,11 @@ public class PortfolioDividendService {
     private final PortfolioDividendMapper portfolioDividendMapper;
     private final PortfolioPositionService positionService;
     private final DividendService dividendService;
+    private final PortfolioService portfolioService;
 
-    public Page<PortfolioDividendDto> findUpcomingDividends(String identifier, Pageable pageable) {
-        //TODO Get rid of hardcoded value
-        var positions = positionService.findPortfolioPositionsByPortfolioId(1L);
+    public Page<PortfolioDividendDto> findUpcomingDividends(CurrentUser user, String identifier, Pageable pageable) {
+        var portfolio = portfolioService.findPortfolioByIdentifier(user, identifier);
+        var positions = positionService.findPortfolioPositionsByPortfolioId(portfolio.getId());
         var instrumentWithDividends = Set.of(InstrumentType.STOCK.name(), InstrumentType.ETF.name());
         var tickerByQuantity = positions.stream()
             .filter(p -> p.getQuantity().compareTo(BigInteger.ZERO) > 0)

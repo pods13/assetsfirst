@@ -29,6 +29,8 @@ app:
   integration:
     free-currency:
       key: ${APP_INTEGRATION_FREE_CURRENCY_KEY:}
+  demo-data:
+    username: demo
 
 springdoc:
   swagger-ui:

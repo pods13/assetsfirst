@@ -1,6 +1,8 @@
 package com.topably.assets.portfolios.service;
 
+import com.topably.assets.auth.domain.security.CurrentUser;
 import com.topably.assets.core.config.cache.CacheNames;
+import com.topably.assets.core.config.demo.DemoDataConfig;
 import com.topably.assets.core.util.NumberUtils;
 import com.topably.assets.findata.exchanges.service.ExchangeService;
 import com.topably.assets.findata.xrates.service.currency.CurrencyConverter;
@@ -39,6 +41,7 @@ public class PortfolioService {
     private final ExchangeService exchangeService;
     private final CurrencyConverter currencyConverter;
     private final PortfolioPositionService portfolioPositionService;
+    private final DemoDataConfig demoDataConfig;
 
     public Portfolio findByUserId(Long userId) {
         return portfolioRepository.findByUserId(userId);
@@ -128,9 +131,8 @@ public class PortfolioService {
     }
 
     @Transactional(readOnly = true)
-    public PortfolioDto getPortfolioInfo(String identifier) {
-        //TODO Get rid of hardcoded value
-        var portfolio = portfolioRepository.getReferenceById(1L);
+    public PortfolioDto getPortfolioInfo(CurrentUser user, String identifier) {
+        var portfolio = findPortfolioByIdentifier(user, identifier);
         return new PortfolioDto()
             .setValueIncreasePct(calculatePortfolioValueIncreasePct(portfolio))
             .setCurrencyCode(portfolio.getCurrency().getCurrencyCode())
@@ -141,5 +143,15 @@ public class PortfolioService {
         var invested = calculateInvestedAmount(portfolio);
         var current = calculateCurrentAmount(portfolio);
         return NumberUtils.calculatePercentage(invested, current.subtract(invested));
+    }
+
+    public Portfolio findPortfolioByIdentifier(CurrentUser user, String identifier) {
+        if (user == null && demoDataConfig.getUsername().equals(identifier)) {
+            return portfolioRepository.findByUser_Username(demoDataConfig.getUsername()).orElseThrow();
+        } else if (user != null && user.getUsername().equals(identifier)) {
+            return portfolioRepository.findByUser_Username(user.getUsername()).orElseThrow();
+        } else {
+            throw new UnsupportedOperationException();
+        }
     }
 }
