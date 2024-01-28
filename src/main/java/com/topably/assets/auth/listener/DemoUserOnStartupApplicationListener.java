@@ -4,6 +4,7 @@ import com.topably.assets.auth.domain.CreateUserDto;
 import com.topably.assets.auth.service.UserService;
 import com.topably.assets.core.config.demo.DemoDataConfig;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
@@ -18,7 +19,7 @@ public class DemoUserOnStartupApplicationListener {
     private final UserService userService;
 
     @EventListener
-    public void createDemoUserOnApplicationStartupIfNotExist(ContextRefreshedEvent event) {
+    public void createDemoUserOnApplicationStartupIfNotExist(ApplicationReadyEvent event) {
         userService.findByUsername(demoDataConfig.getUsername())
             .ifPresentOrElse(user -> {}, () -> {
                 userService.createNewUserAccount(new CreateUserDto()

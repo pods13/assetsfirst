@@ -11,3 +11,5 @@ app:
   bootstrap:
     with:
       data: true
+  demo-data:
+    username: demo
