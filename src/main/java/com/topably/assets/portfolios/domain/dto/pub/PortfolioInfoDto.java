@@ -1,5 +1,6 @@
-package com.topably.assets.portfolios.domain.dto;
+package com.topably.assets.portfolios.domain.dto.pub;
 
+import com.topably.assets.portfolios.domain.dto.PortfolioValuesByDates;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -7,7 +8,7 @@ import java.math.BigDecimal;
 
 @Data
 @Accessors(chain = true)
-public class PortfolioDto {
+public class PortfolioInfoDto {
 
     private BigDecimal valueIncreasePct;
     private String currencyCode;

@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 import { ECharts, EChartsOption } from 'echarts';
 import { shortNumber } from '@core/helpers/number.helpers';
 import { HttpClient } from '@angular/common/http';
-import { PortfolioDto } from '@core/types/portfolio.dto';
+import { PortfolioInfoDto } from '@core/types/portfolioInfoDto';
 import { PortfolioDividendDto } from '@core/types/portfolio-dividend.dto';
 import { Page } from '@core/types/page';
 import { CurrencyPipe } from '@angular/common';
@@ -127,7 +127,7 @@ export class HomePageComponent implements OnInit {
   }
 
   getPortfolioInfo() {
-    return this.http.get<PortfolioDto>('/public/portfolios/demo');
+    return this.http.get<PortfolioInfoDto>('/public/portfolios/demo');
   }
 
   getPortfolioUpcomingDividends() {
@@ -144,7 +144,7 @@ export class HomePageComponent implements OnInit {
       });
   }
 
-  constructChartOption(dto: PortfolioDto): EChartsOption {
+  constructChartOption(dto: PortfolioInfoDto): EChartsOption {
     const marketValueByDates = dto.marketValueByDates;
     const latestValue = marketValueByDates.values[marketValueByDates.values.length - 1];
     const formattedLatestValue = this.currencyPipe.transform(latestValue, dto.currencyCode);

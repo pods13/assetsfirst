@@ -1,6 +1,6 @@
 import {PortfolioValuesByDates} from './portfolio-values-by-dates';
 
-export interface PortfolioDto {
+export interface PortfolioInfoDto {
     valueIncreasePct: number;
     currencyCode: string;
     investedValueByDates: PortfolioValuesByDates;

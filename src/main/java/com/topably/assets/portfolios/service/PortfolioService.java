@@ -21,7 +21,8 @@ import com.topably.assets.findata.exchanges.service.ExchangeService;
 import com.topably.assets.findata.xrates.service.currency.CurrencyConverter;
 import com.topably.assets.instruments.domain.InstrumentType;
 import com.topably.assets.portfolios.domain.Portfolio;
-import com.topably.assets.portfolios.domain.dto.PortfolioDto;
+import com.topably.assets.portfolios.domain.dto.PortfolioShortInfoDto;
+import com.topably.assets.portfolios.domain.dto.pub.PortfolioInfoDto;
 import com.topably.assets.portfolios.domain.dto.PortfolioPositionDto;
 import com.topably.assets.portfolios.domain.dto.PortfolioValuesByDates;
 import com.topably.assets.portfolios.repository.PortfolioRepository;
@@ -151,9 +152,9 @@ public class PortfolioService {
     }
 
     @Transactional(readOnly = true)
-    public PortfolioDto getPortfolioInfo(CurrentUser user, String identifier) {
+    public PortfolioInfoDto getPortfolioInfo(CurrentUser user, String identifier) {
         var portfolio = findPortfolioByIdentifier(user, identifier);
-        return new PortfolioDto()
+        return new PortfolioInfoDto()
             .setValueIncreasePct(calculatePortfolioValueIncreasePct(portfolio))
             .setCurrencyCode(portfolio.getCurrency().getCurrencyCode())
             //TODO start persisting calculated invested and market values into database
@@ -168,13 +169,21 @@ public class PortfolioService {
     }
 
     public Portfolio findPortfolioByIdentifier(CurrentUser user, String identifier) {
-        if (user == null && demoDataConfig.getUsername().equals(identifier)) {
+        if (demoDataConfig.getUsername().equals(identifier)) {
             return portfolioRepository.findByUser_Username(demoDataConfig.getUsername()).orElseThrow();
         } else if (user != null && user.getUsername().equals(identifier)) {
             return portfolioRepository.findByUser_Username(user.getUsername()).orElseThrow();
         } else {
             throw new UnsupportedOperationException();
         }
+    }
+
+    @Transactional(readOnly = true)
+    public PortfolioShortInfoDto getPortfolioShortInfoByUser(CurrentUser user) {
+        var portfolio = portfolioRepository.findByUser_Username(user.getUsername()).orElseThrow();
+        return new PortfolioShortInfoDto()
+            .setCurrencyCode(portfolio.getCurrency().getCurrencyCode())
+            .setInvestedValue(calculateInvestedAmount(portfolio));
     }
 
 }

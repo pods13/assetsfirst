@@ -25,6 +25,7 @@ import {CoreModule} from '@core/core.module';
 import {PositionsContainerV2Component} from './containers/positions-container-v2/positions-container-v2.component';
 import {PositionStore} from './services/position.store';
 import {MatSortModule} from '@angular/material/sort';
+import {PortfolioService} from "./services/portfolio.service";
 
 
 @NgModule({
@@ -58,7 +59,8 @@ import {MatSortModule} from '@angular/material/sort';
     ],
     providers: [
         PortfolioPositionService,
-        PositionStore
+        PositionStore,
+        PortfolioService
     ]
 })
 export class PortfolioPositionsModule {

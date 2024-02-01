@@ -16,12 +16,27 @@ import {TagCategoryService} from '@core/services/tag-category.service';
 import {MatDialog} from '@angular/material/dialog';
 import {PositionStore} from '../../services/position.store';
 import {Sort} from '@angular/material/sort';
+import {PortfolioService} from "../../services/portfolio.service";
 
 @Component({
     selector: 'app-positions-container-v2',
     template: `
         <div class="positions-list" matSort (matSortChange)="sortPositions($event)"
              [matSortActive]="defaultSort.active" [matSortDirection]="defaultSort.direction">
+            <div class="portfolio-header-box row" >
+                <div class="column">
+                    <div class="total-investment column" *ngIf="portfolioShortInfo | async as portfolioInfo">
+                        <div class="row header">Total investment</div>
+                        <div class="row value">{{portfolioInfo.investedValue | currency: portfolioInfo.currencyCode}}</div>
+                    </div>
+                </div>
+                <div class="column positions-action-list">
+                    <button mat-button>
+                        <mat-icon>table_chart</mat-icon>
+                    </button>
+                </div>
+
+            </div>
             <div class="position-header-box row">
                 <ng-container *ngFor="let column of displayedColumns">
                     <div *ngIf="column.sortable; else notSortable" class="column" [mat-sort-header]="column.id">
@@ -79,12 +94,13 @@ export class PositionsContainerV2Component implements OnInit {
         {name: 'Upcoming Dividend Date', sortable: false, id: 'upcomingDividendDate'},
         {name: 'Tags', sortable: false, id: 'tags'},
     ];
-    positions$ = this.getPortfolioPositions();
+    portfolioShortInfo = this.portfolioService.getPortfolioShortInfo();
 
     constructor(private portfolioPositionService: PortfolioPositionService,
                 private tagCategoryService: TagCategoryService,
                 private matDialog: MatDialog,
-                public store: PositionStore) {
+                public store: PositionStore,
+                private portfolioService: PortfolioService) {
     }
 
     ngOnInit(): void {

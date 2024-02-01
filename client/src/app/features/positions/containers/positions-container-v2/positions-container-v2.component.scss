@@ -1,3 +1,4 @@
+
 .positions-list {
   max-width: 100%;
   border: solid 1px #ccc;
@@ -19,6 +20,37 @@
   padding: 20px 0 0 10px;
   text-transform: uppercase;
 }
+
+.portfolio-header-box {
+  color: rgba(0, 0, 0, 0.97);
+  align-items: center;
+  box-sizing: border-box;
+  background: white;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 30px 10px 10px 10px;
+  text-transform: uppercase;
+
+  & .total-investment {
+    & .header {
+      padding-bottom: 5px;
+      color: rgb(155, 155, 155);
+      font-weight: 400;
+    }
+
+    & .value {
+      line-height: 28px;
+      font-weight: 500;
+      font-size: 28px;
+      color: rgb(68, 68, 68);
+    }
+  }
+
+  & .positions-action-list {
+    align-items: end;
+  }
+}
+
 
 .position-box {
   border-bottom: solid 1px #ccc;

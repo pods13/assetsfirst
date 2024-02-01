@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -61,6 +62,8 @@ public class WebSecurityConfig {
             .httpBasic(Customizer.withDefaults())
             .csrf(c -> c.csrfTokenRepository(getCookieCsrfTokenRepository())
                 .csrfTokenRequestHandler(requestHandler))
+            .headers(headersConfigurer -> headersConfigurer
+                .contentSecurityPolicy(HeadersConfigurer.ContentSecurityPolicyConfig::reportOnly))
             .build();
     }
 
