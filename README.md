@@ -79,6 +79,8 @@ docker-compose down
 - [ ] Store dividend type for dividend data + use it in overall dividend prediction calculation process
 - [ ] Allow to ignore some positions during calculation % of portfolio, i.e. skip cash position
 - [ ] When user logged in on home page show their portfolio data
+- [ ] Add https://github.com/quick-perf to maintain tests
+- [ ] Balance card - split invested into two - Invested in assets(stocks etf) and 'cash and cash equivalents'
 </details>
 
 ## Redeploy flow

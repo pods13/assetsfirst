@@ -24,7 +24,7 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
       {{ title }}<span>
       <button mat-icon-button class="conf-categories-btn"
               matTooltip="Configure Tag Categories" [mat-dialog-close]="{openTagCategoriesDialog: true}">
-        <mat-icon>settings_ethernet</mat-icon>
+        <mat-icon>settings_suggest</mat-icon>
       </button>
     </span>
     </h2>

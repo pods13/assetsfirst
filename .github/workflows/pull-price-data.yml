@@ -5,6 +5,10 @@ on:
   schedule:
     - cron: "28 1,9,10,12,15,17,19 * * *"
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   pull-global-prices:
     runs-on: ubuntu-latest
