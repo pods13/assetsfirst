@@ -7,7 +7,7 @@ import { getInstruments } from '../../common/instrument.service';
 const US_EXCHANGES = ['NYSE', 'NYSEARCA', 'NASDAQ'];
 
 async function main() {
-    const instruments = await getInstruments(connection, ['NYSE', 'NASDAQ', 'NYSEARCA', 'HK', 'XETRA', 'MCX']);
+    const instruments = await getInstruments(connection, ['NYSE', 'NASDAQ', 'NYSEARCA', 'HK', 'XETRA']);
 
     const whenInstrumentPricesInserted = instruments.map(instrument => {
         const ticker = convertToYahooTicker(instrument.symbol, instrument.exchange);

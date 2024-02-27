@@ -49,25 +49,32 @@ docker-compose down
 - [x] Rework the position table
 - [x] Asset disposal widget - show details when hovered over
 - [X] On home page show demo portfolio values
-- [ ] Asset disposal widget - user can select year to show
+</details>
+
+### Must have
 - [ ] Custom dividend projection - clear projection when checkbox is unselected + fix ui of projection row
+- [ ] Custom dividend projection - select year for which project dividends
+- [ ] On Contribution card show total contribution vs previous year contributions
+- [ ] Balance card - keep precalculated portfolio value in db in order to show more points on a plot
+- [ ] Balance card - show portfolio current value on a plot as well
+- [ ] Ability to group positions
+- [ ] Dividend income - show projected as sum when quarterly or monthly view selected
+- [ ] Balance card - split invested into two - Invested in assets(stocks etf) and 'cash and cash equivalents'
+
+### Nice to have
+- [ ] Migrate Angular from v14 to v16
+- [ ] Asset disposal widget - user can select year to show
 - [ ] Custom dividend projection - use mat-select for selection of ticker based on open positions
 - [ ] Custom dividend projection - use mat-select for currency
-- [ ] Custom dividend projection - select year for which project dividends
 - [ ] Company Page - ownership structure
-- [ ] Migrate Angular from v14 to v16
 - [ ] Keep showing accumulated dividends for closed positions
 - [ ] Provide functionality to change a username
 - [ ] Show formatted price in sectoral distribution widget
 - [ ] Show percentage in sectoral distribution widget
 - [ ] Allow a user to change their portfolio currency
-- [ ] On Contribution card show total contribution vs previous year contributions 
 - [ ] Ability to select specific timelapse(year) and render all cards with info only about it
-- [ ] Balance card - keep precalculated portfolio value in db in order to show more points on a plot
-- [ ] Balance card - show portfolio current value on a plot as well 
 - [ ] New position widget
 - [ ] New trades widget
-- [ ] Ability to group positions
 - [ ] Asset allocation widget option to show invested money instead of current evaluation
 - [ ] Ability to close position in one click
 - [ ] Ability to precalculate PL(a separate button) when user tries to add sell trade
@@ -80,8 +87,6 @@ docker-compose down
 - [ ] Allow to ignore some positions during calculation % of portfolio, i.e. skip cash position
 - [ ] When user logged in on home page show their portfolio data
 - [ ] Add https://github.com/quick-perf to maintain tests
-- [ ] Balance card - split invested into two - Invested in assets(stocks etf) and 'cash and cash equivalents'
-</details>
 
 ## Redeploy flow
 ```
