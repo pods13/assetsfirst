@@ -1,160 +1,161 @@
-import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
-import { NonNullableFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { catchError, debounceTime, distinctUntilChanged, filter, map, of, ReplaySubject, switchMap, tap } from 'rxjs';
-import { TradingInstrumentService } from '../../services/trading-instrument.service';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { TradeViewDto } from '../../types/trade-view.dto';
-import { EditTradeDto } from '../../types/edit-trade.dto';
-import { AddTradeDto } from '../../types/add-trade.dto';
-import { BrokerService } from '../../services/broker.service';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { InstrumentDto } from '../../types/instrument.dto';
+import {ChangeDetectionStrategy, Component, Inject, OnInit} from '@angular/core';
+import {NonNullableFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
+import {catchError, debounceTime, distinctUntilChanged, filter, map, of, ReplaySubject, switchMap, tap} from 'rxjs';
+import {TradingInstrumentService} from '../../services/trading-instrument.service';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import {TradeViewDto} from '../../types/trade-view.dto';
+import {EditTradeDto} from '../../types/edit-trade.dto';
+import {AddTradeDto} from '../../types/add-trade.dto';
+import {BrokerService} from '../../services/broker.service';
+import {UntilDestroy, untilDestroyed} from '@ngneat/until-destroy';
+import {InstrumentDto} from '../../types/instrument.dto';
 
 @UntilDestroy()
 @Component({
-  selector: 'app-trade-dialog',
-  template: `
-    <h1 mat-dialog-title>{{data.title}}</h1>
-    <div mat-dialog-content>
-      <form [formGroup]="form">
-        <mat-form-field appearance="fill">
-          <mat-select [formControlName]="'instrument'" placeholder="Ticker or company name"
-                      [compareWith]="compareFunction">
-            <mat-option>
-              <ngx-mat-select-search [formControlName]="'instrumentFilter'"
-                                     placeholderLabel="Find instrument..."
-                                     noEntriesFoundLabel="no matching trading instrument found"
-                                     [searching]="searching">
-              </ngx-mat-select-search>
-            </mat-option>
-            <mat-option *ngFor="let instrument of filteredInstruments | async"
-                        [value]="instrument">
-              {{instrument.symbol + (instrument.name ? ' (' + instrument.name + ')' : '')}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-        <mat-form-field appearance="fill">
-          <mat-label>Broker</mat-label>
-          <mat-select [formControlName]="'brokerId'">
-            <mat-option *ngFor="let broker of brokers$ | async" [value]="broker.id">
-              {{broker.name}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-        <app-assign-trade-attributes [trade]="data.trade"></app-assign-trade-attributes>
-      </form>
-      <div class="total" *ngIf="total$ | async as total">Total: {{total | currency: form.get('instrument')?.value?.currencyCode}}</div>
-    </div>
-    <div mat-dialog-actions>
-      <button mat-button [disabled]="form.invalid" (click)="saveTrade()">Save</button>
-    </div>
-  `,
-  styleUrls: ['./trade-dialog.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-trade-dialog',
+    template: `
+        <h1 mat-dialog-title>{{data.title}}</h1>
+        <div mat-dialog-content>
+            <form [formGroup]="form">
+                <mat-form-field appearance="fill">
+                    <mat-select [formControlName]="'instrument'" placeholder="Ticker or company name"
+                                [compareWith]="compareFunction">
+                        <mat-option>
+                            <ngx-mat-select-search [formControlName]="'instrumentFilter'"
+                                                   placeholderLabel="Find instrument..."
+                                                   noEntriesFoundLabel="no matching trading instrument found"
+                                                   [searching]="searching">
+                            </ngx-mat-select-search>
+                        </mat-option>
+                        <mat-option *ngFor="let instrument of filteredInstruments | async"
+                                    [value]="instrument">
+                            {{instrument.symbol + (instrument.name ? ' (' + instrument.name + ')' : '')}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field appearance="fill">
+                    <mat-label>Intermediary</mat-label>
+                    <mat-select [formControlName]="'intermediaryId'">
+                        <mat-option *ngFor="let broker of brokers$ | async" [value]="broker.id">
+                            {{broker.name}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <app-assign-trade-attributes [trade]="data.trade"></app-assign-trade-attributes>
+            </form>
+            <div class="total" *ngIf="total$ | async as total">
+                Total: {{total | currency: form.get('instrument')?.value?.currencyCode}}</div>
+        </div>
+        <div mat-dialog-actions>
+            <button mat-button [disabled]="form.invalid" (click)="saveTrade()">Save</button>
+        </div>
+    `,
+    styleUrls: ['./trade-dialog.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TradeDialogComponent implements OnInit {
 
-  form: UntypedFormGroup;
+    form: UntypedFormGroup;
 
-  searching = false;
+    searching = false;
 
-  filteredInstruments: ReplaySubject<any[]> = new ReplaySubject<any[]>(1);
+    filteredInstruments: ReplaySubject<any[]> = new ReplaySubject<any[]>(1);
 
-  brokers$ = this.brokerService.getBrokers();
-  total$ = new ReplaySubject<number>();
+    brokers$ = this.brokerService.getBrokers();
+    total$ = new ReplaySubject<number>();
 
-  constructor(private fb: NonNullableFormBuilder,
-              private tradingInstrumentService: TradingInstrumentService,
-              private brokerService: BrokerService,
-              public dialogRef: MatDialogRef<TradeDialogComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: { title: string; trade?: TradeViewDto; }) {
-    const trade = data?.trade;
-    const instrument = trade ? this.composeInstrument(trade) : null;
-    if (instrument) {
-      this.filteredInstruments.next([instrument]);
+    constructor(private fb: NonNullableFormBuilder,
+                private tradingInstrumentService: TradingInstrumentService,
+                private brokerService: BrokerService,
+                public dialogRef: MatDialogRef<TradeDialogComponent>,
+                @Inject(MAT_DIALOG_DATA) public data: { title: string; trade?: TradeViewDto; }) {
+        const trade = data?.trade;
+        const instrument = trade ? this.composeInstrument(trade) : null;
+        if (instrument) {
+            this.filteredInstruments.next([instrument]);
+        }
+        this.form = this.fb.group({
+            instrument: [{
+                value: instrument,
+                disabled: trade ?? false
+            }, Validators.required],
+            instrumentFilter: [''],
+            intermediaryId: [trade?.intermediaryId, Validators.required],
+        });
+        this.form.valueChanges.pipe(untilDestroyed(this),
+            map(({specifics}) => {
+                return specifics.price * specifics.quantity;
+            }))
+            .subscribe(value => this.total$.next(value));
     }
-    this.form = this.fb.group({
-      instrument: [{
-        value: instrument,
-        disabled: trade ?? false
-      }, Validators.required],
-      instrumentFilter: [''],
-      brokerId: [trade?.brokerId, Validators.required],
-    });
-    this.form.valueChanges.pipe(untilDestroyed(this),
-      map(({specifics}) => {
-        return specifics.price * specifics.quantity;
-      }))
-      .subscribe(value => this.total$.next(value));
-  }
 
-  private composeInstrument(trade: TradeViewDto): InstrumentDto {
-    return {
-      id: trade.instrumentId,
-      instrumentType: trade.instrumentType,
-      symbol: trade.symbol,
-      name: trade.name,
-      currencyCode: trade.currencyCode
-    };
-  }
-
-  ngOnInit(): void {
-    this.form.get('instrumentFilter')?.valueChanges
-      .pipe(
-        filter(search => !!search),
-        tap(() => this.searching = true),
-        debounceTime(400),
-        distinctUntilChanged(),
-        switchMap(search => {
-          return this.tradingInstrumentService.searchInstrumentsByNameOrTicker(search);
-        }),
-        catchError((err, caught) => {
-          this.searching = false;
-          return of([]);
-        })
-      ).subscribe(instruments => {
-      this.filteredInstruments.next(instruments);
-      this.searching = false;
-    });
-  }
-
-  compareFunction(o1: any, o2: any) {
-    return o1?.id === o2?.id;
-  }
-
-  saveTrade() {
-    if (this.data?.trade) {
-      const {specifics, brokerId} = this.form.value;
-      const {date, price, quantity} = specifics;
-      const offsetDate = this.getTimeZoneOffsetDate(date);
-      this.dialogRef.close({
-        tradeId: this.data.trade.id,
-        instrumentId: this.data.trade.instrumentId,
-        instrumentType: this.data.trade.instrumentType,
-        date: offsetDate,
-        price,
-        quantity,
-        brokerId
-      } as EditTradeDto)
-    } else {
-      const {instrument, specifics, brokerId} = this.form.value;
-      const {operation, date, price, quantity} = specifics;
-      const offsetDate = this.getTimeZoneOffsetDate(date);
-      this.dialogRef.close({
-        instrumentId: instrument.id,
-        instrumentType: instrument.instrumentType,
-        operation,
-        date: offsetDate,
-        price,
-        quantity,
-        brokerId
-      } as AddTradeDto);
+    private composeInstrument(trade: TradeViewDto): InstrumentDto {
+        return {
+            id: trade.instrumentId,
+            instrumentType: trade.instrumentType,
+            symbol: trade.symbol,
+            name: trade.name,
+            currencyCode: trade.currencyCode
+        };
     }
-  }
 
-  getTimeZoneOffsetDate(date: Date): Date {
-    const res = new Date(date);
-    res.setMinutes(res.getMinutes() - res.getTimezoneOffset());
-    return res;
-  }
+    ngOnInit(): void {
+        this.form.get('instrumentFilter')?.valueChanges
+            .pipe(
+                filter(search => !!search),
+                tap(() => this.searching = true),
+                debounceTime(400),
+                distinctUntilChanged(),
+                switchMap(search => {
+                    return this.tradingInstrumentService.searchInstrumentsByNameOrTicker(search);
+                }),
+                catchError((err, caught) => {
+                    this.searching = false;
+                    return of([]);
+                })
+            ).subscribe(instruments => {
+            this.filteredInstruments.next(instruments);
+            this.searching = false;
+        });
+    }
+
+    compareFunction(o1: any, o2: any) {
+        return o1?.id === o2?.id;
+    }
+
+    saveTrade() {
+        if (this.data?.trade) {
+            const {specifics, intermediaryId} = this.form.value;
+            const {date, price, quantity} = specifics;
+            const offsetDate = this.getTimeZoneOffsetDate(date);
+            this.dialogRef.close({
+                tradeId: this.data.trade.id,
+                instrumentId: this.data.trade.instrumentId,
+                instrumentType: this.data.trade.instrumentType,
+                date: offsetDate,
+                price,
+                quantity,
+                intermediaryId
+            } as EditTradeDto)
+        } else {
+            const {instrument, specifics, intermediaryId} = this.form.value;
+            const {operation, date, price, quantity} = specifics;
+            const offsetDate = this.getTimeZoneOffsetDate(date);
+            this.dialogRef.close({
+                instrumentId: instrument.id,
+                instrumentType: instrument.instrumentType,
+                operation,
+                date: offsetDate,
+                price,
+                quantity,
+                intermediaryId
+            } as AddTradeDto);
+        }
+    }
+
+    getTimeZoneOffsetDate(date: Date): Date {
+        const res = new Date(date);
+        res.setMinutes(res.getMinutes() - res.getTimezoneOffset());
+        return res;
+    }
 }

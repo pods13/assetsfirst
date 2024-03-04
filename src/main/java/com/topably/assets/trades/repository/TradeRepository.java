@@ -31,7 +31,7 @@ public interface TradeRepository extends JpaRepository<Trade, Long> {
         join fetch t.portfolioPosition pos
         join fetch pos.instrument i
         join fetch i.exchange exch
-        join fetch t.broker br
+        join fetch t.intermediary br
         join pos.portfolio p
         join p.user u
         where u.id = :userId

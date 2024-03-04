@@ -60,6 +60,8 @@ docker-compose down
 - [ ] Ability to group positions
 - [ ] Dividend income - show projected as sum when quarterly or monthly view selected
 - [ ] Balance card - split invested into two - Invested in assets(stocks etf) and 'cash and cash equivalents'
+- [ ] Filter trades by symbol
+- [ ] Fix positions page on mobile view
 
 ### Nice to have
 - [ ] Migrate Angular from v14 to v16

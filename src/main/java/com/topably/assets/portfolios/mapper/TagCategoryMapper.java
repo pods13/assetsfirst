@@ -18,5 +18,5 @@ import java.util.List;
 )
 public interface TagCategoryMapper {
 
-    TagCategoryDto modelToDto(TagCategory tagCategory, Collection<Tag> tags);
+    TagCategoryDto modelToDto(TagCategory tagCategory);
 }

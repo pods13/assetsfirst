@@ -11,4 +11,7 @@ public interface TagCategoryRepository extends JpaRepository<TagCategory, Long> 
 
     @EntityGraph(attributePaths = {"tags"})
     List<TagCategory> findAllByUserId(Long userId);
+
+    @EntityGraph(attributePaths = {"tags"})
+    List<TagCategory> findAllByUserIdAndName(Long userId, String name);
 }

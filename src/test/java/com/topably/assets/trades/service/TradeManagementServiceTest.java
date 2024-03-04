@@ -3,18 +3,18 @@ package com.topably.assets.trades.service;
 import com.topably.assets.companies.domain.dto.CompanyDataDto;
 import com.topably.assets.core.domain.Ticker;
 import com.topably.assets.findata.exchanges.domain.USExchange;
-import com.topably.assets.instruments.domain.Instrument;
 import com.topably.assets.instruments.domain.dto.StockDataDto;
 import com.topably.assets.instruments.repository.InstrumentRepository;
 import com.topably.assets.instruments.service.StockService;
 import com.topably.assets.integration.base.IT;
 import com.topably.assets.integration.base.IntegrationTestBase;
-import com.topably.assets.portfolios.domain.dto.PortfolioPositionDto;
-import com.topably.assets.portfolios.domain.position.PortfolioPosition;
 import com.topably.assets.portfolios.service.PortfolioPositionService;
 import com.topably.assets.trades.domain.TradeOperation;
-import com.topably.assets.trades.domain.dto.DeleteTradeDto;
-import com.topably.assets.trades.domain.dto.add.AddTradeDto;
+import com.topably.assets.trades.domain.dto.broker.BrokerDto;
+import com.topably.assets.trades.domain.dto.manage.DeleteTradeDto;
+import com.topably.assets.trades.domain.dto.manage.AddTradeDto;
+import com.topably.assets.trades.service.broker.BrokerService;
+import com.topably.assets.trades.service.manage.TradeManagementService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -36,6 +36,8 @@ public class TradeManagementServiceTest extends IntegrationTestBase {
     private InstrumentRepository instrumentRepository;
     @Autowired
     private PortfolioPositionService portfolioPositionService;
+    @Autowired
+    private BrokerService brokerService;
 
     @Test
     public void givenUserAddsNewTrade_whenInstrumentIsNotInPortfolio_thenNewPositionIsCreated() {
@@ -48,6 +50,8 @@ public class TradeManagementServiceTest extends IntegrationTestBase {
                     .sector("TEST Sector")
                     .build())
             .build());
+        var userId = 1L;
+        var brokers = brokerService.getBrokers(userId);
 
         var tradeDto = tradeManagementService.addTrade(AddTradeDto.builder()
             .instrumentId(stockDto.getId())
@@ -55,8 +59,8 @@ public class TradeManagementServiceTest extends IntegrationTestBase {
             .date(LocalDate.now())
             .price(BigDecimal.TEN)
             .quantity(BigInteger.TEN)
-            .userId(1L)
-            .brokerId(1L)
+            .userId(userId)
+            .intermediaryId(brokers.iterator().next().id())
             .build(), instrumentRepository.findBySymbolAndExchange_Code(ticker.getSymbol(), ticker.getExchange()));
 
         assertThat(tradeDto.getId()).isNotNull();
@@ -76,6 +80,8 @@ public class TradeManagementServiceTest extends IntegrationTestBase {
 
         var instrument = instrumentRepository.findBySymbolAndExchange_Code(ticker.getSymbol(), ticker.getExchange());
         var userId = 1L;
+        var brokers = brokerService.getBrokers(userId);
+
         var tradeDto = tradeManagementService.addTrade(AddTradeDto.builder()
             .instrumentId(stockDto.getId())
             .operation(TradeOperation.BUY)
@@ -83,7 +89,7 @@ public class TradeManagementServiceTest extends IntegrationTestBase {
             .price(BigDecimal.TEN)
             .quantity(BigInteger.TEN)
             .userId(userId)
-            .brokerId(1L)
+            .intermediaryId(brokers.iterator().next().id())
             .build(), instrument);
 
         assertThat( portfolioPositionService.findPortfolioPositionsByUserId(userId).stream()

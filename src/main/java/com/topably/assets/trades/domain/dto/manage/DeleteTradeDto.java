@@ -1,4 +1,4 @@
-package com.topably.assets.trades.domain.dto;
+package com.topably.assets.trades.domain.dto.manage;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

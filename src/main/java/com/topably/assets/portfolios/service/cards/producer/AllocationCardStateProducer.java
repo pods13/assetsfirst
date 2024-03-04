@@ -104,7 +104,7 @@ public class AllocationCardStateProducer implements CardStateProducer<Allocation
             .map(tradeAggregatorService::aggregateTradesByPositionId)
             .map(AggregatedTradeDto::getBuyTradesData)
             .flatMap(Collection::stream)
-            .collect(groupingBy(AggregatedTradeDto.TradeData::getBrokerName, collectingAndThen(toList(),
+            .collect(groupingBy(AggregatedTradeDto.TradeData::getIntermediaryName, collectingAndThen(toList(),
                 trades -> trades.stream().map(t -> {
                     var price = exchangeService.findSymbolRecentPrice(t.getTicker()).orElse(t.getPrice());
                     return AllocationAggregatedTrade.builder()

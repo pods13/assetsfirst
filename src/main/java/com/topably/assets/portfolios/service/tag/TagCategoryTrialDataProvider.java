@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Stream;
+
 
 @Service
 @RequiredArgsConstructor
@@ -16,18 +18,30 @@ public class TagCategoryTrialDataProvider {
     private final TagCategoryService tagCategoryService;
 
     public void provideData(Long userId) {
-        var riskTags = List.of("Currency", "Sectoral", "Political", "Sanctions").stream()
+        var riskTags = Stream.of("Currency", "Sectoral", "Political", "Sanctions")
             .map(name -> new TagDto().setName(name)).toList();
         tagCategoryService.createTagCategory(userId, new CreateTagCategoryDto()
             .setName("Risk")
             .setColor("#91cc75")
             .setTags(riskTags));
 
-        var regionTags = List.of("Russia", "USA", "Europe", "Earth").stream()
+        var regionTags = Stream.of("Russia", "USA", "Europe", "Earth")
             .map(name -> new TagDto().setName(name)).toList();
         tagCategoryService.createTagCategory(userId, new CreateTagCategoryDto()
             .setName("Region")
             .setColor("#5470c6")
             .setTags(regionTags));
+
+        var brokerTags = Stream.of("Interactive Brokers LLC",
+                "Tinkoff Investments",
+                "VTB Investments",
+                "Finam",
+                "Alfa Direct",
+                "BCS Investments")
+            .map(name -> new TagDto().setName(name)).toList();
+        tagCategoryService.createTagCategory(userId, new CreateTagCategoryDto()
+            .setName("Broker")
+            .setColor("#252aad")
+            .setTags(brokerTags));
     }
 }

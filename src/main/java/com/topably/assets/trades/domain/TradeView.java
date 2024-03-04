@@ -38,15 +38,15 @@ import java.util.Currency;
            trade.quantity,
            trade.price,
            s2.currency,
-           b.id as broker_id,
-           b.name as broker_name
+           t.id as intermediary_id,
+           t.name as intermediary_name
     from trade
              join portfolio_position pos on trade.portfolio_position_id = pos.id
              join portfolio p on p.id = pos.portfolio_id
              join instrument s2 on pos.instrument_id = s2.id
              join exchange exch on exch.id = s2.exchange_id
              left join company c2 on c2.id = s2.company_id
-             join broker b on b.id = trade.broker_id
+             join tag t on t.id = trade.intermediary_id
     """)
 public class TradeView {
 
@@ -86,8 +86,8 @@ public class TradeView {
         return currency.getCurrencyCode();
     }
 
-    private Long brokerId;
+    private Long intermediaryId;
 
-    private String brokerName;
+    private String intermediaryName;
 
 }

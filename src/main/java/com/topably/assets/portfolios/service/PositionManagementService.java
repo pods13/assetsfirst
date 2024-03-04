@@ -5,7 +5,7 @@ import com.topably.assets.portfolios.domain.position.PortfolioPosition;
 import com.topably.assets.portfolios.repository.PortfolioPositionRepository;
 import com.topably.assets.portfolios.repository.PortfolioRepository;
 import com.topably.assets.trades.domain.dto.AggregatedTradeDto;
-import com.topably.assets.trades.domain.dto.add.AddTradeDto;
+import com.topably.assets.trades.domain.dto.manage.AddTradeDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

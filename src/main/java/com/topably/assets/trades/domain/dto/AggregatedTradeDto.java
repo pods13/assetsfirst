@@ -44,7 +44,7 @@ public class AggregatedTradeDto {
         private BigDecimal price;
         private LocalDate tradeTime;
         private Currency currency;
-        private String brokerName;
+        private String intermediaryName;
         private Long instrumentId;
         private String instrumentType;
         private Ticker ticker;
@@ -54,7 +54,7 @@ public class AggregatedTradeDto {
             this.price = price;
             this.tradeTime = tradeTime;
             this.currency = trade.getCurrency();
-            this.brokerName = trade.getBrokerName();
+            this.intermediaryName = trade.getIntermediaryName();
             this.instrumentId = trade.getInstrumentId();
             this.instrumentType = trade.getInstrumentType();
             this.ticker = new Ticker(trade.getSymbol(), trade.getExchange());

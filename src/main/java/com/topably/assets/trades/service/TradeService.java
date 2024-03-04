@@ -1,24 +1,16 @@
 package com.topably.assets.trades.service;
 
-import com.topably.assets.instruments.domain.Instrument;
 import com.topably.assets.portfolios.domain.Portfolio;
-import com.topably.assets.portfolios.service.PortfolioPositionService;
 import com.topably.assets.trades.domain.Trade;
 import com.topably.assets.trades.domain.TradeView;
-import com.topably.assets.trades.domain.dto.DeleteTradeDto;
-import com.topably.assets.trades.domain.dto.EditTradeDto;
-import com.topably.assets.trades.domain.dto.TradeDto;
-import com.topably.assets.trades.domain.dto.add.AddTradeDto;
 import com.topably.assets.trades.repository.TradeRepository;
 import com.topably.assets.trades.repository.TradeViewRepository;
-import com.topably.assets.trades.repository.broker.BrokerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigInteger;
 import java.time.LocalDate;
 import java.time.temporal.TemporalAdjusters;
 import java.util.Collection;

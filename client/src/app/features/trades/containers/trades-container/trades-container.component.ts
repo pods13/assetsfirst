@@ -61,10 +61,10 @@ import { SelectionModel } from '@angular/cdk/collections';
           <td mat-cell *matCellDef="let element"> {{element.price}} </td>
         </ng-container>
 
-        <ng-container matColumnDef="brokerName">
-          <th mat-header-cell *matHeaderCellDef>Broker Name</th>
-          <td mat-cell *matCellDef="let element"> {{element.brokerName}} </td>
-        </ng-container>
+          <ng-container matColumnDef="intermediary">
+              <th mat-header-cell *matHeaderCellDef>Intermediary</th>
+              <td mat-cell *matCellDef="let element"> {{element.intermediaryName}} </td>
+          </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selection.toggle(row)"></tr>
@@ -98,7 +98,7 @@ export class TradesContainerComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  displayedColumns = ['select', 'symbol', 'name', 'operation', 'date', 'quantity', 'price', 'brokerName'];
+  displayedColumns = ['select', 'symbol', 'name', 'operation', 'date', 'quantity', 'price', 'intermediary'];
   selection = new SelectionModel<TradeViewDto>(false, []);
 
   rows: TradeViewDto[] = [];

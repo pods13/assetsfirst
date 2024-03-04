@@ -1,14 +1,11 @@
 package com.topably.assets.trades.domain;
 
-import com.topably.assets.portfolios.domain.position.PortfolioPosition;
-import com.topably.assets.trades.domain.broker.Broker;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.experimental.Accessors;
-import org.hibernate.annotations.GenericGenerator;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.time.LocalDate;
 
+import com.topably.assets.portfolios.domain.position.PortfolioPosition;
+import com.topably.assets.portfolios.domain.tag.Tag;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Enumerated;
@@ -19,9 +16,13 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.time.LocalDate;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.Accessors;
+import org.hibernate.annotations.GenericGenerator;
+
 
 @Setter
 @Getter
@@ -37,8 +38,10 @@ public class Trade {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "portfolio_position_id", referencedColumnName = "ID",
-        foreignKey = @ForeignKey(name = "fk__trade__portfolio_position_id__portfolio_position"))
+    @JoinColumn(
+        name = "portfolio_position_id", referencedColumnName = "ID",
+        foreignKey = @ForeignKey(name = "fk__trade__portfolio_position_id__portfolio_position")
+    )
     private PortfolioPosition portfolioPosition;
 
     private LocalDate date;
@@ -53,7 +56,10 @@ public class Trade {
     private BigDecimal price;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "BROKER_ID", referencedColumnName = "ID",
-        foreignKey = @ForeignKey(name = "fk__trade__broker_id__broker"))
-    private Broker broker;
+    @JoinColumn(
+        name = "INTERMEDIARY_ID", referencedColumnName = "ID",
+        foreignKey = @ForeignKey(name = "fk__trade__intermediary_id__tag")
+    )
+    private Tag intermediary;
+
 }

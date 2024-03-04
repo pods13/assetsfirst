@@ -74,7 +74,7 @@ public class TradeAggregatorService {
         var buyTradesData = new LinkedHashMap<Long, LinkedList<TradeData>>();
         var tradePnls = new ArrayList<DeltaPnl>();
         for (var trade : tradesOrderedByDate) {
-            var brokerId = trade.getBrokerId();
+            var brokerId = trade.getIntermediaryId();
             var operation = trade.getOperation();
             if (!buyTradesData.containsKey(brokerId) && TradeOperation.SELL.equals(operation)) {
                 throw new RuntimeException("Short selling is not supported");

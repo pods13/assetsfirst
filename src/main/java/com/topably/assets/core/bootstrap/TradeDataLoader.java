@@ -1,14 +1,20 @@
 package com.topably.assets.core.bootstrap;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.time.LocalDate;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 import com.topably.assets.auth.domain.User;
 import com.topably.assets.auth.repository.UserRepository;
 import com.topably.assets.findata.exchanges.domain.ExchangeEnum;
 import com.topably.assets.findata.exchanges.domain.USExchange;
 import com.topably.assets.instruments.service.InstrumentService;
 import com.topably.assets.trades.domain.TradeOperation;
-import com.topably.assets.trades.domain.broker.Broker;
-import com.topably.assets.trades.domain.dto.add.AddTradeDto;
-import com.topably.assets.trades.repository.broker.BrokerRepository;
+import com.topably.assets.trades.domain.dto.broker.BrokerDto;
+import com.topably.assets.trades.domain.dto.manage.AddTradeDto;
+import com.topably.assets.trades.service.broker.BrokerService;
 import com.topably.assets.trades.service.instrument.ETFTradeService;
 import com.topably.assets.trades.service.instrument.StockTradeService;
 import lombok.RequiredArgsConstructor;
@@ -17,11 +23,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.time.LocalDate;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Component
@@ -30,7 +31,7 @@ import java.util.stream.Collectors;
 public class TradeDataLoader implements CommandLineRunner {
 
     private final UserRepository userRepository;
-    private final BrokerRepository brokerRepository;
+    private final BrokerService brokerService;
 
     private final InstrumentService instrumentService;
     private final StockTradeService stockTradeService;
@@ -39,8 +40,8 @@ public class TradeDataLoader implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         Long userId = userRepository.findByUsername("user").map(User::getId).orElse(null);
-        var brokerNameById = brokerRepository.findAll().stream()
-            .collect(Collectors.toMap(b -> b.getName().split(" ")[0], Broker::getId));
+        var brokerNameById = brokerService.getBrokers(userId).stream()
+            .collect(Collectors.toMap(b -> b.name().split(" ")[0], BrokerDto::id));
         addNewmont(userId, brokerNameById.get("Interactive"));
         addKRBN(userId, brokerNameById.get("Interactive"));
         addCNOOC(userId, brokerNameById.get("Interactive"));
@@ -70,7 +71,7 @@ public class TradeDataLoader implements CommandLineRunner {
             .price(BigDecimal.valueOf(67.92))
             .quantity(BigInteger.valueOf(15L))
             .userId(userId)
-            .brokerId(brokerId)
+            .intermediaryId(brokerId)
             .instrumentId(instrumentService.findInstrument("NEM", USExchange.NYSE.name()).getId())
             .build());
     }
@@ -83,7 +84,7 @@ public class TradeDataLoader implements CommandLineRunner {
             .operation(TradeOperation.BUY)
             .price(BigDecimal.valueOf(40.67))
             .quantity(BigInteger.valueOf(24L))
-            .brokerId(brokerId)
+            .intermediaryId(brokerId)
             .instrumentId(etfId)
             .build());
 
@@ -93,7 +94,7 @@ public class TradeDataLoader implements CommandLineRunner {
             .operation(TradeOperation.SELL)
             .price(BigDecimal.valueOf(50.33))
             .quantity(BigInteger.valueOf(24L))
-            .brokerId(brokerId)
+            .intermediaryId(brokerId)
             .instrumentId(etfId)
             .build());
     }
@@ -105,7 +106,7 @@ public class TradeDataLoader implements CommandLineRunner {
             .operation(TradeOperation.BUY)
             .price(BigDecimal.valueOf(47.23))
             .quantity(BigInteger.valueOf(110L))
-            .brokerId(brokerId)
+            .intermediaryId(brokerId)
             .instrumentId(instrumentService.findInstrument("BAYN", ExchangeEnum.XETRA.name()).getId())
             .build());
     }
@@ -118,7 +119,7 @@ public class TradeDataLoader implements CommandLineRunner {
             .operation(TradeOperation.BUY)
             .price(BigDecimal.valueOf(45.67))
             .quantity(BigInteger.valueOf(64L))
-            .brokerId(brokerNameById.get("VTB"))
+            .intermediaryId(brokerNameById.get("VTB"))
             .instrumentId(stockId)
             .build());
 
@@ -128,7 +129,7 @@ public class TradeDataLoader implements CommandLineRunner {
             .operation(TradeOperation.BUY)
             .price(BigDecimal.valueOf(48.04))
             .quantity(BigInteger.valueOf(23L))
-            .brokerId(brokerNameById.get("Interactive"))
+            .intermediaryId(brokerNameById.get("Interactive"))
             .instrumentId(stockId)
             .build());
     }
@@ -140,7 +141,7 @@ public class TradeDataLoader implements CommandLineRunner {
             .operation(TradeOperation.BUY)
             .price(BigDecimal.valueOf(31.82))
             .quantity(BigInteger.valueOf(75L))
-            .brokerId(brokerId)
+            .intermediaryId(brokerId)
             .instrumentId(instrumentService.findInstrument("OHI", USExchange.NYSE.name()).getId())
             .build());
     }
@@ -152,7 +153,7 @@ public class TradeDataLoader implements CommandLineRunner {
             .operation(TradeOperation.BUY)
             .price(BigDecimal.valueOf(52.04))
             .quantity(BigInteger.valueOf(24L))
-            .brokerId(brokerId)
+            .intermediaryId(brokerId)
             .instrumentId(instrumentService.findInstrument("KO", USExchange.NYSE.name()).getId())
             .build());
     }
@@ -164,7 +165,7 @@ public class TradeDataLoader implements CommandLineRunner {
             .operation(TradeOperation.BUY)
             .price(BigDecimal.valueOf(45.3659))
             .quantity(BigInteger.valueOf(64L))
-            .brokerId(brokerId)
+            .intermediaryId(brokerId)
             .instrumentId(instrumentService.findInstrument("TTE", USExchange.NYSE.name()).getId())
             .build());
     }
@@ -178,7 +179,7 @@ public class TradeDataLoader implements CommandLineRunner {
             .price(BigDecimal.valueOf(393.15))
             .quantity(BigInteger.valueOf(700L))
             .instrumentId(stockId)
-            .brokerId(brokerNameById.get("Tinkoff"))
+            .intermediaryId(brokerNameById.get("Tinkoff"))
             .build());
 
         stockTradeService.addTrade(AddTradeDto.builder()
@@ -187,7 +188,7 @@ public class TradeDataLoader implements CommandLineRunner {
             .operation(TradeOperation.BUY)
             .price(BigDecimal.valueOf(357.12))
             .quantity(BigInteger.valueOf(250L))
-            .brokerId(brokerNameById.get("BCS"))
+            .intermediaryId(brokerNameById.get("BCS"))
             .instrumentId(stockId)
             .build());
     }
@@ -199,7 +200,7 @@ public class TradeDataLoader implements CommandLineRunner {
             .operation(TradeOperation.BUY)
             .price(BigDecimal.valueOf(288.96))
             .quantity(BigInteger.valueOf(900L))
-            .brokerId(brokerId)
+            .intermediaryId(brokerId)
             .instrumentId(instrumentService.findInstrument("GAZP", ExchangeEnum.MCX.name()).getId())
             .build());
     }
@@ -211,7 +212,7 @@ public class TradeDataLoader implements CommandLineRunner {
             .operation(TradeOperation.BUY)
             .price(BigDecimal.valueOf(1029.8))
             .quantity(BigInteger.valueOf(440L))
-            .brokerId(brokerId)
+            .intermediaryId(brokerId)
             .instrumentId(instrumentService.findInstrument("AGRO", ExchangeEnum.MCX.name()).getId())
             .build());
     }
@@ -223,7 +224,7 @@ public class TradeDataLoader implements CommandLineRunner {
             .operation(TradeOperation.BUY)
             .price(BigDecimal.valueOf(13179.4))
             .quantity(BigInteger.valueOf(27L))
-            .brokerId(brokerId)
+            .intermediaryId(brokerId)
             .instrumentId(instrumentService.findInstrument("PLZL", ExchangeEnum.MCX.name()).getId())
             .build());
     }
@@ -236,7 +237,7 @@ public class TradeDataLoader implements CommandLineRunner {
             .operation(TradeOperation.BUY)
             .price(BigDecimal.valueOf(4945))
             .quantity(BigInteger.valueOf(10L))
-            .brokerId(brokerId)
+            .intermediaryId(brokerId)
             .instrumentId(stockId)
             .build());
 
@@ -246,7 +247,7 @@ public class TradeDataLoader implements CommandLineRunner {
             .operation(TradeOperation.BUY)
             .price(BigDecimal.valueOf(4945))
             .quantity(BigInteger.valueOf(5L))
-            .brokerId(brokerId)
+            .intermediaryId(brokerId)
             .instrumentId(stockId)
             .build());
     }
@@ -258,7 +259,7 @@ public class TradeDataLoader implements CommandLineRunner {
             .operation(TradeOperation.BUY)
             .price(BigDecimal.valueOf(5.0253))
             .quantity(BigInteger.valueOf(10000L))
-            .brokerId(brokerId)
+            .intermediaryId(brokerId)
             .instrumentId(instrumentService.findInstrument("IRAO", ExchangeEnum.MCX.name()).getId())
             .build());
     }
@@ -270,7 +271,7 @@ public class TradeDataLoader implements CommandLineRunner {
             .operation(TradeOperation.BUY)
             .price(BigDecimal.valueOf(317.74))
             .quantity(BigInteger.valueOf(250L))
-            .brokerId(brokerId)
+            .intermediaryId(brokerId)
             .instrumentId(instrumentService.findInstrument("MTSS", ExchangeEnum.MCX.name()).getId())
             .build());
     }
@@ -282,7 +283,7 @@ public class TradeDataLoader implements CommandLineRunner {
             .operation(TradeOperation.BUY)
             .price(BigDecimal.valueOf(5222.2))
             .quantity(BigInteger.valueOf(16L))
-            .brokerId(brokerId)
+            .intermediaryId(brokerId)
             .instrumentId(instrumentService.findInstrument("MGNT", ExchangeEnum.MCX.name()).getId())
             .build());
     }
@@ -294,7 +295,7 @@ public class TradeDataLoader implements CommandLineRunner {
             .operation(TradeOperation.BUY)
             .price(BigDecimal.valueOf(135.51))
             .quantity(BigInteger.valueOf(110L))
-            .brokerId(brokerId)
+            .intermediaryId(brokerId)
             .instrumentId(instrumentService.findInstrument("MOEX", ExchangeEnum.MCX.name()).getId())
             .build());
     }
@@ -306,7 +307,7 @@ public class TradeDataLoader implements CommandLineRunner {
             .operation(TradeOperation.BUY)
             .price(BigDecimal.valueOf(3726))
             .quantity(BigInteger.valueOf(44L))
-            .brokerId(brokerId)
+            .intermediaryId(brokerId)
             .instrumentId(instrumentService.findInstrument("FXCN", ExchangeEnum.MCX.name()).getId())
             .build());
     }
@@ -319,7 +320,7 @@ public class TradeDataLoader implements CommandLineRunner {
             .operation(TradeOperation.BUY)
             .price(BigDecimal.valueOf(12.04))
             .quantity(BigInteger.valueOf(1000L))
-            .brokerId(brokerId)
+            .intermediaryId(brokerId)
             .instrumentId(stockId)
             .build());
 
@@ -329,8 +330,9 @@ public class TradeDataLoader implements CommandLineRunner {
             .operation(TradeOperation.BUY)
             .price(BigDecimal.valueOf(10.86))
             .quantity(BigInteger.valueOf(1000L))
-            .brokerId(brokerId)
+            .intermediaryId(brokerId)
             .instrumentId(stockId)
             .build());
     }
+
 }

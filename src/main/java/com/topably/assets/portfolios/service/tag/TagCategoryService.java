@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -34,7 +35,13 @@ public class TagCategoryService {
 
     public Collection<TagCategoryDto> getTagCategories(Long userId) {
         return tagCategoryRepository.findAllByUserId(userId).stream()
-            .map(c -> tagCategoryMapper.modelToDto(c, c.getTags()))
+            .map(tagCategoryMapper::modelToDto)
+            .toList();
+    }
+
+    public Collection<TagCategoryDto> findTagCategoryByName(Long userId, String name) {
+        return tagCategoryRepository.findAllByUserIdAndName(userId, name).stream()
+            .map(tagCategoryMapper::modelToDto)
             .toList();
     }
 
@@ -44,7 +51,8 @@ public class TagCategoryService {
             .setColor(dto.getColor())
             .setUser(userService.getById(userId)));
         var tags = tagService.createTags(tagCategory.getId(), dto.getTags().stream().map(TagDto::getName).toList());
-        return tagCategoryMapper.modelToDto(tagCategory, tags);
+        tagCategory.setTags(new HashSet<>(tags));
+        return tagCategoryMapper.modelToDto(tagCategory);
     }
 
     public TagCategoryDto updateTagCategory(Long categoryId, UpdateTagCategoryDto dto) {
@@ -58,7 +66,7 @@ public class TagCategoryService {
         tagCategory.getTags().clear();
         tagCategory.getTags().addAll(Stream.concat(remainedTags.stream(), newTags.stream()).toList());
         tagCategory.setName(dto.getName());
-        return tagCategoryMapper.modelToDto(tagCategory, tagCategory.getTags());
+        return tagCategoryMapper.modelToDto(tagCategory);
     }
 
     public void deleteTagCategory(Long categoryId) {

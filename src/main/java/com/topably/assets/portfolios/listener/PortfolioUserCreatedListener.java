@@ -41,9 +41,9 @@ public class PortfolioUserCreatedListener {
             .currency(Currency.getInstance("RUB"))
             .build();
         portfolioRepository.save(portfolio);
+        tagCategoryTrialDataProvider.provideData(userId);
         if (provideData) {
             tradeTrialDataProvider.provideData(userId);
         }
-        tagCategoryTrialDataProvider.provideData(userId);
     }
 }
