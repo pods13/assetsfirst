@@ -1,18 +1,17 @@
 package com.topably.assets.core.bootstrap;
 
+import java.util.ArrayList;
+import java.util.Currency;
+import java.util.List;
+
 import com.topably.assets.companies.domain.dto.CompanyDataDto;
-import com.topably.assets.companies.repository.CompanyRepository;
-import com.topably.assets.companies.repository.IndustryRepository;
 import com.topably.assets.core.domain.Ticker;
-import com.topably.assets.findata.exchanges.domain.Exchange;
 import com.topably.assets.findata.exchanges.domain.ExchangeEnum;
-import com.topably.assets.findata.exchanges.repository.ExchangeRepository;
 import com.topably.assets.instruments.domain.dto.StockDataDto;
 import com.topably.assets.instruments.domain.instrument.ETF;
 import com.topably.assets.instruments.domain.instrument.FX;
 import com.topably.assets.instruments.repository.instrument.ETFRepository;
 import com.topably.assets.instruments.repository.instrument.FXRepository;
-import com.topably.assets.instruments.repository.instrument.StockRepository;
 import com.topably.assets.instruments.service.StockService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
@@ -21,12 +20,9 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Currency;
-import java.util.List;
+import static com.topably.assets.findata.exchanges.domain.ExchangeEnum.NYSE;
+import static com.topably.assets.findata.exchanges.domain.ExchangeEnum.NYSEARCA;
 
-import static com.topably.assets.findata.exchanges.domain.USExchange.NYSE;
-import static com.topably.assets.findata.exchanges.domain.USExchange.NYSEARCA;
 
 @RequiredArgsConstructor
 @Component
@@ -34,11 +30,6 @@ import static com.topably.assets.findata.exchanges.domain.USExchange.NYSEARCA;
 @ConditionalOnProperty(name = "app.bootstrap.with.data", havingValue = "true")
 public class InstrumentDataLoader implements CommandLineRunner {
 
-    private final CompanyRepository companyRepository;
-    private final ExchangeRepository exchangeRepository;
-    private final IndustryRepository industryRepository;
-
-    private final StockRepository stockRepository;
     private final ETFRepository etfRepository;
     private final FXRepository fxRepository;
 
@@ -53,23 +44,20 @@ public class InstrumentDataLoader implements CommandLineRunner {
     }
 
     private void addEtfInstruments() {
-        Exchange nysearca = exchangeRepository.findByCode(NYSEARCA.name());
-        Exchange mcx = exchangeRepository.findByCode(ExchangeEnum.MCX.name());
-
         var etfs = new ArrayList<ETF>();
 
         etfs.add(ETF.builder()
             .attribute(ETF.NAME_ATTRIBUTE, "KraneShares Global Carbon Strategy ETF")
-            .exchange(nysearca)
+            .exchangeCode(NYSEARCA.name())
             .symbol("KRBN")
-            .currency(nysearca.getCurrency())
+            .currency(Currency.getInstance("USD"))
             .build());
 
         etfs.add(ETF.builder()
             .attribute(ETF.NAME_ATTRIBUTE, "FinEx China UCITS ETF")
-            .exchange(mcx)
+            .exchangeCode(ExchangeEnum.MCX.name())
             .symbol("FXCN")
-            .currency(mcx.getCurrency())
+            .currency(Currency.getInstance("RUB"))
             .build());
 
         etfRepository.saveAll(etfs);
@@ -80,9 +68,6 @@ public class InstrumentDataLoader implements CommandLineRunner {
             .company(CompanyDataDto.builder().name("Newmont Goldcorp Corp").build())
             .identifier(new Ticker("NEM", NYSE.name()))
             .build());
-
-        Exchange mcx = exchangeRepository.findByCode(ExchangeEnum.MCX.name());
-        Exchange hkex = exchangeRepository.findByCode("HK");
 
         stockService.addStock(StockDataDto.builder()
             .company(CompanyDataDto.builder().name("Bayer AG NA").build())
@@ -111,93 +96,92 @@ public class InstrumentDataLoader implements CommandLineRunner {
 
         stockService.addStock(StockDataDto.builder()
             .company(CompanyDataDto.builder().name("PJSC Rosneft Oil Company").build())
-            .identifier(new Ticker("ROSN", mcx.getCode()))
+            .identifier(new Ticker("ROSN", ExchangeEnum.MCX.name()))
             .build());
 
         stockService.addStock(StockDataDto.builder()
             .company(CompanyDataDto.builder().name("PJSC Gazprom").build())
-            .identifier(new Ticker("GAZP", mcx.getCode()))
+            .identifier(new Ticker("GAZP", ExchangeEnum.MCX.name()))
             .build());
 
         stockService.addStock(StockDataDto.builder()
             .company(CompanyDataDto.builder().name("Ros Agro PLC").build())
-            .identifier(new Ticker("AGRO", mcx.getCode()))
+            .identifier(new Ticker("AGRO", ExchangeEnum.MCX.name()))
             .build());
 
         stockService.addStock(StockDataDto.builder()
             .company(CompanyDataDto.builder().name("PJSC Polyus").build())
-            .identifier(new Ticker("PLZL", mcx.getCode()))
+            .identifier(new Ticker("PLZL", ExchangeEnum.MCX.name()))
             .build());
 
         stockService.addStock(StockDataDto.builder()
             .company(CompanyDataDto.builder().name("PhosAgro").build())
-            .identifier(new Ticker("PHOR", mcx.getCode()))
+            .identifier(new Ticker("PHOR", ExchangeEnum.MCX.name()))
             .build());
 
         stockService.addStock(StockDataDto.builder()
             .company(CompanyDataDto.builder().name("Public Joint Stock Company Inter RAO UES").build())
-            .identifier(new Ticker("IRAO", mcx.getCode()))
+            .identifier(new Ticker("IRAO", ExchangeEnum.MCX.name()))
             .build());
 
         stockService.addStock(StockDataDto.builder()
             .company(CompanyDataDto.builder().name("Mobile TeleSystems Public Joint Stock Company").build())
-            .identifier(new Ticker("MTSS", mcx.getCode()))
+            .identifier(new Ticker("MTSS", ExchangeEnum.MCX.name()))
             .build());
 
         stockService.addStock(StockDataDto.builder()
             .company(CompanyDataDto.builder().name("Public Joint Stock Company Magnit").build())
-            .identifier(new Ticker("MGNT", mcx.getCode()))
+            .identifier(new Ticker("MGNT", ExchangeEnum.MCX.name()))
             .build());
 
         stockService.addStock(StockDataDto.builder()
             .company(CompanyDataDto.builder().name("Public Joint-Stock Company Moscow Exchange MICEX-RTS").build())
-            .identifier(new Ticker("MOEX", mcx.getCode()))
+            .identifier(new Ticker("MOEX", ExchangeEnum.MCX.name()))
             .build());
 
         stockService.addStock(StockDataDto.builder()
             .company(CompanyDataDto.builder().name("Sberbank of Russia").build())
-            .identifier(new Ticker("SBERP", mcx.getCode()))
+            .identifier(new Ticker("SBERP", ExchangeEnum.MCX.name()))
             .build());
 
         stockService.addStock(StockDataDto.builder()
             .company(CompanyDataDto.builder().name("China National Offshore Oil Corporatio").build())
-            .identifier(new Ticker("0883", hkex.getCode()))
+            .identifier(new Ticker("0883", ExchangeEnum.HK.name()))
             .build());
     }
 
     private void addFXInstruments() {
-        Exchange mcx = exchangeRepository.findByCode(ExchangeEnum.MCX.name());
-        Exchange fxIDC = exchangeRepository.findByCode(ExchangeEnum.FX_IDC.name());
         var usdrub = FX.builder()
-            .exchange(mcx)
+            .exchangeCode(ExchangeEnum.MCX.name())
             .symbol("USD.RUB")
             .currency(Currency.getInstance("USD"))
             .build();
         var eurrub = FX.builder()
-            .exchange(fxIDC)
+            .exchangeCode(ExchangeEnum.FX_IDC.name())
             .symbol("EUR.RUB")
             .currency(Currency.getInstance("EUR"))
             .build();
         var cnyrub = FX.builder()
-            .exchange(fxIDC)
+            .exchangeCode(ExchangeEnum.FX_IDC.name())
             .symbol("CNY.RUB")
             .currency(Currency.getInstance("CNY"))
             .build();
         var hkdrub = FX.builder()
-            .exchange(fxIDC)
+            .exchangeCode(ExchangeEnum.FX_IDC.name())
             .symbol("HKD.RUB")
             .currency(Currency.getInstance("HKD"))
             .build();
         var gldrub_tom = FX.builder()
-            .exchange(mcx)
+            .exchangeCode(ExchangeEnum.MCX.name())
             .symbol("GLDRUB_TOM")
-            .currency(mcx.getCurrency())
+            .currency(Currency.getInstance("RUB"))
             .build();
         var rubUsd = FX.builder()
-            .exchange(fxIDC)
+            .exchangeCode(ExchangeEnum.FX_IDC.name())
             .symbol("RUB.USD")
             .currency(Currency.getInstance("RUB"))
             .build();
         fxRepository.saveAll(List.of(usdrub, eurrub, cnyrub, hkdrub, gldrub_tom, rubUsd));
     }
+
 }

@@ -15,8 +15,7 @@ import com.topably.assets.core.domain.Ticker;
 import com.topably.assets.findata.dividends.domain.Dividend;
 import com.topably.assets.findata.dividends.repository.DividendRepository;
 import com.topably.assets.findata.dividends.service.DividendService;
-import com.topably.assets.findata.exchanges.domain.Exchange;
-import com.topably.assets.findata.exchanges.repository.ExchangeRepository;
+import com.topably.assets.findata.exchanges.domain.ExchangeEnum;
 import com.topably.assets.instruments.domain.Instrument;
 import com.topably.assets.instruments.domain.InstrumentType;
 import com.topably.assets.instruments.domain.instrument.Stock;
@@ -38,8 +37,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 @IT
 public class DividendServiceTest extends IntegrationTestBase {
 
-    @Autowired
-    private ExchangeRepository exchangeRepository;
     @Autowired
     private CompanyRepository companyRepository;
     @Autowired
@@ -65,7 +62,7 @@ public class DividendServiceTest extends IntegrationTestBase {
 
         @Test
         public void givenOnlyOneYearDividends_whenDividendAmountCalculatedForFutureYear_thenReturnExistedYearAmount() {
-            var ticker = new Ticker("ROSN", "MCX");
+            var ticker = new Ticker("TEST", "MCX");
             var instrument = createStockInstrument(ticker);
             var expectedAmount = BigDecimal.TEN;
             addDividendData(List.of(new Dividend()
@@ -80,7 +77,7 @@ public class DividendServiceTest extends IntegrationTestBase {
 
         @Test
         public void givenDividendsForDifferentStocks_whenDividendAmountCalculatedForFutureYear_thenReturnExistedYearAmountForSpecificStock() {
-            var ticker = new Ticker("NEM", "NYCE");
+            var ticker = new Ticker("TEST", ExchangeEnum.NYSE.name());
             var instrument = createStockInstrument(ticker);
             var firstDivAmount = BigDecimal.TEN;
             var secondDivAmount = BigDecimal.TEN;
@@ -97,7 +94,7 @@ public class DividendServiceTest extends IntegrationTestBase {
                     .setPayDate(LocalDate.of(2023, 12, 22)),
                 new Dividend()
                     .setAmount(BigDecimal.ONE)
-                    .setInstrument(createStockInstrument(new Ticker("ROSN", "MCX")))
+                    .setInstrument(createStockInstrument(new Ticker("NONE", "MCX")))
                     .setRecordDate(LocalDate.of(2024, 9, 6)
                     ))
             );
@@ -109,7 +106,7 @@ public class DividendServiceTest extends IntegrationTestBase {
 
         @Test
         public void givenFirstTimeDividends_whenDividendAmountCalculatedForSameYear_thenReturnCorrectAmount() {
-            var ticker = new Ticker("ROSN", "MCX");
+            var ticker = new Ticker("TEST", "MCX");
             var instrument = createStockInstrument(ticker);
             var expectedAmount = BigDecimal.TEN;
             addDividendData(List.of(new Dividend()
@@ -125,7 +122,7 @@ public class DividendServiceTest extends IntegrationTestBase {
 
         @Test
         public void givenThisYearDividendsNotFullyPaidAndDataForPrevYearPresented_whenDividendAmountCalculatedForSameYear_thenReturnCorrectAmount() {
-            var ticker = new Ticker("ROSN", "MCX");
+            var ticker = new Ticker("TEST", "MCX");
             var instrument = createStockInstrument(ticker);
             var expectedAmount = BigDecimal.valueOf(30L);
             addDividendData(List.of(new Dividend()
@@ -152,7 +149,7 @@ public class DividendServiceTest extends IntegrationTestBase {
 
         @Test
         public void givenNextYearDividendsPredicted_whenDividendAmountCalculated_thenReturnedTTMAmount() {
-            var ticker = new Ticker("PLZL", "MCX");
+            var ticker = new Ticker("TEST", "MCX");
             var instrument = createStockInstrument(ticker);
             var first = BigDecimal.valueOf(207.31);
             var second = BigDecimal.valueOf(414.61);
@@ -181,7 +178,7 @@ public class DividendServiceTest extends IntegrationTestBase {
 
         @Test
         public void givenDividends_whenDividendAmountCalculatedForPassedYearWithoutDividends_thenReturnedZero() {
-            var ticker = new Ticker("PLZL", "MCX");
+            var ticker = new Ticker("TEST", "MCX");
             var instrument = createStockInstrument(ticker);
             var first = BigDecimal.valueOf(207.31);
             var second = BigDecimal.valueOf(414.61);
@@ -215,7 +212,7 @@ public class DividendServiceTest extends IntegrationTestBase {
 
         @Test
         public void givenOnlyBuyTrades_whenAccumulatedDividendsCalculated_thenReturnCorrectAmount() {
-            var ticker = new Ticker("ROSN", "MCX");
+            var ticker = new Ticker("TEST", "MCX");
             var instrument = createStockInstrument(ticker);
             var dividendAmount = BigDecimal.TEN;
             addDividendData(List.of(new Dividend()
@@ -241,7 +238,7 @@ public class DividendServiceTest extends IntegrationTestBase {
 
         @Test
         public void givenTrades_whenAccumulatedDividendsCalculated_thenSoldSharesAlsoIncluded() {
-            var ticker = new Ticker("ROSN", "MCX");
+            var ticker = new Ticker("TEST", "MCX");
             var instrument = createStockInstrument(ticker);
             var dividendAmount = BigDecimal.TEN;
             addDividendData(List.of(new Dividend()
@@ -279,21 +276,15 @@ public class DividendServiceTest extends IntegrationTestBase {
     }
 
     private Instrument createStockInstrument(Ticker ticker) {
-        var exchange = exchangeRepository.save(Exchange.builder()
-            .name(ticker.getExchange())
-            .code(ticker.getExchange())
-            .countryCode("RU")
-            .currency(Currency.getInstance("RUB"))
-            .build());
         var company = companyRepository.save(Company.builder()
             .name(ticker.getSymbol())
             .build());
         return stockRepository.save(Stock.builder()
             .instrumentType(InstrumentType.STOCK.name())
             .company(company)
-            .exchange(exchange)
+            .exchangeCode(ticker.getExchange())
             .symbol(ticker.getSymbol())
-            .currency(exchange.getCurrency())
+            .currency(ExchangeEnum.valueOf(ticker.getExchange()).getCurrency())
             .build());
     }
 

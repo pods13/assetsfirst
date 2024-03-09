@@ -17,13 +17,13 @@ public interface PortfolioPositionRepository extends JpaRepository<PortfolioPosi
 
     Optional<PortfolioPosition> findByPortfolio_User_IdAndInstrument_Id(Long userId, Long instrumentId);
 
-    @EntityGraph(attributePaths = {"instrument", "instrument.exchange", "tags", "tags.category"})
+    @EntityGraph(attributePaths = {"instrument", "tags", "tags.category"})
     List<PortfolioPosition> findAllByPortfolioId(Long portfolioId);
 
-    @EntityGraph(attributePaths = {"instrument", "instrument.exchange", "tags", "tags.category"})
+    @EntityGraph(attributePaths = {"instrument", "tags", "tags.category"})
     List<PortfolioPosition> findAllByPortfolioIdAndOpenDateLessThanEqual(Long portfolioId, LocalDate date);
 
-    @EntityGraph(attributePaths = {"instrument", "instrument.exchange", "tags", "tags.category"})
+    @EntityGraph(attributePaths = {"instrument", "tags", "tags.category"})
     @Query(
         """
         select p from PortfolioPosition p

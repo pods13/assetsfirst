@@ -2,13 +2,15 @@ package com.topably.assets.instruments;
 
 import com.topably.assets.companies.domain.dto.CompanyDataDto;
 import com.topably.assets.core.domain.Ticker;
-import com.topably.assets.findata.exchanges.domain.USExchange;
 import com.topably.assets.instruments.domain.dto.StockDataDto;
 import com.topably.assets.instruments.service.StockService;
 import com.topably.assets.integration.base.IT;
 import com.topably.assets.integration.base.IntegrationTestBase;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import static com.topably.assets.findata.exchanges.domain.ExchangeEnum.NYSE;
+
 
 @IT
 public class StockServiceTest extends IntegrationTestBase {
@@ -19,7 +21,7 @@ public class StockServiceTest extends IntegrationTestBase {
     @Test
     public void givenStockData_whenStockWasNotPreviouslyImported_thenStockInstrumentIsCreated() {
         stockService.importStock(StockDataDto.builder()
-            .identifier(new Ticker("TEST", USExchange.NYSE.name()))
+            .identifier(new Ticker("TEST", NYSE.name()))
             .company(
                 CompanyDataDto.builder().name("Test Company")
                     .industry("TEST Industry")

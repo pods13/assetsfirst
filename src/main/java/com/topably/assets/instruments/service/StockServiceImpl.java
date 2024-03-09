@@ -1,9 +1,11 @@
 package com.topably.assets.instruments.service;
 
+import java.util.Collection;
+
 import com.topably.assets.companies.domain.dto.CompanyDto;
 import com.topably.assets.companies.repository.CompanyRepository;
 import com.topably.assets.companies.service.CompanyService;
-import com.topably.assets.findata.exchanges.repository.ExchangeRepository;
+import com.topably.assets.findata.exchanges.domain.ExchangeEnum;
 import com.topably.assets.instruments.domain.dto.StockDataDto;
 import com.topably.assets.instruments.domain.dto.StockDto;
 import com.topably.assets.instruments.domain.instrument.Stock;
@@ -14,7 +16,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collection;
 
 @Service
 @RequiredArgsConstructor
@@ -22,7 +23,6 @@ public class StockServiceImpl implements StockService {
 
     private final StockRepository stockRepository;
     private final CompanyRepository companyRepository;
-    private final ExchangeRepository exchangeRepository;
 
     private final CompanyService companyService;
 
@@ -43,12 +43,11 @@ public class StockServiceImpl implements StockService {
         CompanyDto companyDto = companyService.findCompanyByName(dto.getCompany().getName()).orElseGet(() -> {
             return companyService.addCompany(dto.getCompany());
         });
-        var exchange = exchangeRepository.findByCode(dto.getIdentifier().getExchange());
         Stock stock = stockRepository.save(Stock.builder()
             .company(companyRepository.getReferenceById(companyDto.getId()))
             .symbol(dto.getIdentifier().getSymbol())
-            .exchange(exchange)
-            .currency(exchange.getCurrency())
+            .exchangeCode(dto.getIdentifier().getExchange())
+            .currency(ExchangeEnum.valueOf(dto.getIdentifier().getExchange()).getCurrency())
             .build());
         return convertToDto(stock);
     }
@@ -56,7 +55,7 @@ public class StockServiceImpl implements StockService {
     @Override
     @Transactional
     public StockDto importStock(StockDataDto dto) {
-        return stockRepository.findBySymbolAndExchange_Code(dto.getIdentifier().getSymbol(), dto.getIdentifier().getExchange())
+        return stockRepository.findBySymbolAndExchangeCode(dto.getIdentifier().getSymbol(), dto.getIdentifier().getExchange())
             .map(stock -> updateStock(stock, dto))
             .orElseGet(() -> addStock(dto));
     }
@@ -73,4 +72,5 @@ public class StockServiceImpl implements StockService {
             .companyId(stock.getCompany().getId())
             .build();
     }
+
 }

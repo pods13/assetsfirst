@@ -12,13 +12,11 @@ import java.util.Optional;
 
 public interface StockRepository extends JpaRepository<Stock, Long> {
 
-    @EntityGraph(attributePaths = {"exchange"})
     Page<Stock> findAll(Pageable pageable);
 
     @Override
-    @EntityGraph(attributePaths = {"exchange", "company", "company.industry", "company.industry.sector"})
+    @EntityGraph(attributePaths = {"company", "company.industry", "company.industry.sector"})
     List<Stock> findAllById(Iterable<Long> ids);
 
-    @EntityGraph(attributePaths = {"exchange"})
-    Optional<Stock> findBySymbolAndExchange_Code(String symbol, String exchangeCode);
+    Optional<Stock> findBySymbolAndExchangeCode(String symbol, String exchangeCode);
 }

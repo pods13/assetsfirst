@@ -2,7 +2,6 @@ package com.topably.assets.trades.service;
 
 import com.topably.assets.companies.domain.dto.CompanyDataDto;
 import com.topably.assets.core.domain.Ticker;
-import com.topably.assets.findata.exchanges.domain.USExchange;
 import com.topably.assets.instruments.domain.dto.StockDataDto;
 import com.topably.assets.instruments.repository.InstrumentRepository;
 import com.topably.assets.instruments.service.StockService;
@@ -10,7 +9,6 @@ import com.topably.assets.integration.base.IT;
 import com.topably.assets.integration.base.IntegrationTestBase;
 import com.topably.assets.portfolios.service.PortfolioPositionService;
 import com.topably.assets.trades.domain.TradeOperation;
-import com.topably.assets.trades.domain.dto.broker.BrokerDto;
 import com.topably.assets.trades.domain.dto.manage.DeleteTradeDto;
 import com.topably.assets.trades.domain.dto.manage.AddTradeDto;
 import com.topably.assets.trades.service.broker.BrokerService;
@@ -21,8 +19,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.time.LocalDate;
-import java.util.Collection;
 
+import static com.topably.assets.findata.exchanges.domain.ExchangeEnum.NYSE;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @IT
@@ -41,7 +39,7 @@ public class TradeManagementServiceTest extends IntegrationTestBase {
 
     @Test
     public void givenUserAddsNewTrade_whenInstrumentIsNotInPortfolio_thenNewPositionIsCreated() {
-        var ticker = new Ticker("TEST", USExchange.NYSE.name());
+        var ticker = new Ticker("TEST", NYSE.name());
         var stockDto = stockService.importStock(StockDataDto.builder()
             .identifier(ticker)
             .company(
@@ -61,14 +59,14 @@ public class TradeManagementServiceTest extends IntegrationTestBase {
             .quantity(BigInteger.TEN)
             .userId(userId)
             .intermediaryId(brokers.iterator().next().id())
-            .build(), instrumentRepository.findBySymbolAndExchange_Code(ticker.getSymbol(), ticker.getExchange()));
+            .build(), instrumentRepository.findBySymbolAndExchangeCode(ticker.getSymbol(), ticker.getExchange()));
 
         assertThat(tradeDto.getId()).isNotNull();
     }
 
     @Test
     public void givenUserDeleteTrade_whenItsTheLastTradeOfPosition_thenPositionIsDeleted() {
-        var ticker = new Ticker("TEST", USExchange.NYSE.name());
+        var ticker = new Ticker("TEST", NYSE.name());
         var stockDto = stockService.importStock(StockDataDto.builder()
             .identifier(ticker)
             .company(
@@ -78,7 +76,7 @@ public class TradeManagementServiceTest extends IntegrationTestBase {
                     .build())
             .build());
 
-        var instrument = instrumentRepository.findBySymbolAndExchange_Code(ticker.getSymbol(), ticker.getExchange());
+        var instrument = instrumentRepository.findBySymbolAndExchangeCode(ticker.getSymbol(), ticker.getExchange());
         var userId = 1L;
         var brokers = brokerService.getBrokers(userId);
 

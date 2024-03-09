@@ -1,13 +1,19 @@
 package com.topably.assets.findata.exchanges.service;
 
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Stream;
+
 import com.topably.assets.core.config.cache.CacheNames;
 import com.topably.assets.core.domain.Ticker;
 import com.topably.assets.findata.exchanges.domain.ExchangeEnum;
 import com.topably.assets.findata.exchanges.domain.InstrumentPrice;
-import com.topably.assets.findata.exchanges.domain.USExchange;
-import com.topably.assets.findata.exchanges.repository.ExchangeRepository;
 import com.topably.assets.findata.exchanges.repository.InstrumentPriceRepository;
 import com.topably.assets.instruments.domain.InstrumentType;
+import com.topably.assets.instruments.repository.InstrumentRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheConfig;
@@ -19,15 +25,8 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import yahoofinance.YahooFinance;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Stream;
-
 import static java.util.stream.Collectors.toSet;
+
 
 @Service
 @CacheConfig(cacheNames = CacheNames.EXCHANGES)
@@ -35,16 +34,16 @@ import static java.util.stream.Collectors.toSet;
 @Slf4j
 public class ExchangeService {
 
-    private static final Set<String> US_EXCHANGE_CODES = Arrays.stream(USExchange.values())
-        .map(USExchange::name).collect(toSet());
+    private static final Set<String> US_EXCHANGE_CODES = Stream.of(ExchangeEnum.NYSE, ExchangeEnum.NYSEARCA, ExchangeEnum.NASDAQ)
+        .map(ExchangeEnum::name).collect(toSet());
     private static final Set<String> DEFAULT_INSTRUMENT_TYPES = Stream.of(InstrumentType.values())
         .map(InstrumentType::name).collect(toSet());
 
-    private final ExchangeRepository exchangeRepository;
+    private final InstrumentRepository instrumentRepository;
     private final InstrumentPriceRepository priceRepository;
 
     public Page<Ticker> getSymbols(Pageable pageable, Set<String> instrumentTypes, boolean inAnyPortfolio) {
-        return exchangeRepository.findInstrumentsOfCertainTypesByExchangeCodes(pageable, null,
+        return instrumentRepository.findInstrumentsOfCertainTypesByExchangeCodes(pageable, null,
             useDefaultInstrumentTypesIfNull(instrumentTypes), inAnyPortfolio);
     }
 
@@ -53,10 +52,12 @@ public class ExchangeService {
     }
 
     @Transactional
-    public Page<Ticker> getSymbolsByExchange(String exchange, Pageable pageable, Set<String> instrumentTypes,
-                                             boolean inAnyPortfolio) {
+    public Page<Ticker> getSymbolsByExchange(
+        String exchange, Pageable pageable, Set<String> instrumentTypes,
+        boolean inAnyPortfolio
+    ) {
         var exchangeCodes = "US".equals(exchange) ? US_EXCHANGE_CODES : Set.of(exchange);
-        return exchangeRepository.findInstrumentsOfCertainTypesByExchangeCodes(pageable, exchangeCodes,
+        return instrumentRepository.findInstrumentsOfCertainTypesByExchangeCodes(pageable, exchangeCodes,
             useDefaultInstrumentTypesIfNull(instrumentTypes), inAnyPortfolio);
     }
 
@@ -98,4 +99,5 @@ public class ExchangeService {
         }
         return ticker.toString();
     }
+
 }

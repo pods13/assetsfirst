@@ -133,7 +133,7 @@ public class DividendService {
     }
 
     private void deleteForecastedDividends(String symbol, String exchange) {
-        Collection<Dividend> forecastedDividends = dividendRepository.findAllByDeclareDateIsNullAndInstrument_SymbolAndInstrument_Exchange_Code(symbol, exchange);
+        Collection<Dividend> forecastedDividends = dividendRepository.findAllByDeclareDateIsNullAndInstrument_SymbolAndInstrument_ExchangeCode(symbol, exchange);
         dividendRepository.deleteAll(forecastedDividends);
     }
 

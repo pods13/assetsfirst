@@ -28,7 +28,7 @@ import java.util.Currency;
            s2.instrument_type,
            p.user_id,
            s2.symbol as symbol,
-           exch.code as exchange,
+           s2.exchange_code as exchange,
            CASE
                WHEN s2.instrument_type = 'ETF' THEN s2.attributes ->> "$.name"
                WHEN s2.instrument_type = 'STOCK' THEN c2.name
@@ -44,7 +44,6 @@ import java.util.Currency;
              join portfolio_position pos on trade.portfolio_position_id = pos.id
              join portfolio p on p.id = pos.portfolio_id
              join instrument s2 on pos.instrument_id = s2.id
-             join exchange exch on exch.id = s2.exchange_id
              left join company c2 on c2.id = s2.company_id
              join tag t on t.id = trade.intermediary_id
     """)

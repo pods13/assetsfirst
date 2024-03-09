@@ -35,7 +35,7 @@ public class EquityRiskPremiumCardStateProducer implements CardStateProducer<Equ
         //TODO make dynamic param
         var interestRate = BigDecimal.valueOf(12);
         var equityData = positionService.findPortfolioPositionsByPortfolioId(portfolio.getId()).stream()
-            .filter(p -> p.getQuantity().compareTo(BigInteger.ZERO) > 0 && p.getInstrument().getExchange().getCode().equals(ExchangeEnum.MCX.name()))
+            .filter(p -> p.getQuantity().compareTo(BigInteger.ZERO) > 0 && p.getInstrument().getExchangeCode().equals(ExchangeEnum.MCX.name()))
             .map(p -> {
                 var ticker = p.getInstrument().toTicker();
                 var price = exchangeService.findSymbolRecentPrice(ticker).orElse(p.getAveragePrice());

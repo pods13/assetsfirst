@@ -30,12 +30,12 @@ public class InstrumentService {
     }
 
     public Instrument findInstrument(String symbol, String exchange) {
-        return instrumentRepository.findBySymbolAndExchange_Code(symbol, exchange);
+        return instrumentRepository.findBySymbolAndExchangeCode(symbol, exchange);
     }
 
     public InstrumentDto findInstrumentByIdentifier(String identifier) {
         var ticker = transformToTicker(identifier);
-        var instrument = instrumentRepository.findBySymbolAndExchange_Code(ticker.getSymbol(), ticker.getExchange());
+        var instrument = instrumentRepository.findBySymbolAndExchangeCode(ticker.getSymbol(), ticker.getExchange());
         return instrumentMapper.modelToDto(instrument);
     }
 

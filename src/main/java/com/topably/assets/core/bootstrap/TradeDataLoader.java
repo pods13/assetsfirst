@@ -9,7 +9,6 @@ import java.util.stream.Collectors;
 import com.topably.assets.auth.domain.User;
 import com.topably.assets.auth.repository.UserRepository;
 import com.topably.assets.findata.exchanges.domain.ExchangeEnum;
-import com.topably.assets.findata.exchanges.domain.USExchange;
 import com.topably.assets.instruments.service.InstrumentService;
 import com.topably.assets.trades.domain.TradeOperation;
 import com.topably.assets.trades.domain.dto.broker.BrokerDto;
@@ -22,6 +21,9 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
+
+import static com.topably.assets.findata.exchanges.domain.ExchangeEnum.NYSE;
+import static com.topably.assets.findata.exchanges.domain.ExchangeEnum.NYSEARCA;
 
 
 @RequiredArgsConstructor
@@ -72,12 +74,12 @@ public class TradeDataLoader implements CommandLineRunner {
             .quantity(BigInteger.valueOf(15L))
             .userId(userId)
             .intermediaryId(brokerId)
-            .instrumentId(instrumentService.findInstrument("NEM", USExchange.NYSE.name()).getId())
+            .instrumentId(instrumentService.findInstrument("NEM", NYSE.name()).getId())
             .build());
     }
 
     private void addKRBN(Long userId, Long brokerId) {
-        Long etfId = instrumentService.findInstrument("KRBN", USExchange.NYSEARCA.name()).getId();
+        Long etfId = instrumentService.findInstrument("KRBN", NYSEARCA.name()).getId();
         etfTradeService.addTrade(AddTradeDto.builder()
             .date(LocalDate.of(2021, 12, 1))
             .userId(userId)
@@ -112,7 +114,7 @@ public class TradeDataLoader implements CommandLineRunner {
     }
 
     private void addAltria(Long userId, Map<String, Long> brokerNameById) {
-        Long stockId = instrumentService.findInstrument("MO", USExchange.NYSE.name()).getId();
+        Long stockId = instrumentService.findInstrument("MO", NYSE.name()).getId();
         stockTradeService.addTrade(AddTradeDto.builder()
             .date(LocalDate.of(2021, 12, 1))
             .userId(userId)
@@ -142,7 +144,7 @@ public class TradeDataLoader implements CommandLineRunner {
             .price(BigDecimal.valueOf(31.82))
             .quantity(BigInteger.valueOf(75L))
             .intermediaryId(brokerId)
-            .instrumentId(instrumentService.findInstrument("OHI", USExchange.NYSE.name()).getId())
+            .instrumentId(instrumentService.findInstrument("OHI", NYSE.name()).getId())
             .build());
     }
 
@@ -154,7 +156,7 @@ public class TradeDataLoader implements CommandLineRunner {
             .price(BigDecimal.valueOf(52.04))
             .quantity(BigInteger.valueOf(24L))
             .intermediaryId(brokerId)
-            .instrumentId(instrumentService.findInstrument("KO", USExchange.NYSE.name()).getId())
+            .instrumentId(instrumentService.findInstrument("KO", NYSE.name()).getId())
             .build());
     }
 
@@ -166,7 +168,7 @@ public class TradeDataLoader implements CommandLineRunner {
             .price(BigDecimal.valueOf(45.3659))
             .quantity(BigInteger.valueOf(64L))
             .intermediaryId(brokerId)
-            .instrumentId(instrumentService.findInstrument("TTE", USExchange.NYSE.name()).getId())
+            .instrumentId(instrumentService.findInstrument("TTE", NYSE.name()).getId())
             .build());
     }
 
