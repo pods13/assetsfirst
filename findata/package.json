@@ -15,11 +15,13 @@
     "dividends:all": "node dist/tasks/all-dividends/index.js",
     "dividends:ru": "node dist/tasks/mcx-dividends/index.js",
     "prices:ru": "node dist/tasks/mcx-prices/index.js",
-    "prices:global": "node dist/tasks/global-prices/index.js"
+    "prices:global": "node dist/tasks/global-prices/index.js",
+    "dividends:snowball": "node dist/tasks/snowball-dividends/index.js"
   },
   "bin": {
     "dividends-all": "dist/tasks/all-dividends/index.js",
     "dividends-ru": "dist/tasks/mcx-dividends/index.js",
+    "dividends-snowball": "dist/tasks/snowball-dividends/index.js",
     "prices-ru": "dist/tasks/mcx-prices/index.js",
     "prices-global": "dist/tasks/global-prices/index.js"
   },
