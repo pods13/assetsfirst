@@ -17,7 +17,7 @@ public class UserServiceTest extends IntegrationTestBase {
 
     @Test
     public void testCreationOfNewUser() {
-        var expectedUserName = "username";
+        var expectedUserName = "testusername";
         var actualUser = userService.createNewUserAccount(
             new CreateUserDto().setUsername(expectedUserName)
                 .setPassword("password")

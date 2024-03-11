@@ -1,26 +1,5 @@
 package com.topably.assets.findata.dividends.service;
 
-import com.topably.assets.core.config.cache.CacheNames;
-import com.topably.assets.core.domain.Ticker;
-import com.topably.assets.findata.dividends.domain.Dividend;
-import com.topably.assets.findata.dividends.domain.dto.AggregatedDividendDto;
-import com.topably.assets.findata.dividends.domain.dto.DividendData;
-import com.topably.assets.findata.dividends.repository.DividendRepository;
-import com.topably.assets.instruments.domain.Instrument;
-import com.topably.assets.instruments.service.InstrumentService;
-import com.topably.assets.portfolios.domain.position.PortfolioPosition;
-import com.topably.assets.trades.domain.Trade;
-import com.topably.assets.trades.domain.TradeOperation;
-import com.topably.assets.trades.domain.dto.AggregatedTradeDto;
-import lombok.RequiredArgsConstructor;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.CollectionUtils;
-
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.time.LocalDate;
@@ -35,9 +14,32 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import com.topably.assets.core.config.cache.CacheNames;
+import com.topably.assets.core.domain.Ticker;
+import com.topably.assets.findata.dividends.domain.Dividend;
+import com.topably.assets.findata.dividends.domain.dto.AggregatedDividendDto;
+import com.topably.assets.findata.dividends.domain.dto.DividendData;
+import com.topably.assets.findata.dividends.repository.DividendRepository;
+import com.topably.assets.instruments.domain.Instrument;
+import com.topably.assets.instruments.service.InstrumentService;
+import com.topably.assets.portfolios.domain.position.PortfolioPosition;
+import com.topably.assets.trades.domain.Trade;
+import com.topably.assets.trades.domain.TradeOperation;
+import com.topably.assets.trades.domain.dto.AggregatedTradeDto;
+import lombok.RequiredArgsConstructor;
+import org.jetbrains.annotations.NotNull;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
+
 import static java.util.stream.Collectors.collectingAndThen;
 import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.toList;
+
 
 @Service
 @RequiredArgsConstructor
@@ -68,16 +70,36 @@ public class DividendService {
             if (latestDividendYear == null || selectedYear < Year.now().getValue()) {
                 return BigDecimal.ZERO;
             }
-            return Optional.ofNullable(dividendsByYear.get(latestDividendYear))
-                .filter(d -> !d.isEmpty())
-                .map(d -> d.stream().map(Dividend::getAmount).reduce(BigDecimal.ZERO, BigDecimal::add))
-                .orElse(BigDecimal.ZERO);
+            if (hasSamePayingFrequency(dividendsByYear, latestDividendYear)) {
+                return Optional.ofNullable(dividendsByYear.get(latestDividendYear))
+                    .filter(d -> !d.isEmpty())
+                    .map(d -> d.stream().map(Dividend::getAmount).reduce(BigDecimal.ZERO, BigDecimal::add))
+                    .orElse(BigDecimal.ZERO);
+            } else {
+                return calculateAnnualDividendsUsingProjectedAmount(latestDividendYear,
+                    dividends,
+                    dividendsByYear.get(latestDividendYear));
+            }
         }
 
+        return calculateAnnualDividendsUsingProjectedAmount(selectedYear, dividends, selectedYearDividends);
+    }
+
+    @NotNull
+    private BigDecimal calculateAnnualDividendsUsingProjectedAmount(
+        int selectedYear,
+        Collection<Dividend> dividends,
+        List<Dividend> selectedYearDividends
+    ) {
+        if (CollectionUtils.isEmpty(selectedYearDividends)) {
+            return dividends.stream()
+                .map(Dividend::getAmount)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+        }
         var lastRecorded = selectedYearDividends.get(selectedYearDividends.size() - 1);
-        var recordedDividendAmount = selectedYearDividends.stream().map(Dividend::getAmount).reduce(BigDecimal.ZERO, BigDecimal::add);
         var lastRecordDate = lastRecorded.getRecordDate().plus(2, ChronoUnit.WEEKS);
         var isRecordedForFullYear = lastRecordDate.getYear() > selectedYear;
+        var recordedDividendAmount = selectedYearDividends.stream().map(Dividend::getAmount).reduce(BigDecimal.ZERO, BigDecimal::add);
         if (isRecordedForFullYear) {
             return recordedDividendAmount;
         }
@@ -89,6 +111,13 @@ public class DividendService {
             .map(Dividend::getAmount)
             .reduce(BigDecimal.ZERO, BigDecimal::add);
         return recordedDividendAmount.add(projectedDividendsByPrevYearsData);
+    }
+
+    private boolean hasSamePayingFrequency(Map<Integer, List<Dividend>> dividendsByYear, Integer referencialYear) {
+        var dividendsByRefYear = dividendsByYear.get(referencialYear);
+        var dividendsByRefYearMinusOne = dividendsByYear.get(referencialYear - 1);
+        return !CollectionUtils.isEmpty(dividendsByRefYear) && !CollectionUtils.isEmpty(dividendsByRefYearMinusOne)
+            && dividendsByRefYear.size() == dividendsByRefYearMinusOne.size();
     }
 
     private Integer getLatestDividendYear(Ticker ticker, int selectedYear) {
@@ -104,8 +133,10 @@ public class DividendService {
                 divs -> divs.stream().sorted(Comparator.comparing(Dividend::getRecordDate)).toList())));
     }
 
-    private List<Dividend> collectDividendsToPersist(String symbol, String exchange,
-                                                     Collection<DividendData> dividendData) {
+    private List<Dividend> collectDividendsToPersist(
+        String symbol, String exchange,
+        Collection<DividendData> dividendData
+    ) {
         Dividend lastDeclaredDividend = dividendRepository.findLastDeclaredDividend(symbol, exchange);
         var instrument = Optional.ofNullable(lastDeclaredDividend)
             .map(Dividend::getInstrument)
@@ -133,7 +164,10 @@ public class DividendService {
     }
 
     private void deleteForecastedDividends(String symbol, String exchange) {
-        Collection<Dividend> forecastedDividends = dividendRepository.findAllByDeclareDateIsNullAndInstrument_SymbolAndInstrument_ExchangeCode(symbol, exchange);
+        Collection<Dividend> forecastedDividends =
+            dividendRepository.findAllByDeclareDateIsNullAndInstrument_SymbolAndInstrument_ExchangeCode(
+            symbol,
+            exchange);
         dividendRepository.deleteAll(forecastedDividends);
     }
 
@@ -151,8 +185,10 @@ public class DividendService {
             .toList();
     }
 
-    private Collection<AggregatedDividendDto> composeAggregatedDividends(Map.Entry<Ticker, List<Trade>> tradesByTicker,
-                                                                         Collection<Integer> dividendYears) {
+    private Collection<AggregatedDividendDto> composeAggregatedDividends(
+        Map.Entry<Ticker, List<Trade>> tradesByTicker,
+        Collection<Integer> dividendYears
+    ) {
         var ticker = tradesByTicker.getKey();
         var quantity = BigInteger.ZERO;
         var aggregatedDividends = new ArrayList<AggregatedDividendDto>();
@@ -163,7 +199,9 @@ public class DividendService {
             for (; index < trades.size(); index++) {
                 Trade trade = trades.get(index);
                 if (trade.getDate().compareTo(dividend.getRecordDate()) < 0) {
-                    var operationQty = TradeOperation.SELL.equals(trade.getOperation()) ? trade.getQuantity().negate() : trade.getQuantity();
+                    var operationQty = TradeOperation.SELL.equals(trade.getOperation())
+                        ? trade.getQuantity().negate()
+                        : trade.getQuantity();
                     quantity = quantity.add(operationQty);
                 } else {
                     break;
@@ -225,4 +263,5 @@ public class DividendService {
     public Page<Dividend> findUpcomingDividends(Collection<Ticker> tickers, Pageable pageable) {
         return dividendRepository.findUpcomingDividends(tickers.stream().map(Ticker::toString).toList(), pageable);
     }
+
 }

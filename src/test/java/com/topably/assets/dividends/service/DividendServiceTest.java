@@ -4,10 +4,12 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.time.LocalDate;
 import java.time.Year;
+import java.time.temporal.TemporalAdjusters;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Currency;
 import java.util.List;
+import java.util.stream.IntStream;
 
 import com.topably.assets.companies.domain.Company;
 import com.topably.assets.companies.repository.CompanyRepository;
@@ -67,10 +69,10 @@ public class DividendServiceTest extends IntegrationTestBase {
             var expectedAmount = BigDecimal.TEN;
             addDividendData(List.of(new Dividend()
                 .setAmount(expectedAmount)
-                .setInstrument(instrument
-                ).setRecordDate(LocalDate.of(2019, 12, 6))));
+                .setInstrument(instrument)
+                .setRecordDate(LocalDate.of(2019, 12, 6))));
 
-            var actualAmount = dividendService.calculateAnnualDividend(ticker, Year.now().plusYears(1));
+            var actualAmount = dividendService.calculateAnnualDividend(ticker, Year.of(2024).plusYears(1));
 
             assertThat(actualAmount).isEqualByComparingTo(expectedAmount);
         }
@@ -203,6 +205,34 @@ public class DividendServiceTest extends IntegrationTestBase {
             var actualAmount = dividendService.calculateAnnualDividend(ticker, Year.of(2022));
 
             assertThat(actualAmount).isZero();
+        }
+
+        @Test
+        public void givenMonthlyPayedDividends_whenDividendAmountCalculated_thenReturnedCorrectAmount() {
+            var ticker = new Ticker("TEST", "MCX");
+            var instrument = createStockInstrument(ticker);
+
+            var monthlyDividends = IntStream.range(0, 12)
+                .mapToObj(i -> {
+                    var date = LocalDate.of(2023, i + 1, 1);
+                    return new Dividend()
+                        .setAmount(BigDecimal.TEN)
+                        .setInstrument(instrument)
+                        .setRecordDate(date.with(TemporalAdjusters.lastDayOfMonth()));
+                }).toList();
+            addDividendData(monthlyDividends);
+            addDividendData(List.of(new Dividend()
+                    .setAmount(BigDecimal.TEN)
+                    .setInstrument(instrument)
+                    .setRecordDate(LocalDate.of(2024, 1, 1).with(TemporalAdjusters.lastDayOfMonth())),
+                new Dividend()
+                    .setAmount(BigDecimal.TEN)
+                    .setInstrument(instrument)
+                    .setRecordDate(LocalDate.of(2024, 2, 1).with(TemporalAdjusters.lastDayOfMonth()))));
+
+            var actualAmount = dividendService.calculateAnnualDividend(ticker, Year.of(2025));
+
+            assertThat(actualAmount).isEqualByComparingTo(BigDecimal.TEN.multiply(new BigDecimal(12L)));
         }
 
     }

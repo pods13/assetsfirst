@@ -1,5 +1,9 @@
 package com.topably.assets.trades.service;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.time.LocalDate;
+
 import com.topably.assets.companies.domain.dto.CompanyDataDto;
 import com.topably.assets.core.domain.Ticker;
 import com.topably.assets.instruments.domain.dto.StockDataDto;
@@ -9,19 +13,16 @@ import com.topably.assets.integration.base.IT;
 import com.topably.assets.integration.base.IntegrationTestBase;
 import com.topably.assets.portfolios.service.PortfolioPositionService;
 import com.topably.assets.trades.domain.TradeOperation;
-import com.topably.assets.trades.domain.dto.manage.DeleteTradeDto;
 import com.topably.assets.trades.domain.dto.manage.AddTradeDto;
+import com.topably.assets.trades.domain.dto.manage.DeleteTradeDto;
 import com.topably.assets.trades.service.broker.BrokerService;
 import com.topably.assets.trades.service.manage.TradeManagementService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.time.LocalDate;
-
 import static com.topably.assets.findata.exchanges.domain.ExchangeEnum.NYSE;
 import static org.assertj.core.api.Assertions.assertThat;
+
 
 @IT
 public class TradeManagementServiceTest extends IntegrationTestBase {
@@ -90,12 +91,13 @@ public class TradeManagementServiceTest extends IntegrationTestBase {
             .intermediaryId(brokers.iterator().next().id())
             .build(), instrument);
 
-        assertThat( portfolioPositionService.findPortfolioPositionsByUserId(userId).stream()
+        assertThat(portfolioPositionService.findPortfolioPositionsByUserId(userId).stream()
             .anyMatch(dto -> dto.getInstrumentId().equals(instrument.getId()))).isTrue();
 
         tradeManagementService.deleteTrade(new DeleteTradeDto(tradeDto.getId(), instrument.getId()), instrument);
 
-        assertThat( portfolioPositionService.findPortfolioPositionsByUserId(userId).stream()
+        assertThat(portfolioPositionService.findPortfolioPositionsByUserId(userId).stream()
             .noneMatch(dto -> dto.getInstrumentId().equals(instrument.getId()))).isTrue();
     }
+
 }
