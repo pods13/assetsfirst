@@ -30,10 +30,9 @@ function filterData(data: StockData) {
 }
 
 export async function getInstruments(connection: Knex, exchanges: string[], inAnyPortfolio = true): Promise<{ id: number; symbol: string; exchange: string; }[]> {
-    return connection.raw(`select i.id, i.symbol as symbol, e.code as exchange
+    return connection.raw(`select i.id, i.symbol as symbol, i.exchange_code as exchange
                            from instrument i
-                                    join exchange e on e.id = i.exchange_id
-                           where e.code in (?)
+                           where i.exchange_code in (?)
                              and (? is false or
                                   i.id in
                                   (select distinct pos.instrument_id from portfolio_position pos))`, [exchanges, inAnyPortfolio])
