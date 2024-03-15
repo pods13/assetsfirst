@@ -53,6 +53,7 @@ public class DividendIncomeCardStateProducer implements CardStateProducer<Divide
         var trades = tradeService.findDividendPayingTrades(portfolio.getId(), dividendYears);
 
         var details = dividendService.aggregateDividends(trades, dividendYears).stream()
+            .filter(d -> dividendYears.contains(d.getRecordDate().getYear()))
             .map(d -> new DividendDetails(d.getTicker().getSymbol(), d.getRecordDate(), d.isForecasted(), d.getTotal(), d.getCurrency()))
             .toList();
         return produceDividendsGroupedByTimeFrame(portfolio, details, card);
