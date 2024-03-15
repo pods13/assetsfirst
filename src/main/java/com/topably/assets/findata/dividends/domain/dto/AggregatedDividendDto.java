@@ -14,6 +14,7 @@ public class AggregatedDividendDto {
 
     private Ticker ticker;
     private LocalDate payDate;
+    private LocalDate recordDate;
     private boolean forecasted;
     private BigDecimal total;
     private Currency currency;

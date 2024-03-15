@@ -166,8 +166,8 @@ public class DividendService {
     private void deleteForecastedDividends(String symbol, String exchange) {
         Collection<Dividend> forecastedDividends =
             dividendRepository.findAllByDeclareDateIsNullAndInstrument_SymbolAndInstrument_ExchangeCode(
-            symbol,
-            exchange);
+                symbol,
+                exchange);
         dividendRepository.deleteAll(forecastedDividends);
     }
 
@@ -216,6 +216,7 @@ public class DividendService {
                 .setCurrency(currency)
                 .setForecasted(forecasted)
                 .setPayDate(payDate)
+                .setRecordDate(dividend.getRecordDate())
                 .setTotal(total)
             );
         }

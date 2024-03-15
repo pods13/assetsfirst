@@ -19,7 +19,7 @@ export interface DividendSummary {
 
 export interface DividendDetails {
   name: string;
-  payDate: Date;
+  recordDate: Date;
   forecasted: boolean;
   total: number;
   currency: string;

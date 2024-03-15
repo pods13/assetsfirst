@@ -12,7 +12,7 @@ import java.util.Currency;
 public class DividendDetails {
 
     private String name;
-    private LocalDate payDate;
+    private LocalDate recordDate;
     private boolean forecasted;
     private BigDecimal total;
     private Currency currency;

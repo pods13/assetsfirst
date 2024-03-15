@@ -53,7 +53,7 @@ public class DividendIncomeCardStateProducer implements CardStateProducer<Divide
         var trades = tradeService.findDividendPayingTrades(portfolio.getId(), dividendYears);
 
         var details = dividendService.aggregateDividends(trades, dividendYears).stream()
-            .map(d -> new DividendDetails(d.getTicker().getSymbol(), d.getPayDate(), d.isForecasted(), d.getTotal(), d.getCurrency()))
+            .map(d -> new DividendDetails(d.getTicker().getSymbol(), d.getRecordDate(), d.isForecasted(), d.getTotal(), d.getCurrency()))
             .toList();
         return produceDividendsGroupedByTimeFrame(portfolio, details, card);
     }
@@ -68,7 +68,7 @@ public class DividendIncomeCardStateProducer implements CardStateProducer<Divide
             }
             default -> {
                 var dividendsByYear = details.stream()
-                    .collect(groupingBy(d -> d.getPayDate().getYear()));
+                    .collect(groupingBy(d -> d.getRecordDate().getYear()));
 
                 var dividends = new TimeFrameDividend("Annual", composeAnnualDividendSummary(portfolio, card, dividendsByYear));
                 return new DividendIncomeCardData()
@@ -114,8 +114,8 @@ public class DividendIncomeCardStateProducer implements CardStateProducer<Divide
 
     private CardData produceDividendsGroupedByMonth(Portfolio portfolio, List<DividendDetails> details) {
         var dividendsByYearMonth = details.stream()
-            .collect(groupingBy(d -> d.getPayDate().getMonthValue(), TreeMap::new,
-                groupingBy(d -> d.getPayDate().getYear(), TreeMap::new, toList())));
+            .collect(groupingBy(d -> d.getRecordDate().getMonthValue(), TreeMap::new,
+                groupingBy(d -> d.getRecordDate().getYear(), TreeMap::new, toList())));
         var dividends = dividendsByYearMonth.entrySet().stream()
             .map(divsByMonth -> {
                 var divsByYear = enrichWithMissingYears(dividendsByYearMonth.values(), divsByMonth.getValue());
@@ -129,8 +129,8 @@ public class DividendIncomeCardStateProducer implements CardStateProducer<Divide
 
     private CardData produceDividendsGroupedByQuarter(Portfolio portfolio, List<DividendDetails> details) {
         var dividendsByYearQuarter = details.stream()
-            .collect(groupingBy(d -> d.getPayDate().get(IsoFields.QUARTER_OF_YEAR), TreeMap::new,
-                groupingBy(d -> d.getPayDate().getYear(), TreeMap::new, toList())));
+            .collect(groupingBy(d -> d.getRecordDate().get(IsoFields.QUARTER_OF_YEAR), TreeMap::new,
+                groupingBy(d -> d.getRecordDate().getYear(), TreeMap::new, toList())));
         var dividends = dividendsByYearQuarter.entrySet().stream()
             .map(divsByQuarter -> {
                 var divsByYear = enrichWithMissingYears(dividendsByYearQuarter.values(), divsByQuarter.getValue());
@@ -147,7 +147,7 @@ public class DividendIncomeCardStateProducer implements CardStateProducer<Divide
             .map(divsByTimeFrame -> {
                 var totalValue = divsByTimeFrame.getValue().stream()
                     .map(div -> {
-                        var time = div.getPayDate().atStartOfDay().toInstant(ZoneOffset.UTC);
+                        var time = div.getRecordDate().atStartOfDay().toInstant(ZoneOffset.UTC);
                         return currencyConverter.convert(div.getTotal(), div.getCurrency(), portfolio.getCurrency(), time);
                     })
                     .reduce(BigDecimal.ZERO, BigDecimal::add)
