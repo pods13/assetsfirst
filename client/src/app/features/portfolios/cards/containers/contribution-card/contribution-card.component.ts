@@ -16,14 +16,12 @@ import {shortNumber} from '@core/helpers/number.helpers';
         </div>
         <ng-container *ngIf="data$ | async as data">
             <div class="contributed-amount">
-                <span>{{data.totalContributed | currency: data.currencyCode}}</span>
-                <span>{{'estimated contribution'}}</span>
+                <span>{{data.contributed | currency: data.currencyCode}}</span>
+                <span>{{data.contributed >= 0 ? 'actually deposited' : 'withdrawn'}}</span>
             </div>
-            <div class="contributed-amount-details">
-                <span>{{data.reinvestedDividends | currency: data.currencyCode}}</span>
-                <span>{{'reinvested dividends and'}}</span>
-                <span>{{data.deposited | currency: data.currencyCode}}</span>
-                <span>{{data.deposited >= 0 ? 'deposited' : 'withdrawn'}}</span>
+            <div class="contributed-amount">
+                <span>{{data.estimatedDividends | currency: data.currencyCode}}</span>
+                <span>{{'estimated dividends'}}</span>
             </div>
         </ng-container>
         <div echarts class="contribution-chart" [options]="chartOption" [loading]="loading"

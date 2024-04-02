@@ -35,8 +35,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ContributionCardStateProducer implements CardStateProducer<ContributionCard> {
 
-    private static final String DIVIDEND_CONTRIBUTION_NAME = "Dividend";
-    private static final String DEPOSIT_CONTRIBUTION_NAME = "Deposit";
+    private static final String ESTIMATED_DIVIDENDS_NAME = "Dividends";
+    private static final String CONTRIBUTED_NAME = "Contributed";
     private final TradeService tradeService;
     private final CurrencyConverter currencyConverter;
     private final DividendService dividendService;
@@ -58,9 +58,8 @@ public class ContributionCardStateProducer implements CardStateProducer<Contribu
         return new ContributionCardData()
             .setXaxis(xAxis)
             .setContributions(contributions)
-            .setTotalContributed(calculateTotalContributed(contributions))
-            .setReinvestedDividends(calculateContributionTotal(DIVIDEND_CONTRIBUTION_NAME, contributions))
-            .setDeposited(calculateContributionTotal(DEPOSIT_CONTRIBUTION_NAME, contributions))
+            .setEstimatedDividends(calculateContributionTotal(ESTIMATED_DIVIDENDS_NAME, contributions))
+            .setContributed(calculateContributionTotal(CONTRIBUTED_NAME, contributions))
             .setCurrencyCode(portfolio.getCurrency().getCurrencyCode());
     }
 
@@ -94,8 +93,8 @@ public class ContributionCardStateProducer implements CardStateProducer<Contribu
             depositContributions.add(calculateMonthlyContribution(portfolio, monthTrades, monthlyDividend));
         });
 
-        return List.of(new ContributionCardData.Contribution(DIVIDEND_CONTRIBUTION_NAME, dividendContributions),
-            new ContributionCardData.Contribution(DEPOSIT_CONTRIBUTION_NAME, depositContributions));
+        return List.of(new ContributionCardData.Contribution(ESTIMATED_DIVIDENDS_NAME, dividendContributions),
+            new ContributionCardData.Contribution(CONTRIBUTED_NAME, depositContributions));
     }
 
     private BigDecimal calculateMonthlyContribution(Portfolio portfolio, List<TradeView> monthTrades, BigDecimal monthlyDividend) {
@@ -117,13 +116,6 @@ public class ContributionCardStateProducer implements CardStateProducer<Contribu
                                                      int monthValue) {
         return dividendsByMonthValue.getOrDefault(monthValue, Collections.emptyList()).stream()
             .map(d -> currencyConverter.convert(d.getTotal(), d.getCurrency(), portfolio.getCurrency()))
-            .reduce(BigDecimal.ZERO, BigDecimal::add);
-    }
-
-    private BigDecimal calculateTotalContributed(Collection<ContributionCardData.Contribution> contributions) {
-        return contributions.stream()
-            .map(ContributionCardData.Contribution::data)
-            .flatMap(Collection::stream)
             .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 }
