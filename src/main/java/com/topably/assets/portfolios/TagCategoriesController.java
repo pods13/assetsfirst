@@ -1,5 +1,7 @@
 package com.topably.assets.portfolios;
 
+import java.util.Collection;
+
 import com.topably.assets.auth.domain.security.CurrentUser;
 import com.topably.assets.portfolios.domain.dto.tag.CreateTagCategoryDto;
 import com.topably.assets.portfolios.domain.dto.tag.TagCategoryDto;
@@ -9,6 +11,7 @@ import com.topably.assets.portfolios.domain.dto.tag.UpdateTagCategoryDto;
 import com.topably.assets.portfolios.service.tag.TagCategoryService;
 import com.topably.assets.portfolios.service.tag.TagService;
 import lombok.RequiredArgsConstructor;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -23,7 +26,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Collection;
 
 @RestController
 @RequestMapping("/tag-categories")
@@ -39,14 +41,18 @@ public class TagCategoriesController {
     }
 
     @PostMapping
-    public TagCategoryDto createTagCategory(@AuthenticationPrincipal CurrentUser user,
-                                            @Validated @RequestBody CreateTagCategoryDto dto) {
+    public TagCategoryDto createTagCategory(
+        @AuthenticationPrincipal CurrentUser user,
+        @Validated @RequestBody CreateTagCategoryDto dto
+    ) {
         return tagCategoryService.createTagCategory(user.getUserId(), dto);
     }
 
     @PatchMapping("/{categoryId}")
-    public TagCategoryDto updateTagCategory(@PathVariable Long categoryId,
-                                            @Validated @RequestBody UpdateTagCategoryDto dto) {
+    public TagCategoryDto updateTagCategory(
+        @PathVariable Long categoryId,
+        @Validated @RequestBody UpdateTagCategoryDto dto
+    ) {
         return tagCategoryService.updateTagCategory(categoryId, dto);
     }
 
@@ -71,9 +77,12 @@ public class TagCategoriesController {
     }
 
     @GetMapping("/tags/search")
-    public Page<TagProjection> searchTags(@AuthenticationPrincipal CurrentUser user,
-                                          @RequestParam(name = "searchTerm", required = false, defaultValue = "") String searchTerm,
-                                          Pageable pageable) {
+    public Page<TagProjection> searchTags(
+        @AuthenticationPrincipal CurrentUser user,
+        @RequestParam(name = "searchTerm", required = false, defaultValue = "") String searchTerm,
+        @ParameterObject Pageable pageable
+    ) {
         return tagService.searchTags(user, searchTerm, pageable);
     }
+
 }

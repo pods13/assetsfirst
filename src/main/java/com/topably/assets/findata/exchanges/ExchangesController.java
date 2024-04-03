@@ -3,6 +3,7 @@ package com.topably.assets.findata.exchanges;
 import com.topably.assets.core.domain.Ticker;
 import com.topably.assets.findata.exchanges.service.ExchangeService;
 import lombok.RequiredArgsConstructor;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,7 +22,7 @@ public class ExchangesController {
     private final ExchangeService exchangeService;
 
     @GetMapping("/tickers")
-    public Page<Ticker> getTickers(Pageable pageable, @RequestParam(required = false) Set<String> instrumentTypes,
+    public Page<Ticker> getTickers(@ParameterObject Pageable pageable, @RequestParam(required = false) Set<String> instrumentTypes,
                                    @RequestParam(required = false) boolean inAnyPortfolio) {
         return exchangeService.getSymbols(pageable, instrumentTypes, inAnyPortfolio);
     }

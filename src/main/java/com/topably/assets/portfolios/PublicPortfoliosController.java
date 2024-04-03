@@ -6,6 +6,7 @@ import com.topably.assets.portfolios.domain.dto.pub.PortfolioInfoDto;
 import com.topably.assets.portfolios.service.PortfolioDividendService;
 import com.topably.assets.portfolios.service.PortfolioService;
 import lombok.RequiredArgsConstructor;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -31,7 +32,7 @@ public class PublicPortfoliosController {
     @GetMapping("/{identifier}/dividends")
     public Page<PortfolioDividendDto> findUpcomingDividends(
         @AuthenticationPrincipal CurrentUser user,
-        @PathVariable String identifier, Pageable pageable
+        @PathVariable String identifier, @ParameterObject Pageable pageable
     ) {
         return portfolioDividendService.findUpcomingDividends(user, identifier, pageable);
     }
