@@ -12,10 +12,10 @@ public class FreeCurrencyClientConfig {
 
     @Bean
     public FreeCurrencyClient freeCurrencyClient(WebClient.Builder builder) {
-        var clientAdapter = WebClientAdapter.forClient(builder.baseUrl("https://api.freecurrencyapi.com/v1")
+        var exchangeAdapter = WebClientAdapter.create(builder.baseUrl("https://api.freecurrencyapi.com/v1")
             .build());
         return HttpServiceProxyFactory.builder()
-            .clientAdapter(clientAdapter)
+            .exchangeAdapter(exchangeAdapter)
             .build()
             .createClient(FreeCurrencyClient.class);
     }

@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.1.2</version>
+        <version>3.2.3</version>
         <relativePath/>
     </parent>
     <groupId>com.topably</groupId>
@@ -14,14 +14,14 @@
     <name>assetsfirst</name>
     <description>Track your assets</description>
     <properties>
-        <java.version>17</java.version>
+        <java.version>21</java.version>
         <yahoofin.version>3.17.0</yahoofin.version>
         <hibernate-types.version>3.5.0</hibernate-types.version>
         <commons-collections.version>4.4</commons-collections.version>
         <specificationArgResolver.version>3.1.0</specificationArgResolver.version>
-        <springdoc.version>2.1.0</springdoc.version>
+        <springdoc.version>2.2.0</springdoc.version>
         <org.mapstruct.version>1.5.5.Final</org.mapstruct.version>
-        <org.projectlombok.version>1.18.24</org.projectlombok.version>
+        <org.projectlombok.version>1.18.30</org.projectlombok.version>
     </properties>
     <repositories>
         <repository>
