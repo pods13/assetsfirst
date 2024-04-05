@@ -14,3 +14,6 @@ databaseChangeLog:
   - include:
       file: migrations/changeset-004.sql
       relativeToChangelogFile: true
+  - include:
+      file: instruments/etfs.sql
+      relativeToChangelogFile: true
