@@ -27,7 +27,7 @@ jobs:
           node-version: 16
           registry-url: https://npm.pkg.github.com/
           always-auth: true
-      - uses: szenius/set-timezone@v2
+      - uses: szenius/set-timezone@v2.0
         with:
           timezoneLinux: "Europe/Moscow"
           timezoneMacos: "Europe/Moscow"
@@ -58,7 +58,7 @@ jobs:
           node-version: 16
           registry-url: https://npm.pkg.github.com/
           always-auth: true
-      - uses: szenius/set-timezone@v2
+      - uses: szenius/set-timezone@v2.0
         with:
           timezoneLinux: "Europe/Moscow"
           timezoneMacos: "Europe/Moscow"
@@ -89,7 +89,7 @@ jobs:
           node-version: 16
           registry-url: https://npm.pkg.github.com/
           always-auth: true
-      - uses: szenius/set-timezone@v2
+      - uses: szenius/set-timezone@v2.0
         with:
           timezoneLinux: "Europe/Moscow"
           timezoneMacos: "Europe/Moscow"
