@@ -83,4 +83,6 @@ public interface DividendRepository extends JpaRepository<Dividend, Long>, Upser
             group by d.id
         """)
     Page<Dividend> findUpcomingDividends(List<String> tickers, Pageable pageable);
+
+    List<Dividend> findAllByInstrument_Id(Long instrumentId);
 }

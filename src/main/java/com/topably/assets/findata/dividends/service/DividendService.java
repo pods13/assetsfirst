@@ -19,6 +19,8 @@ import com.topably.assets.core.domain.Ticker;
 import com.topably.assets.findata.dividends.domain.Dividend;
 import com.topably.assets.findata.dividends.domain.dto.AggregatedDividendDto;
 import com.topably.assets.findata.dividends.domain.dto.DividendData;
+import com.topably.assets.findata.dividends.domain.dto.PubDividendDto;
+import com.topably.assets.findata.dividends.mapper.DividendMapper;
 import com.topably.assets.findata.dividends.repository.DividendRepository;
 import com.topably.assets.instruments.domain.Instrument;
 import com.topably.assets.instruments.service.InstrumentService;
@@ -49,6 +51,7 @@ public class DividendService {
 
     private final DividendRepository dividendRepository;
     private final InstrumentService instrumentService;
+    private final DividendMapper dividendMapper;
 
     public void addDividends(String symbol, String exchange, Collection<DividendData> dividendData) {
         deleteForecastedDividends(symbol, exchange);
@@ -263,6 +266,14 @@ public class DividendService {
     @Transactional(readOnly = true)
     public Page<Dividend> findUpcomingDividends(Collection<Ticker> tickers, Pageable pageable) {
         return dividendRepository.findUpcomingDividends(tickers.stream().map(Ticker::toString).toList(), pageable);
+    }
+
+    @Transactional(readOnly = true)
+    public List<PubDividendDto> findDividendsByTicker(String ticker) {
+        var instrument = instrumentService.findInstrument(ticker);
+        return dividendRepository.findAllByInstrument_Id(instrument.getId()).stream()
+            .map(d -> dividendMapper.modelToDto(d, instrument.getCurrency()))
+            .toList();
     }
 
 }

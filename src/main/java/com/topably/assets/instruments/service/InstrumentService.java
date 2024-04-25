@@ -29,6 +29,18 @@ public class InstrumentService {
         return instruments.stream().map(instrumentMapper::modelToDto).collect(toList());
     }
 
+    public Instrument findInstrument(String ticker) {
+        var dotSymbol = ".";
+        if (!StringUtils.hasText(ticker) || !ticker.contains(dotSymbol)) {
+            throw new RuntimeException();
+        }
+        var symbolByExchange = ticker.toUpperCase().split("\\.");
+        if(symbolByExchange.length != 2) {
+            throw new RuntimeException();
+        }
+        return findInstrument(symbolByExchange[0], symbolByExchange[1]);
+    }
+
     public Instrument findInstrument(String symbol, String exchange) {
         return instrumentRepository.findBySymbolAndExchangeCode(symbol, exchange);
     }
