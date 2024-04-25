@@ -9,7 +9,7 @@ import java.util.Currency;
 
 @Data
 @Accessors(chain = true)
-public class PortfolioDividendDto {
+public class PubPortfolioDividendDto {
     private String name;
     private LocalDate recordDate;
     private BigDecimal perShare;

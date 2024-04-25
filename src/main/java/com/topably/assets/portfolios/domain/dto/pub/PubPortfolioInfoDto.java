@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 
 @Data
 @Accessors(chain = true)
-public class PortfolioInfoDto {
+public class PubPortfolioInfoDto {
 
     private BigDecimal valueIncreasePct;
     private String currencyCode;

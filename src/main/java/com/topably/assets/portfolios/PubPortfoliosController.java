@@ -1,8 +1,8 @@
 package com.topably.assets.portfolios;
 
 import com.topably.assets.auth.domain.security.CurrentUser;
-import com.topably.assets.portfolios.domain.dto.PortfolioDividendDto;
-import com.topably.assets.portfolios.domain.dto.pub.PortfolioInfoDto;
+import com.topably.assets.portfolios.domain.dto.PubPortfolioDividendDto;
+import com.topably.assets.portfolios.domain.dto.pub.PubPortfolioInfoDto;
 import com.topably.assets.portfolios.service.PortfolioDividendService;
 import com.topably.assets.portfolios.service.PortfolioService;
 import lombok.RequiredArgsConstructor;
@@ -19,18 +19,18 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/public/portfolios")
 @RequiredArgsConstructor
-public class PublicPortfoliosController {
+public class PubPortfoliosController {
 
     private final PortfolioService portfolioService;
     private final PortfolioDividendService portfolioDividendService;
 
     @GetMapping("/{identifier}")
-    public PortfolioInfoDto getPortfolioInfoByIdentifier(@AuthenticationPrincipal CurrentUser user, @PathVariable String identifier) {
+    public PubPortfolioInfoDto getPortfolioInfoByIdentifier(@AuthenticationPrincipal CurrentUser user, @PathVariable String identifier) {
         return portfolioService.getPortfolioInfo(user, identifier);
     }
 
     @GetMapping("/{identifier}/dividends")
-    public Page<PortfolioDividendDto> findUpcomingDividends(
+    public Page<PubPortfolioDividendDto> findUpcomingDividends(
         @AuthenticationPrincipal CurrentUser user,
         @PathVariable String identifier, @ParameterObject Pageable pageable
     ) {

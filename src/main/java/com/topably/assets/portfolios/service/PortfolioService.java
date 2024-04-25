@@ -22,7 +22,7 @@ import com.topably.assets.findata.xrates.service.currency.CurrencyConverter;
 import com.topably.assets.instruments.domain.InstrumentType;
 import com.topably.assets.portfolios.domain.Portfolio;
 import com.topably.assets.portfolios.domain.dto.PortfolioShortInfoDto;
-import com.topably.assets.portfolios.domain.dto.pub.PortfolioInfoDto;
+import com.topably.assets.portfolios.domain.dto.pub.PubPortfolioInfoDto;
 import com.topably.assets.portfolios.domain.dto.PortfolioPositionDto;
 import com.topably.assets.portfolios.domain.dto.PortfolioValuesByDates;
 import com.topably.assets.portfolios.repository.PortfolioRepository;
@@ -152,9 +152,9 @@ public class PortfolioService {
     }
 
     @Transactional(readOnly = true)
-    public PortfolioInfoDto getPortfolioInfo(CurrentUser user, String identifier) {
+    public PubPortfolioInfoDto getPortfolioInfo(CurrentUser user, String identifier) {
         var portfolio = findPortfolioByIdentifier(user, identifier);
-        return new PortfolioInfoDto()
+        return new PubPortfolioInfoDto()
             .setValueIncreasePct(calculatePortfolioValueIncreasePct(portfolio))
             .setCurrencyCode(portfolio.getCurrency().getCurrencyCode())
             //TODO start persisting calculated invested and market values into database
