@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnInit }
 import { TagCategoryService } from '@core/services/tag-category.service';
 import { SegmentChangedEvent, SegmentDeletedEvent } from '../segment-control/segment-control.component';
 import { AssetAllocationCard, CustomSegment } from '../../types/in/asset-allocation-card';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 
 @Component({
   selector: 'app-edit-allocation-card',

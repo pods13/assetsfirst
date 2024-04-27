@@ -10,12 +10,12 @@ import {
 } from '@angular/core';
 import { TagCategoryService } from '@core/services/tag-category.service';
 import { filter, map, mergeMap, Observable, startWith } from 'rxjs';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/legacy-dialog';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { MatChipInputEvent } from '@angular/material/chips';
+import { MatLegacyChipInputEvent as MatChipInputEvent } from '@angular/material/legacy-chips';
 import { FormControl, NonNullableFormBuilder } from '@angular/forms';
 import { TagWithCategoryDto } from '../../../../core/types/tag/tag.dto';
-import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { MatLegacyAutocompleteSelectedEvent as MatAutocompleteSelectedEvent } from '@angular/material/legacy-autocomplete';
 
 @Component({
   selector: 'app-position-tags-dialog',

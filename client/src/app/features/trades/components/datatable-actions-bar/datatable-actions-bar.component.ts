@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { TradeDialogComponent } from '../../containers/trade-dialog/trade-dialog.component';
 import { filter } from 'rxjs';
 import { AddTradeDto } from '../../types/add-trade.dto';

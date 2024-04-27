@@ -3,7 +3,7 @@ import { TagCategoryDto } from '@core/types/tag/tag-category.dto';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
 import { TagDto } from '@core/types/tag/tag.dto';
-import { MatChipInputEvent } from '@angular/material/chips';
+import { MatLegacyChipInputEvent as MatChipInputEvent } from '@angular/material/legacy-chips';
 import { pairwise, startWith } from 'rxjs';
 
 @Component({

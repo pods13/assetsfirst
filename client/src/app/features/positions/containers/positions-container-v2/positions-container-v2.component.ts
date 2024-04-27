@@ -13,7 +13,7 @@ import {
 } from '../../components/tag-categories-dialog/tag-categories-dialog.component';
 import {first, forkJoin} from 'rxjs';
 import {TagCategoryService} from '@core/services/tag-category.service';
-import {MatDialog} from '@angular/material/dialog';
+import {MatLegacyDialog as MatDialog} from '@angular/material/legacy-dialog';
 import {PositionStore} from '../../services/position.store';
 import {Sort} from '@angular/material/sort';
 import {PortfolioService} from "../../services/portfolio.service";

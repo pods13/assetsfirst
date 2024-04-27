@@ -12,7 +12,7 @@ import { FormControl, FormGroup, NonNullableFormBuilder, Validators } from '@ang
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { TagWithCategoryDto } from '@core/types/tag/tag.dto';
 import { combineLatest, filter, map, mergeMap, Observable, pairwise, startWith } from 'rxjs';
-import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { MatLegacyAutocompleteSelectedEvent as MatAutocompleteSelectedEvent } from '@angular/material/legacy-autocomplete';
 import { TagCategoryService } from '@core/services/tag-category.service';
 import { TagCategoryDto } from '@core/types/tag/tag-category.dto';
 import { CustomSegment } from '../../types/in/asset-allocation-card';

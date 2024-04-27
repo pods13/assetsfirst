@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { UserCredentials } from '../types/user-credentials';
 import { catchError, concat, map, Observable, of, switchMap, tap, toArray } from 'rxjs';
 import { User } from '../types/user';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { CreateUserDto } from '../types/create-user.dto';
 
 @Injectable({

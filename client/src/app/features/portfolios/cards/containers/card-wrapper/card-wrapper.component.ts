@@ -17,7 +17,7 @@ import { filter, map, Observable, shareReplay } from 'rxjs';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { defaultCardProps } from '../../helpers/card-factory';
 import { DashboardCardStore } from '../../services/dashboard-card.store';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { editCardDialogByContainerType } from '../../helpers/edit-card.helper';
 import { CardContainerType } from '../../types/card-container-type';
 
