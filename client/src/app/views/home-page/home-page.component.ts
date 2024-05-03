@@ -27,7 +27,7 @@ import { CurrencyPipe } from '@angular/common';
           </mat-nav-list>
         </mat-sidenav>
         <mat-sidenav-content>
-          <mat-toolbar [color]="'primary'" class="container">
+          <mat-toolbar class="container">
             <button type="button" aria-label="Toggle sidenav" mat-icon-button
                     (click)="sidenav.toggle()" *ngIf="isHandset$ | async">
               <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
@@ -51,11 +51,11 @@ import { CurrencyPipe } from '@angular/common';
                     <h1>Make smart decisions with your assets</h1>
                     <h2>Build a safer stream of income and preserve your assets with our easy-to-use portfolio
                       tools.</h2>
-                    <a class="btn btn-start" mat-raised-button color="accent" target="_blank"
+                    <a class="btn btn-start" mat-raised-button color="primary" target="_blank"
                        (click)="onStartNowClick()">
                       Start now
                     </a>
-                    <a routerLink="signup" class="btn" mat-button color="accent">
+                    <a routerLink="signup" class="btn" mat-button color="primary">
                       Sign up
                       <svg style="margin-left: 4px;" width="7" height="11" viewBox="0 0 7 11" fill="none"
                            xmlns="http://www.w3.org/2000/svg">
@@ -67,7 +67,7 @@ import { CurrencyPipe } from '@angular/common';
                 <div class="col portfolio">
                   <div echarts class="portfolio-chart" [options]="chartOption" (chartInit)="onChartInit($event)">
                   </div>
-                  <mat-card class="portfolio-dividends">
+                  <mat-card appearance="outlined" class="portfolio-dividends">
                     <mat-card-content class="container">
                       <div class="row" *ngFor="let div of dividends$ | async">
                         <div class="col">
@@ -90,7 +90,7 @@ import { CurrencyPipe } from '@angular/common';
     </ng-container>
     <ng-template #showSpinner>
       <div class="spinner-wrapper">
-        <mat-spinner [color]="'accent'"></mat-spinner>
+        <mat-spinner [color]="'primary'"></mat-spinner>
       </div>
     </ng-template>
 

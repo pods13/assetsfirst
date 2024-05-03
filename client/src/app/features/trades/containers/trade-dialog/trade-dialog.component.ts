@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, Component, Inject, OnInit} from '@angular/core'
 import {NonNullableFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
 import {catchError, debounceTime, distinctUntilChanged, filter, map, of, ReplaySubject, switchMap, tap} from 'rxjs';
 import {TradingInstrumentService} from '../../services/trading-instrument.service';
-import {MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogRef as MatDialogRef} from '@angular/material/legacy-dialog';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {TradeViewDto} from '../../types/trade-view.dto';
 import {EditTradeDto} from '../../types/edit-trade.dto';
 import {AddTradeDto} from '../../types/add-trade.dto';

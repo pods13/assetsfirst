@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { UserCredentials } from '../types/user-credentials';
 import { catchError, concat, map, Observable, of, switchMap, tap, toArray } from 'rxjs';
 import { User } from '../types/user';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { CreateUserDto } from '../types/create-user.dto';
 
 @Injectable({
@@ -33,7 +33,7 @@ export class AuthService {
       .pipe(tap(this.setLoggedUser));
   }
 
-  getCurrentUser() {
+  getCurrentUser$() {
     if (this.loggedUser) {
       return of(this.loggedUser);
     }
@@ -42,7 +42,7 @@ export class AuthService {
   }
 
   isLoggedIn$(): Observable<boolean> {
-    return this.getCurrentUser().pipe(
+    return this.getCurrentUser$().pipe(
       map((user) => !!user),
       catchError(() => of(false))
     );

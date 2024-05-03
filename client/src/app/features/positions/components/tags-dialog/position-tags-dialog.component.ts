@@ -10,12 +10,12 @@ import {
 } from '@angular/core';
 import { TagCategoryService } from '@core/services/tag-category.service';
 import { filter, map, mergeMap, Observable, startWith } from 'rxjs';
-import { MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/legacy-dialog';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { MatLegacyChipInputEvent as MatChipInputEvent } from '@angular/material/legacy-chips';
+import { MatChipInputEvent } from '@angular/material/chips';
 import { FormControl, NonNullableFormBuilder } from '@angular/forms';
 import { TagWithCategoryDto } from '../../../../core/types/tag/tag.dto';
-import { MatLegacyAutocompleteSelectedEvent as MatAutocompleteSelectedEvent } from '@angular/material/legacy-autocomplete';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 
 @Component({
   selector: 'app-position-tags-dialog',
@@ -31,19 +31,19 @@ import { MatLegacyAutocompleteSelectedEvent as MatAutocompleteSelectedEvent } fr
     <mat-dialog-content>
       <mat-form-field class="tag-chip-list" appearance="fill">
         <mat-label>Position Tags</mat-label>
-        <mat-chip-list #chipList aria-label="Tag selection">
-          <mat-chip *ngFor="let tag of selectedTags" (removed)="remove(tag)">
+        <mat-chip-grid #chipList aria-label="Tag selection">
+          <mat-chip-row *ngFor="let tag of selectedTags" (removed)="remove(tag)">
             {{tag.categoryName + '::' + tag.name}}
             <button matChipRemove>
               <mat-icon>cancel</mat-icon>
             </button>
-          </mat-chip>
+          </mat-chip-row>
           <input placeholder="New tag..." #tagInput [formControl]="tagCtrl"
                  [matChipInputFor]="chipList"
                  [matAutocomplete]="auto"
                  [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                  (matChipInputTokenEnd)="add($event)">
-        </mat-chip-list>
+        </mat-chip-grid>
         <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
           <mat-option *ngFor="let tag of filteredTags$ | async" [value]="tag">
             {{tag.categoryName + '::' + tag.name}}

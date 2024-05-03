@@ -20,21 +20,18 @@ import { CurrencyPipe } from '@angular/common';
 @Component({
   selector: 'app-dividends-card',
   template: `
-    <div class="card-header">
-      <h2 class="title">{{ card.title }}</h2>
-      <mat-form-field appearance="legacy">
-        <div matPrefix>{{'By:'}}</div>
-        <mat-select [value]="card.timeFrame" (valueChange)="onTimeFrameOptionChanged($event)">
-          <mat-option *ngFor="let timeFrame of timeFrameOptions"
-                      [value]="timeFrame.value">
-            {{timeFrame.value}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-    <div echarts class="dividend-income-chart" [options]="chartOption" [loading]="loading"
-         (chartInit)="onChartInit($event)">
-    </div>
+      <div class="card-header">
+          <h2 class="title">{{ card.title }}</h2>
+          <mat-select class="group-by-selector" [value]="card.timeFrame" (valueChange)="onTimeFrameOptionChanged($event)" hideSingleSelectionIndicator>
+              <mat-option *ngFor="let timeFrame of timeFrameOptions"
+                          [value]="timeFrame.value">
+                  {{ timeFrame.value }}
+              </mat-option>
+          </mat-select>
+      </div>
+      <div echarts class="dividend-income-chart" [options]="chartOption" [loading]="loading"
+           (chartInit)="onChartInit($event)">
+      </div>
   `,
   styleUrls: ['./dividend-income-card.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

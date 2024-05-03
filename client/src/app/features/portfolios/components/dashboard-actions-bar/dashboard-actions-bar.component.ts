@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { SelectCardDialogComponent } from '../../cards/components/select-card-dialog/select-card-dialog.component';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { CardContainerType } from '../../cards/types/card-container-type';
 import { filter } from 'rxjs';
 

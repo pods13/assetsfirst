@@ -3,7 +3,7 @@ import { TagCategoryDto } from '@core/types/tag/tag-category.dto';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
 import { TagDto } from '@core/types/tag/tag.dto';
-import { MatLegacyChipInputEvent as MatChipInputEvent } from '@angular/material/legacy-chips';
+import { MatChipInputEvent } from '@angular/material/chips';
 import { pairwise, startWith } from 'rxjs';
 
 @Component({
@@ -22,20 +22,20 @@ import { pairwise, startWith } from 'rxjs';
           <input matInput type="text" id="name" placeholder="Name" formControlName="name" autofocus>
         </mat-form-field>
         <mat-form-field appearance="fill" class="category-tags-list">
-          <mat-chip-list #categoriesTags aria-label="Tag selection" multiple>
-            <mat-chip *ngFor="let tag of tags"
+          <mat-chip-grid #categoriesTags aria-label="Tag selection" multiple>
+            <mat-chip-row *ngFor="let tag of tags"
                       (removed)="removeTag(category, tag)">
               {{tag.name}}
               <button matChipRemove>
                 <mat-icon>cancel</mat-icon>
               </button>
-            </mat-chip>
+            </mat-chip-row>
             <input placeholder="New Tag..."
                    [matChipInputFor]="categoriesTags"
                    [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                    [matChipInputAddOnBlur]="true"
                    (matChipInputTokenEnd)="addTag(category, $event)">
-          </mat-chip-list>
+          </mat-chip-grid>
         </mat-form-field>
       </form>
       <mat-action-row>

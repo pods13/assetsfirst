@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { map, Observable, shareReplay } from 'rxjs';
 import { AuthService } from '../../auth/services/auth.service';
-import { User } from '../../auth/types/user';
 
 @Component({
   selector: 'app-single-column-layout',
@@ -11,17 +10,15 @@ import { User } from '../../auth/types/user';
 })
 export class SingleColumnLayoutComponent implements OnInit {
 
-  user$ = this.authService.getCurrentUser();
+  user$ = this.authService.getCurrentUser$();
 
   isHandset$ = this.breakpointObserver.observe([Breakpoints.Handset]).pipe(
     map(result => result.matches),
     shareReplay()
   );
 
-  loadingRoute = false;
-
   constructor(private breakpointObserver: BreakpointObserver,
-              private authService: AuthService) {
+              public authService: AuthService) {
   }
 
   ngOnInit(): void {

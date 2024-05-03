@@ -3,7 +3,7 @@ import { CardContainer } from '../../types/card-container';
 import { EquityRiskPremiumCard } from '../../types/in/equity-risk-premium-card';
 import { EquityRiskPremiumCardData } from '../../types/out/equity-risk-premium-card-data';
 import { map, Observable, shareReplay } from 'rxjs';
-import { MatLegacyTable as MatTable } from '@angular/material/legacy-table';
+import { MatTable } from '@angular/material/table';
 
 @Component({
   selector: 'app-equity-risk-premium',

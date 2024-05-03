@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { AuthService } from '../../../../auth/services/auth.service';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import {
   ChangePasswordDialogComponent,
   ChangePasswordDialogData
@@ -13,7 +13,7 @@ import { UserService } from '../../services/user.service';
 @Component({
   selector: 'app-profile-container',
   template: `
-    <mat-card class="profile-info" *ngIf="user$ | async as user">
+    <mat-card appearance="outlined" class="profile-info" *ngIf="user$ | async as user">
       <mat-card-content>
         <p>{{user.username}}</p>
         <button mat-raised-button color="primary" (click)="openChangePasswordDialog(user)">Change password</button>
@@ -25,7 +25,7 @@ import { UserService } from '../../services/user.service';
 })
 export class ProfileContainerComponent implements OnInit {
 
-  user$ = this.authService.getCurrentUser();
+  user$ = this.authService.getCurrentUser$();
 
   constructor(private authService: AuthService,
               private userService: UserService,

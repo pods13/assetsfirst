@@ -1,138 +1,120 @@
 @use "@angular/material" as mat;
 @use 'sass:map';
 
-// TODO(v15): As of v15 mat.legacy-core no longer includes default typography styles.
-//  The following line adds:
-//    1. Default typography styles for all components
-//    2. Styles for typography hierarchy classes (e.g. .mat-headline-1)
-//  If you specify typography styles for the components you use elsewhere, you should delete this line.
-//  If you don't need the default component typographies but still want the hierarchy styles,
-//  you can delete this line and instead use:
-//    `@include mat.legacy-typography-hierarchy(mat.define-legacy-typography-config());`
-@include mat.all-legacy-component-typographies();
-@include mat.legacy-core();
+@include mat.core();
 
 $md-primary: (
-  50 : #fefefe,
-  100 : #fdfdfe,
-  200 : #fcfcfd,
-  300 : #fafbfc,
-  400 : #f9fafb,
-  500 : #f8f9fa,
-  600 : #f7f8f9,
-  700 : #f6f7f9,
-  800 : #f5f6f8,
-  900 : #f3f5f6,
-  A100 : #ffffff,
-  A200 : #ffffff,
-  A400 : #ffffff,
-  A700 : #ffffff,
-  contrast: (
-    50 : #000000,
-    100 : #000000,
-    200 : #000000,
-    300 : #000000,
-    400 : #000000,
-    500 : #000000,
-    600 : #000000,
-    700 : #000000,
-    800 : #000000,
-    900 : #000000,
-    A100 : #000000,
-    A200 : #000000,
-    A400 : #000000,
-    A700 : #000000,
-  )
+        50: #eff3ff,
+        100: #dae2ff,
+        200: #becdff,
+        300: #91aeff,
+        400: #5e84fc,
+        500: #3758f9,
+        600: #2237ee,
+        700: #1a25db,
+        800: #1c20b1,
+        900: #1c228c,
+        950: #161755,
+        contrast: (
+                50 : #000000,
+                100 : #000000,
+                200 : #000000,
+                300 : #000000,
+                400 : #ffffff,
+                500 : #ffffff,
+                600 : #ffffff,
+                700 : #ffffff,
+                800 : #ffffff,
+                900 : #ffffff,
+        )
 );
 
 $md-accent: (
-  50 : #e5edfd,
-  100 : #bdd2fb,
-  200 : #92b4f8,
-  300 : #6696f5,
-  400 : #4580f2,
-  500 : #2469f0,
-  600 : #2061ee,
-  700 : #1b56ec,
-  800 : #164ce9,
-  900 : #0d3be5,
-  A100 : #ffffff,
-  A200 : #dde3ff,
-  A400 : #aab9ff,
-  A700 : #90a4ff,
-  contrast: (
-    50 : #000000,
-    100 : #000000,
-    200 : #000000,
-    300 : #000000,
-    400 : #ffffff,
-    500 : #ffffff,
-    600 : #ffffff,
-    700 : #ffffff,
-    800 : #ffffff,
-    900 : #ffffff,
-    A100 : #000000,
-    A200 : #000000,
-    A400 : #000000,
-    A700 : #000000,
-  )
+        50: #ecfdf6,
+        100: #d1fae8,
+        200: #a8f2d6,
+        300: #6fe6c1,
+        400: #36d1a5,
+        500: #13c296,
+        600: #079473,
+        700: #05775f,
+        800: #075e4d,
+        900: #074d41,
+        950: #022c25,
+        contrast: (
+                50 : #000000,
+                100 : #000000,
+                200 : #000000,
+                300 : #000000,
+                400 : #ffffff,
+                500 : #ffffff,
+                600 : #ffffff,
+                700 : #ffffff,
+                800 : #ffffff,
+                900 : #ffffff,
+        )
 );
 
 $md-warn: (
-  50 : #fce7e6,
-  100 : #f7c2c1,
-  200 : #f19a97,
-  300 : #eb716d,
-  400 : #e7524e,
-  500 : #e3342f,
-  600 : #e02f2a,
-  700 : #dc2723,
-  800 : #d8211d,
-  900 : #d01512,
-  A100 : #ffffff,
-  A200 : #ffcdcc,
-  A400 : #ff9a99,
-  A700 : #ff8180,
-  contrast: (
-    50 : #000000,
-    100 : #000000,
-    200 : #000000,
-    300 : #000000,
-    400 : #ffffff,
-    500 : #ffffff,
-    600 : #ffffff,
-    700 : #ffffff,
-    800 : #ffffff,
-    900 : #ffffff,
-    A100 : #000000,
-    A200 : #000000,
-    A400 : #000000,
-    A700 : #000000,
-  )
+        50 : #fce7e6,
+        100 : #f7c2c1,
+        200 : #f19a97,
+        300 : #eb716d,
+        400 : #e7524e,
+        500 : #e3342f,
+        600 : #e02f2a,
+        700 : #dc2723,
+        800 : #d8211d,
+        900 : #d01512,
+        A100 : #ffffff,
+        A200 : #ffcdcc,
+        A400 : #ff9a99,
+        A700 : #ff8180,
+        contrast: (
+                50 : #000000,
+                100 : #000000,
+                200 : #000000,
+                300 : #000000,
+                400 : #ffffff,
+                500 : #ffffff,
+                600 : #ffffff,
+                700 : #ffffff,
+                800 : #ffffff,
+                900 : #ffffff,
+                A100 : #000000,
+                A200 : #000000,
+                A400 : #000000,
+                A700 : #000000,
+        )
 );
 
 $app-primary: mat.define-palette($md-primary);
 $app-accent: mat.define-palette($md-accent);
 $app-warn: mat.define-palette($md-warn);
 
+$app-typography: mat.define-typography-config();
+
 $my-app-theme: mat.define-light-theme(
-    (
-      color: (
-        primary: $app-primary,
-        accent: $app-accent,
-        warn: $app-warn,
-      )
-    )
+                (
+                        color: (
+                                primary: $app-primary,
+                                accent: $app-accent,
+                                warn: $app-warn,
+                        ),
+                        typography: $app-typography,
+                        density: 0,
+                )
 );
 
 $material-theme-overrides: (
-  'color': (
-    'primary': (
-      'text': #000000
-    )
-  ),
+        'color': (
+                'primary': (
+                        'text': #000000
+                )
+        ),
 );
 
 $theme: map.deep-merge($my-app-theme, $material-theme-overrides);
 
-@include mat.all-legacy-component-themes($theme);
+@include mat.all-component-themes($my-app-theme);
+@include mat.typography-hierarchy($app-typography);

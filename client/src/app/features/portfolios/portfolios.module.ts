@@ -7,7 +7,7 @@ import { DashboardCardsModule } from './cards/dashboard-cards.module';
 import { PortfoliosRoutingModule } from './portfolios-routing.module';
 import { PortfolioDashboardService } from './services/portfolio-dashboard.service';
 import { DashboardActionsBarComponent } from './components/dashboard-actions-bar/dashboard-actions-bar.component';
-import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
+import { MatButtonModule } from '@angular/material/button';
 
 
 @NgModule({

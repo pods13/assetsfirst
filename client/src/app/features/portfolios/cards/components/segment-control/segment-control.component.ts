@@ -12,7 +12,7 @@ import { FormControl, FormGroup, NonNullableFormBuilder, Validators } from '@ang
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { TagWithCategoryDto } from '@core/types/tag/tag.dto';
 import { combineLatest, filter, map, mergeMap, Observable, pairwise, startWith } from 'rxjs';
-import { MatLegacyAutocompleteSelectedEvent as MatAutocompleteSelectedEvent } from '@angular/material/legacy-autocomplete';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { TagCategoryService } from '@core/services/tag-category.service';
 import { TagCategoryDto } from '@core/types/tag/tag-category.dto';
 import { CustomSegment } from '../../types/in/asset-allocation-card';
@@ -34,18 +34,18 @@ import { CustomSegment } from '../../types/in/asset-allocation-card';
         </mat-form-field>
         <mat-form-field class="segment-tags-list" appearance="fill">
           <mat-label>Position Tags</mat-label>
-          <mat-chip-list #chipList aria-label="Tag selection">
-            <mat-chip *ngFor="let tag of selectedTags" (removed)="removeTag(tag)">
+          <mat-chip-grid #chipList aria-label="Tag selection">
+            <mat-chip-row *ngFor="let tag of selectedTags" (removed)="removeTag(tag)">
               {{tag.categoryName + '::' + tag.name}}
               <button matChipRemove>
                 <mat-icon>cancel</mat-icon>
               </button>
-            </mat-chip>
+            </mat-chip-row>
             <input placeholder="Select tag..." #tagInput [formControl]="tagCtrl"
                    [matChipInputFor]="chipList"
                    [matAutocomplete]="auto"
                    [matChipInputSeparatorKeyCodes]="separatorKeysCodes">
-          </mat-chip-list>
+          </mat-chip-grid>
           <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectTag($event)">
             <mat-option *ngFor="let tag of filteredTags$ | async" [value]="tag">
               {{tag.categoryName + '::' + tag.name}}

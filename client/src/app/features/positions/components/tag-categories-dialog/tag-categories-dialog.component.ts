@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { TagCategoryService } from '@core/services/tag-category.service';
 import { TagCategoryDto } from '@core/types/tag/tag-category.dto';
-import { MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
+import { MatDialogRef } from '@angular/material/dialog';
 import { CategoryChangedEvent } from '../tag-category-control/tag-category-control.component';
 
 @Component({

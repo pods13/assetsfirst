@@ -19,30 +19,27 @@ import { CurrencyPipe } from '@angular/common';
 @Component({
   selector: 'app-allocation-card',
   template: `
-    <div class="card-header">
-      <h2 class="title">{{ card.title }}</h2>
-      <mat-form-field appearance="legacy">
-        <div matPrefix>{{'by:'}}</div>
-        <mat-select [value]="card.allocatedBy" (valueChange)="onAllocatedByOptionChanged($event)">
-          <mat-option *ngFor="let allocatedBy of allocatedByOptions"
-                      [value]="allocatedBy.value">
-            {{allocatedBy.value}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-    <div class="breadcrumbs" *ngIf="chartPath.length > 1">
-      <ng-container *ngFor="let item of chartPath; let last = last">
-        <button mat-button [class.active]="last" [disabled]="last" (click)="selectTopSegments(item)">
-          {{ item.name }}
-        </button>
-        <span *ngIf="!last"> / </span>
-      </ng-container>
-    </div>
-    <div echarts class="pie-chart" [options]="chartOption" [loading]="loading"
-         (chartInit)="onChartInit($event)"
-         (chartClick)="onSegmentSelected($event)">
-    </div>
+      <div class="card-header">
+          <h2 class="title">{{ card.title }}</h2>
+          <mat-select class="group-by-selector" [value]="card.allocatedBy" (valueChange)="onAllocatedByOptionChanged($event)" hideSingleSelectionIndicator>
+              <mat-option *ngFor="let allocatedBy of allocatedByOptions"
+                          [value]="allocatedBy.value">
+                  {{ allocatedBy.value }}
+              </mat-option>
+          </mat-select>
+      </div>
+      <div class="breadcrumbs" *ngIf="chartPath.length > 1">
+          <ng-container *ngFor="let item of chartPath; let last = last">
+              <button mat-button [class.active]="last" [disabled]="last" (click)="selectTopSegments(item)">
+                  {{ item.name }}
+              </button>
+              <span *ngIf="!last"> / </span>
+          </ng-container>
+      </div>
+      <div echarts class="pie-chart" [options]="chartOption" [loading]="loading"
+           (chartInit)="onChartInit($event)"
+           (chartClick)="onSegmentSelected($event)">
+      </div>
   `,
   styleUrls: ['./allocation-card.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
