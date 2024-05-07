@@ -12,7 +12,7 @@ import { Observable } from 'rxjs';
 import { AssetsAllocationCardData } from '../../types/out/assets-allocation-card-data';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { AllocatedByOption, AssetAllocationCard } from '../../types/in/asset-allocation-card';
-import { ECharts, EChartsOption } from 'echarts';
+import type { ECharts, EChartsOption } from 'echarts';
 import { CurrencyPipe } from '@angular/common';
 
 @UntilDestroy()

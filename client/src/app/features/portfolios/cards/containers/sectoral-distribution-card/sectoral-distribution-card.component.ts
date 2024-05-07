@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { SectoralDistributionCardData } from '../../types/out/sectoral-distribution-card-data';
 import { DashboardCard } from '../../types/dashboard-card';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { ECharts, EChartsOption } from 'echarts';
+import type { ECharts, EChartsOption } from 'echarts';
 
 @UntilDestroy()
 @Component({

@@ -3,7 +3,7 @@ import {CardContainer} from '../../types/card-container';
 import {Observable} from 'rxjs';
 import {AssetDisposalCard} from '../../types/in/asset-disposal-card';
 import {AssetDisposalCardData, AssetDisposalDetails} from '../../types/out/asset-disposal-card-data';
-import {ECharts, EChartsOption} from 'echarts';
+import type {ECharts, EChartsOption} from 'echarts';
 import {UntilDestroy, untilDestroyed} from '@ngneat/until-destroy';
 import {shortNumber} from "@core/helpers/number.helpers";
 import {CurrencyPipe} from "@angular/common";

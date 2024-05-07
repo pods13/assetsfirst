@@ -3,7 +3,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { SingleColumnLayoutComponent } from './layout/single-column-layout/single-column-layout.component';
 import { LayoutModule } from './layout/layout.module';
 import { AppGuard } from './auth/guards/app.guard';
-import { ViewsModule } from './views/views.module';
 import { HomePageComponent } from './views/home-page/home-page.component';
 import { AuthGuard } from './auth/guards/auth.guard';
 
@@ -54,7 +53,6 @@ const routes: Routes = [
 @NgModule({
   imports: [
     LayoutModule,
-    ViewsModule,
     RouterModule.forRoot(routes, {useHash: true})
   ],
   exports: [RouterModule]

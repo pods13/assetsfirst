@@ -12,7 +12,7 @@ import { Observable } from 'rxjs';
 import { DividendIncomeCardData, TimeFrameDividend } from '../../types/out/dividend-income-card-data';
 import { DividendIncomeCard, TimeFrameOption } from '../../types/in/dividend-income-card';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { ECharts, EChartsOption } from 'echarts';
+import type { ECharts, EChartsOption } from 'echarts';
 import { shortNumber } from '@core/helpers/number.helpers';
 import { CurrencyPipe } from '@angular/common';
 

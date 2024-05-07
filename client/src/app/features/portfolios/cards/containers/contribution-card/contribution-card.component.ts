@@ -4,7 +4,7 @@ import {ContributionCardData} from '../../types/out/contribution-card-data';
 import {Observable} from 'rxjs';
 import {ContributionCard} from '../../types/in/contribution-card';
 import {UntilDestroy, untilDestroyed} from '@ngneat/until-destroy';
-import {BarSeriesOption, ECharts, EChartsOption} from 'echarts';
+import type {BarSeriesOption, ECharts, EChartsOption} from 'echarts';
 import {shortNumber} from '@core/helpers/number.helpers';
 
 @UntilDestroy()
