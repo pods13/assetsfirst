@@ -38,6 +38,7 @@
               "src/favicon-32x32.png",
               "src/site.webmanifest",
               "src/CNAME",
+              "src/robots.txt",
               "src/assets"
             ],
             "styles": [
