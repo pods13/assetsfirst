@@ -76,7 +76,7 @@ import {NgxEchartsModule} from "ngx-echarts";
         MatAutocompleteModule,
         MatCheckboxModule,
         NgxEchartsModule.forRoot({
-            echarts: () => import('./utils/charts')
+            echarts: () => import('echarts')
         }),
     ],
     providers: [
