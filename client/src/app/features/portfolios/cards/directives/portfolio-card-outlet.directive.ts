@@ -1,10 +1,9 @@
-import { Directive, Input, ViewContainerRef } from '@angular/core';
-import { DashboardCard } from '../types/dashboard-card';
+import {Directive, ViewContainerRef} from '@angular/core';
 
 @Directive({
-  selector: '[appPortfolioCardOutlet]'
+    selector: '[appPortfolioCardOutlet]'
 })
 export class PortfolioCardOutletDirective {
-  constructor(public viewContainerRef: ViewContainerRef) {
-  }
+    constructor(public viewContainerRef: ViewContainerRef) {
+    }
 }

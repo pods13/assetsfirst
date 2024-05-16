@@ -1,17 +1,17 @@
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { CardContainer } from '../../types/card-container';
-import { debounceTime, first, Observable, skip, tap, withLatestFrom } from 'rxjs';
-import { UntypedFormArray, UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
-import { DividendGoalsCardData } from '../../types/out/dividend-goals-card-data';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { DividendGoalsCard } from '../../types/in/dividend-goals-card';
-import { DashboardCardStore } from '../../services/dashboard-card.store';
-import { tapOnce } from '../../../../../core/helpers/tapOnce';
+import {AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {CardContainer} from '../../types/card-container';
+import {debounceTime, Observable, skip, withLatestFrom} from 'rxjs';
+import {UntypedFormArray, UntypedFormBuilder, UntypedFormGroup} from '@angular/forms';
+import {DividendGoalsCardData} from '../../types/out/dividend-goals-card-data';
+import {UntilDestroy, untilDestroyed} from '@ngneat/until-destroy';
+import {DividendGoalsCard} from '../../types/in/dividend-goals-card';
+import {DashboardCardStore} from '../../services/dashboard-card.store';
+import {tapOnce} from '../../../../../core/helpers/tapOnce';
 
 @UntilDestroy()
 @Component({
-  selector: 'app-dividend-goals-card',
-  template: `
+    selector: 'app-dividend-goals-card',
+    template: `
     <div class="card-header">
       <h2 class="title">{{ card.title }}</h2>
     </div>
@@ -32,49 +32,49 @@ import { tapOnce } from '../../../../../core/helpers/tapOnce';
       </form>
     </ng-container>
   `,
-  styleUrls: ['./dividend-goals-card.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    styleUrls: ['./dividend-goals-card.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DividendGoalsCardComponent implements CardContainer<DividendGoalsCard, DividendGoalsCardData>, OnInit, AfterViewInit {
 
-  card!: DividendGoalsCard;
-  data$!: Observable<DividendGoalsCardData>;
+    card!: DividendGoalsCard;
+    data$!: Observable<DividendGoalsCardData>;
 
-  setupFormBeforeData$!: Observable<DividendGoalsCardData>;
+    setupFormBeforeData$!: Observable<DividendGoalsCardData>;
 
-  form: UntypedFormGroup;
+    form: UntypedFormGroup;
 
-  constructor(private fb: UntypedFormBuilder,
-              private store: DashboardCardStore,
-              private cd: ChangeDetectorRef) {
-    this.form = fb.group({
-      desiredYields: fb.array([]),
-    });
-  }
+    constructor(private fb: UntypedFormBuilder,
+                private store: DashboardCardStore,
+                private cd: ChangeDetectorRef) {
+        this.form = fb.group({
+            desiredYields: fb.array([]),
+        });
+    }
 
-  get desiredYields(): UntypedFormArray {
-    return this.form.get('desiredYields') as UntypedFormArray;
-  }
+    get desiredYields(): UntypedFormArray {
+        return this.form.get('desiredYields') as UntypedFormArray;
+    }
 
-  ngOnInit(): void {
-    this.setupFormBeforeData$ = this.data$.pipe(tapOnce(data => {
-      data.items.forEach((item) =>
-        this.desiredYields.push(this.fb.control(this.card.desiredYieldByIssuer?.[item.name] ?? item.currentYield)));
-    }));
-  }
+    ngOnInit(): void {
+        this.setupFormBeforeData$ = this.data$.pipe(tapOnce(data => {
+            data.items.forEach((item) =>
+                this.desiredYields.push(this.fb.control(this.card.desiredYieldByIssuer?.[item.name] ?? item.currentYield)));
+        }));
+    }
 
-  ngAfterViewInit(): void {
-    this.desiredYields.valueChanges.pipe(
-      untilDestroyed(this),
-      debounceTime(300),
-      skip(1),
-      withLatestFrom(this.data$)
-    ).subscribe(([values, data]) => {
-      const desiredYieldByIssuer = data.items.reduce((res, item, i) => {
-        res[item.name] = values[i];
-        return res;
-      }, {} as { [key: string]: number });
-      this.store.updateCard({...this.card, desiredYieldByIssuer});
-    });
-  }
+    ngAfterViewInit(): void {
+        this.desiredYields.valueChanges.pipe(
+            untilDestroyed(this),
+            debounceTime(300),
+            skip(1),
+            withLatestFrom(this.data$)
+        ).subscribe(([values, data]) => {
+            const desiredYieldByIssuer = data.items.reduce((res, item, i) => {
+                res[item.name] = values[i];
+                return res;
+            }, {} as { [key: string]: number });
+            this.store.updateCard({...this.card, desiredYieldByIssuer});
+        });
+    }
 }

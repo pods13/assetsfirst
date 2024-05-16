@@ -1,7 +1,7 @@
-import { InstrumentType } from './instrument-type';
+import {InstrumentType} from './instrument-type';
 
 export interface DeleteTradeDto {
-  tradeId: number;
-  instrumentId: number;
-  instrumentType: InstrumentType;
+    tradeId: number;
+    instrumentId: number;
+    instrumentType: InstrumentType;
 }

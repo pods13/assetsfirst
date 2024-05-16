@@ -1,4 +1,4 @@
 export interface BrokerDto {
-  id: number;
-  name: string;
+    id: number;
+    name: string;
 }

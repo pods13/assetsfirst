@@ -1,11 +1,11 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { NonNullableFormBuilder, Validators } from '@angular/forms';
-import { AuthService } from '../../services/auth.service';
-import { Router } from '@angular/router';
+import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
+import {NonNullableFormBuilder, Validators} from '@angular/forms';
+import {AuthService} from '../../services/auth.service';
+import {Router} from '@angular/router';
 
 @Component({
-  selector: 'app-signup',
-  template: `
+    selector: 'app-signup',
+    template: `
     <form [formGroup]="signupForm">
       <div class="header">Sign up</div>
 
@@ -32,30 +32,30 @@ import { Router } from '@angular/router';
     </form>
 
   `,
-  styleUrls: ['../auth.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    styleUrls: ['../auth.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SignupComponent implements OnInit {
 
-  signupForm = this.fb.group({
-    username: ['', Validators.required],
-    password: ['', Validators.required]
-  });
+    signupForm = this.fb.group({
+        username: ['', Validators.required],
+        password: ['', Validators.required]
+    });
 
-  constructor(private fb: NonNullableFormBuilder,
-              private authService: AuthService,
-              private router: Router) {
-  }
+    constructor(private fb: NonNullableFormBuilder,
+                private authService: AuthService,
+                private router: Router) {
+    }
 
-  ngOnInit(): void {
-  }
+    ngOnInit(): void {
+    }
 
-  signup() {
-    const signupRequest = this.signupForm?.getRawValue();
-    this.authService.signup(signupRequest)
-      .subscribe((user) => {
-        this.router.navigate([this.authService.INITIAL_PATH])
-      });
-  }
+    signup() {
+        const signupRequest = this.signupForm?.getRawValue();
+        this.authService.signup(signupRequest)
+            .subscribe((user) => {
+                this.router.navigate([this.authService.INITIAL_PATH])
+            });
+    }
 
 }

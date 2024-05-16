@@ -1,7 +1,7 @@
-import { PageSort } from './page-sort';
+import {PageSort} from './page-sort';
 
 export interface Pageable {
-  size: number;
-  page: number;
-  sorts?: PageSort[];
+    size: number;
+    page: number;
+    sorts?: PageSort[];
 }

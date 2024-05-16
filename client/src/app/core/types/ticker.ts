@@ -1,8 +1,8 @@
 export interface Ticker {
-  symbol: string;
-  exchange: string;
+    symbol: string;
+    exchange: string;
 }
 
 export function stringifyTicker(ticker: Ticker) {
-  return `${ticker.symbol}.${ticker.exchange}`;
+    return `${ticker.symbol}.${ticker.exchange}`;
 }

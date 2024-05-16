@@ -1,14 +1,14 @@
-import { defer, Observable, tap } from 'rxjs';
+import {defer, Observable, tap} from 'rxjs';
 
 export function tapOnce<T>(fn: (value: T) => void) {
-  return (source: Observable<T>) =>
-    defer(() => {
-      let first = true;
-      return source.pipe(tap<T>((payload) => {
-        if (first) {
-          fn(payload);
-        }
-        first = false;
-      }));
-    });
+    return (source: Observable<T>) =>
+        defer(() => {
+            let first = true;
+            return source.pipe(tap<T>((payload) => {
+                if (first) {
+                    fn(payload);
+                }
+                first = false;
+            }));
+        });
 }

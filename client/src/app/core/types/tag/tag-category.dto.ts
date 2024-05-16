@@ -1,8 +1,8 @@
-import { TagDto } from './tag.dto';
+import {TagDto} from './tag.dto';
 
 export interface TagCategoryDto {
-  id: number | null;
-  name: string;
-  color: string;
-  tags: TagDto[];
+    id: number | null;
+    name: string;
+    color: string;
+    tags: TagDto[];
 }

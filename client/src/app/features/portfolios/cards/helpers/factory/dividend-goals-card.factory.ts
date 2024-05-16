@@ -1,20 +1,20 @@
-import { CardFactory } from '../card-factory';
-import { CardContainerType } from '../../types/card-container-type';
-import { DividendGoalsCard } from '../../types/in/dividend-goals-card';
+import {CardFactory} from '../card-factory';
+import {CardContainerType} from '../../types/card-container-type';
+import {DividendGoalsCard} from '../../types/in/dividend-goals-card';
 
 export class DividendGoalsCardFactory extends CardFactory<DividendGoalsCard> {
 
-  constructor(containerType: CardContainerType) {
-    super(containerType);
-  }
+    constructor(containerType: CardContainerType) {
+        super(containerType);
+    }
 
-  create(): DividendGoalsCard {
-    return {
-      ...this.originCard,
-      title: 'Dividend Goals',
-      cols: 4,
-      rows: 3,
-      desiredYieldByIssuer: {}
-    };
-  }
+    create(): DividendGoalsCard {
+        return {
+            ...this.originCard,
+            title: 'Dividend Goals',
+            cols: 4,
+            rows: 3,
+            desiredYieldByIssuer: {}
+        };
+    }
 }

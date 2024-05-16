@@ -1,18 +1,17 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
-import { TradeService } from '../../services/trade.service';
-import { AddTradeDto } from '../../types/add-trade.dto';
-import { TradeViewDto } from '../../types/trade-view.dto';
-import { EditTradeDto } from '../../types/edit-trade.dto';
-import { DeleteTradeDto } from '../../types/delete-trade.dto';
-import { PageSort } from '../../../../core/types/page-sort';
-import { MatTableDataSource } from '@angular/material/table';
-import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { MatSort, Sort } from '@angular/material/sort';
-import { SelectionModel } from '@angular/cdk/collections';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
+import {TradeService} from '../../services/trade.service';
+import {AddTradeDto} from '../../types/add-trade.dto';
+import {TradeViewDto} from '../../types/trade-view.dto';
+import {EditTradeDto} from '../../types/edit-trade.dto';
+import {DeleteTradeDto} from '../../types/delete-trade.dto';
+import {PageSort} from '../../../../core/types/page-sort';
+import {MatPaginator, PageEvent} from '@angular/material/paginator';
+import {MatSort, Sort} from '@angular/material/sort';
+import {SelectionModel} from '@angular/cdk/collections';
 
 @Component({
-  selector: 'app-trades-container',
-  template: `
+    selector: 'app-trades-container',
+    template: `
     <app-datatable-actions-bar [selectedRows]="selectedRows"
                                (addTrade)="onAddTrade($event)"
                                (editTrade)="onEditTrade($event)"
@@ -79,90 +78,90 @@ import { SelectionModel } from '@angular/cdk/collections';
       </mat-paginator>
     </div>
   `,
-  styleUrls: ['./trades-container.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    styleUrls: ['./trades-container.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TradesContainerComponent implements OnInit {
 
-  readonly headerHeight = 50;
-  readonly rowHeight = 50;
-  readonly pageSize = 10;
+    readonly headerHeight = 50;
+    readonly rowHeight = 50;
+    readonly pageSize = 10;
 
-  totalElements!: number;
-  firstPageNumber = 0;
-  pageNumber = this.firstPageNumber;
+    totalElements!: number;
+    firstPageNumber = 0;
+    pageNumber = this.firstPageNumber;
 
 
-  pageSorts = [{prop: 'date', dir: 'desc'}];
+    pageSorts = [{prop: 'date', dir: 'desc'}];
 
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @ViewChild(MatSort) sort!: MatSort;
+    @ViewChild(MatPaginator) paginator!: MatPaginator;
+    @ViewChild(MatSort) sort!: MatSort;
 
-  displayedColumns = ['select', 'symbol', 'name', 'operation', 'date', 'quantity', 'price', 'intermediary'];
-  selection = new SelectionModel<TradeViewDto>(false, []);
+    displayedColumns = ['select', 'symbol', 'name', 'operation', 'date', 'quantity', 'price', 'intermediary'];
+    selection = new SelectionModel<TradeViewDto>(false, []);
 
-  rows: TradeViewDto[] = [];
-  selectedRows: TradeViewDto[] = [];
+    rows: TradeViewDto[] = [];
+    selectedRows: TradeViewDto[] = [];
 
-  constructor(private tradeService: TradeService,
-              private cd: ChangeDetectorRef) {
-  }
+    constructor(private tradeService: TradeService,
+                private cd: ChangeDetectorRef) {
+    }
 
-  ngOnInit(): void {
-    this.setPage({pageSize: this.pageSize, offset: this.pageNumber});
-    this.selection.changed.subscribe(selectionChange => {
-      if (selectionChange) {
-        this.selectedRows = [...selectionChange.added];
-      }
-    });
-  }
-
-  setPage(pageInfo: { pageSize: number; offset: number; sorts?: PageSort[] }) {
-    const pageNumber = pageInfo.offset;
-    this.tradeService.getUserTrades({
-      size: pageInfo.pageSize, page: pageNumber + 1,
-      sorts: pageInfo.sorts ?? this.pageSorts
-    }).subscribe((page => {
-      this.totalElements = page.totalElements;
-      this.rows = page.content;
-      this.pageNumber = pageNumber;
-      this.cd.detectChanges();
-    }));
-  }
-
-  onAddTrade(dto: AddTradeDto) {
-    this.selectedRows = [];
-    this.tradeService.addTrade(dto)
-      .subscribe(res => {
-        this.setPage({pageSize: this.pageSize, offset: this.firstPageNumber});
-      });
-  }
-
-  onEditTrade(dto: EditTradeDto) {
-    this.tradeService.editTrade(dto)
-      .subscribe(res => {
-        this.selectedRows = [];
+    ngOnInit(): void {
         this.setPage({pageSize: this.pageSize, offset: this.pageNumber});
-      });
-  }
+        this.selection.changed.subscribe(selectionChange => {
+            if (selectionChange) {
+                this.selectedRows = [...selectionChange.added];
+            }
+        });
+    }
 
-  onDeleteTrade(dto: DeleteTradeDto) {
-    this.tradeService.deleteTrade(dto)
-      .subscribe(res => {
+    setPage(pageInfo: { pageSize: number; offset: number; sorts?: PageSort[] }) {
+        const pageNumber = pageInfo.offset;
+        this.tradeService.getUserTrades({
+            size: pageInfo.pageSize, page: pageNumber + 1,
+            sorts: pageInfo.sorts ?? this.pageSorts
+        }).subscribe((page => {
+            this.totalElements = page.totalElements;
+            this.rows = page.content;
+            this.pageNumber = pageNumber;
+            this.cd.detectChanges();
+        }));
+    }
+
+    onAddTrade(dto: AddTradeDto) {
         this.selectedRows = [];
-        this.setPage({pageSize: this.pageSize, offset: this.firstPageNumber});
-      });
-  }
+        this.tradeService.addTrade(dto)
+            .subscribe(res => {
+                this.setPage({pageSize: this.pageSize, offset: this.firstPageNumber});
+            });
+    }
 
-  onPageChanged(event: PageEvent) {
-    this.setPage({pageSize: event.pageSize, offset: event.pageIndex});
-  }
+    onEditTrade(dto: EditTradeDto) {
+        this.tradeService.editTrade(dto)
+            .subscribe(res => {
+                this.selectedRows = [];
+                this.setPage({pageSize: this.pageSize, offset: this.pageNumber});
+            });
+    }
 
-  announceSortChange(event: Sort) {
-    this.setPage({
-      pageSize: this.pageSize,
-      offset: this.firstPageNumber,
-      sorts: [{prop: event.active, dir: event.direction}]
-    });
-  }
+    onDeleteTrade(dto: DeleteTradeDto) {
+        this.tradeService.deleteTrade(dto)
+            .subscribe(res => {
+                this.selectedRows = [];
+                this.setPage({pageSize: this.pageSize, offset: this.firstPageNumber});
+            });
+    }
+
+    onPageChanged(event: PageEvent) {
+        this.setPage({pageSize: event.pageSize, offset: event.pageIndex});
+    }
+
+    announceSortChange(event: Sort) {
+        this.setPage({
+            pageSize: this.pageSize,
+            offset: this.firstPageNumber,
+            sorts: [{prop: event.active, dir: event.direction}]
+        });
+    }
 }

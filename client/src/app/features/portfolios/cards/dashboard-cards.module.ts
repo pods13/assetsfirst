@@ -18,9 +18,7 @@ import {FitChartDirective} from './directives/fit-chart.directive';
 import {DividendGoalsCardComponent} from './containers/dividend-goals-card/dividend-goals-card.component';
 import {MatListModule} from '@angular/material/list';
 import {MatInputModule} from '@angular/material/input';
-import {
-    SectoralDistributionCardComponent
-} from './containers/sectoral-distribution-card/sectoral-distribution-card.component';
+import {SectoralDistributionCardComponent} from './containers/sectoral-distribution-card/sectoral-distribution-card.component';
 import {BalanceCardComponent} from './containers/balance-card/balance-card.component';
 import {ContributionCardComponent} from './containers/contribution-card/contribution-card.component';
 import {InvestmentYieldCardComponent} from './containers/investment-yield-card/investment-yield-card.component';
@@ -36,7 +34,7 @@ import {SegmentControlComponent} from './components/segment-control/segment-cont
 import {EditDividendIncomeCardComponent} from './components/edit-dividend-income-card/edit-dividend-income-card.component';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {AssetDisposalCardComponent} from './containers/asset-disposal-card/asset-disposal-card.component';
-import {NgxEchartsDirective} from "ngx-echarts";
+import {NgxEchartsModule} from "ngx-echarts";
 
 
 @NgModule({
@@ -77,7 +75,9 @@ import {NgxEchartsDirective} from "ngx-echarts";
         MatChipsModule,
         MatAutocompleteModule,
         MatCheckboxModule,
-        NgxEchartsDirective
+        NgxEchartsModule.forRoot({
+            echarts: () => import('./utils/charts')
+        }),
     ],
     providers: [
         CardContentLoaderService,

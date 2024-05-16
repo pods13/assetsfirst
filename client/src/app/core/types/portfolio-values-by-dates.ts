@@ -1,4 +1,4 @@
 export interface PortfolioValuesByDates {
-  dates: string[];
-  values: number[];
+    dates: string[];
+    values: number[];
 }

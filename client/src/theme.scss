@@ -106,15 +106,5 @@ $my-app-theme: mat.define-light-theme(
                 )
 );
 
-$material-theme-overrides: (
-        'color': (
-                'primary': (
-                        'text': #000000
-                )
-        ),
-);
-
-$theme: map.deep-merge($my-app-theme, $material-theme-overrides);
-
 @include mat.all-component-themes($my-app-theme);
 @include mat.typography-hierarchy($app-typography);

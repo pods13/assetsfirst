@@ -1,14 +1,14 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { TagCategoryDto } from '@core/types/tag/tag-category.dto';
-import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
-import { TagDto } from '@core/types/tag/tag.dto';
-import { MatChipInputEvent } from '@angular/material/chips';
-import { pairwise, startWith } from 'rxjs';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {TagCategoryDto} from '@core/types/tag/tag-category.dto';
+import {COMMA, ENTER} from '@angular/cdk/keycodes';
+import {FormGroup, NonNullableFormBuilder, Validators} from '@angular/forms';
+import {TagDto} from '@core/types/tag/tag.dto';
+import {MatChipInputEvent} from '@angular/material/chips';
+import {pairwise, startWith} from 'rxjs';
 
 @Component({
-  selector: 'app-tag-category-control',
-  template: `
+    selector: 'app-tag-category-control',
+    template: `
     <mat-expansion-panel class="category-control-panel">
       <mat-expansion-panel-header>
         <mat-panel-title>
@@ -43,65 +43,65 @@ import { pairwise, startWith } from 'rxjs';
       </mat-action-row>
     </mat-expansion-panel>
   `,
-  styleUrls: ['./tag-category-control.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    styleUrls: ['./tag-category-control.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TagCategoryControlComponent implements OnInit {
 
-  readonly separatorKeysCodes = [ENTER, COMMA] as const;
+    readonly separatorKeysCodes = [ENTER, COMMA] as const;
 
-  @Input()
-  category!: TagCategoryDto;
+    @Input()
+    category!: TagCategoryDto;
 
-  @Output()
-  categoryDeleted = new EventEmitter<TagCategoryDto>();
-  @Output()
-  categoryChanged = new EventEmitter<CategoryChangedEvent>();
+    @Output()
+    categoryDeleted = new EventEmitter<TagCategoryDto>();
+    @Output()
+    categoryChanged = new EventEmitter<CategoryChangedEvent>();
 
-  form!: FormGroup;
-  tags!: TagDto[];
+    form!: FormGroup;
+    tags!: TagDto[];
 
-  constructor(private fb: NonNullableFormBuilder) {
+    constructor(private fb: NonNullableFormBuilder) {
 
-  }
-
-  ngOnInit(): void {
-    this.form = this.fb.group({
-      name: [this.category.name, Validators.required],
-    });
-    this.tags = [...this.category.tags];
-
-    this.form.get('name')?.valueChanges
-      .pipe(startWith(this.category.name), pairwise())
-      .subscribe(([prev, next]) => {
-        this.categoryChanged.emit({name: prev, category: {...this.latestCategoryState, ...{name: next}}});
-      });
-  }
-
-  removeTag(category: TagCategoryDto, tag: TagDto) {
-    this.tags = [...this.tags.filter(t => t.id !== tag.id)];
-    this.categoryChanged.emit({name: this.form.get('name')?.value, category: this.latestCategoryState});
-  }
-
-  addTag(category: TagCategoryDto, event: MatChipInputEvent): void {
-    const value = (event.value || '').trim();
-    if (value && !this.tags.some(t => t.name === value)) {
-      this.tags = [...this.tags, {name: value} as TagDto];
-      event.chipInput!.clear();
-      this.categoryChanged.emit({name: this.form.get('name')?.value, category: this.latestCategoryState});
     }
-  }
 
-  deleteCategory() {
-    this.categoryDeleted.emit(this.latestCategoryState);
-  }
+    ngOnInit(): void {
+        this.form = this.fb.group({
+            name: [this.category.name, Validators.required],
+        });
+        this.tags = [...this.category.tags];
 
-  get latestCategoryState(): TagCategoryDto {
-    return Object.assign({}, this.category, this.form.value, {tags: this.tags});
-  }
+        this.form.get('name')?.valueChanges
+            .pipe(startWith(this.category.name), pairwise())
+            .subscribe(([prev, next]) => {
+                this.categoryChanged.emit({name: prev, category: {...this.latestCategoryState, ...{name: next}}});
+            });
+    }
+
+    removeTag(category: TagCategoryDto, tag: TagDto) {
+        this.tags = [...this.tags.filter(t => t.id !== tag.id)];
+        this.categoryChanged.emit({name: this.form.get('name')?.value, category: this.latestCategoryState});
+    }
+
+    addTag(category: TagCategoryDto, event: MatChipInputEvent): void {
+        const value = (event.value || '').trim();
+        if (value && !this.tags.some(t => t.name === value)) {
+            this.tags = [...this.tags, {name: value} as TagDto];
+            event.chipInput!.clear();
+            this.categoryChanged.emit({name: this.form.get('name')?.value, category: this.latestCategoryState});
+        }
+    }
+
+    deleteCategory() {
+        this.categoryDeleted.emit(this.latestCategoryState);
+    }
+
+    get latestCategoryState(): TagCategoryDto {
+        return Object.assign({}, this.category, this.form.value, {tags: this.tags});
+    }
 }
 
 export interface CategoryChangedEvent {
-  name: string;
-  category: TagCategoryDto;
+    name: string;
+    category: TagCategoryDto;
 }

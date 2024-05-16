@@ -1,5 +1,5 @@
 export interface SelectedTagDto {
-  id: number;
-  categoryId: number;
-  name: string;
+    id: number;
+    categoryId: number;
+    name: string;
 }

@@ -11,9 +11,6 @@ import localeRu from '@angular/common/locales/ru';
 import localeRuExtra from '@angular/common/locales/extra/ru';
 import {MAT_DIALOG_DEFAULT_OPTIONS} from '@angular/material/dialog';
 import {MAT_FORM_FIELD_DEFAULT_OPTIONS} from "@angular/material/form-field";
-import {NgxEchartsDirective, NgxEchartsModule} from "ngx-echarts";
-import {MatProgressSpinner} from "@angular/material/progress-spinner";
-import {MatCard, MatCardContent} from "@angular/material/card";
 
 registerLocaleData(localeRu, 'ru-RU', localeRuExtra);
 
@@ -27,10 +24,6 @@ registerLocaleData(localeRu, 'ru-RU', localeRuExtra);
         CoreModule,
         BrowserAnimationsModule,
         AuthModule,
-        NgxEchartsModule.forRoot({
-            echarts: () => import(
-                './core/utils/charts').then(m => m.default)
-        }),
         AppRoutingModule,
     ],
     providers: [

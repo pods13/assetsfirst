@@ -1,6 +1,6 @@
-import { CardData } from '../card-data';
+import {CardData} from '../card-data';
 
 export interface AssetsAllocationCardData extends CardData {
-  segments: any[];
-  currentTotalValue: number;
+    segments: any[];
+    currentTotalValue: number;
 }

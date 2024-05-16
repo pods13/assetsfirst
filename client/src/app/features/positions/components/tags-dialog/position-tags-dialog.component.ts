@@ -1,25 +1,16 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  Inject,
-  OnInit,
-  ViewChild,
-  ViewEncapsulation
-} from '@angular/core';
-import { TagCategoryService } from '@core/services/tag-category.service';
-import { filter, map, mergeMap, Observable, startWith } from 'rxjs';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { MatChipInputEvent } from '@angular/material/chips';
-import { FormControl, NonNullableFormBuilder } from '@angular/forms';
-import { TagWithCategoryDto } from '../../../../core/types/tag/tag.dto';
-import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Inject, OnInit, ViewChild} from '@angular/core';
+import {TagCategoryService} from '@core/services/tag-category.service';
+import {filter, map, mergeMap, Observable, startWith} from 'rxjs';
+import {MAT_DIALOG_DATA} from '@angular/material/dialog';
+import {COMMA, ENTER} from '@angular/cdk/keycodes';
+import {MatChipInputEvent} from '@angular/material/chips';
+import {FormControl, NonNullableFormBuilder} from '@angular/forms';
+import {TagWithCategoryDto} from '../../../../core/types/tag/tag.dto';
+import {MatAutocompleteSelectedEvent} from '@angular/material/autocomplete';
 
 @Component({
-  selector: 'app-position-tags-dialog',
-  template: `
+    selector: 'app-position-tags-dialog',
+    template: `
     <h2 mat-dialog-title>
       {{ title }}<span>
       <button mat-icon-button class="conf-categories-btn"
@@ -55,73 +46,73 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
       <button mat-button [mat-dialog-close]="{selectedTags}">Okay</button>
     </mat-dialog-actions>
   `,
-  styleUrls: ['./position-tags-dialog.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    styleUrls: ['./position-tags-dialog.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PositionTagsDialogComponent implements OnInit {
 
-  readonly separatorKeysCodes = [ENTER, COMMA] as const;
+    readonly separatorKeysCodes = [ENTER, COMMA] as const;
 
-  title!: string;
+    title!: string;
 
-  tagCtrl: FormControl<string>;
-  selectedTags: TagWithCategoryDto[] = [];
-  filteredTags$!: Observable<TagWithCategoryDto[]>;
+    tagCtrl: FormControl<string>;
+    selectedTags: TagWithCategoryDto[] = [];
+    filteredTags$!: Observable<TagWithCategoryDto[]>;
 
-  @ViewChild('tagInput') tagInput!: ElementRef<HTMLInputElement>;
+    @ViewChild('tagInput') tagInput!: ElementRef<HTMLInputElement>;
 
-  constructor(public tagCategoryService: TagCategoryService,
-              @Inject(MAT_DIALOG_DATA) private data: PositionTagsDialogData,
-              private cd: ChangeDetectorRef,
-              private fb: NonNullableFormBuilder) {
-    this.title = data.title;
-    this.selectedTags = [...data.selectedTags];
-    this.tagCtrl = this.fb.control<string>('');
-  }
-
-  ngOnInit(): void {
-    this.filteredTags$ = this.tagCtrl.valueChanges.pipe(
-      startWith(''),
-      filter(value => typeof value === 'string'),
-      mergeMap((tagName: string) => this.tagCategoryService.findTags(tagName)
-        .pipe(map(page => page.content))
-      ),
-    )
-  }
-
-  add(event: MatChipInputEvent): void {
-    const value = (event.value || '').trim();
-
-    if (value) {
-      //TODO implement auto creating inputed tags by adding them to tag category first
+    constructor(public tagCategoryService: TagCategoryService,
+                @Inject(MAT_DIALOG_DATA) private data: PositionTagsDialogData,
+                private cd: ChangeDetectorRef,
+                private fb: NonNullableFormBuilder) {
+        this.title = data.title;
+        this.selectedTags = [...data.selectedTags];
+        this.tagCtrl = this.fb.control<string>('');
     }
 
-    // Clear the input value
-    event.chipInput!.clear();
+    ngOnInit(): void {
+        this.filteredTags$ = this.tagCtrl.valueChanges.pipe(
+            startWith(''),
+            filter(value => typeof value === 'string'),
+            mergeMap((tagName: string) => this.tagCategoryService.findTags(tagName)
+                .pipe(map(page => page.content))
+            ),
+        )
+    }
 
-    this.tagCtrl.setValue('');
-  }
+    add(event: MatChipInputEvent): void {
+        const value = (event.value || '').trim();
 
-  remove(tag: TagWithCategoryDto): void {
-    this.selectedTags = [...this.selectedTags.filter(t => t.id !== tag.id)];
-    this.cd.detectChanges();
-  }
+        if (value) {
+            //TODO implement auto creating inputed tags by adding them to tag category first
+        }
 
-  selected(event: MatAutocompleteSelectedEvent): void {
-    this.tagInput.nativeElement.value = '';
-    this.tagCtrl.setValue('');
-    const selectedTag = event.option.value;
-    this.selectedTags = [...this.selectedTags, selectedTag];
-    this.cd.detectChanges();
-  }
+        // Clear the input value
+        event.chipInput!.clear();
+
+        this.tagCtrl.setValue('');
+    }
+
+    remove(tag: TagWithCategoryDto): void {
+        this.selectedTags = [...this.selectedTags.filter(t => t.id !== tag.id)];
+        this.cd.detectChanges();
+    }
+
+    selected(event: MatAutocompleteSelectedEvent): void {
+        this.tagInput.nativeElement.value = '';
+        this.tagCtrl.setValue('');
+        const selectedTag = event.option.value;
+        this.selectedTags = [...this.selectedTags, selectedTag];
+        this.cd.detectChanges();
+    }
 }
 
 export interface PositionTagsDialogData {
-  title: string;
-  selectedTags: TagWithCategoryDto[];
+    title: string;
+    selectedTags: TagWithCategoryDto[];
 }
 
 export interface PositionTagsDialogReturnType {
-  selectedTags?: TagWithCategoryDto[];
-  openTagCategoriesDialog?: boolean;
+    selectedTags?: TagWithCategoryDto[];
+    openTagCategoriesDialog?: boolean;
 }

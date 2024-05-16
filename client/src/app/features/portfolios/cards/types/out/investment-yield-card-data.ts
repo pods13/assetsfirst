@@ -1,6 +1,6 @@
-import { CardData } from '../card-data';
+import {CardData} from '../card-data';
 
 export interface InvestmentYieldCardData extends CardData {
-  dividendYield: number;
-  yieldOnCost: number;
+    dividendYield: number;
+    yieldOnCost: number;
 }

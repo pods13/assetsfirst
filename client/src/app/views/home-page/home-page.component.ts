@@ -6,7 +6,6 @@ import {Router} from '@angular/router';
 import type {ECharts, EChartsOption} from 'echarts';
 import {shortNumber} from '@core/helpers/number.helpers';
 import {HttpClient} from '@angular/common/http';
-import {PortfolioInfoDto} from '@core/types/portfolioInfoDto';
 import {PortfolioDividendDto} from '@core/types/portfolio-dividend.dto';
 import {Page} from '@core/types/page';
 import {CurrencyPipe} from '@angular/common';
@@ -22,50 +21,49 @@ import {CurrencyPipe} from '@angular/common';
                              [opened]="false">
                     <mat-toolbar>Menu</mat-toolbar>
                     <mat-nav-list>
-                        <a mat-list-item routerLink="login" (click)="sidenav.close()">Log In</a>
-                        <a mat-list-item routerLink="signup" (click)="sidenav.close()">Sign Up</a>
+                        <a mat-list-item routerLink="login" (click)="sidenav.close()">Войти</a>
+                        <a mat-list-item routerLink="signup" (click)="sidenav.close()">Регистрация</a>
                     </mat-nav-list>
                 </mat-sidenav>
                 <mat-sidenav-content>
-                    <mat-toolbar class="container">
-                        <button type="button" aria-label="Toggle sidenav" mat-icon-button
-                                (click)="sidenav.toggle()" *ngIf="isHandset$ | async">
-                            <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
-                        </button>
-                        <div class="logo" routerLink=""><span class="assets">assets</span>first</div>
-                        <div></div>
-                        <div *ngIf="!(isHandset$ | async)" class="top-nav">
-                            <a routerLink="login" mat-button>Sign In
-                                <svg style="margin-left: 4px;" width="7" height="11" viewBox="0 0 7 11" fill="none"
-                                     xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M0.75 10L5.25 5.5L0.75 1" stroke="#1D1D1F" stroke-width="2"></path>
-                                </svg>
-                            </a>
+                    <mat-toolbar>
+                        <div class="container">
+                            <button type="button" aria-label="Toggle sidenav" mat-icon-button
+                                    (click)="sidenav.toggle()" *ngIf="isHandset$ | async">
+                                <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+                            </button>
+                            <div class="navbar-brand logo d-flex flex-wrap align-content-center" routerLink=""><span
+                                class="assets">assets</span>first
+                            </div>
+                            <div *ngIf="!(isHandset$ | async)" class="top-nav">
+                                <a routerLink="login" mat-button>Войти
+                                    <svg style="margin-left: 4px;" width="7" height="11" viewBox="0 0 7 11" fill="none"
+                                         xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M0.75 10L5.25 5.5L0.75 1" stroke="#1D1D1F" stroke-width="2"></path>
+                                    </svg>
+                                </a>
+                            </div>
                         </div>
                     </mat-toolbar>
                     <div class="wrapper">
                         <div class="container">
                             <section class="row intro">
-                                <div class="col col-12 col-lg-5 description">
+                                <div class="col col-lg-5 col-12 description">
                                     <div>
-                                        <h1>Make smart decisions with your assets</h1>
-                                        <h2>Build a safer stream of income and preserve your assets with our easy-to-use portfolio
-                                            tools.</h2>
-                                        <a class="btn btn-start" mat-raised-button color="primary" target="_blank"
+                                        <h1>Управляй активами эффективно</h1>
+                                        <h2>Используй наш удобный сервис для учета активов или создай собственное решение с помощью нашего
+                                            API корпоративных событий.</h2>
+                                        <a class="btn btn-start" mat-flat-button color="primary" target="_blank"
                                            (click)="onStartNowClick()">
-                                            Start now
-                                        </a>
-                                        <a routerLink="signup" class="btn" mat-button color="primary">
-                                            Sign up
-                                            <svg style="margin-left: 4px;" width="7" height="11" viewBox="0 0 7 11" fill="none"
-                                                 xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M0.75 10L5.25 5.5L0.75 1" stroke="#1D1D1F" stroke-width="2"></path>
-                                            </svg>
+                                            Попробовать бесплатно
                                         </a>
                                     </div>
                                 </div>
                                 <div class="col portfolio">
-                                    <div echarts class="portfolio-chart" [options]="chartOption" (chartInit)="onChartInit($event)">
+                                    <!--                                    <div echarts class="portfolio-chart" [options]="chartOption" (chartInit)="onChartInit($event)">-->
+                                    <!--                                    </div>-->
+                                    <div class="portfolio-chart">
+                                        <img src="./assets/capital.png" class="img-fluid" alt="График активов">
                                     </div>
                                     <mat-card appearance="outlined" class="portfolio-dividends">
                                         <mat-card-content class="container">
@@ -122,15 +120,8 @@ export class HomePageComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.getPortfolioInfo()
-            .subscribe((portfolioInfo) => {
-                this.chartOption = this.constructChartOption(portfolioInfo);
-                this.cd.detectChanges();
-            });
-    }
-
-    getPortfolioInfo() {
-        return this.http.get<PortfolioInfoDto>('/public/portfolios/demo');
+        this.chartOption = this.constructChartOption();
+        this.cd.detectChanges();
     }
 
     getPortfolioUpcomingDividends() {
@@ -147,14 +138,13 @@ export class HomePageComponent implements OnInit {
             });
     }
 
-    constructChartOption(dto: PortfolioInfoDto): EChartsOption {
-        const marketValueByDates = dto.marketValueByDates;
-        const latestValue = marketValueByDates.values[marketValueByDates.values.length - 1];
-        const formattedLatestValue = this.currencyPipe.transform(latestValue, dto.currencyCode);
+    constructChartOption(): EChartsOption {
+        const latestValue = 3582240.00;
+        const formattedLatestValue = this.currencyPipe.transform(latestValue, "RUB");
         return {
             title: {
-                text: 'Portfolio',
-                subtext: `${formattedLatestValue} (${dto.valueIncreasePct}%)`,
+                text: 'Капитал',
+                subtext: `${formattedLatestValue} (38.03%)`,
                 left: '10%',
                 top: '10%'
             },
@@ -165,7 +155,24 @@ export class HomePageComponent implements OnInit {
             xAxis: {
                 type: 'category',
                 boundaryGap: false,
-                data: marketValueByDates.dates,
+                data: [
+                    "2023-05-15",
+                    "2023-06-09",
+                    "2023-07-04",
+                    "2023-07-29",
+                    "2023-08-23",
+                    "2023-09-17",
+                    "2023-10-12",
+                    "2023-11-06",
+                    "2023-12-01",
+                    "2023-12-26",
+                    "2024-01-20",
+                    "2024-02-14",
+                    "2024-03-10",
+                    "2024-04-04",
+                    "2024-04-29",
+                    "2024-05-15"
+                ],
                 show: true,
                 axisLine: {
                     show: false,
@@ -191,7 +198,24 @@ export class HomePageComponent implements OnInit {
             },
             series: [
                 {
-                    data: marketValueByDates.values,
+                    data: [
+                        2459150.00000,
+                        2802195.00000,
+                        2892695.00000,
+                        3104110.00000,
+                        3191400.00000,
+                        3272395.00000,
+                        3240850.00000,
+                        2459150.00000,
+                        3347090.00000,
+                        3336060.00000,
+                        3353020.00000,
+                        2459150.00000,
+                        3422065.00000,
+                        3526560.00000,
+                        3600415.00000,
+                        3582240.00000
+                    ],
                     type: 'line',
                     areaStyle: {
                         opacity: 0.1

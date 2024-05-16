@@ -1,11 +1,11 @@
-import { CardData } from '../card-data';
+import {CardData} from '../card-data';
 
 export interface DividendGoalsCardData extends CardData {
-  items: PositionItem[];
+    items: PositionItem[];
 }
 
 interface PositionItem {
-  name: string;
-  currentYield: string;
-  targets: number[];
+    name: string;
+    currentYield: string;
+    targets: number[];
 }

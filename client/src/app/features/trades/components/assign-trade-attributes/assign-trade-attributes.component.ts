@@ -1,17 +1,11 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import {
-  ControlContainer,
-  FormGroupDirective,
-  NonNullableFormBuilder,
-  UntypedFormGroup,
-  Validators
-} from '@angular/forms';
-import { TradeOperation } from '../../types/trade-operation';
-import { TradeViewDto } from '../../types/trade-view.dto';
+import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
+import {ControlContainer, FormGroupDirective, NonNullableFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
+import {TradeOperation} from '../../types/trade-operation';
+import {TradeViewDto} from '../../types/trade-view.dto';
 
 @Component({
-  selector: 'app-assign-trade-attributes',
-  template: `
+    selector: 'app-assign-trade-attributes',
+    template: `
     <form [formGroup]="form">
       <div class="">
         <mat-form-field appearance="fill">
@@ -44,35 +38,35 @@ import { TradeViewDto } from '../../types/trade-view.dto';
       </div>
     </form>
   `,
-  styleUrls: ['./assign-trade-attributes.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  viewProviders: [
-    {provide: ControlContainer, useExisting: FormGroupDirective}
-  ]
+    styleUrls: ['./assign-trade-attributes.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    viewProviders: [
+        {provide: ControlContainer, useExisting: FormGroupDirective}
+    ]
 })
 export class AssignTradeAttributesComponent implements OnInit {
 
-  @Input()
-  trade?: TradeViewDto;
+    @Input()
+    trade?: TradeViewDto;
 
-  form!: UntypedFormGroup;
+    form!: UntypedFormGroup;
 
-  tradeOperations = Object.keys(TradeOperation);
+    tradeOperations = Object.keys(TradeOperation);
 
-  constructor(public parentForm: FormGroupDirective,
-              private fb: NonNullableFormBuilder) {
-  }
+    constructor(public parentForm: FormGroupDirective,
+                private fb: NonNullableFormBuilder) {
+    }
 
-  ngOnInit(): void {
-    this.form = this.fb.group({
-      operation: [{
-        value: this.trade?.operation ?? TradeOperation.BUY, disabled: this.trade ?? false
-      }, Validators.required],
-      date: [this.trade?.date ?? new Date(), Validators.required],
-      price: [this.trade?.price ?? '', Validators.required],
-      quantity: [this.trade?.quantity ?? '', Validators.required],
-    });
-    this.parentForm.form.addControl('specifics', this.form);
-  }
+    ngOnInit(): void {
+        this.form = this.fb.group({
+            operation: [{
+                value: this.trade?.operation ?? TradeOperation.BUY, disabled: this.trade ?? false
+            }, Validators.required],
+            date: [this.trade?.date ?? new Date(), Validators.required],
+            price: [this.trade?.price ?? '', Validators.required],
+            quantity: [this.trade?.quantity ?? '', Validators.required],
+        });
+        this.parentForm.form.addControl('specifics', this.form);
+    }
 
 }

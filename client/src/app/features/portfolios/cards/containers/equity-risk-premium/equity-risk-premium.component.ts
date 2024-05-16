@@ -1,13 +1,13 @@
-import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
-import { CardContainer } from '../../types/card-container';
-import { EquityRiskPremiumCard } from '../../types/in/equity-risk-premium-card';
-import { EquityRiskPremiumCardData } from '../../types/out/equity-risk-premium-card-data';
-import { map, Observable, shareReplay } from 'rxjs';
-import { MatTable } from '@angular/material/table';
+import {ChangeDetectionStrategy, Component, OnInit, ViewChild} from '@angular/core';
+import {CardContainer} from '../../types/card-container';
+import {EquityRiskPremiumCard} from '../../types/in/equity-risk-premium-card';
+import {EquityRiskPremiumCardData} from '../../types/out/equity-risk-premium-card-data';
+import {map, Observable, shareReplay} from 'rxjs';
+import {MatTable} from '@angular/material/table';
 
 @Component({
-  selector: 'app-equity-risk-premium',
-  template: `
+    selector: 'app-equity-risk-premium',
+    template: `
     <div class="card-header">
       <h2 class="title">{{ card.title }}</h2>
     </div>
@@ -31,23 +31,23 @@ import { MatTable } from '@angular/material/table';
       </mat-table>
     </div>
   `,
-  styleUrls: ['./equity-risk-premium.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    styleUrls: ['./equity-risk-premium.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EquityRiskPremiumComponent implements CardContainer<EquityRiskPremiumCard, EquityRiskPremiumCardData>, OnInit {
 
-  card!: EquityRiskPremiumCard;
-  data$!: Observable<EquityRiskPremiumCardData>;
+    card!: EquityRiskPremiumCard;
+    data$!: Observable<EquityRiskPremiumCardData>;
 
-  @ViewChild('dataTable') table!: MatTable<any>;
-  displayedColumns: string[] = ['name', 'riskPremium'];
-  dataSource$!: Observable<any[]>;
+    @ViewChild('dataTable') table!: MatTable<any>;
+    displayedColumns: string[] = ['name', 'riskPremium'];
+    dataSource$!: Observable<any[]>;
 
-  constructor() {
-  }
+    constructor() {
+    }
 
-  ngOnInit(): void {
-    this.dataSource$ = this.data$.pipe(map(data => data.equities), shareReplay({refCount: true, bufferSize: 1}));
-  }
+    ngOnInit(): void {
+        this.dataSource$ = this.data$.pipe(map(data => data.equities), shareReplay({refCount: true, bufferSize: 1}));
+    }
 
 }

@@ -1,25 +1,25 @@
-import { Router } from '@angular/router';
-import { Injectable } from '@angular/core';
-import { map, Observable, tap } from 'rxjs';
-import { AuthService } from '../services/auth.service';
+import {Router} from '@angular/router';
+import {Injectable} from '@angular/core';
+import {map, Observable, tap} from 'rxjs';
+import {AuthService} from '../services/auth.service';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
-export class AuthGuard  {
+export class AuthGuard {
 
-  constructor(private authService: AuthService, private router: Router) {
-  }
+    constructor(private authService: AuthService, private router: Router) {
+    }
 
-  canActivate(): Observable<boolean> {
-    return this.authService.isLoggedIn$().pipe(
-      tap((isLoggedIn) => {
-        if (isLoggedIn) {
-          this.router.navigate([this.authService.INITIAL_PATH]);
-        }
-      }),
-      map((isLoggedIn) => !isLoggedIn)
-    );
-  }
+    canActivate(): Observable<boolean> {
+        return this.authService.isLoggedIn$().pipe(
+            tap((isLoggedIn) => {
+                if (isLoggedIn) {
+                    this.router.navigate([this.authService.INITIAL_PATH]);
+                }
+            }),
+            map((isLoggedIn) => !isLoggedIn)
+        );
+    }
 
 }

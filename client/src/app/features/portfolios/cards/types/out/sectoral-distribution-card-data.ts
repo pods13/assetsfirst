@@ -1,11 +1,11 @@
-import { CardData } from '../card-data';
+import {CardData} from '../card-data';
 
 export interface SectoralDistributionCardData extends CardData {
-  items: SectoralDistributionDataItem[];
+    items: SectoralDistributionDataItem[];
 }
 
 interface SectoralDistributionDataItem {
-  name: string;
-  value: number;
-  children?: SectoralDistributionDataItem[];
+    name: string;
+    value: number;
+    children?: SectoralDistributionDataItem[];
 }

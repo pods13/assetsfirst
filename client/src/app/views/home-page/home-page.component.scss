@@ -13,80 +13,42 @@
   background-color: #f7f8fa;
 }
 
-.container {
-  width: 100%;
-  padding-right: 15px;
-  padding-left: 15px;
-  margin-right: auto;
-  margin-left: auto;
-}
-
-@media (min-width: 576px) {
-  .container, .container-sm {
-    max-width: 540px
-  }
-}
-
-@media (min-width: 768px) {
-  .container, .container-md, .container-sm {
-    max-width: 720px;
-  }
-}
-
-@media (min-width: 992px) {
-  .container, .container-lg, .container-md, .container-sm {
-    max-width: 960px;
-  }
-}
-
-
-@media (min-width: 1200px) {
-  .container, .container-lg, .container-md, .container-sm, .container-xl {
-    max-width: 1200px;
-  }
-}
-
-.row {
+.mat-toolbar .container {
   display: flex;
-  flex-wrap: wrap;
-  margin-right: -15px;
-  margin-left: -15px;
+  align-items: center;
+}
 
-  & .col {
-    flex-basis: 0;
-    flex-grow: 1;
-    max-width: 100%;
-  }
-
-  & .col-12 {
-    flex: 0 0 100%;
-    max-width: 100%;
-    position: relative;
-    width: 100%;
-    padding-right: 15px;
-    padding-left: 15px;
-  }
-
-  @media (min-width: 992px) {
-    & .col-lg-5 {
-      flex: 0 0 41.6666666667%;
-      max-width: 41.6666666667%;
-    }
-  }
+.mat-toolbar {
+  background: transparent;
 }
 
 .intro {
   height: 90vh;
 }
 
+.wrapper .intro h1 {
+  font-size: 2.875rem;
+  line-height: 4rem;
+  font-weight: 400;
+  margin-bottom: 15px;
+}
+
+.wrapper .intro h2 {
+  font-size: 1.25rem;
+  line-height: 2.25rem;
+  font-weight: 400;
+  margin-bottom: 30px;
+}
+
 .description {
   display: flex;
   align-items: center;
+  margin-bottom: 3rem;
+  padding-bottom: 30px;
 }
 
 .portfolio-chart {
-  top: 15%;
-  right: 0;
+  text-align: center;
 
   & > :first-child {
     background-color: white;
@@ -95,6 +57,8 @@
 
 .portfolio {
   position: relative;
+  margin-top: auto;
+  margin-bottom: auto;
 }
 
 .portfolio-dividends {
@@ -116,7 +80,15 @@
 }
 
 .pay-date, .div-total {
-  font-size: 12px;
+  font-size: 11px;
   margin-bottom: 0;
   margin-right: 5px;
+}
+
+.btn.btn-start {
+  font-weight: 500;
+  line-height: 28px;
+  font-size: 1rem;
+  border-radius: 100px;
+  padding: 25px 20px;
 }

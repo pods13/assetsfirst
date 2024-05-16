@@ -1,11 +1,11 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { AbstractControl, FormArray, FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
-import { AnnualDividendProjection, DividendIncomeCard } from '../../types/in/dividend-income-card';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnInit} from '@angular/core';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import {AbstractControl, FormArray, FormGroup, NonNullableFormBuilder, Validators} from '@angular/forms';
+import {AnnualDividendProjection, DividendIncomeCard} from '../../types/in/dividend-income-card';
 
 @Component({
-  selector: 'app-edit-dividend-income-card',
-  template: `
+    selector: 'app-edit-dividend-income-card',
+    template: `
     <h1 mat-dialog-title>Edit Dividend Income Card</h1>
     <div mat-dialog-content>
       <h2>Configure custom allocation type</h2>
@@ -39,59 +39,59 @@ import { AnnualDividendProjection, DividendIncomeCard } from '../../types/in/div
       <button mat-button [mat-dialog-close]="null">Cancel</button>
     </div>
   `,
-  styleUrls: ['./edit-dividend-income-card.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    styleUrls: ['./edit-dividend-income-card.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EditDividendIncomeCardComponent implements OnInit {
 
-  form!: FormGroup;
+    form!: FormGroup;
 
-  constructor(private cd: ChangeDetectorRef,
-              @Inject(MAT_DIALOG_DATA) public data: { title: string; card: DividendIncomeCard },
-              public dialogRef: MatDialogRef<EditDividendIncomeCardComponent>,
-              private formBuilder: NonNullableFormBuilder) {
-    this.form = this.formBuilder.group({
-      useCustomDividendProjections: data.card.useCustomDividendProjections,
-      annualDividendProjections: this.formBuilder.array([])
-    });
-    console.log(data.card)
-    if (!data.card.annualDividendProjections || data.card.annualDividendProjections?.length === 0) {
-      this.addEmptyProjection();
-    } else {
-      data.card.annualDividendProjections?.forEach(p => this.addAnnualDividendProjection(p));
+    constructor(private cd: ChangeDetectorRef,
+                @Inject(MAT_DIALOG_DATA) public data: { title: string; card: DividendIncomeCard },
+                public dialogRef: MatDialogRef<EditDividendIncomeCardComponent>,
+                private formBuilder: NonNullableFormBuilder) {
+        this.form = this.formBuilder.group({
+            useCustomDividendProjections: data.card.useCustomDividendProjections,
+            annualDividendProjections: this.formBuilder.array([])
+        });
+        console.log(data.card)
+        if (!data.card.annualDividendProjections || data.card.annualDividendProjections?.length === 0) {
+            this.addEmptyProjection();
+        } else {
+            data.card.annualDividendProjections?.forEach(p => this.addAnnualDividendProjection(p));
+        }
     }
-  }
 
-  ngOnInit(): void {
-  }
+    ngOnInit(): void {
+    }
 
-  addAnnualDividendProjection(projection: AnnualDividendProjection) {
-    const dividendProjectionForm = this.formBuilder.group({
-      ticker: [projection.ticker, Validators.required],
-      dividend: [projection.dividend, Validators.required],
-      currency: [projection.currency, Validators.required],
-    });
-    this.annualDividendProjections.push(dividendProjectionForm);
-  }
+    addAnnualDividendProjection(projection: AnnualDividendProjection) {
+        const dividendProjectionForm = this.formBuilder.group({
+            ticker: [projection.ticker, Validators.required],
+            dividend: [projection.dividend, Validators.required],
+            currency: [projection.currency, Validators.required],
+        });
+        this.annualDividendProjections.push(dividendProjectionForm);
+    }
 
-  deleteAnnualDividendProjection(annualDividendProjectionIndex: number) {
-    this.annualDividendProjections.removeAt(annualDividendProjectionIndex);
-  }
+    deleteAnnualDividendProjection(annualDividendProjectionIndex: number) {
+        this.annualDividendProjections.removeAt(annualDividendProjectionIndex);
+    }
 
-  get annualDividendProjections() {
-    return this.form.controls["annualDividendProjections"] as FormArray<any>;
-  }
+    get annualDividendProjections() {
+        return this.form.controls["annualDividendProjections"] as FormArray<any>;
+    }
 
-  handleOkClick() {
-    console.log(this.form.value);
-    this.dialogRef.close(this.form.value);
-  }
+    handleOkClick() {
+        console.log(this.form.value);
+        this.dialogRef.close(this.form.value);
+    }
 
-  toFormGroup(projectionControl: AbstractControl<any>) {
-    return projectionControl as FormGroup;
-  }
+    toFormGroup(projectionControl: AbstractControl<any>) {
+        return projectionControl as FormGroup;
+    }
 
-  addEmptyProjection() {
-    this.addAnnualDividendProjection({ticker: '', dividend: 0, currency: 'RUB'});
-  }
+    addEmptyProjection() {
+        this.addAnnualDividendProjection({ticker: '', dividend: 0, currency: 'RUB'});
+    }
 }

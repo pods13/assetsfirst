@@ -1,11 +1,10 @@
-import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
-import { FormGroup, NonNullableFormBuilder } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { ChangePasswordDto } from '../../types/change-password.dto';
+import {ChangeDetectionStrategy, Component, Inject, OnInit} from '@angular/core';
+import {FormGroup, NonNullableFormBuilder} from '@angular/forms';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-change-password-dialog',
-  template: `
+    selector: 'app-change-password-dialog',
+    template: `
     <form [formGroup]="form">
       <h2 mat-dialog-title>Change password</h2>
       <div mat-dialog-content class="content">
@@ -35,42 +34,43 @@ import { ChangePasswordDto } from '../../types/change-password.dto';
     </form>
 
   `,
-  styleUrls: ['./change-password-dialog.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    styleUrls: ['./change-password-dialog.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ChangePasswordDialogComponent implements OnInit {
 
-  form!: FormGroup;
+    form!: FormGroup;
 
-  constructor(private fb: NonNullableFormBuilder,
-              private dialogRef: MatDialogRef<any>,
-              @Inject(MAT_DIALOG_DATA) public data: ChangePasswordDialogData) { }
-
-  ngOnInit(): void {
-    const {username, firstLogin} = this.data;
-    if (firstLogin) {
-      this.form = this.fb.group({
-        username,
-        newPassword: '',
-        confirmNewPassword: ''
-      });
-    } else {
-      this.form = this.fb.group({
-        username,
-        currentPassword: '',
-        newPassword: '',
-        confirmNewPassword: ''
-      });
+    constructor(private fb: NonNullableFormBuilder,
+                private dialogRef: MatDialogRef<any>,
+                @Inject(MAT_DIALOG_DATA) public data: ChangePasswordDialogData) {
     }
-  }
 
-  onChangePasswordClick() {
-    this.dialogRef.close(this.form.value);
-  }
+    ngOnInit(): void {
+        const {username, firstLogin} = this.data;
+        if (firstLogin) {
+            this.form = this.fb.group({
+                username,
+                newPassword: '',
+                confirmNewPassword: ''
+            });
+        } else {
+            this.form = this.fb.group({
+                username,
+                currentPassword: '',
+                newPassword: '',
+                confirmNewPassword: ''
+            });
+        }
+    }
+
+    onChangePasswordClick() {
+        this.dialogRef.close(this.form.value);
+    }
 
 }
 
 export interface ChangePasswordDialogData {
-  username: string;
-  firstLogin: boolean;
+    username: string;
+    firstLogin: boolean;
 }

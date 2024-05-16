@@ -1,4 +1,4 @@
 export interface PageSort {
-  dir: string;
-  prop: string;
+    dir: string;
+    prop: string;
 }
