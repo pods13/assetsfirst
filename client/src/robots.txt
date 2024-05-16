@@ -1,0 +1,6 @@
+User-agent: *
+
+Host: https://assetsfirst.ru/
+
+User-agent: ia_archiver
+Disallow: /
