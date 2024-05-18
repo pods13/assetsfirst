@@ -1,10 +1,10 @@
-FROM eclipse-temurin:21-jre-alpine as builder
+FROM eclipse-temurin:21-jdk-alpine as builder
 
 WORKDIR /app
 COPY target/assets.jar ./app.jar
 RUN java -Djarmode=layertools -jar app.jar extract
 
-FROM eclipse-temurin:21-jre-alpine
+FROM eclipse-temurin:21-jdk-alpine
 WORKDIR /opt/assets
 COPY --from=builder app/dependencies/ ./
 COPY --from=builder app/spring-boot-loader/ ./
