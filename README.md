@@ -49,6 +49,7 @@ docker-compose down
 - [x] Rework the position table
 - [x] Asset disposal widget - show details when hovered over
 - [X] On home page show demo portfolio values
+- [x] Migrate Angular from v14 to v17
 </details>
 
 ### Must have
@@ -64,7 +65,6 @@ docker-compose down
 - [ ] Fix positions page on mobile view
 
 ### Nice to have
-- [ ] Migrate Angular from v14 to v16
 - [ ] Asset disposal widget - user can select year to show
 - [ ] Custom dividend projection - use mat-select for selection of ticker based on open positions
 - [ ] Custom dividend projection - use mat-select for currency
