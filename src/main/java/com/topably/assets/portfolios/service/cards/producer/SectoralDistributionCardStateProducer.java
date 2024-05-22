@@ -1,6 +1,5 @@
 package com.topably.assets.portfolios.service.cards.producer;
 
-import com.topably.assets.companies.util.CompanyUtils;
 import com.topably.assets.findata.exchanges.service.ExchangeService;
 import com.topably.assets.instruments.domain.Instrument;
 import com.topably.assets.instruments.domain.InstrumentType;
@@ -57,7 +56,7 @@ public class SectoralDistributionCardStateProducer implements CardStateProducer<
     private Collection<SectoralDistributionDataItem> composeDataItems(Portfolio portfolio, Map<Long, PortfolioPositionDto> stockIdByPosition) {
         var stocks = stockService.findAllById(stockIdByPosition.keySet());
         var companyNameByStockIds = stocks.stream()
-            .collect(groupingBy(CompanyUtils::resolveCompanyName, mapping(Instrument::getId, toSet())));
+            .collect(groupingBy(Instrument::getName, mapping(Instrument::getId, toSet())));
 
         var items = new TreeSet<SectoralDistributionDataItem>();
         buildDistributionTree(stocks).forEach((group, rest) -> {

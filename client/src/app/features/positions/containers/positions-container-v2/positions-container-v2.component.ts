@@ -23,7 +23,7 @@ import {PortfolioService} from "../../services/portfolio.service";
     template: `
         <div class="positions-list" matSort (matSortChange)="sortPositions($event)"
              [matSortActive]="defaultSort.active" [matSortDirection]="defaultSort.direction">
-            <div class="portfolio-header-box row" >
+            <div class="portfolio-header-box row">
                 <div class="column">
                     <div class="total-investment column" *ngIf="portfolioShortInfo | async as portfolioInfo">
                         <div class="row header">Total investment</div>
@@ -54,7 +54,7 @@ import {PortfolioService} from "../../services/portfolio.service";
                            [routerLink]="'/symbols/' + position.identifier.exchange + '-' + position.identifier.symbol">
                             {{position.identifier.symbol}}
                         </a>
-                        <div class="identifier-company">{{position.companyName}}</div>
+                        <div class="identifier-company">{{position.name}}</div>
                     </div>
                     <div class="column">{{position.pctOfPortfolio + '%'}}</div>
                     <div class="column">{{position.price | currency: position.currencyCode}}</div>

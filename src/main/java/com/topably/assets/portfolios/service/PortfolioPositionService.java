@@ -1,6 +1,22 @@
 package com.topably.assets.portfolios.service;
 
-import com.topably.assets.companies.util.CompanyUtils;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.math.RoundingMode;
+import java.time.LocalDate;
+import java.time.Year;
+import java.time.ZoneOffset;
+import java.util.Collection;
+import java.util.Currency;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
 import com.topably.assets.core.domain.Ticker;
 import com.topably.assets.findata.dividends.domain.Dividend;
 import com.topably.assets.findata.dividends.service.DividendService;
@@ -23,22 +39,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.math.RoundingMode;
-import java.time.LocalDate;
-import java.time.Year;
-import java.time.ZoneOffset;
-import java.util.Collection;
-import java.util.Currency;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.atomic.AtomicReference;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 @Service
 @RequiredArgsConstructor
@@ -112,7 +112,7 @@ public class PortfolioPositionService {
                 //TODO use portfolioPositionMapper instead
                 return PortfolioPositionView.builder()
                     .id(position.getId())
-                    .companyName(CompanyUtils.resolveCompanyName(instrument))
+                    .name(instrument.getName())
                     .instrumentId(instrument.getId())
                     .instrumentType(instrument.getInstrumentType())
                     .identifier(ticker)
@@ -147,8 +147,10 @@ public class PortfolioPositionService {
         return portfolioPositionRepository.findAllByPortfolioId(portfolioId);
     }
 
-    private Map<Ticker, PortfolioPositionFinancialData> collectPositionFinancialData(Portfolio portfolio,
-                                                                                     List<PortfolioPosition> positions) {
+    private Map<Ticker, PortfolioPositionFinancialData> collectPositionFinancialData(
+        Portfolio portfolio,
+        List<PortfolioPosition> positions
+    ) {
         return positions.stream()
             .map(position -> {
                 var instrument = position.getInstrument();
@@ -173,9 +175,11 @@ public class PortfolioPositionService {
             .orElse(BigDecimal.ZERO);
     }
 
-    private record PortfolioPositionFinancialData(Ticker ticker, BigDecimal marketValue,
-                                                  BigDecimal convertedMarketValue,
-                                                  BigDecimal yieldOnCost) {
+    private record PortfolioPositionFinancialData(
+        Ticker ticker, BigDecimal marketValue,
+        BigDecimal convertedMarketValue,
+        BigDecimal yieldOnCost
+    ) {
 
     }
 
@@ -220,4 +224,5 @@ public class PortfolioPositionService {
     public Collection<PortfolioPosition> findPositionsWithSellTradesByYear(Long portfolioId, Year year) {
         return portfolioPositionRepository.findPositionsWithSellTradesByYear(portfolioId, year.getValue());
     }
+
 }

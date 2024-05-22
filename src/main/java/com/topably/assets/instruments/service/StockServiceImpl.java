@@ -45,6 +45,7 @@ public class StockServiceImpl implements StockService {
         });
         Stock stock = stockRepository.save(Stock.builder()
             .company(companyRepository.getReferenceById(companyDto.getId()))
+            .name(dto.getCompany().getName())
             .symbol(dto.getIdentifier().getSymbol())
             .exchangeCode(dto.getIdentifier().getExchange())
             .currency(ExchangeEnum.valueOf(dto.getIdentifier().getExchange()).getCurrency())
@@ -62,6 +63,7 @@ public class StockServiceImpl implements StockService {
 
     private StockDto updateStock(Stock stock, StockDataDto dto) {
         companyService.updateCompany(stock.getCompany().getId(), dto.getCompany());
+        stock.setName(dto.getCompany().getName());
         return convertToDto(stock);
     }
 

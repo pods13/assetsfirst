@@ -47,14 +47,14 @@ public class InstrumentDataLoader implements CommandLineRunner {
         var etfs = new ArrayList<ETF>();
 
         etfs.add(ETF.builder()
-            .attribute(ETF.NAME_ATTRIBUTE, "KraneShares Global Carbon Strategy ETF")
+            .name("KraneShares Global Carbon Strategy ETF")
             .exchangeCode(NYSEARCA.name())
             .symbol("KRBN")
             .currency(Currency.getInstance("USD"))
             .build());
 
         etfs.add(ETF.builder()
-            .attribute(ETF.NAME_ATTRIBUTE, "FinEx China UCITS ETF")
+            .name("FinEx China UCITS ETF")
             .exchangeCode(ExchangeEnum.MCX.name())
             .symbol("FXCN")
             .currency(Currency.getInstance("RUB"))

@@ -58,6 +58,9 @@ public abstract class Instrument {
     @EqualsAndHashCode.Include
     private String symbol;
 
+    @Column(name = "NAME")
+    private String name;
+
     @Column(columnDefinition = "char(3)")
     private Currency currency;
 

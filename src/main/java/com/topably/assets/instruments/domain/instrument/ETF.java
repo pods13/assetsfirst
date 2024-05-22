@@ -18,10 +18,4 @@ import jakarta.persistence.Entity;
 @DiscriminatorValue("ETF")
 @EqualsAndHashCode(callSuper = true)
 public class ETF extends Instrument {
-
-    public static final String NAME_ATTRIBUTE = "name";
-
-    public String getName() {
-        return getAttributes().get(NAME_ATTRIBUTE);
-    }
 }

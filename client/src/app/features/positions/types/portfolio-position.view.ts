@@ -3,7 +3,7 @@ import {TagWithCategoryDto} from '../../../core/types/tag/tag.dto';
 
 export interface PortfolioPositionView {
     id: number;
-    companyName: string;
+    name: string;
     instrumentId: number;
     instrumentType: any;
     identifier: Ticker;
