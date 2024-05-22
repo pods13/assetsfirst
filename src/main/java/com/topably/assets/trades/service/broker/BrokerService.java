@@ -13,13 +13,11 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class BrokerService {
 
-    private static final String BROKER_TAG_CATEGORY = "Broker";
+    private static final String BROKER_TAG_CATEGORY = "broker";
     private final TagCategoryService tagCategoryService;
 
     public Collection<BrokerDto> getBrokers(Long userId) {
-        return tagCategoryService.findTagCategoryByName(userId, BROKER_TAG_CATEGORY).stream()
-            .map(TagCategoryDto::getTags)
-            .flatMap(Collection::stream)
+        return tagCategoryService.findUserTagCategoryByCode(userId, BROKER_TAG_CATEGORY).getTags().stream()
             .map(tag -> new BrokerDto(tag.getId(), tag.getName()))
             .toList();
     }

@@ -1,13 +1,12 @@
 package com.topably.assets.portfolios.service.tag;
 
+import java.util.stream.Stream;
+
 import com.topably.assets.portfolios.domain.dto.tag.CreateTagCategoryDto;
 import com.topably.assets.portfolios.domain.dto.tag.TagDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import java.util.stream.Stream;
 
 
 @Service
@@ -44,4 +43,5 @@ public class TagCategoryTrialDataProvider {
             .setColor("#252aad")
             .setTags(brokerTags));
     }
+
 }

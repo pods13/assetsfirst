@@ -1,12 +1,17 @@
 package com.topably.assets.portfolios.service.tag;
 
-import com.topably.assets.auth.domain.security.CurrentUser;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import com.github.slugify.Slugify;
 import com.topably.assets.auth.service.UserService;
 import com.topably.assets.portfolios.domain.dto.tag.CreateTagCategoryDto;
 import com.topably.assets.portfolios.domain.dto.tag.TagCategoryDto;
 import com.topably.assets.portfolios.domain.dto.tag.TagDto;
 import com.topably.assets.portfolios.domain.dto.tag.UpdateTagCategoryDto;
-import com.topably.assets.portfolios.domain.tag.Tag;
 import com.topably.assets.portfolios.domain.tag.TagCategory;
 import com.topably.assets.portfolios.mapper.TagCategoryMapper;
 import com.topably.assets.portfolios.repository.tag.TagCategoryRepository;
@@ -14,14 +19,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -32,6 +29,7 @@ public class TagCategoryService {
     private final TagCategoryMapper tagCategoryMapper;
     private final UserService userService;
     private final TagService tagService;
+    private final Slugify slugify = Slugify.builder().transliterator(true).build();
 
     public Collection<TagCategoryDto> getTagCategories(Long userId) {
         return tagCategoryRepository.findAllByUserId(userId).stream()
@@ -39,15 +37,16 @@ public class TagCategoryService {
             .toList();
     }
 
-    public Collection<TagCategoryDto> findTagCategoryByName(Long userId, String name) {
-        return tagCategoryRepository.findAllByUserIdAndName(userId, name).stream()
+    public TagCategoryDto findUserTagCategoryByCode(Long userId, String code) {
+        return tagCategoryRepository.findTagCategoryByUserIdAndCode(userId, code)
             .map(tagCategoryMapper::modelToDto)
-            .toList();
+            .orElseThrow();
     }
 
     public TagCategoryDto createTagCategory(Long userId, CreateTagCategoryDto dto) {
         var tagCategory = tagCategoryRepository.save(new TagCategory()
             .setName(dto.getName())
+            .setCode(slugify.slugify(dto.getName()))
             .setColor(dto.getColor())
             .setUser(userService.getById(userId)));
         var tags = tagService.createTags(tagCategory.getId(), dto.getTags().stream().map(TagDto::getName).toList());
@@ -66,10 +65,12 @@ public class TagCategoryService {
         tagCategory.getTags().clear();
         tagCategory.getTags().addAll(Stream.concat(remainedTags.stream(), newTags.stream()).toList());
         tagCategory.setName(dto.getName());
+        tagCategory.setCode(slugify.slugify(dto.getName()));
         return tagCategoryMapper.modelToDto(tagCategory);
     }
 
     public void deleteTagCategory(Long categoryId) {
         tagCategoryRepository.deleteById(categoryId);
     }
+
 }

@@ -42,6 +42,8 @@ public class TagCategory {
 
     private String name;
 
+    private String code;
+
     @Column(columnDefinition = "char(7)")
     private String color;
 
