@@ -6,7 +6,7 @@ import com.topably.assets.portfolios.domain.Portfolio;
 import com.topably.assets.portfolios.domain.PortfolioDashboard;
 import com.topably.assets.portfolios.repository.PortfolioRepository;
 import com.topably.assets.portfolios.service.cards.DashboardCardTrialDataProvider;
-import com.topably.assets.portfolios.service.tag.TagCategoryTrialDataProvider;
+import com.topably.assets.tags.service.TagCategoryTrialDataProvider;
 import com.topably.assets.trades.service.TradeTrialDataProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

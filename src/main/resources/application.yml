@@ -23,7 +23,7 @@ app:
   allowed-origins: http://localhost:4200
   bootstrap:
     with:
-      data: 'false'
+      data: ${APP_BOOTSTRAP_WITH_DATA:false}
   scheduler:
     realized-pnl:
       enabled: false

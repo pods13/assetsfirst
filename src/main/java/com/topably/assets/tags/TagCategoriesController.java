@@ -1,4 +1,4 @@
-package com.topably.assets.portfolios;
+package com.topably.assets.tags;
 
 import java.util.Collection;
 
@@ -8,8 +8,8 @@ import com.topably.assets.portfolios.domain.dto.tag.TagCategoryDto;
 import com.topably.assets.portfolios.domain.dto.tag.TagDto;
 import com.topably.assets.portfolios.domain.dto.tag.TagProjection;
 import com.topably.assets.portfolios.domain.dto.tag.UpdateTagCategoryDto;
-import com.topably.assets.portfolios.service.tag.TagCategoryService;
-import com.topably.assets.portfolios.service.tag.TagService;
+import com.topably.assets.tags.service.TagCategoryService;
+import com.topably.assets.tags.service.TagService;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Page;

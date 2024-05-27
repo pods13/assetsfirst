@@ -1,11 +1,6 @@
 package com.topably.assets.auth.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.experimental.Accessors;
-import org.hibernate.annotations.GenericGenerator;
+import java.util.Set;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -17,7 +12,13 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
-import java.util.Set;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.Accessors;
+import org.hibernate.annotations.GenericGenerator;
+
 
 @Setter
 @Getter
@@ -36,11 +37,13 @@ public class User {
     private String password;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
-    @JoinTable(name = "user_authority",
+    @JoinTable(
+        name = "user_authority",
         joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "ID")},
         foreignKey = @ForeignKey(name = "fk__user__user_id__authority"),
         inverseJoinColumns = {@JoinColumn(name = "authority_id", referencedColumnName = "ID")},
-        inverseForeignKey = @ForeignKey(name = "fk__user__authority_id__authority"))
+        inverseForeignKey = @ForeignKey(name = "fk__user__authority_id__authority")
+    )
     private Set<Authority> authorities;
 
     private Boolean accountNonExpired;

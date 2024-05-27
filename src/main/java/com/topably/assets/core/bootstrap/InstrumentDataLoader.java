@@ -152,32 +152,38 @@ public class InstrumentDataLoader implements CommandLineRunner {
 
     private void addFXInstruments() {
         var usdrub = FX.builder()
+            .name("Currency USD.RUB")
             .exchangeCode(ExchangeEnum.MCX.name())
             .symbol("USD.RUB")
             .currency(Currency.getInstance("USD"))
             .build();
         var eurrub = FX.builder()
             .exchangeCode(ExchangeEnum.FX_IDC.name())
+            .name("Currency EUR.RUB")
             .symbol("EUR.RUB")
             .currency(Currency.getInstance("EUR"))
             .build();
         var cnyrub = FX.builder()
             .exchangeCode(ExchangeEnum.FX_IDC.name())
+            .name("Currency CNY.RUB")
             .symbol("CNY.RUB")
             .currency(Currency.getInstance("CNY"))
             .build();
         var hkdrub = FX.builder()
             .exchangeCode(ExchangeEnum.FX_IDC.name())
+            .name("Currency HKD.RUB")
             .symbol("HKD.RUB")
             .currency(Currency.getInstance("HKD"))
             .build();
         var gldrub_tom = FX.builder()
             .exchangeCode(ExchangeEnum.MCX.name())
+            .name("Золото")
             .symbol("GLDRUB_TOM")
             .currency(Currency.getInstance("RUB"))
             .build();
         var rubUsd = FX.builder()
             .exchangeCode(ExchangeEnum.FX_IDC.name())
+            .name("Валюта RUB.USD")
             .symbol("RUB.USD")
             .currency(Currency.getInstance("RUB"))
             .build();

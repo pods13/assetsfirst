@@ -5,7 +5,7 @@ import java.math.BigInteger;
 import java.time.LocalDate;
 
 import com.topably.assets.portfolios.domain.position.PortfolioPosition;
-import com.topably.assets.portfolios.domain.tag.Tag;
+import com.topably.assets.tags.domain.Tag;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Enumerated;

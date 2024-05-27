@@ -2,7 +2,7 @@ package com.topably.assets.portfolios.domain.position;
 
 import com.topably.assets.instruments.domain.Instrument;
 import com.topably.assets.portfolios.domain.Portfolio;
-import com.topably.assets.portfolios.domain.tag.Tag;
+import com.topably.assets.tags.domain.Tag;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

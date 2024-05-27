@@ -1,6 +1,7 @@
-package com.topably.assets.portfolios.domain.tag;
+package com.topably.assets.tags.domain;
 
 import com.topably.assets.auth.domain.User;
+import jakarta.persistence.JoinTable;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,9 +19,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
-import java.util.ArrayList;
-import java.util.List;
+
 import java.util.Set;
 
 @Setter
@@ -36,7 +35,9 @@ public class TagCategory {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(foreignKey = @ForeignKey(name = "fk__tag_category__user_id__user"))
+    @JoinTable(name="user_tag_category",
+        joinColumns={@JoinColumn(name="tag_category_id", referencedColumnName = "id")},
+        inverseJoinColumns={@JoinColumn(name="user_id", referencedColumnName = "id")})
     private User user;
 
 

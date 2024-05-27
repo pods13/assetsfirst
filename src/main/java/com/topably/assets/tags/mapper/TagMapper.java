@@ -1,8 +1,8 @@
-package com.topably.assets.portfolios.mapper;
+package com.topably.assets.tags.mapper;
 
 import com.topably.assets.portfolios.domain.dto.tag.TagDto;
 import com.topably.assets.portfolios.domain.dto.tag.TagProjection;
-import com.topably.assets.portfolios.domain.tag.Tag;
+import com.topably.assets.tags.domain.Tag;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.NullValueMappingStrategy;

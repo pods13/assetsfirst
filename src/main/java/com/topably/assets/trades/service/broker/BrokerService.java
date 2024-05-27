@@ -2,8 +2,7 @@ package com.topably.assets.trades.service.broker;
 
 import java.util.Collection;
 
-import com.topably.assets.portfolios.domain.dto.tag.TagCategoryDto;
-import com.topably.assets.portfolios.service.tag.TagCategoryService;
+import com.topably.assets.tags.service.TagCategoryService;
 import com.topably.assets.trades.domain.dto.broker.BrokerDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

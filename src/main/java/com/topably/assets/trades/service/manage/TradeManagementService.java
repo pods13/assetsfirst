@@ -1,7 +1,7 @@
 package com.topably.assets.trades.service.manage;
 
 import com.topably.assets.instruments.domain.Instrument;
-import com.topably.assets.portfolios.repository.tag.TagRepository;
+import com.topably.assets.tags.repository.TagRepository;
 import com.topably.assets.portfolios.service.PositionManagementService;
 import com.topably.assets.trades.domain.Trade;
 import com.topably.assets.trades.domain.dto.TradeDto;

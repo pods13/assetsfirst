@@ -1,12 +1,12 @@
-package com.topably.assets.portfolios.service.tag;
+package com.topably.assets.tags.service;
 
 import com.topably.assets.auth.domain.security.CurrentUser;
 import com.topably.assets.portfolios.domain.dto.tag.TagProjection;
 import com.topably.assets.portfolios.domain.dto.tag.TagDto;
-import com.topably.assets.portfolios.domain.tag.Tag;
-import com.topably.assets.portfolios.mapper.TagMapper;
-import com.topably.assets.portfolios.repository.tag.TagCategoryRepository;
-import com.topably.assets.portfolios.repository.tag.TagRepository;
+import com.topably.assets.tags.domain.Tag;
+import com.topably.assets.tags.mapper.TagMapper;
+import com.topably.assets.tags.repository.TagCategoryRepository;
+import com.topably.assets.tags.repository.TagRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

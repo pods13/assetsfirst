@@ -4,12 +4,11 @@ import com.topably.assets.auth.event.UserCreatedEvent;
 import com.topably.assets.auth.service.UserService;
 import com.topably.assets.portfolios.repository.PortfolioRepository;
 import com.topably.assets.portfolios.service.cards.DashboardCardTrialDataProvider;
-import com.topably.assets.portfolios.service.tag.TagCategoryTrialDataProvider;
+import com.topably.assets.tags.service.TagCategoryTrialDataProvider;
 import com.topably.assets.trades.service.TradeTrialDataProvider;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class PortfolioUserCreatedListenerTest {

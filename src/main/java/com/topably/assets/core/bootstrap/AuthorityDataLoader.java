@@ -7,6 +7,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
@@ -18,7 +19,6 @@ public class AuthorityDataLoader implements CommandLineRunner {
     private final AuthorityRepository authorityRepository;
 
     @Override
-    @Transactional
     public void run(String... args) throws Exception {
         authorityRepository.save(Authority.builder().role("USER").build());
     }

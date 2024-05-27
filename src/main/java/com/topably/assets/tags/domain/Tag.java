@@ -1,4 +1,4 @@
-package com.topably.assets.portfolios.domain.tag;
+package com.topably.assets.tags.domain;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;

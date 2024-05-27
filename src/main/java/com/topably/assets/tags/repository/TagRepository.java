@@ -1,8 +1,8 @@
-package com.topably.assets.portfolios.repository.tag;
+package com.topably.assets.tags.repository;
 
 import com.topably.assets.auth.domain.security.CurrentUser;
 import com.topably.assets.portfolios.domain.dto.tag.TagProjection;
-import com.topably.assets.portfolios.domain.tag.Tag;
+import com.topably.assets.tags.domain.Tag;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

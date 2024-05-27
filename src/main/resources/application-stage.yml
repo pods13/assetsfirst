@@ -9,7 +9,3 @@ spring:
     properties:
       hibernate:
         show_sql: 'true'
-app:
-  bootstrap:
-    with:
-      data: false

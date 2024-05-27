@@ -312,6 +312,7 @@ public class DividendServiceTest extends IntegrationTestBase {
         return stockRepository.save(Stock.builder()
             .instrumentType(InstrumentType.STOCK.name())
             .company(company)
+            .name(ticker.getSymbol())
             .exchangeCode(ticker.getExchange())
             .symbol(ticker.getSymbol())
             .currency(ExchangeEnum.valueOf(ticker.getExchange()).getCurrency())

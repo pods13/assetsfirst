@@ -1,4 +1,4 @@
-package com.topably.assets.portfolios.service.tag;
+package com.topably.assets.tags.service;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -12,9 +12,9 @@ import com.topably.assets.portfolios.domain.dto.tag.CreateTagCategoryDto;
 import com.topably.assets.portfolios.domain.dto.tag.TagCategoryDto;
 import com.topably.assets.portfolios.domain.dto.tag.TagDto;
 import com.topably.assets.portfolios.domain.dto.tag.UpdateTagCategoryDto;
-import com.topably.assets.portfolios.domain.tag.TagCategory;
-import com.topably.assets.portfolios.mapper.TagCategoryMapper;
-import com.topably.assets.portfolios.repository.tag.TagCategoryRepository;
+import com.topably.assets.tags.domain.TagCategory;
+import com.topably.assets.tags.mapper.TagCategoryMapper;
+import com.topably.assets.tags.repository.TagCategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

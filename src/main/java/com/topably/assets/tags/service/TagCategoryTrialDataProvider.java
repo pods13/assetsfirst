@@ -1,4 +1,4 @@
-package com.topably.assets.portfolios.service.tag;
+package com.topably.assets.tags.service;
 
 import java.util.stream.Stream;
 
