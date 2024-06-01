@@ -1,11 +1,13 @@
 package com.topably.assets.instruments.repository;
 
 import java.util.Collection;
+import java.util.List;
 
 import com.topably.assets.core.domain.Ticker;
 import com.topably.assets.instruments.domain.Instrument;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -27,5 +29,9 @@ public interface InstrumentRepository extends JpaRepository<Instrument, Long>, J
         Collection<String> exchangeCodes,
         Collection<String> instrumentTypes, boolean inAnyPortfolio
     );
+
+    @EntityGraph(attributePaths = "tags")
+    @Query(value = "select i from Instrument i where i.id in (:ids)")
+    List<Instrument> findAllByIdIncludeTags(Collection<Long> ids);
 
 }

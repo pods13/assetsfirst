@@ -12,6 +12,7 @@ import com.topably.assets.portfolios.domain.dto.tag.CreateTagCategoryDto;
 import com.topably.assets.portfolios.domain.dto.tag.TagCategoryDto;
 import com.topably.assets.portfolios.domain.dto.tag.TagDto;
 import com.topably.assets.portfolios.domain.dto.tag.UpdateTagCategoryDto;
+import com.topably.assets.tags.domain.Tag;
 import com.topably.assets.tags.domain.TagCategory;
 import com.topably.assets.tags.mapper.TagCategoryMapper;
 import com.topably.assets.tags.repository.TagCategoryRepository;
@@ -40,6 +41,18 @@ public class TagCategoryService {
     public TagCategoryDto findUserTagCategoryByCode(Long userId, String code) {
         return tagCategoryRepository.findTagCategoryByUserIdAndCode(userId, code)
             .map(tagCategoryMapper::modelToDto)
+            .orElseThrow();
+    }
+
+    public Tag findTagByCategoryCodeAndName(String categoryCode, String name) {
+        return findTagCategoryByCode(categoryCode).getTags().stream()
+            .filter(t -> t.getName().equals(name))
+            .findFirst()
+            .orElseThrow();
+    }
+
+    private TagCategory findTagCategoryByCode(String code) {
+        return tagCategoryRepository.findTagCategoryByCode(code)
             .orElseThrow();
     }
 

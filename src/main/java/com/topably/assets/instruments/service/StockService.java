@@ -12,8 +12,6 @@ public interface StockService {
 
     Page<StockDto> findAll(Pageable pageable);
 
-    Collection<Stock> findAllById(Collection<Long> ids);
-
     StockDto addStock(StockDataDto dto);
 
     StockDto importStock(StockDataDto dto);

@@ -62,4 +62,8 @@ public class InstrumentService {
         }
         return new Ticker(exchangeBySymbol[1].toUpperCase(), exchangeBySymbol[0].toUpperCase());
     }
+
+    public Collection<Instrument> findAllById(Collection<Long> ids) {
+        return instrumentRepository.findAllByIdIncludeTags(ids);
+    }
 }

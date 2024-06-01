@@ -65,17 +65,24 @@ function isRetryableError(error: AxiosError) {
     return companyDuplicate || sectorDuplicate || industryDuplicate;
 }
 
-async function importStocks() {
+async function importStocks(country: string) {
     const resourceFolderPath = './resources/stocks';
     const filenames = await fsPromises.readdir(resourceFolderPath);
     for (let filename of filenames) {
         try {
-            const filePath = path.join(resourceFolderPath, filename);
-            await importCountryStocks(filePath);
+            if (filename.includes(country.replaceAll(' ', '-').toLowerCase())) {
+                const filePath = path.join(resourceFolderPath, filename);
+                await importCountryStocks(filePath);
+            } else {
+                console.log(`Skip import of ${filename}`);
+            }
         } catch (e) {
             console.error(e);
         }
     }
 }
 
-importStocks();
+const args = process.argv.slice(2);
+
+const country = args[0];
+importStocks(country);

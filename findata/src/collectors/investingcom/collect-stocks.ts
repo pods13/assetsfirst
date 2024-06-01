@@ -1,4 +1,4 @@
-import playwright from 'playwright-chromium';
+import * as playwright from 'playwright-chromium';
 import { randomInteger } from '../../utils/random-int';
 import { CsvFormatterStream, format, parse } from 'fast-csv';
 import fs from 'fs';
@@ -37,6 +37,7 @@ async function collectStocksByExchange(country: string, exchange: string | null)
     });
 
     const context = await browser.newContext();
+
     let pageNum = 0;
     try {
         const page = await openStockScreenerPage(context);
@@ -71,14 +72,24 @@ function composeFilename(subject: string) {
 
 async function openStockScreenerPage(browserContext: playwright.BrowserContext): Promise<playwright.Page> {
     const page = await browserContext.newPage();
+    await page.route('**/*', (route) => {
+        // abort requests from known ad domains
+        if (['cdc', 'yandex.ru', 'ad_status.js', 'tracker'].find(r => route.request().url().includes(r))) {
+            route.abort();
+        } else {
+            route.continue();
+        }
+    });
     try {
-        await page.goto('https://www.investing.com/stock-screener/?sp=country::27|sector::a|industry::a|equityType::a|exchange::a%3Ename_trans;1', {waitUntil: 'domcontentloaded'});
+        await page.goto('https://ru.investing.com/stock-screener/?sp=country::27|sector::a|industry::a|equityType::a|exchange::a%3Ename_trans;1', {waitUntil: 'domcontentloaded', timeout: 90_000});
         await page.waitForTimeout(3000);
         await closeTrustPopup(page);
         return page;
     } catch (error) {
         console.error(error);
     }
+
+
     throw new Error(`Cannot open page`)
 }
 
@@ -91,25 +102,36 @@ async function adjustTableColumns(page: playwright.Page) {
     await page.click('#selectColumnsButton_stock_screener');
 }
 
+const SELECT_COUNTRY_PLACEHOLDER = 'Выбрать страну'
+const COUNTRY_MAPPER: {[name: string]: string} = {
+    'Russia': 'Россия',
+    'Germany': 'Германия',
+    'United States': 'США',
+    'Hong Kong': 'Гонконг',
+}
 async function selectCountry(page: playwright.Page, country: string) {
-    await page.click('[placeholder="Select country"]');
-    await page.click(`#countriesUL > li:has-text("${country}")`);
+    await page.click(`[placeholder="${SELECT_COUNTRY_PLACEHOLDER}"]`);
+    await page.click(`#countriesUL > li:has-text("${COUNTRY_MAPPER[country]}")`);
     await page.waitForTimeout(randomInteger(4000, 6000));
 }
 
+const SELECT_EXCHANGE_PLACEHOLDER = 'Выбрать биржу'
+const EXCHANGE_MAPPER: {[name: string]: string} = {
+    'NYSE': 'Нью-Йорк'
+}
 async function selectExchange(page: playwright.Page, exchange: string | null): Promise<void> {
     if (!exchange) {
         return;
     }
-    await page.click('[placeholder="Select Exchange"]');
-    await page.click(`#exchangesUL > li:has-text("${exchange}")`);
+    await page.click(`[placeholder="${SELECT_EXCHANGE_PLACEHOLDER}"]`);
+    await page.click(`#exchangesUL > li:has-text("${EXCHANGE_MAPPER[exchange] ?? exchange}")`);
     await page.waitForTimeout(randomInteger(4000, 6000));
 }
 
 async function closeTrustPopup(page: playwright.Page) {
-    const isPopupAppeared = await page.isVisible('div#onetrust-banner-sdk');
+    const isPopupAppeared = await page.isVisible('div#PromoteSignUpPopUp');
     if (isPopupAppeared) {
-        await page.click('button#onetrust-accept-btn-handler');
+        await page.click('i.largeBannerCloser');
     }
 }
 
@@ -120,12 +142,13 @@ async function closePopup(page: playwright.Page) {
     }
 }
 
+const NEXT_BUTTON_TEXT = 'След.';
 async function isNextButtonVisible(page: playwright.Page) {
-    return await page.isVisible('.text_align_lang_base_2 > a:has-text("Next")');
+    return await page.isVisible(`.text_align_lang_base_2 > a:has-text("${NEXT_BUTTON_TEXT}")`);
 }
 
 async function collectPageData(page: playwright.Page): Promise<StockData[]> {
-    const parsedData = await page.$$eval('#resultsTable > tbody tr', (equities) => {
+    const parsedData: StockData[] = await page.$$eval('#resultsTable > tbody tr', (equities) => {
         return equities.map(eq => {
             const name = eq.querySelector('td:nth-child(2)').textContent;
             const link = eq.querySelector('td:nth-child(2) a').getAttribute('href');
@@ -142,19 +165,31 @@ async function collectPageData(page: playwright.Page): Promise<StockData[]> {
 
     return parsedData.map(eq => {
         const exchange = mapExchange(eq.exchange);
-        const data = modifiedData as { [key: string]: object }
+        const data = modifiedData as { [key: string]: object; };
         const eqModifications = data[`${eq.symbol}.${exchange}`] ?? {};
-        return {...eq, exchange, ...eqModifications};
+        const sector = mapSector(eq.sector);
+        return {...eq, exchange, ...eqModifications, sector};
     });
 }
 
 function mapExchange(exchange: string): string {
-    if (exchange === 'Hong Kong') {
+    if (exchange === 'Гонконг') {
         return 'HK';
-    } else if (exchange === 'Moscow') {
-        return 'MCX'
+    } else if (exchange === 'Москва') {
+        return 'MCX';
+    } else if(exchange === 'Нью-Йорк') {
+        return 'NYSE';
     }
     return exchange.toUpperCase();
+}
+
+function mapSector(sector: string) {
+    if (sector === 'Нециклические компании') {
+        return 'Потребительские товары повседневного спроса';
+    } else if (sector === 'Циклические компании') {
+        return 'Потребительские товары выборочного спроса';
+    }
+    return sector;
 }
 
 function savePageData(csv: CsvFormatterStream<any, any>, pageData: any[]) {
@@ -162,5 +197,5 @@ function savePageData(csv: CsvFormatterStream<any, any>, pageData: any[]) {
 }
 
 async function selectNextPage(page: playwright.Page, pageToSelect: number) {
-    return await page.click('.text_align_lang_base_2 > a:has-text("Next")');
+    return await page.click(`.text_align_lang_base_2 > a:has-text("${NEXT_BUTTON_TEXT}")`);
 }

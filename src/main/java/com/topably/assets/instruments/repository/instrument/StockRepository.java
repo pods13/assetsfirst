@@ -18,5 +18,6 @@ public interface StockRepository extends JpaRepository<Stock, Long> {
     @EntityGraph(attributePaths = {"company", "company.industry", "company.industry.sector"})
     List<Stock> findAllById(Iterable<Long> ids);
 
+    @EntityGraph(attributePaths = "tags")
     Optional<Stock> findBySymbolAndExchangeCode(String symbol, String exchangeCode);
 }

@@ -2,6 +2,7 @@ package com.topably.assets.instruments.domain;
 
 
 import java.util.Currency;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -78,15 +79,26 @@ public abstract class Instrument {
     private Map<String, String> attributes;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
-    @JoinTable(name = "instrument_tag",
+    @JoinTable(
+        name = "instrument_tag",
         joinColumns = {@JoinColumn(name = "instrument_id", referencedColumnName = "id")},
         foreignKey = @ForeignKey(name = "fk__instrument__instrument_id__portfolio_position"),
         inverseJoinColumns = {@JoinColumn(name = "tag_id", referencedColumnName = "id")},
-        inverseForeignKey = @ForeignKey(name = "fk__portfolio_position__tag_id__tag"))
+        inverseForeignKey = @ForeignKey(name = "fk__portfolio_position__tag_id__tag")
+    )
     private Set<Tag> tags;
 
     public Ticker toTicker() {
         return new Ticker(symbol, exchangeCode);
+    }
+
+    public void addTag(Tag tag) {
+        if (tags == null) {
+            tags = new HashSet<>();
+        }
+        if (tag != null) {
+            tags.add(tag);
+        }
     }
 
 }

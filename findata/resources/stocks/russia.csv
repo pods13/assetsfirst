@@ -1,362 +1,259 @@
 symbol,exchange,name,sector,industry,slug
-TSVT-RM,MCX,2Seventy Bio,Healthcare,Biotechnology,2seventy-bio?cid=1180705
-ABRD,MCX,Abrau Durso OAO,Consumer Staples,Beverages,abrau-durso-oao
-AAP-RM,MCX,Advance Auto Parts,Consumer Discretionary,Specialty Retail,advance-auto-parts?cid=1180677
-AFLT,MCX,Aeroflot,Industrials,Airlines,aeroflot
-AFKS,MCX,AFK Sistema,Communication Services,Wireless Telecommunication Services,afk-sistema_rts
-ABNB-RM,MCX,Airbnb,Consumer Discretionary,"Hotels, Restaurants & Leisure",airbnb-inc?cid=1180675
-TRNFP,MCX,AK Transneft Pref,Energy,"Oil, Gas & Consumable Fuels",transneft-p_rts
-AVAN,MCX,AKB Avangard OAO,Financial,Banks,akb-avangard-oao
-PRMB,MCX,Akb Primorye OAO,Financial,Banks,akb-primorye-oao
-ROSB,MCX,AKB Rosbank,Financial,Banks,rosbank
-AKRN,MCX,Akron,Materials,Chemicals,akron_rts
-ALGN-RM,MCX,Align,Healthcare,Health Care Equipment & Supplies,align-technology?cid=1180678
-ALRS,MCX,ALROSA ao,Materials,Metals & Mining,alrosa-ao
-AWK-RM,MCX,American Water Works,Utilities,Water Utilities,american-water-works-inc?cid=1179768
-AMP-RM,MCX,Ameriprise Financial,Financial,Capital Markets,ameriprise-fincl?cid=1182937
-ABC-RM,MCX,AmerisourceBergen,Healthcare,Health Care Providers & Services,amerisourcebergn?cid=1179756
-AME-RM,MCX,Ametek,Industrials,Electrical Equipment,ametek-inc?cid=1179759
-ZILL,MCX,AMO ZIL PAO,Consumer Discretionary,Automobiles,amo-zil
-BANE,MCX,ANK Bashneft,Energy,"Oil, Gas & Consumable Fuels",bashneft_rts
-BANEP,MCX,ANK Bashneft Pref,Energy,"Oil, Gas & Consumable Fuels",bashneft-(pref)
-APPH-RM,MCX,Appharvest,Consumer Staples,Food Products,novus-capital-corp?cid=1183158
-APTK,MCX,Apteki 36,Consumer Staples,Food & Staples Retailing,apteka-36-6_rts
-ANET-RM,MCX,Arista Networks,Information Technology,Communications Equipment,arista-networks?cid=1180676
-AJG-RM,MCX,Arthur J Gallagher,Financial,Insurance,arthur-j.-gallagher---co?cid=1179748
-AMEZ,MCX,Ashinskiy Metzavod PAO,Materials,Metals & Mining,ashinskiy-metallurgical-works
-ASSB,MCX,Astrakhanskaya energosbytovaya OAO,Utilities,Electric Utilities,astrakhan-power-sale-comp
-AZO-RM,MCX,AutoZone,Consumer Discretionary,Specialty Retail,autozone-inc?cid=1182935
-AVY-RM,MCX,Avery Dennison,Materials,Containers & Packaging,avery-dennison?cid=1182936
-SIBG,MCX,Ays Stim Rus PAO,Consumer Staples,Food Products,sibirskiy-gostinets-pao
-KUZB,MCX,Bank Kuznetskiy OAO,Financial,Banks,bank-kuznetskiy-oao
-BSPBP,MCX,Bank SanktPeterburg PAO,Financial,Banks,bank-sanktpeterburg-pao-prf
-USBN,MCX,Bank Uralsib,Financial,Banks,bank-uralsib
-VTBR,MCX,Bank VTB PAO,Financial,Banks,vtb_rts
-BISV,MCX,BashInformSvyaz ao,Communication Services,Diversified Telecommunication Services,bashinformsvyaz
-BISVP,MCX,Bashinformsvyaz Pref,Communication Services,Diversified Telecommunication Services,bashinformsvyaz-(pref)
-BBBY-RM,MCX,Bed Bath & Beyond,Consumer Discretionary,Specialty Retail,bed-bath---beyond-inc?cid=1180680
-BLNG,MCX,Belon ao,Materials,Metals & Mining,belon_rts
-BELU,MCX,Beluga,Consumer Staples,Beverages,synergy_rts
-BIO-RM,MCX,Bio-Rad Labs,Healthcare,Life Sciences Tools & Services,bio-rad-laboratories-inc?cid=1182870
-BNGO-RM,MCX,Bionano Genomics,Healthcare,Life Sciences Tools & Services,bionano-genomics?cid=1180679
-BSPB,MCX,BSP,Financial,Banks,bank-st-petersbr_rts
-BRZL,MCX,Buryatzoloto ao,Materials,Metals & Mining,buryatzoloto
-KMX-RM,MCX,CarMax,Consumer Discretionary,Specialty Retail,carmax-inc?cid=1179747
-CTLT-RM,MCX,Catalent Inc,Healthcare,Pharmaceuticals,catalent-inc?cid=1179757
-CE-RM,MCX,Celanese,Materials,Chemicals,celanese?cid=1180825
-CRL-RM,MCX,Charles River Laboratories,Healthcare,Life Sciences Tools & Services,charles-river-laboratories-intl?cid=1180826
-CHMK,MCX,Chelyabinsk Metallurg,Materials,Metals & Mining,chmk
-CHKZ,MCX,Chelyabinskiy Kuznechno Presso,Consumer Discretionary,Auto Components,chelyabinskiy-kuznechno-presso
-CHEP,MCX,CHTPZ,Materials,Metals & Mining,chtpz
-PRFN,MCX,Chzpsn-Profnastil OAO,Materials,Metals & Mining,chzpsn-profnastil-oao
-CIANDR,MCX,Cian ADR,Communication Services,Interactive Media & Services,cian-adr?cid=1180342
-WTCM,MCX,CMT,Real Estate,Real Estate Management & Development,cmt
-WTCMP,MCX,CMT Pref,Real Estate,Real Estate Management & Development,cmt-(pref)
-STZ-RM,MCX,Constellation Brands A,Consumer Staples,Beverages,constellation-a?cid=1179749
-CLR-RM,MCX,Continental Resources,Energy,"Oil, Gas & Consumable Fuels",continental-resources-inc?cid=1183162
-CPNG-RM,MCX,Coupang LLC,Consumer Discretionary,Internet & Direct Marketing Retail,coupang-llc?cid=1180681
-CMI-RM,MCX,Cummins,Industrials,Machinery,cummins-inc?cid=1179751
-DASB,MCX,Dagestanskaya Energ,Utilities,Electric Utilities,dagestan-sb
-FESH,MCX,Dal’nevostochnoye Morskoye Parokhodstvo PAO,Industrials,Marine,dvmp-oao
-DVA-RM,MCX,DaVita,Healthcare,Health Care Providers & Services,davita-inc?cid=1180827
-DVEC,MCX,DEC,Utilities,Electric Utilities,dec
-DSKY,MCX,Detskiy Mir,Consumer Discretionary,Specialty Retail,detskiy-mir-pao
-DIOD,MCX,Diod OAO,Healthcare,Pharmaceuticals,diod-oao
-DZRD,MCX,Donskoy Zavod Radiodetaley OAO,Information Technology,"Electronic Equipment, Instruments & Components",donskoy-zavod-radiodetaley-oao
-DZRDP,MCX,Donskoy Zavod Radiodetaley OAO Pref,Information Technology,"Electronic Equipment, Instruments & Components",donskoy-zavod-radiodetaley-oao-pref
-DBX-RM,MCX,Dropbox,Information Technology,Software,dropbox-inc?cid=1180682
-EMN-RM,MCX,Eastman Chemical,Materials,Chemicals,eastman-chem?cid=1180828
-ELTZ,MCX,Elektrotsink ao,Materials,Metals & Mining,electrozinc
-ENPG,MCX,En Plus,Materials,Metals & Mining,en-plus-group-international-pao
-ENRU,MCX,Enel Russia OAO,Utilities,Electric Utilities,ogk-5
-EQT-RM,MCX,EQT,Energy,"Oil, Gas & Consumable Fuels",eqt-corporation?cid=1180684
-EFX-RM,MCX,Equifax,Industrials,Professional Services,equifax-inc?cid=1180685
-EL-RM,MCX,Estee Lauder,Consumer Staples,Personal Products,estee-lauder?cid=1179739
-ETLNDR,MCX,Etalon Group,Real Estate,Real Estate Management & Development,etalon-group?cid=1156755
-LIFE,MCX,Farmsintez,Healthcare,Pharmaceuticals,pharmsynthez
-HYDR,MCX,FGK Rusgidro PAO,Utilities,Electric Utilities,gidroogk-011d
-FIXPDR,MCX,Fix Price Group,Consumer Discretionary,Multiline Retail,fix-price-group-drc?cid=1171256
-FMC-RM,MCX,FMC,Materials,Chemicals,fmc-corp?cid=1179766
-FTNT-RM,MCX,Fortinet,Information Technology,Software,fortinet?cid=1179746
-FEES,MCX,FSK EES,Utilities,Electric Utilities,fsk-ees_rts
-GAZA,MCX,Gaz PAO,Consumer Discretionary,Automobiles,gaz-auto-plant
-GAZAP,MCX,Gaz PAO Pref,Consumer Discretionary,Automobiles,gaz-auto-plant-(pref)
-RTGZ,MCX,Gazprom Gazoraspredeleniye,Utilities,Gas Utilities,gazprom-gazoraspredeleniye
-SIBN,MCX,Gazprom Neft,Energy,"Oil, Gas & Consumable Fuels",gazprom-neft_rts
-GAZP,MCX,Gazprom PAO,Energy,"Oil, Gas & Consumable Fuels",gazprom_rts
-GNRC-RM,MCX,Generac,Industrials,Electrical Equipment,generac-holdings?cid=1179772
-GEVO-RM,MCX,Gevo,Energy,"Oil, Gas & Consumable Fuels",gevo?cid=1180686
-SMLT,MCX,Gk Samolet,Real Estate,Real Estate Management & Development,gk-samolet-pao
-TNSE,MCX,GK TNS energo PAO,Utilities,Independent Power and Renewable Electricity Producers,gk-tns-energo-pao
-GLTRDR,MCX,Globaltrans Inv,Industrials,Road & Rail,globaltrans-inv?cid=1167212
-GTRK,MCX,Globaltruck Management PAO,Industrials,Road & Rail,globaltrak
-GRNT,MCX,Gorodskiye Innovatsionnyye Tekhnologii,Industrials,Industrial Conglomerates,gorodskiye-innovatsionnyye-tekhnolo
-GCHE,MCX,Gruppa Cherkizovo,Consumer Staples,Food Products,gruppa-cherkizovo
-LSRG,MCX,Gruppa LSR,Real Estate,Real Estate Management & Development,lsr-group_rts
-POSI,MCX,Gruppa Pozitiv PAO,Information Technology,Software,gruppa-pozitiv-pao
-RENI,MCX,Gruppa Renessans Strakhovaniye PAO,Financial,Insurance,gruppa-renessans-strakhovaniye
-HOG-RM,MCX,Harley-Davidson,Consumer Discretionary,Automobiles,harley-davidson?cid=1183167
-HAS-RM,MCX,Hasbro,Consumer Discretionary,Leisure Products,hasbro-inc?cid=1180687
-HHRUDR,MCX,HeadHunter ADR,Industrials,Professional Services,headhunter-group-plc?cid=1166764
-HSIC-RM,MCX,Henry Schein,Healthcare,Health Care Providers & Services,henry-schein?cid=1179761
-HMSGDR,MCX,HMS Hydraulic Machines Systems Group DRC,Industrials,Machinery,hms-hydraulic-machines-and-syste-be?cid=1174083
-IEX-RM,MCX,IDEX,Industrials,Machinery,idex?cid=1180829
-IDXX-RM,MCX,IDEXX Labs,Healthcare,Health Care Equipment & Supplies,idexx-laboratorie?cid=1180688
-INGR,MCX,Ingrad PAO,Real Estate,Real Estate Management & Development,otkrytye-investitsii-oao
-ISKJ,MCX,Institut Stvolovykh Kletok Cheloveka PAO,Healthcare,Biotechnology,human-stem-cells-institute
-IRAO,MCX,Inter rao ees,Utilities,Electric Utilities,inter-rao-ees_mm
-IDVP,MCX,Invest-Development PAO,Real Estate,Real Estate Management & Development,invest-development-pao
-IPGP-RM,MCX,IPG Photonics,Information Technology,"Electronic Equipment, Instruments & Components",ipg-photonics-corp.?cid=1180689
-IQV-RM,MCX,IQVIA Holdings,Healthcare,Life Sciences Tools & Services,quintis-trl-hlgs?cid=1179763
-IRGZ,MCX,Irkutskenergo,Utilities,Electric Utilities,irkutskenergo
-IGST,MCX,Izhstal,Materials,Metals & Mining,izhstal
-IGSTP,MCX,Izhstal Pref,Materials,Metals & Mining,izhstal-(pref)
-JKHY-RM,MCX,Jack Henry&Associates,Information Technology,IT Services,jack-henry---asso?cid=1180690
-JBHT-RM,MCX,JB Hunt,Industrials,Road & Rail,j.b.-hunt-transpo?cid=1180830
-SJM-RM,MCX,JM Smucker,Consumer Staples,Food Products,jm-smucker-co?cid=1179758
-KLSB,MCX,Kaluzhsk Sbytovaya,Utilities,Independent Power and Renewable Electricity Producers,kaluga-power-sale-comp
-KMAZ,MCX,KAMAZ,Industrials,Machinery,kamaz
-KCHE,MCX,Kamchatskenergo,Utilities,Electric Utilities,kamchatskenergo
-KCHEP,MCX,Kamchatskenergo Pref,Utilities,Electric Utilities,kamchatskenergo-(pref)
-KDP-RM,MCX,Keurig Dr Pepper,Consumer Staples,Beverages,dr-pepper-snapple?cid=1180831
-KEYS-RM,MCX,Keysight Technologies,Information Technology,"Electronic Equipment, Instruments & Components",keysight-technologies?cid=1179762
-KGKC,MCX,KGK,Utilities,Water Utilities,kurganskaya-generiruyushchaya-komp
-KGKCP,MCX,KGK Pref,Utilities,Water Utilities,kurganskaya-generiruyushchaya-pref
-HIMC,MCX,Khimprom,Materials,Chemicals,khimprom
-HIMCP,MCX,Khimprom Pref,Materials,Chemicals,khimprom-(pref)
-UNKL,MCX,Kombinat Yuzhuralnikel' OAO,Materials,Metals & Mining,kombinat-yuzhuralnikel-oao
-VSMO,MCX,Korporatsiya VSMPO AVISMA PAO,Materials,Metals & Mining,vsmpo-avisma-crp_rts
-KOGK,MCX,Korshunovskii GOK,Materials,Metals & Mining,korshynov-mining-plant
-KMEZ,MCX,Kovrovskiy Mekhanicheskiy,Industrials,Machinery,kovrovskiy-mekhanicheskiy
-KRSB,MCX,Krasnoyarskenergosbyt,Utilities,Electric Utilities,krasnoyarskenergosbyt
-KRSBP,MCX,Krasnoyarskenergosbyt Pref,Utilities,Electric Utilities,krasnoyarskenergosbyt-(pref)
-KROT,MCX,Krasnyi Oktyabr,Consumer Staples,Food Products,krasnyj-octyabr-co.
-KROTP,MCX,Krasnyi Oktyabr pref,Consumer Staples,Food Products,krasnyj-octyabr-co.-(pref)
-KTSB,MCX,KSB PAO,Utilities,Electric Utilities,kostroma-retail-company
-KTSBP,MCX,KSB PAO Pref,Utilities,Electric Utilities,kostroma-retail-company-(pref)
-KUBE,MCX,KubanEnrg,Utilities,Electric Utilities,kubanenergo-oao
-KAZTP,MCX,Kuibishevazot Pref,Materials,Chemicals,kuibyshevazot-(pref)
-KAZT,MCX,KuybyshevAzot,Materials,Chemicals,kuibyshevazot
-TGKD,MCX,Kvadra Generiruyushchaya Kompaniya PAO,Utilities,Electric Utilities,quadra---power-generation
-TGKDP,MCX,Kvadra Generiruyushchaya Kompaniya PAO Prf,Utilities,Electric Utilities,quadra---power-generation-(pref)
-KD-RM,MCX,Kyndryl Holdings,Information Technology,IT Services,kyndryl-holdings?cid=1180691
-LHX-RM,MCX,L3Harris Technologies,Industrials,Aerospace & Defense,harris-corporation?cid=1179750
-LH-RM,MCX,Laboratory America,Healthcare,Health Care Providers & Services,laboratory-corp-of-amer?cid=1180832
-LW-RM,MCX,Lamb Weston Holdings,Consumer Staples,Food Products,lamb-weston-holdings-inc?cid=1179752
-LDOS-RM,MCX,Leidos,Industrials,Professional Services,leidos-holdings?cid=1179774
-LSNGP,MCX,Lenenergo Pref,Utilities,Electric Utilities,lenenergo-(pref)
-LSNG,MCX,LenEnrg,Utilities,Electric Utilities,lenenergo
-LNZL,MCX,Lenzoloto PAO,Materials,Metals & Mining,lenzoloto-oao
-LNZLP,MCX,Lenzoloto PAO Prf,Materials,Metals & Mining,lenzoloto-oao-pref
-LVHK,MCX,Levenguk OAO,Information Technology,"Electronic Equipment, Instruments & Components",levenguk-oao
-LPSB,MCX,Lipetskaya energosbytovaya,Utilities,Electric Utilities,lipetsk-power-sale-comp
-L-RM,MCX,Loews,Financial,Insurance,loews-corporation?cid=1179765
-RIDE-RM,MCX,Lordstown Motors,Consumer Discretionary,Automobiles,diamondpeak-holdings-corp?cid=1180700
-LKOH,MCX,Lukoil,Energy,"Oil, Gas & Consumable Fuels",lukoil_rts
-LAZR-RM,MCX,Luminar Tech,Consumer Discretionary,Auto Components,gores-metropoulos-inc?cid=1180692
-LYFT-RM,MCX,LYFT,Industrials,Road & Rail,lyft?cid=1180693
-MTB-RM,MCX,M&T Bank,Financial,Banks,m-t-bank-corp?cid=1179760
-MAGE,MCX,Magadanenergo ao,Utilities,Electric Utilities,magadanenergo
-MAGEP,MCX,Magadanenergo Pref,Utilities,Electric Utilities,magadanenergo-(pref)
-MGNT,MCX,Magnit,Consumer Staples,Food & Staples Retailing,magnit_rts
-MGNTDR,MCX,Magnit PAO DRC,Consumer Staples,Food & Staples Retailing,magnit-cfd
-MGY-RM,MCX,Magnolia Oil,Energy,"Oil, Gas & Consumable Fuels",tpg-pace-energy-class-a?cid=1183168
-MKTX-RM,MCX,MarketAxesss,Financial,Capital Markets,marketaxess-holdi?cid=1182872
-MRVL-RM,MCX,Marvell,Information Technology,Semiconductors & Semiconductor Equipment,marvell-technology-group-ltd?cid=1180695
-MCK-RM,MCX,McKesson,Healthcare,Health Care Providers & Services,mckesson-corp?cid=1179745
-MDMGDR,MCX,MD Medical DRC,Healthcare,Health Care Providers & Services,md-medical-drc?cid=1167487
-MTLR,MCX,Mechel PAO,Materials,Metals & Mining,sg-mechel_rts
-MTLRP,MCX,Mechel Pref,Materials,Metals & Mining,mechel-(pref)
-ODVA,MCX,Mediaholding,Communication Services,Media,o2-tv
-MRKU,MCX,Mezhregional’naya Raspredelitel’naya Setevaya Komp,Utilities,Electric Utilities,mrsk-urala-ao
-MGTS,MCX,MGTS,Communication Services,Diversified Telecommunication Services,moscow-city-telephone-network
-MGTSP,MCX,MGTS Pref,Communication Services,Diversified Telecommunication Services,mgts-(pref)
-MVIS-RM,MCX,Microvision,Information Technology,"Electronic Equipment, Instruments & Components",microvision?cid=1180694
-LENT,MCX,MK Lenta PAO,Consumer Staples,Food & Staples Retailing,mk-lenta-pao
-MAGN,MCX,MMK,Materials,Metals & Mining,mmk_rts
-GEMA,MCX,MMTsB,Healthcare,Health Care Providers & Services,mmtsb-pao
-MHK-RM,MCX,Mohawk Industries,Consumer Discretionary,Household Durables,mohawk-industries?cid=1182873
-MCO-RM,MCX,Moody’s,Financial,Capital Markets,moodys-corp?cid=1182874
-MRSB,MCX,Mordovskaya Energosbytovaya,Utilities,Electric Utilities,mordovskaya-energosbytovaya
-MSRS,MCX,Mos obl sb,Utilities,Electric Utilities,mos-obl-sb_rts
-MSNG,MCX,MosEnrg,Utilities,Electric Utilities,mosenergo_rts
-MOEX,MCX,Moskovskaya Birzha OAO,Financial,Capital Markets,moskovskaya-birzha-oao
-CBOM,MCX,Moskovskiy Kreditnyi Bank OAO,Financial,Banks,moskovskiy-kreditnyi-bank-oao
-MSTT,MCX,Mostotrest,Industrials,Construction & Engineering,mostotrest_rts
-MSI-RM,MCX,Motorola,Information Technology,Communications Equipment,motorola-inc?cid=1182871
-MTSS,MCX,MTS,Communication Services,Wireless Telecommunication Services,mts_rts
-MVID,MCX,MVideo,Consumer Discretionary,Specialty Retail,mvideo_rts
-NDAQ-RM,MCX,Nasdaq Inc,Financial,Capital Markets,nasdaq-omx-group?cid=1180696
-NSVZ,MCX,Nauka-Svyaz OAO ao,Communication Services,Diversified Telecommunication Services,nauka-svyaz
-NFAZ,MCX,NefAZ,Industrials,Machinery,nefaz
-NKNC,MCX,Nizhnekamskneftekhim,Materials,Chemicals,nizhnekamskneftekhim
-NKNCP,MCX,Nizhnekamskneftekhim Pref,Materials,Chemicals,nizhnekamskneftekhim-(pref)
-NKSH,MCX,Nizhnekamskshina,Consumer Discretionary,Auto Components,nizhnekamskshina
-RNFT,MCX,NK RussNeft,Energy,"Oil, Gas & Consumable Fuels",ruspetro
-NKHP,MCX,NKHP PAO,Industrials,Transportation Infrastructure,nkhp-pao
-NLMK,MCX,NLMK PAO,Materials,Metals & Mining,nlmk_rts
-NMTP,MCX,NMTP,Industrials,Transportation Infrastructure,nmtp_rts
-NSC-RM,MCX,Norfolk Southern,Industrials,Road & Rail,norfolk-southern?cid=1179737
-GMKN,MCX,Norilskiy Nikel,Materials,Metals & Mining,gmk-noril-nickel_rts
-NTRS-RM,MCX,Northern Trust,Financial,Capital Markets,northern-trust?cid=1179771
-NVTK,MCX,NOVATEK,Energy,"Oil, Gas & Consumable Fuels",novatek_rts
-IRKT,MCX,Np Korp Irkut,Industrials,Aerospace & Defense,irkut-corp
-UWGN,MCX,NPK OVK PAO,Industrials,Machinery,npk-ovk-pao
-NAUK,MCX,Npo Nauka,Industrials,Aerospace & Defense,nauka
-UCSS,MCX,Obyedinennye Kreditnye Sist,Financial,Diversified Financial Services,obyedinennye-kreditnye-sist
-UNAC,MCX,Ob’’yedinennaya Aviastroitel’naya Korporatsiya PAO,Industrials,Aerospace & Defense,united-aircraft-corporation
-OMZZP,MCX,Ob’’yedinennyye Mashinostroitel’nyye Zavody PAO Pr,Industrials,Industrial Conglomerates,omz-(pref)
-OGKB,MCX,OGK-2,Utilities,Independent Power and Renewable Electricity Producers,ogk-2_rts
-RUAL,MCX,OK Rusal MKPAO,Materials,Metals & Mining,united-company-rusal-plc`
-OKEYDR,MCX,OKey DRC,Consumer Staples,Food & Staples Retailing,okey-drc?cid=1168315
-ON-RM,MCX,ON Semiconductor,Information Technology,Semiconductors & Semiconductor Equipment,on-semiconductor?cid=1180697
-ORUP,MCX,OR PAO,Consumer Discretionary,"Textiles, Apparel & Luxury Goods",or-pao
-KZOS,MCX,Organicheskiy Sintez,Materials,Chemicals,kazanorgsintez
-KZOSP,MCX,Organicheskiy Sintez Pref,Materials,Chemicals,organicheskiy-sintez-kpao
-OZONDR,MCX,Ozon,Consumer Discretionary,Internet & Direct Marketing Retail,ozon-holdings-plc?cid=1167498
-ORLY-RM,MCX,O’Reilly Automotive,Consumer Discretionary,Specialty Retail,oreilly-automotive?cid=1180833
-PH-RM,MCX,Parker-Hannifin,Industrials,Machinery,parkerhannifin?cid=1179764
-PAZA,MCX,Pavlovskiy Avtobus OAO,Industrials,Machinery,pavlovskiy-avtobus-oao
-PKI-RM,MCX,PerkinElmer,Healthcare,Life Sciences Tools & Services,perkinelmer?cid=1179770
-PMSB,MCX,Permskaya Energosbytovaya,Utilities,Electric Utilities,perm-sb
-PMSBP,MCX,Permskaya Pref,Utilities,Electric Utilities,perm-energosbyt-pref
-PCG-RM,MCX,PG E,Utilities,Electric Utilities,pacific-gas-electric?cid=1180698
-PHOR,MCX,PhosAgro ao,Materials,Chemicals,phosagro
-MERF,MCX,Pifn Meridian OAO,Financial,Capital Markets,pifn-meridian-oao
-PIKK,MCX,PIK,Consumer Discretionary,Household Durables,pik_rts
-PEkREN,MCX,PNK Rental ZPIFN,Financial,Capital Markets,novosibirsk-development1-zpifn
-POLY,MCX,Polymetal,Materials,Metals & Mining,polymetal?cid=44465
-PLZL,MCX,Polyus,Materials,Metals & Mining,polyus-zoloto_rts
-FPR,MCX,Primary Placement Fund CEIF RU,Financial,Capital Markets,fond-pervichnykh-razmeshcheniy
-PTC-RM,MCX,PTC,Information Technology,Software,ptc?cid=1179773
-PVH-RM,MCX,PVH,Consumer Discretionary,"Textiles, Apparel & Luxury Goods",pvh?cid=1179755
-QIWIDR,MCX,QIWI,Information Technology,IT Services,qiwi-plc?cid=960754
-PWR-RM,MCX,Quanta Services,Industrials,Construction & Engineering,quanta-services?cid=1179743
-QS-RM,MCX,Quantumscape,Consumer Discretionary,Auto Components,kensington-capital-acquisition?cid=1180699
-DGX-RM,MCX,Quest Diagnostics,Healthcare,Health Care Providers & Services,quest-diag?cid=1179741
-RASP,MCX,Raspadskaya,Materials,Metals & Mining,raspadskaya
-RBCM,MCX,RBK ao,Communication Services,Media,rbk-tv-moskva
-RSG-RM,MCX,Republic Services,Industrials,Commercial Services & Supplies,republic-services-inc?cid=1179740
-RKKE,MCX,RKK Energia,Industrials,Aerospace & Defense,rsc-energia
-CHGZ,MCX,RN Zapadnaya Sibir’ PAO,Industrials,Professional Services,chernorgorneft
-RHI-RM,MCX,Robert Half,Industrials,Professional Services,robert-half-intl?cid=1179767
-ROK-RM,MCX,Rockwell Automation,Industrials,Electrical Equipment,rockwell-automat?cid=1180702
-AGRO,MCX,Ros Agro PLC,Consumer Staples,Food Products,ros-agro-plc
-RDRB,MCX,RosDorBank PAO,Financial,Banks,rosdorbank-pao
-RGSS,MCX,Rosgosstrakh OAO,Financial,Insurance,rosgosstrakh-oao
-ROST,MCX,ROSINTER RESTAURANTS,Consumer Discretionary,"Hotels, Restaurants & Leisure",rosinter-restaurants-holding
-ROSN,MCX,Rosneft,Energy,"Oil, Gas & Consumable Fuels",rosneft_rts
-MRKK,MCX,Rosseti Severnyi Kavkaz PAO,Utilities,Electric Utilities,mrsk-severnogo-kavkaza
-MRKZ,MCX,Rosseti Severo Zapad PAO,Utilities,Electric Utilities,mrsk-severo-zapada
-MRKS,MCX,Rosseti Sibir’ PAO,Utilities,Electric Utilities,mrsk-sibiri
-MRKP,MCX,Rosseti Tsentr I Privolzh’ye,Utilities,Electric Utilities,mrsk-cip
-MRKC,MCX,Rosseti Tsentr PAO,Utilities,Electric Utilities,mrsk-centra
-MRKV,MCX,Rosseti Volga PAO,Utilities,Electric Utilities,mrsk-volgi
-MRKY,MCX,Rosseti Yug PAO,Utilities,Electric Utilities,mrsk-yuga
-RSTI,MCX,Rossiyskiye Seti PAO,Utilities,Electric Utilities,rosseti-ao
-RSTIP,MCX,Rossiyskiye Seti PAO Prf,Utilities,Electric Utilities,rosseti-ap-(pref)
-RTKM,MCX,Rostelecom,Communication Services,Diversified Telecommunication Services,rostelecom
-RTKMP,MCX,Rostelekom Pref,Communication Services,Diversified Telecommunication Services,rostelecom-(pref)
-RTSB,MCX,Rostovenergosbyt,Utilities,Electric Utilities,rostov-sb
-RTSBP,MCX,Rostovenergosbyt Pref,Utilities,Electric Utilities,rostov-sb-(pref)
-RUGR,MCX,Rusgrain Holding OAO,Consumer Staples,Food Products,rusgrain-holding-oao
-ROLO,MCX,Rusolovo OAO,Materials,Metals & Mining,rusolovo-oao
-RUSI,MCX,RUSS-INVEST IC ao,Financial,Capital Markets,ic-russ-invest
-AQUA,MCX,Russkaya Akvakultura,Consumer Staples,Food Products,russian-sea-group
-RZSB,MCX,Ryazansk Energetich Sbytovaya,Utilities,Electric Utilities,ryazan-sb
-SLEN,MCX,Sakhalinenergo,Utilities,Electric Utilities,sakhalinenergo-oao
-SAGO,MCX,SamaraEnergo ao,Utilities,Independent Power and Renewable Electricity Producers,samaraenergo
-SAGOP,MCX,Samaraenergo Pref,Utilities,Independent Power and Renewable Electricity Producers,samaraenergo(pref)
-SARE,MCX,Saratovenergo,Utilities,Electric Utilities,saratovenergo
-SAREP,MCX,Saratovenergo Pref,Utilities,Electric Utilities,saratovenergo-(pref)
-KRKN,MCX,Saratovskiy NPZ ao,Energy,"Oil, Gas & Consumable Fuels",saratov-oil-refenery
-KRKNP,MCX,Saratovskiy NPZ ap,Energy,"Oil, Gas & Consumable Fuels",saratov-oil-refenery-(pref)
-SBER,MCX,Sberbank Rossii,Financial,Banks,sberbank_rts
-SBERP,MCX,Sberbank Rossii Pref,Financial,Banks,sberbank-p_rts
-SEE-RM,MCX,Sealed Air,Materials,Containers & Packaging,sealed-air?cid=1179742
-SGZH,MCX,Segezha Group,Materials,Paper & Forest Products,segezha-group-pao
-SELG,MCX,Seligdar,Materials,Metals & Mining,seligdar
-CHMF,MCX,Severstal - ao,Materials,Metals & Mining,severstal_rts
-SFIN,MCX,SFI PAO,Financial,Consumer Finance,yevroplan-pao
-SKLZ-RM,MCX,Skillz Platform,Communication Services,Entertainment,flying-eagle-acquisition-corp?cid=1180703
-MFGSP,MCX,Slavneft Megionneft Pref,Energy,"Oil, Gas & Consumable Fuels",slavneft-megionneftegaz-(pref)
-MFGS,MCX,Slavneft Megionneftegaz,Energy,"Oil, Gas & Consumable Fuels",slavneft-megionneftegaz
-JNOSP,MCX,Slavneft Yaroslavnef Pref,Energy,"Oil, Gas & Consumable Fuels",slavneft-(pref)
-JNOS,MCX,Slavneft-JANOS,Energy,"Oil, Gas & Consumable Fuels",slavneft
-SFTLDR,MCX,Softline Holding Plc DRC,Information Technology,IT Services,softline-holding-plc-drc?cid=1180213
-MGNZ,MCX,Solikamskiy Magniyevyi Zavod,Materials,Metals & Mining,solikamskiy-magniyevyi-zavod
-SVAV,MCX,Sollers,Consumer Discretionary,Automobiles,sollers
-FLOT,MCX,Sovkomflot PAO,Energy,"Oil, Gas & Consumable Fuels",sovcomflot-pao
-SPBE,MCX,SPB Birzha PAO,Financial,Capital Markets,spb-birzha-pao
-SWK-RM,MCX,Stanley Black Decker,Industrials,Machinery,stanley-works?cid=1179744
-STSB,MCX,StavropolEnergoSbyt,Utilities,Electric Utilities,stavropolenergosbyt
-STSBP,MCX,Stavropolenergosbyt Pref,Utilities,Electric Utilities,stavropolenergosbyt-(pref)
-RUN-RM,MCX,Sunrun Inc,Industrials,Electrical Equipment,sunrun-inc?cid=1180701
-SNGS,MCX,Surgut,Energy,"Oil, Gas & Consumable Fuels",surgutneftegas_rts
-SNGSP,MCX,Surgut-pref,Energy,"Oil, Gas & Consumable Fuels",surgutneftegas-p_rts
-SVET,MCX,Svetofor Group PAO,Consumer Discretionary,Diversified Consumer Services,svetofor-group-pao
-SNPS-RM,MCX,Synopsys,Information Technology,Software,synopsys-inc?cid=1179769
-TASB,MCX,Tambovskaya Energ,Utilities,Electric Utilities,tambov-power-sale
-TASBP,MCX,Tambovskaya Pref,Utilities,Electric Utilities,tambov-power-sale-(pref)
-TATNP,MCX,Tatneft Pref,Energy,"Oil, Gas & Consumable Fuels",tatneft-p_rts
-TATN,MCX,Tatneft-3,Energy,"Oil, Gas & Consumable Fuels",tatneft_rts
-TTLK,MCX,Tattelekom,Communication Services,Diversified Telecommunication Services,tattelecom
-TCSGDR,MCX,TCS Group Holding PLC,Financial,Banks,tcs-group-holding-plc?cid=1153662
-TPX-RM,MCX,Tempur Sealy International,Consumer Discretionary,Household Durables,tempur-pedic-international-inc?cid=1183169
-TGKN,MCX,Territorial’naya Generiruyushchaya Kompaniya No 14,Utilities,Electric Utilities,tgc-14
-TGKB,MCX,Territorial’naya Generiruyushchaya Kompaniya No2 P,Utilities,Electric Utilities,tgk-2
-TGKBP,MCX,Territorial’naya Generiruyushchaya Kompaniya No2 P,Utilities,Electric Utilities,tgk-2-(pref)
-TGKA,MCX,TGK-1,Utilities,Electric Utilities,tgk-1
-TTD-RM,MCX,The Trade Desk,Information Technology,Software,trade-desk-inc?cid=1180704
-KRKOP,MCX,TKZ Krasny Kotelshchik ap,Industrials,Machinery,krasny-kotelshchik-(pref)
-TRMK,MCX,TMK,Energy,Energy Equipment & Services,tmk
-KBSB,MCX,TNS Energo Kuban’ PAO,Utilities,Electric Utilities,kubanenergosbyt-oao
-MISB,MCX,TNS Energo Mariy El PAO,Utilities,Electric Utilities,marienergosbyt
-MISBP,MCX,TNS Energo Mariy El PAO Prf,Utilities,Electric Utilities,marienergosbyt-(pref)
-NNSB,MCX,TNS Energo Nizhniy Novgorod,Utilities,Electric Utilities,nizhegorodskaya-sbytovaya-komp
-NNSBP,MCX,TNS Energo Nizhniy Novgorod pref,Utilities,Electric Utilities,tns-energo-nizhniy-novgorod-pao
-VRSBP,MCX,TNS Energo Voronezh PAO Prf,Utilities,Electric Utilities,voronezh-sb-(pref)
-YRSB,MCX,TNS Energo Yaroslavl PAO,Utilities,Electric Utilities,yask
-YRSBP,MCX,TNS Energo Yaroslavl PAO Prf,Utilities,Electric Utilities,yaroslav-sbyt-pref
-TORSP,MCX,Tomsk raspredelit. komp ap,Utilities,Electric Utilities,tomsk-distribution-(pref)
-TORS,MCX,Tomskaya Raspredelit,Utilities,Electric Utilities,tomsk-distribution
-TSCO-RM,MCX,Tractor Supply,Consumer Discretionary,Specialty Retail,tractor-supply-company?cid=1179753
-CNTL,MCX,Tsentralnyi Telegraf,Communication Services,Diversified Telecommunication Services,central-telegraph
-CNTLP,MCX,Tsentralnyi Telegraf Pref,Communication Services,Diversified Telecommunication Services,central-telegraph-(pref)
-TWLO-RM,MCX,Twilio,Information Technology,IT Services,twilio-inc-a?cid=1183161
-TUZA,MCX,TZA OAO,Industrials,Machinery,tza-oao
-ARSA,MCX,UK Arsagera,Financial,Capital Markets,arsagera
-ULTA-RM,MCX,Ulta Beauty,Consumer Discretionary,Specialty Retail,ulta-salon-cosmetics---fragrance?cid=1180707
-UPRO,MCX,Unipro,Utilities,Independent Power and Renewable Electricity Producers,e.on-russia
-GEMCDR,MCX,United Medical Group Cy Plc,Healthcare,Health Care Providers & Services,united-medical-group-drc
-UHS-RM,MCX,Universal Health Services,Healthcare,Health Care Providers & Services,universal-health-services?cid=1180706
-URKZ,MCX,Uralskaya Kuznitsa OAO,Materials,Metals & Mining,uralskaya-kuznitsa-oao
-UTAR,MCX,UTair Aviakompaniya OAO,Industrials,Airlines,utair-aviakompaniya-oao
-UKUZ,MCX,Uzhnyi Kuzbass,Energy,"Oil, Gas & Consumable Fuels",south-kuzbass
-VJGZ,MCX,Var’yeganneftegaz PAO,Energy,"Oil, Gas & Consumable Fuels",varyeganneftegaz
-VJGZP,MCX,Var’yeganneftegaz PAO Prf,Energy,"Oil, Gas & Consumable Fuels",varyeganneftegaz-(pref)
-VXRT-RM,MCX,Vaxart,Healthcare,Biotechnology,nabi-pharmaceuticals?cid=1180709
-VEON-RX,MCX,VEON,Communication Services,Wireless Telecommunication Services,veon-ltd?cid=1180708
-VRSN-RM,MCX,VeriSign,Information Technology,IT Services,verisign-inc?cid=1180834
-VRSK-RM,MCX,Verisk,Industrials,Professional Services,verisk-analytics-inc?cid=1179754
-VKCODR,MCX,VK DRC,Communication Services,Interactive Media & Services,mail.ru-grp-wi?cid=1163363
-VLHZ,MCX,Vladimirskiy Khimicheskiy,Materials,Chemicals,vladimirskiy-khimicheskiy
-VGSB,MCX,Volgogradenergosbyt,Utilities,Electric Utilities,volgogradenergosbyt
-VGSBP,MCX,Volgogradenergosbyt Pref,Utilities,Electric Utilities,volgogradenergosbyt-(pref)
-VRSB,MCX,Voronezh SB,Utilities,Electric Utilities,voronezh-sb
-VUZI-RM,MCX,Vuzix Corp Cmn Stk,Consumer Discretionary,Household Durables,vuzix-corp-cmn-stk?cid=1180710
-VSYDP,MCX,Vyborgskiy Sudostroitelnyi PAO,Industrials,Machinery,vyborgskiy-sudostroitelnyi-pao
-VSYD,MCX,Vyborgskiy sudostroitelnyi zavod,Industrials,Machinery,vyborgskiy-sudostroitelnyi-zavod
-WEC-RM,MCX,WEC Energy,Utilities,Multi-Utilities,wisconsin-energy-corp?cid=1179738
-WHR-RM,MCX,Whirlpool,Consumer Discretionary,Household Durables,whirl-pool-corp?cid=1180711
-WRB-RM,MCX,WR Berkley,Financial,Insurance,wr-berkley-corp?cid=1180835
-FIVEDR,MCX,X5 Retail Group,Consumer Staples,Food & Staples Retailing,x5-retail-grp?cid=1061926
-XYL-RM,MCX,Xylem,Industrials,Machinery,xylem?cid=1182875
-YAKG,MCX,Yakutskaya Toplivno Energeticheskaya Kompaniya PAO,Energy,"Oil, Gas & Consumable Fuels",yatek
-YKEN,MCX,YakutskEnergo,Utilities,Electric Utilities,yakutskenergo
-YKENP,MCX,YakutskEnergo ap,Utilities,Electric Utilities,yakutskenergo-(pref)
-YNDX,MCX,Yandex,Communication Services,Interactive Media & Services,yandex?cid=102063
-EELT,MCX,Yevropyeyskaya Elyektrotyekhnika PAO,Industrials,Construction & Engineering,yevropeyskaya-elektrotekhnika
-ACKO,MCX,Yuzhural-Asko,Financial,Insurance,yuzhural-asko
-ZBRA-RM,MCX,Zebra,Information Technology,"Electronic Equipment, Instruments & Components",zebra-tech?cid=1180712
-ZVEZ,MCX,Zvezda,Industrials,Machinery,zvezda
+TGKA,MCX,ТГК №1 ОАО,Коммунальные услуги,Энергетические компании и независимые производители электроэнергии,tgk-1
+TGKN,MCX,Territorial’naya Generiruyushchaya Kompaniya No 14,Коммунальные услуги,Водоснабжающие и коммунальные компании,tgc-14
+OGKB,MCX,ОГК-2 ОАО,Коммунальные услуги,Энергетические компании и независимые производители электроэнергии,ogk-2_rts
+APTK,MCX,Аптечная сеть 36,Потребительские товары повседневного спроса,Розничная торговля едой и лекарствами,apteka-36-6_rts
+KLVZ,MCX,Alkogol’naya Gruppa Kristall PAO,,,alcohol-crystal-pao
+SBCN,MCX,UK Pervaya AO,,,uk-pervaya-ao
+MBNK,MCX,MTS Bank PAO,,,mts-bank-pao
+BSPBP,MCX,Банк Санкт-Петербург (прив.),Финансы,Банковские услуги,bank-sanktpeterburg-pao-prf
+DELI,MCX,Carsharing Russia PAO,,,carsharing-russia-pao
+FPR,MCX,Primary Placement Fund CEIF RU,Финансы,Коллективные инвестиции,fond-pervichnykh-razmeshcheniy
+CIANDR,MCX,Cian DRC,Технологии,Программное обеспечение и ИТ-услуги,cian-adr
+GEMC,MCX,United Medical Group Cy Plc,Здравоохранение,Учреждения и услуги здравоохранения,united-medical-group-drc
+VKCO,MCX,VK DRC,Технологии,Программное обеспечение и ИТ-услуги,mail.ru-grp-wi
+MGNTDR,MCX,Magnit PAO DRC,Потребительские товары повседневного спроса,Розничная торговля едой и лекарствами,magnit-cfd
+OKEYDR,MCX,OKey DRC,Потребительские товары повседневного спроса,Розничная торговля едой и лекарствами,okey-drc?cid=1168315
+MISB,MCX,TNS Energo Mariy El PAO,Коммунальные услуги,Энергетические компании и независимые производители электроэнергии,marienergosbyt
+MISBP,MCX,TNS Energo Mariy El PAO Prf,Коммунальные услуги,Энергетические компании и независимые производители электроэнергии,marienergosbyt-(pref)
+ELFV,MCX,EL5 Energo PAO,Коммунальные услуги,Энергетические компании и независимые производители электроэнергии,ogk-5
+EELT,MCX,Yevropyeyskaya Elyektrotyekhnika PAO,Промышленность,Строительство и проектирование,yevropeyskaya-elektrotekhnika
+YAKG,MCX,Yakutskaya Toplivno Energeticheskaya Kompaniya PAO,Энергетика,Газ и нефть,yatek
+KBSB,MCX,TNS Energo Kuban’ PAO,Коммунальные услуги,Энергетические компании и независимые производители электроэнергии,kubanenergosbyt-oao
+VRSBP,MCX,TNS Energo Voronezh PAO Prf,Коммунальные услуги,Энергетические компании и независимые производители электроэнергии,voronezh-sb-(pref)
+YRSB,MCX,TNS Energo Yaroslavl PAO,Коммунальные услуги,Энергетические компании и независимые производители электроэнергии,yask
+ETLNDR,MCX,Etalon Gr,Потребительские товары выборочного спроса,Жилищное строительство и строительные материалы,etalon-group
+LEAS,MCX,LK Europlan PAO,,,lk-europlan-pao
+HNFG,MCX,Henderson Fashion,Потребительские товары выборочного спроса,Специализированные розничные торговцы,henderson-fashion-group-pao
+FESH,MCX,FESH,Промышленность,Транспортная инфраструктура,dvmp-oao
+FIXPDR,MCX,Fix Price Group,Потребительские товары повседневного спроса,Розничная торговля едой и лекарствами,fix-price-group-drc?cid=1171256
+FLOT,MCX,FLOT,Энергетика,"Оборудование и услуги, связанные с нефтью и газом",sovcomflot-pao
+GAZAP,MCX,Gaz PAO Pref,Потребительские товары выборочного спроса,Автомобили и запчасти к ним,gaz-auto-plant-(pref)
+TGKB,MCX,Territorial’naya Generiruyushchaya Kompaniya No2 P,Коммунальные услуги,Энергетические компании и независимые производители электроэнергии,tgk-2
+TGKBP,MCX,Territorial’naya Generiruyushchaya Kompaniya No2 P,Коммунальные услуги,Энергетические компании и независимые производители электроэнергии,tgk-2-(pref)
+GECO,MCX,TsGRM Genetiko PAO,,,tsgrm-genetiko-pao
+GTRK,MCX,Globaltruck Management PAO,Промышленность,Транспортные и логистические услуги,globaltrak
+GLTRDR,MCX,GLTRDR,Промышленность,Транспортные и логистические услуги,globaltrans-inv?cid=1167212
+FIVEDR,MCX,X5 Retail Group,Потребительские товары повседневного спроса,Розничная торговля едой и лекарствами,x5-retail-grp?cid=1061926
+HHRUDR,MCX,HeadHunter Group,Промышленность,Профессиональные и коммерческие услуги,headhunter-group-plc
+SVET,MCX,Svetofor Group PAO,Технологии,Программное обеспечение и ИТ-услуги,svetofor-group-pao
+MDMGDR,MCX,MD Medical Group Investments,Здравоохранение,Учреждения и услуги здравоохранения,md-medical-drc
+WUSH,MCX,Whoosh Holding PAO,,,whoosh-holding-pao
+TCSG,MCX,TKS Holding MKPAO,Финансы,Инвестиционные холдинги,tcs-group-holding-plc
+OZONDR,MCX,Ozon Holdings,Технологии,Программное обеспечение и ИТ-услуги,ozon-holdings-plc
+HYDR,MCX,HYDR,Коммунальные услуги,Энергетические компании и независимые производители электроэнергии,gidroogk-011d
+AQUA,MCX,Inarktika PAO,Потребительские товары повседневного спроса,Еда и табачные изделия,russian-sea-group
+MRKK,MCX,Rosseti Severnyi Kavkaz PAO,Коммунальные услуги,Энергетические компании и независимые производители электроэнергии,mrsk-severnogo-kavkaza
+LENT,MCX,MK Lenta PAO,Финансы,Инвестиционные холдинги,mk-lenta-pao
+LNZLP,MCX,Lenzoloto PAO Prf,Сырье,Металлургия и горнодобывающая промышленность,lenzoloto-oao-pref
+ZAYM,MCX,MFK Zaymer PAO,,,mfk-zaymer-pao
+MGKL,MCX,MGKL PAO,,,mgkl-pao
+BELU,MCX,Novabev PAO,Потребительские товары повседневного спроса,Напитки,synergy_rts
+LVHK,MCX,Левенгук OAO,Технологии,Офисное оборудование,levenguk-oao
+ROLO,MCX,Русолово OAO,Сырье,Металлургия и горнодобывающая промышленность,rusolovo-oao
+DIOD,MCX,ДИОД OAO,Здравоохранение,Фармацевтические компании,diod-oao
+VJGZP,MCX,Var’yeganneftegaz PAO Prf,Энергетика,Газ и нефть,varyeganneftegaz-(pref)
+CARM,MCX,SmartTekhGroup PAO,,,smarttekhgroup-pao
+MRKC,MCX,Rosseti Tsentr PAO,Коммунальные услуги,Энергетические компании и независимые производители электроэнергии,mrsk-centra
+MRKS,MCX,Rosseti Sibir’ PAO,Коммунальные услуги,Энергетические компании и независимые производители электроэнергии,mrsk-sibiri
+MRKY,MCX,Rosseti Yug PAO,Коммунальные услуги,Энергетические компании и независимые производители электроэнергии,mrsk-yuga
+MRKU,MCX,Rosseti Ural PAO,Коммунальные услуги,Энергетические компании и независимые производители электроэнергии,mrsk-urala-ao
+SOFL,MCX,Softline PAO,,,softline-pao
+CHGZ,MCX,RN Zapadnaya Sibir’ PAO,Промышленность,Профессиональные и коммерческие услуги,chernorgorneft
+SVET_p,MCX,Svetofor PAO Prf,,,svetofor-pao-prf
+MRKZ,MCX,Rosseti Severo Zapad PAO,Коммунальные услуги,Энергетические компании и независимые производители электроэнергии,mrsk-severo-zapada
+MRKV,MCX,Rosseti Volga PAO,Коммунальные услуги,Энергетические компании и независимые производители электроэнергии,mrsk-volgi
+VJGZ,MCX,Var’yeganneftegaz PAO,Энергетика,Газ и нефть,varyeganneftegaz
+SFIN,MCX,SFI PAO,Финансы,Инвестиционные холдинги,yevroplan-pao
+POLY,MCX,POLY,Сырье,Металлургия и горнодобывающая промышленность,polymetal
+POSI,MCX,POSI,Технологии,Программное обеспечение и ИТ-услуги,gruppa-pozitiv-pao
+QIWIDR,MCX,QIWI,Промышленность,Профессиональные и коммерческие услуги,qiwi-plc?cid=960754
+RENI,MCX,RENI,Финансы,Страхование,gruppa-renessans-strakhovaniye
+RUAL,MCX,RUAL,Сырье,Металлургия и горнодобывающая промышленность,united-company-rusal-plc`
+SPBE,MCX,SPBE,Финансы,Инвестиционно-банковские и инвестиционные услуги,spb-birzha-pao
+VEON-RX,MCX,VEON,Технологии,Телекоммуникационные услуги,veon-ltd?cid=1180708
+VSMO,MCX,VSMO,Сырье,Металлургия и горнодобывающая промышленность,vsmpo-avisma-crp_rts
+YRSBP,MCX,YRSB_p,Коммунальные услуги,Энергетические компании и независимые производители электроэнергии,yaroslav-sbyt-pref
+ZILL,MCX,ZILL,Потребительские товары выборочного спроса,Автомобили и запчасти к ним,amo-zil
+ABRD,MCX,Абрау-Дюрсо,Потребительские товары повседневного спроса,Напитки,abrau-durso-oao
+AVAN,MCX,Банк Авангард,Финансы,Банковские услуги,akb-avangard-oao
+UTAR,MCX,Авиакомпания ЮТэйр,Промышленность,Услуги пассажирских перевозок,utair-aviakompaniya-oao
+AGRO,MCX,РОС АГРО ПЛС,Потребительские товары повседневного спроса,Еда и табачные изделия,ros-agro-plc
+ALRS,MCX,АК АЛРОСА,Сырье,Металлургия и горнодобывающая промышленность,alrosa-ao
+AKRN,MCX,Акрон,Сырье,Химическая промышленность,akron_rts
+ASTR,MCX,Астра ао,,,gruppa-astra-pao
+ARSA,MCX,УК Арсагера,Финансы,Инвестиционно-банковские и инвестиционные услуги,arsagera
+ABIO,MCX,Артген,Здравоохранение,Учреждения и услуги здравоохранения,human-stem-cells-institute
+ACKO,MCX,Южурал-Аско,Финансы,Страхование,yuzhural-asko
+AMEZ,MCX,Ашинский Метзавод,Сырье,Металлургия и горнодобывающая промышленность,ashinskiy-metallurgical-works
+AFLT,MCX,Аэрофлот,Промышленность,Услуги пассажирских перевозок,aeroflot
+ASSB,MCX,АЭСК,Коммунальные услуги,Энергетические компании и независимые производители электроэнергии,astrakhan-power-sale-comp
+USBN,MCX,Банк Уралсиб,Финансы,Банковские услуги,bank-uralsib
+PRMB,MCX,Банк Приморье,Финансы,Банковские услуги,akb-primorye-oao
+BSPB,MCX,Банк Санкт-Петербург,Финансы,Банковские услуги,bank-st-petersbr_rts
+KUZB,MCX,Банк Кузнецкий,Финансы,Банковские услуги,bank-kuznetskiy-oao
+BISVP,MCX,Башинформсвязь (прив.),Технологии,Телекоммуникационные услуги,bashinformsvyaz-(pref)
+BANE,MCX,Башнефть ПАО,Энергетика,Газ и нефть,bashneft_rts
+BANEP,MCX,Башнефть (прив.),Энергетика,Газ и нефть,bashneft-(pref)
+BLNG,MCX,Белон,Энергетика,Угледобывающая промышленность,belon_rts
+MOEX,MCX,Московская биржа,Финансы,Инвестиционно-банковские и инвестиционные услуги,moskovskaya-birzha-oao
+BRZL,MCX,Бурятзолото,Сырье,Металлургия и горнодобывающая промышленность,buryatzoloto
+VGSB,MCX,Волгоградэнергосбыт,Коммунальные услуги,Энергетические компании и независимые производители электроэнергии,volgogradenergosbyt
+VGSBP,MCX,Волгоградэнергосбыт (прив.),Коммунальные услуги,Энергетические компании и независимые производители электроэнергии,volgogradenergosbyt-(pref)
+VRSB,MCX,Воронежская ЭСК,Коммунальные услуги,Энергетические компании и независимые производители электроэнергии,voronezh-sb
+VTBR,MCX,ВТБ,Финансы,Банковские услуги,vtb_rts
+VLHZ,MCX,ВХЗ,Сырье,Химическая промышленность,vladimirskiy-khimicheskiy
+VSYD,MCX,Выборгский ССЗ,Промышленность,"Оборудование, инструменты, автомобили большой грузоподъемности, железнодорожный и водный транспорт",vyborgskiy-sudostroitelnyi-zavod
+VSYDP,MCX,Выборгский ССЗ (прив.),Промышленность,"Оборудование, инструменты, автомобили большой грузоподъемности, железнодорожный и водный транспорт",vyborgskiy-sudostroitelnyi-pao
+GAZT,MCX,ГАЗ-Тек,Финансы,Инвестиционно-банковские и инвестиционные услуги,gaz-tek
+GAZA,MCX,Газ,Потребительские товары выборочного спроса,Автомобили и запчасти к ним,gaz-auto-plant
+RTGZ,MCX,Газпром Ростов-на-Дону,Коммунальные услуги,Газоснабжение,gazprom-gazoraspredeleniye
+GAZP,MCX,Газпром,Энергетика,Газ и нефть,gazprom_rts
+SIBN,MCX,Газпром нефть,Энергетика,Газ и нефть,gazprom-neft_rts
+SMLT,MCX,ГК Самолет,Недвижимость,Операции с недвижимостью,gk-samolet-pao
+KOGK,MCX,Коршуновский ГОК,Сырье,Металлургия и горнодобывающая промышленность,korshynov-mining-plant
+ENPG,MCX,ЭН+ Груп,Сырье,Металлургия и горнодобывающая промышленность,en-plus-group-international-pao
+SGZH,MCX,Сегежа Групп,Сырье,Бумага и изделия из древесины,segezha-group-pao
+PIKK,MCX,Группа Компаний ПИК,Потребительские товары выборочного спроса,Жилищное строительство и строительные материалы,pik_rts
+LSRG,MCX,Группа ЛСР,Недвижимость,Операции с недвижимостью,lsr-group_rts
+GCHE,MCX,Группа Черкизово,Потребительские товары повседневного спроса,Еда и табачные изделия,gruppa-cherkizovo
+DSKY,MCX,Детский мир,Потребительские товары выборочного спроса,Диверсифицированные розничные товары,detskiy-mir-pao
+DZRDP,MCX,ДЗРД (прив.),Промышленность,"Оборудование, инструменты, автомобили большой грузоподъемности, железнодорожный и водный транспорт",donskoy-zavod-radiodetaley-oao-pref
+DZRD,MCX,ДЗРД,Промышленность,"Оборудование, инструменты, автомобили большой грузоподъемности, железнодорожный и водный транспорт",donskoy-zavod-radiodetaley-oao
+DIAS,MCX,Диасофт,,,diasoft-pao
+RTSBP,MCX,ТНС энерго Ростов-на-Дону,Коммунальные услуги,Энергетические компании и независимые производители электроэнергии,rostov-sb-(pref)
+RTSB,MCX,ТНС энерго Ростов-на-Дону,Коммунальные услуги,Энергетические компании и независимые производители электроэнергии,rostov-sb
+DVEC,MCX,ДЭК ОАО,Коммунальные услуги,Энергетические компании и независимые производители электроэнергии,dec
+EUTR,MCX,ЕвроТранс,,,yevrotrans-pao
+IRAO,MCX,Интер РАО ЕЭС ОАО,Коммунальные услуги,Энергетические компании и независимые производители электроэнергии,inter-rao-ees_mm
+FEES,MCX,ФСК ЕЭС ОАО,Коммунальные услуги,Энергетические компании и независимые производители электроэнергии,fsk-ees_rts
+ZVEZ,MCX,Звезда,Промышленность,"Оборудование, инструменты, автомобили большой грузоподъемности, железнодорожный и водный транспорт",zvezda
+MRKP,MCX,Россети Центр и Приволжье,Коммунальные услуги,Энергетические компании и независимые производители электроэнергии,mrsk-cip
+IGSTP,MCX,Ижсталь (прив.),Сырье,Металлургия и горнодобывающая промышленность,izhstal-(pref)
+IGST,MCX,Ижсталь,Сырье,Металлургия и горнодобывающая промышленность,izhstal
+RUSI,MCX,ИК РУСС-ИНВЕСТ,Финансы,Инвестиционно-банковские и инвестиционные услуги,ic-russ-invest
+INGR,MCX,Инград ,Недвижимость,Операции с недвижимостью,otkrytye-investitsii-oao
+IRKT,MCX,Иркут,Промышленность,Аэрокосмическая и оборонная промышленность,irkut-corp
+KLSB,MCX,Калужская сбытовая,Коммунальные услуги,Энергетические компании и независимые производители электроэнергии,kaluga-power-sale-comp
+KMAZ,MCX,КАМАЗ,Промышленность,"Оборудование, инструменты, автомобили большой грузоподъемности, железнодорожный и водный транспорт",kamaz
+KCHE,MCX,Камчатскэнерго,Коммунальные услуги,Энергетические компании и независимые производители электроэнергии,kamchatskenergo
+KCHEP,MCX,Камчатскэнерго (прив.),Коммунальные услуги,Энергетические компании и независимые производители электроэнергии,kamchatskenergo-(pref)
+KGKCP,MCX,КГК (прив.),Коммунальные услуги,Энергетические компании и независимые производители электроэнергии,kurganskaya-generiruyushchaya-pref
+KGKC,MCX,КГК,Коммунальные услуги,Энергетические компании и независимые производители электроэнергии,kurganskaya-generiruyushchaya-komp
+KMEZ,MCX,Ковровский механический,Промышленность,"Оборудование, инструменты, автомобили большой грузоподъемности, железнодорожный и водный транспорт",kovrovskiy-mekhanicheskiy
+KRKOP,MCX,Красный котельщик (прив.),Промышленность,"Оборудование, инструменты, автомобили большой грузоподъемности, железнодорожный и водный транспорт",krasny-kotelshchik-(pref)
+KRSB,MCX,Красноярскэнергосбыт,Коммунальные услуги,Энергетические компании и независимые производители электроэнергии,krasnoyarskenergosbyt
+KRSBP,MCX,Красноярскэнергосбыт (прив.),Коммунальные услуги,Энергетические компании и независимые производители электроэнергии,krasnoyarskenergosbyt-(pref)
+KROT,MCX,Красный Октябрь,Потребительские товары повседневного спроса,Еда и табачные изделия,krasnyj-octyabr-co.
+KROTP,MCX,Красный Октябрь (прив.),Потребительские товары повседневного спроса,Еда и табачные изделия,krasnyj-octyabr-co.-(pref)
+KUBE,MCX,Кубаньэнерго,Коммунальные услуги,Энергетические компании и независимые производители электроэнергии,kubanenergo-oao
+UKUZ,MCX,Южный Кузбасс ОАО,Энергетика,Угледобывающая промышленность,south-kuzbass
+URKZ,MCX,Уральская кузница,Сырье,Металлургия и горнодобывающая промышленность,uralskaya-kuznitsa-oao
+KAZT,MCX,КуйбышевАзот,Сырье,Химическая промышленность,kuibyshevazot
+KAZTP,MCX,Куйбышевазот,Сырье,Химическая промышленность,kuibyshevazot-(pref)
+LNZL,MCX,Лензолото,Сырье,Металлургия и горнодобывающая промышленность,lenzoloto-oao
+LSNG,MCX,Ленэнерго,Коммунальные услуги,Энергетические компании и независимые производители электроэнергии,lenenergo
+LSNGP,MCX,Ленэнерго (прив.),Коммунальные услуги,Энергетические компании и независимые производители электроэнергии,lenenergo-(pref)
+LPSB,MCX,Липецкая ЭСК,Коммунальные услуги,Энергетические компании и независимые производители электроэнергии,lipetsk-power-sale-comp
+LKOH,MCX,ЛУКОЙЛ,Энергетика,Газ и нефть,lukoil_rts
+MVID,MCX,М.видео,Потребительские товары выборочного спроса,Специализированные розничные торговцы,mvideo_rts
+MAGE,MCX,Магаданэнерго,Коммунальные услуги,Энергетические компании и независимые производители электроэнергии,magadanenergo
+MAGEP,MCX,Магаданэнерго (прив.),Коммунальные услуги,Энергетические компании и независимые производители электроэнергии,magadanenergo-(pref)
+MGNZ,MCX,Соликамский магниевый,Сырье,Металлургия и горнодобывающая промышленность,solikamskiy-magniyevyi-zavod
+MGNT,MCX,Магнит,Потребительские товары повседневного спроса,Розничная торговля едой и лекарствами,magnit_rts
+MGTSP,MCX,МГТС (прив.),Технологии,Телекоммуникационные услуги,mgts-(pref)
+MGTS,MCX,МГТС,Технологии,Телекоммуникационные услуги,moscow-city-telephone-network
+MFGS,MCX,Славнефть Мегионнефтегаз,Энергетика,Газ и нефть,slavneft-megionneftegaz
+MTLRP,MCX,Мечел (прив.),Сырье,Металлургия и горнодобывающая промышленность,mechel-(pref)
+MTLR,MCX,Мечел,Сырье,Металлургия и горнодобывающая промышленность,sg-mechel_rts
+CBOM,MCX,МКБ,Финансы,Банковские услуги,moskovskiy-kreditnyi-bank-oao
+MAGN,MCX,ММК,Сырье,Металлургия и горнодобывающая промышленность,mmk_rts
+GEMA,MCX,ММТсБ,Здравоохранение,Учреждения и услуги здравоохранения,mmtsb-pao
+MFGSP,MCX,Славнефть-МНГ (прив.),Энергетика,Газ и нефть,slavneft-megionneftegaz-(pref)
+MRSB,MCX,Мордовэнергосбыт,Коммунальные услуги,Энергетические компании и независимые производители электроэнергии,mordovskaya-energosbytovaya
+MSTT,MCX,МОСТОТРЕСТ,Промышленность,Строительство и проектирование,mostotrest_rts
+MSNG,MCX,Мосэнерго,Коммунальные услуги,Энергетические компании и независимые производители электроэнергии,mosenergo_rts
+MSRS,MCX,МОЭСК ОАО,Коммунальные услуги,Энергетические компании и независимые производители электроэнергии,mos-obl-sb_rts
+MTSS,MCX,МТС,Технологии,Телекоммуникационные услуги,mts_rts
+NSVZ,MCX,Наука-Связь,Технологии,Телекоммуникационные услуги,nauka-svyaz
+NAUK,MCX,Наука НПО,Промышленность,Аэрокосмическая и оборонная промышленность,nauka
+NFAZ,MCX,НефАЗ ОАО,Промышленность,"Оборудование, инструменты, автомобили большой грузоподъемности, железнодорожный и водный транспорт",nefaz
+NKNC,MCX,Нижнекамскнефтехим,Потребительские товары выборочного спроса,Автомобили и запчасти к ним,nizhnekamskneftekhim
+NKNCP,MCX,Нижнекамскнефтехим (прив.),Потребительские товары выборочного спроса,Автомобили и запчасти к ним,nizhnekamskneftekhim-(pref)
+NKSH,MCX,Нижнекамскшина,Потребительские товары выборочного спроса,Автомобили и запчасти к ним,nizhnekamskshina
+NNSB,MCX,ТНС Энерго Нижний Новгород,Коммунальные услуги,Энергетические компании и независимые производители электроэнергии,nizhegorodskaya-sbytovaya-komp
+NNSBP,MCX,ТНС энерго Нижний Новогород (прив.),Коммунальные услуги,Энергетические компании и независимые производители электроэнергии,tns-energo-nizhniy-novgorod-pao
+UNKL,MCX,Южно-Уральский никелевый,Сырье,Металлургия и горнодобывающая промышленность,kombinat-yuzhuralnikel-oao
+NKHP,MCX,НКХП ПАО,Промышленность,Транспортная инфраструктура,nkhp-pao
+NLMK,MCX,НЛМК,Сырье,Металлургия и горнодобывающая промышленность,nlmk_rts
+NMTP,MCX,НМТП,Промышленность,Транспортная инфраструктура,nmtp_rts
+NVTK,MCX,НОВАТЭК,Энергетика,Газ и нефть,novatek_rts
+GMKN,MCX,Норникель,Сырье,Металлургия и горнодобывающая промышленность,gmk-noril-nickel_rts
+KRKN,MCX,Саратовский НПЗ,Энергетика,Газ и нефть,saratov-oil-refenery
+KRKNP,MCX,Саратовский НПЗ (прив.),Энергетика,Газ и нефть,saratov-oil-refenery-(pref)
+UWGN,MCX,НПК ОВК,Промышленность,"Оборудование, инструменты, автомобили большой грузоподъемности, железнодорожный и водный транспорт",npk-ovk-pao
+UNAC,MCX,ОАК,Промышленность,Аэрокосмическая и оборонная промышленность,united-aircraft-corporation
+ROST,MCX,Росинтер ОАО,Потребительские товары выборочного спроса,Гостиничные и развлекательные услуги,rosinter-restaurants-holding
+RBCM,MCX,РБК ОАО,Технологии,Программное обеспечение и ИТ-услуги,rbk-tv-moskva
+TUZA,MCX,ТЗА ОАО,Промышленность,"Оборудование, инструменты, автомобили большой грузоподъемности, железнодорожный и водный транспорт",tza-oao
+SAGO,MCX,Самараэнерго ОАО,Коммунальные услуги,Энергетические компании и независимые производители электроэнергии,samaraenergo
+RKKE,MCX,РКК Энергия ОАО,Промышленность,Аэрокосмическая и оборонная промышленность,rsc-energia
+TORSP,MCX,ТРК ОАО (прив.),Коммунальные услуги,Энергетические компании и независимые производители электроэнергии,tomsk-distribution-(pref)
+OMZZP,MCX,"ПАО ""ОМЗ""",Промышленность,"Оборудование, инструменты, автомобили большой грузоподъемности, железнодорожный и водный транспорт",omz-(pref)
+KZOSP,MCX,Органический синтез,Сырье,Химическая промышленность,organicheskiy-sintez-kpao
+KZOS,MCX,Органический Синтез,Сырье,Химическая промышленность,kazanorgsintez
+PAZA,MCX,ПАЗ,Промышленность,"Оборудование, инструменты, автомобили большой грузоподъемности, железнодорожный и водный транспорт",pavlovskiy-avtobus-oao
+PMSB,MCX,Пермэнергосбыт,Коммунальные услуги,Энергетические компании и независимые производители электроэнергии,perm-sb
+PMSBP,MCX,Пермэнергосбыт (прив.),Коммунальные услуги,Энергетические компании и независимые производители электроэнергии,perm-energosbyt-pref
+PLZL,MCX,Полюс,Сырье,Металлургия и горнодобывающая промышленность,polyus-zoloto_rts
+SAREP,MCX,Саратовэнерго (прив.),Коммунальные услуги,Энергетические компании и независимые производители электроэнергии,saratovenergo-(pref)
+TATNP,MCX,Татнефть (прив.),Энергетика,Газ и нефть,tatneft-p_rts
+CNTLP,MCX,Центральный Телеграф (прив.),Технологии,Телекоммуникационные услуги,central-telegraph-(pref)
+HIMCP,MCX,Химпром (прив.),Сырье,Химическая промышленность,khimprom-(pref)
+STSBP,MCX,Ставропольэнергосбыт (прив.),Коммунальные услуги,Энергетические компании и независимые производители электроэнергии,stavropolenergosbyt-(pref)
+TASBP,MCX,Тамбовэнергосбыт (прив.),Коммунальные услуги,Энергетические компании и независимые производители электроэнергии,tambov-power-sale-(pref)
+SBERP,MCX,Сбербанк (прив.),Финансы,Банковские услуги,sberbank-p_rts
+JNOSP,MCX,Славнефть ЯНОС (прив.),Энергетика,Газ и нефть,slavneft-(pref)
+SNGSP,MCX,Сургутнефтегаз (прив.),Энергетика,Газ и нефть,surgutneftegas-p_rts
+RTKMP,MCX,Ростелеком (прив.),Технологии,Телекоммуникационные услуги,rostelecom-(pref)
+TRNFP,MCX,Транснефть (прив.),Энергетика,"Оборудование и услуги, связанные с нефтью и газом",transneft-p_rts
+SAGOP,MCX,Самараэнерго (прив.),Коммунальные услуги,Энергетические компании и независимые производители электроэнергии,samaraenergo(pref)
+WTCMP,MCX,ЦМТ (прив.),Недвижимость,Операции с недвижимостью,cmt-(pref)
+YKENP,MCX,Якутскэнерго (прив.),Коммунальные услуги,Энергетические компании и независимые производители электроэнергии,yakutskenergo-(pref)
+PRFN,MCX,ЧЗПСН-Профнастил,Потребительские товары выборочного спроса,Жилищное строительство и строительные материалы,chzpsn-profnastil-oao
+RASP,MCX,Распадская,Энергетика,Угледобывающая промышленность,raspadskaya
+ROSB,MCX,Росбанк,Финансы,Банковские услуги,rosbank
+RGSS,MCX,Росгосстрах,Финансы,Страхование,rosgosstrakh-oao
+RDRB,MCX,РосДорБанк,Финансы,Банковские услуги,rosdorbank-pao
+ROSN,MCX,Роснефть,Энергетика,Газ и нефть,rosneft_rts
+RTKM,MCX,Ростелеком,Технологии,Телекоммуникационные услуги,rostelecom
+RNFT,MCX,РуссНефть,Энергетика,Газ и нефть,ruspetro
+RZSB,MCX,РЭСК,Коммунальные услуги,Энергетические компании и независимые производители электроэнергии,ryazan-sb
+SARE,MCX,Саратовэнерго,Коммунальные услуги,Энергетические компании и независимые производители электроэнергии,saratovenergo
+SLEN,MCX,Сахалинэнерго,Коммунальные услуги,Энергетические компании и независимые производители электроэнергии,sakhalinenergo-oao
+SBER,MCX,Сбербанк,Финансы,Банковские услуги,sberbank_rts
+CHMF,MCX,Северсталь,Сырье,Металлургия и горнодобывающая промышленность,severstal_rts
+SELG,MCX,Селигдар,Сырье,Металлургия и горнодобывающая промышленность,seligdar
+AFKS,MCX,Система,Финансы,Инвестиционные холдинги,afk-sistema_rts
+JNOS,MCX,Славнефть-ЯНОС,Энергетика,Газ и нефть,slavneft
+SVCB,MCX,Совкомбанк,,,sovkombank-pao
+SVAV,MCX,СОЛЛЕРС,Потребительские товары выборочного спроса,Автомобили и запчасти к ним,sollers
+STSB,MCX,Ставропольэнергосбыт,Коммунальные услуги,Энергетические компании и независимые производители электроэнергии,stavropolenergosbyt
+SNGS,MCX,Сургутнефтегаз,Энергетика,Газ и нефть,surgutneftegas_rts
+TASB,MCX,Тамбовэнергосбыт,Коммунальные услуги,Энергетические компании и независимые производители электроэнергии,tambov-power-sale
+TATN,MCX,Татнефть,Энергетика,Газ и нефть,tatneft_rts
+TTLK,MCX,Таттелеком,Технологии,Телекоммуникационные услуги,tattelecom
+CNTL,MCX,Центральный телеграф,Технологии,Телекоммуникационные услуги,central-telegraph
+TRMK,MCX,ТМК,Сырье,Металлургия и горнодобывающая промышленность,tmk
+TNSE,MCX,ТНС энерго,Коммунальные услуги,Энергетические компании и независимые производители электроэнергии,gk-tns-energo-pao
+TORS,MCX,ТРК,Коммунальные услуги,Энергетические компании и независимые производители электроэнергии,tomsk-distribution
+LIFE,MCX,ФармСинтез,Здравоохранение,Фармацевтические компании,pharmsynthez
+PHOR,MCX,ФосАгро,Сырье,Химическая промышленность,phosagro
+WTCM,MCX,ЦМТ,Недвижимость,Операции с недвижимостью,cmt
+CHKZ,MCX,ЧКПЗ,Потребительские товары выборочного спроса,Автомобили и запчасти к ним,chelyabinskiy-kuznechno-presso
+CHMK,MCX,ЧМК,Сырье,Металлургия и горнодобывающая промышленность,chmk
+ELTZ,MCX,Электроцинк,Сырье,Металлургия и горнодобывающая промышленность,electrozinc
+UGLD,MCX,Южуралзолото,,,yuzhuralzoloto-gruppa-komp
+UPRO,MCX,Юнипро,Коммунальные услуги,Энергетические компании и независимые производители электроэнергии,e.on-russia
+YKEN,MCX,Якутскэнерго,Коммунальные услуги,Энергетические компании и независимые производители электроэнергии,yakutskenergo
+YNDX,MCX,Яндекс,Технологии,Программное обеспечение и ИТ-услуги,yandex?cid=102063

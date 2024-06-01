@@ -9,7 +9,8 @@
     "symbol": "BANEP"
   },
   "BSPB_p.MCX": {
-    "symbol": "BSPBP"
+    "symbol": "BSPBP",
+    "name": "Банк Санкт-Петербург (прив.)"
   },
   "BISV_p.MCX": {
     "symbol": "BISVP"

@@ -27,11 +27,7 @@ public interface PortfolioDividendMapper {
     @AfterMapping
     default void modelToDtoAfterMapping(Dividend dividend, BigInteger quantity, @MappingTarget PubPortfolioDividendDto dto) {
         var instrument = dividend.getInstrument();
-        if (instrument instanceof Stock stock) {
-            dto.setName(stock.getCompany().getName());
-        } else if (instrument instanceof ETF etf) {
-            dto.setName(etf.getName());
-        }
+        dto.setName(instrument.getName());
         dto.setTotal(dividend.getAmount().multiply(new BigDecimal(quantity)));
     }
 }
