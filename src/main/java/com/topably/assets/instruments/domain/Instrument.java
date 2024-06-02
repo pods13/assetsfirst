@@ -30,6 +30,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.Singular;
+import lombok.experimental.Accessors;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
@@ -47,8 +48,9 @@ import org.hibernate.annotations.Type;
     @UniqueConstraint(name = "instrument_symbol_exchange_code_key", columnNames = {"SYMBOL", "EXCHANGE_CODE"}),
 }
 )
+@Accessors(chain = true)
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public abstract class Instrument {
+public class Instrument {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")

@@ -1,18 +1,16 @@
 package com.topably.assets.instruments.service;
 
-import java.util.Collection;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import com.topably.assets.companies.domain.dto.CompanyDto;
-import com.topably.assets.companies.repository.CompanyRepository;
-import com.topably.assets.companies.service.CompanyService;
 import com.topably.assets.findata.exchanges.domain.ExchangeEnum;
+import com.topably.assets.instruments.domain.Instrument;
 import com.topably.assets.instruments.domain.dto.StockDataDto;
 import com.topably.assets.instruments.domain.dto.StockDto;
 import com.topably.assets.instruments.domain.instrument.Stock;
+import com.topably.assets.instruments.repository.InstrumentRepository;
 import com.topably.assets.instruments.repository.instrument.StockRepository;
 import com.topably.assets.tags.domain.Tag;
 import com.topably.assets.tags.service.TagCategoryService;
@@ -30,10 +28,9 @@ import static com.topably.assets.instruments.domain.InstrumentTag.SECTOR_TAG_CAT
 @RequiredArgsConstructor
 public class StockServiceImpl implements StockService {
 
+    private final InstrumentRepository instrumentRepository;
     private final StockRepository stockRepository;
-    private final CompanyRepository companyRepository;
 
-    private final CompanyService companyService;
     private final TagCategoryService tagCategoryService;
 
     @Override
@@ -45,21 +42,16 @@ public class StockServiceImpl implements StockService {
     @Override
     @Transactional
     public StockDto addStock(StockDataDto dto) {
-        CompanyDto companyDto = companyService.findCompanyByName(dto.getCompany().getName()).orElseGet(() -> {
-            return companyService.addCompany(dto.getCompany());
-        });
-        var stock = Stock.builder()
-            .company(companyRepository.getReferenceById(companyDto.getId()))
-            .name(dto.getCompany().getName())
-            .symbol(dto.getIdentifier().getSymbol())
-            .exchangeCode(dto.getIdentifier().getExchange())
-            .currency(ExchangeEnum.valueOf(dto.getIdentifier().getExchange()).getCurrency())
-            .build();
+        var stock = new Instrument()
+            .setName(dto.getCompany().getName())
+            .setSymbol(dto.getIdentifier().getSymbol())
+            .setExchangeCode(dto.getIdentifier().getExchange())
+            .setCurrency(ExchangeEnum.valueOf(dto.getIdentifier().getExchange()).getCurrency());
         var sector = Optional.ofNullable(dto.getCompany().getSector()).map(this::getSectorByName).orElse(null);
         stock.addTag(sector);
         var industry = Optional.ofNullable(dto.getCompany().getIndustry()).map(this::getIndustryByName).orElse(null);
         stock.addTag(industry);
-        var savedStock = stockRepository.save(stock);
+        var savedStock = instrumentRepository.save(stock);
 
         return convertToDto(savedStock);
     }
@@ -75,21 +67,20 @@ public class StockServiceImpl implements StockService {
     @Override
     @Transactional
     public StockDto importStock(StockDataDto dto) {
-        return stockRepository.findBySymbolAndExchangeCode(dto.getIdentifier().getSymbol(), dto.getIdentifier().getExchange())
+        return instrumentRepository.findBySymbolAndExchangeCodeIncludeTags(dto.getIdentifier().getSymbol(), dto.getIdentifier().getExchange())
             .map(stock -> updateStock(stock, dto))
             .orElseGet(() -> addStock(dto));
     }
 
-    private StockDto updateStock(Stock stock, StockDataDto dto) {
-        companyService.updateCompany(stock.getCompany().getId(), dto.getCompany());
+    private StockDto updateStock(Instrument stock, StockDataDto dto) {
         stock.setName(dto.getCompany().getName());
         stock.setTags(enrichTags(stock, dto.getCompany().getSector(), this::getSectorByName));
         stock.setTags(enrichTags(stock, dto.getCompany().getIndustry(), this::getIndustryByName));
-        stockRepository.save(stock);
+        instrumentRepository.save(stock);
         return convertToDto(stock);
     }
 
-    private Set<Tag> enrichTags(Stock stock, String tagName, Function<String, Tag> getTagByName) {
+    private Set<Tag> enrichTags(Instrument stock, String tagName, Function<String, Tag> getTagByName) {
         if (stock.getTags().stream()
             .anyMatch(t -> t.getName().equals(tagName))) {
             return stock.getTags();
@@ -105,12 +96,10 @@ public class StockServiceImpl implements StockService {
             }).orElse(stock.getTags());
     }
 
-    private StockDto convertToDto(Stock stock) {
-        return StockDto.builder()
-            .id(stock.getId())
-            .identifier(stock.toTicker())
-            .companyId(stock.getCompany().getId())
-            .build();
+    private StockDto convertToDto(Instrument stock) {
+        return new StockDto()
+            .setId(stock.getId())
+            .setIdentifier(stock.toTicker());
     }
 
 }

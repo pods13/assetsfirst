@@ -22,7 +22,6 @@ public interface InstrumentMapper {
     @SubclassMapping(target = InstrumentDto.class, source = FX.class)
     InstrumentDto modelToDto(Instrument instrument);
 
-    @Mapping(target = "name", source = "company.name")
     @Mapping(target = "currencyCode", source = "currency.currencyCode")
     InstrumentDto stockToDto(Stock stock);
 

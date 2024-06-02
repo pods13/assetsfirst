@@ -2,9 +2,11 @@ package com.topably.assets.instruments.repository;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 import com.topably.assets.core.domain.Ticker;
 import com.topably.assets.instruments.domain.Instrument;
+import com.topably.assets.instruments.domain.instrument.Stock;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;
@@ -16,6 +18,10 @@ import org.springframework.data.jpa.repository.Query;
 public interface InstrumentRepository extends JpaRepository<Instrument, Long>, JpaSpecificationExecutor<Instrument> {
 
     Instrument findBySymbolAndExchangeCode(String symbol, String exchange);
+
+    @EntityGraph(attributePaths = "tags")
+    @Query(value = "select i from Instrument i where i.symbol = :symbol and i.exchangeCode = :exchangeCode")
+    Optional<Instrument> findBySymbolAndExchangeCodeIncludeTags(String symbol, String exchangeCode);
 
     @Query(
         value = """

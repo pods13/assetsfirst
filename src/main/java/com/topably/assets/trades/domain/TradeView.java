@@ -29,10 +29,7 @@ import java.util.Currency;
            p.user_id,
            s2.symbol as symbol,
            s2.exchange_code as exchange,
-           CASE
-               WHEN s2.instrument_type = 'ETF' THEN s2.attributes ->> "$.name"
-               WHEN s2.instrument_type = 'STOCK' THEN c2.name
-               END            as name,
+           s2.name as name,
            trade.operation,
            trade.date,
            trade.quantity,
@@ -44,7 +41,6 @@ import java.util.Currency;
              join portfolio_position pos on trade.portfolio_position_id = pos.id
              join portfolio p on p.id = pos.portfolio_id
              join instrument s2 on pos.instrument_id = s2.id
-             left join company c2 on c2.id = s2.company_id
              join tag t on t.id = trade.intermediary_id
     """)
 public class TradeView {

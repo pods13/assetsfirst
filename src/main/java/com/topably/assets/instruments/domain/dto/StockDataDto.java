@@ -1,6 +1,5 @@
 package com.topably.assets.instruments.domain.dto;
 
-import com.topably.assets.companies.domain.dto.CompanyDataDto;
 import com.topably.assets.core.domain.Ticker;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.time.LocalDate;
 
-import com.topably.assets.companies.domain.dto.CompanyDataDto;
+import com.topably.assets.instruments.domain.dto.CompanyDataDto;
 import com.topably.assets.core.domain.Ticker;
 import com.topably.assets.instruments.domain.dto.StockDataDto;
 import com.topably.assets.instruments.repository.InstrumentRepository;
@@ -45,8 +45,8 @@ public class TradeManagementServiceTest extends IntegrationTestBase {
             .identifier(ticker)
             .company(
                 CompanyDataDto.builder().name("Test Company")
-                    .industry("TEST Industry")
-                    .sector("TEST Sector")
+                    .industry("Газ и нефть")
+                    .sector("Энергетика")
                     .build())
             .build());
         var userId = 1L;
@@ -72,8 +72,8 @@ public class TradeManagementServiceTest extends IntegrationTestBase {
             .identifier(ticker)
             .company(
                 CompanyDataDto.builder().name("Test Company")
-                    .industry("TEST Industry")
-                    .sector("TEST Sector")
+                    .industry("Газ и нефть")
+                    .sector("Энергетика")
                     .build())
             .build());
 

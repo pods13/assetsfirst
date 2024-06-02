@@ -11,8 +11,6 @@ import java.util.Currency;
 import java.util.List;
 import java.util.stream.IntStream;
 
-import com.topably.assets.companies.domain.Company;
-import com.topably.assets.companies.repository.CompanyRepository;
 import com.topably.assets.core.domain.Ticker;
 import com.topably.assets.findata.dividends.domain.Dividend;
 import com.topably.assets.findata.dividends.repository.DividendRepository;
@@ -20,8 +18,7 @@ import com.topably.assets.findata.dividends.service.DividendService;
 import com.topably.assets.findata.exchanges.domain.ExchangeEnum;
 import com.topably.assets.instruments.domain.Instrument;
 import com.topably.assets.instruments.domain.InstrumentType;
-import com.topably.assets.instruments.domain.instrument.Stock;
-import com.topably.assets.instruments.repository.instrument.StockRepository;
+import com.topably.assets.instruments.repository.InstrumentRepository;
 import com.topably.assets.integration.base.IT;
 import com.topably.assets.integration.base.IntegrationTestBase;
 import com.topably.assets.portfolios.domain.position.PortfolioPosition;
@@ -40,9 +37,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class DividendServiceTest extends IntegrationTestBase {
 
     @Autowired
-    private CompanyRepository companyRepository;
-    @Autowired
-    private StockRepository stockRepository;
+    private InstrumentRepository instrumentRepository;
     @Autowired
     private DividendRepository dividendRepository;
 
@@ -306,17 +301,12 @@ public class DividendServiceTest extends IntegrationTestBase {
     }
 
     private Instrument createStockInstrument(Ticker ticker) {
-        var company = companyRepository.save(Company.builder()
-            .name(ticker.getSymbol())
-            .build());
-        return stockRepository.save(Stock.builder()
-            .instrumentType(InstrumentType.STOCK.name())
-            .company(company)
-            .name(ticker.getSymbol())
-            .exchangeCode(ticker.getExchange())
-            .symbol(ticker.getSymbol())
-            .currency(ExchangeEnum.valueOf(ticker.getExchange()).getCurrency())
-            .build());
+        return instrumentRepository.save(new Instrument()
+            .setInstrumentType(InstrumentType.STOCK.name())
+            .setName(ticker.getSymbol())
+            .setExchangeCode(ticker.getExchange())
+            .setSymbol(ticker.getSymbol())
+            .setCurrency(ExchangeEnum.valueOf(ticker.getExchange()).getCurrency()));
     }
 
 }

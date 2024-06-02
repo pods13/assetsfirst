@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Currency;
 import java.util.List;
 
-import com.topably.assets.companies.domain.dto.CompanyDataDto;
+import com.topably.assets.instruments.domain.dto.CompanyDataDto;
 import com.topably.assets.core.domain.Ticker;
 import com.topably.assets.findata.exchanges.domain.ExchangeEnum;
 import com.topably.assets.instruments.domain.dto.StockDataDto;

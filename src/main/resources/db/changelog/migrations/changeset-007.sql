@@ -164,3 +164,22 @@ from (SELECT 'Автомобили и запчасти к ним'
      ) ind
          join tag_category tc
 where code = 'industry';
+
+--liquibase formatted sql
+--changeset ASSETS.1.00.00.007-003 failOnError:true splitStatements:true context:update runOnChange: false
+
+ALTER TABLE instrument
+DROP FOREIGN KEY fk__instrument__company_id__company;
+ALTER TABLE instrument DROP COLUMN company_id;
+
+--liquibase formatted sql
+--changeset ASSETS.1.00.00.007-004 failOnError:true splitStatements:true context:update runOnChange: false
+
+ALTER TABLE company
+DROP FOREIGN KEY fk__company__industry_id__industry;
+
+ALTER TABLE industry
+DROP FOREIGN KEY fk__industry__sector_id__sector;
+DROP TABLE sector;
+DROP TABLE industry;
+DROP TABLE company;
