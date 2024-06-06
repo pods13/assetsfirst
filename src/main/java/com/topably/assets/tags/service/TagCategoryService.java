@@ -14,6 +14,7 @@ import com.topably.assets.portfolios.domain.dto.tag.TagDto;
 import com.topably.assets.portfolios.domain.dto.tag.UpdateTagCategoryDto;
 import com.topably.assets.tags.domain.Tag;
 import com.topably.assets.tags.domain.TagCategory;
+import com.topably.assets.tags.exception.NoSuchTagCategoryException;
 import com.topably.assets.tags.mapper.TagCategoryMapper;
 import com.topably.assets.tags.repository.TagCategoryRepository;
 import lombok.RequiredArgsConstructor;
@@ -48,7 +49,7 @@ public class TagCategoryService {
         return findTagCategoryByCode(categoryCode).getTags().stream()
             .filter(t -> t.getName().equals(name))
             .findFirst()
-            .orElseThrow();
+            .orElseThrow(() -> new NoSuchTagCategoryException(categoryCode, name));
     }
 
     private TagCategory findTagCategoryByCode(String code) {

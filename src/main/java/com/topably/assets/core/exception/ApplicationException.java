@@ -38,4 +38,12 @@ public class ApplicationException extends RuntimeException {
             StringSubstitutor.replace(messageTemplate, messageArguments, "{", "}");
     }
 
+    public String getMessageTemplate() {
+        return messageTemplate;
+    }
+
+    public Map<String, Object> getMessageArguments() {
+        return messageArguments;
+    }
+
 }
