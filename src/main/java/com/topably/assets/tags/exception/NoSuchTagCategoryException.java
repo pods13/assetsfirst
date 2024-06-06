@@ -7,8 +7,8 @@ import com.topably.assets.core.exception.ApplicationException;
 
 public class NoSuchTagCategoryException extends ApplicationException {
 
-    public NoSuchTagCategoryException(String categoryCode, String name) {
-        super("no_such_tag_category", Map.of("categoryCode", categoryCode, "tagName", name));
+    public NoSuchTagCategoryException(Long userId, String code) {
+        super("no_such_tag_category", Map.of("userId", userId, "code", code));
 
     }
 

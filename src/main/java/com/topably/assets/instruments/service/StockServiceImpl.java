@@ -57,11 +57,11 @@ public class StockServiceImpl implements StockService {
     }
 
     private Tag getSectorByName(String name) {
-        return tagCategoryService.findTagByCategoryCodeAndName(SECTOR_TAG_CATEGORY, name);
+        return tagCategoryService.findTagByCategoryCodeAndName(SECTOR_TAG_CATEGORY, name).orElse(null);
     }
 
     private Tag getIndustryByName(String name) {
-        return tagCategoryService.findTagByCategoryCodeAndName(INDUSTRY_TAG_CATEGORY, name);
+        return tagCategoryService.findTagByCategoryCodeAndName(INDUSTRY_TAG_CATEGORY, name).orElse(null);
     }
 
     @Override

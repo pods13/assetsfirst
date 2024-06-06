@@ -57,7 +57,11 @@ public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler 
             .map(e -> new ConstraintsViolationError(e.getField(), e.getDefaultMessage()))
             .toList();
         var exceptionWrapper = new ApplicationException("fields_validation_failed", ex);
-        return handleExceptionInternal(ex, toBody(exceptionWrapper, Map.of("fieldErrors", fieldErrors)), new HttpHeaders(), status, request);
+        return handleExceptionInternal(ex,
+            toBody(exceptionWrapper, Map.of("fieldErrors", fieldErrors)),
+            new HttpHeaders(),
+            status,
+            request);
     }
 
     @Override
@@ -66,11 +70,11 @@ public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler 
         HttpStatusCode statusCode, WebRequest request
     ) {
         if (statusCode.is5xxServerError()) {
-            log.error("An exception occurred, which will cause a {} response", statusCode, ex);
+            log.error("An exception occurred, which will cause a {} response, args: {}", statusCode, body, ex);
         } else if (statusCode.is4xxClientError()) {
-            log.warn("An exception occurred, which will cause a {} response", statusCode, ex);
+            log.warn("An exception occurred, which will cause a {} response, args: {}", statusCode, body, ex);
         } else {
-            log.debug("An exception occurred, which will cause a {} response", statusCode, ex);
+            log.debug("An exception occurred, which will cause a {} response, args: {}", statusCode, body, ex);
         }
         return super.handleExceptionInternal(ex, body, headers, statusCode, request);
     }

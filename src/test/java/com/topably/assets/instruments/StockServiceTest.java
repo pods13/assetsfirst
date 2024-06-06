@@ -65,4 +65,40 @@ public class StockServiceTest extends IntegrationTestBase {
         assertThat(instrument.getTags()).hasSize(2);
     }
 
+    @Test
+    public void givenStockDataWithUnknownSector_whenStockImported_thenSuccessfullyImported() {
+        var ticker = new Ticker("TEST", NYSE.name());
+        stockService.importStock(StockDataDto.builder()
+            .identifier(ticker)
+            .company(
+                CompanyDataDto.builder().name("Test Company")
+                    .sector("Unknown")
+                    .build())
+            .build());
+        entityManager.flush();
+        entityManager.clear();
+
+        var instrument = instrumentService.findInstrument(ticker.getSymbol(), ticker.getExchange());
+        assertThat(instrument).isNotNull();
+        assertThat(instrument.getTags()).hasSize(0);
+    }
+
+    @Test
+    public void givenStockDataWithUnknownIndustry_whenStockImported_thenSuccessfullyImported() {
+        var ticker = new Ticker("TEST", NYSE.name());
+        stockService.importStock(StockDataDto.builder()
+            .identifier(ticker)
+            .company(
+                CompanyDataDto.builder().name("Test Company")
+                    .industry("Unknown")
+                    .build())
+            .build());
+        entityManager.flush();
+        entityManager.clear();
+
+        var instrument = instrumentService.findInstrument(ticker.getSymbol(), ticker.getExchange());
+        assertThat(instrument).isNotNull();
+        assertThat(instrument.getTags()).hasSize(0);
+    }
+
 }

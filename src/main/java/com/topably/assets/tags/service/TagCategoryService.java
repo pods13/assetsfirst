@@ -3,6 +3,7 @@ package com.topably.assets.tags.service;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -42,14 +43,13 @@ public class TagCategoryService {
     public TagCategoryDto findUserTagCategoryByCode(Long userId, String code) {
         return tagCategoryRepository.findTagCategoryByUserIdAndCode(userId, code)
             .map(tagCategoryMapper::modelToDto)
-            .orElseThrow();
+            .orElseThrow(() -> new NoSuchTagCategoryException(userId, code));
     }
 
-    public Tag findTagByCategoryCodeAndName(String categoryCode, String name) {
+    public Optional<Tag> findTagByCategoryCodeAndName(String categoryCode, String name) {
         return findTagCategoryByCode(categoryCode).getTags().stream()
             .filter(t -> t.getName().equals(name))
-            .findFirst()
-            .orElseThrow(() -> new NoSuchTagCategoryException(categoryCode, name));
+            .findFirst();
     }
 
     private TagCategory findTagCategoryByCode(String code) {
