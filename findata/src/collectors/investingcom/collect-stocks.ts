@@ -165,10 +165,10 @@ async function collectPageData(page: playwright.Page): Promise<StockData[]> {
 
     return parsedData.map(eq => {
         const exchange = mapExchange(eq.exchange);
+        const sector = mapSector(eq.sector);
         const data = modifiedData as { [key: string]: object; };
         const eqModifications = data[`${eq.symbol}.${exchange}`] ?? {};
-        const sector = mapSector(eq.sector);
-        return {...eq, exchange, ...eqModifications, sector};
+        return {...eq, exchange, sector, ...eqModifications};
     });
 }
 

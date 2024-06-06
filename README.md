@@ -50,6 +50,7 @@ docker-compose down
 - [x] Asset disposal widget - show details when hovered over
 - [X] On home page show demo portfolio values
 - [x] Migrate Angular from v14 to v17
+- [X] Run job to get russian assets prices on beget - not possible to implement not enough resources on beget
 </details>
 
 ### Must have
@@ -83,7 +84,6 @@ docker-compose down
 - [ ] Contribution widget - provide detailed info on which instrument paid dividends and in what instrument money was invested
 - [ ] Target allocation widget - show current allocation vs target allocation for specific groups of instruments
 - [ ] Portfolio highlights widget - different highlights regarding the portfolio
-- [ ] Run job to get russian assets prices on beget
 - [ ] Create endpoint to clear caches
 - [ ] Store dividend type for dividend data + use it in overall dividend prediction calculation process
 - [ ] Allow to ignore some positions during calculation % of portfolio, i.e. skip cash position
