@@ -34,7 +34,7 @@ public class TagCategory {
     @GenericGenerator(name = "native")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinTable(name="user_tag_category",
         joinColumns={@JoinColumn(name="tag_category_id", referencedColumnName = "id")},
         inverseJoinColumns={@JoinColumn(name="user_id", referencedColumnName = "id")})

@@ -84,6 +84,37 @@ public class StockServiceTest extends IntegrationTestBase {
     }
 
     @Test
+    public void givenStockData_whenTheSameDataForStockImportedAgain_thenImportSuccessful() {
+        var ticker = new Ticker("TEST", NYSE.name());
+        var companyName = "Test Company";
+        stockService.importStock(StockDataDto.builder()
+            .identifier(ticker)
+            .company(
+                CompanyDataDto.builder().name(companyName)
+                    .industry("Газ и нефть")
+                    .build())
+            .build());
+        entityManager.flush();
+        entityManager.clear();
+
+        stockService.importStock(StockDataDto.builder()
+            .identifier(ticker)
+            .company(
+                CompanyDataDto.builder().name(companyName)
+                    .industry("Газ и нефть")
+                    .sector("Энергетика")
+                    .build())
+            .build());
+        entityManager.flush();
+        entityManager.clear();
+
+        var instrument = instrumentService.findInstrument(ticker.getSymbol(), ticker.getExchange());
+        assertThat(instrument).isNotNull();
+        assertThat(instrument.getName()).isEqualTo(companyName);
+        assertThat(instrument.getTags()).hasSize(2);
+    }
+
+    @Test
     public void givenStockDataWithUnknownIndustry_whenStockImported_thenSuccessfullyImported() {
         var ticker = new Ticker("TEST", NYSE.name());
         stockService.importStock(StockDataDto.builder()

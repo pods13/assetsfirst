@@ -19,8 +19,7 @@ public interface InstrumentRepository extends JpaRepository<Instrument, Long>, J
 
     Instrument findBySymbolAndExchangeCode(String symbol, String exchange);
 
-    @EntityGraph(attributePaths = "tags")
-    @Query(value = "select i from Instrument i where i.symbol = :symbol and i.exchangeCode = :exchangeCode")
+    @Query(value = "select i from Instrument i join fetch i.tags where i.symbol = :symbol and i.exchangeCode = :exchangeCode")
     Optional<Instrument> findBySymbolAndExchangeCodeIncludeTags(String symbol, String exchangeCode);
 
     @Query(

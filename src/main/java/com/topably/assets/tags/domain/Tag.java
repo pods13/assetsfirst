@@ -8,6 +8,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -19,6 +20,7 @@ import org.hibernate.annotations.GenericGenerator;
 @NoArgsConstructor
 @Accessors(chain = true)
 @Entity
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Tag {
 
     @Id
@@ -26,6 +28,7 @@ public class Tag {
     @GenericGenerator(name = "native")
     private Long id;
 
+    @EqualsAndHashCode.Include
     private String name;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
