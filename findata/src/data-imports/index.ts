@@ -58,6 +58,7 @@ function isRetryableError(error: AxiosError) {
     if (!error.config) {
         return false;
     }
+    console.error(error);
     const errorMsg: string = (error.response?.data as any)?.message ?? '';
     const companyDuplicate = errorMsg.indexOf('uq_company_name') !== -1;
     const sectorDuplicate = errorMsg.indexOf('uq_sector_name') !== -1;
