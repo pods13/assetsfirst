@@ -1,27 +1,24 @@
 import fs from 'fs';
-import { parse } from 'fast-csv';
-import { getClient } from '../utils/client';
-import { AxiosError, AxiosInstance } from 'axios';
+import {parse} from 'fast-csv';
+import {getClient} from '../utils/client';
+import {AxiosError, AxiosInstance} from 'axios';
 import fsPromises from 'fs/promises';
 import path from 'path';
-import { StockData } from '../common/types/stock-data';
+import {StockData} from '../common/types/stock-data';
 
 function pushData(client: AxiosInstance, data: StockData) {
     if (!filterData(data)) {
         return;
     }
     const dto = {
-        identifier: {
-            symbol: data.symbol,
-            exchange: data.exchange
-        },
-        company: {
+        ...{
+            identifier: {symbol: data.symbol, exchange: data.exchange},
             name: data.name,
             sector: data.sector,
             industry: data.industry,
-        }
+        }, ...{type: 'STOCK'}
     };
-    retry(() => client.put(`/stocks/import`, dto), isRetryableError)
+    retry(() => client.put(`/instruments/import`, dto), isRetryableError)
         .catch(err => console.error(`Cannot push data for ${data.symbol}.${data.exchange}`));
 }
 
@@ -39,7 +36,8 @@ export async function importCountryStocks(pathToFile: string) {
         .pipe(parse({headers: true}))
         .on('error', error => console.error(error))
         .on('data', row => pushData(client, row))
-        .on('end', (rowCount: number) => {});
+        .on('end', (rowCount: number) => {
+        });
 }
 
 async function retry(fn: Function, retryCondition: (err: AxiosError) => boolean, retries = 2, err?: any) {

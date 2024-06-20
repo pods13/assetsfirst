@@ -1,10 +1,10 @@
 import * as playwright from 'playwright-chromium';
-import { randomInteger } from '../../utils/random-int';
+import { randomInteger } from '../utils/random-int';
 import { CsvFormatterStream, format, parse } from 'fast-csv';
 import fs from 'fs';
 import { unlink } from 'fs/promises';
-import modifiedData from './modified-data.json';
-import { StockData } from '../../common/types/stock-data';
+import modifiedData from './data/stock/modify.json';
+import { StockData } from '../common/types/stock-data';
 
 export async function collectStocks(country: string, exchanges: string[] = []) {
     if (!exchanges.length) {

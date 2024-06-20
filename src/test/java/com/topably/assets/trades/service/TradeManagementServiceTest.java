@@ -4,11 +4,11 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.time.LocalDate;
 
-import com.topably.assets.instruments.domain.dto.CompanyDataDto;
 import com.topably.assets.core.domain.Ticker;
-import com.topably.assets.instruments.domain.dto.StockDataDto;
+import com.topably.assets.instruments.domain.InstrumentType;
+import com.topably.assets.instruments.domain.dto.ImportInstrumentDto;
 import com.topably.assets.instruments.repository.InstrumentRepository;
-import com.topably.assets.instruments.service.StockService;
+import com.topably.assets.instruments.service.importer.DefaultInstrumentImporter;
 import com.topably.assets.integration.base.IT;
 import com.topably.assets.integration.base.IntegrationTestBase;
 import com.topably.assets.portfolios.service.PortfolioPositionService;
@@ -28,7 +28,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class TradeManagementServiceTest extends IntegrationTestBase {
 
     @Autowired
-    private StockService stockService;
+    private DefaultInstrumentImporter importer;
     @Autowired
     private TradeManagementService tradeManagementService;
     @Autowired
@@ -41,14 +41,12 @@ public class TradeManagementServiceTest extends IntegrationTestBase {
     @Test
     public void givenUserAddsNewTrade_whenInstrumentIsNotInPortfolio_thenNewPositionIsCreated() {
         var ticker = new Ticker("TEST", NYSE.name());
-        var stockDto = stockService.importStock(StockDataDto.builder()
-            .identifier(ticker)
-            .company(
-                CompanyDataDto.builder().name("Test Company")
-                    .industry("Газ и нефть")
-                    .sector("Энергетика")
-                    .build())
-            .build());
+        var stockDto = importer.importInstrument(new ImportInstrumentDto()
+            .setIdentifier(ticker)
+            .setName("Test Company")
+            .setSector("Энергетика")
+            .setIndustry("Газ и нефть")
+            .setType(InstrumentType.STOCK));
         var userId = 1L;
         var brokers = brokerService.getBrokers(userId);
 
@@ -68,14 +66,13 @@ public class TradeManagementServiceTest extends IntegrationTestBase {
     @Test
     public void givenUserDeleteTrade_whenItsTheLastTradeOfPosition_thenPositionIsDeleted() {
         var ticker = new Ticker("TEST", NYSE.name());
-        var stockDto = stockService.importStock(StockDataDto.builder()
-            .identifier(ticker)
-            .company(
-                CompanyDataDto.builder().name("Test Company")
-                    .industry("Газ и нефть")
-                    .sector("Энергетика")
-                    .build())
-            .build());
+        var stockDto = importer.importInstrument(new ImportInstrumentDto()
+            .setIdentifier(ticker)
+            .setName("Test Company")
+            .setSector("Энергетика")
+            .setIndustry("Газ и нефть")
+            .setType(InstrumentType.STOCK));
+        ;
 
         var instrument = instrumentRepository.findBySymbolAndExchangeCode(ticker.getSymbol(), ticker.getExchange());
         var userId = 1L;

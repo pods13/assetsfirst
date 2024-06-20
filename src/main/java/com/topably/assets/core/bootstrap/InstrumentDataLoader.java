@@ -4,15 +4,15 @@ import java.util.ArrayList;
 import java.util.Currency;
 import java.util.List;
 
-import com.topably.assets.instruments.domain.dto.CompanyDataDto;
 import com.topably.assets.core.domain.Ticker;
 import com.topably.assets.findata.exchanges.domain.ExchangeEnum;
-import com.topably.assets.instruments.domain.dto.StockDataDto;
+import com.topably.assets.instruments.domain.InstrumentType;
+import com.topably.assets.instruments.domain.dto.ImportInstrumentDto;
 import com.topably.assets.instruments.domain.instrument.ETF;
 import com.topably.assets.instruments.domain.instrument.FX;
 import com.topably.assets.instruments.repository.instrument.ETFRepository;
 import com.topably.assets.instruments.repository.instrument.FXRepository;
-import com.topably.assets.instruments.service.StockService;
+import com.topably.assets.instruments.service.importer.DefaultInstrumentImporter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -33,7 +33,7 @@ public class InstrumentDataLoader implements CommandLineRunner {
     private final ETFRepository etfRepository;
     private final FXRepository fxRepository;
 
-    private final StockService stockService;
+    private final DefaultInstrumentImporter importer;
 
     @Override
     @Transactional
@@ -64,90 +64,90 @@ public class InstrumentDataLoader implements CommandLineRunner {
     }
 
     private void addStockInstruments() {
-        stockService.addStock(StockDataDto.builder()
-            .company(CompanyDataDto.builder().name("Newmont Goldcorp Corp").build())
-            .identifier(new Ticker("NEM", NYSE.name()))
-            .build());
+        importer.importInstrument(new ImportInstrumentDto()
+            .setType(InstrumentType.STOCK)
+            .setName("Newmont Goldcorp Corp")
+            .setIdentifier(new Ticker("NEM", NYSE.name())));
 
-        stockService.addStock(StockDataDto.builder()
-            .company(CompanyDataDto.builder().name("Bayer AG NA").build())
-            .identifier(new Ticker("BAYN", ExchangeEnum.XETRA.name()))
-            .build());
+        importer.importInstrument(new ImportInstrumentDto()
+            .setType(InstrumentType.STOCK)
+            .setName("Bayer AG NA")
+            .setIdentifier(new Ticker("BAYN", ExchangeEnum.XETRA.name())));
 
-        stockService.addStock(StockDataDto.builder()
-            .company(CompanyDataDto.builder().name("Altria Group").build())
-            .identifier(new Ticker("MO", NYSE.name()))
-            .build());
+        importer.importInstrument(new ImportInstrumentDto()
+            .setType(InstrumentType.STOCK)
+            .setName("Altria Group")
+            .setIdentifier(new Ticker("MO", NYSE.name())));
 
-        stockService.addStock(StockDataDto.builder()
-            .company(CompanyDataDto.builder().name("Omega Healthcare Investors, Inc").build())
-            .identifier(new Ticker("OHI", NYSE.name()))
-            .build());
+        importer.importInstrument(new ImportInstrumentDto()
+            .setType(InstrumentType.STOCK)
+            .setName("Omega Healthcare Investors, Inc")
+            .setIdentifier(new Ticker("OHI", NYSE.name())));
 
-        stockService.addStock(StockDataDto.builder()
-            .company(CompanyDataDto.builder().name("The Coca-Cola Company").build())
-            .identifier(new Ticker("KO", NYSE.name()))
-            .build());
+        importer.importInstrument(new ImportInstrumentDto()
+            .setType(InstrumentType.STOCK)
+            .setName("The Coca-Cola Company")
+            .setIdentifier(new Ticker("KO", NYSE.name())));
 
-        stockService.addStock(StockDataDto.builder()
-            .company(CompanyDataDto.builder().name("TotalEnergies SE").build())
-            .identifier(new Ticker("TTE", NYSE.name()))
-            .build());
+        importer.importInstrument(new ImportInstrumentDto()
+            .setType(InstrumentType.STOCK)
+            .setName("TotalEnergies SE")
+            .setIdentifier(new Ticker("TTE", NYSE.name())));
 
-        stockService.addStock(StockDataDto.builder()
-            .company(CompanyDataDto.builder().name("PJSC Rosneft Oil Company").build())
-            .identifier(new Ticker("ROSN", ExchangeEnum.MCX.name()))
-            .build());
+        importer.importInstrument(new ImportInstrumentDto()
+            .setType(InstrumentType.STOCK)
+            .setName("PJSC Rosneft Oil Company")
+            .setIdentifier(new Ticker("ROSN", ExchangeEnum.MCX.name())));
 
-        stockService.addStock(StockDataDto.builder()
-            .company(CompanyDataDto.builder().name("PJSC Gazprom").build())
-            .identifier(new Ticker("GAZP", ExchangeEnum.MCX.name()))
-            .build());
+        importer.importInstrument(new ImportInstrumentDto()
+            .setType(InstrumentType.STOCK)
+            .setName("PJSC Gazprom")
+            .setIdentifier(new Ticker("GAZP", ExchangeEnum.MCX.name())));
 
-        stockService.addStock(StockDataDto.builder()
-            .company(CompanyDataDto.builder().name("Ros Agro PLC").build())
-            .identifier(new Ticker("AGRO", ExchangeEnum.MCX.name()))
-            .build());
+        importer.importInstrument(new ImportInstrumentDto()
+            .setType(InstrumentType.STOCK)
+            .setName("Ros Agro PLC")
+            .setIdentifier(new Ticker("AGRO", ExchangeEnum.MCX.name())));
 
-        stockService.addStock(StockDataDto.builder()
-            .company(CompanyDataDto.builder().name("PJSC Polyus").build())
-            .identifier(new Ticker("PLZL", ExchangeEnum.MCX.name()))
-            .build());
+        importer.importInstrument(new ImportInstrumentDto()
+            .setType(InstrumentType.STOCK)
+            .setName("PJSC Polyus")
+            .setIdentifier(new Ticker("PLZL", ExchangeEnum.MCX.name())));
 
-        stockService.addStock(StockDataDto.builder()
-            .company(CompanyDataDto.builder().name("PhosAgro").build())
-            .identifier(new Ticker("PHOR", ExchangeEnum.MCX.name()))
-            .build());
+        importer.importInstrument(new ImportInstrumentDto()
+            .setType(InstrumentType.STOCK)
+            .setName("PhosAgro")
+            .setIdentifier(new Ticker("PHOR", ExchangeEnum.MCX.name())));
 
-        stockService.addStock(StockDataDto.builder()
-            .company(CompanyDataDto.builder().name("Public Joint Stock Company Inter RAO UES").build())
-            .identifier(new Ticker("IRAO", ExchangeEnum.MCX.name()))
-            .build());
+        importer.importInstrument(new ImportInstrumentDto()
+            .setType(InstrumentType.STOCK)
+            .setName("Public Joint Stock Company Inter RAO UES")
+            .setIdentifier(new Ticker("IRAO", ExchangeEnum.MCX.name())));
 
-        stockService.addStock(StockDataDto.builder()
-            .company(CompanyDataDto.builder().name("Mobile TeleSystems Public Joint Stock Company").build())
-            .identifier(new Ticker("MTSS", ExchangeEnum.MCX.name()))
-            .build());
+        importer.importInstrument(new ImportInstrumentDto()
+            .setType(InstrumentType.STOCK)
+            .setName("Mobile TeleSystems Public Joint Stock Company")
+            .setIdentifier(new Ticker("MTSS", ExchangeEnum.MCX.name())));
 
-        stockService.addStock(StockDataDto.builder()
-            .company(CompanyDataDto.builder().name("Public Joint Stock Company Magnit").build())
-            .identifier(new Ticker("MGNT", ExchangeEnum.MCX.name()))
-            .build());
+        importer.importInstrument(new ImportInstrumentDto()
+            .setType(InstrumentType.STOCK)
+            .setName("Public Joint Stock Company Magnit")
+            .setIdentifier(new Ticker("MGNT", ExchangeEnum.MCX.name())));
 
-        stockService.addStock(StockDataDto.builder()
-            .company(CompanyDataDto.builder().name("Public Joint-Stock Company Moscow Exchange MICEX-RTS").build())
-            .identifier(new Ticker("MOEX", ExchangeEnum.MCX.name()))
-            .build());
+        importer.importInstrument(new ImportInstrumentDto()
+            .setType(InstrumentType.STOCK)
+            .setName("Public Joint-Stock Company Moscow Exchange MICEX-RTS")
+            .setIdentifier(new Ticker("MOEX", ExchangeEnum.MCX.name())));
 
-        stockService.addStock(StockDataDto.builder()
-            .company(CompanyDataDto.builder().name("Sberbank of Russia").build())
-            .identifier(new Ticker("SBERP", ExchangeEnum.MCX.name()))
-            .build());
+        importer.importInstrument(new ImportInstrumentDto()
+            .setType(InstrumentType.STOCK)
+            .setName("Sberbank of Russia")
+            .setIdentifier(new Ticker("SBERP", ExchangeEnum.MCX.name())));
 
-        stockService.addStock(StockDataDto.builder()
-            .company(CompanyDataDto.builder().name("China National Offshore Oil Corporatio").build())
-            .identifier(new Ticker("0883", ExchangeEnum.HK.name()))
-            .build());
+        importer.importInstrument(new ImportInstrumentDto()
+            .setType(InstrumentType.STOCK)
+            .setName("China National Offshore Oil Corporatio")
+            .setIdentifier(new Ticker("0883", ExchangeEnum.HK.name())));
     }
 
     private void addFXInstruments() {

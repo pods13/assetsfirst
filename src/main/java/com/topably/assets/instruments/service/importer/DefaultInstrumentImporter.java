@@ -1,4 +1,4 @@
-package com.topably.assets.instruments.service;
+package com.topably.assets.instruments.service.importer;
 
 import java.util.Optional;
 import java.util.Set;
@@ -7,51 +7,37 @@ import java.util.stream.Collectors;
 
 import com.topably.assets.findata.exchanges.domain.ExchangeEnum;
 import com.topably.assets.instruments.domain.Instrument;
-import com.topably.assets.instruments.domain.dto.StockDataDto;
-import com.topably.assets.instruments.domain.dto.StockDto;
-import com.topably.assets.instruments.domain.instrument.Stock;
+import com.topably.assets.instruments.domain.dto.ImportInstrumentDto;
+import com.topably.assets.instruments.domain.dto.ImportedInstrumentDto;
 import com.topably.assets.instruments.repository.InstrumentRepository;
-import com.topably.assets.instruments.repository.instrument.StockRepository;
 import com.topably.assets.tags.domain.Tag;
 import com.topably.assets.tags.service.TagCategoryService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import static com.topably.assets.instruments.domain.InstrumentTag.INDUSTRY_TAG_CATEGORY;
 import static com.topably.assets.instruments.domain.InstrumentTag.SECTOR_TAG_CATEGORY;
 
 
-@Service
+@Component
 @RequiredArgsConstructor
-public class StockServiceImpl implements StockService {
+public class DefaultInstrumentImporter {
 
     private final InstrumentRepository instrumentRepository;
-    private final StockRepository stockRepository;
-
     private final TagCategoryService tagCategoryService;
 
-    @Override
-    public Page<StockDto> findAll(Pageable pageable) {
-        return stockRepository.findAll(pageable)
-            .map(this::convertToDto);
-    }
-
-    @Override
-    @Transactional
-    public StockDto addStock(StockDataDto dto) {
-        var stock = new Instrument()
-            .setName(dto.getCompany().getName())
+    private ImportedInstrumentDto addInstrument(ImportInstrumentDto dto) {
+        var instrument = new Instrument()
+            .setName(dto.getName())
             .setSymbol(dto.getIdentifier().getSymbol())
             .setExchangeCode(dto.getIdentifier().getExchange())
             .setCurrency(ExchangeEnum.valueOf(dto.getIdentifier().getExchange()).getCurrency());
-        var sector = Optional.ofNullable(dto.getCompany().getSector()).map(this::getSectorByName).orElse(null);
-        stock.addTag(sector);
-        var industry = Optional.ofNullable(dto.getCompany().getIndustry()).map(this::getIndustryByName).orElse(null);
-        stock.addTag(industry);
-        var savedStock = instrumentRepository.save(stock);
+        var sector = Optional.ofNullable(dto.getSector()).map(this::getSectorByName).orElse(null);
+        instrument.addTag(sector);
+        var industry = Optional.ofNullable(dto.getIndustry()).map(this::getIndustryByName).orElse(null);
+        instrument.addTag(industry);
+        var savedStock = instrumentRepository.save(instrument);
 
         return convertToDto(savedStock);
     }
@@ -64,20 +50,20 @@ public class StockServiceImpl implements StockService {
         return tagCategoryService.findTagByCategoryCodeAndName(INDUSTRY_TAG_CATEGORY, name).orElse(null);
     }
 
-    @Override
     @Transactional
-    public StockDto importStock(StockDataDto dto) {
-        return instrumentRepository.findBySymbolAndExchangeCodeIncludeTags(dto.getIdentifier().getSymbol(), dto.getIdentifier().getExchange())
-            .map(stock -> updateStock(stock, dto))
-            .orElseGet(() -> addStock(dto));
+    public ImportedInstrumentDto importInstrument(ImportInstrumentDto dto) {
+        return instrumentRepository.findBySymbolAndExchangeCodeIncludeTags(dto.getIdentifier().getSymbol(),
+                dto.getIdentifier().getExchange())
+            .map(stock -> updateInstrument(stock, dto))
+            .orElseGet(() -> addInstrument(dto));
     }
 
-    private StockDto updateStock(Instrument stock, StockDataDto dto) {
-        stock.setName(dto.getCompany().getName());
-        stock.setTags(enrichTags(stock, dto.getCompany().getSector(), this::getSectorByName));
-        stock.setTags(enrichTags(stock, dto.getCompany().getIndustry(), this::getIndustryByName));
-        instrumentRepository.save(stock);
-        return convertToDto(stock);
+    private ImportedInstrumentDto updateInstrument(Instrument instrument, ImportInstrumentDto dto) {
+        instrument.setName(dto.getName());
+        instrument.setTags(enrichTags(instrument, dto.getSector(), this::getSectorByName));
+        instrument.setTags(enrichTags(instrument, dto.getIndustry(), this::getIndustryByName));
+        instrumentRepository.save(instrument);
+        return convertToDto(instrument);
     }
 
     private Set<Tag> enrichTags(Instrument stock, String tagName, Function<String, Tag> getTagByName) {
@@ -96,10 +82,10 @@ public class StockServiceImpl implements StockService {
             }).orElse(stock.getTags());
     }
 
-    private StockDto convertToDto(Instrument stock) {
-        return new StockDto()
-            .setId(stock.getId())
-            .setIdentifier(stock.toTicker());
+    private ImportedInstrumentDto convertToDto(Instrument instrument) {
+        return new ImportedInstrumentDto()
+            .setId(instrument.getId())
+            .setIdentifier(instrument.toTicker());
     }
 
 }

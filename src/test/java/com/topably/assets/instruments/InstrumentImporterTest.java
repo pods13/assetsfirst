@@ -1,10 +1,10 @@
 package com.topably.assets.instruments;
 
-import com.topably.assets.instruments.domain.dto.CompanyDataDto;
+import com.topably.assets.instruments.domain.InstrumentType;
 import com.topably.assets.core.domain.Ticker;
-import com.topably.assets.instruments.domain.dto.StockDataDto;
+import com.topably.assets.instruments.domain.dto.ImportInstrumentDto;
 import com.topably.assets.instruments.service.InstrumentService;
-import com.topably.assets.instruments.service.StockService;
+import com.topably.assets.instruments.service.importer.DefaultInstrumentImporter;
 import com.topably.assets.integration.base.IT;
 import com.topably.assets.integration.base.IntegrationTestBase;
 import jakarta.persistence.EntityManager;
@@ -16,10 +16,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 @IT
-public class StockServiceTest extends IntegrationTestBase {
+public class InstrumentImporterTest extends IntegrationTestBase {
 
     @Autowired
-    private StockService stockService;
+    private DefaultInstrumentImporter importer;
     @Autowired
     private InstrumentService instrumentService;
     @Autowired
@@ -27,37 +27,32 @@ public class StockServiceTest extends IntegrationTestBase {
 
     @Test
     public void givenStockData_whenStockWasNotPreviouslyImported_thenStockInstrumentIsCreated() {
-        stockService.importStock(StockDataDto.builder()
-            .identifier(new Ticker("TEST", NYSE.name()))
-            .company(
-                CompanyDataDto.builder().name("Test Company")
-                    .industry("Газ и нефть")
-                    .sector("Энергетика")
-                    .build())
-            .build());
+        var dto = new ImportInstrumentDto()
+            .setIdentifier(new Ticker("TEST", NYSE.name()))
+            .setName("Test Company")
+            .setSector("Энергетика")
+            .setIndustry("Газ и нефть")
+            .setType(InstrumentType.STOCK);
+        importer.importInstrument(dto);
     }
 
     @Test
     public void givenStockDataWithoutSector_whenStockImportedAgain_thenStockInstrumentSectorIsAdded() {
         var ticker = new Ticker("TEST", NYSE.name());
-        stockService.importStock(StockDataDto.builder()
-            .identifier(ticker)
-            .company(
-                CompanyDataDto.builder().name("Test Company")
-                    .industry("Газ и нефть")
-                    .build())
-            .build());
+        importer.importInstrument(new ImportInstrumentDto()
+            .setIdentifier(ticker)
+            .setName("Test Company")
+            .setIndustry("Газ и нефть")
+            .setType(InstrumentType.STOCK));
         entityManager.flush();
         entityManager.clear();
 
-        stockService.importStock(StockDataDto.builder()
-            .identifier(ticker)
-            .company(
-                CompanyDataDto.builder().name("Test Company")
-                    .industry("Газ и нефть")
-                    .sector("Энергетика")
-                    .build())
-            .build());
+        importer.importInstrument(new ImportInstrumentDto()
+            .setIdentifier(ticker)
+            .setName("Test Company")
+            .setIndustry("Газ и нефть")
+            .setSector("Энергетика")
+            .setType(InstrumentType.STOCK));
         entityManager.flush();
         entityManager.clear();
 
@@ -68,13 +63,12 @@ public class StockServiceTest extends IntegrationTestBase {
     @Test
     public void givenStockDataWithUnknownSector_whenStockImported_thenSuccessfullyImported() {
         var ticker = new Ticker("TEST", NYSE.name());
-        stockService.importStock(StockDataDto.builder()
-            .identifier(ticker)
-            .company(
-                CompanyDataDto.builder().name("Test Company")
-                    .sector("Unknown")
-                    .build())
-            .build());
+        var dto = new ImportInstrumentDto()
+            .setIdentifier(new Ticker("TEST", NYSE.name()))
+            .setName("Test Company")
+            .setSector("Unknown")
+            .setType(InstrumentType.STOCK);
+        importer.importInstrument(dto);
         entityManager.flush();
         entityManager.clear();
 
@@ -87,24 +81,20 @@ public class StockServiceTest extends IntegrationTestBase {
     public void givenStockData_whenTheSameDataForStockImportedAgain_thenImportSuccessful() {
         var ticker = new Ticker("TEST", NYSE.name());
         var companyName = "Test Company";
-        stockService.importStock(StockDataDto.builder()
-            .identifier(ticker)
-            .company(
-                CompanyDataDto.builder().name(companyName)
-                    .industry("Газ и нефть")
-                    .build())
-            .build());
+        importer.importInstrument(new ImportInstrumentDto()
+            .setIdentifier(new Ticker("TEST", NYSE.name()))
+            .setName(companyName)
+            .setIndustry("Газ и нефть")
+            .setType(InstrumentType.STOCK));
         entityManager.flush();
         entityManager.clear();
 
-        stockService.importStock(StockDataDto.builder()
-            .identifier(ticker)
-            .company(
-                CompanyDataDto.builder().name(companyName)
-                    .industry("Газ и нефть")
-                    .sector("Энергетика")
-                    .build())
-            .build());
+        importer.importInstrument(new ImportInstrumentDto()
+            .setIdentifier(new Ticker("TEST", NYSE.name()))
+            .setName(companyName)
+            .setIndustry("Газ и нефть")
+            .setSector("Энергетика")
+            .setType(InstrumentType.STOCK));
         entityManager.flush();
         entityManager.clear();
 
@@ -117,13 +107,12 @@ public class StockServiceTest extends IntegrationTestBase {
     @Test
     public void givenStockDataWithUnknownIndustry_whenStockImported_thenSuccessfullyImported() {
         var ticker = new Ticker("TEST", NYSE.name());
-        stockService.importStock(StockDataDto.builder()
-            .identifier(ticker)
-            .company(
-                CompanyDataDto.builder().name("Test Company")
-                    .industry("Unknown")
-                    .build())
-            .build());
+        var dto = new ImportInstrumentDto()
+            .setIdentifier(new Ticker("TEST", NYSE.name()))
+            .setName("Test Company")
+            .setIndustry("Unknown")
+            .setType(InstrumentType.STOCK);
+        importer.importInstrument(dto);
         entityManager.flush();
         entityManager.clear();
 
