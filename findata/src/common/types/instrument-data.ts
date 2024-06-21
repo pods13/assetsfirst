@@ -1,4 +1,4 @@
-export interface StockData {
+export interface InstrumentData {
     symbol: string;
     exchange: string;
     name: string;

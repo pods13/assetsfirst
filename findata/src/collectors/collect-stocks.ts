@@ -4,7 +4,7 @@ import { CsvFormatterStream, format, parse } from 'fast-csv';
 import fs from 'fs';
 import { unlink } from 'fs/promises';
 import modifiedData from './data/stock/modify.json';
-import { StockData } from '../common/types/stock-data';
+import { InstrumentData } from '../common/types/instrument-data';
 
 export async function collectStocks(country: string, exchanges: string[] = []) {
     if (!exchanges.length) {
@@ -147,8 +147,8 @@ async function isNextButtonVisible(page: playwright.Page) {
     return await page.isVisible(`.text_align_lang_base_2 > a:has-text("${NEXT_BUTTON_TEXT}")`);
 }
 
-async function collectPageData(page: playwright.Page): Promise<StockData[]> {
-    const parsedData: StockData[] = await page.$$eval('#resultsTable > tbody tr', (equities) => {
+async function collectPageData(page: playwright.Page): Promise<InstrumentData[]> {
+    const parsedData: InstrumentData[] = await page.$$eval('#resultsTable > tbody tr', (equities) => {
         return equities.map(eq => {
             const name = eq.querySelector('td:nth-child(2)').textContent;
             const link = eq.querySelector('td:nth-child(2) a').getAttribute('href');

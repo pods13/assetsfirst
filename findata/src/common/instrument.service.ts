@@ -2,12 +2,12 @@ import path from 'path';
 import fs from 'fs';
 import { parse } from 'fast-csv';
 import { RESOURCE_DIR, STOCKS_DIR } from './constants';
-import { StockData } from './types/stock-data';
+import { InstrumentData } from './types/instrument-data';
 import { Knex } from 'knex';
 
-export async function getStocksByCountry(country: string): Promise<StockData[]> {
+export async function getStocksByCountry(country: string): Promise<InstrumentData[]> {
     const filePath = path.join(RESOURCE_DIR, STOCKS_DIR, country.replace(' ', '-').toLowerCase() + '.csv');
-    const result: StockData[] = [];
+    const result: InstrumentData[] = [];
     return new Promise((resolve, reject) => {
         fs.createReadStream(filePath)
             .pipe(parse({headers: true}))
@@ -21,7 +21,7 @@ export async function getStocksByCountry(country: string): Promise<StockData[]> 
     });
 }
 
-function filterData(data: StockData) {
+function filterData(data: InstrumentData) {
     if (!data.sector && !data.industry) {
         return false;
     }

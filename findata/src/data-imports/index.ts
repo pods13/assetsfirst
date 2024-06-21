@@ -4,9 +4,9 @@ import {getClient} from '../utils/client';
 import {AxiosError, AxiosInstance} from 'axios';
 import fsPromises from 'fs/promises';
 import path from 'path';
-import {StockData} from '../common/types/stock-data';
+import {InstrumentData} from '../common/types/instrument-data';
 
-function pushData(client: AxiosInstance, data: StockData) {
+function pushData(client: AxiosInstance, data: InstrumentData, type: string) {
     if (!filterData(data)) {
         return;
     }
@@ -16,26 +16,24 @@ function pushData(client: AxiosInstance, data: StockData) {
             name: data.name,
             sector: data.sector,
             industry: data.industry,
-        }, ...{type: 'STOCK'}
+        }, ...{type}
     };
     retry(() => client.put(`/instruments/import`, dto), isRetryableError)
         .catch(err => console.error(`Cannot push data for ${data.symbol}.${data.exchange}`));
 }
 
-function filterData(data: StockData) {
-    if (!data.sector && !data.industry) {
-        return false;
-    }
-    return (data.slug.indexOf('?cid') === -1 && ['MCX', 'HK', 'NASDAQ', 'NYSE'].includes(data.exchange))
+function filterData(data: InstrumentData) {
+    return !data.slug
+        || (data.slug.indexOf('?cid') === -1 && ['MCX', 'HK', 'NASDAQ', 'NYSE'].includes(data.exchange))
         || ('XETRA' === data.exchange && (data.slug.indexOf('?cid') === -1 || data.slug.indexOf('-ag') !== -1));
 }
 
-export async function importCountryStocks(pathToFile: string) {
+export async function importCountryInstruments(pathToFile: string, type: string) {
     const client = await getClient();
     return fs.createReadStream(pathToFile)
         .pipe(parse({headers: true}))
         .on('error', error => console.error(error))
-        .on('data', row => pushData(client, row))
+        .on('data', row => pushData(client, row, type))
         .on('end', (rowCount: number) => {
         });
 }
@@ -64,14 +62,14 @@ function isRetryableError(error: AxiosError) {
     return companyDuplicate || sectorDuplicate || industryDuplicate;
 }
 
-async function importStocks(country: string) {
-    const resourceFolderPath = './resources/stocks';
+async function importInstruments(country: string, type: string) {
+    const resourceFolderPath = `./resources/${type.toLowerCase()}s`;
     const filenames = await fsPromises.readdir(resourceFolderPath);
     for (let filename of filenames) {
         try {
             if (filename.includes(country.replaceAll(' ', '-').toLowerCase())) {
                 const filePath = path.join(resourceFolderPath, filename);
-                await importCountryStocks(filePath);
+                await importCountryInstruments(filePath, type);
             } else {
                 console.log(`Skip import of ${filename}`);
             }
@@ -81,7 +79,17 @@ async function importStocks(country: string) {
     }
 }
 
+async function importData(country: string) {
+
+    try {
+        // await importInstruments(country, 'STOCK');
+        await importInstruments(country, 'ETF');
+    } catch (e) {
+        console.error(e);
+    }
+}
+
 const args = process.argv.slice(2);
 
 const country = args[0];
-importStocks(country);
+importData(country);
