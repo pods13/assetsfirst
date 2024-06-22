@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import { collectStocks } from './collect-stocks';
 import {collectEtfs} from "./collect-etfs";
 

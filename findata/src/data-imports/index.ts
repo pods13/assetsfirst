@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import fs from 'fs';
 import {parse} from 'fast-csv';
 import {getClient} from '../utils/client';
