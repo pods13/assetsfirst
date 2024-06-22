@@ -25,7 +25,9 @@
     "dividends-ru": "dist/tasks/mcx-dividends/index.js",
     "dividends-snowball": "dist/tasks/snowball-dividends/index.js",
     "prices-ru": "dist/tasks/mcx-prices/index.js",
-    "prices-global": "dist/tasks/global-prices/index.js"
+    "prices-global": "dist/tasks/global-prices/index.js",
+    "collect-inst-ru": "dist/collectors/index.js",
+    "import-inst-ru": "dist/data-imports/index.js"
   },
   "keywords": [],
   "author": "",

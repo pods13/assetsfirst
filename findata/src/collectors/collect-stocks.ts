@@ -33,7 +33,7 @@ async function collectStocksByExchange(country: string, exchange: string | null)
     csvStream.pipe(fs.createWriteStream(`./resources/stocks/${filename}`));
 
     const browser = await playwright.chromium.launch({
-        headless: false, args: ['--single-process']
+        headless: true, args: ['--single-process']
     });
 
     const context = await browser.newContext();
@@ -59,6 +59,7 @@ async function collectStocksByExchange(country: string, exchange: string | null)
         console.error(`Number of the last saved page: ${pageNum}`)
         console.error(e);
     } finally {
+        console.log(`Collected instruments from ${pageNum} pages`);
         csvStream.end();
         await browser.close();
     }
