@@ -20,7 +20,10 @@ export async function collectEtfs(country: string, exchanges: string[] = []) {
                 .pipe(parse({headers: true}))
                 .on('error', error => console.error(error))
                 .on('data', row => mainStream.write(row))
-                .on('end', () => unlink(filePath));
+                .on('end', (rowCount: number) => {
+                    console.log(`Collected ${rowCount} etfs`);
+                    unlink(filePath)
+                });
         })
 }
 

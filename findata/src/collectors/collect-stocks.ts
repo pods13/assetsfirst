@@ -23,7 +23,10 @@ export async function collectStocks(country: string, exchanges: string[] = []) {
                 .pipe(parse({headers: true}))
                 .on('error', error => console.error(error))
                 .on('data', row => mainStream.write(row))
-                .on('end', () => unlink(filePath));
+                .on('end', (rowCount: number) => {
+                    console.log(`Collected ${rowCount} stocks`);
+                    unlink(filePath)
+                });
         })
 }
 
@@ -59,7 +62,6 @@ async function collectStocksByExchange(country: string, exchange: string | null)
         console.error(`Number of the last saved page: ${pageNum}`)
         console.error(e);
     } finally {
-        console.log(`Collected instruments from ${pageNum} pages`);
         csvStream.end();
         await browser.close();
     }

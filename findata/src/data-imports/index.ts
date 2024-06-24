@@ -37,6 +37,7 @@ export async function importCountryInstruments(pathToFile: string, type: string)
         .on('error', error => console.error(error))
         .on('data', row => pushData(client, row, type))
         .on('end', (rowCount: number) => {
+            console.log(`Imported ${rowCount} ${type}s`);
         });
 }
 
