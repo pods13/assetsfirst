@@ -1,0 +1,45 @@
+name: Pull Instruments
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  pull-inst-ru:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: findata
+    permissions:
+      contents: read
+      packages: read
+    env:
+      API_ASSETSFIRST_URL: ${{secrets.API_ASSETSFIRST_URL}}
+      API_ASSETSFIRST_USERNAME: ${{secrets.API_ASSETSFIRST_USERNAME}}
+      API_ASSETSFIRST_PASSWORD: ${{secrets.API_ASSETSFIRST_PASSWORD}}
+      DATABASE_URL: ${{secrets.DATABASE_URL}}
+      NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 16
+          registry-url: https://npm.pkg.github.com/
+          always-auth: true
+      - uses: szenius/set-timezone@v2.0
+        with:
+          timezoneLinux: "Europe/Moscow"
+          timezoneMacos: "Europe/Moscow"
+          timezoneWindows: "Russian Standard Time"
+      - run: npm i @pods13/findata
+      - name: Create dirs
+        run: mkdir -p resources/etfs resources/stocks
+      - name: collect ru instruments
+        timeout-minutes: 10
+        run: npx -p @pods13/findata collect-inst-ru Russia
+      - name: import ru instruments
+        timeout-minutes: 10
+        run: npx -p @pods13/findata import-inst-ru Russia
