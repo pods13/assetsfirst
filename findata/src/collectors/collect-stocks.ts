@@ -55,7 +55,7 @@ async function collectStocksByExchange(country: string, exchange: string | null)
             nextButtonVisible = await isNextButtonVisible(page);
             if (nextButtonVisible) {
                 await selectNextPage(page, pageNum + 1);
-                await page.waitForTimeout(randomInteger(3000, 10000));
+                await page.waitForTimeout(randomInteger(10000, 15000));
             }
         }
     } catch (e) {

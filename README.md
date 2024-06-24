@@ -92,7 +92,8 @@ docker-compose down
 
 ## Redeploy flow
 ```
-git sdocker-compose -f docker-compose.prod.yaml up -d --build
+docker-compose -f docker-compose.prod.yaml pull
+docker-compose -f docker-compose.prod.yaml up -d --build
 docker image prune -a
 docker-compose -f docker-compose.prod.yaml down
 ```
