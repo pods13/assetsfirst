@@ -80,7 +80,6 @@ public interface DividendRepository extends JpaRepository<Dividend, Long>, Upser
             where concat(i.symbol, '.', i.exchangeCode) in (:tickers)
               and d.recordDate >= current_date
               and d.amount > 0
-            group by d.id
         """)
     Page<Dividend> findUpcomingDividends(List<String> tickers, Pageable pageable);
 
