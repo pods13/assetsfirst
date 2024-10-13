@@ -11,8 +11,7 @@ const routes: Routes = [
     {
         path: '',
         component: HomePageComponent,
-        pathMatch: 'full',
-        canActivate: [AuthGuard],
+        pathMatch: 'full'
     },
     {
         path: 'symbols',

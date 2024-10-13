@@ -31,8 +31,8 @@ public class PubPortfoliosController {
 
     @GetMapping("/{identifier}/dividends")
     public Page<PubPortfolioDividendDto> findUpcomingDividends(
-        @AuthenticationPrincipal CurrentUser user,
-        @PathVariable String identifier, @ParameterObject Pageable pageable
+            @AuthenticationPrincipal CurrentUser user,
+            @PathVariable String identifier, @ParameterObject Pageable pageable
     ) {
         return portfolioDividendService.findUpcomingDividends(user, identifier, pageable);
     }
