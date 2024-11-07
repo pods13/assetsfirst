@@ -85,7 +85,7 @@ async function importInstruments(country: string, type: string) {
 async function importData(country: string) {
 
     try {
-        // await importInstruments(country, 'STOCK');
+        await importInstruments(country, 'STOCK');
         await importInstruments(country, 'ETF');
     } catch (e) {
         console.error(e);
