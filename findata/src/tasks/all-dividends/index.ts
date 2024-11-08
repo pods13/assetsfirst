@@ -1,15 +1,15 @@
 #!/usr/bin/env node
 
-import { getInstruments } from '../../common/instrument.service';
+import {getInstruments} from '../../common/instrument.service';
 import connection from '../../common/connection';
 import fsPromises from 'fs/promises';
 import path from 'path';
 import fs from 'fs';
-import { parse } from 'fast-csv';
+import {parse} from 'fast-csv';
 import axios from 'axios';
-import { load } from 'cheerio';
-import { addMonths } from '../../utils/add-months';
-import { getClient } from '../../utils/client';
+import {load} from 'cheerio';
+import {addMonths} from '../../utils/add-months';
+import {getClient} from '../../utils/client';
 
 const tickerBySlug: { [key: string]: string } = {};
 
@@ -30,7 +30,9 @@ async function main() {
         }
         return parseRecentDividends(slug)
             .catch(e => {
-                console.error(`Error during dividend data gathering for ${instrument.symbol + ':' + instrument.exchange}: ${e}`);
+                const ticker = instrument.symbol + ':' + instrument.exchange;
+                const url = composeDividendPageUrl(slug);
+                console.error(`Error during dividend data gathering for ${ticker} using slug ${url}: ${e}`);
                 throw e;
             })
             .then(dividends => {
@@ -95,7 +97,7 @@ async function parseRecentDividends(slug: string): Promise<ParsedDividend[]> {
 function composeDividendPageUrl(slug: string): string {
     const [path, query] = slug.split('?');
     const suffix = path + '-dividends' + (query ? `?${query}` : '');
-    return `https://www.investing.com/equities/${suffix}`;
+    return `https://in.investing.com/equities/${suffix}`;
 }
 
 interface ParsedDividend {
