@@ -34,3 +34,4 @@ build/
 .env
 prod.env
 node_modules/
+findata/resources/**/**.csv

@@ -67,7 +67,11 @@ async function fillTickerCacheFromFile(path: string) {
 
 async function parseRecentDividends(slug: string): Promise<ParsedDividend[]> {
     const url = composeDividendPageUrl(slug);
-    const res = await axios.get(url);
+    const res = await axios.get(url, {
+        headers: {
+            'User-Agent': "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36"
+        }
+    });
     const $ = load(res.data);
     const dividendsTable = $(`.dividendTbl`);
     if (!dividendsTable) {

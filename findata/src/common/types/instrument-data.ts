@@ -4,5 +4,5 @@ export interface InstrumentData {
     name: string;
     sector: string;
     industry: string;
-    slug: string;
+    slug?: string;
 }

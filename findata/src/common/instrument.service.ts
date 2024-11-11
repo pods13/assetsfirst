@@ -25,8 +25,8 @@ function filterData(data: InstrumentData) {
     if (!data.sector && !data.industry) {
         return false;
     }
-    return (data.slug.indexOf('?cid') === -1 && ['MCX', 'HK', 'NASDAQ', 'NYSE'].includes(data.exchange))
-        || ('XETRA' === data.exchange && (data.slug.indexOf('?cid') === -1 || data.slug.indexOf('-ag') !== -1));
+    return (data.slug && data.slug.indexOf('?cid') === -1 && ['MCX', 'HK', 'NASDAQ', 'NYSE'].includes(data.exchange))
+        || ('XETRA' === data.exchange && (data.slug && data.slug.indexOf('?cid') === -1 || data.slug && data.slug.indexOf('-ag') !== -1));
 }
 
 export async function getInstruments(connection: Knex, exchanges: string[], inAnyPortfolio = true): Promise<{ id: number; symbol: string; exchange: string; }[]> {
