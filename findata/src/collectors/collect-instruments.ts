@@ -7,7 +7,7 @@ export async function collectInstruments(instrumentType: string, country: string
     const collectedInstruments = format({headers: true});
     collectedInstruments.pipe(fs.createWriteStream(composeFilename(`./resources/${instrumentType}s/${country}`)));
     extraInstruments.forEach(data => collectedInstruments.write(data));
-    const pathToBaseInstruments = composeFilename(`${__dirname}/assets/${instrumentType}/${country}`);
+    const pathToBaseInstruments = composeFilename(`${__dirname}/../../assets/${instrumentType}/${country}`);
     return fs.promises.access(pathToBaseInstruments, fs.constants.F_OK)
         .then(() => {
             fs.createReadStream(pathToBaseInstruments)

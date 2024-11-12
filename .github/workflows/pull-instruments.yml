@@ -37,8 +37,6 @@ jobs:
       - run: npm i @pods13/findata
       - name: Create dirs
         run: mkdir -p resources/etfs resources/stocks
-      - name: debug
-        run: ls -l node_modules/@pods13/findata/dist/collectors/assets/stock
       - name: collect ru instruments
         timeout-minutes: 10
         run: npx -p @pods13/findata collect-inst-ru Russia
