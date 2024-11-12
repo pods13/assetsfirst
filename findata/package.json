@@ -21,6 +21,9 @@
     "prices:global": "node dist/tasks/global-prices/index.js",
     "dividends:snowball": "node dist/tasks/snowball-dividends/index.js"
   },
+  "files": [
+    "dist/**/*.csv"
+  ],
   "bin": {
     "dividends-all": "dist/tasks/all-dividends/index.js",
     "dividends-ru": "dist/tasks/mcx-dividends/index.js",
