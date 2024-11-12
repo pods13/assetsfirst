@@ -25,6 +25,7 @@ export async function collectInstruments(instrumentType: string, country: string
                 });
         })
         .catch(err => {
+            console.warn(`Cannot open file ${pathToBaseInstruments}`, err);
             collectedInstruments.end();
         }).finally(() => {
             console.log(`Added ${extraInstruments.length} extra ${instrumentType}`);
