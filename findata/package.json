@@ -22,7 +22,7 @@
     "dividends:snowball": "node dist/tasks/snowball-dividends/index.js"
   },
   "files": [
-    "dist/**/*.csv"
+    "dist/**"
   ],
   "bin": {
     "dividends-all": "dist/tasks/all-dividends/index.js",
