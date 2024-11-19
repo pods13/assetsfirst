@@ -32,6 +32,7 @@ import lombok.Setter;
 import lombok.Singular;
 import lombok.experimental.Accessors;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.DiscriminatorOptions;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 

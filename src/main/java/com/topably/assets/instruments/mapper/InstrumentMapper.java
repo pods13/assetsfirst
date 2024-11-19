@@ -1,6 +1,8 @@
 package com.topably.assets.instruments.mapper;
 
 import com.topably.assets.instruments.domain.Instrument;
+import com.topably.assets.instruments.domain.InstrumentType;
+import com.topably.assets.instruments.domain.dto.ImportInstrumentDto;
 import com.topably.assets.instruments.domain.dto.InstrumentDto;
 import com.topably.assets.instruments.domain.instrument.ETF;
 import com.topably.assets.instruments.domain.instrument.FX;
@@ -31,5 +33,27 @@ public interface InstrumentMapper {
     @Mapping(target = "name", expression = "java(\"Currency\")")
     @Mapping(target = "currencyCode", source = "currency.currencyCode")
     InstrumentDto fxToDto(FX fx);
+
+    default Instrument importDtoToModel(ImportInstrumentDto dto) {
+        if (InstrumentType.STOCK.equals(dto.getType())) {
+            return importDtoToStock(dto);
+        } else if (InstrumentType.ETF.equals(dto.getType())) {
+            return importDtoToEtf(dto);
+        } else {
+            throw new UnsupportedOperationException("Unsupported type: " + dto.getType());
+        }
+    };
+
+    @Mapping(target = "symbol", source = "identifier.symbol")
+    @Mapping(target = "exchangeCode", source = "identifier.exchange")
+    @Mapping(target = "attributes", expression = "java(java.util.Collections.emptyMap())")
+    @Mapping(target = "currency", expression = "java(com.topably.assets.findata.exchanges.domain.ExchangeEnum.valueOf(dto.getIdentifier().getExchange()).getCurrency())")
+    Stock importDtoToStock(ImportInstrumentDto dto);
+
+    @Mapping(target = "symbol", source = "identifier.symbol")
+    @Mapping(target = "exchangeCode", source = "identifier.exchange")
+    @Mapping(target = "attributes", expression = "java(java.util.Collections.emptyMap())")
+    @Mapping(target = "currency", expression = "java(com.topably.assets.findata.exchanges.domain.ExchangeEnum.valueOf(dto.getIdentifier().getExchange()).getCurrency())")
+    ETF importDtoToEtf(ImportInstrumentDto dto);
 
 }

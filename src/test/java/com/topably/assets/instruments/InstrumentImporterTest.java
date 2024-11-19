@@ -121,4 +121,23 @@ public class InstrumentImporterTest extends IntegrationTestBase {
         assertThat(instrument.getTags()).hasSize(0);
     }
 
+    @Test
+    public void givenStockData_whenStockImported_thenSuccessfullyImportedWithFilledFields() {
+        var ticker = new Ticker("TEST", NYSE.name());
+        var dto = new ImportInstrumentDto()
+                .setIdentifier(new Ticker("TEST", NYSE.name()))
+                .setName("Test Company")
+                .setIndustry("Unknown")
+                .setType(InstrumentType.STOCK);
+        importer.importInstrument(dto);
+        entityManager.flush();
+        entityManager.clear();
+
+        var instrument = instrumentService.findInstrument(ticker.getSymbol(), ticker.getExchange());
+        assertThat(instrument).isNotNull();
+        assertThat(instrument.getAttributes()).isEmpty();
+        assertThat(instrument.getCurrency()).isEqualTo(NYSE.getCurrency());
+        assertThat(instrument.getInstrumentType()).isEqualTo(InstrumentType.STOCK.name());
+    }
+
 }

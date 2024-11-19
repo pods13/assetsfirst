@@ -1,5 +1,7 @@
 package com.topably.assets.instruments.service.importer;
 
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
@@ -9,6 +11,8 @@ import com.topably.assets.findata.exchanges.domain.ExchangeEnum;
 import com.topably.assets.instruments.domain.Instrument;
 import com.topably.assets.instruments.domain.dto.ImportInstrumentDto;
 import com.topably.assets.instruments.domain.dto.ImportedInstrumentDto;
+import com.topably.assets.instruments.domain.instrument.Stock;
+import com.topably.assets.instruments.mapper.InstrumentMapper;
 import com.topably.assets.instruments.repository.InstrumentRepository;
 import com.topably.assets.tags.domain.Tag;
 import com.topably.assets.tags.service.TagCategoryService;
@@ -26,13 +30,10 @@ public class DefaultInstrumentImporter {
 
     private final InstrumentRepository instrumentRepository;
     private final TagCategoryService tagCategoryService;
+    private final InstrumentMapper instrumentMapper;
 
     private ImportedInstrumentDto addInstrument(ImportInstrumentDto dto) {
-        var instrument = new Instrument()
-            .setName(dto.getName())
-            .setSymbol(dto.getIdentifier().getSymbol())
-            .setExchangeCode(dto.getIdentifier().getExchange())
-            .setCurrency(ExchangeEnum.valueOf(dto.getIdentifier().getExchange()).getCurrency());
+        Instrument instrument = instrumentMapper.importDtoToModel(dto);
         var sector = Optional.ofNullable(dto.getSector()).map(this::getSectorByName).orElse(null);
         instrument.addTag(sector);
         var industry = Optional.ofNullable(dto.getIndustry()).map(this::getIndustryByName).orElse(null);
@@ -66,20 +67,20 @@ public class DefaultInstrumentImporter {
         return convertToDto(instrument);
     }
 
-    private Set<Tag> enrichTags(Instrument stock, String tagName, Function<String, Tag> getTagByName) {
-        if (stock.getTags().stream()
+    private Set<Tag> enrichTags(Instrument instrument, String tagName, Function<String, Tag> getTagByName) {
+        if (instrument.getTags().stream()
             .anyMatch(t -> t.getName().equals(tagName))) {
-            return stock.getTags();
+            return instrument.getTags();
         }
         return Optional.ofNullable(tagName).map(getTagByName)
             .map(tag -> {
-                var updatedTags = stock.getTags()
+                var updatedTags = instrument.getTags()
                     .stream()
                     .filter(t -> !t.getCategory().getId().equals(tag.getCategory().getId()))
                     .collect(Collectors.toSet());
                 updatedTags.add(tag);
                 return updatedTags;
-            }).orElse(stock.getTags());
+            }).orElse(instrument.getTags());
     }
 
     private ImportedInstrumentDto convertToDto(Instrument instrument) {
