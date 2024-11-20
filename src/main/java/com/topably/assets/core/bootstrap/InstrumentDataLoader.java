@@ -140,7 +140,6 @@ public class InstrumentDataLoader implements CommandLineRunner {
     }
 
     private void addFXInstruments() {
-        //TODO
         importer.importInstrument(new ImportInstrumentDto()
                 .setType(InstrumentType.FX)
                 .setName("Currency USD.RUB")

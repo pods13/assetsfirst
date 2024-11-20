@@ -1,6 +1,7 @@
 package com.topably.assets.core.bootstrap;
 
 import com.topably.assets.auth.domain.Authority;
+import com.topably.assets.auth.domain.role.Roles;
 import com.topably.assets.auth.repository.AuthorityRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
@@ -20,6 +21,8 @@ public class AuthorityDataLoader implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        authorityRepository.save(Authority.builder().role("USER").build());
+        authorityRepository.findByRole(Roles.USER.name())
+                .orElseGet(() -> authorityRepository.save(Authority.builder().role(Roles.USER.name()).build()));
+
     }
 }

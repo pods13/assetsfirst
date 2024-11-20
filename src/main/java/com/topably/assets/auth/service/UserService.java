@@ -4,6 +4,7 @@ import com.topably.assets.auth.domain.ChangePasswordDto;
 import com.topably.assets.auth.domain.CreateUserDto;
 import com.topably.assets.auth.domain.User;
 import com.topably.assets.auth.domain.UserDto;
+import com.topably.assets.auth.domain.role.Roles;
 import com.topably.assets.auth.domain.security.CurrentUser;
 import com.topably.assets.auth.event.UserCreatedEvent;
 import com.topably.assets.auth.repository.AuthorityRepository;
@@ -43,7 +44,8 @@ public class UserService {
         if (userRepository.findByUsername(userDto.getUsername()).isPresent()) {
             throw new RuntimeException();
         }
-        var userRole = authorityRepository.findByRole("USER");
+        var userRole = authorityRepository.findByRole(Roles.USER.name())
+                .orElseThrow(() -> new RuntimeException("User Role Not Found"));
         var firstLogin = true;
         User user = new User()
             .setUsername(userDto.getUsername())
