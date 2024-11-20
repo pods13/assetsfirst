@@ -14,7 +14,7 @@ import {getClient} from '../../utils/client';
 const tickerBySlug: { [key: string]: string } = {};
 
 async function main() {
-    const resourceFolderPath = './resources/stocks';
+    const resourceFolderPath = `${__dirname}/../../../assets/stock`;
     const filenames = await fsPromises.readdir(resourceFolderPath);
     const whenFilesRead = filenames
         .map(f => fillTickerCacheFromFile(path.join(resourceFolderPath, f)));
