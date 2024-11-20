@@ -1,5 +1,6 @@
 package com.topably.assets.instruments.mapper;
 
+import com.topably.assets.findata.exchanges.domain.ExchangeEnum;
 import com.topably.assets.instruments.domain.Instrument;
 import com.topably.assets.instruments.domain.InstrumentType;
 import com.topably.assets.instruments.domain.dto.ImportInstrumentDto;
@@ -13,9 +14,12 @@ import org.mapstruct.NullValueMappingStrategy;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.SubclassMapping;
 
+import java.util.Currency;
+import java.util.Optional;
+
 @Mapper(
-    nullValueMappingStrategy = NullValueMappingStrategy.RETURN_DEFAULT,
-    unmappedTargetPolicy = ReportingPolicy.IGNORE
+        nullValueMappingStrategy = NullValueMappingStrategy.RETURN_DEFAULT,
+        unmappedTargetPolicy = ReportingPolicy.IGNORE
 )
 public interface InstrumentMapper {
 
@@ -39,21 +43,32 @@ public interface InstrumentMapper {
             return importDtoToStock(dto);
         } else if (InstrumentType.ETF.equals(dto.getType())) {
             return importDtoToEtf(dto);
+        } else if (InstrumentType.FX.equals(dto.getType())) {
+            return importDtoToFX(dto);
         } else {
             throw new UnsupportedOperationException("Unsupported type: " + dto.getType());
         }
-    };
+    }
 
     @Mapping(target = "symbol", source = "identifier.symbol")
     @Mapping(target = "exchangeCode", source = "identifier.exchange")
     @Mapping(target = "attributes", expression = "java(java.util.Collections.emptyMap())")
-    @Mapping(target = "currency", expression = "java(com.topably.assets.findata.exchanges.domain.ExchangeEnum.valueOf(dto.getIdentifier().getExchange()).getCurrency())")
+    @Mapping(target = "currency", expression = "java(getInstrumentCurrency(dto))")
     Stock importDtoToStock(ImportInstrumentDto dto);
 
     @Mapping(target = "symbol", source = "identifier.symbol")
     @Mapping(target = "exchangeCode", source = "identifier.exchange")
     @Mapping(target = "attributes", expression = "java(java.util.Collections.emptyMap())")
-    @Mapping(target = "currency", expression = "java(com.topably.assets.findata.exchanges.domain.ExchangeEnum.valueOf(dto.getIdentifier().getExchange()).getCurrency())")
+    @Mapping(target = "currency", expression = "java(getInstrumentCurrency(dto))")
     ETF importDtoToEtf(ImportInstrumentDto dto);
 
+    @Mapping(target = "symbol", source = "identifier.symbol")
+    @Mapping(target = "exchangeCode", source = "identifier.exchange")
+    @Mapping(target = "attributes", expression = "java(java.util.Collections.emptyMap())")
+    @Mapping(target = "currency", expression = "java(getInstrumentCurrency(dto))")
+    FX importDtoToFX(ImportInstrumentDto dto);
+
+    default Currency getInstrumentCurrency(ImportInstrumentDto dto) {
+        return Optional.ofNullable(dto.getCurrency()).orElse(ExchangeEnum.valueOf(dto.getIdentifier().getExchange()).getCurrency());
+    }
 }

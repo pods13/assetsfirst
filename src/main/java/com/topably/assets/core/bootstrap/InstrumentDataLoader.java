@@ -30,9 +30,6 @@ import static com.topably.assets.findata.exchanges.domain.ExchangeEnum.NYSEARCA;
 @ConditionalOnProperty(name = "app.bootstrap.with.data", havingValue = "true")
 public class InstrumentDataLoader implements CommandLineRunner {
 
-    private final ETFRepository etfRepository;
-    private final FXRepository fxRepository;
-
     private final DefaultInstrumentImporter importer;
 
     @Override
@@ -44,150 +41,141 @@ public class InstrumentDataLoader implements CommandLineRunner {
     }
 
     private void addEtfInstruments() {
-        var etfs = new ArrayList<ETF>();
+        importer.importInstrument(new ImportInstrumentDto()
+                .setName("KraneShares Global Carbon Strategy ETF")
+                .setType(InstrumentType.ETF)
+                .setIdentifier(new Ticker("KRBN", NYSEARCA.name())));
 
-        etfs.add(ETF.builder()
-            .name("KraneShares Global Carbon Strategy ETF")
-            .exchangeCode(NYSEARCA.name())
-            .symbol("KRBN")
-            .currency(Currency.getInstance("USD"))
-            .build());
-
-        etfs.add(ETF.builder()
-            .name("FinEx China UCITS ETF")
-            .exchangeCode(ExchangeEnum.MCX.name())
-            .symbol("FXCN")
-            .currency(Currency.getInstance("RUB"))
-            .build());
-
-        etfRepository.saveAll(etfs);
+        importer.importInstrument(new ImportInstrumentDto()
+                .setName("FinEx China UCITS ETF")
+                .setType(InstrumentType.ETF)
+                .setIdentifier(new Ticker("FXCN", ExchangeEnum.MCX.name())));
     }
 
     private void addStockInstruments() {
         importer.importInstrument(new ImportInstrumentDto()
-            .setType(InstrumentType.STOCK)
-            .setName("Newmont Goldcorp Corp")
-            .setIdentifier(new Ticker("NEM", NYSE.name())));
+                .setType(InstrumentType.STOCK)
+                .setName("Newmont Goldcorp Corp")
+                .setIdentifier(new Ticker("NEM", NYSE.name())));
 
         importer.importInstrument(new ImportInstrumentDto()
-            .setType(InstrumentType.STOCK)
-            .setName("Bayer AG NA")
-            .setIdentifier(new Ticker("BAYN", ExchangeEnum.XETRA.name())));
+                .setType(InstrumentType.STOCK)
+                .setName("Bayer AG NA")
+                .setIdentifier(new Ticker("BAYN", ExchangeEnum.XETRA.name())));
 
         importer.importInstrument(new ImportInstrumentDto()
-            .setType(InstrumentType.STOCK)
-            .setName("Altria Group")
-            .setIdentifier(new Ticker("MO", NYSE.name())));
+                .setType(InstrumentType.STOCK)
+                .setName("Altria Group")
+                .setIdentifier(new Ticker("MO", NYSE.name())));
 
         importer.importInstrument(new ImportInstrumentDto()
-            .setType(InstrumentType.STOCK)
-            .setName("Omega Healthcare Investors, Inc")
-            .setIdentifier(new Ticker("OHI", NYSE.name())));
+                .setType(InstrumentType.STOCK)
+                .setName("Omega Healthcare Investors, Inc")
+                .setIdentifier(new Ticker("OHI", NYSE.name())));
 
         importer.importInstrument(new ImportInstrumentDto()
-            .setType(InstrumentType.STOCK)
-            .setName("The Coca-Cola Company")
-            .setIdentifier(new Ticker("KO", NYSE.name())));
+                .setType(InstrumentType.STOCK)
+                .setName("The Coca-Cola Company")
+                .setIdentifier(new Ticker("KO", NYSE.name())));
 
         importer.importInstrument(new ImportInstrumentDto()
-            .setType(InstrumentType.STOCK)
-            .setName("TotalEnergies SE")
-            .setIdentifier(new Ticker("TTE", NYSE.name())));
+                .setType(InstrumentType.STOCK)
+                .setName("TotalEnergies SE")
+                .setIdentifier(new Ticker("TTE", NYSE.name())));
 
         importer.importInstrument(new ImportInstrumentDto()
-            .setType(InstrumentType.STOCK)
-            .setName("PJSC Rosneft Oil Company")
-            .setIdentifier(new Ticker("ROSN", ExchangeEnum.MCX.name())));
+                .setType(InstrumentType.STOCK)
+                .setName("PJSC Rosneft Oil Company")
+                .setIdentifier(new Ticker("ROSN", ExchangeEnum.MCX.name())));
 
         importer.importInstrument(new ImportInstrumentDto()
-            .setType(InstrumentType.STOCK)
-            .setName("PJSC Gazprom")
-            .setIdentifier(new Ticker("GAZP", ExchangeEnum.MCX.name())));
+                .setType(InstrumentType.STOCK)
+                .setName("PJSC Gazprom")
+                .setIdentifier(new Ticker("GAZP", ExchangeEnum.MCX.name())));
 
         importer.importInstrument(new ImportInstrumentDto()
-            .setType(InstrumentType.STOCK)
-            .setName("Ros Agro PLC")
-            .setIdentifier(new Ticker("AGRO", ExchangeEnum.MCX.name())));
+                .setType(InstrumentType.STOCK)
+                .setName("Ros Agro PLC")
+                .setIdentifier(new Ticker("AGRO", ExchangeEnum.MCX.name())));
 
         importer.importInstrument(new ImportInstrumentDto()
-            .setType(InstrumentType.STOCK)
-            .setName("PJSC Polyus")
-            .setIdentifier(new Ticker("PLZL", ExchangeEnum.MCX.name())));
+                .setType(InstrumentType.STOCK)
+                .setName("PJSC Polyus")
+                .setIdentifier(new Ticker("PLZL", ExchangeEnum.MCX.name())));
 
         importer.importInstrument(new ImportInstrumentDto()
-            .setType(InstrumentType.STOCK)
-            .setName("PhosAgro")
-            .setIdentifier(new Ticker("PHOR", ExchangeEnum.MCX.name())));
+                .setType(InstrumentType.STOCK)
+                .setName("PhosAgro")
+                .setIdentifier(new Ticker("PHOR", ExchangeEnum.MCX.name())));
 
         importer.importInstrument(new ImportInstrumentDto()
-            .setType(InstrumentType.STOCK)
-            .setName("Public Joint Stock Company Inter RAO UES")
-            .setIdentifier(new Ticker("IRAO", ExchangeEnum.MCX.name())));
+                .setType(InstrumentType.STOCK)
+                .setName("Public Joint Stock Company Inter RAO UES")
+                .setIdentifier(new Ticker("IRAO", ExchangeEnum.MCX.name())));
 
         importer.importInstrument(new ImportInstrumentDto()
-            .setType(InstrumentType.STOCK)
-            .setName("Mobile TeleSystems Public Joint Stock Company")
-            .setIdentifier(new Ticker("MTSS", ExchangeEnum.MCX.name())));
+                .setType(InstrumentType.STOCK)
+                .setName("Mobile TeleSystems Public Joint Stock Company")
+                .setIdentifier(new Ticker("MTSS", ExchangeEnum.MCX.name())));
 
         importer.importInstrument(new ImportInstrumentDto()
-            .setType(InstrumentType.STOCK)
-            .setName("Public Joint Stock Company Magnit")
-            .setIdentifier(new Ticker("MGNT", ExchangeEnum.MCX.name())));
+                .setType(InstrumentType.STOCK)
+                .setName("Public Joint Stock Company Magnit")
+                .setIdentifier(new Ticker("MGNT", ExchangeEnum.MCX.name())));
 
         importer.importInstrument(new ImportInstrumentDto()
-            .setType(InstrumentType.STOCK)
-            .setName("Public Joint-Stock Company Moscow Exchange MICEX-RTS")
-            .setIdentifier(new Ticker("MOEX", ExchangeEnum.MCX.name())));
+                .setType(InstrumentType.STOCK)
+                .setName("Public Joint-Stock Company Moscow Exchange MICEX-RTS")
+                .setIdentifier(new Ticker("MOEX", ExchangeEnum.MCX.name())));
 
         importer.importInstrument(new ImportInstrumentDto()
-            .setType(InstrumentType.STOCK)
-            .setName("Sberbank of Russia")
-            .setIdentifier(new Ticker("SBERP", ExchangeEnum.MCX.name())));
+                .setType(InstrumentType.STOCK)
+                .setName("Sberbank of Russia")
+                .setIdentifier(new Ticker("SBERP", ExchangeEnum.MCX.name())));
 
         importer.importInstrument(new ImportInstrumentDto()
-            .setType(InstrumentType.STOCK)
-            .setName("China National Offshore Oil Corporatio")
-            .setIdentifier(new Ticker("0883", ExchangeEnum.HK.name())));
+                .setType(InstrumentType.STOCK)
+                .setName("China National Offshore Oil Corporatio")
+                .setIdentifier(new Ticker("0883", ExchangeEnum.HK.name())));
     }
 
     private void addFXInstruments() {
-        var usdrub = FX.builder()
-            .name("Currency USD.RUB")
-            .exchangeCode(ExchangeEnum.MCX.name())
-            .symbol("USD.RUB")
-            .currency(Currency.getInstance("USD"))
-            .build();
-        var eurrub = FX.builder()
-            .exchangeCode(ExchangeEnum.FX_IDC.name())
-            .name("Currency EUR.RUB")
-            .symbol("EUR.RUB")
-            .currency(Currency.getInstance("EUR"))
-            .build();
-        var cnyrub = FX.builder()
-            .exchangeCode(ExchangeEnum.FX_IDC.name())
-            .name("Currency CNY.RUB")
-            .symbol("CNY.RUB")
-            .currency(Currency.getInstance("CNY"))
-            .build();
-        var hkdrub = FX.builder()
-            .exchangeCode(ExchangeEnum.FX_IDC.name())
-            .name("Currency HKD.RUB")
-            .symbol("HKD.RUB")
-            .currency(Currency.getInstance("HKD"))
-            .build();
-        var gldrub_tom = FX.builder()
-            .exchangeCode(ExchangeEnum.MCX.name())
-            .name("Золото")
-            .symbol("GLDRUB_TOM")
-            .currency(Currency.getInstance("RUB"))
-            .build();
-        var rubUsd = FX.builder()
-            .exchangeCode(ExchangeEnum.FX_IDC.name())
-            .name("Валюта RUB.USD")
-            .symbol("RUB.USD")
-            .currency(Currency.getInstance("RUB"))
-            .build();
-        fxRepository.saveAll(List.of(usdrub, eurrub, cnyrub, hkdrub, gldrub_tom, rubUsd));
+        //TODO
+        importer.importInstrument(new ImportInstrumentDto()
+                .setType(InstrumentType.FX)
+                .setName("Currency USD.RUB")
+                .setIdentifier(new Ticker("USD.RUB", ExchangeEnum.FX_IDC.name()))
+                .setCurrency(Currency.getInstance("USD")));
+
+        importer.importInstrument(new ImportInstrumentDto()
+                .setType(InstrumentType.FX)
+                .setName("Currency EUR.RUB")
+                .setIdentifier(new Ticker("EUR.RUB", ExchangeEnum.FX_IDC.name()))
+                .setCurrency(Currency.getInstance("EUR")));
+
+        importer.importInstrument(new ImportInstrumentDto()
+                .setType(InstrumentType.FX)
+                .setName("Currency CNY.RUB")
+                .setIdentifier(new Ticker("CNY.RUB", ExchangeEnum.FX_IDC.name()))
+                .setCurrency(Currency.getInstance("CNY")));
+
+        importer.importInstrument(new ImportInstrumentDto()
+                .setType(InstrumentType.FX)
+                .setName("Currency HKD.RUB")
+                .setIdentifier(new Ticker("HKD.RUB", ExchangeEnum.FX_IDC.name()))
+                .setCurrency(Currency.getInstance("HKD")));
+
+        importer.importInstrument(new ImportInstrumentDto()
+                .setType(InstrumentType.FX)
+                .setName("Золото")
+                .setIdentifier(new Ticker("GLDRUB_TOM", ExchangeEnum.MCX.name()))
+                .setCurrency(Currency.getInstance("RUB")));
+
+        importer.importInstrument(new ImportInstrumentDto()
+                .setType(InstrumentType.FX)
+                .setName("Валюта RUB.USD")
+                .setIdentifier(new Ticker("RUB.USD", ExchangeEnum.FX_IDC.name()))
+                .setCurrency(Currency.getInstance("RUB")));
     }
 
 }

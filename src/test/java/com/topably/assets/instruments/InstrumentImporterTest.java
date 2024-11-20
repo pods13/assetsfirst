@@ -10,12 +10,17 @@ import com.topably.assets.integration.base.IntegrationTestBase;
 import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.DirtiesContext;
 
+import java.util.Currency;
+
+import static com.topably.assets.findata.exchanges.domain.ExchangeEnum.MCX;
 import static com.topably.assets.findata.exchanges.domain.ExchangeEnum.NYSE;
 import static org.assertj.core.api.Assertions.assertThat;
 
 
 @IT
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 public class InstrumentImporterTest extends IntegrationTestBase {
 
     @Autowired
@@ -64,7 +69,7 @@ public class InstrumentImporterTest extends IntegrationTestBase {
     public void givenStockDataWithUnknownSector_whenStockImported_thenSuccessfullyImported() {
         var ticker = new Ticker("TEST", NYSE.name());
         var dto = new ImportInstrumentDto()
-            .setIdentifier(new Ticker("TEST", NYSE.name()))
+            .setIdentifier(ticker)
             .setName("Test Company")
             .setSector("Unknown")
             .setType(InstrumentType.STOCK);
@@ -82,7 +87,7 @@ public class InstrumentImporterTest extends IntegrationTestBase {
         var ticker = new Ticker("TEST", NYSE.name());
         var companyName = "Test Company";
         importer.importInstrument(new ImportInstrumentDto()
-            .setIdentifier(new Ticker("TEST", NYSE.name()))
+            .setIdentifier(ticker)
             .setName(companyName)
             .setIndustry("Газ и нефть")
             .setType(InstrumentType.STOCK));
@@ -108,7 +113,7 @@ public class InstrumentImporterTest extends IntegrationTestBase {
     public void givenStockDataWithUnknownIndustry_whenStockImported_thenSuccessfullyImported() {
         var ticker = new Ticker("TEST", NYSE.name());
         var dto = new ImportInstrumentDto()
-            .setIdentifier(new Ticker("TEST", NYSE.name()))
+            .setIdentifier(ticker)
             .setName("Test Company")
             .setIndustry("Unknown")
             .setType(InstrumentType.STOCK);
@@ -125,7 +130,7 @@ public class InstrumentImporterTest extends IntegrationTestBase {
     public void givenStockData_whenStockImported_thenSuccessfullyImportedWithFilledFields() {
         var ticker = new Ticker("TEST", NYSE.name());
         var dto = new ImportInstrumentDto()
-                .setIdentifier(new Ticker("TEST", NYSE.name()))
+                .setIdentifier(ticker)
                 .setName("Test Company")
                 .setIndustry("Unknown")
                 .setType(InstrumentType.STOCK);
@@ -138,6 +143,26 @@ public class InstrumentImporterTest extends IntegrationTestBase {
         assertThat(instrument.getAttributes()).isEmpty();
         assertThat(instrument.getCurrency()).isEqualTo(NYSE.getCurrency());
         assertThat(instrument.getInstrumentType()).isEqualTo(InstrumentType.STOCK.name());
+    }
+
+
+    @Test
+    public void givenETFData_whenEtfImportedWithSpecifiedCurrency_thenSuccessfullyImported() {
+        Ticker ticker = new Ticker("TEST.ETF", MCX.name());
+        var dto = new ImportInstrumentDto()
+                .setIdentifier(ticker)
+                .setName("Test ETF")
+                .setIndustry("Unknown")
+                .setType(InstrumentType.ETF)
+                .setCurrency(Currency.getInstance("USD"));
+        importer.importInstrument(dto);
+        entityManager.flush();
+        entityManager.clear();
+
+        var instrument = instrumentService.findInstrument(ticker.getSymbol(), ticker.getExchange());
+        assertThat(instrument).isNotNull();
+        assertThat(instrument.getCurrency()).isEqualTo(Currency.getInstance("USD"));
+        assertThat(instrument.getInstrumentType()).isEqualTo(InstrumentType.ETF.name());
     }
 
 }
