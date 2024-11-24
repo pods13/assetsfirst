@@ -4,6 +4,7 @@ import { parse } from 'fast-csv';
 import { RESOURCE_DIR, STOCKS_DIR } from './constants';
 import { InstrumentData } from './types/instrument-data';
 import { Knex } from 'knex';
+import {Instrument} from "./types/instrument";
 
 export async function getStocksByCountry(country: string): Promise<InstrumentData[]> {
     const filePath = path.join(RESOURCE_DIR, STOCKS_DIR, country.replace(' ', '-').toLowerCase() + '.csv');
@@ -29,7 +30,7 @@ function filterData(data: InstrumentData) {
         || ('XETRA' === data.exchange && (data.slug && data.slug.indexOf('?cid') === -1 || data.slug && data.slug.indexOf('-ag') !== -1));
 }
 
-export async function getInstruments(connection: Knex, exchanges: string[], inAnyPortfolio = true): Promise<{ id: number; symbol: string; exchange: string; }[]> {
+export async function getInstruments(connection: Knex, exchanges: string[], inAnyPortfolio = true): Promise<Instrument[]> {
     return connection.raw(`select i.id, i.symbol as symbol, i.exchange_code as exchange
                            from instrument i
                            where i.exchange_code in (?)
