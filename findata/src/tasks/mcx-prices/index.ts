@@ -2,27 +2,33 @@
 
 import MoexAPI from 'moex-api';
 import connection from '../../common/connection';
-import { getInstruments, getStocksByCountry } from '../../common/instrument.service';
+import { getInstruments } from '../../common/instrument.service';
+import {Instrument} from "../../common/types/instrument";
 
 const moexApi = new MoexAPI();
+
+const getQuote = async (instrument: Instrument) => {
+    return moexApi.securityMarketData(instrument.symbol)
+        .then(data => {
+            const {SECID, LAST, securityInfo} = data;
+            const prevPrice = securityInfo?.['PREVPRICE'];
+            if (!LAST && !prevPrice) {
+                console.warn(`Got empty price for ${instrument.symbol}`);
+                return null;
+            }
+            return {
+                instrument_id: instrument.id,
+                datetime: new Date(),
+                value: LAST ?? prevPrice
+            };
+        })
+}
 
 async function main() {
     const instruments = await getInstruments(connection, ['MCX']);
 
     const whenSecuritiesInserted = instruments.map(instrument => {
-        return moexApi.securityMarketData(instrument.symbol)
-            .then(data => {
-                const {SECID, LAST} = data;
-                if (!LAST) {
-                    console.warn(`Got empty price for ${instrument.symbol}`);
-                    return null;
-                }
-                return {
-                    instrument_id: instrument.id,
-                    datetime: new Date(),
-                    value: LAST
-                };
-            })
+        return getQuote(instrument)
             .then(res => {
                 if (res) {
                     return connection('instrument_price').insert(res)
@@ -40,4 +46,7 @@ async function main() {
         .finally(() => connection.destroy());
 }
 
-main();
+// main();
+
+getQuote({id:1 , symbol: 'AGRO', exchange: 'MCX'})
+.then(console.log)
