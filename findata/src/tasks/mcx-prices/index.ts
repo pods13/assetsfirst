@@ -46,7 +46,4 @@ async function main() {
         .finally(() => connection.destroy());
 }
 
-// main();
-
-getQuote({id:1 , symbol: 'AGRO', exchange: 'MCX'})
-.then(console.log)
+main();
