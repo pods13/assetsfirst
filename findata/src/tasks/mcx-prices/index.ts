@@ -10,6 +10,7 @@ const moexApi = new MoexAPI();
 const getQuote = async (instrument: Instrument) => {
     return moexApi.securityMarketData(instrument.symbol)
         .then(data => {
+            // console.debug(data);
             const {SECID, LAST, securityInfo} = data;
             const prevPrice = securityInfo?.['PREVPRICE'];
             if (!LAST && !prevPrice) {
@@ -33,7 +34,7 @@ async function main() {
                 if (res) {
                     return connection('instrument_price').insert(res)
                         .catch(e => console.error(e))
-                        .then(() => console.log(`${instrument.symbol} inserted`));
+                        .then(() => console.log(`For ${instrument.symbol} discovered ${res.value} price`));
                 } else {
                     return Promise.resolve();
                 }
