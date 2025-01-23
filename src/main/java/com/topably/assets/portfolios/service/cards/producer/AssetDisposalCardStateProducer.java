@@ -28,6 +28,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import static java.time.temporal.TemporalAdjusters.firstDayOfYear;
+
 
 @Service(CardContainerType.ASSET_DISPOSAL)
 @RequiredArgsConstructor
@@ -44,21 +46,22 @@ public class AssetDisposalCardStateProducer implements CardStateProducer<AssetDi
         var trackedYear = Year.of(now.getYear());
         var positions = portfolioPositionService.findPositionsWithSellTradesByYear(portfolio.getId(), trackedYear);
         var tickerByTradePnls = positions.stream()
-            .collect(Collectors.toMap(p -> p.getInstrument().toTicker(), p -> {
-                var aggregatedTrade = tradeAggregatorService.aggregateTradesByPositionId(p.getId(), now);
-                return aggregatedTrade.getDeltaPnls();
-            }));
+                .collect(Collectors.toMap(p -> p.getInstrument().toTicker(), p -> {
+                    var aggregatedTrade = tradeAggregatorService.aggregateTradesByPositionId(p.getId(), now);
+                    return aggregatedTrade.getDeltaPnls();
+                }));
         var portfolioCurrency = portfolio.getCurrency();
         var profitsByLosses = tickerByTradePnls.entrySet().stream()
-            .map(tickerByPnl -> tickerByPnl.getValue().stream()
-                .map(pnl -> new AssetDisposalDetails(tickerByPnl.getKey(), pnl.calculatePnl(currencyConverter::convert, portfolioCurrency)))
-                .toList()
-            )
-            .flatMap(Collection::stream)
-            .collect(Collectors.partitioningBy(details -> details.total().compareTo(BigDecimal.ZERO) > 0,
-                Collectors.toMap(AssetDisposalDetails::ticker,
-                    Function.identity(),
-                    (d1, d2) -> new AssetDisposalDetails(d1.ticker(), d1.total().add(d2.total())))));
+                .map(tickerByPnl -> tickerByPnl.getValue().stream()
+                        .filter(pnl -> !pnl.sellDate().isBefore(now.with(firstDayOfYear())))
+                        .map(pnl -> new AssetDisposalDetails(tickerByPnl.getKey(), pnl.calculatePnl(currencyConverter::convert, portfolioCurrency)))
+                        .toList()
+                )
+                .flatMap(Collection::stream)
+                .collect(Collectors.partitioningBy(details -> details.total().compareTo(BigDecimal.ZERO) > 0,
+                        Collectors.toMap(AssetDisposalDetails::ticker,
+                                Function.identity(),
+                                (d1, d2) -> new AssetDisposalDetails(d1.ticker(), d1.total().add(d2.total())))));
         var profitDetails = profitsByLosses.get(Boolean.TRUE);
         var profits = calculateSumTotal(portfolioCurrency, profitDetails);
         var lossDetails = profitsByLosses.get(Boolean.FALSE);
@@ -66,20 +69,20 @@ public class AssetDisposalCardStateProducer implements CardStateProducer<AssetDi
         var taxableIncome = loses.add(profits);
 
         return new AssetDisposalCardData()
-            .setProfits(profits)
-            .setProfitDetails(profitDetails.values())
-            .setLosses(loses)
-            .setLossDetails(lossDetails.values())
-            .setTaxableIncome(taxableIncome)
-            .setTrackedYears(Collections.singletonList(trackedYear))
-            .setCurrencyCode(portfolioCurrency.getCurrencyCode());
+                .setProfits(profits)
+                .setProfitDetails(profitDetails.values())
+                .setLosses(loses)
+                .setLossDetails(lossDetails.values())
+                .setTaxableIncome(taxableIncome)
+                .setTrackedYears(Collections.singletonList(trackedYear))
+                .setCurrencyCode(portfolioCurrency.getCurrencyCode());
     }
 
     private BigDecimal calculateSumTotal(Currency portfolioCurrency, Map<Ticker, AssetDisposalDetails> detailsByTicker) {
         return detailsByTicker.values()
-            .stream()
-            .map(AssetDisposalDetails::total)
-            .reduce(BigDecimal.ZERO, BigDecimal::add);
+                .stream()
+                .map(AssetDisposalDetails::total)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
 }
