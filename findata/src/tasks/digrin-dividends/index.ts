@@ -20,7 +20,7 @@ async function main(exchanges: string[], inAnyPortfolio: boolean) {
     const whenDividendsSaved = instruments.map(instrument => {
         return getDividendHistoryByTicker(convertToYahooTicker(instrument))
             .catch(e => {
-                console.error(`Error during dividend data gathering for ${instrument.symbol + ':' + instrument.exchange}`);
+                console.error(`Error during dividend data gathering for ${instrument.symbol + ':' + instrument.exchange} : ${e}`);
                 throw e;
             })
             .then(res => {
