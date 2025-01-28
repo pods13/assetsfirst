@@ -6,7 +6,7 @@ on:
     - cron: "50 10,20 * * *"
 
 jobs:
-  pull-global-dividends:
+  pull-hk-dividends:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -33,9 +33,9 @@ jobs:
           timezoneMacos: "Europe/Moscow"
           timezoneWindows: "Russian Standard Time"
       - run: npm i @pods13/findata
-      - name: pull new global dividends
+      - name: pull new hk dividends
         timeout-minutes: 10
-        run: npx -p @pods13/findata dividends-all
+        run: npx -p @pods13/findata dividends-hk
 
   pull-mcx-dividends:
     runs-on: ubuntu-latest

@@ -1,0 +1,74 @@
+#!/usr/bin/env node
+import {getInstruments} from "../../common/instrument.service";
+import connection from "../../common/connection";
+import {getClient} from "../../utils/client";
+import axios from "axios";
+import {load} from "cheerio";
+import {Instrument} from "../../common/types/instrument";
+
+const args = process.argv.slice(2);
+
+const exchange = args[0];
+const inAnyPortfolio = true;
+
+main(exchange, inAnyPortfolio);
+
+async function main(exchange: string, inAnyPortfolio: boolean) {
+    const instruments = await getInstruments(connection, [exchange], inAnyPortfolio);
+    const client = await getClient();
+
+    const whenDividendsSaved = instruments.map(instrument => {
+        return getDividendHistoryByTicker(convertToTicker(instrument))
+            .catch(e => {
+                console.error(`Error during dividend data gathering for ${instrument.symbol + ':' + instrument.exchange}`);
+                throw e;
+            })
+            .then(res => {
+                if (res) {
+                    return client.post(`/dividends?symbol=${instrument.symbol}&exchange=${instrument.exchange}`, res)
+                        .then(() => console.log(`Dividends were received for ${instrument.symbol + ':' + instrument.exchange}`));
+                } else {
+                    return Promise.resolve();
+                }
+            })
+    });
+
+    await Promise.allSettled(whenDividendsSaved)
+        .catch(console.error)
+        .finally(() => connection.destroy());
+}
+
+async function getDividendHistoryByTicker(ticker: string) {
+    const res = await axios.get(`https://www.digrin.com/stocks/detail/${ticker}`);
+    const $ = load(res.data);
+    const dividendsTable = $(`table.table.table-striped > tbody`);
+    const result: any[] = [];
+    dividendsTable.find('tr').each((i: any, divDataEl: any) => {
+        const divData: any = {};
+        load(divDataEl)('td').each((index: any, el: any) => {
+            if (index === 0) {
+                divData['declareDate'] = $(el).text();
+                divData['recordDate'] = $(el).text();
+            } else if (index === 1) {
+                divData['payDate'] = $(el).text();
+            } else if (index === 2) {
+                const dividendAmountAsText = $(el).contents().filter(function() {
+                    return this.nodeType === 3;
+                }).text();
+                divData['amount'] =  parseAmount(dividendAmountAsText)
+            }
+        });
+        result.push(divData);
+    });
+    return result;
+}
+
+const parseAmount = (amount: string): number => {
+    const matched = amount.match(/[\d\.]+/);
+    return matched ? +matched[0]: 0;
+}
+
+function convertToTicker({symbol, exchange}: Instrument): string {
+
+    return `${symbol}.${exchange}`;
+}
