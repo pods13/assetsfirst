@@ -35,7 +35,7 @@ jobs:
       - run: npm i @pods13/findata
       - name: pull new hk dividends
         timeout-minutes: 10
-        run: npx -p @pods13/findata dividends-hk
+        run: npx -p @pods13/findata dividends-hk HK
 
   pull-mcx-dividends:
     runs-on: ubuntu-latest
