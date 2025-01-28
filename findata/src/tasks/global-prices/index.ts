@@ -4,11 +4,10 @@ import yahooFinance from 'yahoo-finance2';
 import connection from '../../common/connection';
 import {getInstruments} from '../../common/instrument.service';
 import {Instrument} from "../../common/types/instrument";
-
-const US_EXCHANGES = ['NYSE', 'NYSEARCA', 'NASDAQ'];
+import {convertToYahooTicker} from '../../utils/ticker';
 
 const getQuote = async (instrument: Instrument) => {
-    const ticker = convertToYahooTicker(instrument.symbol, instrument.exchange);
+    const ticker = convertToYahooTicker(instrument);
     return yahooFinance.quoteSummary(ticker, {modules: ['price']})
         .catch(e => console.error(`Cannot find price data for ${ticker}: `, e))
         .then(quote => {
@@ -48,18 +47,6 @@ async function main() {
     await Promise.allSettled(whenInstrumentPricesInserted)
         .catch(console.error)
         .finally(() => connection.destroy());
-}
-
-function convertToYahooTicker(symbol: string, exchange: string): string {
-    if (US_EXCHANGES.includes(exchange)) {
-        return `${symbol}`;
-    } else if ('XETRA' === exchange) {
-        return `${symbol}.DE`;
-    } else if ('MCX' === exchange) {
-        return `${symbol}.ME`;
-    }
-
-    return `${symbol}.${exchange}`;
 }
 
 main();

@@ -6,6 +6,66 @@ on:
     - cron: "50 10,20 * * *"
 
 jobs:
+  pull-xetra-dividends:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: findata
+    permissions:
+      contents: read
+      packages: read
+    env:
+      API_ASSETSFIRST_URL: ${{secrets.API_ASSETSFIRST_URL}}
+      API_ASSETSFIRST_USERNAME: ${{secrets.API_ASSETSFIRST_USERNAME}}
+      API_ASSETSFIRST_PASSWORD: ${{secrets.API_ASSETSFIRST_PASSWORD}}
+      DATABASE_URL: ${{secrets.DATABASE_URL}}
+      NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 16
+          registry-url: https://npm.pkg.github.com/
+          always-auth: true
+      - uses: szenius/set-timezone@v2.0
+        with:
+          timezoneLinux: "Europe/Moscow"
+          timezoneMacos: "Europe/Moscow"
+          timezoneWindows: "Russian Standard Time"
+      - run: npm i @pods13/findata
+      - name: pull new hk dividends
+        timeout-minutes: 10
+        run: npx -p @pods13/findata dividends-global XETRA
+  pull-us-dividends:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: findata
+    permissions:
+      contents: read
+      packages: read
+    env:
+      API_ASSETSFIRST_URL: ${{secrets.API_ASSETSFIRST_URL}}
+      API_ASSETSFIRST_USERNAME: ${{secrets.API_ASSETSFIRST_USERNAME}}
+      API_ASSETSFIRST_PASSWORD: ${{secrets.API_ASSETSFIRST_PASSWORD}}
+      DATABASE_URL: ${{secrets.DATABASE_URL}}
+      NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 16
+          registry-url: https://npm.pkg.github.com/
+          always-auth: true
+      - uses: szenius/set-timezone@v2.0
+        with:
+          timezoneLinux: "Europe/Moscow"
+          timezoneMacos: "Europe/Moscow"
+          timezoneWindows: "Russian Standard Time"
+      - run: npm i @pods13/findata
+      - name: pull new hk dividends
+        timeout-minutes: 10
+        run: npx -p @pods13/findata dividends-global "NASDAQ,NYSE,NYSEARCA"
   pull-hk-dividends:
     runs-on: ubuntu-latest
     defaults:
@@ -35,7 +95,7 @@ jobs:
       - run: npm i @pods13/findata
       - name: pull new hk dividends
         timeout-minutes: 10
-        run: npx -p @pods13/findata dividends-hk HK
+        run: npx -p @pods13/findata dividends-global HK
 
   pull-mcx-dividends:
     runs-on: ubuntu-latest

@@ -18,14 +18,16 @@
     "prices:ru": "node dist/tasks/mcx-prices/index.js",
     "prices:global": "node dist/tasks/global-prices/index.js",
     "dividends:snowball": "node dist/tasks/snowball-dividends/index.js",
-    "dividends:digrin:hk": "node dist/tasks/digrin-dividends/index.js HK"
+    "dividends:digrin:hk": "node dist/tasks/digrin-dividends/index.js HK",
+    "dividends:digrin:us": "node dist/tasks/digrin-dividends/index.js \"NASDAQ,NYSE,NYSEARCA\"",
+    "dividends:digrin:xetra": "node dist/tasks/digrin-dividends/index.js XETRA"
   },
   "files": [
     "dist/**",
     "assets/**"
   ],
   "bin": {
-    "dividends-hk": "dist/tasks/digrin-dividends/index.js",
+    "dividends-global": "dist/tasks/digrin-dividends/index.js",
     "dividends-ru": "dist/tasks/mcx-dividends/index.js",
     "dividends-snowball": "dist/tasks/snowball-dividends/index.js",
     "prices-ru": "dist/tasks/mcx-prices/index.js",

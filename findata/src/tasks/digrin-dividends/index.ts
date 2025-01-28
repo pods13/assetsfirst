@@ -4,21 +4,21 @@ import connection from "../../common/connection";
 import {getClient} from "../../utils/client";
 import axios from "axios";
 import {load} from "cheerio";
-import {Instrument} from "../../common/types/instrument";
+import {convertToYahooTicker} from '../../utils/ticker';
 
 const args = process.argv.slice(2);
 
-const exchange = args[0];
+const exchanges = args[0] ? args[0].split(',') : [];
 const inAnyPortfolio = true;
 
-main(exchange, inAnyPortfolio);
+main(exchanges, inAnyPortfolio);
 
-async function main(exchange: string, inAnyPortfolio: boolean) {
-    const instruments = await getInstruments(connection, [exchange], inAnyPortfolio);
+async function main(exchanges: string[], inAnyPortfolio: boolean) {
+    const instruments = await getInstruments(connection, exchanges, inAnyPortfolio);
     const client = await getClient();
 
     const whenDividendsSaved = instruments.map(instrument => {
-        return getDividendHistoryByTicker(convertToTicker(instrument))
+        return getDividendHistoryByTicker(convertToYahooTicker(instrument))
             .catch(e => {
                 console.error(`Error during dividend data gathering for ${instrument.symbol + ':' + instrument.exchange}`);
                 throw e;
@@ -66,9 +66,4 @@ async function getDividendHistoryByTicker(ticker: string) {
 const parseAmount = (amount: string): number => {
     const matched = amount.match(/[\d\.]+/);
     return matched ? +matched[0]: 0;
-}
-
-function convertToTicker({symbol, exchange}: Instrument): string {
-
-    return `${symbol}.${exchange}`;
 }
