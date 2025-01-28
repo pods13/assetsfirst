@@ -33,7 +33,7 @@ jobs:
           timezoneMacos: "Europe/Moscow"
           timezoneWindows: "Russian Standard Time"
       - run: npm i @pods13/findata
-      - name: pull new hk dividends
+      - name: pull new XETRA dividends
         timeout-minutes: 10
         run: npx -p @pods13/findata dividends-global XETRA
   pull-us-dividends:
@@ -63,7 +63,7 @@ jobs:
           timezoneMacos: "Europe/Moscow"
           timezoneWindows: "Russian Standard Time"
       - run: npm i @pods13/findata
-      - name: pull new hk dividends
+      - name: pull new us dividends
         timeout-minutes: 10
         run: npx -p @pods13/findata dividends-global "NASDAQ,NYSE,NYSEARCA"
   pull-hk-dividends:
