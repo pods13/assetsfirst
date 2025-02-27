@@ -17,6 +17,11 @@ async function main() {
             exchange: 'MCX',
             assetInfoId: 'fcfec0b1-f134-40ee-a908-5bd6c458da88'
         },
+        {
+            symbol: 'RU000A1068X9',
+            exchange: 'MCX',
+            assetInfoId: 'f76dd480-2290-4a3f-a993-7100f04a0270'
+        },
 
     ]
     const client = await getClient();

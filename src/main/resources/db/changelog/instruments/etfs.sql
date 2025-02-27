@@ -12,3 +12,7 @@ values ('ETF', '{"name": "ZPIF PARUS-NORD"}', 'RU000A104KU3', null, 'RUB', 'MCX'
 insert ignore instrument
 (instrument_type, attributes, symbol, company_id, currency, exchange_code)
 values ('ETF', '{"name": "BPIF Gold"}', 'GOLD', null, 'RUB', 'MCX');
+
+insert ignore instrument
+(instrument_type, attributes, symbol, company_id, currency, exchange_code)
+values ('ETF', '{"name": "ZPIF PARUS-DVN"}', 'RU000A1068X9', null, 'RUB', 'MCX');
