@@ -37,4 +37,80 @@ public class UserServiceTest extends IntegrationTestBase {
         assertThat(result).extracting(CreateUserDto::isProvideData).isEqualTo(true);
 
     }
+
+    @Test
+    public void testDuplicateUsernameThrowsException() {
+        var username = "duplicateuser";
+        var createUserDto = new CreateUserDto()
+            .setUsername(username)
+            .setPassword("password");
+
+        userService.createNewUserAccount(createUserDto);
+
+        org.junit.jupiter.api.Assertions.assertThrows(RuntimeException.class, () -> {
+            userService.createNewUserAccount(createUserDto);
+        });
+    }
+
+    @Test
+    public void testChangePasswordFirstLogin() {
+        // Create new user (will have firstLogin=true)
+        var createUserDto = new CreateUserDto()
+            .setUsername("firstloginuser")
+            .setPassword("initial");
+        var createdUser = userService.createNewUserAccount(createUserDto);
+
+        // Change password on first login (current password not required)
+        var currentUser = new com.topably.assets.auth.domain.security.CurrentUser(
+            userService.getById(createdUser.id()),
+            java.util.Collections.emptyList()
+        );
+        var changePasswordDto = new com.topably.assets.auth.domain.ChangePasswordDto(
+            null, // Current password not needed for first login
+            "newpassword",
+            "newpassword"
+        );
+
+        var result = userService.changePassword(currentUser, changePasswordDto);
+        assertThat(result.firstLogin()).isFalse();
+    }
+
+    @Test
+    public void testChangePasswordValidationFailures() {
+        // Create and setup user
+        var createUserDto = new CreateUserDto()
+            .setUsername("validationuser")
+            .setPassword("initial");
+        var createdUser = userService.createNewUserAccount(createUserDto);
+
+        var currentUser = new com.topably.assets.auth.domain.security.CurrentUser(
+            userService.getById(createdUser.id()),
+            java.util.Collections.emptyList()
+        );
+
+        // Make it a regular user first
+        userService.changePassword(currentUser, new com.topably.assets.auth.domain.ChangePasswordDto(
+            null, "password1", "password1"
+        ));
+
+        // Test wrong current password
+        var wrongCurrentPassword = new com.topably.assets.auth.domain.ChangePasswordDto(
+            "wrongpassword",
+            "newpassword",
+            "newpassword"
+        );
+        org.junit.jupiter.api.Assertions.assertThrows(RuntimeException.class, () -> {
+            userService.changePassword(currentUser, wrongCurrentPassword);
+        });
+
+        // Test mismatched new passwords
+        var mismatchedPasswords = new com.topably.assets.auth.domain.ChangePasswordDto(
+            "password1",
+            "newpassword1",
+            "newpassword2"
+        );
+        org.junit.jupiter.api.Assertions.assertThrows(RuntimeException.class, () -> {
+            userService.changePassword(currentUser, mismatchedPasswords);
+        });
+    }
 }
