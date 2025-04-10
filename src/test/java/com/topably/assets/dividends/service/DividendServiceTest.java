@@ -63,7 +63,7 @@ public class DividendServiceTest extends IntegrationTestBase {
             var ticker = new Ticker("TEST", "MCX");
             var instrument = createStockInstrument(ticker);
             var expectedAmount = BigDecimal.TEN;
-            addDividendData(List.of(new Dividend()
+            addDividendData(List.of(new Dividend().setUnadjustedAmount(BigDecimal.ZERO)
                 .setAmount(expectedAmount)
                 .setInstrument(instrument)
                 .setRecordDate(LocalDate.of(2019, 12, 6))));
@@ -80,17 +80,17 @@ public class DividendServiceTest extends IntegrationTestBase {
             var firstDivAmount = BigDecimal.TEN;
             var secondDivAmount = BigDecimal.TEN;
 
-            addDividendData(List.of(new Dividend()
+            addDividendData(List.of(new Dividend().setUnadjustedAmount(BigDecimal.ZERO)
                     .setAmount(firstDivAmount)
                     .setInstrument(instrument)
                     .setRecordDate(LocalDate.of(2023, 9, 7))
                     .setPayDate(LocalDate.of(2023, 9, 21)),
-                new Dividend()
+                new Dividend().setUnadjustedAmount(BigDecimal.ZERO)
                     .setAmount(secondDivAmount)
                     .setInstrument(instrument)
                     .setRecordDate(LocalDate.of(2023, 10, 30))
                     .setPayDate(LocalDate.of(2023, 12, 22)),
-                new Dividend()
+                new Dividend().setUnadjustedAmount(BigDecimal.ZERO)
                     .setAmount(BigDecimal.ONE)
                     .setInstrument(createStockInstrument(new Ticker("NONE", "MCX")))
                     .setRecordDate(LocalDate.of(2024, 9, 6)
@@ -107,7 +107,7 @@ public class DividendServiceTest extends IntegrationTestBase {
             var ticker = new Ticker("TEST", "MCX");
             var instrument = createStockInstrument(ticker);
             var expectedAmount = BigDecimal.TEN;
-            addDividendData(List.of(new Dividend()
+            addDividendData(List.of(new Dividend().setUnadjustedAmount(BigDecimal.ZERO)
                 .setAmount(expectedAmount)
                 .setInstrument(instrument
                 ).setRecordDate(LocalDate.of(2021, 4, 23))));
@@ -123,19 +123,19 @@ public class DividendServiceTest extends IntegrationTestBase {
             var ticker = new Ticker("TEST", "MCX");
             var instrument = createStockInstrument(ticker);
             var expectedAmount = BigDecimal.valueOf(30L);
-            addDividendData(List.of(new Dividend()
+            addDividendData(List.of(new Dividend().setUnadjustedAmount(BigDecimal.ZERO)
                     .setAmount(BigDecimal.TEN)
                     .setInstrument(instrument)
                     .setRecordDate(LocalDate.of(2020, 4, 23)),
-                new Dividend()
+                new Dividend().setUnadjustedAmount(BigDecimal.ZERO)
                     .setAmount(BigDecimal.TEN)
                     .setInstrument(instrument)
                     .setRecordDate(LocalDate.of(2020, 2, 23)),
-                new Dividend()
+                new Dividend().setUnadjustedAmount(BigDecimal.ZERO)
                     .setAmount(BigDecimal.TEN)
                     .setInstrument(instrument)
                     .setRecordDate(LocalDate.of(2019, 8, 21)),
-                new Dividend()
+                new Dividend().setUnadjustedAmount(BigDecimal.ZERO)
                     .setAmount(BigDecimal.TEN)
                     .setInstrument(instrument)
                     .setRecordDate(LocalDate.of(2019, 4, 23))));
@@ -153,18 +153,19 @@ public class DividendServiceTest extends IntegrationTestBase {
             var second = BigDecimal.valueOf(414.61);
             var expectedAmount = first.add(second);
             addDividendData(List.of(new Dividend()
+                    .setUnadjustedAmount(BigDecimal.ZERO)
                     .setAmount(second)
                     .setInstrument(instrument)
                     .setRecordDate(LocalDate.of(2024, 6, 16)),
-                new Dividend()
+                new Dividend().setUnadjustedAmount(BigDecimal.ZERO)
                     .setAmount(first)
                     .setInstrument(instrument)
                     .setRecordDate(LocalDate.of(2023, 10, 7)),
-                new Dividend()
+                new Dividend().setUnadjustedAmount(BigDecimal.ZERO)
                     .setAmount(BigDecimal.valueOf(267.48))
                     .setInstrument(instrument)
                     .setRecordDate(LocalDate.of(2021, 10, 11)),
-                new Dividend()
+                new Dividend().setUnadjustedAmount(BigDecimal.ZERO)
                     .setAmount(BigDecimal.valueOf(387.15))
                     .setInstrument(instrument)
                     .setRecordDate(LocalDate.of(2021, 6, 7))));
@@ -180,20 +181,19 @@ public class DividendServiceTest extends IntegrationTestBase {
             var instrument = createStockInstrument(ticker);
             var first = BigDecimal.valueOf(207.31);
             var second = BigDecimal.valueOf(414.61);
-            var expectedAmount = first.add(second);
-            addDividendData(List.of(new Dividend()
+            addDividendData(List.of(new Dividend().setUnadjustedAmount(BigDecimal.ZERO)
                     .setAmount(second)
                     .setInstrument(instrument)
                     .setRecordDate(LocalDate.of(2024, 6, 16)),
-                new Dividend()
+                new Dividend().setUnadjustedAmount(BigDecimal.ZERO)
                     .setAmount(first)
                     .setInstrument(instrument)
                     .setRecordDate(LocalDate.of(2023, 10, 7)),
-                new Dividend()
+                new Dividend().setUnadjustedAmount(BigDecimal.ZERO)
                     .setAmount(BigDecimal.valueOf(267.48))
                     .setInstrument(instrument)
                     .setRecordDate(LocalDate.of(2021, 10, 11)),
-                new Dividend()
+                new Dividend().setUnadjustedAmount(BigDecimal.ZERO)
                     .setAmount(BigDecimal.valueOf(387.15))
                     .setInstrument(instrument)
                     .setRecordDate(LocalDate.of(2021, 6, 7))));
@@ -211,17 +211,17 @@ public class DividendServiceTest extends IntegrationTestBase {
             var monthlyDividends = IntStream.range(0, 12)
                 .mapToObj(i -> {
                     var date = LocalDate.of(2023, i + 1, 1);
-                    return new Dividend()
+                    return new Dividend().setUnadjustedAmount(BigDecimal.ZERO)
                         .setAmount(BigDecimal.TEN)
                         .setInstrument(instrument)
                         .setRecordDate(date.with(TemporalAdjusters.lastDayOfMonth()));
                 }).toList();
             addDividendData(monthlyDividends);
-            addDividendData(List.of(new Dividend()
+            addDividendData(List.of(new Dividend().setUnadjustedAmount(BigDecimal.ZERO)
                     .setAmount(BigDecimal.TEN)
                     .setInstrument(instrument)
                     .setRecordDate(LocalDate.of(2024, 1, 1).with(TemporalAdjusters.lastDayOfMonth())),
-                new Dividend()
+                new Dividend().setUnadjustedAmount(BigDecimal.ZERO)
                     .setAmount(BigDecimal.TEN)
                     .setInstrument(instrument)
                     .setRecordDate(LocalDate.of(2024, 2, 1).with(TemporalAdjusters.lastDayOfMonth()))));
@@ -242,6 +242,7 @@ public class DividendServiceTest extends IntegrationTestBase {
             var instrument = createStockInstrument(ticker);
             var dividendAmount = BigDecimal.TEN;
             addDividendData(List.of(new Dividend()
+                .setUnadjustedAmount(BigDecimal.ZERO)
                 .setAmount(dividendAmount)
                 .setInstrument(instrument
                 ).setRecordDate(LocalDate.of(2023, 12, 6))));
@@ -269,6 +270,7 @@ public class DividendServiceTest extends IntegrationTestBase {
             var dividendAmount = BigDecimal.TEN;
             addDividendData(List.of(new Dividend()
                 .setAmount(dividendAmount)
+                .setUnadjustedAmount(BigDecimal.ZERO)
                 .setInstrument(instrument
                 ).setRecordDate(LocalDate.of(2023, 12, 6))));
 

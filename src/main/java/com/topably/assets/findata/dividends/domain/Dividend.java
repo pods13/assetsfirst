@@ -54,4 +54,10 @@ public class Dividend {
 
     @Column(name = "amount")
     private BigDecimal amount;
+
+    @Column(name = "unadjusted_amount")
+    private BigDecimal unadjustedAmount;
+
+    @Column(name = "last_split_applied")
+    private LocalDate lastSplitApplied;
 }

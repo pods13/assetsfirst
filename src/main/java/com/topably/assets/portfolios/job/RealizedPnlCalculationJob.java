@@ -1,4 +1,4 @@
-package com.topably.assets.portfolios.scheduler;
+package com.topably.assets.portfolios.job;
 
 import com.topably.assets.portfolios.service.PortfolioPositionService;
 import lombok.RequiredArgsConstructor;
@@ -10,19 +10,19 @@ import org.springframework.stereotype.Component;
 import jakarta.annotation.PostConstruct;
 
 @Component
-@ConditionalOnProperty(prefix = "app.scheduler.realized-pnl", name = "enabled", havingValue = "true")
+@ConditionalOnProperty(prefix = "app.jobs.realized-pnl", name = "enabled", havingValue = "true")
 @RequiredArgsConstructor
 @Slf4j
-public class RealizedPnlCalculationScheduler {
+public class RealizedPnlCalculationJob {
 
     private final PortfolioPositionService portfolioPositionService;
 
     @PostConstruct
     public void postInit() {
-        log.info("Realized pnl calculation scheduler is enabled");
+        log.info("Realized pnl calculation job is enabled");
     }
 
-    @Scheduled(cron = "${app.scheduler.realized-pnl.cron}")
+    @Scheduled(cron = "${app.jobs.realized-pnl.cron}")
     public void calculateClosedPnl() {
         portfolioPositionService.updatePnlOnClosedPositions();
     }

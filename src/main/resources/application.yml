@@ -34,10 +34,13 @@ app:
   bootstrap:
     with:
       data: ${APP_BOOTSTRAP_WITH_DATA:false}
-  scheduler:
+  jobs:
     realized-pnl:
       enabled: false
       cron: "0 */10 * * * ?"
+    dividend-split-adjustment:
+      enabled: true
+      cron: "0 * */1 * * ?"
   integration:
     free-currency:
       key: ${APP_INTEGRATION_FREE_CURRENCY_KEY:}
