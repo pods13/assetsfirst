@@ -5,25 +5,36 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.2.3</version>
+        <version>3.4.5</version>
         <relativePath/>
     </parent>
     <groupId>com.topably</groupId>
     <artifactId>assets</artifactId>
-    <version>1.1.0-SNAPSHOT</version>
+    <version>1.2.0-SNAPSHOT</version>
     <name>assetsfirst</name>
     <description>Track your assets</description>
     <properties>
         <java.version>21</java.version>
         <yahoofin.version>3.17.0</yahoofin.version>
-        <hibernate-types.version>3.5.0</hibernate-types.version>
-        <commons-collections.version>4.4</commons-collections.version>
+        <hibernate-types.version>3.9.10</hibernate-types.version>
+        <commons-collections.version>4.5.0</commons-collections.version>
         <specificationArgResolver.version>3.1.0</specificationArgResolver.version>
         <springdoc.version>2.2.0</springdoc.version>
-        <org.mapstruct.version>1.5.5.Final</org.mapstruct.version>
-        <org.projectlombok.version>1.18.30</org.projectlombok.version>
+        <org.mapstruct.version>1.6.3</org.mapstruct.version>
+        <org.projectlombok.version>1.18.38</org.projectlombok.version>
     </properties>
     <repositories>
+        <repository>
+            <id>central</id>
+            <name>Central Repository</name>
+            <url>https://repo.maven.apache.org/maven2</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
         <repository>
             <id>jitpack</id>
             <name>jitpack</name>
@@ -41,7 +52,7 @@
         </dependency>
         <dependency>
             <groupId>io.hypersistence</groupId>
-            <artifactId>hypersistence-utils-hibernate-62</artifactId>
+            <artifactId>hypersistence-utils-hibernate-63</artifactId>
             <version>${hibernate-types.version}</version>
         </dependency>
         <dependency>

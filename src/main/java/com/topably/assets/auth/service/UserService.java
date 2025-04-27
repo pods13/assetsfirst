@@ -77,7 +77,7 @@ public class UserService {
         var pwdGenerator = new RandomStringGenerator.Builder()
             .withinRange('0', 'z')
             .filteredBy(CharacterPredicates.LETTERS, CharacterPredicates.DIGITS)
-            .build();
+            .get();
         return pwdGenerator.generate(8);
     }
 

@@ -2,22 +2,9 @@ package com.topably.assets.portfolios.domain;
 
 import com.topably.assets.portfolios.domain.cards.DashboardCard;
 import io.hypersistence.utils.hibernate.type.json.JsonType;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.Singular;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.JdbcTypeCode;
+import jakarta.persistence.*;
+import lombok.*;
 import org.hibernate.annotations.Type;
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import org.hibernate.type.SqlTypes;
 
 import java.util.Set;
 
@@ -30,8 +17,7 @@ import java.util.Set;
 public class PortfolioDashboard {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
-    @GenericGenerator(name = "native")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Singular
