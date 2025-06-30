@@ -19,7 +19,7 @@
         <hibernate-types.version>3.9.10</hibernate-types.version>
         <commons-collections.version>4.5.0</commons-collections.version>
         <specificationArgResolver.version>3.1.0</specificationArgResolver.version>
-        <springdoc.version>2.2.0</springdoc.version>
+        <springdoc.version>2.7.0</springdoc.version>
         <org.mapstruct.version>1.6.3</org.mapstruct.version>
         <org.projectlombok.version>1.18.38</org.projectlombok.version>
     </properties>
