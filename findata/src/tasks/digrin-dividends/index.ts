@@ -5,6 +5,7 @@ import {getClient} from "../../utils/client";
 import axios from "axios";
 import {load} from "cheerio";
 import {convertToYahooTicker} from '../../utils/ticker';
+import UserAgent from 'user-agents';
 
 const args = process.argv.slice(2);
 
@@ -20,7 +21,7 @@ async function main(exchanges: string[], inAnyPortfolio: boolean) {
     const whenDividendsSaved = instruments.map(instrument => {
         return getDividendHistoryByTicker(convertToYahooTicker(instrument))
             .catch(e => {
-                console.error(`Error during dividend data gathering for ${instrument.symbol + ':' + instrument.exchange} : ${e}`);
+                console.error(`Error during dividend data gathering for ${instrument.symbol + ':' + instrument.exchange} : ${e.message}`, e);
                 throw e;
             })
             .then(res => {
@@ -39,7 +40,16 @@ async function main(exchanges: string[], inAnyPortfolio: boolean) {
 }
 
 async function getDividendHistoryByTicker(ticker: string) {
-    const res = await axios.get(`https://www.digrin.com/stocks/detail/${ticker}`);
+    const res = await axios.get(`https://www.digrin.com/stocks/detail/${ticker}`, {
+        headers: {
+            'User-Agent': new UserAgent().toString(),
+            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+            'Accept-Language': 'en-US,en;q=0.5',
+            'Accept-Encoding': 'gzip, deflate, br',
+            'Connection': 'keep-alive',
+            'Upgrade-Insecure-Requests': '1'
+        }
+    });
     const $ = load(res.data);
     const dividendsTable = $(`table.table.table-striped > tbody`);
     const result: any[] = [];

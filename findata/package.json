@@ -41,6 +41,7 @@
   "devDependencies": {
     "@tsconfig/node22": "^22.0.5",
     "@types/tough-cookie": "^4.0.2",
+    "@types/user-agents": "^1.0.4",
     "concurrently": "^7.2.1",
     "rimraf": "^6.1.2",
     "typescript": "^5.9.3"
@@ -58,6 +59,7 @@
     "mysql2": "^2.3.3",
     "playwright-chromium": "^1.56.1",
     "tough-cookie": "^4.0.0",
+    "user-agents": "^1.1.669",
     "yahoo-finance2": "^2.13.2"
   }
 }
