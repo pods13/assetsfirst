@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import yahooFinance from 'yahoo-finance2';
+import YahooFinance from 'yahoo-finance2';
 import connection from '../../common/connection';
 import {getInstruments} from '../../common/instrument.service';
 import {Instrument} from "../../common/types/instrument";
@@ -8,6 +8,7 @@ import {convertToYahooTicker} from '../../utils/ticker';
 
 const getQuote = async (instrument: Instrument) => {
     const ticker = convertToYahooTicker(instrument);
+    const yahooFinance = new YahooFinance();
     return yahooFinance.quoteSummary(ticker, {modules: ['price']})
         .catch(e => console.error(`Cannot find price data for ${ticker}: `, e))
         .then(quote => {

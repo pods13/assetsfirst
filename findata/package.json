@@ -60,6 +60,6 @@
     "playwright-chromium": "^1.56.1",
     "tough-cookie": "^4.0.0",
     "user-agents": "^1.1.669",
-    "yahoo-finance2": "^2.13.2"
+    "yahoo-finance2": "^3.11.2"
   }
 }
