@@ -2,10 +2,10 @@
 import {getInstruments} from "../../common/instrument.service";
 import connection from "../../common/connection";
 import {getClient} from "../../utils/client";
-import axios from "axios";
+import {AxiosInstance} from "axios";
 import {load} from "cheerio";
 import {convertToYahooTicker} from '../../utils/ticker';
-import UserAgent from 'user-agents';
+import {getParserClient} from "../../utils/client.parser";
 
 const args = process.argv.slice(2);
 
@@ -17,9 +17,10 @@ main(exchanges, inAnyPortfolio);
 async function main(exchanges: string[], inAnyPortfolio: boolean) {
     const instruments = await getInstruments(connection, exchanges, inAnyPortfolio);
     const client = await getClient();
+    const parserClient = getParserClient();
 
     const whenDividendsSaved = instruments.map(instrument => {
-        return getDividendHistoryByTicker(convertToYahooTicker(instrument))
+        return getDividendHistoryByTicker(parserClient, convertToYahooTicker(instrument))
             .catch(e => {
                 console.error(`Error during dividend data gathering for ${instrument.symbol + ':' + instrument.exchange} : ${e.message}`, e);
                 throw e;
@@ -39,17 +40,8 @@ async function main(exchanges: string[], inAnyPortfolio: boolean) {
         .finally(() => connection.destroy());
 }
 
-async function getDividendHistoryByTicker(ticker: string) {
-    const res = await axios.get(`https://www.digrin.com/stocks/detail/${ticker}`, {
-        headers: {
-            'User-Agent': new UserAgent().toString(),
-            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
-            'Accept-Language': 'en-US,en;q=0.5',
-            'Accept-Encoding': 'gzip, deflate, br',
-            'Connection': 'keep-alive',
-            'Upgrade-Insecure-Requests': '1'
-        }
-    });
+async function getDividendHistoryByTicker(parserClient: AxiosInstance, ticker: string) {
+    const res = await parserClient.get(`https://www.digrin.com/stocks/detail/${ticker}`);
     const $ = load(res.data);
     const dividendsTable = $(`table.table.table-striped > tbody`);
     const result: any[] = [];

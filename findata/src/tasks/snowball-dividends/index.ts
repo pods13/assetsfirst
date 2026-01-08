@@ -1,9 +1,10 @@
 #!/usr/bin/env node
 
 import connection from '../../common/connection';
-import axios from 'axios';
+import {AxiosInstance} from 'axios';
 import {addMonths} from '../../utils/add-months';
 import {getClient} from '../../utils/client';
+import {getParserClient} from "../../utils/client.parser";
 
 async function main() {
     const instruments = [
@@ -35,9 +36,10 @@ async function main() {
 
     ]
     const client = await getClient();
+    const parserClient = getParserClient();
 
     const whenDividendsSaved = instruments.map(instrument => {
-        return getDividendHistoryByTicker(instrument.assetInfoId)
+        return getDividendHistoryByTicker(parserClient, instrument.assetInfoId)
             .catch(e => {
                 console.error(`Error during dividend data gathering for ${instrument.symbol + ':' + instrument.exchange}`);
                 throw e;
@@ -71,8 +73,8 @@ async function main() {
         .finally(() => connection.destroy());
 }
 
-async function getDividendHistoryByTicker(assetInfoId: string) {
-    const res = await axios.get(`https://snowball-income.com/extapi/api/public/asset-info/div-history?assetInfoId=${assetInfoId}`);
+async function getDividendHistoryByTicker(parserClient: AxiosInstance, assetInfoId: string) {
+    const res = await parserClient.get(`https://snowball-income.com/extapi/api/public/asset-info/div-history?assetInfoId=${assetInfoId}`);
     return res.data;
 }
 

@@ -2,17 +2,19 @@
 
 import connection from '../../common/connection';
 import { getInstruments } from '../../common/instrument.service';
-import axios from 'axios';
+import {AxiosInstance} from 'axios';
 import { addMonths } from '../../utils/add-months';
 import { load } from 'cheerio';
 import { getClient } from '../../utils/client';
+import {getParserClient} from "../../utils/client.parser";
 
 async function main() {
     const instruments = await getInstruments(connection, ['MCX'], false);
     const client = await getClient();
+    const parserClient = getParserClient();
 
     const whenDividendsSaved = instruments.map(instrument => {
-        return getDividendHistoryByTicker(instrument.symbol)
+        return getDividendHistoryByTicker(parserClient, instrument.symbol)
             .catch(e => {
                 console.error(`Error during dividend data gathering for ${instrument.symbol + ':' + instrument.exchange}`);
                 throw e;
@@ -46,9 +48,9 @@ async function main() {
         .finally(() => connection.destroy());
 }
 
-async function getDividendHistoryByTicker(symbol: string) {
+async function getDividendHistoryByTicker(parserClient: AxiosInstance, symbol: string) {
     const sym = symbol.toLowerCase().replaceAll('_', '');
-    const res = await axios.get(`https://www.dohod.ru/ik/analytics/dividend/${sym}`);
+    const res = await parserClient.get(`https://www.dohod.ru/ik/analytics/dividend/${sym}`);
     const $ = load(res.data);
     const dividendsTable = $(`p.table-title:contains('Все выплаты') + table`);
     const result: any[] = [];
