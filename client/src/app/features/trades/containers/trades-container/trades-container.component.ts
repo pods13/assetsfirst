@@ -120,7 +120,7 @@ export class TradesContainerComponent implements OnInit {
         const pageNumber = pageInfo.offset;
         this.tradeService.getUserTrades({
             size: pageInfo.pageSize, page: pageNumber + 1,
-            sorts: pageInfo.sorts ?? this.pageSorts
+            sorts: [...(pageInfo.sorts ?? this.pageSorts), {prop: 'id', dir: 'desc'}]
         }).subscribe((page => {
             this.totalElements = page.totalElements;
             this.rows = page.content;
