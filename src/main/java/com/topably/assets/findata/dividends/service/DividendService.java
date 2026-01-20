@@ -59,13 +59,13 @@ public class DividendService {
         var selectedYear = year.getValue();
         var latestDividendYear = getLatestDividendYear(ticker, selectedYear);
         var dividendYears = Optional.ofNullable(latestDividendYear)
-                .map(dividendYear -> Set.of(selectedYear, dividendYear, dividendYear - 1))
+                .map(dividendYear -> Set.of(selectedYear + 1, selectedYear, dividendYear, dividendYear - 1))
                 .orElseGet(() -> Set.of(selectedYear));
         var dividends = dividendRepository.findDividendsByYears(ticker, dividendYears);
         var dividendsByYear = groupDividendsByRecordDate(dividends);
         var selectedYearDividends = dividendsByYear.get(selectedYear);
         if (CollectionUtils.isEmpty(selectedYearDividends)) {
-            if (latestDividendYear == null || selectedYear < Year.now().getValue()) {
+            if (latestDividendYear == null || isPastYearWithPossibleDividendClearance(selectedYear, dividendsByYear, latestDividendYear)) {
                 return BigDecimal.ZERO;
             }
             if (hasSamePayingFrequency(dividendsByYear, latestDividendYear)) {
@@ -81,6 +81,11 @@ public class DividendService {
         }
 
         return calculateAnnualDividendsUsingProjectedAmount(selectedYear, dividends, selectedYearDividends);
+    }
+
+    private boolean isPastYearWithPossibleDividendClearance(int selectedYear, Map<Integer, List<Dividend>> dividendsByYear, Integer latestDividendYear) {
+        return selectedYear < Year.now().getValue() &&
+                (!CollectionUtils.isEmpty(dividendsByYear.get(selectedYear + 1)) || Math.abs(latestDividendYear - selectedYear) != 1);
     }
 
     @NotNull

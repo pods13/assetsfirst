@@ -66,11 +66,25 @@ public class DividendServiceTest extends IntegrationTestBase {
             addDividendData(List.of(new Dividend().setUnadjustedAmount(BigDecimal.ZERO)
                 .setAmount(expectedAmount)
                 .setInstrument(instrument)
-                .setRecordDate(LocalDate.of(2019, 12, 6))));
+                .setRecordDate(LocalDate.of(Year.now().getValue(), 12, 6))));
 
-            var actualAmount = dividendService.calculateAnnualDividend(ticker, Year.of(2024).plusYears(1));
+            var actualAmount = dividendService.calculateAnnualDividend(ticker, Year.now().plusYears(1));
 
             assertThat(actualAmount).isEqualByComparingTo(expectedAmount);
+        }
+
+        @Test
+        public void givenOnlyOneYearDividends_whenDividendAmountCalculatedForYearInPastWithClearanceGreaterThanOne_thenReturnZeroAmount() {
+            var ticker = new Ticker("TEST", "MCX");
+            var instrument = createStockInstrument(ticker);
+            addDividendData(List.of(new Dividend().setUnadjustedAmount(BigDecimal.ZERO)
+                    .setAmount(BigDecimal.TEN)
+                    .setInstrument(instrument)
+                    .setRecordDate(LocalDate.of(2019, 12, 6))));
+
+            var actualAmount = dividendService.calculateAnnualDividend(ticker, Year.of(2021));
+
+            assertThat(actualAmount).isEqualByComparingTo(BigDecimal.ZERO);
         }
 
         @Test
@@ -97,7 +111,7 @@ public class DividendServiceTest extends IntegrationTestBase {
                     ))
             );
 
-            var actualAmount = dividendService.calculateAnnualDividend(ticker, Year.of(2024).plusYears(1));
+            var actualAmount = dividendService.calculateAnnualDividend(ticker, Year.now().plusYears(1));
 
             assertThat(actualAmount).isEqualByComparingTo(firstDivAmount.add(secondDivAmount));
         }
