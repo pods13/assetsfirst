@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.4.5</version>
+        <version>3.5.9</version>
         <relativePath/>
     </parent>
     <groupId>com.topably</groupId>
@@ -16,10 +16,10 @@
     <properties>
         <java.version>21</java.version>
         <yahoofin.version>3.17.0</yahoofin.version>
-        <hibernate-types.version>3.9.10</hibernate-types.version>
+        <hibernate-types.version>3.14.1</hibernate-types.version>
         <commons-collections.version>4.5.0</commons-collections.version>
-        <specificationArgResolver.version>3.1.0</specificationArgResolver.version>
-        <springdoc.version>2.7.0</springdoc.version>
+        <specificationArgResolver.version>3.3.0</specificationArgResolver.version>
+        <springdoc.version>2.8.15</springdoc.version>
         <org.mapstruct.version>1.6.3</org.mapstruct.version>
         <org.projectlombok.version>1.18.38</org.projectlombok.version>
     </properties>
