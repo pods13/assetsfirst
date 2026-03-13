@@ -51,7 +51,7 @@ jobs:
           API_HOST: ${{ secrets.SSH_HOST }}
       - name: Create trade-api folder if not exists
         run: |
-          ssh $REMOTE_USER@$PANEL_HOST '
+          ssh $REMOTE_USER@$API_HOST '
             mkdir -p ~/trade-api
           '
         env:
