@@ -38,17 +38,29 @@ jobs:
     needs: api-build
     runs-on: ubuntu-latest
     steps:
-      - name: install ssh keys
-        # check this thread to understand why its needed:
-        # https://stackoverflow.com/a/70447517
+      - name: Set up SSH key
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Add remote host to known_hosts
         run: |
-          install -m 600 -D /dev/null ~/.ssh/id_rsa
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-          ssh-keyscan -H ${{ secrets.SSH_HOST }} > ~/.ssh/known_hosts
+          mkdir -p ~/.ssh
+          ssh-keyscan -H "$API_HOST" >> ~/.ssh/known_hosts
+        env:
+          API_HOST: ${{ secrets.SSH_HOST }}
+      - name: Create trade-api folder if not exists
+        run: |
+          ssh $REMOTE_USER@$PANEL_HOST '
+            mkdir -p ~/trade-api
+          '
+        env:
+          API_HOST: ${{ secrets.STAGE_REMOTE_HOST }}
+          REMOTE_USER: ${{ secrets.STAGE_REMOTE_USER }}
       - name: Connect to server
-        run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd ${{ secrets.WORK_DIR }}
-          && docker-compose -f docker-compose.prod.yaml pull
-          && docker-compose -f docker-compose.prod.yaml up -d --build
+        run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd ~/trade-api
+          && docker-compose pull
+          && docker-compose up -d --build
           && docker image prune -a -f && exit"
       - name: cleanup
         run: rm -rf ~/.ssh
