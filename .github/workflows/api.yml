@@ -55,8 +55,8 @@ jobs:
             mkdir -p ~/trade-api
           '
         env:
-          API_HOST: ${{ secrets.STAGE_REMOTE_HOST }}
-          REMOTE_USER: ${{ secrets.STAGE_REMOTE_USER }}
+          API_HOST: ${{ secrets.SSH_HOST }}
+          REMOTE_USER: ${{ secrets.SSH_USER }}
       - name: Connect to server
         run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd ~/trade-api
           && docker-compose pull
