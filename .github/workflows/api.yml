@@ -60,6 +60,7 @@ jobs:
       - name: Connect to server
         run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd ~/trade-api
           && docker-compose pull
+          && docker-compose down
           && docker-compose up -d --build
           && docker image prune -a -f && exit"
       - name: cleanup
