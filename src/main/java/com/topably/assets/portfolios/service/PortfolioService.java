@@ -46,6 +46,7 @@ public class PortfolioService {
     private final CurrencyConverter currencyConverter;
     private final PortfolioPositionService portfolioPositionService;
     private final DemoDataConfig demoDataConfig;
+    private final PortfolioService self;
 
     public Portfolio findByUserId(Long userId) {
         return portfolioRepository.findByUserId(userId);
@@ -76,11 +77,6 @@ public class PortfolioService {
             .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
-    public BigDecimal calculateInvestedAmount(Portfolio portfolio) {
-        var nextDay = LocalDate.now().plus(1, ChronoUnit.DAYS);
-        return calculateInvestedAmountByDate(portfolio, nextDay);
-    }
-
     @Cacheable(key = "{ #root.methodName, #portfolio.id, #date }")
     public BigDecimal calculateInvestedAmountByDate(Portfolio portfolio, LocalDate date) {
         var positions = portfolioPositionService.findPortfolioPositionsOpenedByDate(portfolio.getId(), date);
@@ -91,7 +87,7 @@ public class PortfolioService {
         var positions = portfolioPositionService.findPortfolioPositions(portfolio.getId()).stream()
             .filter(p -> !InstrumentType.FX.name().equals(p.getInstrumentType()))
             .toList();
-        var nextDay = LocalDate.now().plus(1, ChronoUnit.DAYS);
+        var nextDay = LocalDate.now().plusDays(1L);
         return calculateInvestedAmount(portfolio, positions, nextDay);
     }
 
@@ -117,11 +113,11 @@ public class PortfolioService {
     }
 
     public PortfolioValuesByDates getMarketValueByDates(Portfolio portfolio, int numOfDatesBetween) {
-        return calculatePortfolioValueByDates(portfolio, numOfDatesBetween, this::calculateMarketValueByDate);
+        return calculatePortfolioValueByDates(portfolio, numOfDatesBetween, self::calculateMarketValueByDate);
     }
 
     public PortfolioValuesByDates getInvestedValueByDates(Portfolio portfolio, int numOfDatesBetween) {
-        return calculatePortfolioValueByDates(portfolio, numOfDatesBetween, this::calculateInvestedAmountByDate);
+        return calculatePortfolioValueByDates(portfolio, numOfDatesBetween, self::calculateInvestedAmountByDate);
     }
 
     public PortfolioValuesByDates calculatePortfolioValueByDates(
@@ -163,8 +159,8 @@ public class PortfolioService {
     }
 
     private BigDecimal calculatePortfolioValueIncreasePct(Portfolio portfolio) {
-        var invested = calculateInvestedAmount(portfolio);
-        var current = calculateMarketValueByDate(portfolio, LocalDate.now());
+        var invested = self.calculateInvestedAmountByDate(portfolio, LocalDate.now().plusDays(1L));
+        var current = self.calculateMarketValueByDate(portfolio, LocalDate.now());
         return NumberUtils.calculatePercentage(invested, current.subtract(invested));
     }
 
@@ -183,7 +179,7 @@ public class PortfolioService {
         var portfolio = portfolioRepository.findByUser_Username(user.getUsername()).orElseThrow();
         return new PortfolioShortInfoDto()
             .setCurrencyCode(portfolio.getCurrency().getCurrencyCode())
-            .setInvestedValue(calculateInvestedAmount(portfolio));
+            .setInvestedValue(self.calculateInvestedAmountByDate(portfolio, LocalDate.now().plusDays(1L)));
     }
 
 }

@@ -37,7 +37,6 @@ public class CacheConfig {
         }
 
         @Bean
-        @ConditionalOnProperty(value = "spring.cache.type", havingValue = "caffeine", matchIfMissing = true)
         public CacheManager longLivedCacheManager() {
             Caffeine<Object, Object> caffeineCacheBuilder = Caffeine.newBuilder()
                 .maximumSize(500)

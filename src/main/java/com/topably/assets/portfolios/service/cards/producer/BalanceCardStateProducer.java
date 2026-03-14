@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 
 @Service(CardContainerType.BALANCE)
@@ -23,8 +24,10 @@ public class BalanceCardStateProducer implements CardStateProducer<BalanceCard> 
 
     @Override
     public CardData produce(Portfolio portfolio, BalanceCard card) {
+        var nextDay = LocalDate.now().plusDays(1L);
+
         return new BalanceCardData()
-            .setInvestedAmount(portfolioService.calculateInvestedAmount(portfolio))
+            .setInvestedAmount(portfolioService.calculateInvestedAmountByDate(portfolio, nextDay))
             .setCurrentAmount(portfolioService.calculateMarketValueByDate(portfolio, LocalDate.now()))
             .setCurrencyCode(portfolio.getCurrency().getCurrencyCode())
             .setInvestedValueByDates(portfolioService.getInvestedValueByDates(portfolio, 5));
