@@ -7,6 +7,7 @@ import com.topably.assets.portfolios.domain.cards.CardData;
 import com.topably.assets.portfolios.domain.cards.input.InvestmentYieldCard;
 import com.topably.assets.portfolios.domain.cards.output.InvestmentYieldCardData;
 import com.topably.assets.portfolios.service.PortfolioService;
+import com.topably.assets.portfolios.service.PortfolioValuationService;
 import com.topably.assets.portfolios.service.cards.CardStateProducer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,7 @@ import java.time.Year;
 public class InvestmentYieldCardStateProducer implements CardStateProducer<InvestmentYieldCard> {
 
     private final PortfolioService portfolioService;
+    private final PortfolioValuationService portfolioValuationService;
 
     @Override
     public CardData produce(Portfolio portfolio, InvestmentYieldCard card) {
@@ -30,12 +32,12 @@ public class InvestmentYieldCardStateProducer implements CardStateProducer<Inves
     }
 
     private BigDecimal calculateYieldOnCost(Portfolio portfolio, BigDecimal annualDividend) {
-        var investedAmount = portfolioService.calculateInvestedAmountInYieldInstrument(portfolio);
+        var investedAmount = portfolioValuationService.calculateInvestedAmountInYieldInstrument(portfolio);
         return NumberUtils.calculatePercentage(investedAmount, annualDividend);
     }
 
     private BigDecimal calculateDividendYield(Portfolio portfolio, BigDecimal annualDividend) {
-        var currentAmount = portfolioService.calculateMarketValueInYieldInstruments(portfolio, LocalDate.now());
+        var currentAmount = portfolioValuationService.calculateMarketValueInYieldInstruments(portfolio, LocalDate.now());
         return NumberUtils.calculatePercentage(currentAmount, annualDividend);
     }
 }
