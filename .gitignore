@@ -32,6 +32,7 @@ build/
 .vscode/
 
 .env
-prod.env
+.env.*
+!.env.example
 node_modules/
 findata/resources/**/**.csv
