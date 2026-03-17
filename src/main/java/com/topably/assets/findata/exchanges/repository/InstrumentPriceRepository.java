@@ -26,7 +26,7 @@ public interface InstrumentPriceRepository extends JpaRepository<InstrumentPrice
                  join instrument i on i.id = ip.instrument_id
         where i.symbol = :symbol
           and i.exchange_code = :exchange
-          and cast(datetime as date) <= :date
+          and  datetime < :date + INTERVAL 1 DAY
         order by datetime desc
         limit 1
         """, nativeQuery = true)
