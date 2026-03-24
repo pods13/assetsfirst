@@ -41,6 +41,7 @@ public class ExchangeService {
 
     private final InstrumentRepository instrumentRepository;
     private final InstrumentPriceRepository priceRepository;
+    private final YahooDecorator yahooDecorator;
 
     public Page<Ticker> getSymbols(Pageable pageable, Set<String> instrumentTypes, boolean inAnyPortfolio) {
         return instrumentRepository.findInstrumentsOfCertainTypesByExchangeCodes(pageable, null,
@@ -68,36 +69,14 @@ public class ExchangeService {
             .map(InstrumentPrice::getValue);
     }
 
-    @Cacheable(unless = "#result != null")
-    @Transactional(propagation = Propagation.REQUIRES_NEW, readOnly = true)
+    @Cacheable(unless = "#result == null")
     public Optional<BigDecimal> findSymbolRecentPrice(Ticker ticker) {
         if (ExchangeEnum.FX_IDC.name().equals(ticker.getExchange())) {
             return Optional.empty();
         }
         return priceRepository.findTopByTickerOrderByDatetimeDesc(ticker.getSymbol(), ticker.getExchange())
             .map(InstrumentPrice::getValue)
-            .or(() -> findSymbolRecentPriceOnYahoo(ticker));
-    }
-
-    private Optional<BigDecimal> findSymbolRecentPriceOnYahoo(Ticker ticker) {
-        try {
-            var stock = YahooFinance.get(convertToYahooFinanceSymbol(ticker));
-            return Optional.ofNullable(stock).map(s -> s.getQuote().getPrice());
-        } catch (IOException e) {
-            log.warn("Cannot receive recent prices for {} from yahooFinance", ticker);
-            return Optional.empty();
-        }
-    }
-
-    private String convertToYahooFinanceSymbol(Ticker ticker) {
-        if (US_EXCHANGE_CODES.contains(ticker.getExchange())) {
-            return ticker.getSymbol();
-        } else if (ExchangeEnum.XETRA.name().equals(ticker.getExchange())) {
-            return ticker.getSymbol() + ".DE";
-        } else if (ExchangeEnum.MCX.name().equals(ticker.getExchange())) {
-            return ticker.getSymbol() + ".ME";
-        }
-        return ticker.toString();
+                .or(() -> yahooDecorator.findSymbolRecentPriceOnYahoo(ticker));
     }
 
 }

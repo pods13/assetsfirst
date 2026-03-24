@@ -8,6 +8,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
@@ -41,6 +43,7 @@ public class FreeCurrencyProvider implements ExchangeProvider {
     }
 
     @Override
+    @Transactional(propagation = Propagation.NOT_SUPPORTED)
     public List<ExchangeRate> getExchangeRates(Instant time, Collection<Currency> sourceCurrenciesToObtain) {
         return sourceCurrenciesToObtain.stream()
             .map(baseCurrency -> collectExchangeRates(time, baseCurrency))
