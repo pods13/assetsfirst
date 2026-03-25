@@ -4,10 +4,6 @@ spring:
   jpa:
     hibernate:
       ddl-auto: validate
-    properties:
-      hibernate:
-        show_sql: 'true'
-        format_sql: true
 app:
   cookie-domain: assetsfirst.ru
   allowed-origins: https://assetsfirst.ru, https://api.assetsfirst.ru

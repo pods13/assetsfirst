@@ -43,8 +43,9 @@ public class ExchangeRateServiceImpl implements ExchangeRateService {
     @Cacheable(unless = "#result == null")
     public Optional<ExchangeRate> findExchangeRate(Currency from, Currency to, Instant time) {
         LocalDate date = time.atZone(ZoneId.systemDefault()).toLocalDate();
-        return Optional.ofNullable(exchangeRateRepository.findBySourceCurrencyAndDestinationCurrencyAndDate(from, to, date))
-                .orElseGet(() -> fetchAndStoreExchangeRate(from, to, time));
+        var rate = exchangeRateRepository.findBySourceCurrencyAndDestinationCurrencyAndDate(from, to, date)
+                .orElseGet(() -> fetchAndStoreExchangeRate(from, to, time).orElse(null));
+        return Optional.ofNullable(rate);
     }
 
     private Optional<ExchangeRate> fetchAndStoreExchangeRate(Currency from, Currency to, Instant time) {
