@@ -13,11 +13,14 @@ spring:
       max-lifetime: '28000'
       connection-test-query: SELECT 1
       validation-timeout: 5000
+      auto-commit: false
   application:
     name: AssetsFirst
   jpa:
     properties:
       hibernate:
+        connection:
+          provider_disables_autocommit: true
         types:
           print:
             banner: 'false'
